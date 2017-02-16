@@ -1,6 +1,6 @@
 # 2016-2017-groep-06
 
-## Aandachtspunten omtrent programmeren
+## Aandachtspunten omtrent kwaliteit van code
 Hou volgende zaken zeker in het hoofd bij het programmeren! Ze kunnen ons een hoop onnodig werk besparen.
 Deze lijst is zeker nog niet af, dus check regelmatig voor toevoegingen.
 
@@ -26,3 +26,10 @@ if (i % 3 == 0) {
     ...
 }
 ```
+
+## Algemene afspraken
+* Er wordt geen code gedeeld naar buiten, noch overgenomen uiteraard.
+* Passwoorden worden evenmin naar buiten gebracht.
+* **Issues zijn prioritair!**
+* De documenteertaal (binnenin de source files) is steeds ???
+* Wordt zeker vervolgd..
