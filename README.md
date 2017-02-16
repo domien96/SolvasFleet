@@ -34,6 +34,15 @@ int sum(int a, int b) {
   return result;
 }
 ```
+```
+/**
+* @param age: age always has to be positive for correct functionality.
+*/
+public void printAge(int age) { 
+ assert(age >= 0);
+ System.out.print(age);
+}
+```
 
 ## Algemene afspraken
 * Er wordt geen code gedeeld naar buiten, noch overgenomen uiteraard.
