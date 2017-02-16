@@ -26,6 +26,14 @@ if (i % 3 == 0) {
     ...
 }
 ```
+```
+int sum(int a, int b) {
+    assert (Integer.MAX_VALUE - a >= b) : "Value of " + a + " + " + b + " is too large to add.";
+  final int result = a + b;
+    assert (result - a == b) : "Sum of " + a + " + " + b + " returned wrong sum " + result;
+  return result;
+}
+```
 
 ## Algemene afspraken
 * Er wordt geen code gedeeld naar buiten, noch overgenomen uiteraard.
