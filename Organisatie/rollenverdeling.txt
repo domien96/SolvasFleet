@@ -1,5 +1,5 @@
 Nils Mak: CRO (nnmak)
-Benjamin Coussaert: documentatie-beheerder (becousae)
+Benjamin Cousaert: documentatie-beheerder (becousae)
 David van dorpe: sysadmin (davdorpe)
 Niko strijbol: API-beheerder (nistrijb)
 Steven Bastiaans: fill (Sjabasti)
