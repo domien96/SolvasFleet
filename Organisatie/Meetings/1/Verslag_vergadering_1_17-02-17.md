@@ -37,6 +37,6 @@ Voor codeproblemen is er bewust geen groep aangemaakt, want dit moet via issues 
 ##Todo
 
 |Student | Taak|
-|--|--|
+|---|---|
 |David (sysadmin)|	server opzetten, deploying (Java,...) |
 |Domien|Manier om vragen te bundelen en door te geven aan de lesgevers. <br> Analoog voor vragen richting klant. (OK) <br> Persoonlijke timesheets aanmaken. (OK) <br> Doodle aanmaken (OK)|
