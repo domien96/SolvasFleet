@@ -30,7 +30,7 @@ Voor codeproblemen is er bewust geen groep aangemaakt, want dit moet via issues 
 ##Voorbereiding volgende vergadering
 * Opgave (slides) nog een bekijken, en al eventueel ideen schetsen.
 * Slides gastlest / hoofdstuk software-ontwikkeling bekijken (functionele analyse en use-cases)
-* Volgende meeting: Hiervoor heeft Domien een [doodle](http://doodle.com/poll/4dhp4pkdf56ynqrt) aangemaakt
+* Volgende meeting: Hiervoor heeft Domien een [doodle](http://doodle.com/poll/4dhp4pkdf56ynqrt) aangemaakt. Gelieve na het invullen te bevestigen op [deze issue](https://github.ugent.be/VakOverschrijdendProject/2016-2017-groep-06/issues/2)
  
 
 
