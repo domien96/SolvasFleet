@@ -1,0 +1,17 @@
+Allemaal ods gebruiken!
+
+timesheets?
+
+spring? mapje voorzien op server voor intressante links te posten.
+
+slack onderwerp: algemeen, API, testen, documentatie, communicatie naar buiten (lesgevers + klant),
+server ivm mappen/files aanvragen permissies, aanmaken.
+Voor codeproblemen is er bewust geen groep aangemaakt, want dit moet via issues op github.
+
+rp reviews?
+
+maven of gradle?
+
+aankondigingen?
+
+vnv allemaal op server proberen geraken en je eigen timesheet aanmaken binnen jouw persoonlijk mapje.
