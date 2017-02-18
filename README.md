@@ -35,10 +35,11 @@ int sum(int a, int b) {
 }
 ```
 ```
+Dit voorbeeld is enkel representatief voor private methoden!
 /**
 * @param age: age always has to be positive for correct functionality.
 */
-public void printAge(int age) { 
+private void printAge(int age) { 
  assert(age >= 0);
  System.out.print(age);
 }
