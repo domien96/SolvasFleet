@@ -6,6 +6,8 @@ Lijst met vragen die jullie wensen te stellen:
 
 * **David** Zijn BA, Omnium en rechtsbijstand de enige verzekeringstypes? Kunnen we dus voor een subvloot in drie kolommen bijhouden tot welke verzekeringsmaatschappij ze behoren, of dienen we een tabel met verzekeringstypes te hebben?
 
+* **David en Niko** Zijn subvloten opgedeeld per type, of per subvlootpolis? Andersgezegd: in het voorbeeldscenario, mogen we de drie PW opsplitsen in twee subvloten die elders verzekerd zijn?
+
 ## Niet-prioritair
 
 * **David** Ik vond de SSH-keys van de prof op de server. Betekent dit dat we password authentication mogen disablen en dat de prof en assistenten nog steeds toegang hebben tot de server, zoals gevraagd werd?
