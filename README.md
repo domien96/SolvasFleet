@@ -49,5 +49,5 @@ private void printAge(int age) {
 * Er wordt geen code gedeeld naar buiten, noch overgenomen uiteraard.
 * Passwoorden worden evenmin naar buiten gebracht.
 * **Issues zijn prioritair!**
-* De documenteertaal (binnenin de source files) is steeds ???
+* De documenteertaal (binnenin de source files) is steeds Engels.
 * Wordt zeker vervolgd..
