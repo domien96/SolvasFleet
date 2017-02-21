@@ -1,9 +1,10 @@
-*Antwoord op vragenbundel 1*
-_Opmerking: Deze vragen zijn ook nog eens doorgestuurd naar de klant._
+# *Vragenbundel 1*
+### Opmerkingen van projectleider
+Deze vragen zijn ook nog eens doorgestuurd naar de klant.
 
-Dit zijn allemaal verzekeringstechnische vragen. Je stelt deze vragen best allemaal aan Patrick Oosvogels.
-
-Hieronder heb ik geschreven wat ik *denk*, maar dat is niet noodzakelijk correct. Vraag  dit daarom best allemaal na bij Patrick.
+### Antwoord van lesgevers
+"Dit zijn allemaal verzekeringstechnische vragen. Je stelt deze vragen best allemaal aan Patrick Oosvogels.
+Hieronder heb ik geschreven wat ik *denk*, maar dat is niet noodzakelijk correct. Vraag  dit daarom best allemaal na bij Patrick."
 
 * _Zijn BA, Omnium en rechtsbijstand de enige verzekeringstypes? Kunnen we dus voor een subvloot in drie kolommen bijhouden tot welke verzekeringsmaatschappij ze behoren, of dienen we een tabel met verzekeringstypes te hebben?_
 
