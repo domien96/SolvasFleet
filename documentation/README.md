@@ -22,5 +22,5 @@ Om de markdown om te zetten naar een pdf zal gebruik gemaakt worden van
 
 ## Bestandsindeling
 
-De markdown bestanden bevinden zich in de `src` directory.
-De uiteindelijke pdf's zullen in de correcte directories terecht komen.
+De markdown bestanden bevinden zich in de `installation`, `manual` en `test` directories.
+De uiteindelijke pdf's zullen dan in de milestone directories terecht komen.
