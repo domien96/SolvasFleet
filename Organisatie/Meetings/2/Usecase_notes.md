@@ -69,9 +69,9 @@
 
 
 extra use-case
-    * import data
-    * export data
-    * auto-wijzigen van eventlogs
-    * emails aan databank toevoegn
-    * lijsten van users/... weergeven
+ * import data
+ * export data
+ * auto-wijzigen van eventlogs
+ * emails aan databank toevoegn
+ * lijsten van users/... weergeven
 
