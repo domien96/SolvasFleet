@@ -25,7 +25,7 @@ Tijd: 18:0-19:20
 ##Todo
 
 |Student | Taak|
-|--|--|
+|----|----|
 |David (sysadmin)|	server opzetten, deploying (Java,...) |
 |David|	Verbeteringen aanbrengen aan het domeinmodel |
 |Nils| Use cases van de klant die niet onder milestone 1 behoren|
