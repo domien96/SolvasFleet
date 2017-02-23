@@ -7,6 +7,8 @@
 **Objectief:** De klant moet in staat zijn om elke factuur raad te plegen
 
 **Normale flow:**
+
+
 1. De gebruiker selecteert de datum van de factuur die hij wil raadplegen
 
 2. Het systeem haalt de factuur van de gebruiker op de gekozen datum uit het archief en geeft deze weer aan de gebruiker

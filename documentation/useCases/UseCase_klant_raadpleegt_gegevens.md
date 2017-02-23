@@ -17,9 +17,10 @@
 **Post-condities:** De klant heeft zijn gegevens geraadpleegd 
 
 **Alternatieve flow:**
+
+
 1. De gebruiker selecteert geen datum
 
   a. Het systeem vult de huidige datum in
 
   b. Ga naar (2)
-  

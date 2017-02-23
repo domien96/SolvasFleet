@@ -7,6 +7,8 @@
 **Objectief:** De klant moet in staat zijn een nieuw wachtwoord aan te vragen
 
 **Normale flow:**
+
+
 1. De gebruiker geeft aan dat hij zijn wachtwoord wil wijzigen
 
 2. Het systeem vraagt om het oude (huidige) wachtwoord in te voeren
@@ -38,7 +40,7 @@
 
 &nbsp;&nbsp;&nbsp;&nbsp; a. Het systeem geeft een melding van het probleem
 
-&nbsp;&nbsp;&nbsp;&nbsp; a. Ga naar (4)
+&nbsp;&nbsp;&nbsp;&nbsp; b. Ga naar (4)
 
 * (5). Het ingegeven wachtwoord voldoet niet aan de minimum vereisten voor een wachtwoord
 
