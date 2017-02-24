@@ -1,7 +1,7 @@
 #22/02/17 - Vergadering 2
 Aanwezigen: Bastiaens Steven (sjabasti), Cousaert Benjamin (becousae), Mak Nils (nnmak), Strijbol Niko (nistrijb), Van Steendam Domien (dvsteend), VandenBussche Karel (klivdnbu), Vandorpe David (davdorpe)  
 
-Tijd: 18:0-19:20
+Tijd: 18:00-19:15
 
 ##Algemene Afspraken
 
