@@ -1,0 +1,17 @@
+---
+- name: let Nginx serve .well-known
+  template:
+    src: nginx.conf
+    dest: /etc/nginx/sites-enabled/letsencrypt.conf
+  notify: nginx reload
+
+- meta: flush_handlers
+
+- name: request new Letsencrypt certificate
+  command: letsencrypt -a webroot --webroot-path /srv/letsencrypt certonly -d {{ domain_name }} -m {{ sysadmin_mail }} --agree-tos
+
+- name: remove nginx conf
+  file:
+    path: /etc/nginx/sites-enabled/webapps/letsencrypt.conf
+    state: absent
+  notify: nginx reload
