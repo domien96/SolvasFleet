@@ -1,5 +1,5 @@
 
-## Use case: wijzigen van wachtwoord van ingelogde klant
+## Use case: Wijzigen van wachtwoord van ingelogde klant
 ---
 
 **Primaire actor:** De klant (een bedrijf)
@@ -27,14 +27,18 @@
 
 **Alternatieve flow:**
 * (3). De gebruiker geeft het verkeerde wachtwoord in
-
-&nbsp;&nbsp;&nbsp;&nbsp; a. Ga naar (2)
-
-* (3). De gebruiker geeft het verkeerde wachtwoord herhaaldelijk verkeerd in
-
-&nbsp;&nbsp;&nbsp;&nbsp; a. De gebruiker dient een captcha op te lossen
+ 
+&nbsp;&nbsp;&nbsp;&nbsp; a. Het systeem geeft een melding van het probleem
 
 &nbsp;&nbsp;&nbsp;&nbsp; b. Ga naar (2)
+
+* (3). De gebruiker geeft het verkeerde wachtwoord herhaaldelijk verkeerd in 
+
+&nbsp;&nbsp;&nbsp;&nbsp; a. Het systeem geeft een melding van het probleem
+
+&nbsp;&nbsp;&nbsp;&nbsp; b. De gebruiker dient een captcha op te lossen
+
+&nbsp;&nbsp;&nbsp;&nbsp; c. Ga naar (2)
 
 * (5). De twee ingegeven wachtwoorden komen niet overeen
 
