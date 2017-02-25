@@ -1,1 +1,4 @@
 .~lock.*.ods#
+
+/ansible/.vault-password
+
