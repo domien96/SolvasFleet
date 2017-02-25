@@ -1,0 +1,22 @@
+---
+
+- name: Install Java 8 JDK
+  apt:
+    name: default-jdk
+
+- name: Install Tomcat 8
+  apt:
+    name: tomcat8
+
+- name: Allow Tomcat to bind to port 80 and 443
+  lineinfile:
+    dest: /etc/default/tomcat8
+    line: AUTHBIND=yes
+
+- name: Configure Tomcat server
+  template:
+    src: etc/tomcat8/server.xml
+    dest: /etc/tomcat8/server.xml
+    owner: root
+    group: tomcat8
+    mode: 0640
