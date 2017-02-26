@@ -9,7 +9,7 @@
 
 1. De gebruiker geeft aan dat hij een medewerker wil verwijderen
 
-2. De gebruiker selecteert de medewerker die verwijdert moet worden
+2. De gebruiker selecteert de medewerker die verwijderd moet worden
 
 3. De gebruiker bevestigt zijn keuze
 
