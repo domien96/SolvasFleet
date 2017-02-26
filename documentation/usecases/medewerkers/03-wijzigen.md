@@ -23,7 +23,7 @@
 **Post-condities:** De gekozen gebruiker is gewijzigd
 
 **Alternatieve flow:**
-* (4). De gebruiker heeft foute gegevens ingegeven
+* (3). De gebruiker heeft foute gegevens ingegeven
  
 &nbsp;&nbsp;&nbsp;&nbsp; a. Het systeem toont een foutmelding, met de mogelijkheid om de gegevens aan te passen
 
