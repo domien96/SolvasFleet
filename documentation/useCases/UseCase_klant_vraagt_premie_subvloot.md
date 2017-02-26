@@ -1,5 +1,5 @@
 
-## Use case: opvragen premie van een subvloot door klant
+## Use case: Opvragen premie van een subvloot door klant
 ---
 
 **Primaire actor:** De klant (een bedrijf)

@@ -1,5 +1,5 @@
 
-## Use case: wijzigen van wachtwoord van niet-ingelogde klant
+## Use case: Wijzigen van wachtwoord van niet-ingelogde klant
 ---
 
 **Primaire actor:** De klant (een bedrijf)
