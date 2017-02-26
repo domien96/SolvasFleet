@@ -1,4 +1,4 @@
-## Use case: Wijzigen van een nieuwe medewerker
+## Use case: Gegevens wijzigen van een medewerker
 ---
 
 **Primaire actor:** Gebruiker
@@ -7,7 +7,7 @@
 
 **Normale flow:**
 
-1. De gebruiker gaat een naar een gebruiker zijn profiel
+1. De gebruiker gaat naar een gebruiker zijn profiel
 
 2. De gebruiker geeft aan dat hij deze gebruiker zijn gegevens wil wijzigen
 
