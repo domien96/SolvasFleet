@@ -1,9 +1,5 @@
 ---
 
-- name: Install Java 8 JDK
-  apt:
-    name: default-jdk
-
 - name: Install Tomcat 8
   apt:
     name: tomcat8
