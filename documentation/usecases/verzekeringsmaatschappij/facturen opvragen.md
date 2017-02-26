@@ -1,8 +1,11 @@
-Primaire actor: Medewerker verzekeringsmaatschappij (voortaan gewoonweg medewerker genoemd)
+## Use case: Facturen van een verzekeringsmaatschappij opvragen
+---
 
-Objectief: De verzekeringsmaatschappij moet een overzicht kunnen krijgen met alle facturen van alle aangesloten makelaars.
+**Primaire actor:** Medewerker verzekeringsmaatschappij (voortaan gewoonweg medewerker genoemd)
 
-Normale flow:
+**Objectief:** De verzekeringsmaatschappij moet een overzicht kunnen krijgen met alle facturen van alle aangesloten makelaars.
+
+**Normale flow:**
 
 1 De medewerker geeft aan dat hij de facturen wil opvragen.
 
@@ -15,18 +18,18 @@ Normale flow:
 
 5 De zoekparameters kunnen veranderd worden waardoor men terugvalt naar stap 2 of men kan deze lijst printen.
 
-Pre-condities: De medewerker is ingelogd op de webapplicatie en is verbonden met een verzekeringsmaatschappij.
+**Pre-condities:** De medewerker is ingelogd op de webapplicatie en is verbonden met een verzekeringsmaatschappij.
 
-Post-condities: De medewerker ontvangt een lijst van de facturen waarvoor hij geintresseerd is.
+**Post-condities:** De medewerker ontvangt een lijst van de facturen waarvoor hij geintresseerd is.
 
-Alternatieve flow:
+**Alternatieve flow:**
 
 (5). De printer werd niet gevonden of er vond een andere IO-fout plaats.
       a. Het systeem toont de foutmelding afkomstig van de printer.
       
       b. Ga naar stap 5 en probeer opnieuw.
 
-Exceptionele flow:
+**Exceptionele flow:**
 
 (1). De medewerker heeft geen rechten om de facturen te bekijken.
      Het systeem toont een foutmelding, met de mogelijkheid om rechten aan te vragen aan een overste van de verzekeringsmaatschappij.
