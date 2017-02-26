@@ -23,7 +23,7 @@
 **Post-condities:** De rechten van de gekozen gebruiker zijn gewijzigd
 
 **Alternatieve flow:**
-* (4). De gebruiker probeert rechten toe te kennen waartoe hij zelf geen rechten heeft
+* (3). De gebruiker probeert rechten toe te kennen waartoe hij zelf geen rechten heeft
  
 &nbsp;&nbsp;&nbsp;&nbsp; a. Het systeem toont een foutmelding, met de mogelijkheid om de gekozen rechten aan te passen
 
