@@ -1,18 +1,21 @@
-Primaire actor: Medewerker verzekeringsmaatschappij (voortaan gewoonweg medewerker genoemd)
+## Use case: Nog niet betaalde facturen van een verzekeringsmaatschappij bekijken
+---
 
-Objectief: De verzekeringsmaatschappij moet kunnen zien welke facturen nog niet betaald geweest zijn door de aangesloten makelaars.
+**Primaire actor:** Medewerker verzekeringsmaatschappij (voortaan gewoonweg medewerker genoemd)
 
-Normale flow:
+**Objectief:** De verzekeringsmaatschappij moet kunnen zien welke facturen nog niet betaald geweest zijn door de aangesloten makelaars.
 
-1 <<include "facturen opvragen">> De medewerker geeft aan het systeem de waarde "niet betaald" mee voor de zoekparameter "betaalstatus".
+**Normale flow:**
 
-2 Het systeem toont de gewenste lijst aan de medewerker.
+1. <<include "facturen opvragen">> De medewerker geeft aan het systeem de waarde "niet betaald" mee voor de zoekparameter "betaalstatus".
 
-Pre-condities: De medewerker is ingelogd op de webapplicatie en is aangesloten als werknemer bij een verzekeringsmaatschappij.
+2. Het systeem toont de gewenste lijst aan de medewerker.
 
-Post-condities: De medewerker ziet een lijst van alle niet-betaalde facturen.
+**Pre-condities:** De medewerker is ingelogd op de webapplicatie en is aangesloten als werknemer bij een verzekeringsmaatschappij.
 
-Exceptionele flow:
+**Post-condities:** De medewerker ziet een lijst van alle niet-betaalde facturen.
 
-(1). De medewerker heeft geen rechten om de facturen te bekijken.
+**Exceptionele flow:**
+
+* (1). De medewerker heeft geen rechten om de facturen te bekijken.
      Het systeem toont een foutmelding, met de mogelijkheid om rechten aan te vragen aan een overste van de verzekeringsmaatschappij.
