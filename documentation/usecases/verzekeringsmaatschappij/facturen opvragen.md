@@ -25,9 +25,9 @@
 **Alternatieve flow:**
 
 * (5). De printer werd niet gevonden of er vond een andere IO-fout plaats.
-      a. Het systeem toont de foutmelding afkomstig van de printer.
+&nbsp;&nbsp;&nbsp;&nbsp; a. Het systeem toont de foutmelding afkomstig van de printer.
       
-      b. Ga naar stap 5 en probeer opnieuw.
+&nbsp;&nbsp;&nbsp;&nbsp; b. Ga naar stap 5 en probeer opnieuw.
 
 **Exceptionele flow:**
 
