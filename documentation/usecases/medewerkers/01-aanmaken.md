@@ -25,13 +25,13 @@
 **Post-condities:** Er is een nieuwe gebruiker aangemaakt
 
 **Alternatieve flow:**
-* (3). De gegevens zijn fout
+* (2). De gegevens zijn fout
  
 &nbsp;&nbsp;&nbsp;&nbsp; a. Het systeem toont de foute gegevens, met een melding
 
 &nbsp;&nbsp;&nbsp;&nbsp; b. Ga naar (2)
 
-* (4). De gebruiker probeert permissies toe te voegen waarvoor hij zelf geen permissies heeft
+* (3). De gebruiker probeert permissies toe te voegen waarvoor hij zelf geen permissies heeft
 
 &nbsp;&nbsp;&nbsp;&nbsp; a. Het systeem toont de foute gegevens, met een melding
 
