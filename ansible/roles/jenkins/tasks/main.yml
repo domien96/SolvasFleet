@@ -20,14 +20,7 @@
   apt:
     name: jenkins
 
-- name: Don't bind Jenkins to port 8080
-  lineinfile:
+- name: Configure Jenkins
+  copy:
+    src: etc/default/jenkins
     dest: /etc/default/jenkins
-    line: HTTP_PORT=8080
-    state: absent
-
-- name: Bind Jenkins to port 8081
-  lineinfile:
-    dest: /etc/default/jenkins
-    line: HTTP_PORT=8081
-    insertbefore: ^JENKINS_ARGS=
