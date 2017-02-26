@@ -21,11 +21,15 @@ Post-condities: De medewerker ontvangt een lijst van de facturen waarvoor hij ge
 
 Alternatieve flow:
 
+(5). De printer werd niet gevonden of er vond een andere IO-fout plaats.
+      a. Het systeem toont de foutmelding afkomstig van de printer.
+      
+      b. Ga naar stap 5 en probeer opnieuw.
+
+Exceptionele flow:
+
 (1). De medewerker heeft geen rechten om de facturen te bekijken.
      Het systeem toont een foutmelding, met de mogelijkheid om rechten aan te vragen aan een overste van de verzekeringsmaatschappij.
 
 (4). De medewerker heeft geen rechten om de facturen te bekijken.
      Het systeem toont een foutmelding, met de mogelijkheid om rechten aan te vragen aan een overste van de verzekeringsmaatschappij.
-
-(5). De printer werd niet gevonden of er vond een andere IO-fout plaats.
-      Het systeem toont de foutmelding afkomstig van de printer.
