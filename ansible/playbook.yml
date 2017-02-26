@@ -1,8 +1,9 @@
 ---
 - hosts: all
   roles:
-      - role: tomcat8
-      - role: nginx-conf
+    #  - role: tomcat8
+    #  - role: nginx-conf
+      - role: jenkins
   vars:
     domain_name: vopro6.ugent.be
     sysadmin_mail: david.vandorpe@ugent.be
