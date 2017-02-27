@@ -13,7 +13,7 @@ De gegevens van een gebruiker wijzigen. Deze gegevens zijn de persoonlijke gegev
 
 ### Normale flow (de gebruiker voert de wijzigingen zelf uit)
 1. De gebruiker gaat naar zijn profiel op de webapplicatie
-3. De gebruiker geeft aan dat hij zijn gegevens wil wijzigen
+3. De gebruiker geeft aan dat hij zijn gegevens wilt wijzigen
 4. De gebruiker vult de nieuwe gegevens correct aan op het webplatform
 5. De gebruiker bevestigt de aanpassingen en zorgt ervoor dat deze dan ook effectief in de databank aangepast worden
 
