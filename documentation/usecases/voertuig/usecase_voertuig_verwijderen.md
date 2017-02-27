@@ -6,7 +6,8 @@
 **Objectief:** De productie- of schadebeheerder moet een voertuig verwijderen van een subvloot van een klant
 
 **Normale flow:**
-1. De klant neemt contact op met solvas en verwijdering van het voertuig door
+
+1. De klant neemt contact op met solvas en vraagt de verwijdering van het voertuig aan
 
 2. De medewerker van Solvas zoekt de klant op in de lijst van klanten
 
@@ -24,12 +25,12 @@
 
 **Pre-condities:**
 - De medewerker is ingelogd op de webapplicatie en heeft de nodige rechten
-- De klant staat in de databank
+- De klant het een profien in het system
 - Het voertuig staat in de subvloot
 
 **Post-condities:**
 - Het voertuig werd verwijderd uit de subvloot
-- Het voertuig bestaat nog steeds in de databank
+- Het voertuig bestaat nog steeds in het systeem
 
 **Alternatieve flow:**
 * (7). De medewerker annuleert de verwijdering
