@@ -1,10 +1,10 @@
 
-## Use case: opvragen van factuur door klant
+## Use case: Opvragen van factuur van de polis door klant
 ---
 
 **Primaire actor:** De klant (een bedrijf)
 
-**Objectief:** De klant moet in staat zijn om elke factuur raad te plegen
+**Objectief:** De klant moet in staat zijn om elke factuur van zijn polis raad te plegen
 
 **Normale flow:**
 

@@ -1,10 +1,10 @@
 
-## Use case: raadplegen van gegevens door klant
+## Use case: Raadplegen van gegevens (van polis) door klant
 ---
 
 **Primaire actor:** De klant (een bedrijf)
 
-**Objectief:** De klant moet in staat zijn om alle nodige informatie op een bepaalde datum te bekijken
+**Objectief:** De klant moet in staat zijn om alle nodige informatie over zijn polis op een bepaalde datum te bekijken
 
 **Normale flow:**
 
