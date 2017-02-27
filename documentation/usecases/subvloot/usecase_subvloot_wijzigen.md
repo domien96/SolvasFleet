@@ -6,6 +6,7 @@
 **Objectief:** De productie- of schadebeheerder moet de subvloot van een klant wijzigen. Het wijzigen gaat dus over de verzekering bij de subvloot.
 
 **Normale flow:**  
+
 0. (De klant contacteert Solvas om de verzekering van een subvloot te wijzigen)
 
 1. De medewerker van Solvas zoekt de klant op in de lijst van klanten
