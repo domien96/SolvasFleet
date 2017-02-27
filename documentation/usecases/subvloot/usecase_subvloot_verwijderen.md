@@ -6,7 +6,8 @@
 **Objectief:** De productie- of schadebeheerder moet de subvloot van een klant verwijderen. Hierdoor is deze alleen zichtbaar voor de klant als hij de historiek nagaat.
 
 **Normale flow:**
-1. De klant contacteert Solvas voor de verwijdering uit te voeren
+
+1. (De klant contacteert Solvas voor de verwijdering uit te voeren)
 
 2. De medewerker van Solvas zoekt de klant op in de lijst van klanten
 
