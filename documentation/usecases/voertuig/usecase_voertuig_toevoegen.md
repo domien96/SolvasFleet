@@ -5,6 +5,7 @@
 **Objectief:** De productie- of schadebeheerder moet een voertuig toevoegen aan een subvloot van een klant
 
 **Normale flow:**
+
 1. De klant neemt contact op met solvas en geeft de nieuwe voertuigen door
 
 2. De medewerker van Solvas zoekt de klant op in de lijst van klanten
@@ -26,12 +27,31 @@
 
 **Pre-condities:**
 - De medewerker is ingelogd op de webapplicatie en heeft de nodige rechten
-- De klant staat in de databank
+- De klant heeft een profiel in het systeem
 
 **Post-condities:**
 Het voertuig werd toegevoegd
 
 **Alternatieve flow**
+
+* (4). De klant heeft nog geen vloten
+
+&nbsp;&nbsp;&nbsp;&nbsp; a. Het systeem toont een foutmelding
+
+&nbsp;&nbsp;&nbsp;&nbsp; b. Er wordt een nieuwe vloot gemaakt na bespreking met de klant
+
+&nbsp;&nbsp;&nbsp;&nbsp; c. Ga naar 4
+
+* (4). De klant heeft geen subvloot voor het type voertuig
+
+&nbsp;&nbsp;&nbsp;&nbsp; a. Het systeem toont een foutmelding
+
+&nbsp;&nbsp;&nbsp;&nbsp; b. Er wordt een nieuwe subvloot aangemaakt na bespreking met de klant
+
+&nbsp;&nbsp;&nbsp;&nbsp; c. Ga naar 4
+
+
+
 * (7). Het chassinummer werd al gebruikt bij een andere subvloot
 
 &nbsp;&nbsp;&nbsp;&nbsp; a. Het systeem toont een foutmelding
@@ -39,6 +59,7 @@ Het voertuig werd toegevoegd
 &nbsp;&nbsp;&nbsp;&nbsp; b. De medewerker neemt eventueel contact op met solvas
 
 * (7). Gegevens staan in een fout formaat
+
 &nbsp;&nbsp;&nbsp;&nbsp; a. Het systeem toont een foutmelding met mogelijkheid om gegevens aan te passen
 
 &nbsp;&nbsp;&nbsp;&nbsp; b. Ga naar 7
