@@ -1,5 +1,4 @@
 ## Use case: Wijzigen van de rechten van een gebruiker
----
 
 **Primaire actor:** Gebruiker
 

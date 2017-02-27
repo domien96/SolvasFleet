@@ -1,5 +1,4 @@
 ## Use case: Verwijderen van een nieuwe medewerker
----
 
 **Primaire actor:** Gebruiker
 

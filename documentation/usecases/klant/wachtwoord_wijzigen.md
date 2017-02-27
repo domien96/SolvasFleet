@@ -1,6 +1,4 @@
-
 ## Use case: Wijzigen van wachtwoord van ingelogde klant
----
 
 **Primaire actor:** De klant (een bedrijf)
 

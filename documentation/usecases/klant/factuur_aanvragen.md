@@ -1,6 +1,4 @@
-
 ## Use case: Opvragen van factuur van de polis door klant
----
 
 **Primaire actor:** De klant (een bedrijf)
 

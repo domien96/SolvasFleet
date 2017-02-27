@@ -1,6 +1,4 @@
-
 ## Use case: Opvragen premie van een vloot door klant
----
 
 **Primaire actor:** De klant (een bedrijf)
 

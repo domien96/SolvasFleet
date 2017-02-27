@@ -1,5 +1,4 @@
 ## Use case: Gegevens wijzigen van een medewerker
----
 
 **Primaire actor:** Gebruiker
 

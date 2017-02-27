@@ -1,5 +1,4 @@
 ## Use case: Facturen van een verzekeringsmaatschappij opvragen
----
 
 **Primaire actor:** Medewerker verzekeringsmaatschappij (voortaan gewoonweg medewerker genoemd)
 

@@ -1,5 +1,4 @@
 ## Use case: Voertuigen van een subvloot van een klant oplijsten
----
 
 **Primaire actor:** Een gebruiker
 

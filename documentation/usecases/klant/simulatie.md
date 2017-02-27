@@ -1,6 +1,4 @@
-
 ## Use case: Simuleren van de premiewijzigingen bij het veranderen van verzekering en/of toevoegen van voertuigen
----
 
 **Primaire actor:** De klant (een bedrijf)
 

@@ -1,5 +1,4 @@
 ## Use case: Voertuig verwijderen van een subvloot
----
 
 **Primaire actor:** Productie- of schadebeheerder
 

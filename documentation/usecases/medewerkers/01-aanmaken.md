@@ -1,5 +1,4 @@
 ## Use case: Aanmaken van een nieuwe medewerker
----
 
 **Primaire actor:** Gebruiker
 

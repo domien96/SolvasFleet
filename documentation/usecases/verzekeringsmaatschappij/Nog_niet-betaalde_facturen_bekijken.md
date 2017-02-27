@@ -1,5 +1,4 @@
 ## Use case: Nog niet betaalde facturen van een verzekeringsmaatschappij bekijken
----
 
 **Primaire actor:** Medewerker verzekeringsmaatschappij (voortaan gewoonweg medewerker genoemd)
 

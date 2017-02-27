@@ -1,5 +1,4 @@
 ## Use case: Importeren van Data
----
 
 **Primaire actor:** Gebruiker
 

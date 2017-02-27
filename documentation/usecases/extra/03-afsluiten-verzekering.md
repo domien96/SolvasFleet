@@ -1,5 +1,4 @@
 ## Use case: afsluiten van een verzekering
----
 
 **Primaire actor:** De beheerder
 

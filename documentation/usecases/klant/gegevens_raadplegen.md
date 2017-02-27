@@ -1,6 +1,4 @@
-
 ## Use case: Raadplegen van gegevens (van polis) door klant
----
 
 **Primaire actor:** De klant (een bedrijf)
 

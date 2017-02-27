@@ -1,5 +1,4 @@
 ## Use case: Voertuig wijzigen
----
 
 **Primaire actor:** Productie- of schadebeheerder
 
