@@ -12,7 +12,7 @@ Bijvoorbeeld: niet alle gebruikers van een transportbedrijf kunnen zien wie er g
 - De administrator
 
 ### Preconditie
-- De gebruiker die de lijst wil verkrijgen heeft zich reeds ingelogd op de webapplicatie
+- De gebruiker die de lijst wilt verkrijgen heeft zich reeds ingelogd op de webapplicatie
 - De gebruiker heeft privileges om de gebruikers te bekijken
 
 ### Normale flow
