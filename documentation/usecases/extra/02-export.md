@@ -1,5 +1,4 @@
 ## Use case: Exporteren van Data
----
 
 **Primaire actor:** Gebruiker
 

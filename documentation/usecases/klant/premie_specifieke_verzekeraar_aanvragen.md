@@ -1,6 +1,4 @@
-
 ## Use case: Opvragen van de premie van een specifieke verzekeraar door klant
----
 
 **Primaire actor:** De klant (een bedrijf)
 
