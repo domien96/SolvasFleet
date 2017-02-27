@@ -5,8 +5,8 @@
 
 **Objectief:** De productie- of schadebeheerder moet de subvloot van een klant wijzigen. Het wijzigen gaat dus over de verzekering bij de subvloot.
 
-**Normale flow:**
-1. De klant contacteert Solvas om de verzekering van een subvloot te wijzigen
+**Normale flow:**  
+(0. De klant contacteert Solvas om de verzekering van een subvloot te wijzigen)
 
 1. De medewerker van Solvas zoekt de klant op in de lijst van klanten
 
@@ -24,6 +24,7 @@
 **Pre-condities:**
 - De gebruiker is ingelogd op de webapplicatie en heeft de nodige rechten
 - De subvloot bestaat
+- De klant heeft een profiel
 
 **Post-condities:**
 - Zowel de klant als de verzekeringsmaatschappij kunnen deze verandering bekijken
@@ -35,6 +36,6 @@
 
 &nbsp;&nbsp;&nbsp;&nbsp; b. Ga naar (5)
 
-* (6). De medewerker wilt de aanpassing annuleren
-&nbsp;&nbsp;&nbsp;&nbsp; a. De medewerker drukt op annuleren
-&nbsp;&nbsp;&nbsp;&nbsp; b. De medewerker krijgt de subvloot in normale staat te zien
+* (6). De medewerker wilt de aanpassing annuleren  
+&nbsp;&nbsp;&nbsp;&nbsp; a. De medewerker drukt op annuleren  
+&nbsp;&nbsp;&nbsp;&nbsp; b. De medewerker krijgt de subvloot in normale staat te zien  
