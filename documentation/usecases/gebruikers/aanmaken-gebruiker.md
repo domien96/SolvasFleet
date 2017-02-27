@@ -39,7 +39,7 @@ Er is een nieuwe gebruiker aangemaakt.
 
 **Alternatieve flow**
 
--   De gegevens zijn fout.
+-   (3). De gegevens zijn fout.
 
     1.  Het systeem toont de foute gegevens, met een melding.
 
