@@ -25,7 +25,7 @@
 
 **Pre-condities:**
 - De medewerker is ingelogd op de webapplicatie en heeft de nodige rechten
-- De klant het een profien in het system
+- De klant heeft een profiel in het system
 - Het voertuig staat in de subvloot
 
 **Post-condities:**
@@ -36,3 +36,11 @@
 * (7). De medewerker annuleert de verwijdering
 
 &nbsp;&nbsp;&nbsp;&nbsp; a. De medewerker bedenkt zich en drukt op annuleren
+
+* (6). Het voertuig heeft nog een active verzekering
+
+&nbsp;&nbsp;&nbsp;&nbsp; a. Het systeem toont een foutmelding die het probleem beschrijft
+
+&nbsp;&nbsp;&nbsp;&nbsp; b. De active verzekering word stop gezet
+
+&nbsp;&nbsp;&nbsp;&nbsp; c. Ga naar 7
