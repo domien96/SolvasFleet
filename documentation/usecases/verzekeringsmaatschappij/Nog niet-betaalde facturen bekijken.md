@@ -7,7 +7,7 @@
 
 **Normale flow:**
 
-1. <<include "facturen opvragen">> De medewerker geeft aan het systeem de waarde "niet betaald" mee voor de zoekparameter "betaalstatus".
+1. <\<include "facturen opvragen">> De medewerker geeft aan het systeem de waarde "niet betaald" mee voor de zoekparameter "betaalstatus".
 
 2. Het systeem toont de gewenste lijst aan de medewerker.
 
