@@ -6,6 +6,7 @@
 **Objectief:** De gebruiker met de juiste rechten moet klanten kunnen oplijsten
 
 **Normale flow:**
+
 1. De gebruiker gaat op de webapplicatie naar klanten oplijsten
 
 2. (optioneel) De gebruiker geeft filters en sorteervormen door
