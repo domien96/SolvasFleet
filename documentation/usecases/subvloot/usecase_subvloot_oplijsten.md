@@ -20,3 +20,4 @@
 **Pre-condities:**
 - De gebruiker is ingelogd op de webapplicatie en heeft de nodige rechten
 - De subvloot bestaat
+- De klant heeft een profiel in het systeem
