@@ -2,7 +2,7 @@
 
 **Primaire actor:** De klant (een bedrijf)
 
-**Objectief:** De klant moet in staat zijn om elke factuur van zijn polis raad te plegen
+**Objectief:** De klant moet in staat zijn om elke factuur van zijn polis te raadplegen
 
 **Normale flow:**
 
