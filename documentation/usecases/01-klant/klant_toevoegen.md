@@ -1,5 +1,4 @@
 ## Use case: Klant toevoegen
----
 
 **Primaire actor:** Productie- of schadebeheerder
 

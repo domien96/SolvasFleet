@@ -1,5 +1,4 @@
 ## Use case: Klant verwijderen
----
 
 **Primaire actor:** Productie- of schadebeheerder
 

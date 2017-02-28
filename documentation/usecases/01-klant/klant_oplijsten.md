@@ -1,5 +1,4 @@
 ## Use case: Klanten oplijsten
----
 
 **Primaire actor:** Een gebruiker
 

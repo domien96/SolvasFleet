@@ -1,5 +1,4 @@
 ## Use case: Klant wijzigen
----
 
 **Primaire actor:** Productie- of schadebeheerder
 

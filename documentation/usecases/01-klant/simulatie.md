@@ -41,5 +41,3 @@
 * (5). De gebruiker wijzigt de verzekering opnieuw
 
 &nbsp;&nbsp;&nbsp;&nbsp; a. Ga naar (4)
-
-

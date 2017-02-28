@@ -22,5 +22,3 @@
 &nbsp;&nbsp;&nbsp;&nbsp; a. Het systeem geeft een melding van het probleem
 
 &nbsp;&nbsp;&nbsp;&nbsp; b. ga naar (1)
-
-
