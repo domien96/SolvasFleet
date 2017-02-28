@@ -19,7 +19,7 @@
 **Alternatieve flow:**
 
 
-1. De gebruiker selecteert geen datum
+* (1). De gebruiker selecteert geen datum
 
   a. Het systeem vult de huidige datum in
 

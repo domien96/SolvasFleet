@@ -25,20 +25,22 @@
 **Post-condities:** De klant kent de premie van een bepaalde subvloot
 
 **Alternatieve flow:**
+
 * (5). Niet alle voertuigen hebben een premie waardoor de subvloot-premie niet weergegeven kan worden
 
-&nbsp;&nbsp;&nbsp;&nbsp; a. Het systeem laat weten welke voertuigen nog geen premie hebben en geeft een tussenpremie weer
+  a. Het systeem laat weten welke voertuigen nog geen premie hebben en geeft een tussenpremie weer
 
 * (5). Er zijn nog geen voertuigen met een premie waardoor de subvloot-premie niet weergegeven kan worden
 
-&nbsp;&nbsp;&nbsp;&nbsp; a. Het systeem laat weten dat er alle voertuigen nog geen premie hebben
+  a. Het systeem laat weten dat er alle voertuigen nog geen premie hebben
 
 
 **Exceptionele flow:**
+
 * (1). De gebruiker heeft geen vloten
 
-&nbsp;&nbsp;&nbsp;&nbsp; a. Het systeem geeft een melding dat er eerst vloten toegekend moeten worden
+  a. Het systeem geeft een melding dat er eerst vloten toegekend moeten worden
 
 * (3). De vloot heeft geen subvloten
 
-&nbsp;&nbsp;&nbsp;&nbsp; a. Het systeem geeft een melding dat er eerst subvloten toegekend moeten worden aan de vloot
+  a. Het systeem geeft een melding dat er eerst subvloten toegekend moeten worden aan de vloot

@@ -24,20 +24,21 @@
 **Post-condities:** De klant heeft een simulatie van mogelijke premie wijzigingen gemaakt
 
 **Alternatieve flow:**
+
 * (3). De gebruiker geeft geen andere verzekering op
  
-&nbsp;&nbsp;&nbsp;&nbsp; a. Het systeem geeft de huidige premie weer en vraagt de gebruiker een voertuig toe te voegen of te verwijderen of een andere verzekering te kiezen
+  a. Het systeem geeft de huidige premie weer en vraagt de gebruiker een voertuig toe te voegen of te verwijderen of een andere verzekering te kiezen
 
-&nbsp;&nbsp;&nbsp;&nbsp; b. Ga naar (5)
+  b. Ga naar 5
 
 * (5). De gebruiker verwijdert een voertuig
 
-&nbsp;&nbsp;&nbsp;&nbsp; a. Ga naar (6)
+  a. Ga naar 6
 
 * (5). De gebruiker wijzigt het type van een voertuig
 
-&nbsp;&nbsp;&nbsp;&nbsp; a. Ga naar (6)
+  a. Ga naar 6
 
 * (5). De gebruiker wijzigt de verzekering opnieuw
-
-&nbsp;&nbsp;&nbsp;&nbsp; a. Ga naar (4)
+  
+  a. Ga naar 4

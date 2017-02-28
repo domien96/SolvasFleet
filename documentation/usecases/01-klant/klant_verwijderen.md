@@ -5,6 +5,7 @@
 **Objectief:** De productie- of schadebeheerder moet een klant kunnen verwijderen
 
 **Normale flow:**
+
 1. De medewerker van Solvas zoekt de klant op
 
 2. De medewerker selecteert de klant en geeft aan dat hij de klant wil verwijderen
@@ -12,6 +13,8 @@
 3. Het systeem vraagt om bevestiging
 
 4. De medewerker bevestigt de verwijdering
+
+5. Het systeem verwijdert de klant
 
 
 **Pre-condities:**
@@ -26,4 +29,4 @@
 **Alternatieve flow**
 * (4). De medewerker annuleert de verwijdering
 
-&nbsp;&nbsp;&nbsp;&nbsp; a. De medewerker bedenkt zich en drukt op annuleren
+  a. De medewerker bedenkt zich en drukt op annuleren
