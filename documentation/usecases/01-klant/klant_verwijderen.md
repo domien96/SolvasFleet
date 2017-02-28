@@ -18,15 +18,18 @@
 
 
 **Pre-condities:**
+
 - De medewerker is ingelogd op de webapplicatie en heeft de nodige rechten
 - De klant staat in het systeem
 - De klant heeft geen lopende verzekeringen
 
 **Post-condities:**
+
 - De gegevens van de klant werden gewijzigd
 - De gebruikers van de klant worden na een vaste periode ook gedeactiveerd, zodat ze geen toegang meer krijgen tot de webapplicatie.
 
 **Alternatieve flow**
+
 * (4). De medewerker annuleert de verwijdering
 
   a. De medewerker bedenkt zich en drukt op annuleren
