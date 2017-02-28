@@ -25,7 +25,8 @@
 **Post-condities:**
 De klant werd toegevoegd aan de databank
 
-**Alternatieve flow**
+**Alternatieve flow:**
+
 * (2). Gegevens staan in een fout formaat of zijn onvolledig
 
   a. Het systeem toont een foutmelding met mogelijkheid om gegevens aan te passen
