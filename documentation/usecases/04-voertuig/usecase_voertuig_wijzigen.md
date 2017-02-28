@@ -44,4 +44,4 @@
 
 * (9). De medewerker annuleert de wijziging
 
-  a. De medewerker bedenkt zich en annuleerd de wijziging
+  a. De medewerker bedenkt zich en annuleert de wijziging
