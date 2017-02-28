@@ -6,7 +6,7 @@
 
 **Normale flow:**
 
-1. De klant neemt contact op met solvas en geeft de wijzeging van het voertuig door
+1. De klant neemt contact op met solvas en geeft de wijziging van het voertuig door
 
 2. De medewerker van Solvas zoekt de klant op in de lijst van klanten
 
@@ -44,4 +44,4 @@
 
 * (9). De medewerker annuleert de wijziging
 
-  a. De medewerker bedenkt zich en annuleerd de wijziging
+  a. De medewerker bedenkt zich en annuleert de wijziging

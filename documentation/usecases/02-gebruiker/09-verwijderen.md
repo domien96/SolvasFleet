@@ -7,14 +7,14 @@ systeem.
 
 **Normale flow:**
 
-1.  De gebruiker gaat naar het profiel van de gebruiker.
+1.  De gebruiker gaat naar het profiel van de gebruiker
 
-2.  De gebruiker geeft aan dat hij de gebruiker wil archiveren.
+2.  De gebruiker geeft aan dat hij de gebruiker wil archiveren
 
-3.  De gebruiker bevestigt zijn keuze.
+3.  De gebruiker bevestigt zijn keuze
 
 4.  Het systeem stuurt de gebruiker terug naar het overzicht van de medewerkers en
-    geeft een melding dat de medewerker verwijderd is.
+    geeft een melding dat de medewerker verwijderd is
 
 **Pre-condities**
 
@@ -24,7 +24,7 @@ andere gebruiker in het systeem zijn.
 
 **Post-condities**
 
-De gekozen gebruiker is gearchiveerd.
+De gekozen gebruiker is gearchiveerd
 
 **Alternatieve flow**
 

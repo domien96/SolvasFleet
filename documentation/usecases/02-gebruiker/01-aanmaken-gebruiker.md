@@ -10,20 +10,20 @@ klant)
 
 1.  De administrator geeft aan dat hij een nieuwe gebruiker wil toevoegen, door
     naar het overzicht van de gebruikers te gaan en van daar naar de pagina voor
-    een nieuwe gebruiker te gaan.
+    een nieuwe gebruiker te gaan
 
-2.  De administrator vult de gegevens voor deze gebruiker in.
+2.  De administrator vult de gegevens voor deze gebruiker in
 
 3.  De administrator selecteert de juiste permissies voor de nieuwe medewerker
     (welke klanten de medewerker beheert, of koppelt de gebruiker aan een
-    verzekeraar of bank/leasingmaatschappij).
+    verzekeraar of bank/leasingmaatschappij)
 
-4.  De administrator bevestigt de gegevens.
+4.  De administrator bevestigt de gegevens
 
 5.  Het systeem stuurt de administrator terug naar het overzicht van de gebruikers en
-    geeft een melding dat de gebruiker is toegevoegd.
+    geeft een melding dat de gebruiker is toegevoegd
 
-6.  De nieuwe gebruiker krijgt een e-mail toegestuurd met een inloglink.
+6.  De nieuwe gebruiker krijgt een e-mail toegestuurd met een inloglink
 
 **Pre-condities**
 
@@ -34,7 +34,7 @@ ook minstens 1 verzekeraar of bank/leasing in het systeem te zijn.
 
 **Post-condities**
 
-Er is een nieuwe gebruiker aangemaakt.
+Er is een nieuwe gebruiker aangemaakt
 
 **Alternatieve flow**
 

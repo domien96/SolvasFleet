@@ -1,7 +1,0 @@
-Nils Mak: CRO (nnmak)
-Benjamin Cousaert: documentatie-beheerder (becousae)
-David van dorpe: sysadmin (davdorpe)
-Niko strijbol: API-beheerder (nistrijb)
-Steven Bastiaans: fill (Sjabasti)
-Domien Van Steendam: projectleider (dvsteend)
-Karel Vandenbussche: Testen-beheerder (klivdnbu)

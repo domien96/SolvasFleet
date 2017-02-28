@@ -13,7 +13,7 @@
 
 3. De gebruiker geeft zijn e-mailadres op
 
-4. Het systeem stuur een link naar de gebruiker om zijn wachtwoord te kunnen wijzigen
+4. Het systeem stuurt een link naar de gebruiker om zijn wachtwoord te kunnen wijzigen
 
 5. De gebruiker klikt op de link in de e-mail
 
@@ -31,9 +31,7 @@
 
 * (3). De gebruiker geeft een verkeerd e-mailadres in
 
-  a. Het systeem geeft een melding dat het e-mailadres niet gevonden is
-
-  b. Ga naar 2
+  a. Het systeem geeft nog steeds een melding dat een email verzonden is. Dit is om aanvallen te vermijden.
 
 * (7). De twee ingegeven wachtwoorden komen niet overeen
 
