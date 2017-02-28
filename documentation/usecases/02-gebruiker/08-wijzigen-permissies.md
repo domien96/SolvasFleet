@@ -1,7 +1,7 @@
 Use case: Wijzigen van de rechten van een gebruiker
 ---------------------------------------------------
 
-**Primaire actor:** Gebruiker (medewerker of administrator)
+**Primaire actor:** Gebruiker
 
 **Objectief:** De gebruiker moet een andere gebruiker zijn rechten kunnen
 aanpassen.
