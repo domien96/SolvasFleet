@@ -17,4 +17,5 @@
 **Exceptionele flow:**
 
 * (1). De medewerker heeft geen rechten om de facturen te bekijken.
-     Het systeem toont een foutmelding, met de mogelijkheid om rechten aan te vragen aan een overste van de verzekeringsmaatschappij.
+
+  a. Het systeem toont een foutmelding, met de mogelijkheid om rechten aan te vragen aan een overste van de verzekeringsmaatschappij.

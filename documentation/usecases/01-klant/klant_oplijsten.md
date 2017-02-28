@@ -8,11 +8,11 @@
 
 1. De gebruiker gaat op de webapplicatie naar klanten oplijsten
 
-2. (optioneel) De gebruiker geeft filters en sorteervormen door
+2. De gebruiker geeft filters en sorteervormen door
 
 3. De gebruiker bevestigt de zoekopdracht
 
-4. De gebruiker krijgt de lijst te zien op de webapplicatie
+4. Het systeem toont de lijst van klanten aan de gebruiker op de webapplicatie
 
 **Pre-condities:**
 - De gebruiker is ingelogd op de webapplicatie
@@ -20,3 +20,9 @@
 
 **Post-condities:**
 /
+
+**Alternatieve flow:**
+
+* (2). De gebruiker geeft geen filters of sorteervormen op en bevestigt de zoekopdracht
+
+  a. Het systeem toont de lijst van alle klanten aan de gebruiker

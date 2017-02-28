@@ -22,6 +22,8 @@
 
 8. De medewerker geeft bevestiging
 
+9. Het systeem verwijdert het voertuig
+
 **Pre-condities:**
 - De medewerker is ingelogd op de webapplicatie en heeft de nodige rechten
 - De klant heeft een profiel in het system
@@ -34,12 +36,14 @@
 **Alternatieve flow:**
 * (7). De medewerker annuleert de verwijdering
 
-&nbsp;&nbsp;&nbsp;&nbsp; a. De medewerker bedenkt zich en drukt op annuleren
+  a. De medewerker bedenkt zich en drukt op annuleren
+
+  b. Het verwijder-proces wordt afgesloten
 
 * (6). Het voertuig heeft nog een active verzekering
 
-&nbsp;&nbsp;&nbsp;&nbsp; a. Het systeem toont een foutmelding die het probleem beschrijft
+  a. Het systeem toont een foutmelding die het probleem beschrijft
 
-&nbsp;&nbsp;&nbsp;&nbsp; b. De active verzekering word stop gezet
+  b. De active verzekering word stop gezet
 
-&nbsp;&nbsp;&nbsp;&nbsp; c. Ga naar 7
+  c. Ga naar 7

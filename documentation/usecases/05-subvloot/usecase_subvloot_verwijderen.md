@@ -6,20 +6,19 @@
 
 **Normale flow:**
 
-1. (De klant contacteert Solvas voor de verwijdering uit te voeren)
+1. De medewerker van Solvas zoekt de klant op in de lijst van klanten
 
-2. De medewerker van Solvas zoekt de klant op in de lijst van klanten
+2. De medewerker selecteert de juiste klant
 
-3. De medewerker selecteert de juiste klant
+3. De medewerker selecteert de subvloot
 
-4. De medewerker selecteert de subvloot
+4. De medewerker geeft aan dat hij de subvloot wil verwijderen
 
-5. De medewerker verwijdert de subvloot
+5. Het systeem vraagt om bevestiging
 
-6. Het systeem vraagt om bevestiging
+6. De medewerker bevestigt de verwijdering
 
-7. De medewerker bevestigt de verwijdering
-
+7. Het systeem verwijdert de subvloot
 
 **Pre-condities:**
 - De gebruiker is ingelogd op de webapplicatie en heeft de nodige rechten
@@ -27,3 +26,9 @@
 
 **Post-condities:**
 - De klant kan de subvloot enkel maar bekijken als hij de historiek nagaat
+
+**Alternatieve flow:**
+
+* (5) De medewerker annuleert de verwijdering
+
+  a. Het systeem sluit het verwijderproces af, de subvloot blijft bestaan

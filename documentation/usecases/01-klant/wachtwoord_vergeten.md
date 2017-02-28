@@ -28,20 +28,21 @@
 **Post-condities:** Het wachtwoord van de klant is gewijzigd 
 
 **Alternatieve flow:**
+
 * (3). De gebruiker geeft een verkeerd e-mailadres in
 
-&nbsp;&nbsp;&nbsp;&nbsp; a. Het systeem geeft een melding dat het e-mailadres niet gevonden is
+  a. Het systeem geeft een melding dat het e-mailadres niet gevonden is
 
-&nbsp;&nbsp;&nbsp;&nbsp; b. Ga naar (2)
+  b. Ga naar 2
 
 * (7). De twee ingegeven wachtwoorden komen niet overeen
 
-&nbsp;&nbsp;&nbsp;&nbsp; a. Het systeem geeft een melding van het probleem
+  a. Het systeem geeft een melding van het probleem
 
-&nbsp;&nbsp;&nbsp;&nbsp; b. Ga naar (4)
+  b. Ga naar 4
 
 * (7). Het ingegeven wachtwoord voldoet niet aan de minimum vereisten voor een wachtwoord
 
-&nbsp;&nbsp;&nbsp;&nbsp; a. Het systeem geeft een melding van het probleem
+  a. Het systeem geeft een melding van het probleem
 
-&nbsp;&nbsp;&nbsp;&nbsp; b. Ga naar (4)
+  b. Ga naar 4
