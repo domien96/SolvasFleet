@@ -30,7 +30,7 @@
 
 **Alternatieve flow:**
 
-* (7). Het voertuig heeft geen premie waardoor de deze niet weergegeven kan worden
+* (7). Het voertuig heeft geen premie waardoor deze niet weergegeven kan worden
 
   a. Het systeem laat weten dat het voertuig nog geen premie heeft
 
