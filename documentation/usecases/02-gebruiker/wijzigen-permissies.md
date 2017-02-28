@@ -40,7 +40,7 @@ De rechten van de gekozen gebruiker zijn gewijzigd.
 
   a. Het systeem toont een foutmelding, met de mogelijkheid om de gekozen rechten aan te passen.
 
-  b. Ga naar (3)
+  b. Ga naar 3
 
 * (4). De gebruiker annuleert zijn wijzigen.
 
