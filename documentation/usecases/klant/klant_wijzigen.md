@@ -6,6 +6,7 @@
 **Objectief:** De productie- of schadebeheerder moet de gegevens van een klant kunnen wijzigen
 
 **Normale flow:**
+
 1. De medewerker van Solvas zoekt de klant op
 
 2. De medewerker selecteert de klant en geeft aan dat hij de gegevens wilt veranderen
