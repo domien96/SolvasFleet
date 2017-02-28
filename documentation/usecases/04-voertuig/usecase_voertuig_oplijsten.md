@@ -33,3 +33,4 @@
 * (3). De gebruiker geeft geen filters of sorteervormen mee en bevestigt de zoekopdracht
 
   a. Het systeem geeft de lijst weer van alle voertuigen van de klant
+
