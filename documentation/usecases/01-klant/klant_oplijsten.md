@@ -2,11 +2,11 @@
 
 **Primaire actor:** Een gebruiker
 
-**Objectief:** De gebruiker met de juiste rechten moet klanten kunnen oplijsten
+**Objectief:** De gebruiker moet klanten kunnen oplijsten
 
 **Normale flow:**
 
-1. De gebruiker gaat op de webapplicatie naar klanten oplijsten
+1. De gebruiker geeft aan de klanten te willen oplijsten
 
 2. De gebruiker geeft filters en sorteervormen door
 
@@ -19,7 +19,7 @@
 - De gebruiker heeft rechten om klanten te bekijken (als verzekeringsmaatschappij of medewerker van Solvas)
 
 **Post-condities:**
-/
+De gebruiker krijgt een lijst van de klanten te zien
 
 **Alternatieve flow:**
 

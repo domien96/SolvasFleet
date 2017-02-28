@@ -14,7 +14,7 @@
 
 **Pre-condities:** De klant is ingelogd op de webapplicatie
 
-**Post-condities:** De klant heeft zijn gegevens geraadpleegd 
+**Post-condities:** De klant krijgt zijn gegevens te zien
 
 **Alternatieve flow:**
 
