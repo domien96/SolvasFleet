@@ -18,3 +18,5 @@ Vlootinschrijving | Bepaalt de periode waarin een voertuig deel uitmaakt van een
 ### Bijkomende toelichtingen
 Onder een gebruiker vallen zowel de klanten, medewerkers als administrator.
 Het onderscheid tussen deze worden gerealiseerd a.d.h.v. het toekennen van permissies
+
+Een gebruiker is via zijn rol verbonden met zijn rechten.
