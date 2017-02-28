@@ -32,7 +32,7 @@
 
 * (5). Er zijn nog geen voertuigen met een premie waardoor de subvloot-premie niet weergegeven kan worden
 
-  a. Het systeem laat weten dat er alle voertuigen nog geen premie hebben
+  a. Het systeem laat weten dat niet alle voertuigen een premie hebben
 
 
 **Exceptionele flow:**
