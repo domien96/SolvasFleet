@@ -10,16 +10,16 @@ wijzigen.
 
 1.  De administrator gaat naar het overzicht van de medewerkers en gaat vandaar
     naar het profiel van de medewerker, of komt op een andere manier bij het
-    profiel terecht.
+    profiel terecht
 
 2.  De administrator geeft aan dat hij deze medewerker zijn gegevens wil
-    wijzigen.
+    wijzigen
 
-3.  De administrator wijzigt de gewenste gegevens.
+3.  De administrator wijzigt de gewenste gegevens
 
-4.  De administrator bevestigt de wijzigingen.
+4.  De administrator bevestigt de wijzigingen
 
-5.  De administrator krijgt het nieuwe profiel van de gebruiker te zien.
+5.  Het systeem past de wijzigingen toe en geeft het nieuwe profiel van de gebruiker weer
 
 **Pre-condities**
 
@@ -32,14 +32,12 @@ De gekozen gebruiker zijn gegevens zijn aangepast.
 
 **Alternatieve flow**
 
--   (3) De administrator heeft foute gegevens ingegeven.
+* (3). De administrator heeft foute gegevens ingegeven
 
-    1.  Het systeem toont een foutmelding, met de mogelijkheid om de gegevens
-        aan te passen.
+  a. Het systeem toont een foutmelding, met de mogelijkheid om de gegevens aan te passen
 
-    2.  Ga naar (3)
+  b. Ga naar 3
 
--   (4) De administrator annuleert zijn wijzigen.
+* (4). De administrator annuleert zijn wijzigen
 
-    1.  De administrator wordt teruggestuurd naar het (ongewijzigde) profiel van
-        de gebruiker.
+  a. De administrator wordt teruggestuurd naar het (ongewijzigde) profiel van de gebruiker
