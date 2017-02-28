@@ -42,7 +42,7 @@ De gebruiker zijn gegevens zijn aangepast.
 
   a. De wijzigingen worden verworpen; er zal niets veranderen.
 
-* (7). De gebruiker negeert de bevestigingse-mail of klikt niet op de
+* (7). De gebruiker negeert de bevestigingsmail of klikt niet op de
     bevestigingslink binnen een bepaalde periode (zoals 24 uur, 1 week, ...).
 
   a. De wijzigingen worden verworpen; er zal niets veranderen.

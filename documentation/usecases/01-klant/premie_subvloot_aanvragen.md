@@ -28,7 +28,7 @@
 
 * (5). Niet alle voertuigen hebben een premie waardoor de subvloot-premie niet weergegeven kan worden
 
-  a. Het systeem laat weten welke voertuigen nog geen premie hebben en geeft een tussenpremie weer
+  a. Het systeem laat weten welke voertuigen nog geen premie hebben en geeft een voorlopige premie weer
 
 * (5). Er zijn nog geen voertuigen met een premie waardoor de subvloot-premie niet weergegeven kan worden
 

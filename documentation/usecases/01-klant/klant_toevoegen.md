@@ -14,7 +14,7 @@
 
 4. De medewerker bevestigt de toevoeging 
 
-5. Het systeem slaat de klant persistent op
+5. Het systeem slaat de klant op
 
 
 **Pre-condities:**
@@ -40,4 +40,4 @@ De klant werd toegevoegd aan de databank
 
 * (5). De klant kan niet opgeslaan worden om ongekende reden.
 
-  a. Het systeem toont een foutmelding met de oorzaak
+  a. Het systeem toont een foutmelding

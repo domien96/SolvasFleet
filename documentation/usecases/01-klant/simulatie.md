@@ -27,7 +27,7 @@
 
 * (3). De gebruiker geeft geen andere verzekering op
  
-  a. Het systeem geeft de huidige premie weer en vraagt de gebruiker een voertuig toe te voegen of te verwijderen of een andere verzekering te kiezen
+  a. Het systeem geeft de huidige premie weer en vraagt de gebruiker een voertuig toe te voegen of te verwijderen, of een andere verzekering te kiezen
 
   b. Ga naar 5
 

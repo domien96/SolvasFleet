@@ -28,7 +28,7 @@ De gekozen gebruiker is gearchiveerd.
 
 **Alternatieve flow**
 
-* (2). De geselecteerde gebruiker kan niet verwijderd worden. Dit kan zijn omdat de te verwijderen gebruiker nog actieve dingen heeft (zoals lopende verzekeringen) of omdat de gebruiker niet de rechten heeft om de gebruiker te kunnen verwijderen (zoals een medewerker die een leasingmaatschappij probeert te verwijderen)
+* (2). De geselecteerde gebruiker kan niet verwijderd worden. Dit kan zijn omdat de te verwijderen gebruiker nog lopende verzekeringen en dergelijke heeft, of omdat de gebruiker niet de rechten heeft om de gebruiker te kunnen verwijderen (zoals een medewerker die een leasingmaatschappij probeert te verwijderen)
 
   a. Het systeem gaat terug naar de overzichtspagina en toont een foutmelding met uitleg waarom de gebruiker niet verwijderd kon worden.
 
