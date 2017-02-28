@@ -13,7 +13,7 @@ Deze lijst is zeker nog niet af, dus check regelmatig voor toevoegingen.
    * Tijdswinst: Anderen kunnen meezoeken of hebben misschien ooit een gelijkaardige code smell gezien 
 
 * Als je veronderstellingen maakt over variabelen of invoerparameters bij het schrijven van je code schrijf die dan ook neer bij de code.
-Gebruik hiervoor het assert keyword of Exceptions (zie de [Oracle documentatie](http://docs.oracle.com/javase/8/docs/technotes/guides/language/assert.html#usage-conditions).
+Gebruik hiervoor het assert keyword of Exceptions (zie de [Oracle documentatie](http://docs.oracle.com/javase/8/docs/technotes/guides/language/assert.html#usage-conditions)).
 </br>Voordeel: Dit versnelt het debugwerk massa's snel in die gevallen waar de programmeur typo's of foute veronderstellingen over expressies heeft gemaakt.
 </br>bv. 
 ```
