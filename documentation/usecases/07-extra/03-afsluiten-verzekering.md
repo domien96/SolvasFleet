@@ -23,14 +23,15 @@
 
 **Alternatieve flow:**
 * (1). De beheerder heeft de rechten niet om het account van de klant te beheren
- a. De beheerder vraagt deze rechten aan aan de administrator
 
- b. Ga naar (2)
+  a. De beheerder vraagt deze rechten aan aan de administrator
+
+  b. Ga naar 2
 
 * (3). Het gekozen voertuig heeft al een verzekering voor op het voertuig voor het gekozen type
 
- a. Het systeem geeft een melding van het probleem
+  a. Het systeem geeft een melding van het probleem
 
- b. Huidige verzekering stopzetten
+  b. Het systeem zet de huidige verzekering stop na bevestiging
  
- c. Ga naar (4)
+  c. Ga naar 4

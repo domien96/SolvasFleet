@@ -6,8 +6,6 @@
 
 **Normale flow:**  
 
-0. (De klant contacteert Solvas om de verzekering van een subvloot te wijzigen)
-
 1. De medewerker van Solvas zoekt de klant op in de lijst van klanten
 
 2. De medewerker selecteert de juiste klant
@@ -18,7 +16,9 @@
 
 5. Het systeem vraagt om bevestiging
 
-5. De medewerker bevestigt de wijziging en slaat deze op in de databank
+6. De medewerker bevestigt de wijziging 
+
+7. Het systeem slaat de wijziging op in de databank
 
 
 **Pre-condities:**
@@ -30,14 +30,15 @@
 - Zowel de klant als de verzekeringsmaatschappij kunnen deze verandering bekijken
 
 **Alternatieve flow:**
+
 * (4). De begin- en/of einddatum zijn niet correct
 
-&nbsp;&nbsp;&nbsp;&nbsp; a. Het systeem toont een foutmelding, met de mogelijkheid om de data aan te passen
+  a. Het systeem toont een foutmelding, met de mogelijkheid om de data aan te passen
 
-&nbsp;&nbsp;&nbsp;&nbsp; b. Ga naar (5)
+  b. Ga naar 5
 
 * (6). De medewerker wilt de aanpassing annuleren
 
-&nbsp;&nbsp;&nbsp;&nbsp; a. De medewerker drukt op annuleren
+  a. De medewerker drukt op annuleren
 
-&nbsp;&nbsp;&nbsp;&nbsp; b. De medewerker krijgt de subvloot in normale staat te zien
+  b. De medewerker krijgt de subvloot in normale staat te zien
