@@ -14,7 +14,7 @@
 
 **Pre-condities:** De klant is ingelogd op de webapplicatie
 
-**Post-condities:** De klant heeft heeft de premie van een bepaalde verzekeraar verkregen
+**Post-condities:** De klant heeft de premie van een bepaalde verzekeraar verkregen
 
 **Alternatieve flow:**
 
