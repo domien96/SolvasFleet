@@ -1,5 +1,4 @@
-Use case: Verwijderen van een gebruiker
----------------------------------------
+## Use case: Verwijderen van een gebruiker
 
 **Primaire actor:** Gebruiker (administrator of medewerker)
 
@@ -14,8 +13,8 @@ systeem.
 
 3.  De gebruiker bevestigt zijn keuze.
 
-4.  De gebruiker wordt teruggestuurd naar het overzicht van de medewerkers en
-    krijgt een melding dat de medewerker verwijderd is.
+4.  Het systeem stuurt de gebruiker terug naar het overzicht van de medewerkers en
+    geeft een melding dat de medewerker verwijderd is.
 
 **Pre-condities**
 
@@ -29,13 +28,12 @@ De gekozen gebruiker is gearchiveerd.
 
 **Alternatieve flow**
 
--   (2). De geselecteerde gebruiker kan niet verwijderd worden. Dit kan zijn omdat de
-    te verwijderen gebruiker nog actieve dingen heeft (zoals lopende
-    verzekeringen) of omdat de gebruiker niet de rechten heeft om de gebruiker
-    te kunnen verwijderen (zoals een medewerker die een leasingmaatschappij
-    probeert te verwijderen).
+* (2). De geselecteerde gebruiker kan niet verwijderd worden. Dit kan zijn omdat de te verwijderen gebruiker nog lopende verzekeringen en dergelijke heeft, of omdat de gebruiker niet de rechten heeft om de gebruiker te kunnen verwijderen (zoals een medewerker die een leasingmaatschappij probeert te verwijderen)
 
-    1.  Het systeem gaat terug naar de overzichtspagina en toont een foutmelding
-        met uitleg waarom de gebruiker niet gearchiveerd kon worden.
+  a. Het systeem gaat terug naar de overzichtspagina en toont een foutmelding met uitleg waarom de gebruiker niet verwijderd kon worden.
 
-    2.  Ga naar (2).
+  b. Ga naar 2
+
+* (3) De gebruiker bevestigt de keuze niet
+
+  a. Ga naar 1

@@ -18,7 +18,7 @@ Use case: Gegevens wijzigen van een gebruiker van een klant
 
 5.  De medewerker bevestigt de wijzigingen.
 
-6.  De medewerker krijgt het nieuwe profiel van de gebruiker te zien.
+6.  Het systeem past de wijzigingen toe en geeft het nieuwe profiel van de gebruiker weer.
 
 **Pre-condities**
 
@@ -32,19 +32,16 @@ De gekozen klant zijn gegevens zijn aangepast.
 
 **Alternatieve flow**
 
--   (4) De medewerker heeft foute gegevens ingegeven.
+* (4). De medewerker heeft foute gegevens ingegeven.
 
-    1.  Het systeem toont een foutmelding, met de mogelijkheid om de gegevens
-        aan te passen.
+  a. Het systeem toont een foutmelding, met de mogelijkheid om de gegevens aan te passen.
 
-    2.  Ga naar (3)
+  b. Ga naar 3
 
--   (5) De medewerker annuleert zijn wijzigen.
+* (5). De medewerker annuleert zijn wijzigen.
 
-    1.  De medewerker wordt teruggestuurd naar het (ongewijzigde) profiel van de
-        klant.
+  a. De medewerker wordt teruggestuurd naar het (ongewijzigde) profiel van de klant.
 		
--   (3) De medewerker wilt gegevens wijzigen van een gebruiker die bij een klant hoort waarvoor de medewerker geen machtigingen heeft.
+* (3). De medewerker wilt gegevens wijzigen van een gebruiker die bij een klant hoort waarvoor de medewerker geen machtigingen heeft.
 
-    1.  De medewerker wordt teruggestuurd naar het (ongewijzigde) profiel van de
-        klant.
+  a. De medewerker wordt teruggestuurd naar het (ongewijzigde) profiel van de klant.

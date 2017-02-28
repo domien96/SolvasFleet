@@ -21,4 +21,4 @@
 
 **Pre-condities:** De gebruiker is ingelogd op de webapplicatie en heeft de nodige rechten
 
-**Post-condities:** De gebruiker heeft zijn data geexporteerd
+**Post-condities:** De gebruiker heeft zijn data geëxporteerd

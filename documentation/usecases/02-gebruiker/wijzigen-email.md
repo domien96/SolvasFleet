@@ -1,5 +1,4 @@
 Use case: Een gebruiker wijzigt zijn eigen e-mail
--------------------------------------------------
 
 **Primaire actor:** Gebruiker
 
@@ -34,15 +33,15 @@ De gebruiker zijn gegevens zijn aangepast.
 
 **Alternatieve flow**
 
-* 4 De gebruiker annuleert de wijzigingen.
+* (4). De gebruiker annuleert de wijzigingen.
 
-    1.  De gebruiker wordt teruggestuurd naar zijn profielpagina.
+  a. De gebruiker wordt teruggestuurd naar zijn profielpagina.
 
-* 5 De e-mail kon niet verstuurd worden omdat het opgeven e-mailadres fout is.
+* (5). De e-mail kon niet verstuurd worden omdat het opgeven e-mailadres fout is.
 
-    1.  De wijzigingen worden verworpen; er zal niets veranderen.
+  a. De wijzigingen worden verworpen; er zal niets veranderen.
 
-* 7 De gebruiker negeert de bevestigingse-mail of klikt niet op de
+* (7). De gebruiker negeert de bevestigingsmail of klikt niet op de
     bevestigingslink binnen een bepaalde periode (zoals 24 uur, 1 week, ...).
 
-    1.  De wijzigingen worden verworpen; er zal niets veranderen.
+  a. De wijzigingen worden verworpen; er zal niets veranderen.

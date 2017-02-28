@@ -1,5 +1,4 @@
-Use case: Wijzigen van wachtwoord van niet-ingelogde klant
-----------------------------------------------------------
+## Use case: Wijzigen van wachtwoord van niet-ingelogde klant
 
 **Primaire actor:** De klant (een bedrijf)
 
@@ -37,21 +36,21 @@ Het wachtwoord van de klant is gewijzigd
 
 **Alternatieve flow:**
 
--   (3). De gebruiker geeft een verkeerd e-mailadres in
+* (3). De gebruiker geeft een verkeerd e-mailadres in
 
-    1.  Het systeem geeft een melding dat het e-mailadres niet gevonden is
+  a. Het systeem geeft een melding dat het e-mailadres niet gevonden is
 
-    2.  Ga naar (2)
+  b. Ga naar 2
 
--   (7). De twee ingegeven wachtwoorden komen niet overeen
+* (7). De twee ingegeven wachtwoorden komen niet overeen
 
-    1.  Het systeem geeft een melding van het probleem
+  a. Het systeem geeft een melding van het probleem
 
-    2.  Ga naar (4)
+  b. Ga naar 4
 
--   (7). Het ingegeven wachtwoord voldoet niet aan de minimum vereisten voor een
+* (7). Het ingegeven wachtwoord voldoet niet aan de minimum vereisten voor een
     wachtwoord
 
-    1.  Het systeem geeft een melding van het probleem
-
-    2.  Ga naar (4)
+  a. Het systeem geeft een melding van het probleem
+ 
+  b. Ga naar 4

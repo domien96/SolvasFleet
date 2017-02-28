@@ -10,7 +10,7 @@
 
 2. De gebruiker kiest zijn bestand om te importeren
 
-3. Het systeem toont welke wijzigingen aangebracht zullen worden aan het databasesysteem
+3. Het systeem toont welke wijzigingen aangebracht zullen worden aan het databanksysteem
 
 4. De gebruiker bevestigt de wijzigingen
 
@@ -24,10 +24,10 @@
 **Alternatieve flow:**
 * (3). Het bestand bevat foute gegevens
  
-&nbsp;&nbsp;&nbsp;&nbsp; a. Het systeem toont de foute gegevens, met een melding
+  a. Het systeem toont de foute gegevens, met een melding
 
-&nbsp;&nbsp;&nbsp;&nbsp; b. Ga naar (2)
+  b. Ga naar 2
 
 * (4). De gebruiker aanvaardt de wijzigingen niet
 
-&nbsp;&nbsp;&nbsp;&nbsp; a. Ga naar (1)
+  a. Ga naar 1

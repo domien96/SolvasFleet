@@ -1,5 +1,4 @@
-Use case: Aanmaken van een nieuwe medewerker of gebruiker voor bank/leasing of verzekeraar
-------------------------------------------------------------------------------------------
+## Use case: Aanmaken van een nieuwe medewerker of gebruiker voor bank/leasing of verzekeraar
 
 **Primaire actor:** Gebruiker (administrator)
 
@@ -21,15 +20,15 @@ klant)
 
 4.  De administrator bevestigt de gegevens.
 
-5.  De administrator wordt teruggestuurd naar het overzicht van de gebruikers en
-    krijgt een melding dat de gebruiker is toegevoegd.
+5.  Het systeem stuurt de administrator terug naar het overzicht van de gebruikers en
+    geeft een melding dat de gebruiker is toegevoegd.
 
 6.  De nieuwe gebruiker krijgt een e-mail toegestuurd met een inloglink.
 
 **Pre-condities**
 
 De gebruiker is ingelogd op de webapplicatie en heeft de nodige rechten; d.w.z.
-dat gebruiker de administratorrol en bijhorende permissies heeft. Indien een
+dat gebruiker de administrator-rol en bijhorende permissies heeft. Indien een
 gebruiker voor een verzekeraar of bank/leasing toegevoegd moet worden, dient er
 ook minstens 1 verzekeraar of bank/leasing in het systeem te zijn.
 
@@ -39,8 +38,12 @@ Er is een nieuwe gebruiker aangemaakt.
 
 **Alternatieve flow**
 
--   (4). De gegevens zijn fout of onvolledig.
+* (3). De gegevens zijn fout
 
-    1.  Het systeem toont de foute gegevens, met een melding.
+  a. Het systeem toont de foute gegevens, met een melding
 
-    2.  Ga naar (2)
+  b. Ga naar 2
+
+* (4). De administrator bevestigt de gegevens niet
+
+  a. Ga naar 2

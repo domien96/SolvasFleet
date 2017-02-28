@@ -17,8 +17,9 @@
 **Post-condities:** De klant heeft heeft de premie van een bepaalde verzekeraar verkregen
 
 **Alternatieve flow:**
+
 * (1). De gebruiker selecteert geen verzekeraar
 
-&nbsp;&nbsp;&nbsp;&nbsp; a. Het systeem geeft een melding van het probleem
-
-&nbsp;&nbsp;&nbsp;&nbsp; b. ga naar (1)
+  a. Het systeem geeft een melding van het probleem
+  
+  b. ga naar (1)

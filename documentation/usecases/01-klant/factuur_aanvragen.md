@@ -17,12 +17,13 @@
 **Post-condities:** De klant heeft zijn factuur ontvangen 
 
 **Alternatieve flow:**
+
 * (1). De gebruiker selecteert geen datum
 
-&nbsp;&nbsp;&nbsp;&nbsp; a. Het systeem vult de huidige datum in
+  a. Het systeem vult de huidige datum in
 
-&nbsp;&nbsp;&nbsp;&nbsp; b. Het systeem berekent de nieuwe factuur voor de huidige periode en geeft deze weer
+  b. Het systeem berekent de nieuwe factuur voor de huidige periode en geeft deze weer
 
 * (1). De gebruiker selecteert de huidige datum
 
-&nbsp;&nbsp;&nbsp;&nbsp; a. Het systeem berekent de nieuwe factuur voor de huidige periode en geeft deze weer
+  a. Het systeem berekent de nieuwe factuur voor de huidige periode en geeft deze weer

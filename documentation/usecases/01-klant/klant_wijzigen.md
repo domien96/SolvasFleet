@@ -16,6 +16,8 @@
 
 5. De medewerker bevestigt de wijzigingen
 
+6. Het systeem wijzigt de gegevens van de klant
+
 
 **Pre-condities:**
 - De medewerker is ingelogd op de webapplicatie en heeft de nodige rechten
@@ -26,11 +28,13 @@
 - De historiek moet nog steeds kloppen met deze nieuwe wijzigingen.
 
 **Alternatieve flow**
-* (4). Gegevens staan in een fout formaat
-&nbsp;&nbsp;&nbsp;&nbsp; a. Het systeem toont een foutmelding met mogelijkheid om gegevens aan te passen
 
-&nbsp;&nbsp;&nbsp;&nbsp; b. Ga naar 4
+* (4). Gegevens staan in een fout formaat
+
+  a. Het systeem toont een foutmelding met mogelijkheid om gegevens aan te passen
+  
+  b. Ga naar 4
 
 * (5). De medewerker annuleert de wijzigingen
 
-&nbsp;&nbsp;&nbsp;&nbsp; a. De medewerker bedenkt zich en drukt op annuleren
+  a. De medewerker bedenkt zich en drukt op annuleren

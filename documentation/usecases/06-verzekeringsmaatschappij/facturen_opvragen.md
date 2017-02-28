@@ -24,20 +24,23 @@
 **Alternatieve flow:**
  
 * (2). De gegevens zijn fout vb ( einddatum < startdatum,..)
-&nbsp;&nbsp;&nbsp;&nbsp; a. Het systeem toont de foutmelding.
+
+  a. Het systeem toont de foutmelding.
       
-&nbsp;&nbsp;&nbsp;&nbsp; b. Ga naar stap 2 en probeer opnieuw.
+  b. Ga naar stap 2 en probeer opnieuw.
 
 * (5). De printer werd niet gevonden of er vond een andere IO-fout plaats.
 
-&nbsp;&nbsp;&nbsp;&nbsp; a. Het systeem toont de foutmelding afkomstig van de printer.
+  a. Het systeem toont de foutmelding afkomstig van de printer.
       
-&nbsp;&nbsp;&nbsp;&nbsp; b. Ga naar stap 5 en probeer opnieuw.
+  b. Ga naar stap 5 en probeer opnieuw.
 
 **Exceptionele flow:**
 
 * (1). De medewerker heeft geen rechten om de facturen te bekijken.
-     Het systeem toont een foutmelding, met de mogelijkheid om rechten aan te vragen aan een overste van de verzekeringsmaatschappij.
+
+  a. Het systeem toont een foutmelding, met de mogelijkheid om rechten aan te vragen aan een overste van de verzekeringsmaatschappij.
 
 * (4). De medewerker heeft geen rechten om de facturen te bekijken.
-     Het systeem toont een foutmelding, met de mogelijkheid om rechten aan te vragen aan een overste van de verzekeringsmaatschappij.
+
+  a. Het systeem toont een foutmelding, met de mogelijkheid om rechten aan te vragen aan een overste van de verzekeringsmaatschappij.
