@@ -31,9 +31,7 @@
 
 * (3). De gebruiker geeft een verkeerd e-mailadres in
 
-  a. Het systeem geeft een melding dat het e-mailadres niet gevonden is
-
-  b. Ga naar 2
+  a. Het systeem geeft nog steeds een melding dat een email verzonden is. Dit is om aanvallen te vermijden.
 
 * (7). De twee ingegeven wachtwoorden komen niet overeen
 
