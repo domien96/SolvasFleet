@@ -14,7 +14,7 @@ indien hij het oude vergeten is
 
 3.  De gebruiker geeft zijn e-mailadres op
 
-4.  Het systeem stuur een link naar de gebruiker om zijn wachtwoord te kunnen
+4.  Het systeem stuur een link naar de inbox van de gebruiker om zijn wachtwoord te kunnen
     wijzigen
 
 5.  De gebruiker klikt op de link in de e-mail

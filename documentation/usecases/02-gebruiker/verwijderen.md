@@ -10,7 +10,7 @@ systeem.
 
 1.  De gebruiker gaat naar het profiel van de gebruiker.
 
-2.  De gebruiker geeft aan dat hij de gebruiker wil verwijderen.
+2.  De gebruiker geeft aan dat hij de gebruiker wil archiveren.
 
 3.  De gebruiker bevestigt zijn keuze.
 
@@ -36,6 +36,6 @@ De gekozen gebruiker is gearchiveerd.
     probeert te verwijderen).
 
     1.  Het systeem gaat terug naar de overzichtspagina en toont een foutmelding
-        met uitleg waarom de gebruiker niet verwijderd kon worden.
+        met uitleg waarom de gebruiker niet gearchiveerd kon worden.
 
     2.  Ga naar (2).
