@@ -1,5 +1,4 @@
-Use case: Aanmaken van een nieuwe gebruiker voor een klant
-----------------------------------------------------------
+## Use case: Aanmaken van een nieuwe gebruiker voor een klant
 
 **Primaire actor:** Gebruiker (medewerker)
 
@@ -8,18 +7,18 @@ toevoegen aan het systeem.
 
 **Normale flow**
 
-1.  De medewerker gaat naar het overzicht van zijn klanten (transportbedrijven).
+1.  De medewerker gaat naar het overzicht van zijn klanten (transportbedrijven)
 
 2.  De medewerker selecteert het bedrijf waarvoor hij een gebruiker wil
-    toevoegen.
+    toevoegen
 
-3.  De medewerker vult de basisgegevens voor deze gebruiker in.
+3.  De medewerker vult de basisgegevens voor deze gebruiker in
 
-4.  De medewerker bevestigt de gegevens.
+4.  De medewerker bevestigt de gegevens
 
-5.  De medewerker wordt naar het profiel van de nieuwe klant gestuurd.
+5.  Het systeem stuurt de medewerker naar het profiel van de nieuwe klant
 
-6.  De nieuwe gebruiker krijgt een e-mail toegestuurd met een inloglink.
+6.  De nieuwe gebruiker krijgt een e-mail toegestuurd met een inloglink
 
 **Pre-condities**
 
@@ -33,8 +32,12 @@ Er is een nieuwe gebruiker voor een klant aangemaakt.
 
 **Alternatieve flow**
 
--   (4). De gegevens zijn fout.
+* (4). De gegevens zijn fout
 
-    1.  Het systeem toont de foute gegevens, met een melding.
+  a. Het systeem toont de foute gegevens, met een melding
 
-    2.  Ga naar (2)
+  b. Ga naar 3
+
+* (4). De medewerker bevestigt de gegevens niet
+
+  a. Ga naar 3

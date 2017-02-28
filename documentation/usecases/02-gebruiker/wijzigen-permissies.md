@@ -30,25 +30,18 @@ De rechten van de gekozen gebruiker zijn gewijzigd.
 
 **Alternatieve flow**
 
--   (2) De gebruiker probeert de rechten van een gebruiker te wijzigen waarvoor
-    hij het recht niet heeft. Dit gebeurt bijvoorbeeld als een medewerker de
-    rechten van een andere medewerker probeert te wijzigen, aangezien dit enkel
-    door de administrator kan gebeuren.
+* (2). De gebruiker probeert de rechten van een gebruiker te wijzigen waarvoor hij het recht niet heeft. Dit gebeurt bijvoorbeeld als een medewerker de rechten van een andere medewerker probeert te wijzigen, aangezien dit enkel door de administrator kan gebeuren.
 
-    1.  Het systeem toont een foutmelding.
+  a. Het systeem toont een foutmelding
 
-    2.  Ga naar (1).
+  b. Ga naar 1
 
--   (3) De gebruiker probeert rechten toe te kennen waartoe hij zelf geen rechten
-    heeft. Dit gebeurt bijvoorbeeld als een medewerker rechten voor het beheer
-    van een vloot aan een klant probeert toe te kennen.
+* (3). De gebruiker probeert rechten toe te kennen waartoe hij zelf geen rechten heeft. Dit gebeurt bijvoorbeeld als een medewerker rechten voor het beheer van een vloot aan een klant probeert toe te kennen.
 
-    1.  Het systeem toont een foutmelding, met de mogelijkheid om de gekozen
-        rechten aan te passen.
+  a. Het systeem toont een foutmelding, met de mogelijkheid om de gekozen rechten aan te passen.
 
-    2.  Ga naar (3)
+  b. Ga naar (3)
 
--   (4) De gebruiker annuleert zijn wijzigen.
+* (4). De gebruiker annuleert zijn wijzigen.
 
-    1.  De gebruiker wordt teruggestuurd naar het (ongewijzigde) profiel van de
-        gebruiker
+  a. De gebruiker wordt teruggestuurd naar het (ongewijzigde) profiel van de gebruiker

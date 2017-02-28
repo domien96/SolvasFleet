@@ -24,28 +24,29 @@
 **Post-condities:** Het wachtwoord van de klant is gewijzigd 
 
 **Alternatieve flow:**
+
 * (3). De gebruiker geeft het verkeerde wachtwoord in
  
-&nbsp;&nbsp;&nbsp;&nbsp; a. Het systeem geeft een melding van het probleem
+  a. Het systeem geeft een melding van het probleem
 
-&nbsp;&nbsp;&nbsp;&nbsp; b. Ga naar (2)
+  b. Ga naar 2
 
 * (3). De gebruiker geeft het verkeerde wachtwoord herhaaldelijk verkeerd in 
 
-&nbsp;&nbsp;&nbsp;&nbsp; a. Het systeem geeft een melding van het probleem
+  a. Het systeem geeft een melding van het probleem
 
-&nbsp;&nbsp;&nbsp;&nbsp; b. De gebruiker dient een captcha op te lossen
+  b. De gebruiker dient een captcha op te lossen
 
-&nbsp;&nbsp;&nbsp;&nbsp; c. Ga naar (2)
+  c. Ga naar 2
 
 * (5). De twee ingegeven wachtwoorden komen niet overeen
 
-&nbsp;&nbsp;&nbsp;&nbsp; a. Het systeem geeft een melding van het probleem
+  a. Het systeem geeft een melding van het probleem
 
-&nbsp;&nbsp;&nbsp;&nbsp; b. Ga naar (4)
+  b. Ga naar 4
 
 * (5). Het ingegeven wachtwoord voldoet niet aan de minimum vereisten voor een wachtwoord
 
-&nbsp;&nbsp;&nbsp;&nbsp; a. Het systeem geeft een melding van het probleem
+  a. Het systeem geeft een melding van het probleem
 
-&nbsp;&nbsp;&nbsp;&nbsp; b. Ga naar (4)
+  b. Ga naar 4
