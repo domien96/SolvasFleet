@@ -22,7 +22,9 @@
 
 8. Het syteem vraagt om bevestiging
 
-9. De medewerker bevestigt de toevoeging en slaat deze op in de databank
+9. De medewerker bevestigt de toevoeging 
+
+10. Het systeem slaat het voertuig op in de databank
 
 
 **Pre-condities:**
@@ -36,34 +38,32 @@ Het voertuig werd toegevoegd
 
 * (4). De klant heeft nog geen vloten
 
-&nbsp;&nbsp;&nbsp;&nbsp; a. Het systeem toont een foutmelding
+  a. Het systeem toont een foutmelding
 
-&nbsp;&nbsp;&nbsp;&nbsp; b. Er wordt een nieuwe vloot gemaakt na bespreking met de klant
+  b. Er wordt een nieuwe vloot gemaakt na bespreking met de klant
 
-&nbsp;&nbsp;&nbsp;&nbsp; c. Ga naar 4
+  c. Ga naar 4
 
 * (4). De klant heeft geen subvloot voor het type voertuig
 
-&nbsp;&nbsp;&nbsp;&nbsp; a. Het systeem toont een foutmelding
+  a. Het systeem toont een foutmelding
 
-&nbsp;&nbsp;&nbsp;&nbsp; b. Er wordt een nieuwe subvloot aangemaakt na bespreking met de klant
+  b. Er wordt een nieuwe subvloot aangemaakt na bespreking met de klant
 
-&nbsp;&nbsp;&nbsp;&nbsp; c. Ga naar 4
-
-
+  c. Ga naar 4
 
 * (7). Het chassinummer werd al gebruikt bij een andere subvloot
 
-&nbsp;&nbsp;&nbsp;&nbsp; a. Het systeem toont een foutmelding
+  a. Het systeem toont een foutmelding
 
-&nbsp;&nbsp;&nbsp;&nbsp; b. De medewerker neemt eventueel contact op met solvas
+  b. De medewerker neemt eventueel contact op met solvas
 
 * (7). Gegevens staan in een fout formaat
 
-&nbsp;&nbsp;&nbsp;&nbsp; a. Het systeem toont een foutmelding met mogelijkheid om gegevens aan te passen
+  a. Het systeem toont een foutmelding met mogelijkheid om gegevens aan te passen
 
-&nbsp;&nbsp;&nbsp;&nbsp; b. Ga naar 7
+  b. Ga naar 7
 
 * (8). De medewerker annuleert de verwijdering
 
-&nbsp;&nbsp;&nbsp;&nbsp; a. De medewerker bedenkt zich en drukt op annuleren
+  a. De medewerker bedenkt zich en drukt op annuleren

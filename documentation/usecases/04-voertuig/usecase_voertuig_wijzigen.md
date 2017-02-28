@@ -2,7 +2,7 @@
 
 **Primaire actor:** Productie- of schadebeheerder
 
-**Objectief:** De productie- of schadebeheerder moet een voertuig verwijderen van een subvloot van een klant
+**Objectief:** De productie- of schadebeheerder moet een voertuig wijzigen van een subvloot van een klant
 
 **Normale flow:**
 
@@ -24,6 +24,8 @@
 
 9. De medewerker geeft bevestiging
 
+10. Het systeem voert de wijzigingen door
+
 **Pre-condities:**
 - De medewerker is ingelogd op de webapplicatie en heeft de nodige rechten
 - De klant heeft een profiel in het systeem
@@ -33,12 +35,13 @@
 - Het voertuig werd aangepast
 
 **Alternatieve flow:**
+
 * (7). Gegevens staan in een fout formaat
 
-&nbsp;&nbsp;&nbsp;&nbsp; a. Het systeem toont een foutmelding met mogelijkheid om gegevens aan te passen
+  a. Het systeem toont een foutmelding met mogelijkheid om gegevens aan te passen
 
-&nbsp;&nbsp;&nbsp;&nbsp; b. Ga naar 7
+  b. Ga naar 7
 
 * (9). De medewerker annuleert de wijziging
 
-&nbsp;&nbsp;&nbsp;&nbsp; a. De medewerker bedenkt zich en annuleerd de wijzeging
+  a. De medewerker bedenkt zich en annuleerd de wijziging

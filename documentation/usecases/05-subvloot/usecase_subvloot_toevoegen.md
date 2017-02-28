@@ -14,7 +14,9 @@
 
 4. De medewerker geeft het voertuigtype door, horend bij de subvloot
 
-5. De medewerker bevestigt de toevoeging en slaat deze op in de databank
+5. De medewerker bevestigt de toevoeging 
+
+6. Het systeem slaat de subvloot op in de databank
 
 
 **Pre-condities:**
@@ -23,3 +25,10 @@
 
 **Post-condities:**
 De subvloot is klaar om er voertuigen aan toe te voegen.
+
+**Alternatieve flow:**
+
+* (5) De medewerker annuleert de toevoeging
+
+  a. Het systeem sluit het toevoegproces af
+  
