@@ -23,10 +23,3 @@
 
 **Post-condities:**
 De subvloot is klaar om er voertuigen aan toe te voegen.
-
-**Alternatieve flow:**
-* (5). De klant heeft al reeds een vloot van dat voertuigtype
-
-&nbsp;&nbsp;&nbsp;&nbsp; a. Het systeem toont een foutmelding, met de mogelijkheid om het voertuigtype aan te passen
-
-&nbsp;&nbsp;&nbsp;&nbsp; b. Ga naar (5)
