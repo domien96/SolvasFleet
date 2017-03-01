@@ -1,25 +1,18 @@
 # Frontend
 
-## Gebruike technologien
+## Installation Guide
 
-### [https://www.typescriptlang.org/](Typescript)
+Make sure you have [https://nodejs.org/en/](NodeJS).
+Run the following command to install all modules.
 
->> TypeScript is a typed superset of JavaScript that compiles to plain JavaScript.
+`npm install`
 
-Javascript met types!
+Om de site te builden in production gebruik je
+`npm run build`
 
-### [https://facebook.github.io/react/](React)
+Indien je in development wilt werken, gebruik je
+`npm run dev`
+Dit commando blijft runnen, en zal je changes automatisch hercompileren.
 
->> A javascript library for building user interfaces
-
-Library om gemakkelijk interfaces te bouwen. Definieer de components en hoe ze eruit zien,
-React zorgt ervoor dat ze up to date blijven.
-
-### [http://backbonejs.org/](Backbone)
-
-Modellen in javascript om de data bij te houden.
-
-### [https://webpack.github.io/](Webpack)
-
-Module bundler. Staat toe om de javascript files te bundlen tot 1 enkele output file.
-Npm-modules kunnen ook gebruikt worden.
+In beide gevallen krijg je een public directory, met daarin een `index.html`, 
+een `bundle.js` en een `bundle.css`. Open deze in de browser, en voila!
