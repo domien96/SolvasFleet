@@ -9,19 +9,19 @@ Tijd: 17:25-18:00
 
 * Server
  * Problemen wachtwoord voor op de server te gaan is opgelost
- * Er zal een Jenkins login gegeven worden aan de leden met read rechten
+ * Er zal een Jenkins login gegeven worden aan de leden met lees rechten
  
  
 * Api
  * Meeting api is nog niet gebeurd
  
-* Verantwoordenlijkheden zijn nog niet vastgelegd, maar zal overtijd beslist worden
+* Verantwoordenlijkheden zijn nog niet vastgelegd, maar zal overtijd gebeuren
 
 * Deadline: uit ervaring van de laatse deadline hebben we beslist
- * Zondagavond 12/03/17: Milestone 1 zo goed af als buiten enkel kleine bugs
+ * Zondagavond 12/03/17: Milestone 1 moet zo goed af zijn, buiten enkel kleine bugs
  * Maandagavond 13/03/17: Milestone 1 af
 
-* Wanneer een groepslid een weeken niet bereikbaar is laat hij dit weten.
+* Wanneer een groepslid een weekend niet bereikbaar is laat hij dit weten.
 
 ##Technologien
 * Data
