@@ -11,8 +11,17 @@ public class HomeController {
  
     @RequestMapping("/")
     public String index() {
-        //return (new ManageCompany()).addCompany("Ethias", "test")+"";
-        return (new Dao<Company>()).find(2).getName();
+        Dao<Company> companyDao = new Dao<>(Company.class);
+
+        companyDao.save(new Company("Ethias", "nummer"));
+
+        Company c = companyDao.find(1 );
+
+        c.setName("KBC");
+        companyDao.save(c);
+        //companyDao.destroy(c);
+
+        return c.getName();
     }
  
 }

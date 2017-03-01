@@ -4,12 +4,17 @@ import org.springframework.core.GenericTypeResolver;
 import solvas.models.Company;
 import solvas.models.Model;
 
-public class Dao<T extends Model> {
+public class Dao<T> {
+    private final Class<T> type;
+
+    public Dao(Class<T> type) {
+        this.type = type;
+    }
 
     public T save(T model) {
-       createConnection().run(
-               new NoResultQuery(s -> s.saveOrUpdate(model))
-       );
+        createConnection().run(
+                new NoResultQuery(s -> s.saveOrUpdate(model))
+        );
 
         return model;
     }
@@ -24,9 +29,8 @@ public class Dao<T extends Model> {
     }
 
     public T find(int id) {
-        // Casts for everyone!
         return createConnection().run(
-                s -> (T) s.get(GenericTypeResolver.resolveTypeArgument(getClass(), Dao.class), id)
+                s -> (T) s.get(type, id)
         );
     }
 

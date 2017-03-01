@@ -12,7 +12,7 @@ import solvas.models.Company;
 /**
  * Created by david on 3/1/17.
  */
-public class DatabaseConnection implements AutoCloseable {
+public class DatabaseConnection {
     private static SessionFactory factory;
 
     static {
@@ -22,7 +22,7 @@ public class DatabaseConnection implements AutoCloseable {
         factory = new Configuration().configure().buildSessionFactory(registry);
     }
 
-    public <Return> Return run(Query<Return> query) {
+    <Return> Return run(Query<Return> query) {
         Session session = factory.openSession();
 
         Return result = null;
@@ -30,8 +30,7 @@ public class DatabaseConnection implements AutoCloseable {
 
         try {
             tx = session.beginTransaction();
-            //result = query.run(session);
-            result = (Return) session.get(Company.class, 2);
+            result = query.run(session);
             tx.commit();
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
@@ -40,10 +39,5 @@ public class DatabaseConnection implements AutoCloseable {
             session.close();
         }
         return result;
-    }
-
-    @Override
-    public void close() throws Exception {
-
     }
 }
