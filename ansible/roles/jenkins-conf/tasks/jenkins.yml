@@ -8,3 +8,4 @@
     - git
     - gradle
     - github
+    - ghprb # Github pull request builder

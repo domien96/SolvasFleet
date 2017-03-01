@@ -11,3 +11,7 @@
       url: http://localhost:8081/jenkins/
       url_username: admin
       url_password: "{{ admin_password.stdout }}"
+
+- name: Install postfix
+  apt:
+    name: postfix
