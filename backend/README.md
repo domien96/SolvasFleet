@@ -4,4 +4,4 @@
 * Java Spring (Obligatory)
 * JUnit
 * Hibernate
-* Query language: GraphQL (JSON style ipv raw SQL)
+* API query language: GraphQL (replaces JSON)
