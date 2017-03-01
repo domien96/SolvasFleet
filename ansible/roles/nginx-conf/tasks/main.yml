@@ -1,4 +1,18 @@
 ---
+
+- name: install python passlib
+  apt:
+    name: python-passlib
+
+- name: create htpasswd entry
+  htpasswd:
+    path: /etc/nginx/htpasswd
+    name: vopro6
+    password: "{{ htpassword }}"
+    owner: root
+    group: www-data
+    mode: 0640
+
 - name: configure NGINX
   template:
     src: etc/nginx/sites-enabled/website.conf
