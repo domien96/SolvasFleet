@@ -1,11 +1,16 @@
 import React from 'react';
 
-class AwesomeComponent extends React.Component {
+import AwesomeState from '../types/AwesomeState';
+import { INITIAL_LIKES } from '../constants/constants.ts';
+import { uuid } from '../utils/utils.ts';
 
-  constructor(props) {
+class AwesomeComponent extends React.Component<{}, AwesomeState> {
+
+  constructor(props:{}) {
     super(props);
-    this.state = {likesCount : 0};
-    this.onLike = this.onLike.bind(this);
+    console.log(uuid());
+    this.state = {likesCount : INITIAL_LIKES as any};
+    this.onLike = this.onLike.bind(this)
   }
 
   onLike () {

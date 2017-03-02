@@ -8,7 +8,7 @@ var APP_DIR   = path.resolve(__dirname, 'src');
 
 var config = {
   entry: {
-    javascript: APP_DIR + '/javascripts/index.jsx',
+    javascript: APP_DIR + '/javascripts/index.tsx',
   },
   output: {
     path: BUILD_DIR,
@@ -17,9 +17,9 @@ var config = {
   module: {
     loaders : [
       {
-        test : /\.jsx?/,
+        test : /\.tsx?/,
         include : APP_DIR,
-        loader : 'babel-loader'
+        use: [ { loader : 'babel-loader' }, { loader: 'ts-loader'}]
       },
       {
         test: /\.scss$/,
