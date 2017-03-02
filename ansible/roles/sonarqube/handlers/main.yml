@@ -1,0 +1,15 @@
+---
+- name: restart sonarqube
+  systemd:
+    name: sonar
+    state: restarted
+
+- name: reload sonarqube
+  systemd:
+    name: sonar
+    state: reloaded
+
+- name: start sonarqube
+  systemd:
+    name: sonar
+    state: started
