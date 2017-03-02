@@ -3,8 +3,7 @@ package solvas.models;
 /**
  * Created by david on 3/1/17.
  */
-public class Company {
-    private int id;
+public class Company extends Model {
     private String name;
     private String vat;
 
@@ -29,13 +28,5 @@ public class Company {
 
     public void setVat(String vat) {
         this.vat = vat;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 }
