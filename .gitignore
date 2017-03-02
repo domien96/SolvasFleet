@@ -1,6 +1,7 @@
 .~lock.*.ods#
 
 /ansible/.vault-password
+/ansible/playbook.retry
 
 .gradle
 build/
