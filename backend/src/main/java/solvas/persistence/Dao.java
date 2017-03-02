@@ -6,6 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import java.util.Collection;
+
 /**
  * Generic DAO for basic operations.
  *
@@ -61,6 +66,16 @@ public class Dao {
      */
     public <T> T find(Class<T> clazz, int id) {
         return run(s -> s.get(clazz, id));
+    }
+
+    public <T> Collection<T> findAll(Class<T> clazz) {
+        return run(s -> {
+            CriteriaBuilder builder = s.getCriteriaBuilder();
+            CriteriaQuery<T> criteriaQuery = builder.createQuery(clazz);
+            Root<T> root = criteriaQuery.from(clazz);
+            criteriaQuery.select(root);
+            return s.createQuery(criteriaQuery).getResultList();
+        });
     }
 
     /**
