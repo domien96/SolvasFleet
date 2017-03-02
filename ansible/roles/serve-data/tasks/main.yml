@@ -1,0 +1,22 @@
+---
+
+- name: create documentation user
+  user:
+    name: documentation
+    groups: keyslaves
+    append: true
+    shell: /bin/bash
+
+- name: create /srv/documentation folder
+  file:
+    path: /srv/documentation
+    mode: 0750
+    owner: documentation
+    group: documentation
+    state: directory
+
+- name: add www-data to documentation group
+  user:
+    name: www-data
+    groups: documentation
+    append: true

@@ -1,0 +1,20 @@
+---
+
+- name: Create keyslaves group
+  group:
+    name: keyslaves
+
+- name: Create file for master public keys
+  copy:
+    content: ""
+    dest: /etc/ssh/authorized_master_keys
+    force: no # Don't overwrite file with changes, only create if nonexistent
+
+- name: Allow master key auth for keyslaves
+  blockinfile:
+    dest: /etc/ssh/sshd_config
+    block: |
+      Match Group keyslaves
+        AuthorizedKeysFile      %h/.ssh/authorized_keys /etc/ssh/authorized_master_keys
+
+
