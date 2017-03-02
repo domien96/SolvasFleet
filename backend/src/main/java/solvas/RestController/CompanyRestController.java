@@ -10,7 +10,7 @@ import java.net.URI;
 import java.util.Collection;
 import java.util.HashMap;
 
-
+//Visit @ http://localhost:8080/companies
 @RestController
 public class CompanyRestController {
 
@@ -43,16 +43,12 @@ public class CompanyRestController {
     @RequestMapping(value = "/companies",method = RequestMethod.POST)
     ResponseEntity<?> addCompany(@RequestBody Company input) {
         //Post message met aplication/json {"name":"comp4","vat":"4"}
-        //this.validateUser(userId);
         System.out.println("id="+input.getId());
         System.out.println("name="+input.getName());
         System.out.println("vat="+input.getVat());
 
 
         if (input.getName()!=null && input.getVat() != null){
-            URI location = ServletUriComponentsBuilder
-                    .fromCurrentRequest().path("/{id}")
-                    .buildAndExpand(input.getId()).toUri();
             input.setId(id++);
             companies.put(input.getId(),input);
             return new ResponseEntity<>(HttpStatus.OK);
