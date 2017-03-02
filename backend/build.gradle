@@ -1,0 +1,38 @@
+buildscript {
+    repositories {
+        maven { url "http://repo.spring.io/libs-snapshot" }
+        mavenLocal()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.0.1.RELEASE")
+    }
+}
+ 
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+ 
+jar {
+    baseName = 'SolvasFleet'
+    version =  '0.1.0'
+    mainClassName = "solvas.Application"
+}
+ 
+repositories {
+    mavenCentral()
+    maven { url "http://repo.spring.io/libs-snapshot" }
+}
+ 
+dependencies {
+    compile "org.springframework.boot:spring-boot-starter-web"
+    compile "org.hibernate:hibernate-core:4.3.6.Final"
+    compile "org.postgresql:postgresql:9.4-1201-jdbc41"
+
+    testCompile "junit:junit"
+}
+ 
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.11'
+}
+
