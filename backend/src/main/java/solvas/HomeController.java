@@ -1,23 +1,26 @@
 package solvas;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import solvas.database.Dao;
+import solvas.persistence.Dao;
 import solvas.models.Company;
 
 @RestController
 public class HomeController {
+
+    @Autowired
+    private Dao dao;
  
     @RequestMapping("/")
     public String index() {
-        Dao<Company> companyDao = new Dao<>(Company.class);
 
-        companyDao.save(new Company("Ethias", "nummer"));
+        dao.save(new Company("Ethias", "nummer"));
 
-        Company c = companyDao.find(1 );
+        Company c = dao.find(Company.class, 1);
 
         c.setName("KBC");
-        companyDao.save(c);
+        dao.save(c);
         //companyDao.destroy(c);
 
         return c.getName();
