@@ -1,5 +1,7 @@
 .~lock.*.ods#
 
+/ansible/.vault-password
+/ansible/*.retry
 
 .gradle
 build/
@@ -20,3 +22,4 @@ gradle-app.setting
 *.iws
 /backend/out/
 .idea
+/backend/backend.iml

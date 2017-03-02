@@ -1,0 +1,27 @@
+---
+
+- name: Install python-software-properties
+  apt:
+    name: python-software-properties
+
+- name: Install python-pycurl
+  apt:
+    name: python-pycurl
+
+- name: Add jenkins apt-key
+  apt_key:
+    data: "{{ lookup('file', 'jenkins-ci.org.key') }}"
+
+- name: Add Jenkins repository
+  apt_repository:
+    repo: deb http://pkg.jenkins.io/debian-stable binary/
+
+- name: Install Jenkins
+  apt:
+    name: jenkins
+
+- name: Configure Jenkins
+  copy:
+    src: etc/default/jenkins
+    dest: /etc/default/jenkins
+  notify: restart jenkins

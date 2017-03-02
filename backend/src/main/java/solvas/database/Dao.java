@@ -1,9 +1,5 @@
 package solvas.database;
 
-import org.springframework.core.GenericTypeResolver;
-import solvas.models.Company;
-import solvas.models.Model;
-
 public class Dao<T> {
     private final Class<T> type;
 

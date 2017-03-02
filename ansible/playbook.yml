@@ -1,0 +1,11 @@
+---
+- hosts: all
+  roles:
+    #  - role: tomcat8
+      - role: nginx-conf
+    #  - role: jenkins-conf
+    #  - role: serve-data
+      - role: sonarqube
+  vars_files:
+    - vars/passwords.yml
+    - vars/common.yml

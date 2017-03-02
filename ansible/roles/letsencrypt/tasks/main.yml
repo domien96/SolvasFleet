@@ -1,0 +1,30 @@
+---
+- name: install Letsencrypt
+  apt:
+    name: letsencrypt
+    state: present
+    update_cache: true
+
+- name: make directory for Letsencrypt
+  file:
+    path: /srv/letsencrypt
+    owner: www-data
+    group: www-data
+    mode: 0750
+    state: directory
+
+- name: setup Letsencrypt renewal
+  # Run once a day, at a randomly generated time to avoid overloading
+  # their servers
+  cron:
+    minute: 37
+    hour: 6
+    job: letsencrypt renew
+    name: letsencrypt auto-renewal
+
+- stat:
+    path: /etc/letsencrypt/live/{{ domain_name }}/cert.pem
+  register: domain_cert
+
+- include: request_cert.yml
+  when: domain_cert.stat.exists == False
