@@ -1,0 +1,17 @@
+body {
+  padding: 10px;
+}
+
+.login-form-wrapper {
+  border-color: #ddd;
+  border-width: 1px;
+  border-radius: 4px;
+  border-style: solid;
+  padding: 15px;
+
+  .login-form {
+    .error {
+      border-color: red;
+    }
+  }
+}
