@@ -1,0 +1,1 @@
+vop6 ansible_ssh_host=vopro6.ugent.be ansible_ssh_port=2002

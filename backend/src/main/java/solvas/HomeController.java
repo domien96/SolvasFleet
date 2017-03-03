@@ -1,27 +1,32 @@
 package solvas;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import solvas.database.Dao;
 import solvas.models.Company;
-import solvas.models.ManageCompany;
+import solvas.persistence.company.CompanyDao;
+
+import java.util.Collection;
 
 @RestController
 public class HomeController {
+
+    @Autowired
+    private CompanyDao dao;
  
     @RequestMapping("/")
-    public String index() {
-        Dao<Company> companyDao = new Dao<>(Company.class);
+    public Collection<Company> index() {
 
-        companyDao.save(new Company("Ethias", "nummer"));
-
-        Company c = companyDao.find(1 );
-
+        String ethias = "Ethias";
+        dao.save(new Company(ethias, "nummer"));
+        Company c = dao.find(1);
         c.setName("KBC");
-        companyDao.save(c);
+        dao.save(c);
         //companyDao.destroy(c);
 
-        return c.getName();
+        // Should not contain ethias company.
+
+        return dao.withName(ethias);
     }
  
 }
