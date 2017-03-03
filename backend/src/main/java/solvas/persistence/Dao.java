@@ -1,14 +1,5 @@
 package solvas.persistence;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import java.util.Collection;
 
 /**
@@ -17,19 +8,7 @@ import java.util.Collection;
  * @author Niko Strijbol
  * @author david
  */
-@Repository
-@Transactional
-public class Dao {
-
-    @Autowired
-    private SessionFactory sessionFactory;
-
-    /**
-     * @return The database session. This is managed by Spring, so no need to close.
-     */
-    protected Session getSession() {
-        return sessionFactory.getCurrentSession();
-    }
+public interface Dao {
 
     /**
      * Save or update a model.
@@ -38,10 +17,7 @@ public class Dao {
      *
      * @return The model.
      */
-    public <T> T save(T model) {
-        run(Query.empty(s -> s.saveOrUpdate(model)));
-        return model;
-    }
+    <T> T save(T model);
 
     /**
      * Destroy a model.
@@ -50,10 +26,7 @@ public class Dao {
 
      * @return The model.
      */
-    public <T> T destroy(T model) {
-        run(Query.empty(s -> s.delete(model)));
-        return model;
-    }
+    <T> T destroy(T model);
 
     /**
      * Find a model by id.
@@ -64,28 +37,14 @@ public class Dao {
      *
      * @return The model.
      */
-    public <T> T find(Class<T> clazz, int id) {
-        return run(s -> s.get(clazz, id));
-    }
-
-    public <T> Collection<T> findAll(Class<T> clazz) {
-        return run(s -> {
-            CriteriaBuilder builder = s.getCriteriaBuilder();
-            CriteriaQuery<T> criteriaQuery = builder.createQuery(clazz);
-            Root<T> root = criteriaQuery.from(clazz);
-            criteriaQuery.select(root);
-            return s.createQuery(criteriaQuery).getResultList();
-        });
-    }
+    <T> T find(Class<T> clazz, int id);
 
     /**
-     * Run a query.
+     * Find all objects of a certain type.
      *
-     * @param query The query to run.
+     * @param clazz The class of the objects to find.
      *
-     * @return The result of the query.
+     * @return A collection containing all objects.
      */
-    private <T> T run(Query<T> query) {
-        return query.run(getSession());
-    }
+    <T> Collection<T> findAll(Class<T> clazz);
 }
