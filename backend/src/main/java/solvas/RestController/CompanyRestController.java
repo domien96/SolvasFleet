@@ -3,10 +3,8 @@ package solvas.RestController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import solvas.models.Company;
 
-import java.net.URI;
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -36,8 +34,14 @@ public class CompanyRestController {
     }
 
     @RequestMapping(value = "/companies/{companyId}", method = RequestMethod.GET)
-    Company getCompany(@PathVariable String companyId){
-        return companies.get(Integer.valueOf(companyId));
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    ResponseEntity<?> getCompany(@PathVariable String companyId) {
+        Company company = companies.get(Integer.valueOf(companyId));
+        if(company == null) {
+            // TODO: make 404's have proper JSON bodies
+            return new ResponseEntity<>("not found", HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(company, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/companies",method = RequestMethod.POST)
