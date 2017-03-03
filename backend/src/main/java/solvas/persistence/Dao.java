@@ -7,6 +7,7 @@ import java.util.Collection;
  *
  * @author Niko Strijbol
  * @author david
+ * @param <T> Model of Dao
  */
 public interface Dao<T> {
 

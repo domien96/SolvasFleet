@@ -17,7 +17,8 @@ public class HomeController {
     @RequestMapping("/")
     public Collection<Company> index() {
 
-        dao.save(new Company("Ethias", "nummer"));
+        String ethias = "Ethias";
+        dao.save(new Company(ethias, "nummer"));
         Company c = dao.find(1);
         c.setName("KBC");
         dao.save(c);
@@ -25,7 +26,7 @@ public class HomeController {
 
         // Should not contain ethias company.
 
-        return dao.withName("Ethias");
+        return dao.withName(ethias);
     }
  
 }

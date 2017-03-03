@@ -20,6 +20,9 @@ import java.util.Collection;
 @Transactional
 public class HibernateCompanyDao extends HibernateDao<Company> implements CompanyDao {
 
+    /**
+     * Hibernate implementation for Company.
+     */
     public HibernateCompanyDao() {
         super(Company.class);
     }

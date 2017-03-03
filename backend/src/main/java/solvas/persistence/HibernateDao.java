@@ -13,6 +13,7 @@ import java.util.Collection;
 
 /**
  * DAO implementation for use with Hibernate.
+ * @param <T> Model 
  */
 @Repository
 @Transactional
