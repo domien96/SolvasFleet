@@ -1,18 +1,8 @@
+require('../stylesheets/index.scss');
+
 import React from 'react';
 import { render } from 'react-dom';
 
-import AwesomeComponent from './components/AwesomeComponent.tsx';
+import Login from './components/Login.tsx';
 
-class App extends React.Component<{}, {}> {
-  render () {
-    return (
-      <div>
-        <h3>Solvas Flaat</h3>
-        <p>Hello Jij!</p>
-        <AwesomeComponent />
-      </div>
-    );
-  }
-}
-
-render(<App/>, document.getElementById('app'));
+render(<Login url = 'localhost:8000'/>, document.getElementById('app'));

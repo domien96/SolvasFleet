@@ -18,5 +18,8 @@
     "preserveConstEnums": true,
     "sourceMap": true,
     "skipLibCheck": true
-  }
+  },
+  "files": [
+    "type_declarations/Require.d.ts"
+  ]
 }
