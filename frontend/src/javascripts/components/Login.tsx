@@ -5,8 +5,8 @@ import classNames from 'classnames';
 class Field extends React.Component<LoginField, {}> {
   render() {
     return (
-      <div>
-        <input type={ this.props.field} placeholder={ this.props.field } className={ classNames({ error: this.props.hasError }) } onChange= { this.props.callback } />
+      <div className='form-group'>
+        <input type={ this.props.field} placeholder={ this.props.field } className={ classNames({ error: this.props.hasError }, 'form-control') } onChange= { this.props.callback } />
       </div>
     )
   }
@@ -59,12 +59,18 @@ class Login extends React.Component<LoginProps, LoginState> {
 
   render() {
     return (
-      <div>
-        <form onSubmit={this.onSubmit} className='login-form' >
-          <Field field='email'    type='text'     callback={ this.handleEmailChange    } hasError={ this.hasError('email')}    />
-          <Field field='password' type='password' callback={ this.handlePasswordChange } hasError={ this.hasError('password')} />
-          <input type='submit' value='Login' />
-        </form>
+      <div className='container'>
+        <div className='row'>
+          <div className='col-xs-12 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4'>
+            <div className='login-form-wrapper'>
+              <form method='POST' onSubmit={this.onSubmit} className='login-form' >
+                <Field field='email'    type='text'     callback={ this.handleEmailChange    } hasError={ this.hasError('email')}    />
+                <Field field='password' type='password' callback={ this.handlePasswordChange } hasError={ this.hasError('password')} />
+                <input type='submit' value='Login' className='btn btn-default' />
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
