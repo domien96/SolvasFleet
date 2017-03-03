@@ -4,7 +4,7 @@ import classNames from 'classnames';
 export default class FormField extends React.Component<LoginField, {}> {
   public errors() : string {
     return classNames(
-      { error: this.props.hasError }, 
+      { 'has-error': this.props.hasError }, 
       'form-control'
     );
   }

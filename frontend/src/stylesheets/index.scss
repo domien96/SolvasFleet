@@ -10,7 +10,8 @@ body {
   padding: 15px;
 
   .login-form {
-    .error {
+    .has-error {
+      color: red;
       border-color: red;
     }
   }
