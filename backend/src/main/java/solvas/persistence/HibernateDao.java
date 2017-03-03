@@ -11,7 +11,9 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.Collection;
 
-
+/**
+ * DAO implementation for use with Hibernate.
+ */
 @Repository
 @Transactional
 public class HibernateDao implements Dao {

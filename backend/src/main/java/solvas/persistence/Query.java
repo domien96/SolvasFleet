@@ -4,9 +4,19 @@ import org.hibernate.Session;
 
 import java.util.function.Consumer;
 
+/**
+ * A query to get data.
+ */
 @FunctionalInterface
 public interface Query<R> {
 
+    /**
+     * Execute the query to produce a result.
+     *
+     * @param s The session on which the query must be run.
+     *
+     * @return The result of the query.
+     */
     R run(Session s);
 
     /**
