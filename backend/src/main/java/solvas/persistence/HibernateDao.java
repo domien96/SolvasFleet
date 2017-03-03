@@ -16,10 +16,16 @@ import java.util.Collection;
  */
 @Repository
 @Transactional
-public class HibernateDao implements Dao {
+public abstract class HibernateDao<T> implements Dao<T> {
 
     @Autowired
     private SessionFactory sessionFactory;
+
+    private final Class<T> clazz;
+
+    protected HibernateDao(Class<T> clazz) {
+        this.clazz = clazz;
+    }
 
     /**
      * @return The database session. This is managed by Spring, so no need to close.
@@ -29,24 +35,24 @@ public class HibernateDao implements Dao {
     }
 
     @Override
-    public <T> T save(T model) {
+    public T save(T model) {
         run(Query.empty(s -> s.saveOrUpdate(model)));
         return model;
     }
 
     @Override
-    public <T> T destroy(T model) {
+    public T destroy(T model) {
         run(Query.empty(s -> s.delete(model)));
         return model;
     }
 
     @Override
-    public <T> T find(Class<T> clazz, int id) {
+    public T find(int id) {
         return run(s -> s.get(clazz, id));
     }
 
     @Override
-    public <T> Collection<T> findAll(Class<T> clazz) {
+    public Collection<T> findAll() {
         return run(s -> {
             CriteriaBuilder builder = s.getCriteriaBuilder();
             CriteriaQuery<T> criteriaQuery = builder.createQuery(clazz);
@@ -63,7 +69,7 @@ public class HibernateDao implements Dao {
      *
      * @return The result of the query.
      */
-    private <T> T run(Query<T> query) {
+    protected <R> R run(Query<R> query) {
         return query.run(getSession());
     }
 }

@@ -8,7 +8,7 @@ import java.util.Collection;
  * @author Niko Strijbol
  * @author david
  */
-public interface Dao {
+public interface Dao<T> {
 
     /**
      * Save or update a model.
@@ -17,7 +17,7 @@ public interface Dao {
      *
      * @return The model.
      */
-    <T> T save(T model);
+    T save(T model);
 
     /**
      * Destroy a model.
@@ -26,25 +26,21 @@ public interface Dao {
 
      * @return The model.
      */
-    <T> T destroy(T model);
+    T destroy(T model);
 
     /**
      * Find a model by id.
-     *
-     * @param clazz The class of the model.
      *
      * @param id The ID of the model.
      *
      * @return The model.
      */
-    <T> T find(Class<T> clazz, int id);
+    T find(int id);
 
     /**
      * Find all objects of a certain type.
      *
-     * @param clazz The class of the objects to find.
-     *
      * @return A collection containing all objects.
      */
-    <T> Collection<T> findAll(Class<T> clazz);
+    Collection<T> findAll();
 }
