@@ -1,6 +1,7 @@
 package solvas.persistence;
 
 import org.hibernate.cfg.AvailableSettings;
+import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,6 +34,9 @@ public class HibernateConfig {
     @Autowired
     private Environment env;
 
+    @Autowired
+    private ResourceLoader rl;
+
     @Bean
     public DataSource getDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -43,22 +47,10 @@ public class HibernateConfig {
         return dataSource;
     }
 
-
-    @Autowired
-    private ResourceLoader rl;
-
-    private Resource[] loadResources() {
-        Resource[] resources = null;
-        try {
-            resources = ResourcePatternUtils.getResourcePatternResolver(rl)
-                    .getResources("classpath:/mappings/*.hbm.xml");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return resources;
+    private Resource[] loadResources() throws IOException {
+        return ResourcePatternUtils.getResourcePatternResolver(rl)
+                .getResources("classpath:/mappings/*.hbm.xml");
     }
-
-
 
     /**
      * The session factory bean. Spring manages everything for us.
@@ -70,9 +62,13 @@ public class HibernateConfig {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(getDataSource());
         sessionFactory.setHibernateProperties(getHibernateProperties());
-        // Automatically load mappings.
-        sessionFactory.setMappingLocations(loadResources());
-        return sessionFactory;
+        try {
+            // Automatically load mappings.
+            sessionFactory.setMappingLocations(loadResources());
+            return sessionFactory;
+        } catch (IOException e) {
+            throw new BeanCreationException("sessionFactory", e);
+        }
     }
 
     /**
