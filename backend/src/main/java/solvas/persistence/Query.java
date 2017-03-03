@@ -6,6 +6,8 @@ import java.util.function.Consumer;
 
 /**
  * A query to get data.
+ *
+ * @param <R> The return value of the query.
  */
 @FunctionalInterface
 public interface Query<R> {
@@ -20,7 +22,10 @@ public interface Query<R> {
     R run(Session s);
 
     /**
-     * Modify the query to discard the result.
+     * Modify the query to discard the result. It actually converts a {@link Consumer} to a {@link Query},
+     * but conceptually a Consumer can be thought of as a Query without return value.
+     *
+     * @param query The query to execute.
      *
      * @return The query, but without result.
      */
