@@ -1,5 +1,6 @@
 /// <reference path="../types/interfaces.d.ts"/>
 import React from 'react';
+import T from 'i18n-react';
 
 import FormField from './FormField.tsx';
 
@@ -58,7 +59,9 @@ class Login extends React.Component<LoginProps, LoginState> {
               <form method='POST' onSubmit={this.onSubmit} className='login-form' >
                 <FormField field='email'    type='text'     callback={ this.handleEmailChange    } hasError={ this.hasError('email')}    />
                 <FormField field='password' type='password' callback={ this.handlePasswordChange } hasError={ this.hasError('password')} />
-                <input type='submit' value='Login' className='btn btn-default' />
+                <button type='submit' className='btn btn-default' >
+                  <T.text tag='span' text='submit' />
+                </button>
               </form>
             </div>
           </div>
