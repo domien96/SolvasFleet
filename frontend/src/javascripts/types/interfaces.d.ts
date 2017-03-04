@@ -24,3 +24,17 @@ interface FormError {
   error : string;
 }
 
+/* Add Company */
+
+interface CompanyProps{
+  url : string;
+}
+
+interface CompanyState{
+  errors : FormError[];
+  name : string;
+  vat_number : string;
+  phone_number : string;
+  address : string;
+}
+
