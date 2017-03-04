@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 public class Vehicletype extends Model {
     private String name;
 
-    private Timestamp created_at;
-    private Timestamp updated_at;
+    private Timestamp createdAt;
+    private Timestamp updatedAt;
     //todo : finish this class and its mapping
 }
