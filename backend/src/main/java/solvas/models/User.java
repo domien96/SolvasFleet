@@ -15,6 +15,15 @@ public class User extends Model {
     private Timestamp updatedAt; //move to Model?
     private String url;
 
+
+    /**
+     * TODO remove
+     * @param firstName TODO
+     * @param lastName TODO
+     * @param email TODO
+     * @param password TODO
+     * @param url TODO
+     */
     public User(String firstName, String lastName, String email, String password, String url) {
         this.firstName = firstName;
         this.lastName = lastName;

@@ -20,6 +20,19 @@ public class Vehicle extends Model {
     private Timestamp updatedAt;
     private String url;
 
+    /**
+     * TODO perhapse remove
+     * @param licensePlate TODO
+     * @param chassisNumber TODO
+     * @param model TODO
+     * @param type TODO
+     * @param kilometerCount TODO
+     * @param year TODO
+     * @param leasingCompany TODO
+     * @param value TODO
+     * @param company TODO
+     * @param url TODO
+     */
     public Vehicle(String licensePlate, String chassisNumber, String model, String type, int kilometerCount, int year,
                    Company leasingCompany, int value, Company company, String url) {
         this.licensePlate = licensePlate;

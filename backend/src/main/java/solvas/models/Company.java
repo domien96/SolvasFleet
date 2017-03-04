@@ -16,6 +16,14 @@ public class Company extends Model {
     private Timestamp updatedAt;
     private String url;
 
+    /**
+     * TODO perhaps remove
+     * @param name TODO
+     * @param vatNumber TODO
+     * @param phoneNumber TODO
+     * @param address TODO
+     * @param url TODO
+     */
     public Company(String name, String vatNumber, String phoneNumber, String address, String url) {
         this.name = name;
         this.vatNumber = vatNumber;
@@ -102,6 +110,6 @@ public class Company extends Model {
             this.updatedAt = Timestamp.valueOf(LocalDateTime.now()); //Should be updated by db
             this.url = input.url;
             return this;
-        } else return null; //replace by error
+        } else {return null;} //replace by error
     }
 }

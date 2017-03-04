@@ -6,7 +6,7 @@ import solvas.persistence.Dao;
 
 /**
  * Abstract Rest controller to minimize code duplication
- *
+ * @param T abstract dao
  */
 public abstract class AbstractRestController<T> {
 
