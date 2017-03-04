@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.*;
 import solvas.models.Company;
 import solvas.persistence.company.CompanyDao;
 
+
 import java.util.Collection;
 
 
 /**
  * Visit @ http://localhost:8080/companies
- *
  */
 @RestController
 public class CompanyRestController {
@@ -26,8 +26,8 @@ public class CompanyRestController {
     }
 
     @RequestMapping(value = "/companies",method = RequestMethod.GET)
-    Collection<Company> getCompanies(){
-        return dao.findAll();
+    ResponseEntity<?> getCompanies(){
+        return new ResponseEntity<>(dao.findAll(),HttpStatus.ACCEPTED);
     }
 
 
@@ -35,14 +35,20 @@ public class CompanyRestController {
     ResponseEntity<?> putCompanies(@RequestBody Company input){
         //http://stackoverflow.com/questions/797834/should-a-restful-put-operation-return-something
         Company update = dao.find(input.getId());
-        HttpStatus status;
+        ResponseEntity<?> responseEntity;
+        String body ="";
         if (update==null){
-            update = dao.save(input);
-            status = HttpStatus.OK;
+            dao.save(input);
+            return new ResponseEntity<>(HttpStatus.CREATED);
         } else {
+            if ((update = update.update(input))!=null) {
+                dao.save(update);
+                //status = HttpStatus.OK;
 
+            }
+            //else appropiat return code
         }
-        return null; // TODO fix return
+        return new ResponseEntity<>(body,HttpStatus.BAD_REQUEST);
     }
 
 

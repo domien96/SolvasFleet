@@ -1,6 +1,7 @@
 package solvas.models;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 /**
  * Created by steve on 04/03/2017.
@@ -14,15 +15,17 @@ public class User extends Model {
     private Timestamp updated_at; //move to Model?
     private String url;
 
-    public User(String first_name, String last_name, String email, String password, Timestamp created_at,
-                Timestamp updated_at, String url) {
+    public User(String first_name, String last_name, String email, String password, String url) {
         this.first_name = first_name;
         this.last_name = last_name;
         this.email = email;
         this.password = password;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
+        Timestamp current_time= Timestamp.valueOf(LocalDateTime.now());
+        this.created_at = current_time; //problems http://stackoverflow.com/questions/2635046/set-creation-and-update-time-with-hibernate-in-xml-mappings
+        this.updated_at = current_time;
         this.url = url;
+    }
+    protected User() {
     }
 
     public String getFirst_name() {

@@ -1,6 +1,7 @@
 package solvas.models;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 /**
  * Created by steve on 04/03/2017.
@@ -17,16 +18,20 @@ public class Role extends Model {
     private Timestamp end_date;
     private String url; // calculate on th fly?
 
-    public Role(Company company, String function, User user, Timestamp created_at, Timestamp updated_at,
+    public Role(Company company, String function, User user,
                 Timestamp start_date, Timestamp end_date, String url) {
         this.company = company;
         this.function = function;
         this.user = user;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
+        Timestamp current_time= Timestamp.valueOf(LocalDateTime.now());
+        this.created_at = current_time; //problems http://stackoverflow.com/questions/2635046/set-creation-and-update-time-with-hibernate-in-xml-mappings
+        this.updated_at = current_time;
         this.start_date = start_date;
         this.end_date = end_date;
         this.url = url;
+    }
+
+    protected Role() {
     }
 
     public Company getCompany() {

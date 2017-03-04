@@ -1,9 +1,11 @@
 package solvas.models;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 /**
  * Created by david on 3/1/17.
+ * @author steven
  */
 public class Company extends Model {
     private String name;
@@ -14,15 +16,17 @@ public class Company extends Model {
     private Timestamp updated_at;
     private String url;
 
-    public Company(String name, String vat_number, String phone_number, String address, Timestamp created_at,
-                   Timestamp updated_at, String url) {
+    public Company(String name, String vat_number, String phone_number, String address, String url) {
         this.name = name;
         this.vat_number = vat_number;
         this.phone_number = phone_number;
         this.address = address;
-        this.created_at = created_at; //problems http://stackoverflow.com/questions/2635046/set-creation-and-update-time-with-hibernate-in-xml-mappings
-        this.updated_at = updated_at;
+        Timestamp current_time= Timestamp.valueOf(LocalDateTime.now());
+        this.created_at = current_time; //problems http://stackoverflow.com/questions/2635046/set-creation-and-update-time-with-hibernate-in-xml-mappings
+        this.updated_at = current_time; //Should be updated by db
         this.url = url;
+
+
     }
 
     protected Company() {
@@ -82,5 +86,18 @@ public class Company extends Model {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public Company update(Company input){
+        if (getId()==input.getId()) { //check variables for null
+            this.name = input.name;
+            this.vat_number = input.vat_number;
+            this.phone_number = input.phone_number;
+            this.address = input.address;
+            Timestamp current_time = Timestamp.valueOf(LocalDateTime.now());
+            this.updated_at = current_time; //Should be updated by db
+            this.url = input.url;
+            return this;
+        } else return null; //replace by error
     }
 }
