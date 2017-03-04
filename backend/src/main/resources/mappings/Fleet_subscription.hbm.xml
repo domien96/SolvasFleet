@@ -9,7 +9,7 @@
          This class contains the subscribed fleets detail.
       </meta>
       <id name="id" type="int" column="fleet_subscription_id">
-         <generator class="native"/>
+         <generator class="identity"/>
       </id>
 
        <property name="endDate" column="end_date" type="date"/>

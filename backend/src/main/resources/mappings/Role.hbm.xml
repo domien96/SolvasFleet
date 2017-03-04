@@ -9,7 +9,7 @@
          This class contains the Company detail.
       </meta>
       <id name="id" type="int" column="role_id">
-         <generator class="native"/>
+         <generator class="identity"/>
       </id>
 
        <property name="function" column="function" type="string"/>

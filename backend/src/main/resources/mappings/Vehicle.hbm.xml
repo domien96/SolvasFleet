@@ -9,15 +9,15 @@
          This class contains the Company detail.
       </meta>
       <id name="id" type="int" column="vehicle_id">
-         <generator class="native"/>
+         <generator class="identity"/>
       </id>
       <!--<property name="name" column="name" type="string"/>-->
 
-      <property name="licensePlate" column="licensePlate" type="string"/>
-       <property name="chassisNumber" column="chassisNumber" type="string"/>
+      <property name="licensePlate" column="license_plate" type="string"/>
+       <property name="chassisNumber" column="chassis_number" type="string"/>
        <property name="model" column="model" type="string"/>
        <property name="type" column="type" type="string"/>
-       <property name="kilometerCount" column="kilometerCount" type="int"/>
+       <property name="kilometerCount" column="kilometer_count" type="int"/>
        <property name="year" column="year" type="int"/>
 
        <many-to-one name="leasingCompany" column="leasing_company_id"

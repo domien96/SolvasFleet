@@ -31,9 +31,9 @@ create table vehicles (
   type varchar(255),
   kilometer_count int4,
   year int4,
-  leasing_company_id int4 REFERENCES companies(id),
+  leasing_company_id int4 REFERENCES companies(company_id),
   vat int4,
-  company_id int4 REFERENCES companies(id),
+  company_id int4 REFERENCES companies(company_id),
   updated_at timestamp,
   created_at timestamp,
   primary key (vehicle_id));
@@ -41,8 +41,8 @@ create table vehicles (
 create table roles (
   role_id  serial not null,
   function varchar(255),
-  company_id int4 REFERENCES companies(id),
-  user_id int4 REFERENCES users(id),
+  company_id int4 REFERENCES companies(company_id),
+  user_id int4 REFERENCES users(user_id),
   updated_at timestamp,
   created_at timestamp,
   primary key (role_id));

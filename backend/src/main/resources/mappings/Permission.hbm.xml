@@ -9,7 +9,7 @@
          This class contains the permissions detail.
       </meta>
       <id name="id" type="int" column="permission_id">
-         <generator class="native"/>
+         <generator class="identity"/>
       </id>
 
        <property name="name" column="name" type="string"/>

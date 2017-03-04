@@ -9,7 +9,7 @@
          This class contains the fleets detail.
       </meta>
       <id name="id" type="int" column="fleet_id">
-         <generator class="native"/>
+         <generator class="identity"/>
       </id>
 
        <property name="name" column="name" type="string"/>
