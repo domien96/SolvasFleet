@@ -6,6 +6,10 @@ import org.springframework.web.bind.annotation.*;
 import solvas.models.Role;
 import solvas.persistence.Role.RoleDao;
 
+
+/**
+ * Visit @ http://localhost:8080/roles
+ */
 @RestController
 public class RoleRestController extends AbstractRestController<Role> {
 

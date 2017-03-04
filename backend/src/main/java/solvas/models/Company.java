@@ -88,6 +88,11 @@ public class Company extends Model {
         this.url = url;
     }
 
+    /**
+     * TODO check if usefull
+     * @param input TODO
+     * @return TODO
+     */
     public Company update(Company input){
         if (getId()==input.getId()) { //check variables for null
             this.name = input.name;

@@ -3,6 +3,9 @@ package solvas.models;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+/**
+ * Models a vehicle
+ */
 public class Vehicle extends Model {
     private String licensePlate;
     private String chassisNumber; //can contain letters https://en.wikipedia.org/wiki/Vehicle_identification_number

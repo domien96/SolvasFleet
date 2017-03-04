@@ -8,6 +8,9 @@ import solvas.persistence.vehicle.VehicleDao;
 
 import java.util.Collection;
 
+/**
+ * Visit @ http://localhost:8080/vehicles
+ */
 @RestController
 public class VehicleRestController extends AbstractRestController<Vehicle> {
 

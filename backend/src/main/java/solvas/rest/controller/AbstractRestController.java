@@ -2,10 +2,12 @@ package solvas.rest.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 import solvas.persistence.Dao;
 
-
+/**
+ * Abstract Rest controller to minimize code duplication
+ *
+ */
 public abstract class AbstractRestController<T> {
 
     protected Dao<T> dao;
