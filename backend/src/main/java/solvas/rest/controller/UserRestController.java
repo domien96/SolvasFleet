@@ -4,16 +4,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import solvas.models.User;
-import solvas.models.Vehicle;
 import solvas.persistence.user.UserDao;
 
-import java.util.Collection;
-
-
+/**
+ *  Rest controller for User
+ */
 @RestController
 public class UserRestController extends AbstractRestController<User> {
 
-
+    /**
+     * Rest controller for User
+     * @param dao Autowired
+     */
     @Autowired
     public UserRestController(UserDao dao) {
         super(dao);
@@ -26,9 +28,9 @@ public class UserRestController extends AbstractRestController<User> {
     }
 
     @Override
-    @RequestMapping(value = "/users/{s_id}",method = RequestMethod.GET)
-    ResponseEntity<?> getId(@PathVariable String s_id) {
-        return super.getId(s_id);
+    @RequestMapping(value = "/users/{stringId}",method = RequestMethod.GET)
+    ResponseEntity<?> getId(@PathVariable String stringId) {
+        return super.getId(stringId);
     }
 
     @Override
@@ -38,9 +40,9 @@ public class UserRestController extends AbstractRestController<User> {
     }
 
     @Override
-    @RequestMapping(value = "/users/{s_id}",method = RequestMethod.DELETE)
-    ResponseEntity<?> deleteId(@RequestBody String s_id) {
-        return super.deleteId(s_id);
+    @RequestMapping(value = "/users/{stringId}",method = RequestMethod.DELETE)
+    ResponseEntity<?> deleteId(@RequestBody String stringId) {
+        return super.deleteId(stringId);
     }
 
     @Override
