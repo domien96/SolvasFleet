@@ -13,7 +13,7 @@ export default class FormField extends React.Component<LoginField, {}> {
     return (
       <div className='form-group'>
         <input 
-          type={ this.props.field} 
+          type={ this.props.type } 
           placeholder={ this.props.field } 
           className={ this.errors() } 
           onChange= { this.props.callback } />
