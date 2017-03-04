@@ -37,9 +37,9 @@ public class CompanyRestController extends AbstractRestController<Company> {
     }
 
     @Override
-    @RequestMapping(value = "/companies/{s_id}",method = RequestMethod.GET)
-    ResponseEntity<?> getId(@PathVariable String s_id) {
-        return super.getId(s_id);
+    @RequestMapping(value = "/companies/{stringId}",method = RequestMethod.GET)
+    ResponseEntity<?> getId(@PathVariable String stringId) {
+        return super.getId(stringId);
     }
 
     @Override
@@ -49,9 +49,9 @@ public class CompanyRestController extends AbstractRestController<Company> {
     }
 
     @Override
-    @RequestMapping(value = "/companies/{s_id}",method = RequestMethod.DELETE)
-    ResponseEntity<?> deleteId(@RequestBody String s_id) {
-        return super.deleteId(s_id);
+    @RequestMapping(value = "/companies/{stringId}",method = RequestMethod.DELETE)
+    ResponseEntity<?> deleteId(@RequestBody String stringId) {
+        return super.deleteId(stringId);
     }
 
     @Override

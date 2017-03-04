@@ -10,6 +10,10 @@ public abstract class AbstractRestController<T> {
 
     protected Dao<T> dao;
 
+    /**
+     * Abstract Rest controller to minimize code duplication
+     * @param dao abstract
+     */
     public AbstractRestController(Dao<T> dao) {
         this.dao = dao;
     }
@@ -20,10 +24,10 @@ public abstract class AbstractRestController<T> {
     }
 
 
-    ResponseEntity<?> getId(String s_id){
+    ResponseEntity<?> getId(String stringId){
         int id;
         try {
-            id = Integer.parseInt(s_id);
+            id = Integer.parseInt(stringId);
         } catch (NumberFormatException e){
             // TODO: make 404's have proper JSON bodies
             return new ResponseEntity<>("Id not valid", HttpStatus.NOT_FOUND);
@@ -47,7 +51,7 @@ public abstract class AbstractRestController<T> {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    ResponseEntity<?> deleteId(String s_id){
+    ResponseEntity<?> deleteId(String stringId){
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
