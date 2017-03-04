@@ -81,10 +81,10 @@ class AddCompany extends React.Component<CompanyProps, CompanyState> {
           <div className='col-xs-12 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4'>
             <div className='addCompany-form-wrapper'>
               <form method='POST' onSubmit={this.onSubmit} className='addCompany-form' >
-                <FormField field='name'    type='text'     callback={ this.handleNameChange    } hasError={ this.hasError('name')}    />
-                <FormField field='VAT number' type='text' callback={ this.handleVatNumberChange } hasError={ this.hasError('vat_number')} />
-                <FormField field='phone number' type='number' callback={ this.handlePhoneNumberChange } hasError={ this.hasError('phone_number')} />
-                <FormField field='address' type='text' callback={ this.handleAddressChange } hasError={ this.hasError('address')} />
+                <FormField placeholder='name'    type='text'     callback={ this.handleNameChange    } hasError={ this.hasError('name')}    />
+                <FormField placeholder='VAT number' type='text' callback={ this.handleVatNumberChange } hasError={ this.hasError('vat_number')} />
+                <FormField placeholder='phone number' type='number' callback={ this.handlePhoneNumberChange } hasError={ this.hasError('phone_number')} />
+                <FormField placeholder='address' type='text' callback={ this.handleAddressChange } hasError={ this.hasError('address')} />
                 <input type='submit' value='Add' className='btn btn-default' />
               </form>
             </div>
