@@ -9,7 +9,7 @@
          This class contains the Company detail.
       </meta>
       <id name="id" type="int" column="vehicle_id">
-         <generator class="identity"/>
+         <generator class="native"/>
       </id>
       <!--<property name="name" column="name" type="string"/>-->
 
