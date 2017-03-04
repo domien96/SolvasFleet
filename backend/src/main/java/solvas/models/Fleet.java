@@ -37,19 +37,19 @@ public class Fleet extends Model {
         this.url = url;
     }
 
-    public Timestamp getCreated_at() {
+    public Timestamp getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreated_at(Timestamp created_at) {
-        this.createdAt = created_at;
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public Timestamp getUpdated_at() {
+    public Timestamp getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdated_at(Timestamp updated_at) {
-        this.updatedAt = updated_at;
+    public void setUpdatedAt(Timestamp updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

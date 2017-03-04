@@ -16,16 +16,16 @@
 
 
 
-      <property name="first_name" column="first_name" type="string"/>
-      <property name="last_name" column="last_name" type="string"/>
+      <property name="firstName" column="firstName" type="string"/>
+      <property name="lastName" column="lastName" type="string"/>
       <property name="email" column="email" type="string"/>
 
       <property name="password" column="password" type="string"/>
 
-      <property name="updated_at" column="updated_at" type="timestamp"/>
+      <property name="updatedAt" column="updated_at" type="timestamp"/>
       <!--http://stackoverflow.com/questions/
       2635046/set-creation-and-update-time-with-hibernate-in-xml-mappings-->
-      <property name="created_at" column="created_at" type="timestamp"/>
+      <property name="createdAt" column="created_at" type="timestamp"/>
       <property name="url" column="url" type="string"/>
 
    </class>

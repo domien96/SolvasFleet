@@ -7,28 +7,28 @@ import java.sql.Timestamp;
  * Created by domien on 4/03/2017.
  */
 public class Fleet_subscription extends Model {
-    private Date startdate;
-    private Date enddate;
+    private Date startDate;
+    private Date endDate;
     private Vehicle vehicle;
     private Fleet fleet;
 
     private Timestamp createdAt;
     private Timestamp updatedAt;
 
-    public Date getStartdate() {
-        return startdate;
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public void setStartdate(Date startdate) {
-        this.startdate = startdate;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
-    public Date getEnddate() {
-        return enddate;
+    public Date getEndDate() {
+        return endDate;
     }
 
-    public void setEnddate(Date enddate) {
-        this.enddate = enddate;
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
     public Timestamp getCreatedAt() {

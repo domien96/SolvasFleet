@@ -38,8 +38,8 @@ CREATE TABLE vehicletypes (
 
 CREATE TABLE fleet_subscriptions (
   fleet_subscription_id SERIAL NOT NULL,
-  startdate DATE NOT NULL,
-  enddate DATE NOT NULL,
+  start_date DATE NOT NULL,
+  end_date DATE NOT NULL,
   updated_at TIMESTAMP,
   created_at TIMESTAMP,
   PRIMARY KEY (fleet_subscription_id)

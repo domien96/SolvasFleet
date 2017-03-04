@@ -12,14 +12,15 @@
          <generator class="native"/>
       </id>
 
-       <property name="enddate" column="end" type="date"/>
+       <property name="endDate" column="end_date" type="date"/>
+      <property name="startDate" column="start_date" type="date"/>
 
        <many-to-one name="vehicle" column="vehicle_id"
                     class="solvas.models.Vehicle" not-null="true"/>
       <many-to-one name="fleet" column="fleet_id"
                    class="solvas.models.Fleet" not-null="true"/>
 
-      <property name="updated_at" column="updated_at" type="timestamp"/>
-      <property name="created_at" column="created_at" type="timestamp"/>
+      <property name="updatedAt" column="updated_at" type="timestamp"/>
+      <property name="createdAt" column="created_at" type="timestamp"/>
    </class>
 </hibernate-mapping>

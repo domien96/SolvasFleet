@@ -17,8 +17,8 @@
        <many-to-one name="company" column="company_id"
                     class="solvas.models.Company" not-null="true"/>
 
-      <property name="updated_at" column="updated_at" type="timestamp"/>
-      <property name="created_at" column="created_at" type="timestamp"/>
+      <property name="updatedAt" column="updated_at" type="timestamp"/>
+      <property name="createdAt" column="created_at" type="timestamp"/>
       <property name="url" column="url" type="string"/>
    </class>
 </hibernate-mapping>
