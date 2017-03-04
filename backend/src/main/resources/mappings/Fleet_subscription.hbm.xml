@@ -4,7 +4,7 @@
  "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"> 
 
 <hibernate-mapping>
-   <class name="solvas.models.Fleet_subscription" table="fleet_subscriptions">
+   <class name="solvas.models.FleetSubscription" table="fleet_subscriptions">
       <meta attribute="class-description">
          This class contains the subscribed fleets detail.
       </meta>

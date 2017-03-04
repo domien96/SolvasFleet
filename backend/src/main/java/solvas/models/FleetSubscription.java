@@ -6,7 +6,7 @@ import java.sql.Timestamp;
 /**
  * Created by domien on 4/03/2017.
  */
-public class Fleet_subscription extends Model {
+public class FleetSubscription extends Model {
     private Date startDate;
     private Date endDate;
     private Vehicle vehicle;
