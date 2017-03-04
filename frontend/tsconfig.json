@@ -20,6 +20,7 @@
     "skipLibCheck": true
   },
   "files": [
-    "type_declarations/Require.d.ts"
+    "type_declarations/Require.d.ts",
+    "type_declarations/i18n-react.ext.d.ts"
   ]
 }
