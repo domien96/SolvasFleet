@@ -7,7 +7,7 @@ public class Vehicle extends Model {
     private String license_plate;
     private String chassis_number; //can contain letters https://en.wikipedia.org/wiki/Vehicle_identification_number
     private String model;
-    private String type;
+    private String type; // todo: replace by a reference
     private int kilometer_count;
     private int year;
     private Company leasing_company;

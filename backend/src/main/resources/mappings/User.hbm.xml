@@ -8,8 +8,8 @@
       <meta attribute="class-description">
          This class contains the Company detail.
       </meta>
-      <id name="id" type="int" column="id">
-         <generator class="identity"/>
+      <id name="id" type="int" column="user_id">
+         <generator class="native"/>
       </id>
       <!--<property name="name" column="name" type="string"/>
       <property name="vat_number" column="vat" type="string"/>-->
