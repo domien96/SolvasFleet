@@ -23,3 +23,8 @@ gradle-app.setting
 /backend/out/
 .idea
 /backend/backend.iml
+backend/lib/
+backend/web/WEB-INF/applicationContext.xml
+backend/web/WEB-INF/dispatcher-servlet.xml
+backend/web/WEB-INF/web.xml
+backend/web/index.jsp
