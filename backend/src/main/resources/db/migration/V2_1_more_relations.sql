@@ -33,7 +33,7 @@ CREATE TABLE vehicletypes (
   name varchar(30) NOT NULL ,
   updated_at TIMESTAMP,
   created_at TIMESTAMP,
-  PRIMARY KEY (vehicle_type_id)
+  PRIMARY KEY (vehicletype_id)
 );
 
 CREATE TABLE fleet_subscriptions (
