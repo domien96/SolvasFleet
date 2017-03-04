@@ -18,27 +18,7 @@ public class Role extends Model {
     private Timestamp endDate;
     private String url; // calculate on th fly?
 
-    /**
-     * TODO remove
-     * @param company TODO
-     * @param function TODO
-     * @param user TODO
-     * @param startDate TODO
-     * @param endDate TODO
-     * @param url TODO
-     */
-    public Role(Company company, String function, User user,
-                Timestamp startDate, Timestamp endDate, String url) {
-        this.company = company;
-        this.function = function;
-        this.user = user;
-        Timestamp currentTime= Timestamp.valueOf(LocalDateTime.now());
-        this.createdAt = currentTime; //problems http://stackoverflow.com/questions/2635046/set-creation-and-update-time-with-hibernate-in-xml-mappings
-        this.updatedAt = currentTime;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.url = url;
-    }
+
 
     protected Role() {
     }

@@ -20,35 +20,7 @@ public class Vehicle extends Model {
     private Timestamp updatedAt;
     private String url;
 
-    /**
-     * TODO perhapse remove
-     * @param licensePlate TODO
-     * @param chassisNumber TODO
-     * @param model TODO
-     * @param type TODO
-     * @param kilometerCount TODO
-     * @param year TODO
-     * @param leasingCompany TODO
-     * @param value TODO
-     * @param company TODO
-     * @param url TODO
-     */
-    public Vehicle(String licensePlate, String chassisNumber, String model, String type, int kilometerCount, int year,
-                   Company leasingCompany, int value, Company company, String url) {
-        this.licensePlate = licensePlate;
-        this.chassisNumber = chassisNumber;
-        this.model = model;
-        this.type = type;
-        this.kilometerCount = kilometerCount;
-        this.year = year;
-        this.leasingCompany = leasingCompany;
-        this.value = value;
-        this.company = company;
-        Timestamp currentTime= Timestamp.valueOf(LocalDateTime.now());
-        this.createdAt = currentTime; //problems http://stackoverflow.com/questions/2635046/set-creation-and-update-time-with-hibernate-in-xml-mappings
-        this.updatedAt = currentTime;
-        this.url = url;
-    }
+
 
     protected Vehicle() {
     }

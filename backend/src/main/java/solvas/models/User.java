@@ -16,24 +16,6 @@ public class User extends Model {
     private String url;
 
 
-    /**
-     * TODO remove
-     * @param firstName TODO
-     * @param lastName TODO
-     * @param email TODO
-     * @param password TODO
-     * @param url TODO
-     */
-    public User(String firstName, String lastName, String email, String password, String url) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        Timestamp currentTime= Timestamp.valueOf(LocalDateTime.now());
-        this.createdAt = currentTime; //problems http://stackoverflow.com/questions/2635046/set-creation-and-update-time-with-hibernate-in-xml-mappings
-        this.updatedAt = currentTime;
-        this.url = url;
-    }
     protected User() {
     }
 

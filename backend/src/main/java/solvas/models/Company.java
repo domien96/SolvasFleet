@@ -16,26 +16,6 @@ public class Company extends Model {
     private Timestamp updatedAt;
     private String url;
 
-    /**
-     * TODO perhaps remove
-     * @param name TODO
-     * @param vatNumber TODO
-     * @param phoneNumber TODO
-     * @param address TODO
-     * @param url TODO
-     */
-    public Company(String name, String vatNumber, String phoneNumber, String address, String url) {
-        this.name = name;
-        this.vatNumber = vatNumber;
-        this.phoneNumber = phoneNumber;
-        this.address = address;
-        Timestamp currentTime= Timestamp.valueOf(LocalDateTime.now());
-        this.createdAt = currentTime; //problems http://stackoverflow.com/questions/2635046/set-creation-and-update-time-with-hibernate-in-xml-mappings
-        this.updatedAt = currentTime; //Should be updated by db
-        this.url = url;
-
-
-    }
 
     protected Company() {
     } // Hibernate wants a no-arg constructor

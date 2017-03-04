@@ -24,7 +24,6 @@
        <!--http://stackoverflow.com/questions/
        2635046/set-creation-and-update-time-with-hibernate-in-xml-mappings-->
       <property name="createdAt" column="created_at" type="timestamp"/>
-      <property name="url" column="url" type="string"/>
 
    </class>
 </hibernate-mapping>
