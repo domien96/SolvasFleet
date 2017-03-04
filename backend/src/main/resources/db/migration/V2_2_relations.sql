@@ -18,6 +18,6 @@ ALTER TABLE fleet_subscriptions ADD FOREIGN KEY (fleet_id) REFERENCES fleets(fle
 ALTER TABLE fleets ADD COLUMN company_id int NOT NULL;
 ALTER TABLE fleets ADD FOREIGN KEY (company_id) REFERENCES companies(company_id);
 
---company 0..1 : n vehicles
-ALTER TABLE vehicles ADD COLUMN company_id int;
-ALTER TABLE vehicles ADD FOREIGN KEY (company_id) REFERENCES companies(company_id);
+--company 0..1 : n vehicles (already exists, see V2)
+--ALTER TABLE vehicles ADD COLUMN company_id int;
+--ALTER TABLE vehicles ADD FOREIGN KEY (company_id) REFERENCES companies(company_id);

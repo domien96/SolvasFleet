@@ -14,6 +14,8 @@ CREATE TABLE fleets (
   fleet_id  serial NOT NULL ,
   company_id int NOT NULL ,
   name varchar(255),
+  updated_at timestamp,
+  created_at timestamp,
   url varchar(255),
   PRIMARY KEY (fleet_id),
   FOREIGN KEY(company_id) REFERENCES companies(company_id)
@@ -22,6 +24,8 @@ CREATE TABLE fleets (
 CREATE TABLE permissions (
   permission_id  serial not null,
   name varchar(255) NOT NULL,
+  updated_at timestamp,
+  created_at timestamp,
   PRIMARY KEY (permission_id)
 );
 
@@ -30,6 +34,8 @@ CREATE TYPE vehicletype AS ENUM('car','truck');
 CREATE TABLE vehicle_types (
   vehicle_type_id  serial not null,
   type vehicletype NOT NULL ,
+  updated_at timestamp,
+  created_at timestamp,
   PRIMARY KEY (vehicle_type_id)
 );
 
@@ -37,5 +43,7 @@ CREATE TABLE fleet_subscriptions (
   fleet_subscription_id  serial not null,
   start DATE NOT NULL,
   "end" DATE NOT NULL,
+  updated_at timestamp,
+  created_at timestamp,
   PRIMARY KEY (fleet_subscription_id)
 );
