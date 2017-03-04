@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import solvas.models.Company;
 import solvas.persistence.company.CompanyDao;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 @RestController
@@ -17,6 +18,7 @@ public class HomeController {
     @RequestMapping("/")
     public Collection<Company> index() {
 
+        /*
         String ethias = "Ethias";
         dao.save(new Company(ethias, "nummer"));
         Company c = dao.find(1);
@@ -26,7 +28,8 @@ public class HomeController {
 
         // Should not contain ethias company.
 
-        return dao.withName(ethias);
+        return dao.withName(ethias);*/
+        return new ArrayList<>();
     }
  
 }

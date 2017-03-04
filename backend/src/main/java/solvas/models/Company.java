@@ -1,18 +1,32 @@
 package solvas.models;
 
+import java.sql.Timestamp;
+
 /**
  * Created by david on 3/1/17.
  */
 public class Company extends Model {
     private String name;
-    private String vat;
+    private String vat_number; //https://en.wikipedia.org/wiki/VAT_identification_number
+    private String phone_number;
+    private String address;
+    private Timestamp created_at;
+    private Timestamp updated_at;
+    private String url;
 
-    public Company(String name, String vat) {
+    public Company(String name, String vat_number, String phone_number, String address, Timestamp created_at,
+                   Timestamp updated_at, String url) {
         this.name = name;
-        this.vat = vat;
+        this.vat_number = vat_number;
+        this.phone_number = phone_number;
+        this.address = address;
+        this.created_at = created_at; //problems http://stackoverflow.com/questions/2635046/set-creation-and-update-time-with-hibernate-in-xml-mappings
+        this.updated_at = updated_at;
+        this.url = url;
     }
 
-    protected Company() {} // Hibernate wants a no-arg constructor
+    protected Company() {
+    } // Hibernate wants a no-arg constructor
 
     public String getName() {
         return name;
@@ -22,11 +36,51 @@ public class Company extends Model {
         this.name = name;
     }
 
-    public String getVat() {
-        return vat;
+    public String getVat_number() {
+        return vat_number;
     }
 
-    public void setVat(String vat) {
-        this.vat = vat;
+    public void setVat_number(String vat_number) {
+        this.vat_number = vat_number;
+    }
+
+    public String getPhone_number() {
+        return phone_number;
+    }
+
+    public void setPhone_number(String phone_number) {
+        this.phone_number = phone_number;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public Timestamp getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(Timestamp created_at) {
+        this.created_at = created_at;
+    }
+
+    public Timestamp getUpdated_at() {
+        return updated_at;
+    }
+
+    public void setUpdated_at(Timestamp updated_at) {
+        this.updated_at = updated_at;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"> 
+
+<hibernate-mapping>
+   <class name="solvas.models.Role" table="roles">
+      <meta attribute="class-description">
+         This class contains the Company detail.
+      </meta>
+      <id name="id" type="int" column="id">
+         <generator class="identity"/>
+      </id>
+
+       <property name="function" column="function" type="string"/>
+
+      <many-to-one name="company" column="company_id"
+                   class="solvas.models.Company" not-null="false"/>
+
+       <many-to-one name="user" column="user_id"
+                    class="solvas.models.User" not-null="false"/>
+
+       <property name="updated_at" column="updated_at" type="timestamp"/>
+       <!--http://stackoverflow.com/questions/
+       2635046/set-creation-and-update-time-with-hibernate-in-xml-mappings-->
+      <property name="created_at" column="created_at" type="timestamp"/>
+      <property name="url" column="url" type="string"/>
+
+   </class>
+</hibernate-mapping>
