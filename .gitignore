@@ -20,9 +20,9 @@ gradle-app.setting
 
 # IntelliJ
 *.iws
+*.iml
 /backend/out/
 .idea
-/backend/backend.iml
 backend/lib/
 backend/web/WEB-INF/applicationContext.xml
 backend/web/WEB-INF/dispatcher-servlet.xml
