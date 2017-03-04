@@ -9,8 +9,8 @@ public class Fleet extends Model {
     private Company company;
     private String name;
 
-    private Timestamp created_at;
-    private Timestamp updated_at;
+    private Timestamp createdAt;
+    private Timestamp updatedAt;
     private String url;
 
     public Company getCompany() {
@@ -38,18 +38,18 @@ public class Fleet extends Model {
     }
 
     public Timestamp getCreated_at() {
-        return created_at;
+        return createdAt;
     }
 
     public void setCreated_at(Timestamp created_at) {
-        this.created_at = created_at;
+        this.createdAt = created_at;
     }
 
     public Timestamp getUpdated_at() {
-        return updated_at;
+        return updatedAt;
     }
 
     public void setUpdated_at(Timestamp updated_at) {
-        this.updated_at = updated_at;
+        this.updatedAt = updated_at;
     }
 }
