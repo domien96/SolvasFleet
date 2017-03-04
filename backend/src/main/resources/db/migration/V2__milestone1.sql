@@ -11,7 +11,7 @@ create table companies (
   address varchar(255),
   updated_at timestamp,
   created_at timestamp,
-  primary key (id));
+  primary key (company_id));
 
 create table users (
   user_id  serial not null,
@@ -21,7 +21,7 @@ create table users (
   password varchar(255),
   updated_at timestamp,
   created_at timestamp,
-  primary key (id));
+  primary key (user_id));
 
 create table vehicles (
   vehicle_id  serial not null,
@@ -36,7 +36,7 @@ create table vehicles (
   company_id int4 REFERENCES companies(id),
   updated_at timestamp,
   created_at timestamp,
-  primary key (id));
+  primary key (vehicle_id));
 
 create table roles (
   role_id  serial not null,
@@ -45,4 +45,4 @@ create table roles (
   user_id int4 REFERENCES users(id),
   updated_at timestamp,
   created_at timestamp,
-  primary key (id));
+  primary key (role_id));
