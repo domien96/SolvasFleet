@@ -1,0 +1,6 @@
+form:
+  placeholders:
+    email: Email
+    password: Passwoord
+login:
+  submit: 'Login'
