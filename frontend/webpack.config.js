@@ -24,6 +24,10 @@ var config = {
       {
         test: /\.scss$/,
         loader: ExtractTextPlugin.extract('css-loader!sass-loader')
+      },
+      {
+        test: /\.ya?ml$/,
+        loader: 'json-loader!yaml-loader'
       }
     ]
   },

@@ -11,7 +11,7 @@ interface LoginState {
 }
 
 interface LoginField {
-  field : string;
+  placeholder : string;
   type : string;
   hasError: boolean;
   callback : (e : any) => void;

@@ -57,10 +57,10 @@ class Login extends React.Component<LoginProps, LoginState> {
           <div className='col-xs-12 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4'>
             <div className='login-form-wrapper'>
               <form method='POST' onSubmit={this.onSubmit} className='login-form' >
-                <FormField field='email'    type='text'     callback={ this.handleEmailChange    } hasError={ this.hasError('email')}    />
-                <FormField field='password' type='password' callback={ this.handlePasswordChange } hasError={ this.hasError('password')} />
+                <FormField placeholder='form.placeholders.email'    type='text'     callback={ this.handleEmailChange    } hasError={ this.hasError('email')}    />
+                <FormField placeholder='form.placeholders.password' type='password' callback={ this.handlePasswordChange } hasError={ this.hasError('password')} />
                 <button type='submit' className='btn btn-default' >
-                  <T.text tag='span' text='submit' />
+                  <T.text tag='span' text='login.submit' />
                 </button>
               </form>
             </div>
