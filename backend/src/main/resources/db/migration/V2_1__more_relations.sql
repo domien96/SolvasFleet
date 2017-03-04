@@ -1,8 +1,3 @@
-ALTER TABLE companies RENAME COLUMN id TO company_id;
-ALTER TABLE roles RENAME COLUMN id TO role_id;
-ALTER TABLE users RENAME COLUMN id TO user_id;
-ALTER TABLE vehicles RENAME COLUMN id TO vehicle_id;
-
 DROP TABLE IF EXISTS fleets CASCADE;
 DROP TABLE IF EXISTS permissions CASCADE;
 DROP TABLE IF EXISTS vehicletype CASCADE;
