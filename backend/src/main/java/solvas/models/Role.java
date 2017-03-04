@@ -18,6 +18,15 @@ public class Role extends Model {
     private Timestamp endDate;
     private String url; // calculate on th fly?
 
+    /**
+     * TODO remove
+     * @param company TODO
+     * @param function TODO
+     * @param user TODO
+     * @param startDate TODO
+     * @param endDate TODO
+     * @param url TODO
+     */
     public Role(Company company, String function, User user,
                 Timestamp startDate, Timestamp endDate, String url) {
         this.company = company;
