@@ -1,7 +1,7 @@
  Naam | Rol | Ugent gebruikersnaam | Email
 |:------------------- |:--------------------|:---------:|:-----------------:
 Nils Mak | Customer Relations Officer |  nnmak | Nils.Mak@Ugent.be
-Benjamin Cousaert  | Documentatiebeheerder | becousae
+Benjamin Cousaert  | Documentatiebeheerder | becousae | benjamin.cousaert@ugent.be
 David Vandorpe  | Sysadmin | davdorpe | David.Vandorpe@UGent.be
 Niko strijbol  | API-beheerder |  nistrijb | niko.strijbol@ugent.be
 Steven Bastiaans | Secretaris | sjabasti
