@@ -1,8 +1,7 @@
-/// <reference path="../types/interfaces.d.ts"/>
 import React from 'react';
 import T from 'i18n-react';
 
-import FormField from './FormField.tsx';
+import FormField from './forms/FormField.tsx';
 
 class Login extends React.Component<LoginProps, LoginState> {
 
@@ -15,20 +14,6 @@ class Login extends React.Component<LoginProps, LoginState> {
     this.onSubmit             = this.onSubmit.bind(this);
   }
 
-  public getErrors() : FormError[] {
-    var errors : FormError[] = [];
-
-    if (this.state.email == null || this.state.email == '') {
-      errors.push({ field: 'email', error: 'is empty'});
-    }
-
-    if (this.state.password == null || this.state.password == '') {
-      errors.push({ field: 'password', error: 'is empty'});
-    }
-
-    return errors;
-  }
-
   public handleEmailChange(e : any) : void {
     this.setState({ email: e.target.value });
   }
@@ -37,12 +22,7 @@ class Login extends React.Component<LoginProps, LoginState> {
     this.setState({ password: e.target.value });
   }
 
-  public onSubmit(e : any) : void {
-    const errors = this.getErrors();
-    if (errors.length != 0) {
-      e.preventDefault();
-      this.setState({ errors: errors });
-    }
+  public onSubmit() : void {
   }
 
   public hasError(k : string) : boolean {

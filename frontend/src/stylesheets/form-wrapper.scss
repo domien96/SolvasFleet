@@ -1,0 +1,28 @@
+.login-form-wrapper, .addCompany-form-wrapper, .addRole-form-wrapper, .addUser-form-wrapper, .addVehicle-form-wrapper    {
+  border-color: #ddd;
+  border-width: 1px;
+  border-radius: 4px;
+  border-style: solid;
+  padding: 15px;
+}
+
+
+/* TODO : juiste positie Start date & End date voor elke size van window browser; */
+
+.addRole-form-row{
+  padding-left: 5px;
+  position: relative;
+}
+
+.addRole-form-row-label{
+  width: 30%;
+  float: left;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.addRole-form-row-input{
+  display: inline-block;
+  width: 70%;
+  float: right;
+}

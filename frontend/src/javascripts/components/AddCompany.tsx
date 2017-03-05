@@ -1,8 +1,7 @@
-/// <reference path="../types/interfaces.d.ts"/>
 import React from 'react';
 import T from 'i18n-react';
 
-import FormField from './FormField.tsx';
+import FormField from './forms/FormField.tsx';
 
 class AddCompany extends React.Component<CompanyProps, CompanyState> {
 
