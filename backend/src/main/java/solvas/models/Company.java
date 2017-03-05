@@ -1,6 +1,8 @@
 package solvas.models;
 
 
+import java.util.Set;
+
 /**
  * Models a Company
  * @author david
@@ -12,6 +14,12 @@ public class Company extends Model {
     private String phoneNumber;
     private String address;
     private String url;
+
+    /**
+     * These users represent this company.
+     * Remark: this is a subset of the set of all employees!
+     */
+    private Set<User> representatives;
 
 
     protected Company() {
@@ -57,4 +65,11 @@ public class Company extends Model {
         this.url = url;
     }
 
+    public Set getRepresentatives() {
+        return representatives; // todo: does this need a defensive copy or not?
+    }
+
+    public void setRepresentatives(Set representatives) {
+        this.representatives = representatives;
+    }
 }

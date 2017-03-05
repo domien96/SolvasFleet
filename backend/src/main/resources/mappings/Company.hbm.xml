@@ -22,7 +22,10 @@
         2635046/set-creation-and-update-time-with-hibernate-in-xml-mappings-->
         <property name="createdAt" column="created_at" type="timestamp"/>
 
-
+        <set name="representatives" table="company_users">
+            <key column="company_id"/>
+            <many-to-many column="user_id" class="solvas.models.User" />
+        </set>
 
     </class>
 </hibernate-mapping>

@@ -23,5 +23,14 @@
       2635046/set-creation-and-update-time-with-hibernate-in-xml-mappings-->
       <property name="createdAt" column="created_at" type="timestamp"/>
 
+      <set name="companies" table="company_users" inverse="true"> <!-- Company is owner of relationship -->
+         <key column="user_id"/>
+         <many-to-many column="company_id" class="solvas.models.Company" />
+      </set>
+
+      <set name="roles" table="userroles"> <!-- User is owner of relationship -->
+          <key column="user_id"/>
+          <many-to-many column="role_id" class="solvas.models.Role" />
+      </set>
    </class>
 </hibernate-mapping>

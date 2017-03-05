@@ -14,11 +14,15 @@
 
        <property name="function" column="function" type="string"/>
 
-      <many-to-one name="company" column="company_id"
-                   class="solvas.models.Company" not-null="false"/>
+       <set name="users" table="userroles" inverse="true"> <!-- User is owner of relationship -->
+           <key column="role_id"/>
+           <many-to-many column="user_id" class="solvas.models.User" />
+       </set>
 
-       <many-to-one name="user" column="user_id"
-                    class="solvas.models.User" not-null="false"/>
+       <set name="permissions" table="rolepermissions"> <!-- Role is owner of relationship -->
+           <key column="role_id"/>
+           <many-to-many column="permission_id" class="solvas.models.Permission" />
+       </set>
 
        <property name="updatedAt" column="updated_at" type="timestamp"/>
        <!--http://stackoverflow.com/questions/
