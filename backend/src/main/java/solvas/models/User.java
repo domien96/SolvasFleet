@@ -11,8 +11,6 @@ public class User extends Model {
     private String lastName;
     private String email;
     private String password; //change to non string?
-    private Timestamp createdAt; //move to Model?
-    private Timestamp updatedAt; //move to Model?
     private String url;
 
 
@@ -49,22 +47,6 @@ public class User extends Model {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public Timestamp getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Timestamp createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Timestamp getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Timestamp updatedAt) {
-        this.updatedAt = updatedAt;
     }
 
     public String getUrl() {

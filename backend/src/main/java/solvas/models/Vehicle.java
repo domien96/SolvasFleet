@@ -16,8 +16,6 @@ public class Vehicle extends Model {
     private Company leasingCompany;
     private int value;
     private Company company;
-    private Timestamp createdAt;
-    private Timestamp updatedAt;
     private String url;
 
 
@@ -95,22 +93,6 @@ public class Vehicle extends Model {
 
     public void setValue(int value) {
         this.value = value;
-    }
-
-    public Timestamp getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Timestamp createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Timestamp getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Timestamp updatedAt) {
-        this.updatedAt = updatedAt;
     }
 
     public String getUrl() {

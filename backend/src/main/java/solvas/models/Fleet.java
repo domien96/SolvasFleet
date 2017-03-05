@@ -9,8 +9,6 @@ public class Fleet extends Model {
     private Company company;
     private String name;
 
-    private Timestamp createdAt;
-    private Timestamp updatedAt;
     private String url;
 
     public Company getCompany() {
@@ -37,19 +35,4 @@ public class Fleet extends Model {
         this.url = url;
     }
 
-    public Timestamp getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Timestamp createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Timestamp getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Timestamp updatedAt) {
-        this.updatedAt = updatedAt;
-    }
 }

@@ -8,9 +8,6 @@ import java.sql.Timestamp;
 public class Vehicletype extends Model {
     private String name;
 
-    private Timestamp createdAt;
-    private Timestamp updatedAt;
-
     public String getName() {
         return name;
     }

@@ -12,8 +12,6 @@ public class FleetSubscription extends Model {
     private Vehicle vehicle;
     private Fleet fleet;
 
-    private Timestamp createdAt;
-    private Timestamp updatedAt;
 
     public Date getStartDate() {
         return startDate;
@@ -29,22 +27,6 @@ public class FleetSubscription extends Model {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
-    }
-
-    public Timestamp getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Timestamp createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Timestamp getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Timestamp updatedAt) {
-        this.updatedAt = updatedAt;
     }
 
     public Vehicle getVehicle() {

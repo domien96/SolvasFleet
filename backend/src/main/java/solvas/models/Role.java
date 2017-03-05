@@ -11,9 +11,6 @@ public class Role extends Model {
     private String function; // change to ?
     private User user;
 
-    private Timestamp createdAt; //move to Model?
-    private Timestamp updatedAt; //Calculate in java
-
     private Timestamp startDate;
     private Timestamp endDate;
     private String url; // calculate on th fly?
@@ -45,22 +42,6 @@ public class Role extends Model {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public Timestamp getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Timestamp createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Timestamp getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Timestamp updatedAt) {
-        this.updatedAt = updatedAt;
     }
 
     public Timestamp getStartDate() {
