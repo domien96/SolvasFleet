@@ -6,7 +6,7 @@
 <hibernate-mapping>
     <class name="solvas.models.Company" table="companies">
         <meta attribute="class-description">
-            This class contains the Company detail.
+            This class contains the company detail.
         </meta>
         <id name="id" type="int" column="company_id">
             <generator class="identity"/>

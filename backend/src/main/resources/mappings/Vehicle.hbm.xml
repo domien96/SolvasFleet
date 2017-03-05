@@ -6,12 +6,11 @@
 <hibernate-mapping>
    <class name="solvas.models.Vehicle" table="vehicles">
       <meta attribute="class-description">
-         This class contains the Company detail.
+         This class contains the vehicle detail.
       </meta>
       <id name="id" type="int" column="vehicle_id">
          <generator class="identity"/>
       </id>
-      <!--<property name="name" column="name" type="string"/>-->
 
       <property name="licensePlate" column="license_plate" type="string"/>
        <property name="chassisNumber" column="chassis_number" type="string"/>

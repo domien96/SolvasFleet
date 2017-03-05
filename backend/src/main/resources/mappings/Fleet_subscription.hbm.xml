@@ -6,14 +6,14 @@
 <hibernate-mapping>
    <class name="solvas.models.FleetSubscription" table="fleet_subscriptions">
       <meta attribute="class-description">
-         This class contains the subscribed fleets detail.
+         This class contains the subscribed fleet detail.
       </meta>
       <id name="id" type="int" column="fleet_subscription_id">
          <generator class="identity"/>
       </id>
 
-       <property name="endDate" column="end_date" type="date"/>
-      <property name="startDate" column="start_date" type="date"/>
+       <property name="endDate" column="end_date" type="date" not-null="true"/>
+      <property name="startDate" column="start_date" type="date" not-null="true"/>
 
        <many-to-one name="vehicle" column="vehicle_id"
                     class="solvas.models.Vehicle" not-null="true"/>
