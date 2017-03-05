@@ -8,7 +8,7 @@ public class Vehicle extends Model {
     private String licensePlate;
     private String chassisNumber; //can contain letters https://en.wikipedia.org/wiki/Vehicle_identification_number
     private String model;
-    private String type; // todo: replace by a reference
+    private Vehicletype type;
     private int kilometerCount;
     private int year;
     private Company leasingCompany;
@@ -53,11 +53,11 @@ public class Vehicle extends Model {
         this.model = model;
     }
 
-    public String getType() {
+    public Vehicletype getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(Vehicletype type) {
         this.type = type;
     }
 
