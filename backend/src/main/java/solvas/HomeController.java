@@ -15,9 +15,13 @@ import java.util.Collection;
 @RestController
 public class HomeController {
 
+    private final CompanyDao dao;
+
     @Autowired
-    private CompanyDao dao;
- 
+    public HomeController(CompanyDao dao) {
+        this.dao = dao;
+    }
+
     @RequestMapping("/")
     public Collection<Company> index() {
         //TODO make controller for root if necessary

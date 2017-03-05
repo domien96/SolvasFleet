@@ -3,8 +3,10 @@ package solvas.persistence;
 import org.hibernate.cfg.AvailableSettings;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.flyway.FlywayMigrationStrategy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
@@ -31,11 +33,20 @@ import java.util.Properties;
 @PropertySource(value = {"hibernate.properties"})
 public class HibernateConfig {
 
-    @Autowired
-    private Environment env;
+    private final Environment env;
+    private final ResourceLoader rl;
 
+    /**
+     * Injection constructor.
+     *
+     * @param env The environment.
+     * @param resourceLoader The resource loader.
+     */
     @Autowired
-    private ResourceLoader rl;
+    public HibernateConfig(Environment env, ResourceLoader resourceLoader) {
+        this.env = env;
+        this.rl = resourceLoader;
+    }
 
     @Bean
     public DataSource getDataSource() {
