@@ -1,6 +1,6 @@
 import React from 'react';
 
-// import fetchCompanies from '../api.ts';
+import fetchCompanies from '../actions/fetch_companies.ts';
 
 class Companies extends React.Component<CompaniesProps, CompaniesState> {
 
@@ -10,12 +10,8 @@ class Companies extends React.Component<CompaniesProps, CompaniesState> {
   }
 
   componentDidMount() {
-
-    fetch(this.props.url)
-      .then(function(response) {
-        return response.json()
-      })
-      .then((data:any) => {
+    fetchCompanies()
+      .then((data : CompaniesData) => {
         this.setState({ companies: data.companies })
       });
   }

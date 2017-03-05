@@ -47,12 +47,14 @@ interface Company {
   address:      string;
 }
 
-interface CompaniesProps {
-  url : string;
-}
+interface CompaniesProps { }
 
 interface CompaniesState {
   companies: Company[];
+}
+
+interface CompaniesData {
+  [ companies : string ] : any;
 }
 
 /* Vehicle */
