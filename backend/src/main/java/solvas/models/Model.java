@@ -1,14 +1,14 @@
 package solvas.models;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 /**
  * Created by david on 3/1/17.
  */
 public class Model {
     protected int id;
-    protected Timestamp createdAt;
-    protected Timestamp updatedAt;
+    protected LocalDateTime createdAt;
+    protected LocalDateTime updatedAt;
 
     public int getId() {
         return id;
@@ -18,19 +18,19 @@ public class Model {
         this.id = id;
     }
 
-    public Timestamp getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Timestamp createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
-    public Timestamp getUpdatedAt() {
+    public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Timestamp updatedAt) {
+    public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
 }

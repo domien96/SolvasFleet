@@ -16,19 +16,5 @@ public class Vehicletype extends Model {
         this.name = name;
     }
 
-    public Timestamp getCreatedAt() {
-        return createdAt;
-    }
 
-    public void setCreatedAt(Timestamp createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Timestamp getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Timestamp updatedAt) {
-        this.updatedAt = updatedAt;
-    }
 }
