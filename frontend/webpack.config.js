@@ -41,6 +41,10 @@ var config = {
     new ExtractTextPlugin({
       filename: 'bundle.css',
       allChunks: true
+    }),
+    new webpack.DefinePlugin({
+      ENVIRONMENT:  JSON.stringify('development'),
+      BASE_API_URL: JSON.stringify('http://localhost:8000')
     })
   ]
 };
