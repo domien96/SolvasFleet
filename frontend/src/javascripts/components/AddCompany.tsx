@@ -16,30 +16,6 @@ class AddCompany extends React.Component<CompanyProps, CompanyState> {
     this.onSubmit             = this.onSubmit.bind(this);
   }
 
-  public getErrors() : FormError[] {
-    var errors : FormError[] = [];
-
-    if (this.state.name == null || this.state.name == '') {
-      errors.push({ field: 'name', error: 'is empty'});
-    }
-
-    if (this.state.vatNumber == null || this.state.vatNumber == '') {
-      errors.push({ field: 'vatNumber', error: 'is empty'});
-    }
-
-    if (this.state.phoneNumber == null || this.state.phoneNumber == '') {
-      errors.push({ field: 'phoneNumber', error: 'is empty'});
-    }
-
-    if (this.state.address == null || this.state.address == '') {
-      errors.push({ field: 'address', error: 'is empty'});
-    }
-
-    //TODO: check correct format of VAT number
-    //TODO: might be needed to change phone number to string or add a '+' sign to the form
-
-    return errors;
-  }
 
   public handleNameChange(e : any) : void {
     this.setState({ name: e.target.value });
@@ -58,11 +34,7 @@ class AddCompany extends React.Component<CompanyProps, CompanyState> {
   }
 
   public onSubmit(e : any) : void {
-    const errors = this.getErrors();
-    if (errors.length != 0) {
-      e.preventDefault();
-      this.setState({ errors: errors });
-    }
+    
   }
 
   public hasError(k : string) : boolean {

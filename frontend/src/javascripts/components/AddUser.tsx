@@ -2,7 +2,7 @@
 import React from 'react';
 import T from 'i18n-react';
 
-import FormField from './FormField.tsx';
+import FormField from './forms/FormField.tsx';
 
 class AddUser extends React.Component<UserProps, UserState> {
 
@@ -15,28 +15,6 @@ class AddUser extends React.Component<UserProps, UserState> {
     this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.onSubmit             = this.onSubmit.bind(this);
-  }
-
-  public getErrors() : FormError[] {
-    var errors : FormError[] = [];
-
-    if (this.state.firstName == null || this.state.firstName == '') {
-      errors.push({ field: 'firstName', error: 'is empty'});
-    }
-
-    if (this.state.lastName == null || this.state.lastName == '') {
-      errors.push({ field: 'lastName', error: 'is empty'});
-    }
-
-    if (this.state.email == null || this.state.email == '') {
-      errors.push({ field: 'email', error: 'is empty'});
-    }
-
-    if (this.state.password == null || this.state.password == '') {
-      errors.push({ field: 'password', error: 'is empty'});
-    }
-
-    return errors;
   }
 
   public handleFirstNameChange(e : any) : void {
@@ -55,12 +33,8 @@ class AddUser extends React.Component<UserProps, UserState> {
     this.setState({ password: e.target.value });
   }
 
-  public onSubmit(e : any) : void {
-    const errors = this.getErrors();
-    if (errors.length != 0) {
-      e.preventDefault();
-      this.setState({ errors: errors });
-    }
+  public onSubmit() : void {
+
   }
 
   public hasError(k : string) : boolean {

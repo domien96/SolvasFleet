@@ -19,6 +19,7 @@ form:
     firstName: First name
     lastName: Last name
     permission: Function in company
+    permissionShort: Function
 login:
   submit: 'Login'
 addCompany:

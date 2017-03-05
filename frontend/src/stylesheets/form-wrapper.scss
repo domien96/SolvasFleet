@@ -6,23 +6,11 @@
   padding: 15px;
 }
 
-
-/* TODO : juiste positie Start date & End date voor elke size van window browser; */
-
-.addRole-form-row{
-  padding-left: 5px;
-  position: relative;
+.addRole-form-padding{
+  padding-right: 15px;
+  padding-left: 15px;
 }
 
-.addRole-form-row-label{
-  width: 30%;
-  float: left;
+.roleLabel{
   padding-top: 5px;
-  padding-bottom: 5px;
-}
-
-.addRole-form-row-input{
-  display: inline-block;
-  width: 70%;
-  float: right;
 }

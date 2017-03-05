@@ -7,6 +7,6 @@ import T          from 'i18n-react';
 
 T.setTexts(require('../../translations/en.yml'));
 
-import Login from './components/Login.tsx';
+import AddRole from './components/AddRole.tsx';
 
-render(<Login url = 'localhost:8000'/>, document.getElementById('app'));
+render(<AddRole url = 'localhost:8000'/>, document.getElementById('app'));

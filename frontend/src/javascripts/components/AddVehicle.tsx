@@ -2,7 +2,7 @@
 import React from 'react';
 import T from 'i18n-react';
 
-import FormField from './FormField.tsx';
+import FormField from './forms/FormField.tsx';
 
 class AddVehicle extends React.Component<VehicleProps, VehicleState> {
 
@@ -23,35 +23,7 @@ class AddVehicle extends React.Component<VehicleProps, VehicleState> {
     this.onSubmit             = this.onSubmit.bind(this);
   }
 
-  /*
-  Some fields are mandatory
-  */
-  public getErrors() : FormError[] {
-    var errors : FormError[] = [];
-
-    if (this.state.licencePlate == null || this.state.licencePlate == '') {
-      errors.push({ field: 'licencePlate', error: 'is empty'});
-    }
-
-    if (this.state.chassisNumber == null || this.state.chassisNumber == '') {
-      errors.push({ field: 'chassisNumber', error: 'is empty'});
-    }
-
-    if (this.state.brand == null || this.state.brand == '') {
-      errors.push({ field: 'brand', error: 'is empty'});
-    }
-
-    if (this.state.model == null || this.state.model == '') {
-      errors.push({ field: 'model', error: 'is empty'});
-    }
-
-    if (this.state.company == null || this.state.company == '') {
-      errors.push({ field: 'company', error: 'is empty'});
-    }
-
-    return errors;
-  }
-
+ 
   public handleLicencePlateChange(e : any) : void {
     this.setState({ licencePlate: e.target.value });
   }
@@ -92,12 +64,8 @@ class AddVehicle extends React.Component<VehicleProps, VehicleState> {
     this.setState({ company: e.target.value });
   }
 
-  public onSubmit(e : any) : void {
-    const errors = this.getErrors();
-    if (errors.length != 0) {
-      e.preventDefault();
-      this.setState({ errors: errors });
-    }
+  public onSubmit() : void {
+
   }
 
   public hasError(k : string) : boolean {
