@@ -5,7 +5,7 @@
  * Spring
  * Gradle
  * ORM: Hibernate
- * Migratie: nog te onderzoeken: Flyway
+ * DB Migratie: Flyway
 * Testen
  * Junit
  * MockMvc
