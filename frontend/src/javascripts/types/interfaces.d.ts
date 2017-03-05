@@ -24,7 +24,7 @@ interface FormError {
   error : string;
 }
 
-/* Add Company */
+/* Company */
 
 interface CompanyProps{
   url : string;
@@ -33,11 +33,10 @@ interface CompanyProps{
 interface CompanyState{
   errors : FormError[];
   name : string;
-  vat_number : string;
-  phone_number : string;
+  vatNumber : string;
+  phoneNumber : string;
   address : string;
 }
-
 
 /* Companies */
 
@@ -54,4 +53,53 @@ interface CompaniesProps {
 
 interface CompaniesState {
   companies: Company[];
+}
+
+/* Vehicle */
+
+interface VehicleProps{
+  url : string;
+}
+
+interface VehicleState{
+  errors: FormError[];
+  licencePlate: string;
+  chassisNumber: string; //VIN: vehicle identification number
+  brand: string;
+  model: string;
+  type: string;
+  kmCount: number;
+  year: number;
+  leasingCompany: string;
+  value: number;
+  company: string;
+}
+
+/* User */
+
+interface UserProps{
+  url: string;
+}
+
+interface UserState{
+  errors: FormError[];
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+}
+
+/* Role */
+
+interface RoleProps{
+  url: string;
+}
+
+interface RoleState{
+  errors: FormError[];
+  company: string;
+  permission: string;
+  user: string;
+  startDate: string;
+  endDate: string;
 }
