@@ -33,7 +33,7 @@ class AddCompany extends React.Component<CompanyProps, CompanyState> {
     this.setState({ address: e.target.value });
   }
 
-  public onSubmit(e : any) : void {
+  public onSubmit() : void {
     
   }
 
