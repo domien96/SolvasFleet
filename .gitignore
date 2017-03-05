@@ -23,6 +23,13 @@ gradle-app.setting
 *.iml
 /backend/out/
 .idea
+/backend/backend.iml
+
+# SonarQube
+.sonar
+
+# Log directory (Capistrano)
+/log/
 backend/lib/
 backend/web/WEB-INF/applicationContext.xml
 backend/web/WEB-INF/dispatcher-servlet.xml
