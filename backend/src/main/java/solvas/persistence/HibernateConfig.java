@@ -136,7 +136,7 @@ public class HibernateConfig {
      * Modify the flyway strategy to clean the database before migrating. Do not remove the clean profile annotation,
      * or the production database could be gone!
      *
-     * @return The strategy.
+     * @return The strategy for migrating.
      */
     @Bean
     @Profile("clean")
