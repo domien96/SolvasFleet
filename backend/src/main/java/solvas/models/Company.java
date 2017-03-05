@@ -2,7 +2,7 @@ package solvas.models;
 
 
 /**
- * Models a vehicle
+ * Models a Company
  * @author david
  * @author steven
  */
