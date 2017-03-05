@@ -7,6 +7,6 @@ import T          from 'i18n-react';
 
 T.setTexts(require('../../translations/en.yml'));
 
-import Login from './components/Login.tsx';
+import Companies from './components/Companies.tsx';
 
-render(<Login url = 'localhost:8000'/>, document.getElementById('app'));
+render(<Companies url = 'http://localhost:8000/sample_data/companies.json'/>, document.getElementById('app'));
