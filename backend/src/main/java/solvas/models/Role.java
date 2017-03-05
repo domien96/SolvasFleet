@@ -3,7 +3,8 @@ package solvas.models;
 import java.time.LocalDateTime;
 
 /**
- * Created by steve on 04/03/2017.
+ * Models a role
+ * @author  steve on 04/03/2017.
  */
 public class Role extends Model {
     private Company company;

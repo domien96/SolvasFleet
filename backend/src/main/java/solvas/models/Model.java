@@ -3,6 +3,7 @@ package solvas.models;
 import java.time.LocalDateTime;
 
 /**
+ * Abstract Model
  * Created by david on 3/1/17.
  */
 public class Model {

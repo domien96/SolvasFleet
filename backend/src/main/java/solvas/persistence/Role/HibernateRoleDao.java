@@ -6,7 +6,9 @@ import solvas.models.Role;
 import solvas.persistence.HibernateDao;
 
 /**
- * Created by steve on 04/03/2017.
+ * Hibernate implementation for role.
+ *
+ * @author steven
  */
 @Repository
 @Transactional

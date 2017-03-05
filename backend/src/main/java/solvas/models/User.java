@@ -1,6 +1,7 @@
 package solvas.models;
 
 /**
+ * Models a User
  * Created by steve on 04/03/2017.
  */
 public class User extends Model {

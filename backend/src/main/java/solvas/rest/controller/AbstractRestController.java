@@ -20,12 +20,19 @@ public abstract class AbstractRestController<T> {
         this.dao = dao;
     }
 
-
+    /**
+     * lists all models of type of the dao
+     * @return ResponseEntity
+     */
     ResponseEntity<?> listAll(){
         return new ResponseEntity<>(dao.findAll(), HttpStatus.OK);
     }
 
-
+    /**
+     * lists model of type of the dao with id
+     * @param stringId
+     * @return ResponseEntity
+     */
     ResponseEntity<?> getById(String stringId){
         int id;
         try {
@@ -42,6 +49,11 @@ public abstract class AbstractRestController<T> {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    /**
+     * post a new model in de db of type of the dao
+     * @param input model to be put in the db
+     * @return ResponseEntity
+     */
     ResponseEntity<?> post(T input) {
         //post message met application/json {"name":"comp4","vat":"4"}
         //TODO validate whether input is valid
@@ -53,12 +65,22 @@ public abstract class AbstractRestController<T> {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * Deletes a model from db TODO
+     * @param stringId id of the model
+     * @return ResponseEntity
+     */
     ResponseEntity<?> deleteById(String stringId){
         //TODO
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
+    /**
+     * Updates a model in db TODO
+     * @param input model to be updated
+     * @return ResponseEntity
+     */
     ResponseEntity<?> put( T input){
         //TODO
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);

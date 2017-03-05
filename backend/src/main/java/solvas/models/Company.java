@@ -1,9 +1,9 @@
 package solvas.models;
 
-import java.sql.Timestamp;
 
 /**
- * Created by david on 3/1/17.
+ * Models a vehicle
+ * @author david
  * @author steven
  */
 public class Company extends Model {

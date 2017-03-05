@@ -1,7 +1,8 @@
 package solvas.models;
 
 /**
- * Created by domien on 04/03/2017.
+ * Models a fleet
+ * @author domien
  */
 public class Fleet extends Model {
     private Company company;

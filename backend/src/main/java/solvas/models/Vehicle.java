@@ -2,6 +2,7 @@ package solvas.models;
 
 /**
  * Models a vehicle
+ * @author steven
  */
 public class Vehicle extends Model {
     private String licensePlate;

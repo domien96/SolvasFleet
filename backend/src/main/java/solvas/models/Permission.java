@@ -1,7 +1,8 @@
 package solvas.models;
 
 /**
- * Created by domien on 4/03/2017.
+ * Models a permission
+ * @author domien on 4/03/2017.
  */
 public class Permission extends Model {
     private String name;

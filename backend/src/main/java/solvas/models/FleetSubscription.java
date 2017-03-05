@@ -5,7 +5,8 @@ package solvas.models;
 import java.time.LocalDate;
 
 /**
- * Created by domien on 4/03/2017.
+ * Models a fleet subsrciption
+ * @author domien on 4/03/2017.
  */
 public class FleetSubscription extends Model {
     private LocalDate startDate;

@@ -6,7 +6,9 @@ import solvas.models.User;
 import solvas.persistence.HibernateDao;
 
 /**
- * Created by steve on 04/03/2017.
+ * Hibernate implementation for user.
+ *
+ * @author steven
  */
 @Repository
 @Transactional
