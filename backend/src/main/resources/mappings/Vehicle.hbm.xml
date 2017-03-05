@@ -15,7 +15,6 @@
       <property name="licensePlate" column="license_plate" type="string"/>
        <property name="chassisNumber" column="chassis_number" type="string"/>
        <property name="model" column="model" type="string"/>
-       <property name="type" column="type" type="string"/>
        <property name="kilometerCount" column="kilometer_count" type="int"/>
        <property name="year" column="year" type="int"/>
 

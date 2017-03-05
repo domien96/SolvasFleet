@@ -28,7 +28,6 @@ CREATE TABLE vehicles (
   license_plate VARCHAR(255),
   chassis_number VARCHAR(255),
   model VARCHAR(255),
-  type VARCHAR(255),
   kilometer_count INT,
   year INT,
   leasing_company_id INT REFERENCES companies(company_id),
