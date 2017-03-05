@@ -43,7 +43,7 @@ public class VehicleRestController extends AbstractRestController<Vehicle> {
 
     @Override
     @RequestMapping(value = "/vehicles/{id}", method = RequestMethod.DELETE)
-    ResponseEntity<?> deleteById(@RequestBody int id) {
+    ResponseEntity<?> deleteById(@PathVariable int id) {
         return super.deleteById(id);
     }
 

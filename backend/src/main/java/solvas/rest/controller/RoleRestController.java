@@ -44,7 +44,7 @@ public class RoleRestController extends AbstractRestController<Role> {
 
     @Override
     @RequestMapping(value = "/roles/{id}", method = RequestMethod.DELETE)
-    ResponseEntity<?> deleteById(@RequestBody int id) {
+    ResponseEntity<?> deleteById(@PathVariable int id) {
         return super.deleteById(id);
     }
 
