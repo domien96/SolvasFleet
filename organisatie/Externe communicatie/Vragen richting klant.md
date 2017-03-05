@@ -1,5 +1,6 @@
 __De vragen hier zullen doorgegeven worden naar de klant door de CRO:__
 
+* Hoewel een voertuig hoofdzakelijk bij maar 1 bedrijf aangesloten zal zijn, is dit geen garantie. Is het voor Solvas interessant dat we een geschiedenis bijhouden voor ieder voertuig, bij welke bedrijven of banken het voertuig ooit aangesloten was (in context van leasing)?
 
 <br><br>
 
