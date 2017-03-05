@@ -3,8 +3,8 @@
 * Alle informatie omtrent het teamverband en teamorganisatie vindt u onder /organisatie.
 * De teamcommunicatie vindt hoofdzakelijk plaats in onze slackroom. De belangrijkste besprekingen en hun beslissingen uit deze slackroom vindt u onder organisatie/besprekingen.
 * De meest recente informatie over de api vindt u in /api onder de branch "api".
-* De wekelijkse snapshots zijn te vinden [hier](vopro6.ugent.be/snapshot). De meest recente onder current, en een volledige lijst onder releases.
-* U kan volgende login gebruiken voor [onze website](vopro6.ugent.be): vopro6:YF9sxqdM
+* De wekelijkse snapshots zijn te vinden [hier](www.vopro6.ugent.be/snapshot). De meest recente onder current, en een volledige lijst onder releases.
+* U kan volgende login gebruiken voor [onze website](www.vopro6.ugent.be): vopro6:YF9sxqdM
 
 Bij vragen of onduidelijkheden kunt u steeds terecht bij domien.vansteendam@ugent.be
 
