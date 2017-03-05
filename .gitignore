@@ -26,3 +26,6 @@ gradle-app.setting
 
 # SonarQube
 .sonar
+
+# Log directory (Capistrano)
+/log/
