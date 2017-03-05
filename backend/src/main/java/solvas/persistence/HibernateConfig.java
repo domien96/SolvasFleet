@@ -80,7 +80,7 @@ public class HibernateConfig {
      * @return The factory.
      */
     @Bean
-    @Profile("debug")
+    @Profile({"debug", "clean"})
     public LocalSessionFactoryBean sessionDebugFactory() {
         Properties hibernateProperties = getHibernateProperties();
         hibernateProperties.put(AvailableSettings.SHOW_SQL, true);
