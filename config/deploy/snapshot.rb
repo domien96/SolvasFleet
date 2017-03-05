@@ -10,7 +10,6 @@ server "vopro6.ugent.be",
    }
 
 set :deploy_to, '/srv/snapshot'
-set :deploy_via, :copy
 
 namespace :git do
   Rake::Task['create_release'].clear_actions
