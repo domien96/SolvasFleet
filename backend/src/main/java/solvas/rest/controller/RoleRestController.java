@@ -25,14 +25,14 @@ public class RoleRestController extends AbstractRestController<Role> {
 
     @Override
     @RequestMapping(value = "/roles",method = RequestMethod.GET)
-    ResponseEntity<?> get() {
-        return super.get();
+    ResponseEntity<?> listAll() {
+        return super.listAll();
     }
 
     @Override
     @RequestMapping(value = "/roles/{stringId}",method = RequestMethod.GET)
-    ResponseEntity<?> getId(@PathVariable String stringId) {
-        return super.getId(stringId);
+    ResponseEntity<?> getById(@PathVariable String stringId) {
+        return super.getById(stringId);
     }
 
     @Override
@@ -43,8 +43,8 @@ public class RoleRestController extends AbstractRestController<Role> {
 
     @Override
     @RequestMapping(value = "/roles/{stringId}",method = RequestMethod.DELETE)
-    ResponseEntity<?> deleteId(@RequestBody String stringId) {
-        return super.deleteId(stringId);
+    ResponseEntity<?> deleteById(@RequestBody String stringId) {
+        return super.deleteById(stringId);
     }
 
     @Override

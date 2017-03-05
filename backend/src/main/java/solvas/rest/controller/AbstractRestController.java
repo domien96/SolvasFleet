@@ -10,7 +10,7 @@ import solvas.persistence.Dao;
  */
 public abstract class AbstractRestController<T> {
 
-    protected Dao<T> dao;
+    protected final Dao<T> dao;
 
     /**
      * Abstract Rest controller to minimize code duplication
@@ -21,12 +21,12 @@ public abstract class AbstractRestController<T> {
     }
 
 
-    ResponseEntity<?> get(){
+    ResponseEntity<?> listAll(){
         return new ResponseEntity<>(dao.findAll(), HttpStatus.OK);
     }
 
 
-    ResponseEntity<?> getId(String stringId){
+    ResponseEntity<?> getById(String stringId){
         int id;
         try {
             id = Integer.parseInt(stringId);
@@ -43,8 +43,8 @@ public abstract class AbstractRestController<T> {
     }
 
     ResponseEntity<?> post(T input) {
-        //post message met aplication/json {"name":"comp4","vat":"4"}
-        //TODO validate wether inpu is valid
+        //post message met application/json {"name":"comp4","vat":"4"}
+        //TODO validate whether input is valid
 
         if (input!=null){
             dao.save(input);
@@ -53,7 +53,8 @@ public abstract class AbstractRestController<T> {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    ResponseEntity<?> deleteId(String stringId){
+    ResponseEntity<?> deleteById(String stringId){
+        //TODO
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }

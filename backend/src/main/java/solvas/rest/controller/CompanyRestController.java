@@ -1,16 +1,10 @@
 package solvas.rest.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import solvas.models.Company;
-import solvas.models.Role;
-import solvas.persistence.Role.RoleDao;
 import solvas.persistence.company.CompanyDao;
-
-
-import java.util.Collection;
 
 
 /**
@@ -32,14 +26,14 @@ public class CompanyRestController extends AbstractRestController<Company> {
 
     @Override
     @RequestMapping(value = "/companies",method = RequestMethod.GET)
-    ResponseEntity<?> get() {
-        return super.get();
+    ResponseEntity<?> listAll() {
+        return super.listAll();
     }
 
     @Override
     @RequestMapping(value = "/companies/{stringId}",method = RequestMethod.GET)
-    ResponseEntity<?> getId(@PathVariable String stringId) {
-        return super.getId(stringId);
+    ResponseEntity<?> getById(@PathVariable String stringId) {
+        return super.getById(stringId);
     }
 
     @Override
@@ -50,8 +44,8 @@ public class CompanyRestController extends AbstractRestController<Company> {
 
     @Override
     @RequestMapping(value = "/companies/{stringId}",method = RequestMethod.DELETE)
-    ResponseEntity<?> deleteId(@RequestBody String stringId) {
-        return super.deleteId(stringId);
+    ResponseEntity<?> deleteById(@RequestBody String stringId) {
+        return super.deleteById(stringId);
     }
 
     @Override

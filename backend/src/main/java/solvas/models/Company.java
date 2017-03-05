@@ -76,20 +76,4 @@ public class Company extends Model {
         this.url = url;
     }
 
-    /**
-     * TODO check if usefull
-     * @param input TODO
-     * @return TODO
-     */
-    public Company update(Company input){
-        if (getId()==input.getId()) { //check variables for null
-            this.name = input.name;
-            this.vatNumber = input.vatNumber;
-            this.phoneNumber = input.phoneNumber;
-            this.address = input.address;
-            this.updatedAt = Timestamp.valueOf(LocalDateTime.now()); //Should be updated by db
-            this.url = input.url;
-            return this;
-        } else {return null;} //replace by error
-    }
 }

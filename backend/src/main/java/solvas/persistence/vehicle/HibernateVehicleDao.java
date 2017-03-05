@@ -13,7 +13,10 @@ import solvas.persistence.HibernateDao;
 public class HibernateVehicleDao extends HibernateDao<Vehicle> implements VehicleDao {
 
 
-    protected HibernateVehicleDao() {
+    /**
+     * Hibernate implementation for Vehicle.
+     */
+    public HibernateVehicleDao() {
         super(Vehicle.class);
     }
 }

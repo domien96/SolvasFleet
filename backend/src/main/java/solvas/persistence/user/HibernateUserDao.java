@@ -5,8 +5,6 @@ import org.springframework.transaction.annotation.Transactional;
 import solvas.models.User;
 import solvas.persistence.HibernateDao;
 
-import java.util.Collection;
-
 /**
  * Created by steve on 04/03/2017.
  */
@@ -15,7 +13,10 @@ import java.util.Collection;
 public class HibernateUserDao extends HibernateDao<User> implements UserDao {
 
 
-    protected HibernateUserDao() {
+    /**
+     * Hibernate implementation for User.
+     */
+    public HibernateUserDao() {
         super(User.class);
     }
 }
