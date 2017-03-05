@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 /**
  * Models a role
- * @author  steve on 04/03/2017.
+ * @author: steve on 04/03/2017.
  */
 public class Role extends Model {
     private Company company;

@@ -2,7 +2,7 @@ package solvas.models;
 
 /**
  * Models a fleet
- * @author domien
+ * @author domien on 04/03/2017
  */
 public class Fleet extends Model {
     private Company company;
