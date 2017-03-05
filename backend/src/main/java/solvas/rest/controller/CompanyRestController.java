@@ -31,6 +31,12 @@ public class CompanyRestController extends AbstractRestController<Company> {
     }
 
     @Override
+    @RequestMapping(value = "/companies", method = RequestMethod.POST)
+    ResponseEntity<?> post(@RequestBody Company input) {
+        return super.post(input);
+    }
+
+    @Override
     @RequestMapping(value = "/companies/{id}", method = RequestMethod.GET)
     ResponseEntity<?> getById(@PathVariable int id) {
         return super.getById(id);
