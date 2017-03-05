@@ -1,17 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE hibernate-mapping PUBLIC 
- "-//Hibernate/Hibernate Mapping DTD//EN"
- "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"> 
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-   <class name="solvas.models.Company" table="companies">
-      <meta attribute="class-description">
-         This class contains the Company detail.
-      </meta>
-      <id name="id" type="int" column="id">
-         <generator class="identity"/>
-      </id>
-      <property name="name" column="name" type="string"/>
-      <property name="vat" column="vat" type="string"/>
-   </class>
+    <class name="solvas.models.Company" table="companies">
+        <meta attribute="class-description">
+            This class contains the company detail.
+        </meta>
+        <id name="id" type="int" column="company_id">
+            <generator class="identity"/>
+        </id>
+        <property name="name" column="name" type="string"/>
+        <property name="vatNumber" column="vat" type="string"/>
+        <property name="phoneNumber" column="phone" type="string"/>
+
+        <property name="address" column="address" type="string"/>
+
+        <property name="updatedAt" column="updated_at" type="timestamp"/>
+        <!--http://stackoverflow.com/questions/
+        2635046/set-creation-and-update-time-with-hibernate-in-xml-mappings-->
+        <property name="createdAt" column="created_at" type="timestamp"/>
+
+
+
+    </class>
 </hibernate-mapping>

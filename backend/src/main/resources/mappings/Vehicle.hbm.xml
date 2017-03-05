@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"> 
+
+<hibernate-mapping>
+   <class name="solvas.models.Vehicle" table="vehicles">
+      <meta attribute="class-description">
+         This class contains the vehicle detail.
+      </meta>
+      <id name="id" type="int" column="vehicle_id">
+         <generator class="identity"/>
+      </id>
+
+      <property name="licensePlate" column="license_plate" type="string"/>
+       <property name="chassisNumber" column="chassis_number" type="string"/>
+       <property name="model" column="model" type="string"/>
+       <property name="kilometerCount" column="kilometer_count" type="int"/>
+       <property name="year" column="year" type="int"/>
+
+       <many-to-one name="leasingCompany" column="leasing_company_id"
+                    class="solvas.models.Company" not-null="false"/>
+
+       <property name="value" column="vat" type="int"/>
+
+       <many-to-one name="company" column="company_id"
+                    class="solvas.models.Company" not-null="false"/>
+
+      <property name="updatedAt" column="updated_at" type="timestamp"/>
+      <!--http://stackoverflow.com/questions/
+      2635046/set-creation-and-update-time-with-hibernate-in-xml-mappings-->
+      <property name="createdAt" column="created_at" type="timestamp"/>
+   </class>
+</hibernate-mapping>
