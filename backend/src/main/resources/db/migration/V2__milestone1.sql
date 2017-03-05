@@ -10,7 +10,7 @@ CREATE TABLE companies (
   phone VARCHAR(255),
   address VARCHAR(255),
   updated_at TIMESTAMP,
-  CREATEd_at TIMESTAMP,
+  created_at TIMESTAMP,
   PRIMARY KEY (company_id));
 
 CREATE TABLE users (
@@ -20,7 +20,7 @@ CREATE TABLE users (
   email VARCHAR(255),
   password VARCHAR(255),
   updated_at TIMESTAMP,
-  CREATEd_at TIMESTAMP,
+  created_at TIMESTAMP,
   PRIMARY KEY (user_id));
 
 CREATE TABLE vehicles (
@@ -35,7 +35,7 @@ CREATE TABLE vehicles (
   vat INT,
   company_id INT REFERENCES companies(company_id),
   updated_at TIMESTAMP,
-  CREATEd_at TIMESTAMP,
+  created_at TIMESTAMP,
   PRIMARY KEY (vehicle_id));
 
 CREATE TABLE roles (
@@ -44,5 +44,5 @@ CREATE TABLE roles (
   company_id INT REFERENCES companies(company_id),
   user_id INT REFERENCES users(user_id),
   updated_at TIMESTAMP,
-  CREATEd_at TIMESTAMP,
+  created_at TIMESTAMP,
   PRIMARY KEY (role_id));
