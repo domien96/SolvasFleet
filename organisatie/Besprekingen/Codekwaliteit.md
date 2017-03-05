@@ -1,5 +1,5 @@
 ## 18 Februari
-## Aandachtspunten omtrent kwaliteit van code
+### Aandachtspunten omtrent kwaliteit van code
 Hou volgende zaken zeker in het hoofd bij het programmeren! Ze kunnen ons een hoop onnodig werk besparen.
 Deze lijst is zeker nog niet af, dus check regelmatig voor toevoegingen.
 
