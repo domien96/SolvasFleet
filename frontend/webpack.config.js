@@ -18,7 +18,7 @@ var config = {
   module: {
     loaders : [
       {
-        test: /\.tsx?/,
+        test: /\.tsx?$/,
         include: APP_DIR,
         use: [ { loader : 'babel-loader' }, { loader: 'ts-loader'}]
       },
