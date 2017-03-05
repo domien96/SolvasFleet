@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
  * @author: David on 3/1/17
  * @author: Steven
  */
-public class Model {
+public abstract class Model {
     protected int id;
     protected LocalDateTime createdAt;
     protected LocalDateTime updatedAt;
