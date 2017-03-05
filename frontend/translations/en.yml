@@ -16,9 +16,13 @@ form:
     leasingCompany: Leasing company
     value: Estimated value
     company: Company
+    firstName: First name
+    lastName: Last name
 login:
   submit: 'Login'
 addCompany:
-  submit: 'Add'
+  submit: 'Add Comany'
 addVehicle: 
   submit: 'Add Vehicle'
+addUser: 
+  submit: 'Add User'

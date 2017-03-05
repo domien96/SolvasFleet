@@ -54,7 +54,7 @@ interface VehicleState{
   kmCount: number;
   year: number;
   leasingCompany: string;
-  value: string;
+  value: number;
   company: string;
 }
 
@@ -65,6 +65,7 @@ interface UserProps{
 }
 
 interface UserState{
+  errors: FormError[];
   firstName: string;
   lastName: string;
   email: string;
@@ -78,6 +79,7 @@ interface RoleProps{
 }
 
 interface RoleState{
+  errors: FormError[];
   company: string;
   functon: string;
   user: string;

@@ -46,3 +46,18 @@ body {
     }
   }
 }
+
+.addUser-form-wrapper {
+  border-color: #ddd;
+  border-width: 1px;
+  border-radius: 4px;
+  border-style: solid;
+  padding: 15px;
+
+  .addUser-form {
+    .has-error {
+      color: red;
+      border-color: red;
+    }
+  }
+}
