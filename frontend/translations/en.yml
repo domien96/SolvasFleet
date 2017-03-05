@@ -18,6 +18,7 @@ form:
     company: Company
     firstName: First name
     lastName: Last name
+    permission: Function in company
 login:
   submit: 'Login'
 addCompany:
@@ -26,3 +27,7 @@ addVehicle:
   submit: 'Add Vehicle'
 addUser: 
   submit: 'Add User'
+addRole:
+  submit: 'Add Role to user'
+  startDate: Start date
+  endDate: End date

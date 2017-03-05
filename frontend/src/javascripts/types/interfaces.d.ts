@@ -81,8 +81,8 @@ interface RoleProps{
 interface RoleState{
   errors: FormError[];
   company: string;
-  functon: string;
+  permission: string;
   user: string;
-  startDate: date;
-  endDate: date;
+  startDate: string;
+  endDate: string;
 }
