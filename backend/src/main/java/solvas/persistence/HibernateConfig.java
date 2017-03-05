@@ -69,10 +69,35 @@ public class HibernateConfig {
      * @return The factory.
      */
     @Bean
+    @Profile("default")
     public LocalSessionFactoryBean sessionFactory() {
+        return createSessionFactory(getHibernateProperties());
+    }
+
+    /**
+     * The session factory bean. Spring manages everything for us.
+     *
+     * @return The factory.
+     */
+    @Bean
+    @Profile("debug")
+    public LocalSessionFactoryBean sessionDebugFactory() {
+        Properties hibernateProperties = getHibernateProperties();
+        hibernateProperties.put(AvailableSettings.SHOW_SQL, true);
+        return createSessionFactory(hibernateProperties);
+    }
+
+    /**
+     * Create a session factory bean, given some properties.
+     *
+     * @param hibernateProperties The hibernate properties to use.
+     *
+     * @return The bean if successful, otherwise a {@link BeanCreationException} is thrown.
+     */
+    private LocalSessionFactoryBean createSessionFactory(Properties hibernateProperties) {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(getDataSource());
-        sessionFactory.setHibernateProperties(getHibernateProperties());
+        sessionFactory.setHibernateProperties(hibernateProperties);
         try {
             // Automatically load mappings.
             sessionFactory.setMappingLocations(loadResources());
@@ -88,10 +113,8 @@ public class HibernateConfig {
     private Properties getHibernateProperties() {
         Properties properties = new Properties();
         properties.put(AvailableSettings.DIALECT, env.getRequiredProperty("hibernate.dialect"));
-        properties.put(AvailableSettings.SHOW_SQL, env.getRequiredProperty("hibernate.show_sql"));
         properties.put(AvailableSettings.CURRENT_SESSION_CONTEXT_CLASS, env.getRequiredProperty("hibernate.current.session.context.class"));
         properties.put(AvailableSettings.STATEMENT_BATCH_SIZE, env.getRequiredProperty("hibernate.batch.size"));
-        properties.put(AvailableSettings.HBM2DDL_AUTO, env.getRequiredProperty("hibernate.hbm2ddl.auto"));
         return properties;
     }
 
@@ -107,5 +130,14 @@ public class HibernateConfig {
         HibernateTransactionManager txManager = new HibernateTransactionManager();
         txManager.setSessionFactory(sessionFactory.getObject());
         return txManager;
+    }
+
+    @Bean
+    @Profile("clean")
+    public FlywayMigrationStrategy cleanMigrateStrategy() {
+        return flyway -> {
+            flyway.clean();
+            flyway.migrate();
+        };
     }
 }
