@@ -9,13 +9,13 @@ import solvas.persistence.user.UserDao;
 /**
  * Rest controller for User
  * Visit @ /users
- *
  */
 @RestController
 public class UserRestController extends AbstractRestController<User> {
 
     /**
      * Rest controller for User
+     *
      * @param dao Autowired
      */
     @Autowired
@@ -24,31 +24,31 @@ public class UserRestController extends AbstractRestController<User> {
     }
 
     @Override
-    @RequestMapping(value = "/users",method = RequestMethod.GET)
+    @RequestMapping(value = "/users", method = RequestMethod.GET)
     ResponseEntity<?> listAll() {
         return super.listAll();
     }
 
     @Override
-    @RequestMapping(value = "/users/{stringId}",method = RequestMethod.GET)
-    ResponseEntity<?> getById(@PathVariable String stringId) {
-        return super.getById(stringId);
+    @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
+    ResponseEntity<?> getById(@PathVariable int id) {
+        return super.getById(id);
     }
 
     @Override
-    @RequestMapping(value = "/users",method = RequestMethod.POST)
+    @RequestMapping(value = "/users", method = RequestMethod.POST)
     ResponseEntity<?> post(@RequestBody User input) {
         return super.post(input);
     }
 
     @Override
-    @RequestMapping(value = "/users/{stringId}",method = RequestMethod.DELETE)
-    ResponseEntity<?> deleteById(@RequestBody String stringId) {
-        return super.deleteById(stringId);
+    @RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)
+    ResponseEntity<?> deleteById(@PathVariable int id) {
+        return super.deleteById(id);
     }
 
     @Override
-    @RequestMapping(value = "/users",method = RequestMethod.PUT)
+    @RequestMapping(value = "/users", method = RequestMethod.PUT)
     ResponseEntity<?> put(@RequestBody User input) {
         return super.put(input);
     }

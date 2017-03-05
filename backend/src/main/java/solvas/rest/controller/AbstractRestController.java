@@ -1,76 +1,100 @@
 package solvas.rest.controller;
 
+import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ClassUtils;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import solvas.persistence.Dao;
 
 /**
- * Abstract Rest controller to minimize code duplication
- * @param <T> abstract dao
+ * Abstract REST controller.
+ *
+ * @param <T> Type of the entity to work with.
  */
 public abstract class AbstractRestController<T> {
 
     protected final Dao<T> dao;
 
     /**
-     * Abstract Rest controller to minimize code duplication
-     * @param dao abstract
+     * Default constructor.
+     *
+     * @param dao The dao to work with.
      */
     public AbstractRestController(Dao<T> dao) {
         this.dao = dao;
     }
 
     /**
-     * lists all models of type of the dao
+     * Lists all models.
+     *
      * @return ResponseEntity
      */
-    ResponseEntity<?> listAll(){
+    ResponseEntity<?> listAll() {
         return new ResponseEntity<>(dao.findAll(), HttpStatus.OK);
     }
 
     /**
-     * lists model of type of the dao with id
-     * @param stringId
-     * @return ResponseEntity
+     * Show the model with the given ID.
+     *
+     * @param id The ID of the model.
+     *
+     * @return Response with the model or 404.
      */
-    ResponseEntity<?> getById(String stringId){
-        int id;
-        try {
-            id = Integer.parseInt(stringId);
-        } catch (NumberFormatException e){
-            // TODO: make 404's have proper JSON bodies
-            return new ResponseEntity<>("Id not valid", HttpStatus.NOT_FOUND);
-        }
+    ResponseEntity<?> getById(int id) {
         T result = dao.find(id);
-        if(result == null) {
+
+        if (result == null) {
             return new ResponseEntity<>("Object with id not found", HttpStatus.NOT_FOUND);
 
         }
+
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     /**
-     * post a new model in de db of type of the dao
-     * @param input model to be put in the db
-     * @return ResponseEntity
+     * Handle cases where the path variable cannot be converted to the required type.
+     *
+     * @param ex The exception.
+     *
+     * @return The error entity, containing a message explaining the error.
+     */
+    @ExceptionHandler(TypeMismatchException.class)
+    public ResponseEntity<?> handleTypeMismatchException(TypeMismatchException ex) {
+
+        String actualType = ClassUtils.getDescriptiveType(ex.getValue());
+        String requiredType = ex.getRequiredType().getTypeName();
+        String message = "Failed to convert %1s to %2s. Input was: %3s.";
+
+        return new ResponseEntity<>(String.format(message, actualType, requiredType, ex.getValue()), HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * Save a new model in the database.
+     *
+     * @param input The model to save.
+     *
+     * @return Response with the saved model, or 400.
      */
     ResponseEntity<?> post(T input) {
         //post message met application/json {"name":"comp4","vat":"4"}
         //TODO validate whether input is valid
 
-        if (input!=null){
-            dao.save(input);
-            return new ResponseEntity<>(HttpStatus.OK); // add URI to location header field
+        if (input != null) {
+            T result = dao.save(input);
+            return new ResponseEntity<>(result, HttpStatus.OK); // add URI to location header field
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     /**
      * Deletes a model from db TODO
-     * @param stringId id of the model
+     *
+     * @param id id of the model
+     *
      * @return ResponseEntity
      */
-    ResponseEntity<?> deleteById(String stringId){
+    ResponseEntity<?> deleteById(int id) {
         //TODO
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -78,16 +102,13 @@ public abstract class AbstractRestController<T> {
 
     /**
      * Updates a model in db TODO
+     *
      * @param input model to be updated
+     *
      * @return ResponseEntity
      */
-    ResponseEntity<?> put( T input){
+    ResponseEntity<?> put(T input) {
         //TODO
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
-
-
-
-
-
 }
