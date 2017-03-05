@@ -8,7 +8,9 @@ import solvas.persistence.company.CompanyDao;
 
 
 /**
- * Visit @ http://localhost:8080/companies
+ * Rest controller for Company
+ * Visit @ /companies
+ *
  */
 @RestController
 public class CompanyRestController extends AbstractRestController<Company> {

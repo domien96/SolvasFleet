@@ -1,48 +1,48 @@
-drop table if exists companies cascade;
-drop table if exists roles cascade;
-drop table if exists users cascade;
-drop table if exists vehicles cascade;
+DROP TABLE IF EXISTS companies CASCADE;
+DROP TABLE IF EXISTS roles CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS vehicles CASCADE;
 
-create table companies (
-  company_id  serial not null,
-  name varchar(255),
-  vat varchar(255),
-  phone varchar(255),
-  address varchar(255),
-  updated_at timestamp,
-  created_at timestamp,
-  primary key (company_id));
+CREATE TABLE companies (
+  company_id  SERIAL NOT NULL,
+  name VARCHAR(255),
+  vat VARCHAR(255),
+  phone VARCHAR(255),
+  address VARCHAR(255),
+  updated_at TIMESTAMP,
+  CREATEd_at TIMESTAMP,
+  PRIMARY KEY (company_id));
 
-create table users (
-  user_id  serial not null,
-  first_name varchar(255),
-  last_name varchar(255),
-  email varchar(255),
-  password varchar(255),
-  updated_at timestamp,
-  created_at timestamp,
-  primary key (user_id));
+CREATE TABLE users (
+  user_id  SERIAL NOT NULL,
+  first_name VARCHAR(255),
+  last_name VARCHAR(255),
+  email VARCHAR(255),
+  password VARCHAR(255),
+  updated_at TIMESTAMP,
+  CREATEd_at TIMESTAMP,
+  PRIMARY KEY (user_id));
 
-create table vehicles (
-  vehicle_id  serial not null,
-  license_plate varchar(255),
-  chassis_number varchar(255),
-  model varchar(255),
-  type varchar(255),
-  kilometer_count int4,
-  year int4,
-  leasing_company_id int4 REFERENCES companies(company_id),
-  vat int4,
-  company_id int4 REFERENCES companies(company_id),
-  updated_at timestamp,
-  created_at timestamp,
-  primary key (vehicle_id));
+CREATE TABLE vehicles (
+  vehicle_id  SERIAL NOT NULL,
+  license_plate VARCHAR(255),
+  chassis_number VARCHAR(255),
+  model VARCHAR(255),
+  type VARCHAR(255),
+  kilometer_count INT,
+  year INT,
+  leasing_company_id INT REFERENCES companies(company_id),
+  vat INT,
+  company_id INT REFERENCES companies(company_id),
+  updated_at TIMESTAMP,
+  CREATEd_at TIMESTAMP,
+  PRIMARY KEY (vehicle_id));
 
-create table roles (
-  role_id  serial not null,
-  function varchar(255),
-  company_id int4 REFERENCES companies(company_id),
-  user_id int4 REFERENCES users(user_id),
-  updated_at timestamp,
-  created_at timestamp,
-  primary key (role_id));
+CREATE TABLE roles (
+  role_id  SERIAL NOT NULL,
+  function VARCHAR(255),
+  company_id INT REFERENCES companies(company_id),
+  user_id INT REFERENCES users(user_id),
+  updated_at TIMESTAMP,
+  CREATEd_at TIMESTAMP,
+  PRIMARY KEY (role_id));

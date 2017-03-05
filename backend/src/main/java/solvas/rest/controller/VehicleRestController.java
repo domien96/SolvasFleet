@@ -7,7 +7,9 @@ import solvas.models.Vehicle;
 import solvas.persistence.vehicle.VehicleDao;
 
 /**
- * Visit @ http://localhost:8080/vehicles
+ * Rest controller for Vehicle
+ * Visit @ /vehicles
+ *
  */
 @RestController
 public class VehicleRestController extends AbstractRestController<Vehicle> {

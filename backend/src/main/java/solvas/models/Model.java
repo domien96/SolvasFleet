@@ -6,7 +6,7 @@ import java.sql.Timestamp;
  * Created by david on 3/1/17.
  */
 public class Model {
-    private int id;
+    protected int id;
     protected Timestamp createdAt;
     protected Timestamp updatedAt;
 

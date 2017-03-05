@@ -8,7 +8,9 @@ import solvas.persistence.Role.RoleDao;
 
 
 /**
- * Visit @ http://localhost:8080/roles
+ * Rest controller for Role
+ * Visit @ /roles
+ *
  */
 @RestController
 public class RoleRestController extends AbstractRestController<Role> {
