@@ -1,5 +1,6 @@
 /// <reference path="../types/interfaces.d.ts"/>
 import React from 'react';
+import T from 'i18n-react';
 
 import FormField from './FormField.tsx';
 
@@ -7,7 +8,7 @@ class AddCompany extends React.Component<CompanyProps, CompanyState> {
 
   constructor(props : CompanyProps) {
     super(props);
-    this.state = { errors: [], name: null, vat_number: null, phone_number: null, address: null };
+    this.state = { errors: [], name: null, vatNumber: null, phoneNumber: null, address: null };
 
     this.handleNameChange    = this.handleNameChange.bind(this);
     this.handleVatNumberChange = this.handleVatNumberChange.bind(this);
@@ -23,20 +24,20 @@ class AddCompany extends React.Component<CompanyProps, CompanyState> {
       errors.push({ field: 'name', error: 'is empty'});
     }
 
-    if (this.state.vat_number == null || this.state.vat_number == '') {
-      errors.push({ field: 'vat_number', error: 'is empty'});
+    if (this.state.vatNumber == null || this.state.vatNumber == '') {
+      errors.push({ field: 'vatNumber', error: 'is empty'});
     }
 
-    if (this.state.phone_number == null || this.state.phone_number == '') {
-      errors.push({ field: 'phone_number', error: 'is empty'});
+    if (this.state.phoneNumber == null || this.state.phoneNumber == '') {
+      errors.push({ field: 'phoneNumber', error: 'is empty'});
     }
 
     if (this.state.address == null || this.state.address == '') {
       errors.push({ field: 'address', error: 'is empty'});
     }
 
-    //TODO: check correct format of VAT_number
-    //TODO: might be needed to change phone_number to string or add a '+' sign to the form
+    //TODO: check correct format of VAT number
+    //TODO: might be needed to change phone number to string or add a '+' sign to the form
 
     return errors;
   }
@@ -46,11 +47,11 @@ class AddCompany extends React.Component<CompanyProps, CompanyState> {
   }
 
   public handleVatNumberChange(e : any) : void {
-    this.setState({ vat_number: e.target.value });
+    this.setState({ vatNumber: e.target.value });
   }
 
   public handlePhoneNumberChange(e : any) : void {
-    this.setState({ phone_number: e.target.value });
+    this.setState({ phoneNumber: e.target.value });
   }
 
   public handleAddressChange(e : any) : void {
@@ -63,8 +64,6 @@ class AddCompany extends React.Component<CompanyProps, CompanyState> {
       e.preventDefault();
       this.setState({ errors: errors });
     }
-    //TODO : submit
-
   }
 
   public hasError(k : string) : boolean {
@@ -81,11 +80,13 @@ class AddCompany extends React.Component<CompanyProps, CompanyState> {
           <div className='col-xs-12 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4'>
             <div className='addCompany-form-wrapper'>
               <form method='POST' onSubmit={this.onSubmit} className='addCompany-form' >
-                <FormField placeholder='name'    type='text'     callback={ this.handleNameChange    } hasError={ this.hasError('name')}    />
-                <FormField placeholder='VAT number' type='text' callback={ this.handleVatNumberChange } hasError={ this.hasError('vat_number')} />
-                <FormField placeholder='phone number' type='number' callback={ this.handlePhoneNumberChange } hasError={ this.hasError('phone_number')} />
-                <FormField placeholder='address' type='text' callback={ this.handleAddressChange } hasError={ this.hasError('address')} />
-                <input type='submit' value='Add' className='btn btn-default' />
+                <FormField placeholder='form.placeholders.name'    type='text'     callback={ this.handleNameChange    } hasError={ this.hasError('name')}    />
+                <FormField placeholder='form.placeholders.vatNumber' type='text' callback={ this.handleVatNumberChange } hasError={ this.hasError('vatNumber')} />
+                <FormField placeholder='form.placeholders.phoneNumber' type='number' callback={ this.handlePhoneNumberChange } hasError={ this.hasError('phoneNumber')} />
+                <FormField placeholder='form.placeholders.address' type='text' callback={ this.handleAddressChange } hasError={ this.hasError('address')} />
+                <button type='submit' className='btn btn-default'> 
+                  <T.text tag='span' text='addCompany.submit' />
+                </button>
               </form>
             </div>
           </div>
