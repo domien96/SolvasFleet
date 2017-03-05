@@ -132,6 +132,12 @@ public class HibernateConfig {
         return txManager;
     }
 
+    /**
+     * Modify the flyway strategy to clean the database before migrating. Do not remove the clean profile annotation,
+     * or the production database could be gone!
+     *
+     * @return The strategy.
+     */
     @Bean
     @Profile("clean")
     public FlywayMigrationStrategy cleanMigrateStrategy() {
