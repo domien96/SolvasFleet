@@ -2,7 +2,7 @@ package solvas.models;
 
 /**
  * Models a User
- * @author: steve on 04/03/2017.
+ * @author steve on 04/03/2017.
  */
 public class User extends Model {
     private String firstName;

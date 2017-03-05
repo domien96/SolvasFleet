@@ -4,8 +4,9 @@ import java.time.LocalDateTime;
 
 /**
  * Abstract Model
- * @author: David on 3/1/17
- * @author: Steven
+ * @author David on 3/1/17
+ * @author Steven
+ * @author domien
  */
 public abstract class Model {
     protected int id;
