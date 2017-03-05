@@ -1,3 +1,4 @@
+## 5 maart
 We hebben in de slack besloten om SonarQube te gebruiken om onze commits te controleren.
 Deze gaat onder andere na dat alle variabalen in Camelcase genoteerd zijn, alle klassen en methoden gedocumenteerd zijn, enz... .
 SonarQube is geactiveerd op David zijn Github account.
