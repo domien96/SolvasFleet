@@ -1,8 +1,5 @@
 package solvas.models;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-
 /**
  * Models a vehicle
  */

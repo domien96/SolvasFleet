@@ -1,6 +1,5 @@
 package solvas.models;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 /**
@@ -11,8 +10,8 @@ public class Role extends Model {
     private String function; // change to ?
     private User user;
 
-    private Timestamp startDate;
-    private Timestamp endDate;
+    private LocalDateTime startDate; //todo check if it should be replaced by localdate
+    private LocalDateTime endDate;
     private String url; // calculate on th fly?
 
 
@@ -44,19 +43,19 @@ public class Role extends Model {
         this.user = user;
     }
 
-    public Timestamp getStartDate() {
+    public LocalDateTime getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Timestamp startDate) {
+    public void setStartDate(LocalDateTime startDate) {
         this.startDate = startDate;
     }
 
-    public Timestamp getEndDate() {
+    public LocalDateTime getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Timestamp endDate) {
+    public void setEndDate(LocalDateTime endDate) {
         this.endDate = endDate;
     }
 

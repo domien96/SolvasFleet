@@ -1,8 +1,5 @@
 package solvas.models;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-
 /**
  * Created by steve on 04/03/2017.
  */

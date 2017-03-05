@@ -1,7 +1,5 @@
 package solvas.models;
 
-import java.sql.Timestamp;
-
 /**
  * Created by domien on 04/03/2017.
  */
