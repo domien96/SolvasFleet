@@ -6,4 +6,4 @@ David Vandorpe  | Sysadmin | davdorpe | David.Vandorpe@UGent.be
 Niko strijbol  | API-beheerder |  nistrijb | niko.strijbol@ugent.be
 Steven Bastiaans | Secretaris | sjabasti
 Domien Van Steendam | Projectleider |  dvsteend | Domien.vansteendam@ugent.be
-Karel Vandenbussche  | Testbeheerder | klivdnbu
+Karel Vandenbussche  | Testbeheerder | klivdnbu | karel.vandenbussche@ugent.be
