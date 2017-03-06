@@ -12,7 +12,7 @@ import solvas.persistence.Role.RoleDao;
  * Visit @ /roles
  */
 @RestController
-public class RoleRestController extends AbstractRestController<Role> {
+public class RoleRestController extends AbstractModelRestController<Role> {
 
     /**
      * Rest controller for Role

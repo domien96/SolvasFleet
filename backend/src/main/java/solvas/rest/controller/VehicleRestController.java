@@ -11,7 +11,7 @@ import solvas.persistence.vehicle.VehicleDao;
  * Visit @ /vehicles
  */
 @RestController
-public class VehicleRestController extends AbstractRestController<Vehicle> {
+public class VehicleRestController extends AbstractModelRestController<Vehicle> {
 
     /**
      * Rest controller for Vehicle

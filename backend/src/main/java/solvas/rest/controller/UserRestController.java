@@ -11,7 +11,7 @@ import solvas.persistence.user.UserDao;
  * Visit @ /users
  */
 @RestController
-public class UserRestController extends AbstractRestController<User> {
+public class UserRestController extends AbstractModelRestController<User> {
 
     /**
      * Rest controller for User

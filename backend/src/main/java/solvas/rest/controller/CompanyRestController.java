@@ -12,7 +12,7 @@ import solvas.persistence.company.CompanyDao;
  * Visit @ /companies
  */
 @RestController
-public class CompanyRestController extends AbstractRestController<Company> {
+public class CompanyRestController extends AbstractModelRestController<Company> {
 
     /**
      * Rest controller for Company
