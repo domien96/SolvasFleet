@@ -118,7 +118,6 @@ interface InfoTableProps {
 
 interface SidebarLinkProps {
   path: string;
-  active?: boolean;
 }
 
 /* Card */
@@ -133,3 +132,8 @@ interface WrappedColProps {
   cols?: number;
 }
 
+/* App */
+
+interface AppProps {
+  location: any;
+}
