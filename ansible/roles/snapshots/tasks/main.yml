@@ -1,0 +1,22 @@
+---
+
+- name: create snapshot user
+  user:
+    name: snapshot
+    groups: keyslaves
+    append: true
+    shell: /bin/bash
+
+- name: create /srv/snapshot folder
+  file:
+    path: /srv/snapshot
+    mode: 0750
+    owner: snapshot
+    group: snapshot
+    state: directory
+
+- name: add www-data to snapshot group
+  user:
+    name: www-data
+    groups: snapshot
+    append: true

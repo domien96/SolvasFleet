@@ -1,0 +1,11 @@
+---
+
+- name: Install Jenkins plugins
+  jenkins_plugin:
+    name: "{{ item }}"
+    params: "{{ jenkins_params }}"
+  with_items:
+    - git
+    - gradle
+    - github
+    - ghprb # Github pull request builder
