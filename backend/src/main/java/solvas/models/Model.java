@@ -1,6 +1,7 @@
 package solvas.models;
 
-import java.time.LocalDateTime;
+import java.util.Date; //Date is the only not giving a ClassCastException
+                        // TODO model timezone
 
 /**
  * Abstract Model
@@ -10,8 +11,8 @@ import java.time.LocalDateTime;
  */
 public abstract class Model {
     protected int id;
-    protected LocalDateTime createdAt;
-    protected LocalDateTime updatedAt;
+    protected Date createdAt;
+    protected Date updatedAt;
 
     public int getId() {
         return id;
@@ -21,19 +22,19 @@ public abstract class Model {
         this.id = id;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getUpdatedAt() {
+    public Date getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
 }

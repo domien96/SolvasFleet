@@ -17,10 +17,8 @@
 
         <property name="address" column="address" type="string"/>
 
-        <property name="updatedAt" column="updated_at" type="timestamp"/>
-        <!--http://stackoverflow.com/questions/
-        2635046/set-creation-and-update-time-with-hibernate-in-xml-mappings-->
-        <property name="createdAt" column="created_at" type="timestamp"/>
+        <property name="updatedAt" column="updated_at" type="timestamp" generated="always"/>
+        <property name="createdAt" column="created_at" type="timestamp" generated="insert"/>
 
         <set name="representatives" table="company_users">
             <key column="company_id"/>
