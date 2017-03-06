@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import solvas.models.Model;
 import solvas.persistence.Dao;
 import solvas.persistence.EntityNotFoundException;
 
@@ -13,7 +14,7 @@ import solvas.persistence.EntityNotFoundException;
  *
  * @param <T> Type of the entity to work with.
  */
-public abstract class AbstractRestController<T> {
+public abstract class AbstractRestController<T extends Model> {
 
     protected final Dao<T> dao;
 
@@ -45,9 +46,8 @@ public abstract class AbstractRestController<T> {
     ResponseEntity<?> getById(int id) {
         try {
             return new ResponseEntity<>(dao.find(id), HttpStatus.OK);
-
         } catch (EntityNotFoundException unused) {
-            return new ResponseEntity<>("Object with id not found", HttpStatus.NOT_FOUND);
+            return notFound();
         }
     }
 
@@ -89,8 +89,6 @@ public abstract class AbstractRestController<T> {
     /**
      * Deletes a model from db
      *
-     * TODO: Status code when record doesn't exist
-     *
      * @param id id of the model
      *
      * @return ResponseEntity
@@ -100,7 +98,7 @@ public abstract class AbstractRestController<T> {
             dao.destroy(dao.find(id));
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (EntityNotFoundException unused) {
-            return new ResponseEntity<>("Object with id not found", HttpStatus.NOT_FOUND);
+            return notFound();
         }
     }
 
@@ -112,6 +110,14 @@ public abstract class AbstractRestController<T> {
      * @return ResponseEntity
      */
     ResponseEntity<?> put(T input) {
-        return new ResponseEntity<>(dao.save(input), HttpStatus.OK);
+        try {
+            return new ResponseEntity<>(dao.save(input), HttpStatus.OK);
+        } catch (EntityNotFoundException unused) {
+            return notFound();
+        }
+    }
+
+    private ResponseEntity<?> notFound() {
+        return new ResponseEntity<>("Could not find object.", HttpStatus.NOT_FOUND);
     }
 }
