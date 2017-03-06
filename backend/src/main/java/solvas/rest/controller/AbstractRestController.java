@@ -87,16 +87,22 @@ public abstract class AbstractRestController<T> {
     }
 
     /**
-     * Deletes a model from db TODO
+     * Deletes a model from db
+     * 
+     * Untested
      *
      * @param id id of the model
      *
      * @return ResponseEntity
      */
     ResponseEntity<?> deleteById(int id) {
-        //TODO
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        try {
+            dao.destroy(dao.find(id));
+            return new ResponseEntity<>(HttpStatus.OK);
 
+        } catch (EntityNotFoundException unused) {
+            return new ResponseEntity<>("Object with id not found", HttpStatus.NOT_FOUND);
+        }
     }
 
     /**
