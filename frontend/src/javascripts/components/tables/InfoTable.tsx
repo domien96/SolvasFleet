@@ -16,7 +16,7 @@ export default class InfoTable extends React.Component<InfoTableProps, {}> {
         );
       });
       return (
-        <tr key={item.id}> {cells} </tr>
+        <tr key={item.id} className='table-row'> {cells} </tr>
       );
     });
   }
