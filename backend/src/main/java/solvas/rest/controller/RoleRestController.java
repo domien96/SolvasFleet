@@ -24,10 +24,9 @@ public class RoleRestController extends AbstractRestController<Role> {
         super(dao);
     }
 
-    @Override
     @RequestMapping(value = "/roles", method = RequestMethod.GET)
     ResponseEntity<?> listAll() {
-        return super.listAll();
+        return super.listAll("roles");
     }
 
     @Override

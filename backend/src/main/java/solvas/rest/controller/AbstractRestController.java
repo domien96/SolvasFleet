@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import solvas.models.Model;
 import solvas.persistence.Dao;
 import solvas.persistence.EntityNotFoundException;
+import solvas.rest.utils.JsonListWrapper;
 
 /**
  * Abstract REST controller.
@@ -23,7 +24,7 @@ public abstract class AbstractRestController<T extends Model> {
      *
      * @param dao The dao to work with.
      */
-    public AbstractRestController(Dao<T> dao) {
+    protected AbstractRestController(Dao<T> dao) {
         this.dao = dao;
     }
 
@@ -32,8 +33,8 @@ public abstract class AbstractRestController<T extends Model> {
      *
      * @return ResponseEntity
      */
-    ResponseEntity<?> listAll() {
-        return new ResponseEntity<>(dao.findAll(), HttpStatus.OK);
+    protected ResponseEntity<?> listAll(String key) {
+        return new ResponseEntity<>(new JsonListWrapper<T>(dao.findAll(), key), HttpStatus.OK);
     }
 
     /**

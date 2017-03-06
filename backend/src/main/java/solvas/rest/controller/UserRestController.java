@@ -23,10 +23,9 @@ public class UserRestController extends AbstractRestController<User> {
         super(dao);
     }
 
-    @Override
     @RequestMapping(value = "/users", method = RequestMethod.GET)
     ResponseEntity<?> listAll() {
-        return super.listAll();
+        return super.listAll("users");
     }
 
     @Override
