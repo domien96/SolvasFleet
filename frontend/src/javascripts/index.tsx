@@ -5,8 +5,8 @@ import React      from 'react';
 import { render } from 'react-dom';
 import T          from 'i18n-react';
 
+import SolvasRouter from './router.tsx';
+
 T.setTexts(require('../../translations/en.yml'));
 
-import Companies from './components/Companies.tsx';
-
-render(<Companies />, document.getElementById('app'));
+render(<SolvasRouter />, document.getElementById('app'));

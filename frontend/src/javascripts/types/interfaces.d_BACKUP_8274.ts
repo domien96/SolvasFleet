@@ -107,13 +107,15 @@ interface RoleState{
   endDate: string;
 }
 
+<<<<<<< HEAD
 /* Table */
 
 interface InfoTableProps {
   head: any;
-  data: any;
+  data: Company[];
 }
 
+=======
 /* Sidebar */
 
 interface SidebarLinkProps {
@@ -132,4 +134,4 @@ interface CardProps {
 interface WrappedColProps {
   cols?: number;
 }
-
+>>>>>>> master

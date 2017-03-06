@@ -111,25 +111,6 @@ interface RoleState{
 
 interface InfoTableProps {
   head: any;
-  data: any;
-}
-
-/* Sidebar */
-
-interface SidebarLinkProps {
-  path: string;
-  active?: boolean;
-}
-
-/* Card */
-
-interface CardProps {
-  className?: string;
-}
-
-/* WrappedCol */
-
-interface WrappedColProps {
-  cols?: number;
+  data: Company[];
 }
 
