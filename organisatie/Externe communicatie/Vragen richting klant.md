@@ -2,6 +2,8 @@ __De vragen hier zullen doorgegeven worden naar de klant door de CRO:__
 
 * Hoewel een voertuig hoofdzakelijk bij maar 1 bedrijf aangesloten zal zijn, is dit geen garantie. Is het voor Solvas interessant dat we een geschiedenis bijhouden voor ieder voertuig, bij welke bedrijven of banken het voertuig ooit aangesloten was (in context van leasing)?
 
+* Zijn overschreven kosten, zoals bvb de commissie, gelinkt aan een voertuig of aan een subvloot. In andere woorden hebben alle voertuigen van een bepaald type van een subvloot dezelfde overschreven kosten, of kan het zijn dat er op de pw van de baas minder commissie zit dan op de pw van een werknemer?
+
 <br><br>
 
 
