@@ -1,4 +1,5 @@
 import React      from 'react';
+import T          from 'i18n-react';
 //import classNames from 'classnames';
 
 
@@ -25,7 +26,7 @@ export default class InfoTable extends React.Component<InfoTableProps, {}> {
 
     const tableHead = this.props.head.map((headData : any) => 
     (
-      <th key={headData.key} scope='row' className='table-row' >{headData.label}</th>
+      <th key={headData.key} scope='row' className='table-row' > {T.translate(headData.label)} </th>
     ));
 
     const tableRows = this.getRows();

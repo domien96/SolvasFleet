@@ -33,7 +33,8 @@ addRole:
   startDate: Start date
   endDate: End date
 company:
-  name: Company Name
+  id: ID
+  name: Name
   vatNumber: VAT number
   phoneNumber: Phone number
   address: Address
