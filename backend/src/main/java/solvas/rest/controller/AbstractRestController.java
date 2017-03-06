@@ -88,7 +88,7 @@ public abstract class AbstractRestController<T> {
 
     /**
      * Deletes a model from db
-     * 
+     *
      * TODO: Status code when record doesn't exist
      *
      * @param id id of the model
