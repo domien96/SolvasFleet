@@ -88,8 +88,8 @@ public abstract class AbstractRestController<T> {
 
     /**
      * Deletes a model from db
-     * 
-     * Untested
+     *
+     * Untested TODO
      *
      * @param id id of the model
      *
@@ -99,21 +99,21 @@ public abstract class AbstractRestController<T> {
         try {
             dao.destroy(dao.find(id));
             return new ResponseEntity<>(HttpStatus.OK);
-
         } catch (EntityNotFoundException unused) {
             return new ResponseEntity<>("Object with id not found", HttpStatus.NOT_FOUND);
         }
     }
 
     /**
-     * Updates a model in db TODO
+     * Updates a model in db
+     *
+     * Untested TODO
      *
      * @param input model to be updated
      *
      * @return ResponseEntity
      */
     ResponseEntity<?> put(T input) {
-        //TODO
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(dao.save(input), HttpStatus.OK);
     }
 }
