@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 /**
  * Class to wrap JSON arrays in a JSON object
+ * @param <T> Type of items that should be wrapped
  */
 public class JsonListWrapper<T> extends HashMap<String, Collection<T>> {
     /*
