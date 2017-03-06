@@ -30,14 +30,12 @@ class Companies extends React.Component<CompaniesProps, CompaniesState> {
       { key: 'address', label: 'company.address' }
     ];
 
-    const comp = this.state.companies;
-
     return (
       <WrappedCol cols={ 12 }>
         <Card>
           <div className='card-title'><h5>List of all companies</h5></div>
           <div className='card-content'>
-            <InfoTable head={tableHead} data={comp}/>  
+            <InfoTable head={tableHead} data={this.state.companies}/>  
           </div>
         </Card>
       </WrappedCol>

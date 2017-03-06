@@ -10,14 +10,14 @@ export default class InfoTable extends React.Component<InfoTableProps, {}> {
     const head = this.props.head;
     const data = this.props.data;
 
-    return data.map((item : any) => {
-      const cells = head.map((headData : any) => {
+    return data.map((item : any, i : any) => {
+      const cells = head.map((headData : any, j : any) => {
         return (
-          <td> {item[headData.key]} </td>
+          <td key={ j }>{item[headData.key]}</td>
         );
       });
       return (
-        <tr key={item.id} className='table-row'> {cells} </tr>
+        <tr key={ i } className='table-row'>{cells}</tr>
       );
     });
   }
@@ -26,7 +26,7 @@ export default class InfoTable extends React.Component<InfoTableProps, {}> {
 
     const tableHead = this.props.head.map((headData : any) => 
     (
-      <th key={headData.key} scope='row' className='table-row' > {T.translate(headData.label)} </th>
+      <th key={headData.key} scope='row' className='table-row' >{T.translate(headData.label)}</th>
     ));
 
     const tableRows = this.getRows();
@@ -35,7 +35,7 @@ export default class InfoTable extends React.Component<InfoTableProps, {}> {
       <div className='table-wrap'>
       <table className='table table-striped'>
         <thead className='thead-default'>
-          {tableHead}
+          <tr>{tableHead}</tr>
         </thead>
         <tbody>
           {tableRows}
