@@ -24,6 +24,7 @@ public class CompanyRestController extends AbstractRestController<Company> {
         super(dao);
     }
 
+    @Override
     @RequestMapping(value = "/companies", method = RequestMethod.GET)
     public ResponseEntity<?> listAll() {
         return super.listAll("companies");

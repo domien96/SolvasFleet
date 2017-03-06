@@ -23,6 +23,7 @@ public class VehicleRestController extends AbstractRestController<Vehicle> {
         super(dao);
     }
 
+    @Override
     @RequestMapping(value = "/vehicles", method = RequestMethod.GET)
     public ResponseEntity<?> listAll() {
         return super.listAll("vehicles");

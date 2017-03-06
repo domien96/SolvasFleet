@@ -24,7 +24,7 @@ public class JsonListWrapper<T> extends HashMap<String, Collection<T>> {
 
     /*
      * Create a JSON object that has key mapped to items
-     * 
+     *
      * @param items the collection that should be wrapped
      * @param key name of the key that should contain the items
      */
