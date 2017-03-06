@@ -1,7 +1,9 @@
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS $$
+DECLARE
+  stamp TIMESTAMP := now();
 BEGIN
-  NEW.updated_at = now();
+  NEW.updated_at = stamp;
   RETURN NEW;
 END;
 $$ language 'plpgsql';
@@ -9,9 +11,11 @@ $$ language 'plpgsql';
 
 CREATE OR REPLACE FUNCTION update_created_at_column()
   RETURNS TRIGGER AS $$
+DECLARE
+  stamp TIMESTAMP := now();
 BEGIN
-  NEW.created_at = now();
-  NEW.updated_at = now();
+  NEW.created_at = stamp;
+  NEW.updated_at = stamp;
   RETURN NEW;
 END;
 $$ language 'plpgsql';

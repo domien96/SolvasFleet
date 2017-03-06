@@ -14,7 +14,8 @@
 
       <property name="name" column="name" type="string" not-null="true"/>
 
-      <property name="updatedAt" column="updated_at" type="timestamp"/>
-      <property name="createdAt" column="created_at" type="timestamp"/>
+      <property name="updatedAt" column="updated_at" type="timestamp" generated="always"/>
+      <property name="createdAt" column="created_at" type="timestamp" generated="insert"/>
+
    </class>
 </hibernate-mapping>
