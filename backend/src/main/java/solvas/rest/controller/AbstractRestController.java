@@ -29,7 +29,7 @@ public abstract class AbstractRestController<T extends Model> {
     }
 
     /**
-     * Lists all models.
+     * Lists all models, and wrap them in JSON object with key
      *
      * @return ResponseEntity
      */
@@ -38,12 +38,19 @@ public abstract class AbstractRestController<T extends Model> {
     }
 
     /**
+     * List all models.
+     *
+     * @return ReponseEntity
+     */
+    public abstract ResponseEntity<?> listAll();
+
+    /**
      * Show the model with the given ID.
      *
      * @param id The ID of the model.
-     *
      * @return Response with the model or 404.
      */
+
     protected ResponseEntity<?> getById(int id) {
         try {
             return new ResponseEntity<>(dao.find(id), HttpStatus.OK);
@@ -56,7 +63,6 @@ public abstract class AbstractRestController<T extends Model> {
      * Handle cases where the path variable cannot be converted to the required type.
      *
      * @param ex The exception.
-     *
      * @return The error entity, containing a message explaining the error.
      */
     @ExceptionHandler(TypeMismatchException.class)
@@ -73,7 +79,6 @@ public abstract class AbstractRestController<T extends Model> {
      * Save a new model in the database.
      *
      * @param input The model to save.
-     *
      * @return Response with the saved model, or 400.
      */
     protected ResponseEntity<?> post(T input) {
@@ -91,7 +96,6 @@ public abstract class AbstractRestController<T extends Model> {
      * Deletes a model from db
      *
      * @param id id of the model
-     *
      * @return ResponseEntity
      */
     protected ResponseEntity<?> deleteById(int id) {
@@ -107,7 +111,6 @@ public abstract class AbstractRestController<T extends Model> {
      * Updates a model in db
      *
      * @param input model to be updated
-     *
      * @return ResponseEntity
      */
     protected ResponseEntity<?> put(T input) {
