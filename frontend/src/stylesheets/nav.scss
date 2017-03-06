@@ -1,0 +1,39 @@
+.navbar-default {
+  background-color: transparent;
+}
+
+.navbar-side {
+  position: fixed;
+  width: 220px;
+  z-index: 1000;
+  height: 100%;
+}
+
+.nav li {
+  &.active {
+    border-left: 4px solid #19aa8d;
+    background: #293846;
+
+    a {
+      color: #fff;
+    }
+  }
+
+  a {
+    color: #a7b1c2;
+    font-weight: 600;
+    padding: 14px 20px 14px 25px;
+
+    &:hover {
+      background-color: #293846;
+      color: white;
+    }
+  }
+}
+
+.page-wrapper {
+  margin: 0 0 0 220px;
+  background-color: #f3f3f4;
+  min-height: 494px;
+  padding: 0 15px;
+}
