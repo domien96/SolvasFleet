@@ -24,31 +24,31 @@ public class UserRestController extends AbstractRestController<User> {
     }
 
     @RequestMapping(value = "/users", method = RequestMethod.GET)
-    ResponseEntity<?> listAll() {
+    public ResponseEntity<?> listAll() {
         return super.listAll("users");
     }
 
     @Override
     @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
-    ResponseEntity<?> getById(@PathVariable int id) {
+    public ResponseEntity<?> getById(@PathVariable int id) {
         return super.getById(id);
     }
 
     @Override
     @RequestMapping(value = "/users", method = RequestMethod.POST)
-    ResponseEntity<?> post(@RequestBody User input) {
+    public ResponseEntity<?> post(@RequestBody User input) {
         return super.post(input);
     }
 
     @Override
     @RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)
-    ResponseEntity<?> deleteById(@PathVariable int id) {
+    public ResponseEntity<?> deleteById(@PathVariable int id) {
         return super.deleteById(id);
     }
 
     @Override
     @RequestMapping(value = "/users", method = RequestMethod.PUT)
-    ResponseEntity<?> put(@RequestBody User input) {
+    public ResponseEntity<?> put(@RequestBody User input) {
         return super.put(input);
     }
 }

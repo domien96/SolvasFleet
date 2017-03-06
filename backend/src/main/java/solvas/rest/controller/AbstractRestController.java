@@ -44,7 +44,7 @@ public abstract class AbstractRestController<T extends Model> {
      *
      * @return Response with the model or 404.
      */
-    ResponseEntity<?> getById(int id) {
+    protected ResponseEntity<?> getById(int id) {
         try {
             return new ResponseEntity<>(dao.find(id), HttpStatus.OK);
         } catch (EntityNotFoundException unused) {
@@ -76,7 +76,7 @@ public abstract class AbstractRestController<T extends Model> {
      *
      * @return Response with the saved model, or 400.
      */
-    ResponseEntity<?> post(T input) {
+    protected ResponseEntity<?> post(T input) {
         //post message met application/json {"name":"comp4","vat":"4"}
         //TODO validate whether input is valid
 
@@ -94,7 +94,7 @@ public abstract class AbstractRestController<T extends Model> {
      *
      * @return ResponseEntity
      */
-    ResponseEntity<?> deleteById(int id) {
+    protected ResponseEntity<?> deleteById(int id) {
         try {
             dao.destroy(dao.find(id));
             return new ResponseEntity<>(HttpStatus.OK);
@@ -110,7 +110,7 @@ public abstract class AbstractRestController<T extends Model> {
      *
      * @return ResponseEntity
      */
-    ResponseEntity<?> put(T input) {
+    protected ResponseEntity<?> put(T input) {
         try {
             return new ResponseEntity<>(dao.save(input), HttpStatus.OK);
         } catch (EntityNotFoundException unused) {
