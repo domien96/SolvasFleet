@@ -1,6 +1,8 @@
 import React from 'react';
+import T from 'i18n-react';
 
 import fetchCompanies from '../actions/fetch_companies.ts';
+import InfoTable from './tables/InfoTable.tsx';
 
 class Companies extends React.Component<CompaniesProps, CompaniesState> {
 
@@ -17,12 +19,18 @@ class Companies extends React.Component<CompaniesProps, CompaniesState> {
   }
 
   render() {
-    const companies = this.state.companies.map((c, i) =>
-      <div key={ i } >{ c.name }</div>
-    );
+
+    let tName = T.translate('form.placeholders.name');
+
+    const tableHead = [
+      { key: 'id', label: 'ID' },
+      { key: 'name', label: {tName} }
+    ];
+
     return (
       <div>
-        { companies }
+        Testing:
+        <InfoTable head={tableHead} data={this.state.companies} />  
       </div>
     );
   }

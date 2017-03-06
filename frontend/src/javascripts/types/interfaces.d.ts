@@ -105,3 +105,9 @@ interface RoleState{
   startDate: string;
   endDate: string;
 }
+
+/* Table */
+
+interface TableField {
+
+}
