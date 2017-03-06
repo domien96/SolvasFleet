@@ -41,9 +41,10 @@ interface CompanyState{
 /* Companies */
 
 interface Company {
+  id:           number; 
   name:         string;
   VATnumber:    string;
-  phone_number: string;
+  phoneNumber: string;
   address:      string;
 }
 
@@ -106,6 +107,13 @@ interface RoleState{
   endDate: string;
 }
 
+/* Table */
+
+interface InfoTableProps {
+  head: any;
+  data: any;
+}
+
 /* Sidebar */
 
 interface SidebarLinkProps {
@@ -124,3 +132,4 @@ interface CardProps {
 interface WrappedColProps {
   cols?: number;
 }
+
