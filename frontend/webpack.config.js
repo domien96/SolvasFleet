@@ -13,7 +13,7 @@ var config = {
   },
   output: {
     path: BUILD_DIR,
-    filename: 'bundle.js'
+    filename: '/bundle.js'
   },
   module: {
     loaders : [
@@ -39,7 +39,7 @@ var config = {
       template: 'src/index.html'
     }),
     new ExtractTextPlugin({
-      filename: 'bundle.css',
+      filename: '/bundle.css',
       allChunks: true
     }),
     new webpack.DefinePlugin({
