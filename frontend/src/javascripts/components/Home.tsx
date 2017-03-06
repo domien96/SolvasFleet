@@ -1,19 +1,18 @@
 import React from 'react';
 
-import Card from './app/Card.tsx';
+import Card       from './app/Card.tsx';
+import WrappedCol from './app/WrappedCol.tsx';
 
 class Home extends React.Component<{}, {}> {
   render() {
     return (
-      <div className='wrapper'>
-        <div className='row'>
-          <div className='col-lg-12'>
-            <Card className='text-center padding-md' >
-              <h2>Welcome to Solvas Fleet</h2>
-            </Card>
+      <WrappedCol>
+        <Card className='text-center' >
+          <div className='card-content'>
+            <h2>Welcome to Solvas Fleet</h2>
           </div>
-        </div>
-      </div>
+        </Card>
+      </WrappedCol>
     );
   }
 }

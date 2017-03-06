@@ -108,7 +108,7 @@ interface RoleState{
 
 /* Sidebar */
 
-interface SideBarLinkProps {
+interface SidebarLinkProps {
   path: string;
   active?: boolean;
 }
@@ -117,4 +117,10 @@ interface SideBarLinkProps {
 
 interface CardProps {
   className?: string;
+}
+
+/* WrappedCol */
+
+interface WrappedColProps {
+  cols?: number;
 }

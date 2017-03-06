@@ -2,7 +2,7 @@ import React    from 'react';
 import { Link } from 'react-router';
 import classNames from 'classnames';
 
-class SideBarLink extends React.Component<SideBarLinkProps, {}> {
+class SidebarLink extends React.Component<SidebarLinkProps, {}> {
   render() {
     const classes = classNames({ active: this.props.active }); 
 
@@ -15,13 +15,14 @@ class SideBarLink extends React.Component<SideBarLinkProps, {}> {
     )
   }
 }
-class Header extends React.Component<{}, {}> {
+class Sidebar extends React.Component<{}, {}> {
   render() {
     return (
       <nav className='navbar-default navbar-side'>
         <ul className='nav'>
-          <SideBarLink path='/'>Home</SideBarLink>
-          <SideBarLink path='/companies' active={ true }>Companies</SideBarLink>
+          <SidebarLink path='/'>Home</SidebarLink>
+          <SidebarLink path='/companies' active={ true }>Companies</SidebarLink>
+          <SidebarLink path='/companies/new'>Add Company</SidebarLink>
         </ul>
       </nav>
     );
@@ -32,7 +33,7 @@ class App extends React.Component<{}, {}> {
   render() {
     return (
       <div id='wrapper'>
-        <Header />
+        <Sidebar />
         <div className='page-wrapper'>
           { this.props.children }
         </div>
