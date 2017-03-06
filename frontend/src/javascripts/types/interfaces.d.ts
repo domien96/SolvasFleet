@@ -105,3 +105,16 @@ interface RoleState{
   startDate: string;
   endDate: string;
 }
+
+/* Sidebar */
+
+interface SideBarLinkProps {
+  path: string;
+  active?: boolean;
+}
+
+/* Card */
+
+interface CardProps {
+  className?: string;
+}

@@ -1,17 +1,27 @@
 import React    from 'react';
 import { Link } from 'react-router';
+import classNames from 'classnames';
 
+class SideBarLink extends React.Component<SideBarLinkProps, {}> {
+  render() {
+    const classes = classNames({ active: this.props.active }); 
+
+    return (
+      <li className={ classes } >
+        <Link to={ this.props.path }>
+          { this.props.children }
+        </Link>
+      </li>
+    )
+  }
+}
 class Header extends React.Component<{}, {}> {
   render() {
     return (
       <nav className='navbar-default navbar-side'>
         <ul className='nav'>
-          <li>
-            <Link to='/' >Home</Link>
-          </li>
-          <li className='active'>
-            <Link to='/companies' >Companies</Link>
-          </li>
+          <SideBarLink path='/'>Home</SideBarLink>
+          <SideBarLink path='/companies' active={ true }>Companies</SideBarLink>
         </ul>
       </nav>
     );
