@@ -1,4 +1,4 @@
-package solvas.persistence.Role;
+package solvas.persistence.role;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +16,7 @@ public class HibernateRoleDao extends HibernateDao<Role> implements RoleDao {
 
 
     /**
-     * Hibernate implementation for Role.
+     * Hibernate implementation for role.
      */
     public HibernateRoleDao() {
         super(Role.class);

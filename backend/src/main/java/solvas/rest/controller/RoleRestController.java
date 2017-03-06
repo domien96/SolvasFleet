@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import solvas.models.Role;
-import solvas.persistence.Role.RoleDao;
+import solvas.persistence.role.RoleDao;
 
 
 /**

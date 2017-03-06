@@ -1,4 +1,4 @@
-package solvas.persistence.Role;
+package solvas.persistence.role;
 
 import solvas.models.Role;
 import solvas.persistence.Dao;
