@@ -1,3 +1,6 @@
-@import './form.scss';
-@import './layout.scss';
+@import './variables.scss';
 @import './form-wrapper.scss';
+
+body {
+  background-color: $gray-lightest;
+}
