@@ -3,6 +3,8 @@ import React from 'react';
 
 import fetchCompanies from '../actions/fetch_companies.ts';
 import InfoTable from './tables/InfoTable.tsx';
+import Card       from './app/Card.tsx';
+import WrappedCol from './app/WrappedCol.tsx';
 
 class Companies extends React.Component<CompaniesProps, CompaniesState> {
 
@@ -33,9 +35,14 @@ class Companies extends React.Component<CompaniesProps, CompaniesState> {
     const comp = this.state.companies;
 
     return (
-      <div className='container'>
-        <InfoTable head={tableHead} data={comp}/>  
-      </div>
+      <WrappedCol cols={ 12 }>
+        <Card>
+          <div className='card-title'><h5>List of all companies</h5></div>
+          <div className='card-content'>
+            <InfoTable head={tableHead} data={comp}/>  
+          </div>
+        </Card>
+      </WrappedCol>
     );
   }
 }
