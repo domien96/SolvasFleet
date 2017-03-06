@@ -10,8 +10,8 @@ export default class InfoTable extends React.Component<InfoTableProps, {}> {
     const head = this.props.head;
     const data = this.props.data;
 
-    return data.map((item : any, i : any) => {
-      const cells = head.map((headData : any, j : any) => {
+    return data.map((item : any, i : number) => {
+      const cells = head.map((headData : any, j : number) => {
         return (
           <td key={ j }>{item[headData.key]}</td>
         );
