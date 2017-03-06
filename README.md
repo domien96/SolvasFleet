@@ -13,4 +13,6 @@ Bij vragen of onduidelijkheden kunt u steeds terecht bij domien.vansteendam@ugen
 * Passwoorden worden evenmin naar buiten gebracht.
 * **Issues zijn prioritair!**
 * De documenteertaal (binnenin de source files) is steeds Engels.
+* Een commit die issue #<issuenummer> fixt dient verplicht volgend formaat te hebben voor zijn naam: **Fixes #<issuenumber>**
+* Alle issues hebben betrekking tot de master branch. Dit wil zeggen dat issues enkel en alleen dienen afgesloten te worden indien de fix zich bevindt op de master branch (na een eventuele merge met een branch waar die eerst afzonderlijk werd gefixt).
 * Wordt zeker vervolgd..
