@@ -1,10 +1,9 @@
-
-@import './table.scss';
-
 @import './variables.scss';
 
 @import './cards.scss';
+@import './fof.scss';
 @import './nav.scss';
+@import './table.scss';
 
 body {
   background-color: $gray-lightest;
