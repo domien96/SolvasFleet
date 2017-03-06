@@ -4,6 +4,8 @@ __De vragen hier zullen doorgegeven worden naar de klant door de CRO:__
 
 * Zijn overschreven kosten, zoals bvb de commissie, gelinkt aan een voertuig of aan een subvloot. In andere woorden hebben alle voertuigen van een bepaald type van een subvloot dezelfde overschreven kosten, of kan het zijn dat er op de pw van de baas minder commissie zit dan op de pw van een werknemer?
 
+* Is het nuttig voor Solvas dat de klanten (bedrijven), simulaties kunnen uitvoeren om te zien wat er verandert (in premie) bij het toevoegen/verwijderen van een nieuw voertuig, of het overschakelen naar een andere verzekering?
+
 <br><br>
 
 
