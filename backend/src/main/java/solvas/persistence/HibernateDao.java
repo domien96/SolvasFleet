@@ -49,7 +49,11 @@ public abstract class HibernateDao<T> implements Dao<T> {
 
     @Override
     public T find(int id) {
-        return run(s -> s.get(clazz, id));
+        T result = run(s -> s.get(clazz, id));
+        if(result == null) {
+            throw new EntityNotFoundException();
+        }
+        return result;
     }
 
     @Override

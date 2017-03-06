@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import solvas.persistence.Dao;
+import solvas.persistence.EntityNotFoundException;
 
 /**
  * Abstract REST controller.
@@ -42,14 +43,12 @@ public abstract class AbstractRestController<T> {
      * @return Response with the model or 404.
      */
     ResponseEntity<?> getById(int id) {
-        T result = dao.find(id);
+        try {
+            return new ResponseEntity<>(dao.find(id), HttpStatus.OK);
 
-        if (result == null) {
+        } catch (EntityNotFoundException unused) {
             return new ResponseEntity<>("Object with id not found", HttpStatus.NOT_FOUND);
-
         }
-
-        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     /**
