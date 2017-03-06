@@ -1,0 +1,12 @@
+form:
+  placeholders:
+    email: Email
+    password: Wachtwoord
+    name: Naam
+    vatNumber: VAT nummer 
+    phoneNumber: Telefoonnummer
+    address: Adres
+login:
+  submit: 'Login'
+addCompany:
+  submit: 'Voeg toe'

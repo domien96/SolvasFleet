@@ -1,0 +1,8 @@
+{
+  "companies": [
+    { "name": "Company 1", "VATnumber": "123", "phone_number": "+32477584736", "address": "Krijgslaan 281, 9000 Gent" },
+    { "name": "Company 2", "VATnumber": "123", "phone_number": "+32477584736", "address": "Krijgslaan 281, 9000 Gent" },
+    { "name": "Company 3", "VATnumber": "123", "phone_number": "+32477584736", "address": "Krijgslaan 281, 9000 Gent" },
+    { "name": "Company 4", "VATnumber": "123", "phone_number": "+32477584736", "address": "Krijgslaan 281, 9000 Gent" }
+  ]
+}
