@@ -41,9 +41,10 @@ interface CompanyState{
 /* Companies */
 
 interface Company {
+  id:           number; 
   name:         string;
   VATnumber:    string;
-  phone_number: string;
+  phoneNumber: string;
   address:      string;
 }
 
@@ -108,6 +109,8 @@ interface RoleState{
 
 /* Table */
 
-interface TableField {
-
+interface InfoTableProps {
+  head: any;
+  data: Company[];
 }
+

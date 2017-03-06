@@ -1,5 +1,5 @@
 import React from 'react';
-import T from 'i18n-react';
+//import T from 'i18n-react';
 
 import fetchCompanies from '../actions/fetch_companies.ts';
 import InfoTable from './tables/InfoTable.tsx';
@@ -20,17 +20,21 @@ class Companies extends React.Component<CompaniesProps, CompaniesState> {
 
   render() {
 
-    let tName = T.translate('form.placeholders.name');
+    //let tName = T.translate('form.placeholders.name');
 
     const tableHead = [
       { key: 'id', label: 'ID' },
-      { key: 'name', label: {tName} }
+      { key: 'name', label: 'Name' },
+      { key: 'VATnumber', label: 'VAT number' },
+      { key: 'phoneNumber', label: 'Phone number' },
+      { key: 'address', label: 'Address' }
     ];
 
+    const comp = this.state.companies;
+
     return (
-      <div>
-        Testing:
-        <InfoTable head={tableHead} data={this.state.companies} />  
+      <div className='container'>
+        <InfoTable head={tableHead} data={comp}/>  
       </div>
     );
   }
