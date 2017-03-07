@@ -1,5 +1,5 @@
 import React from 'react';
-//import T from 'i18n-react';
+
 
 import fetchCompanies from '../actions/fetch_companies.ts';
 import InfoTable from './tables/InfoTable.tsx';
@@ -21,25 +21,21 @@ class Companies extends React.Component<CompaniesProps, CompaniesState> {
   }
 
   render() {
-
-    //let tName = T.translate('form.placeholders.name');
-
+    //label = translation key for i18n
     const tableHead = [
-      { key: 'id', label: 'ID' },
-      { key: 'name', label: 'Name' },
-      { key: 'VATnumber', label: 'VAT number' },
-      { key: 'phoneNumber', label: 'Phone number' },
-      { key: 'address', label: 'Address' }
+      { key: 'id', label: 'company.id' },
+      { key: 'name', label: 'company.name' },
+      { key: 'VATnumber', label: 'company.vatNumber' },
+      { key: 'phoneNumber', label: 'company.phoneNumber' },
+      { key: 'address', label: 'company.address' }
     ];
-
-    const comp = this.state.companies;
 
     return (
       <WrappedCol cols={ 12 }>
         <Card>
           <div className='card-title'><h5>List of all companies</h5></div>
           <div className='card-content'>
-            <InfoTable head={tableHead} data={comp}/>  
+            <InfoTable head={tableHead} data={this.state.companies}/>  
           </div>
         </Card>
       </WrappedCol>
