@@ -49,7 +49,7 @@ Er zijn 3 profielen:
 
 - `default` - het standaardprofiel
 - `debug` - print de gebruikte SQL-queries
-- `clean` - verwijderd de volledige databank bij het opstarten (alle gegevens uit de databank zijn dus weg!)
+- `clean` - verwijdert de volledige databank bij het opstarten (alle gegevens uit de databank zijn dus weg!)
 
 Voer een profiel uit:
 ```
