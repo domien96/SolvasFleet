@@ -30,8 +30,19 @@ public interface Dao<T extends Model> {
         }
     }
 
+    /**
+     * Create a model
+     * @param model The model to create
+     * @return The model with the id set
+     */
     T create(T model);
 
+    /**
+     * Update model, identified by id
+     * @param model The model to update
+     * @exception EntityNotFoundException when trying to update a non-existent record
+     * @return The model
+     */
     T update(T model);
 
     /**

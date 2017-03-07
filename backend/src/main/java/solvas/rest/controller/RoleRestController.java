@@ -21,6 +21,7 @@ public class RoleRestController extends AbstractRestController<Role> {
      * Rest controller for Role
      *
      * @param dao Autowired
+     * @param validator Validator for roles
      */
     @Autowired
     public RoleRestController(RoleDao dao, RoleValidator validator) {

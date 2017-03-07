@@ -15,6 +15,7 @@ import java.util.stream.Stream;
  * Contains boilerplate code for validators
  * Added validations are ran in order of addition
  * @author David Vandorpe
+ * @param <T> Type of model that should be validated
  */
 public abstract class AbstractValidator<T extends Model> implements Validator {
     private final List<Validation<T>> validations = new ArrayList<>();
@@ -68,6 +69,7 @@ public abstract class AbstractValidator<T extends Model> implements Validator {
 
     /**
      * A custom validation
+     * @param <T> Type of model that should be validated
      */
     public interface Validation<T extends Model> {
         /**

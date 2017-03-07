@@ -19,6 +19,7 @@ public class VehicleRestController extends AbstractRestController<Vehicle> {
      * Rest controller for Vehicle
      *
      * @param dao Autowired
+     * @param validator Validator for vehicles
      */
     @Autowired
     public VehicleRestController(VehicleDao dao, VehicleValidator validator) {

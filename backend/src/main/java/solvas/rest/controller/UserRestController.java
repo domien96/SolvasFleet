@@ -19,6 +19,7 @@ public class UserRestController extends AbstractRestController<User> {
      * Rest controller for User
      *
      * @param dao Autowired
+     * @param validator Validator for users
      */
     @Autowired
     public UserRestController(UserDao dao, UserValidator validator) {

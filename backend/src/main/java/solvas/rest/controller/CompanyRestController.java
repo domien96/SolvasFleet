@@ -21,6 +21,7 @@ public class CompanyRestController extends AbstractRestController<Company> {
      * Rest controller for Company
      *
      * @param dao Autowired
+     * @param validator Validator for companies
      */
     @Autowired
     public CompanyRestController(CompanyDao dao, CompanyValidator validator) {
