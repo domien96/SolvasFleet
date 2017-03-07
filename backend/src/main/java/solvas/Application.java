@@ -1,7 +1,6 @@
 package solvas;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -35,7 +34,6 @@ public class Application {
     public ObjectMapper jacksonObjectMapper() {
         return new ObjectMapper()
                 .findAndRegisterModules()
-                .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
-                .setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
+                .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
     }
 }
