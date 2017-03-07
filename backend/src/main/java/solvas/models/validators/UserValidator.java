@@ -5,7 +5,8 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 /**
- * Created by David Vandorpe.
+ * Validate Users
+ * @author David Vandorpe
  */
 @Component
 public class UserValidator implements Validator {

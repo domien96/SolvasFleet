@@ -26,6 +26,7 @@ public abstract class AbstractRestController<T extends Model> {
      * Default constructor.
      *
      * @param dao The dao to work with.
+     * @param validator The validator to use when creating/updating entities
      */
     protected AbstractRestController(Dao<T> dao, Validator validator) {
         this.dao = dao;
@@ -83,17 +84,11 @@ public abstract class AbstractRestController<T extends Model> {
      * Save a new model in the database.
      *
      * @param input The model to save.
+     * @param binding The binding to use to validate
      * @return Response with the saved model, or 400.
      */
-    protected ResponseEntity<?> post(T input, BindingResult result) {
-        //post message met application/json {"name":"comp4","vat":"4"}
-        validator.validate(input, result);
-
-        if (! result.hasErrors()) {
-            T entity = dao.create(input);
-            return new ResponseEntity<>(entity, HttpStatus.OK); // add URI to location header field
-        }
-        return new ResponseEntity<>(result.getFieldErrors(), HttpStatus.BAD_REQUEST);
+    protected ResponseEntity<?> post(T input, BindingResult binding) {
+        return save(input, binding, () -> dao.create(input));
     }
 
     /**
@@ -115,23 +110,48 @@ public abstract class AbstractRestController<T extends Model> {
      * Updates a model in db
      *
      * @param input model to be updated
+     * @param binding The binding to use to validate
      * @return ResponseEntity
      */
-    protected ResponseEntity<?> put(T input, BindingResult result) {
-        validator.validate(input, result);
+    protected ResponseEntity<?> put(T input, BindingResult binding) {
+        return save(input, binding, () -> dao.update(input));
+    }
 
-        if (! result.hasErrors()) {
+    /**
+     * @return ResponseEntity of a 404
+     */
+    private ResponseEntity<?> notFound() {
+        return new ResponseEntity<>("Could not find object.", HttpStatus.NOT_FOUND);
+    }
+
+    /**
+     * @param input The input entity to save
+     * @param binding BindingResult to use for validations
+     * @param saveMethod The saveMethod (example: dao.update or dao.create)
+     * @return ResponseEntity to return to user
+     */
+    private ResponseEntity<?> save(T input, BindingResult binding, SaveMethod<T> saveMethod) {
+        validator.validate(input, binding);
+        if (!binding.hasErrors()) {
             try {
-                return new ResponseEntity<>(dao.update(input), HttpStatus.OK);
+                return new ResponseEntity<>(saveMethod.run(), HttpStatus.OK);
             } catch (EntityNotFoundException unused) {
                 return notFound();
             }
         } else {
-            return new ResponseEntity<Object>(result, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<Object>(binding.getFieldErrors(), HttpStatus.BAD_REQUEST);
         }
     }
 
-    private ResponseEntity<?> notFound() {
-        return new ResponseEntity<>("Could not find object.", HttpStatus.NOT_FOUND);
+    /**
+     * Specify how to save an entity
+     * @param <T> Type of the entity to save
+     */
+    protected interface SaveMethod<T> {
+        /**
+         * Method to run to save an entity
+         * @return the saved entity
+         */
+        T run();
     }
 }
