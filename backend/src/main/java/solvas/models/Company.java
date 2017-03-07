@@ -14,7 +14,7 @@ public class Company extends Model {
     private String url;
 
 
-    public Company() {
+    protected Company() {
     } // Hibernate wants a no-arg constructor
 
     public String getName() {
