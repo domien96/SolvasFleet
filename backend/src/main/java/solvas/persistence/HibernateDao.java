@@ -5,6 +5,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import solvas.models.Model;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -17,7 +18,7 @@ import java.util.Collection;
  */
 @Repository
 @Transactional
-public abstract class HibernateDao<T> implements Dao<T> {
+public abstract class HibernateDao<T extends Model> implements Dao<T> {
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -37,7 +38,12 @@ public abstract class HibernateDao<T> implements Dao<T> {
 
     @Override
     public T save(T model) {
-        run(Query.empty(s -> s.saveOrUpdate(model)));
+        if(model.getId() != 0) { // Update entity with this id
+            find(model.getId()); // Make sure entity exists
+            run(Query.empty(s -> s.update(s.merge(model))));
+        } else { // New entity
+            run(s -> s.save(model));
+        }
         return model;
     }
 
@@ -49,7 +55,11 @@ public abstract class HibernateDao<T> implements Dao<T> {
 
     @Override
     public T find(int id) {
-        return run(s -> s.get(clazz, id));
+        T result = run(s -> s.get(clazz, id));
+        if(result == null) {
+            throw new EntityNotFoundException();
+        }
+        return result;
     }
 
     @Override

@@ -5,14 +5,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import solvas.models.Model;
 import solvas.persistence.Dao;
+import solvas.persistence.EntityNotFoundException;
+import solvas.rest.utils.JsonListWrapper;
 
 /**
  * Abstract REST controller.
  *
  * @param <T> Type of the entity to work with.
  */
-public abstract class AbstractRestController<T> {
+public abstract class AbstractRestController<T extends Model> {
 
     protected final Dao<T> dao;
 
@@ -21,42 +24,45 @@ public abstract class AbstractRestController<T> {
      *
      * @param dao The dao to work with.
      */
-    public AbstractRestController(Dao<T> dao) {
+    protected AbstractRestController(Dao<T> dao) {
         this.dao = dao;
     }
 
     /**
-     * Lists all models.
+     * Lists all models, and wrap them in JSON object with key
      *
      * @return ResponseEntity
      */
-    ResponseEntity<?> listAll() {
-        return new ResponseEntity<>(dao.findAll(), HttpStatus.OK);
+    protected ResponseEntity<?> listAll(String key) {
+        return new ResponseEntity<>(new JsonListWrapper<T>(dao.findAll(), key), HttpStatus.OK);
     }
+
+    /**
+     * List all models.
+     *
+     * @return ReponseEntity
+     */
+    public abstract ResponseEntity<?> listAll();
 
     /**
      * Show the model with the given ID.
      *
      * @param id The ID of the model.
-     *
      * @return Response with the model or 404.
      */
-    ResponseEntity<?> getById(int id) {
-        T result = dao.find(id);
 
-        if (result == null) {
-            return new ResponseEntity<>("Object with id not found", HttpStatus.NOT_FOUND);
-
+    protected ResponseEntity<?> getById(int id) {
+        try {
+            return new ResponseEntity<>(dao.find(id), HttpStatus.OK);
+        } catch (EntityNotFoundException unused) {
+            return notFound();
         }
-
-        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     /**
      * Handle cases where the path variable cannot be converted to the required type.
      *
      * @param ex The exception.
-     *
      * @return The error entity, containing a message explaining the error.
      */
     @ExceptionHandler(TypeMismatchException.class)
@@ -73,10 +79,9 @@ public abstract class AbstractRestController<T> {
      * Save a new model in the database.
      *
      * @param input The model to save.
-     *
      * @return Response with the saved model, or 400.
      */
-    ResponseEntity<?> post(T input) {
+    protected ResponseEntity<?> post(T input) {
         //post message met application/json {"name":"comp4","vat":"4"}
         //TODO validate whether input is valid
 
@@ -88,27 +93,35 @@ public abstract class AbstractRestController<T> {
     }
 
     /**
-     * Deletes a model from db TODO
+     * Deletes a model from db
      *
      * @param id id of the model
-     *
      * @return ResponseEntity
      */
-    ResponseEntity<?> deleteById(int id) {
-        //TODO
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
+    protected ResponseEntity<?> deleteById(int id) {
+        try {
+            dao.destroy(dao.find(id));
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (EntityNotFoundException unused) {
+            return notFound();
+        }
     }
 
     /**
-     * Updates a model in db TODO
+     * Updates a model in db
      *
      * @param input model to be updated
-     *
      * @return ResponseEntity
      */
-    ResponseEntity<?> put(T input) {
-        //TODO
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    protected ResponseEntity<?> put(T input) {
+        try {
+            return new ResponseEntity<>(dao.save(input), HttpStatus.OK);
+        } catch (EntityNotFoundException unused) {
+            return notFound();
+        }
+    }
+
+    private ResponseEntity<?> notFound() {
+        return new ResponseEntity<>("Could not find object.", HttpStatus.NOT_FOUND);
     }
 }

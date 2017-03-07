@@ -1,5 +1,7 @@
 package solvas.persistence;
 
+import solvas.models.Model;
+
 import java.util.Collection;
 
 /**
@@ -9,13 +11,15 @@ import java.util.Collection;
  * @author david
  * @param <T> Model of Dao
  */
-public interface Dao<T> {
+public interface Dao<T extends Model> {
 
     /**
      * Save or update a model.
+     * When the id of the model is set, the record with the same id will be updated in the database.
+     * Otherwise a new record will be created, and the returned Model will have it's id set
      *
      * @param model The model to save.
-     *
+     * @exception EntityNotFoundException when trying to update a non-existent record
      * @return The model.
      */
     T save(T model);
@@ -33,7 +37,7 @@ public interface Dao<T> {
      * Find a model by id.
      *
      * @param id The ID of the model.
-     *
+     * @exception EntityNotFoundException no entity is associated with this id
      * @return The model.
      */
     T find(int id);
