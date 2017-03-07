@@ -9,6 +9,9 @@ import solvas.models.Role;
  */
 @Component
 public class RoleValidator extends AbstractValidator<Role> {
+    {
+        require("function");
+    }
     /**
      * Create a validator for roles
      */

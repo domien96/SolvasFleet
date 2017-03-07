@@ -9,6 +9,10 @@ import solvas.models.User;
  */
 @Component
 public class UserValidator extends AbstractValidator<User> {
+    {
+        require("firstName", "lastName", "email");
+    }
+
     /**
      * Create a validator for users
      */

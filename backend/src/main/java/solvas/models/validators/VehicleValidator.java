@@ -9,6 +9,9 @@ import solvas.models.Vehicle;
  */
 @Component
 public class VehicleValidator extends AbstractValidator<Vehicle> {
+    {
+        require("licensePlate", "chassisNumber", "model", "vehicleType", "kilometerCounter", "year", "company");
+    }
     /**
      * Create a validator for Vehicles
      */
