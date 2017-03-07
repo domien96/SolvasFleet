@@ -28,6 +28,7 @@ dependencies {
     // See http://docs.spring.io/spring-boot/docs/current/reference/html/appendix-dependency-versions.html
     compile 'org.springframework.boot:spring-boot-starter-web'
     compile 'org.springframework:spring-orm'
+    compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 
     // We want newer versions of these, so we add the version.
     compile 'org.flywaydb:flyway-core:4.1.1'

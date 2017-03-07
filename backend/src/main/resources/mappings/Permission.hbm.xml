@@ -14,8 +14,8 @@
 
       <property name="name" column="name" type="string" not-null="true"/>
 
-      <property name="updatedAt" column="updated_at" type="timestamp" generated="always"/>
-      <property name="createdAt" column="created_at" type="timestamp" generated="insert"/>
+      <property name="updatedAt" column="updated_at" type="java.time.LocalDateTime" generated="always"/>
+      <property name="createdAt" column="created_at" type="java.time.LocalDateTime" generated="insert"/>
 
    </class>
 </hibernate-mapping>
