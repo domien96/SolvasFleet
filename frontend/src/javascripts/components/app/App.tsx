@@ -26,8 +26,8 @@ class Sidebar extends React.Component<{}, {}> {
       <nav className='navbar-default navbar-side'>
         <ul className='nav'>
           <SidebarLink path='/'>Home</SidebarLink>
-          <SidebarLink path='/companies'>Companies</SidebarLink>
-          <SidebarLink path='/companies/new'>Add Company</SidebarLink>
+          <SidebarLink path='/users'>Users</SidebarLink>
+          <SidebarLink path='/clients'>Clients</SidebarLink>
         </ul>
       </nav>
     );

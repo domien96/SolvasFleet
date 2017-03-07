@@ -1,8 +1,7 @@
-/// <reference path="../types/interfaces.d.ts"/>
 import React from 'react';
 import T from 'i18n-react';
 
-import FormField from './forms/FormField.tsx';
+import FormField from '../forms/FormField.tsx';
 
 class AddUser extends React.Component<UserProps, UserState> {
 
@@ -53,7 +52,7 @@ class AddUser extends React.Component<UserProps, UserState> {
                 <FormField placeholder='form.placeholders.lastName' type='text' callback={ this.handleLastNameChange } hasError={ this.hasError('lastName')} />
                 <FormField placeholder='form.placeholders.email' type='email' callback={ this.handleEmailChange } hasError={ this.hasError('email')} />
                 <FormField placeholder='form.placeholders.password' type='password' callback={ this.handlePasswordChange } hasError={ this.hasError('password')} />
-                <button type='submit' className='btn btn-default'> 
+                <button type='submit' className='btn btn-default'>
                   <T.text tag='span' text='addUser.submit' />
                 </button>
               </form>
