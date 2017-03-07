@@ -4,7 +4,7 @@ buildscript {
         mavenLocal()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.1.RELEASE")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.2.RELEASE")
     }
 }
  
@@ -24,10 +24,14 @@ repositories {
 }
  
 dependencies {
-    compile "org.springframework.boot:spring-boot-starter-web"
-    compile 'org.springframework:spring-orm:4.3.6.RELEASE'
-    compile "org.flywaydb:flyway-core:4.1.1"
-    compile "org.hibernate:hibernate-core:5.2.8.Final"
+    // The Spring Boot Gradle plugin automatically manages versions for select dependencies.
+    // See http://docs.spring.io/spring-boot/docs/current/reference/html/appendix-dependency-versions.html
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework:spring-orm'
+
+    // We want newer versions of these, so we add the version.
+    compile 'org.flywaydb:flyway-core:4.1.1'
+    compile 'org.hibernate:hibernate-core:5.2.8.Final'
     compile 'org.postgresql:postgresql:42.0.0.jre7'
 
     testCompile "junit:junit"
