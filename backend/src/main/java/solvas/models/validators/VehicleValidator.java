@@ -1,22 +1,18 @@
 package solvas.models.validators;
 
 import org.springframework.stereotype.Component;
-import org.springframework.validation.Errors;
-import org.springframework.validation.Validator;
+import solvas.models.Vehicle;
 
 /**
  * Validate Vehicles
  * @author David Vandorpe
  */
 @Component
-public class VehicleValidator implements Validator {
-    @Override
-    public boolean supports(Class<?> clazz) {
-        return false;
-    }
-
-    @Override
-    public void validate(Object target, Errors errors) {
-
+public class VehicleValidator extends AbstractValidator<Vehicle> {
+    /**
+     * Create a validator for Vehicles
+     */
+    protected VehicleValidator() {
+        super(Vehicle.class);
     }
 }

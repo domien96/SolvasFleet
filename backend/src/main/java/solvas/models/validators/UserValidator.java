@@ -1,22 +1,18 @@
 package solvas.models.validators;
 
 import org.springframework.stereotype.Component;
-import org.springframework.validation.Errors;
-import org.springframework.validation.Validator;
+import solvas.models.User;
 
 /**
  * Validate Users
  * @author David Vandorpe
  */
 @Component
-public class UserValidator implements Validator {
-    @Override
-    public boolean supports(Class<?> clazz) {
-        return false;
-    }
-
-    @Override
-    public void validate(Object target, Errors errors) {
-
+public class UserValidator extends AbstractValidator<User> {
+    /**
+     * Create a validator for users
+     */
+    protected UserValidator() {
+        super(User.class);
     }
 }
