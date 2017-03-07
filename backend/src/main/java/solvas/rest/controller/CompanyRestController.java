@@ -2,8 +2,11 @@ package solvas.rest.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.*;
 import solvas.models.Company;
+import solvas.models.validators.CompanyValidator;
 import solvas.persistence.company.CompanyDao;
 
 
@@ -20,8 +23,8 @@ public class CompanyRestController extends AbstractRestController<Company> {
      * @param dao Autowired
      */
     @Autowired
-    public CompanyRestController(CompanyDao dao) {
-        super(dao);
+    public CompanyRestController(CompanyDao dao, CompanyValidator validator) {
+        super(dao, validator);
     }
 
     @Override
@@ -32,8 +35,8 @@ public class CompanyRestController extends AbstractRestController<Company> {
 
     @Override
     @RequestMapping(value = "/companies", method = RequestMethod.POST)
-    public ResponseEntity<?> post(@RequestBody Company input) {
-        return super.post(input);
+    public ResponseEntity<?> post(@RequestBody Company input, BindingResult result) {
+        return super.post(input, result);
     }
 
     @Override
@@ -50,7 +53,7 @@ public class CompanyRestController extends AbstractRestController<Company> {
 
     @Override
     @RequestMapping(value = "/companies", method = RequestMethod.PUT)
-    public ResponseEntity<?> put(@RequestBody Company input) {
-        return super.put(input);
+    public ResponseEntity<?> put(@RequestBody Company input, BindingResult result) {
+        return super.put(input, result);
     }
 }

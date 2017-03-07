@@ -4,6 +4,8 @@ import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.ClassUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import solvas.models.Model;
 import solvas.persistence.Dao;
@@ -18,14 +20,16 @@ import solvas.rest.utils.JsonListWrapper;
 public abstract class AbstractRestController<T extends Model> {
 
     protected final Dao<T> dao;
+    protected final Validator validator;
 
     /**
      * Default constructor.
      *
      * @param dao The dao to work with.
      */
-    protected AbstractRestController(Dao<T> dao) {
+    protected AbstractRestController(Dao<T> dao, Validator validator) {
         this.dao = dao;
+        this.validator = validator;
     }
 
     /**
@@ -81,15 +85,15 @@ public abstract class AbstractRestController<T extends Model> {
      * @param input The model to save.
      * @return Response with the saved model, or 400.
      */
-    protected ResponseEntity<?> post(T input) {
+    protected ResponseEntity<?> post(T input, BindingResult result) {
         //post message met application/json {"name":"comp4","vat":"4"}
-        //TODO validate whether input is valid
+        validator.validate(input, result);
 
-        if (input != null) {
-            T result = dao.save(input);
-            return new ResponseEntity<>(result, HttpStatus.OK); // add URI to location header field
+        if (! result.hasErrors()) {
+            T entity = dao.create(input);
+            return new ResponseEntity<>(entity, HttpStatus.OK); // add URI to location header field
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(result.getFieldErrors(), HttpStatus.BAD_REQUEST);
     }
 
     /**
@@ -113,11 +117,17 @@ public abstract class AbstractRestController<T extends Model> {
      * @param input model to be updated
      * @return ResponseEntity
      */
-    protected ResponseEntity<?> put(T input) {
-        try {
-            return new ResponseEntity<>(dao.save(input), HttpStatus.OK);
-        } catch (EntityNotFoundException unused) {
-            return notFound();
+    protected ResponseEntity<?> put(T input, BindingResult result) {
+        validator.validate(input, result);
+
+        if (! result.hasErrors()) {
+            try {
+                return new ResponseEntity<>(dao.update(input), HttpStatus.OK);
+            } catch (EntityNotFoundException unused) {
+                return notFound();
+            }
+        } else {
+            return new ResponseEntity<Object>(result, HttpStatus.BAD_REQUEST);
         }
     }
 
