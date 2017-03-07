@@ -1,0 +1,61 @@
+---
+
+- name: add gamification to keyslaves
+  user:
+    name: gamification
+    groups: keyslaves
+    append: true
+    shell: /bin/bash
+
+- name: create /srv/gamification folder
+  file:
+    path: /srv/gamification
+    mode: 0750
+    owner: gamification
+    group: gamification
+    state: directory
+
+- name: add www-data to gamification group
+  user:
+    name: www-data
+    groups: gamification
+    append: true
+
+- name: Create gamification postgresql user
+  postgresql_user:
+    name: gamification
+    password: "{{ gamification_db_password }}"
+  become: true
+  become_user: postgres
+
+- name: Create gamification postgresql database
+  postgresql_db:
+    name: gamification
+    owner: gamification
+    encoding: UTF-8
+    lc_collate: en_US.UTF-8
+    lc_ctype: en_US.UTF-8
+    template: template0
+  become: true
+  become_user: postgres
+
+- name: create config dirs
+  file:
+    path: /srv/gamification/{{ item }}
+    owner: gamification
+    group: gamification
+    state: directory
+  with_items:
+    - shared
+    - shared/config
+    - shared/config/initializers
+
+- name: shared files
+  template:
+    src: "{{ item }}"
+    dest: /srv/gamification/shared/{{ item }}
+    owner: gamification
+    group: gamification
+  with_items:
+    - config/database.yml
+    - config/secrets.yml
