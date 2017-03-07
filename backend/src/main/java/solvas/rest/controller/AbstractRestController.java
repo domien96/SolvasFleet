@@ -136,10 +136,15 @@ public abstract class AbstractRestController<T extends Model> {
             try {
                 return new ResponseEntity<>(saveMethod.run(), HttpStatus.OK);
             } catch (EntityNotFoundException unused) {
+                // Notify user the record wasn't found
+                // Shouldn't happen when creating a record
                 return notFound();
             }
         } else {
-            return new ResponseEntity<Object>(binding.getFieldErrors(), HttpStatus.BAD_REQUEST);
+            // Return validation errors to user
+            return new ResponseEntity<Object>(
+                    new JsonListWrapper<>(binding.getFieldErrors(), "errors"),
+                    HttpStatus.BAD_REQUEST);
         }
     }
 

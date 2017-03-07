@@ -26,6 +26,5 @@ public class CompanyValidator implements Validator {
                     ValidationUtils.rejectIfEmpty(errors, field, String.format("%1s.empty", field));
                 }
         );
-        System.out.println(errors);
     }
 }
