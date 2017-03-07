@@ -4,10 +4,13 @@ Aanwezigen: Bastiaens Steven (sjabasti), Cousaert Benjamin (becousae), Strijbol 
 
 Afwezigen:
  * Mak Nils (nnmak)
+ * * Afwezigheid van nils was niet nodig. Geen probleem.
  * VandenBussche Karel (klivdnbu)
+ * * Aanwezigheid was toch wel gewenst voor informatie over de testing.
 
 Geëxcuseerd afwezig:
  * Vandorpe David (davdorpe)
+ * * Afwezigheid van David was niet nodig. Geen probleem.
 
 _Van zowel backend als frontend was er ten minste 1 developer._
 
