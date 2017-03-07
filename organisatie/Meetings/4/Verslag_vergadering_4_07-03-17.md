@@ -6,6 +6,7 @@ Afwezigen:
  * Mak Nils (nnmak)
   * Dit was geen probleem aangezien we op de hoogte zijn van de vooruitgangen, alsook was de andere collega aanwezig die aan de frontend werkt.
  * VandenBussche Karel (klivdnbu)
+ * Kon niet aanwezig zijn.
   * Geëxcuseerd afwezig
  * Vandorpe David (davdorpe)
   * Dit is was geen probleem aangezien we op de hoogte zijn van de vooruitgangen,
