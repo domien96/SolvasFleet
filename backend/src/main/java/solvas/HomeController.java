@@ -2,26 +2,20 @@ package solvas;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import solvas.database.Dao;
 import solvas.models.Company;
-import solvas.models.ManageCompany;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
+/**
+ * Unfinished root controller, check if necessary
+ */
 @RestController
 public class HomeController {
- 
+
     @RequestMapping("/")
-    public String index() {
-        Dao<Company> companyDao = new Dao<>(Company.class);
-
-        companyDao.save(new Company("Ethias", "nummer"));
-
-        Company c = companyDao.find(1 );
-
-        c.setName("KBC");
-        companyDao.save(c);
-        //companyDao.destroy(c);
-
-        return c.getName();
+    public Collection<Company> index() {
+        //TODO make controller for root if necessary
+        return new ArrayList<>();
     }
- 
 }
