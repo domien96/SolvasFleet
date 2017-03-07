@@ -4,15 +4,12 @@ Aanwezigen: Bastiaens Steven (sjabasti), Cousaert Benjamin (becousae), Strijbol 
 
 Afwezigen:
  * Mak Nils (nnmak)
-  * Dit was geen probleem aangezien we op de hoogte zijn van de vooruitgangen, alsook was de andere collega aanwezig die aan de frontend werkt.
  * VandenBussche Karel (klivdnbu)
- * Kon niet aanwezig zijn.
-  * Geëxcuseerd afwezig
- * Vandorpe David (davdorpe)
-  * Dit is was geen probleem aangezien we op de hoogte zijn van de vooruitgangen,
-  alsook waren al de andere collegas aanwezig die aan de backend werken. Deze afwezigheid werd op tijd gemeld.
-  * Alsook is er via andere communicatiekanalen laten weten dat hij volgende week heel weinig tijd zal hebben om aan het project te werken, met een geldige reden.
 
+Geëxcuseerd afwezig:
+ * Vandorpe David (davdorpe)
+
+_Van zowel backend als frontend was er ten minste 1 developer._
 
 Tijd: 17:36-18:23
 (dvsteend 18:00-18:23)
@@ -49,5 +46,6 @@ Tijd: 17:36-18:23
  * Het klasse diagram zal door de backend gemaakt worden
  * de andere documentatie zal later over slack besproken worden
  
-Er is ook beslist indien klivdnbu niet (snel) een "proof of concept" toont, we de prof/assisten dit probleem melden.
+* Teamverband
+ * Er is ook beslist indien klivdnbu niet (snel) een "proof of concept" toont, we de prof/assisten dit probleem melden.
 
