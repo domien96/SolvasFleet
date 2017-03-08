@@ -5,8 +5,13 @@ import App       from './components/app/App.tsx';
 
 import Home      from './components/Home.tsx';
 
-import Companies from './components/Companies.tsx';
-import AddCompany from './components/AddCompany.tsx';
+import Users   from './components/users/Users.tsx';
+import AddUser from './components/users/AddUser.tsx';
+import User    from './components/users/User.tsx';
+
+import Clients   from './components/clients/Clients.tsx';
+import AddClient from './components/clients/AddClient.tsx';
+import Client    from './components/clients/Client.tsx';
 
 import NoMatch   from './components/NoMatch.tsx';
 
@@ -16,8 +21,13 @@ class SolvasRouter extends React.Component<{}, {}> {
       <Router history={ browserHistory } >
         <Route path="/" component={ App } >
           <IndexRoute component={ Home } />
-          <Route path="/companies" component={ Companies } />
-          <Route path="/companies/new" component={ AddCompany } />
+          <Route path="/users"     component={ Users   } />
+          <Route path="/users/new" component={ AddUser } />
+          <Route path="/users/:id" component={ User    } />
+
+          <Route path="/clients"     component={ Clients   } />
+          <Route path="/clients/new" component={ AddClient } />
+          <Route path="/clients/:id" component={ Client    } />
           <Route path="*" component={ NoMatch }/>
         </Route>
       </Router>

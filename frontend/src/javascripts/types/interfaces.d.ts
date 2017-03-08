@@ -38,10 +38,27 @@ interface CompanyState{
   address : string;
 }
 
+/* Users */
+
+interface User {
+  id:         number;
+  first_name: string;
+  last_name:  string;
+  email:      string;
+}
+
+interface UsersState {
+  users: User[];
+}
+
+interface UsersData {
+  [ users : string ] : any;
+}
+
 /* Companies */
 
 interface Company {
-  id:           number; 
+  id:           number;
   name:         string;
   VATnumber:    string;
   phoneNumber: string;
