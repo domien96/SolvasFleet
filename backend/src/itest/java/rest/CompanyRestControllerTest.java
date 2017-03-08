@@ -1,6 +1,8 @@
 package rest;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import matchers.CompanyMatcher;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -9,25 +11,24 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import solvas.models.Company;
 import solvas.persistence.EntityNotFoundException;
 import solvas.persistence.company.CompanyDao;
 import solvas.rest.controller.CompanyRestController;
 
-import java.io.IOException;
-import java.text.ParseException;
 import java.util.Collections;
 import java.util.Random;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 public class CompanyRestControllerTest {
@@ -41,28 +42,35 @@ public class CompanyRestControllerTest {
 
     private ArgumentCaptor<Company> captor = ArgumentCaptor.forClass(Company.class);
 
+    private CompanyMatcher matcher = new CompanyMatcher();
+
+    private Company company;
+
+    private String json;
+
+
+
     private Company createDefaultCompany()
     {
-        Company c= new Company("exclusi","vakjzkjl","04882828","godLane","rand.be");
+        Company c= new Company("exclusi","vakjzkjl",null,null,"rand.be");
         c.setId(new Random().nextInt(100));
         return c;
     }
 
     @Before
-    public void setUp() throws ParseException, IOException {
+    public void setUp() throws JsonProcessingException {
         MockitoAnnotations.initMocks(this);
         mockMvc= MockMvcBuilders.standaloneSetup(companyRestController).build();
+        company=createDefaultCompany();
+        json=new ObjectMapper().writeValueAsString(company);
     }
     @Test
     public void getCompanyById_noerror() throws Exception {
-        Company company = createDefaultCompany();
         when(companyDaoMock.find(anyInt())).thenReturn(company);
-        mockMvc.perform(get("/companies/10"))
+        ResultActions res =mockMvc.perform(get("/companies/10"))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(jsonPath("id").value(company.getId()))
-                .andExpect(jsonPath("name").value(company.getName()))
-                .andExpect(jsonPath("address").value(company.getAddress()));
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
+        matcher.jsonMatcher(res,company);
     }
 
     @Test
@@ -74,7 +82,7 @@ public class CompanyRestControllerTest {
 
     @Test
     public void getCompanies_noError() throws Exception {
-        when(companyDaoMock.findAll()).thenReturn(Collections.singletonList(createDefaultCompany()));
+        when(companyDaoMock.findAll()).thenReturn(Collections.singletonList(company));
         mockMvc.perform(get("/companies"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
@@ -82,17 +90,17 @@ public class CompanyRestControllerTest {
 
     @Test
     public void postCompany_noError() throws Exception {
-        when(companyDaoMock.find(anyInt())).thenReturn(null);
-        Company company=createDefaultCompany();
-        String json=new ObjectMapper().writeValueAsString(company);
         when(companyDaoMock.save(any())).thenReturn(company);
-        mockMvc.perform(post("/companies").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("id").value(company.getId()));
+        ResultActions resultActions=
+                mockMvc.perform(post("/companies").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
+                        .andExpect(status().isOk());
+
+        matcher.jsonMatcher(resultActions,company);
 
         //check content sent to dao
         verify(companyDaoMock,times(1)).save(captor.capture());
-        assertEquals("id correctly sent to dao",company.getId(),captor.getValue().getId());
+
+        matcher.performAsserts(captor.getValue(),company);
 
     }
 
@@ -104,21 +112,16 @@ public class CompanyRestControllerTest {
 
     @Test
     public void putCompany_noError() throws Exception {
-        Company update = createDefaultCompany();
-
-        String json = new ObjectMapper().writeValueAsString(update);
-        when(companyDaoMock.save(any())).thenReturn(update);
-        mockMvc.perform(put("/companies").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
+        when(companyDaoMock.save(any())).thenReturn(company);
+        ResultActions resultActions =
+                mockMvc.perform(put("/companies").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("id").value(update.getId()))
-                .andExpect(jsonPath("address").value(update.getAddress()))
-                .andExpect(jsonPath("name").value(update.getName()));
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
+        matcher.jsonMatcher(resultActions,company);
+
 
         verify(companyDaoMock,times(1)).save(captor.capture());
-
-        assertEquals("id correctly sent to dao",update.getId(),captor.getValue().getId());
-        assertEquals("address correctly sent to dao",update.getAddress(),captor.getValue().getAddress());
-        assertEquals("name correctly sent to dao",update.getName(),captor.getValue().getName());
+        matcher.performAsserts(company,captor.getValue());
     }
 
     @Test

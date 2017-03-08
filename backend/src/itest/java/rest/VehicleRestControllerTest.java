@@ -1,6 +1,8 @@
 package rest;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import matchers.VehicleMatcher;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -10,7 +12,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import solvas.models.Vehicle;
 import solvas.persistence.EntityNotFoundException;
@@ -38,32 +40,40 @@ public class VehicleRestControllerTest {
 
     private MockMvc mockMvc;
 
-    private Vehicle createDefaultVehicle()
+    private ArgumentCaptor<Vehicle> captor = ArgumentCaptor.forClass(Vehicle.class);
+
+    private VehicleMatcher matcher=new VehicleMatcher();
+
+    private Vehicle vehicle;
+    private String json;
+
+    private Vehicle createDefaultVehicle() //Tijdelijk testen met 1 vehicle, in de toekomst parametergewijs een lijst doorgaan
     {
         Vehicle v= new Vehicle("1-AOR-430","","",null,20,1999,null,10,null,"car.be");
         v.setId(new Random().nextInt(100));
         return v;
-
     }
 
 
     @Before
-    public void setUp()
-    {
+    public void setUp() throws JsonProcessingException {
         MockitoAnnotations.initMocks(this);
         mockMvc= MockMvcBuilders.standaloneSetup(vehicleRestController).build();
+
+        vehicle = createDefaultVehicle();
+        json=new ObjectMapper().writeValueAsString(vehicle);
     }
 
     @Test
     public void getVehicleById_noError() throws Exception
     {
-        Vehicle vehicle = createDefaultVehicle();
         when(vehicleDaoMock.find(anyInt())).thenReturn(vehicle);
-        mockMvc.perform(get("/vehicles/33"))
+        ResultActions resultActions=
+                mockMvc.perform(get("/vehicles/33"))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(jsonPath("id").value(vehicle.getId()))
-                .andExpect(jsonPath("licensePlate").value(vehicle.getLicensePlate()));
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
+
+        matcher.jsonMatcher(resultActions,vehicle);
     }
 
     @Test
@@ -77,28 +87,27 @@ public class VehicleRestControllerTest {
     @Test
     public void getVehicles_noError() throws Exception
     {
-        when(vehicleDaoMock.findAll()).thenReturn(Collections.singletonList(createDefaultVehicle()));
+        when(vehicleDaoMock.findAll()).thenReturn(Collections.singletonList(vehicle));
         mockMvc.perform(get("/vehicles"))
-                .andExpect(status().isOk())
-        .andDo(MockMvcResultHandlers.print());
+                .andExpect(status().isOk());
     }
 
     @Test
     public void postVehicle_noError() throws Exception {
-        Vehicle vehicle = createDefaultVehicle();
-        String json = new ObjectMapper().writeValueAsString(vehicle);
         when(vehicleDaoMock.save(any())).thenReturn(vehicle);
-        mockMvc.perform(post("/vehicles").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("id").value(vehicle.getId()));
-        verify(vehicleDaoMock,times(1)).save(any());
+        ResultActions resultActions=
+                mockMvc.perform(post("/vehicles").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
+                .andExpect(status().isOk());
+
+        matcher.jsonMatcher(resultActions,vehicle);
+
+        verify(vehicleDaoMock,times(1)).save(captor.capture());
+        matcher.performAsserts(vehicle,captor.getValue());
     }
 
     @Ignore //case bespreken wanneer een vehicle al bestaat
     @Test
     public void postVehicle_alreadyExists() throws Exception {
-        Vehicle vehicle = createDefaultVehicle();
-        String json=new ObjectMapper().writeValueAsString(vehicle);
         when(vehicleDaoMock.find(anyInt())).thenReturn(vehicle);
         mockMvc.perform(post("/vehicles").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
                 .andExpect(status().isNotFound());
@@ -106,23 +115,14 @@ public class VehicleRestControllerTest {
 
     @Test
     public void putVehicle_noError() throws Exception {
-
-        Vehicle update = createDefaultVehicle();
-
-        String json=new ObjectMapper().writeValueAsString(update);
-
-        ArgumentCaptor<Vehicle> captor =ArgumentCaptor.forClass(Vehicle.class);
-
-        when(vehicleDaoMock.save(any())).thenReturn(update);
-        mockMvc.perform(put("/vehicles").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("id").value(update.getId()))
-                .andExpect(jsonPath("licensePlate").value(update.getLicensePlate()));
+        when(vehicleDaoMock.save(any())).thenReturn(vehicle);
+        ResultActions resultActions=
+                mockMvc.perform(put("/vehicles").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
+                .andExpect(status().isOk());
+        matcher.jsonMatcher(resultActions,vehicle);
 
         verify(vehicleDaoMock,times(1)).save(captor.capture());
-        assertEquals("Correct id",update.getId(),captor.getValue().getId());
-        assertEquals("Correct licensePlate",update.getLicensePlate(),captor.getValue().getLicensePlate());
-
+        matcher.performAsserts(vehicle,captor.getValue());
     }
 
     @Test
@@ -138,8 +138,6 @@ public class VehicleRestControllerTest {
     @Test
     public void destoryVehicle_noError() throws Exception
     {
-        Vehicle vehicle=createDefaultVehicle();
-        String json = new ObjectMapper().writeValueAsString(vehicle);
         when(vehicleDaoMock.destroy(any())).thenReturn(vehicle);
 
         ArgumentCaptor<Vehicle> captor =ArgumentCaptor.forClass(Vehicle.class);
@@ -155,8 +153,6 @@ public class VehicleRestControllerTest {
     @Ignore //not implemented
     @Test
     public void destroyVehicle_notFound() throws Exception {
-        Vehicle vehicle = createDefaultVehicle();
-        String json = new ObjectMapper().writeValueAsString(vehicle);
         when(vehicleDaoMock.destroy(any())).thenThrow(new EntityNotFoundException());
         mockMvc.perform(delete("/vehicles").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
                 .andExpect(status().isNotFound());
