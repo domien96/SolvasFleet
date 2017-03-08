@@ -1,10 +1,12 @@
 import React from 'react';
 import { Link } from'react-router';
 
-import fetchUsers from '../../actions/fetch_users.ts';
 
 import Card       from '../app/Card.tsx';
 import WrappedCol from '../app/WrappedCol.tsx';
+import InfoTable  from '../tables/InfoTable.tsx';
+
+import fetchUsers from '../../actions/fetch_users.ts';
 
 class Users extends React.Component<{}, UsersState> {
 
@@ -21,9 +23,13 @@ class Users extends React.Component<{}, UsersState> {
   }
 
   render() {
-    const users = this.state.users.map((u, i) => {
-      return (<div key={ i }>{ u.first_name }</div>);
-    });
+    const tableHead = [
+      { key: 'id', label: 'users.id' },
+      { key: 'first_name', label: 'users.first_name' },
+      { key: 'last_name', label: 'users.last_name' },
+      { key: 'email', label: 'users.email' },
+      { key: 'password', label: 'users.password' }
+    ]
 
     return (
       <WrappedCol>
@@ -35,7 +41,7 @@ class Users extends React.Component<{}, UsersState> {
             </Link>
           </div>
           <div className='card-content'>
-            { users }
+            <InfoTable head={ tableHead } data={ this.state.users } />
           </div>
         </Card>
       </WrappedCol>
