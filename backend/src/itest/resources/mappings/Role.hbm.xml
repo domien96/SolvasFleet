@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"> 
+
+<hibernate-mapping>
+   <class name="solvas.models.Role" table="roles">
+      <meta attribute="class-description">
+         This class contains the role detail.
+      </meta>
+      <id name="id" type="int" column="role_id">
+         <generator class="identity"/>
+      </id>
+
+       <property name="function" column="function" type="string"/>
+
+      <many-to-one name="company" column="company_id"
+                   class="solvas.models.Company" not-null="false"/>
+
+       <many-to-one name="user" column="user_id"
+                    class="solvas.models.User" not-null="false"/>
+
+       <property name="updatedAt" column="updated_at" type="timestamp" generated="always"/>
+       <property name="createdAt" column="created_at" type="timestamp" generated="insert"/>
+
+
+   </class>
+</hibernate-mapping>
