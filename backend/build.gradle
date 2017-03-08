@@ -7,7 +7,7 @@ buildscript {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.1.RELEASE")
     }
 }
- 
+
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
@@ -29,6 +29,28 @@ dependencies {
     compile "org.flywaydb:flyway-core:4.1.1"
     compile "org.hibernate:hibernate-core:5.2.8.Final"
     compile 'org.postgresql:postgresql:42.0.0.jre7'
+    compile 'org.mockito:mockito-all:1.10.19'
+    compile 'org.springframework:spring-test:4.3.6.RELEASE'
 
     testCompile "junit:junit"
+}
+
+configurations {
+    itestCompile.extendsFrom testCompile
+    itestRuntime.extendsFrom testRuntime
+}
+
+sourceSets {
+    itest {
+        compileClasspath += main.output + test.output
+        runtimeClasspath += main.output + test.output
+        java.srcDir file('src/integration-test/java')
+    }
+    test {
+        resources.srcDir file('src/integration-test/resources')
+    }
+}
+task itest(type: Test) {
+    testClassesDir = sourceSets.itest.output.classesDir
+    classpath = sourceSets.itest.runtimeClasspath
 }
