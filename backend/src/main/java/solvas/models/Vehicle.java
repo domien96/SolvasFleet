@@ -21,19 +21,6 @@ public class Vehicle extends Model {
     protected Vehicle() {
     }
 
-    public Vehicle(String licensePlate, String chassisNumber, String model, Vehicletype type, int kilometerCount, int year, Company leasingCompany, int value, Company company, String url) {
-        this.licensePlate = licensePlate;
-        this.chassisNumber = chassisNumber;
-        this.model = model;
-        this.type = type;
-        this.kilometerCount = kilometerCount;
-        this.year = year;
-        this.leasingCompany = leasingCompany;
-        this.value = value;
-        this.company = company;
-        this.url = url;
-    }
-
     public Company getCompany() {
         return company;
     }

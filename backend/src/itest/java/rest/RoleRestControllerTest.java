@@ -21,8 +21,8 @@ import solvas.persistence.role.RoleDao;
 import solvas.rest.controller.RoleRestController;
 
 import java.util.Collections;
-import java.util.Random;
 
+import static io.github.benas.randombeans.api.EnhancedRandom.random;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.*;
@@ -48,19 +48,11 @@ public class RoleRestControllerTest {
     private String json;
 
 
-    //testing with 1 object for the time being
-    private Role createDefaultRole()
-    {
-        Role r= new Role(null,"func",null,null,null,"test.be");
-        r.setId(new Random().nextInt(100));
-        return r;
-    }
-
     @Before
     public void setUp() throws JsonProcessingException {
         MockitoAnnotations.initMocks(this);
         mockMvc= MockMvcBuilders.standaloneSetup(roleRestController).build();
-        role=createDefaultRole();
+        role=random(Role.class);
         json=new ObjectMapper().writeValueAsString(role);
     }
 
@@ -109,17 +101,12 @@ public class RoleRestControllerTest {
     @Test
     public void putRole_notFound() throws Exception {
         when(roleDaoMock.save(any())).thenThrow(new EntityNotFoundException());
-        Role update = createDefaultRole();
-        String json=new ObjectMapper().writeValueAsString(update);
-
         mockMvc.perform(put("/roles").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
                 .andExpect(status().isNotFound());
     }
 
     @Test
     public void postRole_noError() throws Exception {
-        Role role = createDefaultRole();
-        String json = new ObjectMapper().writeValueAsString(role);
         when(roleDaoMock.save(any())).thenReturn(role);
 
         ResultActions resultActions=

@@ -19,8 +19,8 @@ import solvas.persistence.company.CompanyDao;
 import solvas.rest.controller.CompanyRestController;
 
 import java.util.Collections;
-import java.util.Random;
 
+import static io.github.benas.randombeans.api.EnhancedRandom.random;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.verify;
@@ -48,18 +48,11 @@ public class CompanyRestControllerTest {
 
     private String json;
 
-    private Company createDefaultCompany()
-    {
-        Company c= new Company("exclusi","vakjzkjl",null,null,"rand.be");
-        c.setId(new Random().nextInt(100));
-        return c;
-    }
-
     @Before
     public void setUp() throws JsonProcessingException {
         MockitoAnnotations.initMocks(this);
         mockMvc= MockMvcBuilders.standaloneSetup(companyRestController).build();
-        company=createDefaultCompany();
+        company=random(Company.class);
         json=new ObjectMapper().writeValueAsString(company);
     }
     @Test
@@ -116,8 +109,6 @@ public class CompanyRestControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
         matcher.jsonMatcher(resultActions,company);
-
-
         verify(companyDaoMock,times(1)).save(captor.capture());
         matcher.performAsserts(company,captor.getValue());
     }
@@ -125,7 +116,6 @@ public class CompanyRestControllerTest {
     @Test
     public void putCompany_notFound() throws Exception {
         when(companyDaoMock.save(any())).thenThrow(new EntityNotFoundException());
-        String json = new ObjectMapper().writeValueAsString(createDefaultCompany());
         mockMvc.perform(put("/companies").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
                 .andExpect(status().isNotFound());
     }

@@ -22,6 +22,7 @@ import solvas.rest.controller.UserRestController;
 import java.util.Collections;
 import java.util.Random;
 
+import static io.github.benas.randombeans.api.EnhancedRandom.random;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.verify;
@@ -49,20 +50,12 @@ public class UserRestControllerTest {
 
     private String json;
 
-    //Om te beginnen testen aan de hand van één user, later meerdere
-    private User createDefaultUser() {
-        User u= new User("John","Doe","john@doe.com","secret","john.doe");
-        u.setId(new Random().nextInt(100));
-        return u;
-    }
-
-
     @Before
     public void setUp() throws Exception
     {
         MockitoAnnotations.initMocks(this);
         mockMvc=MockMvcBuilders.standaloneSetup(controller).build();
-        user=createDefaultUser();
+        user=random(User.class);
         json=new ObjectMapper().writeValueAsString(user);
     }
 
@@ -131,7 +124,6 @@ public class UserRestControllerTest {
     public void putUser_notFound() throws Exception
     {
         when(userDaoMock.save(any())).thenThrow(new EntityNotFoundException());
-        String json = new ObjectMapper().writeValueAsString(createDefaultUser());
         mockMvc.perform(put("/users").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
                 .andExpect(status().isNotFound());
     }

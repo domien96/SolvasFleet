@@ -19,15 +19,6 @@ public class Role extends Model {
     protected Role() {
     }
 
-    public Role(Company company, String function, User user, LocalDateTime startDate, LocalDateTime endDate, String url) {
-        this.company = company;
-        this.function = function;
-        this.user = user;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.url = url;
-    }
-
     public Company getCompany() {
         return company;
     }

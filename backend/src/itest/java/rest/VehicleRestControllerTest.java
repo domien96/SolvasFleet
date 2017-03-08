@@ -23,6 +23,7 @@ import solvas.rest.controller.VehicleRestController;
 import java.util.Collections;
 import java.util.Random;
 
+import static io.github.benas.randombeans.api.EnhancedRandom.random;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
@@ -48,20 +49,12 @@ public class VehicleRestControllerTest {
     private Vehicle vehicle;
     private String json;
 
-    private Vehicle createDefaultVehicle() //Tijdelijk testen met 1 vehicle, in de toekomst parametergewijs een lijst doorgaan
-    {
-        Vehicle v= new Vehicle("1-AOR-430","","",null,20,1999,new Company("a","o","oo","ee","roo"),10,null,"car.be");
-        v.setId(new Random().nextInt(100));
-        return v;
-    }
-
-
     @Before
     public void setUp() throws JsonProcessingException {
         MockitoAnnotations.initMocks(this);
         mockMvc= MockMvcBuilders.standaloneSetup(vehicleRestController).build();
 
-        vehicle = createDefaultVehicle();
+        vehicle = random(Vehicle.class);
         json=new ObjectMapper().writeValueAsString(vehicle);
     }
 
@@ -128,8 +121,6 @@ public class VehicleRestControllerTest {
 
     @Test
     public void putVehicle_notFound() throws Exception {
-        Vehicle vehicle = createDefaultVehicle();
-        String json = new ObjectMapper().writeValueAsString(vehicle);
         when(vehicleDaoMock.save(any())).thenThrow(new EntityNotFoundException());
         mockMvc.perform(put("/vehicles").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
                 .andExpect(status().isNotFound());
