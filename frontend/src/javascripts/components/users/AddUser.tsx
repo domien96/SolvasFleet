@@ -1,6 +1,6 @@
 import React from 'react';
 import T from 'i18n-react';
-import { Link } from 'react-router';
+import { browserHistory, Link } from 'react-router';
 
 import Card       from '../app/Card.tsx';
 import FormField  from '../forms/FormField.tsx';
@@ -120,8 +120,8 @@ class AddUser extends React.Component<UserProps, UserState> {
     .then(function(response) {
       return response.json()
     })
-    .then((data : any) => {
-      console.log(data);
+    .then(() => {
+      browserHistory.push('/users');
     });
   }
 
