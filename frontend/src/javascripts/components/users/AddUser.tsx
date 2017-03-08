@@ -103,6 +103,7 @@ class AddUser extends React.Component<UserProps, UserState> {
       email: null,
       password: null
     };
+    this.handleChange = this.handleChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
@@ -115,7 +116,7 @@ class AddUser extends React.Component<UserProps, UserState> {
   public onSubmit(e : any) : void {
     e.preventDefault();
 
-    createUser(pluck(this.state, ['firstName']))
+    createUser(pluck(this.state, ['firstName', 'lastName', 'email', 'password']))
     .then(function(response) {
       return response.json()
     })
