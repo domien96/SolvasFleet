@@ -13,9 +13,13 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.ResourcePatternUtils;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import solvas.persistence.company.CompanyDao;
+import solvas.persistence.company.HibernateCompanyDao;
 
 import javax.sql.DataSource;
 import java.io.IOException;
@@ -48,14 +52,29 @@ public class HibernateConfig {
         this.rl = resourceLoader;
     }
 
+     @Bean
+    public CompanyDao companyDao()
+     {
+         return new HibernateCompanyDao();
+     }
+
     @Bean
     public DataSource getDataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(env.getProperty("datasource.driver"));
-        dataSource.setUrl(env.getProperty("datasource.url"));
-        dataSource.setUsername(env.getProperty("datasource.username"));
-        dataSource.setPassword(env.getProperty("datasource.password"));
-        return dataSource;
+        if(env.getProperty("embedded").isEmpty()) {
+            DriverManagerDataSource dataSource = new DriverManagerDataSource();
+            dataSource.setDriverClassName(env.getProperty("datasource.driver"));
+            dataSource.setUrl(env.getProperty("datasource.url"));
+            dataSource.setUsername(env.getProperty("datasource.username"));
+            dataSource.setPassword(env.getProperty("datasource.password"));
+            return dataSource;
+        }
+        else
+        {
+            return new EmbeddedDatabaseBuilder().
+                    setType(EmbeddedDatabaseType.H2).
+                    addScript("/db/migration/V2__milestone1.sql").
+                            build();
+        }
     }
 
     private Resource[] loadResources() throws IOException {
@@ -69,7 +88,7 @@ public class HibernateConfig {
      * @return The factory.
      */
     @Bean
-    @Profile("default")
+    @Profile({"default","test"})
     public LocalSessionFactoryBean sessionFactory() {
         return createSessionFactory(getHibernateProperties());
     }
