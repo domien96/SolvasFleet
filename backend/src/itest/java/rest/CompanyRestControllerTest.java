@@ -48,8 +48,6 @@ public class CompanyRestControllerTest {
 
     private String json;
 
-
-
     private Company createDefaultCompany()
     {
         Company c= new Company("exclusi","vakjzkjl",null,null,"rand.be");

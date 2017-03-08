@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import solvas.models.Company;
 import solvas.models.Vehicle;
 import solvas.persistence.EntityNotFoundException;
 import solvas.persistence.vehicle.VehicleDao;
@@ -49,7 +50,7 @@ public class VehicleRestControllerTest {
 
     private Vehicle createDefaultVehicle() //Tijdelijk testen met 1 vehicle, in de toekomst parametergewijs een lijst doorgaan
     {
-        Vehicle v= new Vehicle("1-AOR-430","","",null,20,1999,null,10,null,"car.be");
+        Vehicle v= new Vehicle("1-AOR-430","","",null,20,1999,new Company("a","o","oo","ee","roo"),10,null,"car.be");
         v.setId(new Random().nextInt(100));
         return v;
     }
