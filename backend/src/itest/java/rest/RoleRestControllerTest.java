@@ -1,8 +1,10 @@
 package rest;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -14,15 +16,15 @@ import solvas.persistence.EntityNotFoundException;
 import solvas.persistence.role.RoleDao;
 import solvas.rest.controller.RoleRestController;
 
-import java.util.List;
+import java.util.Collections;
+import java.util.Random;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 public class RoleRestControllerTest {
     @InjectMocks
@@ -33,28 +35,31 @@ public class RoleRestControllerTest {
 
     private MockMvc mockMvc;
 
-    private TestObjectProvider testProvider=new TestObjectProvider();
+    private ArgumentCaptor<Role> captor = ArgumentCaptor.forClass(Role.class);
 
-    private Role role;
-    private List<Role> roles;
+
+    private Role createDefaultRole()
+    {
+        Role r= new Role(null,"func",null,null,null,"test.be");
+        r.setId(new Random().nextInt(100));
+        return r;
+    }
 
     @Before
     public void setUp()  {
-        role=testProvider.getRole();
-        roles=testProvider.getRoles();
         MockitoAnnotations.initMocks(this);
         mockMvc= MockMvcBuilders.standaloneSetup(roleRestController).build();
     }
 
     @Test
     public void getRoleById_noError() throws Exception {
-        Role role = new Role(null,"admin",null,null,null,"test.be");
-        role.setId(1);
+        Role role = createDefaultRole();
         when(roleDaoMock.find(anyInt())).thenReturn(role);
         mockMvc.perform(get("/roles/1"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(jsonPath("id").value(1));
+                .andExpect(jsonPath("id").value(role.getId()))
+                .andExpect(jsonPath("function").value(role.getFunction()));
     }
 
     @Test
@@ -66,24 +71,59 @@ public class RoleRestControllerTest {
 
     @Test
     public void getRoles_noError() throws Exception {
-        when(roleDaoMock.findAll()).thenReturn(roles);
+        when(roleDaoMock.findAll()).thenReturn(Collections.singletonList(createDefaultRole()));
         mockMvc.perform(get("/roles"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
+        //todo json expectation
     }
 
     @Test
-    public void putRoles_noError() throws Exception {
-        mockMvc.perform(put("/roles").contentType(MediaType.APPLICATION_JSON_UTF8).content(""))
-                .andExpect(status().isOk());
-        //todo Verificatie actie naar dao
+    public void putRole_noError() throws Exception {
+        Role update = createDefaultRole();
+         String json=new ObjectMapper().writeValueAsString(update);
+         when(roleDaoMock.save(any())).thenReturn(update);
+        mockMvc.perform(put("/roles").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("function").value(update.getFunction()))
+                .andExpect(jsonPath("id").value(update.getId()));
+
+        // Verificatie actie naar dao
+        verify(roleDaoMock,times(1)).save(captor.capture());
+        assertEquals("id passed to dao",update.getId(),captor.getValue().getId());
+        assertEquals("function passed to dao",update.getFunction(),captor.getValue().getFunction());
     }
 
     @Test
-    public void putRoles_alreadyExists() throws Exception {
-        when(roleDaoMock.find(anyInt())).thenReturn(role);
-        mockMvc.perform(put("/roles").contentType(MediaType.APPLICATION_JSON_UTF8).content(""));
-    //            .andExpect(status().i) welke response?
+    public void putRole_notFound() throws Exception {
+        when(roleDaoMock.save(any())).thenThrow(new EntityNotFoundException());
+        Role update = createDefaultRole();
+        String json=new ObjectMapper().writeValueAsString(update);
+
+        mockMvc.perform(put("/roles").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void postRole_noError() throws Exception {
+        Role role = createDefaultRole();
+        String json = new ObjectMapper().writeValueAsString(role);
+        when(roleDaoMock.save(any())).thenReturn(role);
+
+        mockMvc.perform(post("/roles").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("id").value(role.getId()))
+                .andExpect(jsonPath("function").value(role.getFunction()));
+        verify(roleDaoMock,times(1)).save(captor.capture());
+        assertEquals("id passed correctly to dao",role.getId(),captor.getValue().getId());
+        assertEquals("function passed correctly to dao",role.getFunction(),captor.getValue().getFunction());
+    }
+
+
+    @Ignore
+    @Test //todo
+    public void postRole_alreadyExists() throws Exception {
+
     }
 
 
