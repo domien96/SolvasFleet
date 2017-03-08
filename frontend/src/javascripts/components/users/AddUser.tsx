@@ -1,5 +1,6 @@
 import React from 'react';
 import T from 'i18n-react';
+import { Link } from 'react-router';
 
 import Card       from '../app/Card.tsx';
 import FormField  from '../forms/FormField.tsx';
@@ -27,9 +28,6 @@ class GeneralInfo extends React.Component<GeneralInfoProps, {}> {
             <FormField placeholder='form.placeholders.lastName'  type='text'     callback={ this.props.handleChange.bind(this, 'lastName')  } hasError={ this.props.hasError('lastName')}  />
             <FormField placeholder='form.placeholders.email'     type='email'    callback={ this.props.handleChange.bind(this, 'email')     } hasError={ this.props.hasError('email')}     />
             <FormField placeholder='form.placeholders.password'  type='password' callback={ this.props.handleChange.bind(this, 'password')  } hasError={ this.props.hasError('password')}  />
-            <button type='submit' className='btn btn-default'>
-              <T.text tag='span' text='addUser.submit' />
-            </button>
           </div>
         </Card>
       </div>
@@ -40,7 +38,7 @@ class GeneralInfo extends React.Component<GeneralInfoProps, {}> {
 class Permissions extends React.Component<{}, {}> {
   render() {
     return (
-      <div className='col-xs-12 col-md-5'>
+      <div className='col-xs-12'>
         <Card>
           <div className='card-title'>
             <h5>
@@ -67,6 +65,26 @@ class Permissions extends React.Component<{}, {}> {
                 Premies verwijderen
               </label>
             </div>
+          </div>
+        </Card>
+      </div>
+    );
+  }
+}
+
+class Submit extends React.Component<{}, {}> {
+  render() {
+    return (
+      <div className='col-xs-12'>
+        <Card>
+          <div className='card-title'>
+            <h5>Actions</h5>
+          </div>
+          <div className='card-content'>
+            <button type='submit' className='btn btn-default'>
+              <T.text tag='span' text='addUser.submit' />
+            </button>
+            <Link to='/users' className='btn btn-default'>Cancel</Link>
           </div>
         </Card>
       </div>
@@ -121,7 +139,12 @@ class AddUser extends React.Component<UserProps, UserState> {
           <div className='wrapper'>
             <div className='row'>
               <GeneralInfo handleChange={ this.handleChange } hasError={ this.hasError.bind(this) }/>
-              <Permissions />
+              <div className='col-xs-12 col-md-5'>
+                <div className='row'>
+                  <Permissions />
+                  <Submit />
+                </div>
+              </div>
             </div>
           </div>
         </form>
