@@ -5,14 +5,15 @@ import { browserHistory, Link } from 'react-router';
 import Card       from '../app/Card.tsx';
 import FormField  from '../forms/FormField.tsx';
 import Header     from '../app/Header.tsx';
+import Errors     from '../app/Errors.tsx';
 
 import createUser from '../../actions/create_user.ts';
 
 import { pluck } from '../../utils/utils.ts';
 
 interface GeneralInfoProps {
-  handleChange: any;
-  hasError: any;
+  handleChange: (field : string, e : any) => void;
+  hasError: (e : any) => boolean;
 }
 
 class GeneralInfo extends React.Component<GeneralInfoProps, {}> {
@@ -26,8 +27,8 @@ class GeneralInfo extends React.Component<GeneralInfoProps, {}> {
           <div className='card-content'>
             <FormField placeholder='form.placeholders.first_name' type='text'     callback={ this.props.handleChange.bind(this, 'first_name') } hasError={ this.props.hasError('first_name')} />
             <FormField placeholder='form.placeholders.last_name'  type='text'     callback={ this.props.handleChange.bind(this, 'last_name')  } hasError={ this.props.hasError('last_name')}  />
-            <FormField placeholder='form.placeholders.email'     type='email'    callback={ this.props.handleChange.bind(this, 'email')     } hasError={ this.props.hasError('email')}     />
-            <FormField placeholder='form.placeholders.password'  type='password' callback={ this.props.handleChange.bind(this, 'password')  } hasError={ this.props.hasError('password')}  />
+            <FormField placeholder='form.placeholders.email'      type='email'    callback={ this.props.handleChange.bind(this, 'email')      } hasError={ this.props.hasError('email')}      />
+            <FormField placeholder='form.placeholders.password'   type='password' callback={ this.props.handleChange.bind(this, 'password')   } hasError={ this.props.hasError('password')}   />
           </div>
         </Card>
       </div>
@@ -97,14 +98,15 @@ class AddUser extends React.Component<UserProps, UserState> {
   constructor(props : UserProps) {
     super(props);
     this.state = {
-      errors: [],
+      errors: [ { field: 'first_name', error: 'null' }],
       first_name: null,
       last_name: null,
       email: null,
       password: null
     };
     this.handleChange = this.handleChange.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
+    this.onSubmit     = this.onSubmit.bind(this);
+    this.hasError     = this.hasError.bind(this);
   }
 
   public handleChange(field : string, e : any) : void {
@@ -139,6 +141,7 @@ class AddUser extends React.Component<UserProps, UserState> {
         <form method='post' onSubmit={ this.onSubmit } >
           <div className='wrapper'>
             <div className='row'>
+              <Errors errors={ this.state.errors } />
               <GeneralInfo handleChange={ this.handleChange } hasError={ this.hasError.bind(this) }/>
               <div className='col-xs-12 col-md-5'>
                 <div className='row'>

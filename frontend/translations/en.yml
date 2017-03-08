@@ -38,3 +38,5 @@ company:
   vatNumber: VAT number
   phoneNumber: Phone number
   address: Address
+errors:
+  null: is empty

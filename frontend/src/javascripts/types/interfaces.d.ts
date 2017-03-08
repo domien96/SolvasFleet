@@ -24,6 +24,10 @@ interface FormError {
   error : string;
 }
 
+interface ErrorsProps {
+  errors: FormError[];
+}
+
 /* Company */
 
 interface CompanyProps{
@@ -97,9 +101,7 @@ interface VehicleState{
 
 /* User */
 
-interface UserProps{
-  url: string;
-}
+interface UserProps{ }
 
 interface UserState{
   errors: FormError[];
