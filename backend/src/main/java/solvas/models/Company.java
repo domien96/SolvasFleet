@@ -17,6 +17,14 @@ public class Company extends Model {
     protected Company() {
     } // Hibernate wants a no-arg constructor
 
+    public Company(String name, String vatNumber, String phoneNumber, String address, String url) {
+        this.name = name;
+        this.vatNumber = vatNumber;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.url = url;
+    }
+
     public String getName() {
         return name;
     }

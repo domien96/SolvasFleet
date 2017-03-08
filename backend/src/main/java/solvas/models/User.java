@@ -1,5 +1,4 @@
 package solvas.models;
-
 /**
  * Models a User
  * @author steve on 04/03/2017.
@@ -13,6 +12,14 @@ public class User extends Model {
 
 
     protected User() {
+    }
+
+    public User(String firstName, String lastName, String email, String password, String url) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.url = url;
     }
 
     public String getFirstName() {

@@ -1,7 +1,6 @@
 package solvas.models;
 
 import java.time.LocalDateTime;
-
 /**
  * Models a role
  * @author steve on 04/03/2017.
@@ -18,6 +17,15 @@ public class Role extends Model {
 
 
     protected Role() {
+    }
+
+    public Role(Company company, String function, User user, LocalDateTime startDate, LocalDateTime endDate, String url) {
+        this.company = company;
+        this.function = function;
+        this.user = user;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.url = url;
     }
 
     public Company getCompany() {
