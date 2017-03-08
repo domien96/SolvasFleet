@@ -20,7 +20,7 @@ Tijd: 17:36-18:23
 
 
 * Valideren van de invoer
- * Het valideren van de invoer zal volledig gebreuren in de backend. 
+ * Het valideren van de invoer zal volledig gebeuren in de backend. 
  
  
  * Api
@@ -45,10 +45,10 @@ Tijd: 17:36-18:23
  
 * Documentatie
  * frontend: gebruikershandleiding zal in orde komen (becousae)
- * Verder zal voor het deployment diagram een mockup komen, die ingevuld zal zijn de frontend en verder aagevuld door de backend
+ * Verder zal voor het deployment diagram een mockup komen, die ingevuld zal zijn door de frontend en verder aagevuld door de backend
  * Het klasse diagram zal door de backend gemaakt worden
  * de andere documentatie zal later over slack besproken worden
  
 * Teamverband
- * Er is ook beslist indien klivdnbu niet (snel) een "proof of concept" toont, we de prof/assisten dit probleem melden.
+ * Er is ook beslist indien klivdnbu niet (snel) een "proof of concept" toont, we de prof/assistenten dit probleem melden.
 
