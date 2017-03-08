@@ -1,7 +1,12 @@
 package rest;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import solvas.models.*;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -18,11 +23,6 @@ import java.util.List;
                 new Company("Vracht bvba","019991209OA","044583883","vrachtlaan 1","vracht.be")
                 );
 
-        vehicles=Arrays.asList(
-                new Vehicle("1-GTG-934","5GZCZ43D13S812715","???",new Vehicletype(),
-                        1500,2002,companies.get(0),10000,companies.get(1),"rand.com"),
-                new Vehicle("1-ATF-324","4AECZ43D13S812715","???",new Vehicletype(),
-                        3000,2000,companies.get(0),13000,companies.get(1),"rand.be"));
 
         users=Arrays.asList(
                 new User("John","Doe","john@doe.com","batteryhorse","john.com"),
@@ -35,10 +35,12 @@ import java.util.List;
 
                 new Role(companies.get(1),"god",users.get(1),null,null,"role@role.com")
         );
-
-
-
-
+        vehicles=new ArrayList<>();
+        try {
+            roles=new ObjectMapper().readValue(new File("/resources/roles.json"), new TypeReference<List<Role>>(){});
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
      Company getCompany()
     {
