@@ -15,9 +15,32 @@ public class RoleDaoTest {
     private RoleDao roleDao=new HibernateRoleDao();
 
     @Test
-    public void testCreate()
+    public void addRole()
     {
-        assertEquals("Empty to begin with",0,roleDao.findAll().size());
+
+    }
+
+    @Test
+    public void destroyRole()
+    {
+
+    }
+
+    @Test
+    public void updateRole()
+    {
+
+    }
+
+    @Test
+    public void findRoleById()
+    {
+
+    }
+
+    @Test
+    public void findRoles()
+    {
 
     }
 }
