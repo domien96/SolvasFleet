@@ -39,7 +39,7 @@ Tijd: 17:36-18:23
  
 * Tests
  * Hier zijn we niets over te weten gekomen.
- * klivdnbu had als taak om de structuur van de tests op github te plaatsen, maar tot deze meeting is dit nog niet gebeurt.
+ * klivdnbu had als taak om de structuur van de tests op github te plaatsen, maar tot deze meeting is dit nog niet gebeurd.
  * Er is beslist om hem te melden dat we liever kleine commits (over tijd) zien dan eenmalig alles in een keer te commiten.
  
  
