@@ -9,6 +9,71 @@ import createUser from '../../actions/create_user.ts';
 
 import { pluck } from '../../utils/utils.ts';
 
+interface GeneralInfoProps {
+  handleChange: any;
+  hasError: any;
+}
+
+class GeneralInfo extends React.Component<GeneralInfoProps, {}> {
+  render() {
+    return (
+      <div className='col-xs-12 col-md-7'>
+        <Card>
+          <div className='card-title'>
+            <h5>General info</h5>
+          </div>
+          <div className='card-content'>
+            <FormField placeholder='form.placeholders.firstName' type='text'     callback={ this.props.handleChange.bind(this, 'firstName') } hasError={ this.props.hasError('firstName')} />
+            <FormField placeholder='form.placeholders.lastName'  type='text'     callback={ this.props.handleChange.bind(this, 'lastName')  } hasError={ this.props.hasError('lastName')}  />
+            <FormField placeholder='form.placeholders.email'     type='email'    callback={ this.props.handleChange.bind(this, 'email')     } hasError={ this.props.hasError('email')}     />
+            <FormField placeholder='form.placeholders.password'  type='password' callback={ this.props.handleChange.bind(this, 'password')  } hasError={ this.props.hasError('password')}  />
+            <button type='submit' className='btn btn-default'>
+              <T.text tag='span' text='addUser.submit' />
+            </button>
+          </div>
+        </Card>
+      </div>
+    );
+  }
+}
+
+class Permissions extends React.Component<{}, {}> {
+  render() {
+    return (
+      <div className='col-xs-12 col-md-5'>
+        <Card>
+          <div className='card-title'>
+            <h5>
+              Permissions
+              <small> (Not implemented yet)</small>
+            </h5>
+          </div>
+          <div className='card-content'>
+            <div className='checkbox'>
+              <label>
+                <input type="checkbox" value='' />
+                Premies aanmaken
+              </label>
+            </div>
+            <div className='checkbox'>
+              <label>
+                <input type="checkbox" value='' />
+                Premies wijzigen
+              </label>
+            </div>
+            <div className='checkbox'>
+              <label>
+                <input type="checkbox" value='' />
+                Premies verwijderen
+              </label>
+            </div>
+          </div>
+        </Card>
+      </div>
+    );
+  }
+}
+
 class AddUser extends React.Component<UserProps, UserState> {
 
   constructor(props : UserProps) {
@@ -33,12 +98,12 @@ class AddUser extends React.Component<UserProps, UserState> {
     e.preventDefault();
 
     createUser(pluck(this.state, ['firstName']))
-      .then(function(response) {
-        return response.json()
-      })
-      .then((data : any) => {
-        console.log(data);
-      });
+    .then(function(response) {
+      return response.json()
+    })
+    .then((data : any) => {
+      console.log(data);
+    });
   }
 
   public hasError(k : string) : boolean {
@@ -52,60 +117,16 @@ class AddUser extends React.Component<UserProps, UserState> {
         <Header>
           <h2>Add A New User</h2>
         </Header>
-        <form method='post' onSubmit={this.onSubmit} className='addUser-form' >
+        <form method='post' onSubmit={ this.onSubmit } >
           <div className='wrapper'>
             <div className='row'>
-              <div className='col-xs-12 col-md-7'>
-                <Card>
-                  <div className='card-title'>
-                    <h5>General info</h5>
-                  </div>
-                  <div className='card-content'>
-                    <FormField placeholder='form.placeholders.firstName' type='text'     callback={ this.handleChange.bind(this, 'firstName') } hasError={ this.hasError('firstName')} />
-                    <FormField placeholder='form.placeholders.lastName'  type='text'     callback={ this.handleChange.bind(this, 'lastName')  } hasError={ this.hasError('lastName')}  />
-                    <FormField placeholder='form.placeholders.email'     type='email'    callback={ this.handleChange.bind(this, 'email')     } hasError={ this.hasError('email')}     />
-                    <FormField placeholder='form.placeholders.password'  type='password' callback={ this.handleChange.bind(this, 'password')  } hasError={ this.hasError('password')}  />
-                    <button type='submit' className='btn btn-default'>
-                      <T.text tag='span' text='addUser.submit' />
-                    </button>
-                  </div>
-                </Card>
-              </div>
-              <div className='col-xs-12 col-md-5'>
-                <Card>
-                  <div className='card-title'>
-                    <h5>
-                      Permissions
-                      <small> (Not implemented yet)</small>
-                    </h5>
-                  </div>
-                  <div className='card-content'>
-                    <div className='checkbox'>
-                      <label>
-                        <input type="checkbox" value='' />
-                        Premies aanmaken
-                      </label>
-                    </div>
-                    <div className='checkbox'>
-                      <label>
-                        <input type="checkbox" value='' />
-                        Premies wijzigen
-                      </label>
-                    </div>
-                    <div className='checkbox'>
-                      <label>
-                        <input type="checkbox" value='' />
-                        Premies verwijderen
-                      </label>
-                    </div>
-                  </div>
-                </Card>
-              </div>
+              <GeneralInfo handleChange={ this.handleChange } hasError={ this.hasError.bind(this) }/>
+              <Permissions />
             </div>
           </div>
         </form>
       </div>
-      );
+    );
   }
 }
 
