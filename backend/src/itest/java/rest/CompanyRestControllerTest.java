@@ -56,7 +56,7 @@ public class CompanyRestControllerTest {
         json=new ObjectMapper().writeValueAsString(company);
     }
     @Test
-    public void getCompanyById_noerror() throws Exception {
+    public void getCompanyByIdNoError() throws Exception {
         when(companyDaoMock.find(anyInt())).thenReturn(company);
         ResultActions res =mockMvc.perform(get("/companies/10"))
                 .andExpect(status().isOk())
@@ -65,14 +65,14 @@ public class CompanyRestControllerTest {
     }
 
     @Test
-    public void getCompanyById_notFound() throws Exception {
+    public void getCompanyByIdNotFound() throws Exception {
         when(companyDaoMock.find(anyInt())).thenThrow(new EntityNotFoundException());
         mockMvc.perform(get("/companies/1"))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    public void getCompanies_noError() throws Exception {
+    public void getCompaniesNoError() throws Exception {
         when(companyDaoMock.findAll()).thenReturn(Collections.singletonList(company));
         mockMvc.perform(get("/companies"))
                 .andExpect(status().isOk())
@@ -80,7 +80,7 @@ public class CompanyRestControllerTest {
     }
 
     @Test
-    public void postCompany_noError() throws Exception {
+    public void postCompanyNoError() throws Exception {
         when(companyDaoMock.save(any())).thenReturn(company);
         ResultActions resultActions=
                 mockMvc.perform(post("/companies").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
@@ -96,13 +96,13 @@ public class CompanyRestControllerTest {
     }
 
     @Test
-    public void postCompany_alreadyExists()
+    public void postCompanyAlreadyExists()
     {
         //todo, ?http response?
     }
 
     @Test
-    public void putCompany_noError() throws Exception {
+    public void putCompanyNoError() throws Exception {
         when(companyDaoMock.save(any())).thenReturn(company);
         ResultActions resultActions =
                 mockMvc.perform(put("/companies").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
@@ -114,7 +114,7 @@ public class CompanyRestControllerTest {
     }
 
     @Test
-    public void putCompany_notFound() throws Exception {
+    public void putCompanyNotFound() throws Exception {
         when(companyDaoMock.save(any())).thenThrow(new EntityNotFoundException());
         mockMvc.perform(put("/companies").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
                 .andExpect(status().isNotFound());

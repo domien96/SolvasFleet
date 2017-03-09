@@ -59,7 +59,7 @@ public class VehicleRestControllerTest {
     }
 
     @Test
-    public void getVehicleById_noError() throws Exception
+    public void getVehicleByIdNoError() throws Exception
     {
         when(vehicleDaoMock.find(anyInt())).thenReturn(vehicle);
         ResultActions resultActions=
@@ -71,7 +71,7 @@ public class VehicleRestControllerTest {
     }
 
     @Test
-    public void getVehicleById_notFound() throws Exception
+    public void getVehicleByIdNotFound() throws Exception
     {
         when(vehicleDaoMock.find(anyInt())).thenThrow(new EntityNotFoundException());
         mockMvc.perform(get("/vehicles/1"))
@@ -79,7 +79,7 @@ public class VehicleRestControllerTest {
     }
 
     @Test
-    public void getVehicles_noError() throws Exception
+    public void getVehiclesNoError() throws Exception
     {
         when(vehicleDaoMock.findAll()).thenReturn(Collections.singletonList(vehicle));
         mockMvc.perform(get("/vehicles"))
@@ -87,7 +87,7 @@ public class VehicleRestControllerTest {
     }
 
     @Test
-    public void postVehicle_noError() throws Exception {
+    public void postVehicleNoError() throws Exception {
         when(vehicleDaoMock.save(any())).thenReturn(vehicle);
         ResultActions resultActions=
                 mockMvc.perform(post("/vehicles").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
@@ -101,14 +101,14 @@ public class VehicleRestControllerTest {
 
     @Ignore //case bespreken wanneer een vehicle al bestaat
     @Test
-    public void postVehicle_alreadyExists() throws Exception {
+    public void postVehicleAlreadyExists() throws Exception {
         when(vehicleDaoMock.find(anyInt())).thenReturn(vehicle);
         mockMvc.perform(post("/vehicles").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    public void putVehicle_noError() throws Exception {
+    public void putVehicleNoError() throws Exception {
         when(vehicleDaoMock.save(any())).thenReturn(vehicle);
         ResultActions resultActions=
                 mockMvc.perform(put("/vehicles").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
@@ -120,7 +120,7 @@ public class VehicleRestControllerTest {
     }
 
     @Test
-    public void putVehicle_notFound() throws Exception {
+    public void putVehicleNotFound() throws Exception {
         when(vehicleDaoMock.save(any())).thenThrow(new EntityNotFoundException());
         mockMvc.perform(put("/vehicles").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
                 .andExpect(status().isNotFound());
@@ -128,7 +128,7 @@ public class VehicleRestControllerTest {
 
     @Ignore //not implemented
     @Test
-    public void destoryVehicle_noError() throws Exception
+    public void destroyVehicleNoError() throws Exception
     {
         when(vehicleDaoMock.destroy(any())).thenReturn(vehicle);
 
@@ -144,7 +144,7 @@ public class VehicleRestControllerTest {
 
     @Ignore //not implemented
     @Test
-    public void destroyVehicle_notFound() throws Exception {
+    public void destroyVehicleNotFound() throws Exception {
         when(vehicleDaoMock.destroy(any())).thenThrow(new EntityNotFoundException());
         mockMvc.perform(delete("/vehicles").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
                 .andExpect(status().isNotFound());

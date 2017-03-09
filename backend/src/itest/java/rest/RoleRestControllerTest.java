@@ -20,6 +20,9 @@ import solvas.persistence.EntityNotFoundException;
 import solvas.persistence.role.RoleDao;
 import solvas.rest.controller.RoleRestController;
 
+import java.sql.Date;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Collections;
 
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
@@ -53,29 +56,30 @@ public class RoleRestControllerTest {
         MockitoAnnotations.initMocks(this);
         mockMvc= MockMvcBuilders.standaloneSetup(roleRestController).build();
         role=random(Role.class);
-        json=new ObjectMapper().writeValueAsString(role);
+        ObjectMapper mapper=new ObjectMapper();
+        mapper.findAndRegisterModules();
+        json=mapper.writeValueAsString(role);
     }
 
     @Test
-    public void getRoleById_noError() throws Exception {
+    public void getRoleByIdNoError() throws Exception {
         when(roleDaoMock.find(anyInt())).thenReturn(role);
         ResultActions resultActions=
                 mockMvc.perform(get("/roles/1"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
-
         matcher.jsonMatcher(resultActions,role);
     }
 
     @Test
-    public void getRoleById_notFound() throws Exception {
+    public void getRoleByIdNotFound() throws Exception {
         when(roleDaoMock.find(anyInt())).thenThrow(new EntityNotFoundException());
         mockMvc.perform(get("/roles/1"))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    public void getRoles_noError() throws Exception {
+    public void getRolesNoError() throws Exception {
         when(roleDaoMock.findAll()).thenReturn(Collections.singletonList(role));
         mockMvc.perform(get("/roles"))
                 .andExpect(status().isOk())
@@ -84,7 +88,7 @@ public class RoleRestControllerTest {
     }
 
     @Test
-    public void putRole_noError() throws Exception {
+    public void putRoleNoError() throws Exception {
         when(roleDaoMock.save(any())).thenReturn(role);
         ResultActions resultActions=
                 mockMvc.perform(put("/roles").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
@@ -99,16 +103,17 @@ public class RoleRestControllerTest {
     }
 
     @Test
-    public void putRole_notFound() throws Exception {
+    public void putRoleNotFound() throws Exception {
         when(roleDaoMock.save(any())).thenThrow(new EntityNotFoundException());
         mockMvc.perform(put("/roles").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    public void postRole_noError() throws Exception {
+    public void postRoleNoError() throws Exception {
         when(roleDaoMock.save(any())).thenReturn(role);
 
+        when(roleDaoMock.find(anyInt())).thenReturn(role);
         ResultActions resultActions=
                 mockMvc.perform(post("/roles").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
                 .andExpect(status().isOk());
@@ -121,7 +126,7 @@ public class RoleRestControllerTest {
 
     @Ignore
     @Test //todo
-    public void postRole_alreadyExists() throws Exception {
+    public void postRoleAlreadyExists() throws Exception {
 
     }
 

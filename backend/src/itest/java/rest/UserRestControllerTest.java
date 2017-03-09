@@ -60,7 +60,7 @@ public class UserRestControllerTest {
     }
 
     @Test
-    public void getUserById_notFound() throws Exception {
+    public void getUserByIdNotFound() throws Exception {
         when(userDaoMock.find(anyInt())).thenThrow(new EntityNotFoundException());
         mockMvc.perform(get("/users/{id}",10))
                 .andExpect(status().isNotFound());
@@ -68,7 +68,7 @@ public class UserRestControllerTest {
     }
 
     @Test
-    public void getUserById_noError() throws Exception {
+    public void getUserByIdNoError() throws Exception {
        when(userDaoMock.find(anyInt())).thenReturn(user);
        ResultActions resultActions = mockMvc.perform(get("/users/23"))
                .andExpect(status().isOk())
@@ -78,7 +78,7 @@ public class UserRestControllerTest {
     }
 
     @Test
-    public void getUsers_noError() throws Exception {
+    public void getUsersNoError() throws Exception {
         when(userDaoMock.findAll()).thenReturn(Collections.singletonList(user));
         mockMvc.perform(get("/users"))
                 .andExpect(status().isOk())
@@ -87,7 +87,7 @@ public class UserRestControllerTest {
 
 
     @Test
-    public void postUser_noError() throws Exception {
+    public void postUserNoError() throws Exception {
         when(userDaoMock.save(any())).thenReturn(user);
         ResultActions resultActions=mockMvc.perform(put("/users").contentType(MediaType.APPLICATION_JSON).content(json))
                 .andExpect(status().isOk());
@@ -101,13 +101,13 @@ public class UserRestControllerTest {
 
     @Ignore
     @Test
-    public void postUser_alreadyExists() throws Exception {
+    public void postUserAlreadyExists() throws Exception {
         //todo
     }
 
 
     @Test
-    public void putUser_noError() throws Exception
+    public void putUserNoError() throws Exception
     {
         when(userDaoMock.save(any())).thenReturn(user);
         ResultActions resultActions=
@@ -121,7 +121,7 @@ public class UserRestControllerTest {
     }
 
     @Test
-    public void putUser_notFound() throws Exception
+    public void putUserNotFound() throws Exception
     {
         when(userDaoMock.save(any())).thenThrow(new EntityNotFoundException());
         mockMvc.perform(put("/users").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
