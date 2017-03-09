@@ -20,7 +20,6 @@ import solvas.persistence.user.UserDao;
 import solvas.rest.controller.UserRestController;
 
 import java.util.Collections;
-import java.util.Random;
 
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
 import static org.mockito.Matchers.any;
@@ -32,24 +31,28 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
+/**
+ * Integration tests of the UserRestController
+ * It checks HTTP responses and calls to the VehicleDao
+ */
 public class UserRestControllerTest {
     @Mock
     private UserDao userDaoMock;
 
     @InjectMocks
     private UserRestController controller;
-
     private MockMvc mockMvc;
 
     private ArgumentCaptor<User> captor = ArgumentCaptor.forClass(User.class);
-
     private TestMatcher<User> matcher=new UserMatcher();
 
     private User user;
-
     private String json;
 
+    /**
+     * Setup of mockMVC
+     * currently provides one random user object and its json representation
+     */
     @Before
     public void setUp() throws Exception
     {
@@ -59,6 +62,9 @@ public class UserRestControllerTest {
         json=new ObjectMapper().writeValueAsString(user);
     }
 
+    /**
+     * Test: the response of a get request for a user that doesn't exist on the db
+     */
     @Test
     public void getUserByIdNotFound() throws Exception {
         when(userDaoMock.find(anyInt())).thenThrow(new EntityNotFoundException());
@@ -67,6 +73,9 @@ public class UserRestControllerTest {
 
     }
 
+    /**
+     * Test: the response of a get request for a user that exists on the db
+     */
     @Test
     public void getUserByIdNoError() throws Exception {
        when(userDaoMock.find(anyInt())).thenReturn(user);
@@ -77,6 +86,9 @@ public class UserRestControllerTest {
        matcher.jsonMatcher(resultActions,user);
     }
 
+    /**
+     * Test: the response of a get request for all the users
+     */
     @Test
     public void getUsersNoError() throws Exception {
         when(userDaoMock.findAll()).thenReturn(Collections.singletonList(user));
@@ -86,6 +98,9 @@ public class UserRestControllerTest {
     }
 
 
+    /**
+     * Test: the response of a put request for a new user that doesn't exist on the db
+     */
     @Test
     public void postUserNoError() throws Exception {
         when(userDaoMock.save(any())).thenReturn(user);
@@ -99,6 +114,9 @@ public class UserRestControllerTest {
         matcher.performAsserts(user,captor.getValue());
     }
 
+    /**
+     * Test: the response of a post request for a user that already exists  (error)
+     */
     @Ignore
     @Test
     public void postUserAlreadyExists() throws Exception {
@@ -106,6 +124,9 @@ public class UserRestControllerTest {
     }
 
 
+    /**
+     * Test: the response of a put request for a user that exists
+     */
     @Test
     public void putUserNoError() throws Exception
     {
@@ -120,6 +141,9 @@ public class UserRestControllerTest {
         matcher.performAsserts(user,captor.getValue());
     }
 
+    /**
+     * Test: the response of a put request for a user that doesn't exist
+     */
     @Test
     public void putUserNotFound() throws Exception
     {
@@ -128,10 +152,9 @@ public class UserRestControllerTest {
                 .andExpect(status().isNotFound());
     }
 
-
-
-
-
+    /**
+     * Test: the response of a destroy request for a user that exists
+     */
     @Ignore //on hold
     @Test
     public void destroyUser_noError() throws Exception {
@@ -139,13 +162,16 @@ public class UserRestControllerTest {
         mockMvc.perform(delete("/users").contentType(MediaType.APPLICATION_JSON).content(""))
                 .andExpect(status().isOk());
     }
+
+    /**
+     * Test: the response of a destroy request for a user that doesn't exist
+     */
     @Ignore //on hold
     @Test
     public void destroyUser_notFound() throws Exception {
         when(userDaoMock.destroy(any())).thenThrow(new EntityNotFoundException());
         mockMvc.perform(delete("/users").contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isNotFound());
-
     }
 
 

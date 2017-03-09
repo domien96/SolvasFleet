@@ -14,14 +14,12 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import solvas.models.Company;
 import solvas.models.Vehicle;
 import solvas.persistence.EntityNotFoundException;
 import solvas.persistence.vehicle.VehicleDao;
 import solvas.rest.controller.VehicleRestController;
 
 import java.util.Collections;
-import java.util.Random;
 
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
 import static org.junit.Assert.assertEquals;
@@ -33,22 +31,28 @@ import static org.mockito.internal.verification.VerificationModeFactory.times;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+/**
+ * Integration tests of the VehicleRestController
+ * It checks HTTP responses and calls to the VehicleDao
+ */
 public class VehicleRestControllerTest {
     @Mock
     private VehicleDao vehicleDaoMock;
 
     @InjectMocks
     private VehicleRestController vehicleRestController;
-
     private MockMvc mockMvc;
 
     private ArgumentCaptor<Vehicle> captor = ArgumentCaptor.forClass(Vehicle.class);
-
     private VehicleMatcher matcher=new VehicleMatcher();
 
     private Vehicle vehicle;
     private String json;
 
+    /**
+     * Setup of mockMVC
+     * currently provides one random vehicle object and its json representation
+     */
     @Before
     public void setUp() throws JsonProcessingException {
         MockitoAnnotations.initMocks(this);
@@ -58,6 +62,9 @@ public class VehicleRestControllerTest {
         json=new ObjectMapper().writeValueAsString(vehicle);
     }
 
+    /**
+     * Test: the response of a get request for a user that doesn't exist on the db
+     */
     @Test
     public void getVehicleByIdNoError() throws Exception
     {
@@ -70,6 +77,9 @@ public class VehicleRestControllerTest {
         matcher.jsonMatcher(resultActions,vehicle);
     }
 
+    /**
+     * Test: the response of a get request for a vehicle that doesn't exist on the db
+     */
     @Test
     public void getVehicleByIdNotFound() throws Exception
     {
@@ -78,6 +88,9 @@ public class VehicleRestControllerTest {
                 .andExpect(status().isNotFound());
     }
 
+    /**
+     * Test: the response of a get request for all the vehicles
+     */
     @Test
     public void getVehiclesNoError() throws Exception
     {
@@ -86,6 +99,9 @@ public class VehicleRestControllerTest {
                 .andExpect(status().isOk());
     }
 
+    /**
+     * Test: the response of a put request for a new vehicle that doesn't exist on the db
+     */
     @Test
     public void postVehicleNoError() throws Exception {
         when(vehicleDaoMock.save(any())).thenReturn(vehicle);
@@ -99,6 +115,9 @@ public class VehicleRestControllerTest {
         matcher.performAsserts(vehicle,captor.getValue());
     }
 
+    /**
+     * Test: the response of a post request for a vehicle that already exists  (error)
+     */
     @Ignore //case bespreken wanneer een vehicle al bestaat
     @Test
     public void postVehicleAlreadyExists() throws Exception {
@@ -147,6 +166,28 @@ public class VehicleRestControllerTest {
     public void destroyVehicleNotFound() throws Exception {
         when(vehicleDaoMock.destroy(any())).thenThrow(new EntityNotFoundException());
         mockMvc.perform(delete("/vehicles").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
+                .andExpect(status().isNotFound());
+    }
+
+    /**
+     * Test: the response of a destroy request for a vehicle that exists
+     */
+    @Ignore //on hold
+    @Test
+    public void destroyUser_noError() throws Exception {
+        when(vehicleDaoMock.destroy(any())).thenReturn(vehicle);
+        mockMvc.perform(delete("/vehicles").contentType(MediaType.APPLICATION_JSON).content(""))
+                .andExpect(status().isOk());
+    }
+
+    /**
+     * Test: the response of a destroy request for a vehicle that doesn't exist
+     */
+    @Ignore //on hold
+    @Test
+    public void destroyUser_notFound() throws Exception {
+        when(vehicleDaoMock.destroy(any())).thenThrow(new EntityNotFoundException());
+        mockMvc.perform(delete("/vehicles").contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isNotFound());
     }
 

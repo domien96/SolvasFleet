@@ -20,47 +20,49 @@ import solvas.persistence.EntityNotFoundException;
 import solvas.persistence.role.RoleDao;
 import solvas.rest.controller.RoleRestController;
 
-import java.sql.Date;
-import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.Collections;
 
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+/**
+ * Integration tests of the RoleRestController
+ * It checks HTTP responses and calls to the RoleDao
+ */
 public class RoleRestControllerTest {
     @InjectMocks
     private RoleRestController roleRestController;
 
     @Mock
     private RoleDao roleDaoMock;
-
     private MockMvc mockMvc;
 
     private ArgumentCaptor<Role> captor = ArgumentCaptor.forClass(Role.class);
-
     private TestMatcher<Role> matcher=new RoleMatcher();
 
     private Role role;
-
     private String json;
 
-
+    /**
+     * Setup of mockMVC
+     * currently provides one random role object and its json representation
+     */
     @Before
     public void setUp() throws JsonProcessingException {
         MockitoAnnotations.initMocks(this);
         mockMvc= MockMvcBuilders.standaloneSetup(roleRestController).build();
         role=random(Role.class);
         ObjectMapper mapper=new ObjectMapper();
-        mapper.findAndRegisterModules();
+        mapper.findAndRegisterModules(); //Include module to convert LocaleDateTime objects
         json=mapper.writeValueAsString(role);
     }
 
+    /**
+     * Test: the response of a get request for a user that exists on the db
+     */
     @Test
     public void getRoleByIdNoError() throws Exception {
         when(roleDaoMock.find(anyInt())).thenReturn(role);
@@ -71,6 +73,9 @@ public class RoleRestControllerTest {
         matcher.jsonMatcher(resultActions,role);
     }
 
+    /**
+     * Test: the response of a get request for a role that doesn't exist on the db
+     */
     @Test
     public void getRoleByIdNotFound() throws Exception {
         when(roleDaoMock.find(anyInt())).thenThrow(new EntityNotFoundException());
@@ -78,6 +83,9 @@ public class RoleRestControllerTest {
                 .andExpect(status().isNotFound());
     }
 
+    /**
+     * Test: the response of a get request for all the roles
+     */
     @Test
     public void getRolesNoError() throws Exception {
         when(roleDaoMock.findAll()).thenReturn(Collections.singletonList(role));
@@ -87,6 +95,9 @@ public class RoleRestControllerTest {
         //todo json expectation
     }
 
+    /**
+     * Test: the response of a put request for a role that exists on the db
+     */
     @Test
     public void putRoleNoError() throws Exception {
         when(roleDaoMock.save(any())).thenReturn(role);
@@ -102,6 +113,9 @@ public class RoleRestControllerTest {
         matcher.performAsserts(role,captor.getValue());
     }
 
+    /**
+     * Test: the response of a put request for role that doesn't exists on the db
+     */
     @Test
     public void putRoleNotFound() throws Exception {
         when(roleDaoMock.save(any())).thenThrow(new EntityNotFoundException());
@@ -109,6 +123,9 @@ public class RoleRestControllerTest {
                 .andExpect(status().isNotFound());
     }
 
+    /**
+     * Test: the response of a post request for a new role that doesn't exist on the db
+     */
     @Test
     public void postRoleNoError() throws Exception {
         when(roleDaoMock.save(any())).thenReturn(role);
@@ -124,11 +141,33 @@ public class RoleRestControllerTest {
     }
 
 
+    /**
+     * Test: the response of a post request for a role that exists on the db (error)
+     */
     @Ignore
     @Test //todo
     public void postRoleAlreadyExists() throws Exception {
-
     }
 
+    /**
+     * Test: the response of a destroy request for a user that exists
+     */
+    @Ignore //on hold
+    @Test
+    public void destroyUser_noError() throws Exception {
+        when(roleDaoMock.destroy(any())).thenReturn(role);
+        mockMvc.perform(delete("/v").contentType(MediaType.APPLICATION_JSON).content(""))
+                .andExpect(status().isOk());
+    }
 
+    /**
+     * Test: the response of a destroy request for a user that doesn't exist
+     */
+    @Ignore //on hold
+    @Test
+    public void destroyUser_notFound() throws Exception {
+        when(roleDaoMock.destroy(any())).thenThrow(new EntityNotFoundException());
+        mockMvc.perform(delete("/roles").contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isNotFound());
+    }
 }

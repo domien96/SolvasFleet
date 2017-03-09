@@ -30,24 +30,28 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
-public class CompanyRestControllerTest {
+/**
+ * Integration tests of the CompanyRestController
+ * It checks HTTP responses and calls to the CompanyDao
+ */
+public class CompanyRestControllerTest{
     @InjectMocks
     private CompanyRestController companyRestController;
 
     @Mock
     private CompanyDao companyDaoMock;
-
     private MockMvc mockMvc;
 
     private ArgumentCaptor<Company> captor = ArgumentCaptor.forClass(Company.class);
-
     private CompanyMatcher matcher = new CompanyMatcher();
 
     private Company company;
-
     private String json;
 
+    /**
+     * Setup of mockMVC
+     * currently provides one random company object and its json representation
+     */
     @Before
     public void setUp() throws JsonProcessingException {
         MockitoAnnotations.initMocks(this);
@@ -55,6 +59,10 @@ public class CompanyRestControllerTest {
         company=random(Company.class);
         json=new ObjectMapper().writeValueAsString(company);
     }
+
+    /**
+     * Test: the response of a get request for a company that exists on the db
+     */
     @Test
     public void getCompanyByIdNoError() throws Exception {
         when(companyDaoMock.find(anyInt())).thenReturn(company);
@@ -64,6 +72,9 @@ public class CompanyRestControllerTest {
         matcher.jsonMatcher(res,company);
     }
 
+    /**
+     * Test: the response of a get request for a company that doesn't exist on the db
+     */
     @Test
     public void getCompanyByIdNotFound() throws Exception {
         when(companyDaoMock.find(anyInt())).thenThrow(new EntityNotFoundException());
@@ -71,6 +82,9 @@ public class CompanyRestControllerTest {
                 .andExpect(status().isNotFound());
     }
 
+    /**
+     * Test: the response of a get request for all the companies
+     */
     @Test
     public void getCompaniesNoError() throws Exception {
         when(companyDaoMock.findAll()).thenReturn(Collections.singletonList(company));
@@ -79,6 +93,9 @@ public class CompanyRestControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
     }
 
+    /**
+     * Test: the response of a post request for a new company that doesn't exist on the db
+     */
     @Test
     public void postCompanyNoError() throws Exception {
         when(companyDaoMock.save(any())).thenReturn(company);
@@ -95,12 +112,18 @@ public class CompanyRestControllerTest {
 
     }
 
+    /**
+     * Test: the response of a post request for a role that exists on the db (error)
+     */
     @Test
     public void postCompanyAlreadyExists()
     {
         //todo, ?http response?
     }
 
+    /**
+     * Test: the response of a put request for a role that exists on the db
+     */
     @Test
     public void putCompanyNoError() throws Exception {
         when(companyDaoMock.save(any())).thenReturn(company);
@@ -113,6 +136,9 @@ public class CompanyRestControllerTest {
         matcher.performAsserts(company,captor.getValue());
     }
 
+    /**
+     * Test: the response of a post request for a role that doesn't exist on the db (error)
+     */
     @Test
     public void putCompanyNotFound() throws Exception {
         when(companyDaoMock.save(any())).thenThrow(new EntityNotFoundException());
