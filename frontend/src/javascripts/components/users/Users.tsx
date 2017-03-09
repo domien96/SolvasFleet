@@ -18,15 +18,9 @@ class Overview extends React.Component<OverviewProps, {}> {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  /*public handleChange(u : User) {
-    browserHistory.push('/users/' + u.id);
-  }*/
-
   handleClick(e : any){
     const id = e.item['id'];
-    console.log("handling click id = "+ e.item['id']+ "")
     browserHistory.push('/users/' + id);
-    console.log("click got handled")
   }
 
   render() {

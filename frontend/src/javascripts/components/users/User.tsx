@@ -12,15 +12,11 @@ class User extends React.Component<UserProp, UserState> {
     this.state = { first_name: null, last_name: null, email: null, password: null, id: null };
   }
 
-  updateData(){
-    
+  updateUser(){
     const id = this.props.params.id;
-
-    console.log("update: "+ id)
 
     fetchUser( id )
       .then((data : UserData) => {
-        console.log(data)
         this.setState({ 
           first_name: data.first_name,
           last_name: data.last_name,
@@ -28,17 +24,21 @@ class User extends React.Component<UserProp, UserState> {
           password: data.password,
           id: data.id
         })
-      });
+      }); 
+  }
 
+  componentDidMount(){
+    this.updateUser();
+  }
 
-
-    console.log("updated: "+ id)  
+  componentWillReceiveProps(nextProps : any){
+    if(nextProps.params.id != this.props.params.id){
+      this.props.params.id = nextProps.params.id;
+      this.updateUser();
+    }
   }
 
   render() {
-    console.log("rendering User")
-    this.updateData();
-    console.log(this.state.id)
 
     return (
       <WrappedCol>
@@ -48,6 +48,7 @@ class User extends React.Component<UserProp, UserState> {
             <h2> {this.state.first_name} {this.state.last_name} </h2>
             <div>{this.state.email}</div>
             <div>{this.state.password}</div>
+            <button className='btn btn-default'>See Fleets</button>
           </div>
         </Card>
       </WrappedCol>

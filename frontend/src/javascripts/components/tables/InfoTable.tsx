@@ -7,13 +7,7 @@ export default class InfoTable extends React.Component<InfoTableProps, {}> {
   
   constructor(){
     super();
-    this.doeKlik = this.doeKlik.bind(this);
   }
-
-  doeKlik(){
-    console.log("klikje")
-  }
-
 
   public getRows() : any {
     const head = this.props.head;
