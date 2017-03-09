@@ -51,6 +51,7 @@ sourceSets {
         compileClasspath += main.output + test.output
         runtimeClasspath += main.output + test.output
         java.srcDir file('src/integration-test/java')
+        resources.srcDir file('src/main/resources')
     }
     test {
         resources.srcDir file('src/integration-test/resources')
