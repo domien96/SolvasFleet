@@ -1,12 +1,39 @@
 import React from 'react';
-import { Link } from'react-router';
-
+import { browserHistory } from'react-router';
 
 import Card       from '../app/Card.tsx';
-import WrappedCol from '../app/WrappedCol.tsx';
-import InfoTable  from '../tables/InfoTable.tsx';
+import Header     from '../app/Header.tsx';
 
 import fetchUsers from '../../actions/fetch_users.ts';
+
+interface OverviewProps {
+  users: User[];
+}
+
+class Overview extends React.Component<OverviewProps, {}> {
+  public handleChange(u : User) {
+    browserHistory.push('/users/' + u.id);
+  }
+
+  render() {
+    const rows = this.props.users.map((u, i) => {
+      return (
+        <tr key={ i } onClick={ this.handleChange.bind(this, u) } >
+          <td>{ u.first_name || ''} { u.last_name || '' }</td>
+          <td>{ u.email || ''}</td>
+        </tr>
+      );
+    });
+
+    return (
+      <table className='table table-striped'>
+        <tbody>
+          { rows }
+        </tbody>
+      </table>
+    );
+  }
+}
 
 class Users extends React.Component<{}, UsersState> {
 
@@ -23,28 +50,28 @@ class Users extends React.Component<{}, UsersState> {
   }
 
   render() {
-    const tableHead = [
-      { key: 'id', label: 'users.id' },
-      { key: 'first_name', label: 'users.first_name' },
-      { key: 'last_name', label: 'users.last_name' },
-      { key: 'email', label: 'users.email' },
-      { key: 'password', label: 'users.password' }
-    ]
-
     return (
-      <WrappedCol>
-        <Card className='text-center' >
-          <div className='card-title'>
-            <h2>Users</h2>
-            <Link to='users/new'>
-              <span className='glyphicon glyphicon-plus' aria-hidden='true'></span>
-            </Link>
+      <div>
+        <Header>
+          <h2>Users</h2>
+        </Header>
+        <div className='wrapper'>
+          <div className='row'>
+            <div className='col-xs-12 col-md-7'>
+              <Card>
+                <div className='card-content'>
+                  <Overview users={ this.state.users } />
+                </div>
+              </Card>
+            </div>
+            <div className='col-xs-12 col-md-5'>
+              <Card>
+                { this.props.children }
+              </Card>
+            </div>
           </div>
-          <div className='card-content'>
-            <InfoTable head={ tableHead } data={ this.state.users } />
-          </div>
-        </Card>
-      </WrappedCol>
+        </div>
+      </div>
     );
   }
 }
