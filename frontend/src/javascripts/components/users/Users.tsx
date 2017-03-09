@@ -22,8 +22,11 @@ class Overview extends React.Component<OverviewProps, {}> {
     browserHistory.push('/users/' + u.id);
   }
 
-  handleClick(i : number){
-    browserHistory.push('/users/' + i);
+  handleClick(e : any){
+    const id = e.item['id'];
+    console.log("handling click id = "+ e.item['id']+ "")
+    browserHistory.push('/users/' + id);
+    console.log("click got handled")
   }
 
   render() {
@@ -35,7 +38,7 @@ class Overview extends React.Component<OverviewProps, {}> {
     ]
 
     return (
-      <InfoTable head={ tableHead } data={ this.props.users } onClick={(i : number) => this.handleClick(i)} />
+      <InfoTable head={ tableHead } data={ this.props.users } onClick={(e : any) => this.handleClick(e)} />
     );
   }
 }

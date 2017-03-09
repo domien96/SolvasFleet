@@ -93,7 +93,7 @@ class Submit extends React.Component<{}, {}> {
   }
 }
 
-class AddUser extends React.Component<UserProps, UserState> {
+class AddUser extends React.Component<UserProps, AddUserState> {
 
   constructor(props : UserProps) {
     super(props);

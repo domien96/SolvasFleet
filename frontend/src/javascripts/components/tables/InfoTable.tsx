@@ -5,7 +5,16 @@ import T          from 'i18n-react';
 
 export default class InfoTable extends React.Component<InfoTableProps, {}> {
   
-  
+  constructor(){
+    super();
+    this.doeKlik = this.doeKlik.bind(this);
+  }
+
+  doeKlik(){
+    console.log("klikje")
+  }
+
+
   public getRows() : any {
     const head = this.props.head;
     const data = this.props.data;
@@ -17,7 +26,7 @@ export default class InfoTable extends React.Component<InfoTableProps, {}> {
         );
       });
       return (
-        <tr key={ i } onClick={() => this.props.onClick(i)} className='table-row'>{cells}</tr>
+        <tr key={ i } onClick={() => this.props.onClick({item})} className='table-row'>{cells}</tr>
       );
     });
   }

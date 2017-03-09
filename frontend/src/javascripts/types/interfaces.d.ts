@@ -44,7 +44,7 @@ interface CompanyState{
 
 /* User */
 
-interface UserState{
+interface AddUserState{
   errors: FormError[];
   first_name: string;
   last_name: string;
@@ -52,11 +52,20 @@ interface UserState{
   password: string;
 }
 
+interface UserState{
+  user: User;
+}
+
+
 interface UserData{
-  user : User;
+  [ users : string ] : any;
 }
 
 interface UserProps {}
+
+interface UserProp{
+  params : any;
+}
 
 /* Users */
 
@@ -157,7 +166,7 @@ interface RoleState{
 interface InfoTableProps {
   head: any;
   data: any;
-  onClick : (i : number) => void;
+  onClick : (e : any) => void;
 }
 
 /* Sidebar */

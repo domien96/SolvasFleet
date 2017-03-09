@@ -5,9 +5,10 @@ import WrappedCol from '../app/WrappedCol.tsx';
 
 import fetchUser from '../../actions/fetch_user.ts';
 
-class User extends React.Component<{}, UserData> {
+class User extends React.Component<UserProp, UserState> {
 
   componentDidMount() {
+    console.log("voor user mounts")
     const id = this.props.params.id;
     fetchUser( id )
       .then((data : UserData) => {
