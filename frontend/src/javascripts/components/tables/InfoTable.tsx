@@ -17,7 +17,7 @@ export default class InfoTable extends React.Component<InfoTableProps, {}> {
         );
       });
       return (
-        <tr key={ i } className='table-row'>{cells}</tr>
+        <tr key={ i } onClick={() => this.props.onClick(i)} className='table-row'>{cells}</tr>
       );
     });
   }
@@ -33,7 +33,7 @@ export default class InfoTable extends React.Component<InfoTableProps, {}> {
 
     return (
       <div className='table-wrap'>
-      <table className='table table-striped'>
+      <table className='table table-striped table-hover'>
         <thead className='thead-default'>
           <tr>{tableHead}</tr>
         </thead>

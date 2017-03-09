@@ -42,6 +42,22 @@ interface CompanyState{
   address : string;
 }
 
+/* User */
+
+interface UserState{
+  errors: FormError[];
+  first_name: string;
+  last_name: string;
+  email: string;
+  password: string;
+}
+
+interface UserData{
+  user : User;
+}
+
+interface UserProps {}
+
 /* Users */
 
 interface User {
@@ -49,6 +65,7 @@ interface User {
   first_name: string;
   last_name:  string;
   email:      string;
+  password:   string;
 }
 
 interface UsersState {
@@ -99,16 +116,25 @@ interface VehicleState{
   company: string;
 }
 
-/* User */
+interface Vehicle {
+  licencePlate: string;
+  chassisNumber: string; //VIN: vehicle identification number
+  brand: string;
+  model: string;
+  type: string;
+  kmCount: number;
+  year: number;
+  leasingCompany: string;
+  value: number;
+  company: string
+}
 
-interface UserProps{ }
+interface VehiclesState {
+  vehicles: Vehicle[];
+}
 
-interface UserState{
-  errors: FormError[];
-  first_name: string;
-  last_name: string;
-  email: string;
-  password: string;
+interface VehiclesData {
+  [ vehicles : string ] : any;
 }
 
 /* Role */
@@ -131,6 +157,7 @@ interface RoleState{
 interface InfoTableProps {
   head: any;
   data: any;
+  onClick : (i : number) => void;
 }
 
 /* Sidebar */
@@ -156,3 +183,4 @@ interface WrappedColProps {
 interface AppProps {
   location: any;
 }
+

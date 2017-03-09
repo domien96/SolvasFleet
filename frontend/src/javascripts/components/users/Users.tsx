@@ -3,6 +3,7 @@ import { browserHistory } from'react-router';
 
 import Card       from '../app/Card.tsx';
 import Header     from '../app/Header.tsx';
+import InfoTable  from '../tables/InfoTable.tsx';
 
 import fetchUsers from '../../actions/fetch_users.ts';
 
@@ -11,26 +12,30 @@ interface OverviewProps {
 }
 
 class Overview extends React.Component<OverviewProps, {}> {
+
+  constructor(){
+    super();
+    this.handleClick = this.handleClick.bind(this);
+  }
+
   public handleChange(u : User) {
     browserHistory.push('/users/' + u.id);
   }
 
+  handleClick(i : number){
+    browserHistory.push('/users/' + i);
+  }
+
   render() {
-    const rows = this.props.users.map((u, i) => {
-      return (
-        <tr key={ i } onClick={ this.handleChange.bind(this, u) } >
-          <td>{ u.first_name || ''} { u.last_name || '' }</td>
-          <td>{ u.email || ''}</td>
-        </tr>
-      );
-    });
+
+    const tableHead = [
+      { key: 'id', label: 'user.id' },   
+      { key: 'first_name', label: 'user.first_name' },   
+      { key: 'last_name', label: 'user.last_name' }     
+    ]
 
     return (
-      <table className='table table-striped'>
-        <tbody>
-          { rows }
-        </tbody>
-      </table>
+      <InfoTable head={ tableHead } data={ this.props.users } onClick={(i : number) => this.handleClick(i)} />
     );
   }
 }

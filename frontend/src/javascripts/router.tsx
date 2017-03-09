@@ -14,6 +14,8 @@ import Clients   from './components/clients/Clients.tsx';
 import AddClient from './components/clients/AddClient.tsx';
 import Client    from './components/clients/Client.tsx';
 
+import Vehicles    from './components/vehicles/Vehicles.tsx';
+
 import NoMatch   from './components/NoMatch.tsx';
 
 class SolvasRouter extends React.Component<{}, {}> {
@@ -31,6 +33,9 @@ class SolvasRouter extends React.Component<{}, {}> {
           <Route path="/clients"     component={ Clients   } />
           <Route path="/clients/new" component={ AddClient } />
           <Route path="/clients/:id" component={ Client    } />
+
+          <Route path="/vehicles"     component={ Vehicles   } />
+
           <Route path="*" component={ NoMatch }/>
         </Route>
       </Router>
