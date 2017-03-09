@@ -7,30 +7,47 @@ import fetchUser from '../../actions/fetch_user.ts';
 
 class User extends React.Component<UserProp, UserState> {
 
-  componentDidMount() {
-    console.log("voor user mounts")
+  constructor(){
+    super();
+    this.state = { first_name: null, last_name: null, email: null, password: null, id: null };
+  }
+
+  updateData(){
+    
     const id = this.props.params.id;
+
+    console.log("update: "+ id)
+
     fetchUser( id )
       .then((data : UserData) => {
-        this.setState({ user: data.user })
+        console.log(data)
+        this.setState({ 
+          first_name: data.first_name,
+          last_name: data.last_name,
+          email: data.email,
+          password: data.password,
+          id: data.id
+        })
       });
+
+
+
+    console.log("updated: "+ id)  
   }
 
   render() {
-
-    const u = this.state.user;
+    console.log("rendering User")
+    this.updateData();
+    console.log(this.state.id)
 
     return (
       <WrappedCol>
         <Card className='text-center' >
           <div className='card-content'>
-            <h2> User </h2>
-            <button>Edit User</button>
-            <ul>
-              <li key = 'name'>{u.first_name} {u.last_name}</li>
-              <li key = 'email'>{u.email}</li>
-              <li key = 'password'>{u.password}</li>
-            </ul>
+            <button className='btn btn-default'>Edit User</button>
+            <h2> {this.state.first_name} {this.state.last_name} </h2>
+            <div>{this.state.email}</div>
+            <div>{this.state.password}</div>
           </div>
         </Card>
       </WrappedCol>
@@ -39,4 +56,3 @@ class User extends React.Component<UserProp, UserState> {
 }
 
 export default User;
-
