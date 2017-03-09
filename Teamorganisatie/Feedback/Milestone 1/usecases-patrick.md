@@ -1,5 +1,7 @@
 Hieronder de mail die ik letterlijk ontvangen heb van patrick. In het vet staan de zaken waaraan we moeten werken.
---------------
+
+--
+
 Dag Domien,
 
 Ik vind dat creativiteit een onontbeerlijke eigenschap is in jullie branche en zeker mee mag wegen in de eindbeoordeling van jullie werk.
