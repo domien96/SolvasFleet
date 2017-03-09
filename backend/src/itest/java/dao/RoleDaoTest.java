@@ -3,41 +3,52 @@ package dao;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.transaction.annotation.Transactional;
-import solvas.models.Role;
-import solvas.persistence.role.HibernateRoleDao;
-import solvas.persistence.role.RoleDao;
-
-import static org.junit.Assert.assertEquals;
-
+/**
+ * Integration tests of RoleDao
+ */
 @Ignore
 @Transactional
 public class RoleDaoTest {
-    private RoleDao roleDao=new HibernateRoleDao();
 
+    /**
+     * Test: adding a role to the database
+     */
     @Test
     public void addRole()
     {
 
     }
 
+    /**
+     * Test: delete a role on the database
+     */
     @Test
     public void destroyRole()
     {
 
     }
 
+    /**
+     * Test: update a role on the database
+     */
     @Test
     public void updateRole()
     {
 
     }
 
+    /**
+     * Test: find a specific role
+     */
     @Test
     public void findRoleById()
     {
 
     }
 
+    /**
+     * Test: get all roles from the database
+     */
     @Test
     public void findRoles()
     {
