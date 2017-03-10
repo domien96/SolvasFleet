@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 1.5.5">
+<meta name="generator" content="Asciidoctor 1.5.4">
 <title>Solvas Fleet API - Milestone 1</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -17,6 +17,7 @@ audio:not([controls]){display:none;height:0}
 [hidden],template{display:none}
 script{display:none!important}
 html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}
+body{margin:0}
 a{background:transparent}
 a:focus{outline:thin dotted}
 a:active,a:hover{outline:0}
@@ -51,7 +52,7 @@ textarea{overflow:auto;vertical-align:top}
 table{border-collapse:collapse;border-spacing:0}
 *,*:before,*:after{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box}
 html,body{font-size:100%}
-body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;font-weight:400;font-style:normal;line-height:1;position:relative;cursor:auto;tab-size:4;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased}
+body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;font-weight:400;font-style:normal;line-height:1;position:relative;cursor:auto}
 a:hover{cursor:pointer}
 img,object,embed{max-width:100%;height:auto}
 object,embed{height:100%}
@@ -63,6 +64,7 @@ img{-ms-interpolation-mode:bicubic}
 .text-center{text-align:center!important}
 .text-justify{text-align:justify!important}
 .hide{display:none}
+body{-webkit-font-smoothing:antialiased}
 img,object,svg{display:inline-block;vertical-align:middle}
 textarea{height:auto;min-height:50px}
 select{width:100%}
@@ -117,16 +119,13 @@ table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:
 table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
 table tr.even,table tr.alt,table tr:nth-of-type(even){background:#f8f8f7}
 table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{display:table-cell;line-height:1.6}
+body{tab-size:4}
 h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
 h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
 .clearfix:before,.clearfix:after,.float-group:before,.float-group:after{content:" ";display:table}
 .clearfix:after,.float-group:after{clear:both}
-*:not(pre)>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background-color:#f7f7f8;-webkit-border-radius:4px;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed;word-wrap:break-word}
-*:not(pre)>code.nobreak{word-wrap:normal}
-*:not(pre)>code.nowrap{white-space:nowrap}
+*:not(pre)>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background-color:#f7f7f8;-webkit-border-radius:4px;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed}
 pre,pre>code{line-height:1.45;color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;text-rendering:optimizeSpeed}
-em em{font-style:normal}
-strong strong{font-weight:400}
 .keyseq{color:rgba(51,51,51,.8)}
 kbd{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;display:inline-block;color:rgba(0,0,0,.8);font-size:.65em;line-height:1.45;background-color:#f7f7f7;border:1px solid #ccc;-webkit-border-radius:3px;border-radius:3px;-webkit-box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em white inset;box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em #fff inset;margin:0 .15em;padding:.2em .5em;vertical-align:middle;position:relative;top:-.1em;white-space:nowrap}
 .keyseq kbd:first-child{margin-left:0}
@@ -418,9 +417,69 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 .show-for-print{display:inherit!important}}
 </style>
 </head>
-<body class="article">
+<body class="article toc2 toc-left">
 <div id="header">
 <h1>Solvas Fleet API - Milestone 1</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_overview">Overview</a>
+<ul class="sectlevel2">
+<li><a href="#_version_information">Version information</a></li>
+</ul>
+</li>
+<li><a href="#_paths">Operations</a>
+<ul class="sectlevel2">
+<li><a href="#_companies_resource">Companies</a>
+<ul class="sectlevel3">
+<li><a href="#_companies_post">Add a new Company to the list of companies.</a></li>
+<li><a href="#_companies_get">Get a list of Company objects.</a></li>
+<li><a href="#_companies_id_get">Find Company by ID.</a></li>
+<li><a href="#_companies_id_put">Update the <code>Company</code> with the given ID.</a></li>
+<li><a href="#_companies_id_delete">Archive the Company with the given ID</a></li>
+</ul>
+</li>
+<li><a href="#_roles_resource">Roles</a>
+<ul class="sectlevel3">
+<li><a href="#_roles_post">Add a new <code>Role</code> object.</a></li>
+<li><a href="#_roles_get">Get a list of Roles.</a></li>
+<li><a href="#_roles_id_get">GET /roles/{id}</a></li>
+<li><a href="#_roles_id_put">Update a <code>Role</code> object.</a></li>
+<li><a href="#_roles_id_delete">Archive the Role with the given ID.</a></li>
+</ul>
+</li>
+<li><a href="#_users_resource">Users</a>
+<ul class="sectlevel3">
+<li><a href="#_users_post">Add a new <code>User</code> to the list of users</a></li>
+<li><a href="#_users_get">Get a list of User objects</a></li>
+<li><a href="#_users_id_get">Find User by ID</a></li>
+<li><a href="#_users_id_put">Update the ´User` with the given ID</a></li>
+<li><a href="#_users_id_delete">DELETE /users/{id}</a></li>
+</ul>
+</li>
+<li><a href="#_vehicles_resource">Vehicles</a>
+<ul class="sectlevel3">
+<li><a href="#_vehicles_post">Add a new <code>Vehicle</code> to the list of vehicles</a></li>
+<li><a href="#_vehicles_get">Get a list of Vehicle objects</a></li>
+<li><a href="#_vehicles_id_get">Find Company by ID.</a></li>
+<li><a href="#_vehicles_id_put">Update the Vehicle with the given ID</a></li>
+<li><a href="#_vehicles_id_delete">Archive the Vehicle with the given ID.</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_definitions">Definitions</a>
+<ul class="sectlevel2">
+<li><a href="#_address">Address</a></li>
+<li><a href="#_company">Company</a></li>
+<li><a href="#_error">Error</a></li>
+<li><a href="#_role">Role</a></li>
+<li><a href="#_user">User</a></li>
+<li><a href="#_vehicle">Vehicle</a></li>
+</ul>
+</li>
+</ul>
+</div>
 </div>
 <div id="content">
 <div class="sect1">
@@ -432,31 +491,33 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect2">
 <h3 id="_version_information">Version information</h3>
 <div class="paragraph">
-<p><em>Version</em> : 0.1.0</p>
+<p><em>Version</em> : 0.1.1</p>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_paths">Paths</h2>
+<h2 id="_paths">Operations</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_companies_post">Add a new Company to the list of companies.</h3>
+<h3 id="_companies_resource">Companies</h3>
+<div class="sect3">
+<h4 id="_companies_post">Add a new Company to the list of companies.</h4>
 <div class="literalblock">
 <div class="content">
 <pre>POST /companies</pre>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_description">Description</h4>
+<div class="sect4">
+<h5 id="_description">Description</h5>
 <div class="paragraph">
 <p>Only the attributes that are marked as required should be filled in. The values of the other attributes are generated by
 the server. The server will ignore any data in the not required attributes. A successful response contains an updated
 <code>Company</code> object with valid values for the server generated attributes.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_parameters">Parameters</h4>
+<div class="sect4">
+<h5 id="_parameters">Parameters</h5>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 22.2222%;">
@@ -480,8 +541,8 @@ the server. The server will ignore any data in the not required attributes. A su
 </tbody>
 </table>
 </div>
-<div class="sect3">
-<h4 id="_responses">Responses</h4>
+<div class="sect4">
+<h5 id="_responses">Responses</h5>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 10%;">
@@ -521,8 +582,8 @@ should be reported back in the error object.</p></td>
 </tbody>
 </table>
 </div>
-<div class="sect3">
-<h4 id="_consumes">Consumes</h4>
+<div class="sect4">
+<h5 id="_consumes">Consumes</h5>
 <div class="ulist">
 <ul>
 <li>
@@ -531,8 +592,8 @@ should be reported back in the error object.</p></td>
 </ul>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_produces">Produces</h4>
+<div class="sect4">
+<h5 id="_produces">Produces</h5>
 <div class="ulist">
 <ul>
 <li>
@@ -542,29 +603,30 @@ should be reported back in the error object.</p></td>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_companies_get">Get a list of Company objects.</h3>
+<div class="sect3">
+<h4 id="_companies_get">Get a list of Company objects.</h4>
 <div class="literalblock">
 <div class="content">
 <pre>GET /companies</pre>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_description_2">Description</h4>
+<div class="sect4">
+<h5 id="_description_2">Description</h5>
 <div class="paragraph">
 <p>Get a list of <code>Company</code> objects, eventually filtered by the query
 parameters. When combining parameters, the conditions are joined by
 AND. This means the resulting objects must satisfy all filters. All the string filter operations are case insensitive.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_parameters_2">Parameters</h4>
+<div class="sect4">
+<h5 id="_parameters_2">Parameters</h5>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
-<col style="width: 11.1111%;">
-<col style="width: 16.6666%;">
-<col style="width: 50%;">
-<col style="width: 22.2223%;">
+<col style="width: 10%;">
+<col style="width: 15%;">
+<col style="width: 45%;">
+<col style="width: 20%;">
+<col style="width: 10%;">
 </colgroup>
 <thead>
 <tr>
@@ -572,6 +634,7 @@ AND. This means the resulting objects must satisfy all filters. All the string f
 <th class="tableblock halign-left valign-middle">Name</th>
 <th class="tableblock halign-left valign-middle">Description</th>
 <th class="tableblock halign-left valign-middle">Schema</th>
+<th class="tableblock halign-left valign-middle">Default</th>
 </tr>
 </thead>
 <tbody>
@@ -581,6 +644,7 @@ AND. This means the resulting objects must satisfy all filters. All the string f
 <em>optional</em></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">Filter by city.</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">string</p></td>
+<td class="tableblock halign-left valign-middle"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>Query</strong></p></td>
@@ -588,6 +652,15 @@ AND. This means the resulting objects must satisfy all filters. All the string f
 <em>optional</em></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">Filter by country.</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">string</p></td>
+<td class="tableblock halign-left valign-middle"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>Query</strong></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>limit</strong><br>
+<em>optional</em></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">The number of elements in a page.</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">integer</p></td>
+<td class="tableblock halign-left valign-middle"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>Query</strong></p></td>
@@ -595,6 +668,15 @@ AND. This means the resulting objects must satisfy all filters. All the string f
 <em>optional</em></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">Filter objects whose name attribute contains nameContains.</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">string</p></td>
+<td class="tableblock halign-left valign-middle"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>Query</strong></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>page</strong><br>
+<em>optional</em></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">The page to query.</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">integer</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>0</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>Query</strong></p></td>
@@ -602,12 +684,13 @@ AND. This means the resulting objects must satisfy all filters. All the string f
 <em>optional</em></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">Filter by postal code.</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">string</p></td>
+<td class="tableblock halign-left valign-middle"></td>
 </tr>
 </tbody>
 </table>
 </div>
-<div class="sect3">
-<h4 id="_responses_2">Responses</h4>
+<div class="sect4">
+<h5 id="_responses_2">Responses</h5>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 10%;">
@@ -625,13 +708,89 @@ AND. This means the resulting objects must satisfy all filters. All the string f
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>200</strong></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">OK</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><a href="#_companies_get_response_200">Response 200</a></p></td>
+</tr>
+</tbody>
+</table>
+<div id="_companies_get_response_200" class="paragraph">
+<p><strong>Response 200</strong></p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 61.1111%;">
+<col style="width: 22.2223%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-middle">Name</th>
+<th class="tableblock halign-left valign-middle">Description</th>
+<th class="tableblock halign-left valign-middle">Schema</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>data</strong><br>
+<em>optional</em></p></td>
+<td class="tableblock halign-left valign-middle"></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">&lt; <a href="#_company">Company</a> &gt; array</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>first</strong><br>
+<em>optional</em></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Link to the first page, if applicable.<br>
+<strong>Example</strong> : <code>"/vehicles&amp;page=0"</code></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">string</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>last</strong><br>
+<em>optional</em></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Link to the last page, if applicable.<br>
+<strong>Example</strong> : <code>"/vehicles&amp;page=100"</code></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">string</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>limit</strong><br>
+<em>optional</em></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">The maximum number of items on a page.<br>
+<strong>Example</strong> : <code>10</code></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">integer</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>next</strong><br>
+<em>optional</em></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Link to the next page, if applicable.<br>
+<strong>Example</strong> : <code>"/vehicles&amp;page=20"</code></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">string</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>offset</strong><br>
+<em>optional</em></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">The number of items before this page (exclusive). This means
+that when offset = 20, this page will contains items 20 to
+20 + limit. For limit = 10, it will be 20 - 29 (including 29).<br>
+<strong>Example</strong> : <code>20</code></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">integer</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>previous</strong><br>
+<em>optional</em></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Link to the previous page, if applicable.<br>
+<strong>Example</strong> : <code>"/vehicles&amp;page=1"</code></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">string</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>total</strong><br>
+<em>optional</em></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Total number of items.<br>
+<strong>Example</strong> : <code>50</code></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">integer</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<div class="sect3">
-<h4 id="_produces_2">Produces</h4>
+<div class="sect4">
+<h5 id="_produces_2">Produces</h5>
 <div class="ulist">
 <ul>
 <li>
@@ -641,15 +800,15 @@ AND. This means the resulting objects must satisfy all filters. All the string f
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_companies_id_get">Find Company by ID.</h3>
+<div class="sect3">
+<h4 id="_companies_id_get">Find Company by ID.</h4>
 <div class="literalblock">
 <div class="content">
 <pre>GET /companies/{id}</pre>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_parameters_3">Parameters</h4>
+<div class="sect4">
+<h5 id="_parameters_3">Parameters</h5>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 11.1111%;">
@@ -671,13 +830,13 @@ AND. This means the resulting objects must satisfy all filters. All the string f
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>id</strong><br>
 <em>required</em></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">ID of Company</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">integer(int64)</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">integer (int64)</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<div class="sect3">
-<h4 id="_responses_3">Responses</h4>
+<div class="sect4">
+<h5 id="_responses_3">Responses</h5>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 10%;">
@@ -705,8 +864,8 @@ AND. This means the resulting objects must satisfy all filters. All the string f
 </tbody>
 </table>
 </div>
-<div class="sect3">
-<h4 id="_produces_3">Produces</h4>
+<div class="sect4">
+<h5 id="_produces_3">Produces</h5>
 <div class="ulist">
 <ul>
 <li>
@@ -716,23 +875,23 @@ AND. This means the resulting objects must satisfy all filters. All the string f
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_companies_id_put">Update the <code>Company</code> with the given ID.</h3>
+<div class="sect3">
+<h4 id="_companies_id_put">Update the <code>Company</code> with the given ID.</h4>
 <div class="literalblock">
 <div class="content">
 <pre>PUT /companies/{id}</pre>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_description_3">Description</h4>
+<div class="sect4">
+<h5 id="_description_3">Description</h5>
 <div class="paragraph">
 <p>Only the attributes that are marked as required should be filled in. The values of the other attributes are generated by
 the server. The server will ignore any data in the not required attributes. A successful response contains an updated
 <code>Company</code> object with valid values for the server generated attributes.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_parameters_4">Parameters</h4>
+<div class="sect4">
+<h5 id="_parameters_4">Parameters</h5>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 11.1111%;">
@@ -754,13 +913,13 @@ the server. The server will ignore any data in the not required attributes. A su
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>id</strong><br>
 <em>required</em></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">ID of Company</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">integer(int64)</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">integer (int64)</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<div class="sect3">
-<h4 id="_responses_4">Responses</h4>
+<div class="sect4">
+<h5 id="_responses_4">Responses</h5>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 10%;">
@@ -805,8 +964,8 @@ should be reported back in the error object.</p></td>
 </tbody>
 </table>
 </div>
-<div class="sect3">
-<h4 id="_consumes_2">Consumes</h4>
+<div class="sect4">
+<h5 id="_consumes_2">Consumes</h5>
 <div class="ulist">
 <ul>
 <li>
@@ -815,8 +974,8 @@ should be reported back in the error object.</p></td>
 </ul>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_produces_4">Produces</h4>
+<div class="sect4">
+<h5 id="_produces_4">Produces</h5>
 <div class="ulist">
 <ul>
 <li>
@@ -826,15 +985,15 @@ should be reported back in the error object.</p></td>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_companies_id_delete">Archive the Company with the given ID</h3>
+<div class="sect3">
+<h4 id="_companies_id_delete">Archive the Company with the given ID</h4>
 <div class="literalblock">
 <div class="content">
 <pre>DELETE /companies/{id}</pre>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_parameters_5">Parameters</h4>
+<div class="sect4">
+<h5 id="_parameters_5">Parameters</h5>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 11.1111%;">
@@ -856,13 +1015,13 @@ should be reported back in the error object.</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>id</strong><br>
 <em>required</em></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">ID of Company</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">integer(int64)</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">integer (int64)</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<div class="sect3">
-<h4 id="_responses_5">Responses</h4>
+<div class="sect4">
+<h5 id="_responses_5">Responses</h5>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 10%;">
@@ -889,24 +1048,32 @@ should be reported back in the error object.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>409</strong></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">The company could not be archived due to a conflict. An example might
-be that the company is still being used elsewhere, and the archiving could
-not be automatically cascaded.</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">No Content</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">There was a conflict while updating or saving the model. This is not the
+same as a <code>422</code> code. This response indicates the request has a correct
+syntax and the content is correctly formed, but it still could not be saved.
+An example might be trying to add a vehicle with a chassis number that already
+exists in the database. The error response contains all fields (or the field) that
+triggered the error. Continuing the vehicle example, it would contain the field
+<code>chassisNumber</code>.
+Another example might be trying to delete a company that is still used.</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><a href="#_error">Error</a></p></td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
+</div>
 <div class="sect2">
-<h3 id="_roles_post">Add a new <code>Role</code> object.</h3>
+<h3 id="_roles_resource">Roles</h3>
+<div class="sect3">
+<h4 id="_roles_post">Add a new <code>Role</code> object.</h4>
 <div class="literalblock">
 <div class="content">
 <pre>POST /roles</pre>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_description_4">Description</h4>
+<div class="sect4">
+<h5 id="_description_4">Description</h5>
 <div class="paragraph">
 <p>Only the attributes that are marked as required should be filled in. The values of the other attributes are generated by the
 server. The server will ignore any data in the not required attributes. A successful response contains an updated <code>Role</code>
@@ -914,8 +1081,8 @@ object with valid values for the server generated attributes. The following attr
 by the server when present: <code>endDate</code>.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_parameters_6">Parameters</h4>
+<div class="sect4">
+<h5 id="_parameters_6">Parameters</h5>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 11.1111%;">
@@ -942,8 +1109,8 @@ by the server when present: <code>endDate</code>.</p>
 </tbody>
 </table>
 </div>
-<div class="sect3">
-<h4 id="_responses_6">Responses</h4>
+<div class="sect4">
+<h5 id="_responses_6">Responses</h5>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 10%;">
@@ -961,7 +1128,7 @@ by the server when present: <code>endDate</code>.</p>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>200</strong></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">OK</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">No Content</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><a href="#_role">Role</a></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>400</strong></p></td>
@@ -983,8 +1150,8 @@ should be reported back in the error object.</p></td>
 </tbody>
 </table>
 </div>
-<div class="sect3">
-<h4 id="_consumes_3">Consumes</h4>
+<div class="sect4">
+<h5 id="_consumes_3">Consumes</h5>
 <div class="ulist">
 <ul>
 <li>
@@ -993,8 +1160,8 @@ should be reported back in the error object.</p></td>
 </ul>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_produces_5">Produces</h4>
+<div class="sect4">
+<h5 id="_produces_5">Produces</h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1004,15 +1171,15 @@ should be reported back in the error object.</p></td>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_roles_get">Get a list of Roles.</h3>
+<div class="sect3">
+<h4 id="_roles_get">Get a list of Roles.</h4>
 <div class="literalblock">
 <div class="content">
 <pre>GET /roles</pre>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_description_5">Description</h4>
+<div class="sect4">
+<h5 id="_description_5">Description</h5>
 <div class="paragraph">
 <p>Get a list of <code>Role</code> objects, eventually filtered by the query
 parameters. When combining parameters, the conditions are joined by
@@ -1020,14 +1187,15 @@ AND. This means the resulting objects must satisfy all filters.
 All the string filter operations are case insensitive.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_parameters_7">Parameters</h4>
+<div class="sect4">
+<h5 id="_parameters_7">Parameters</h5>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
-<col style="width: 11.1111%;">
-<col style="width: 16.6666%;">
-<col style="width: 50%;">
-<col style="width: 22.2223%;">
+<col style="width: 10%;">
+<col style="width: 15%;">
+<col style="width: 45%;">
+<col style="width: 20%;">
+<col style="width: 10%;">
 </colgroup>
 <thead>
 <tr>
@@ -1035,6 +1203,7 @@ All the string filter operations are case insensitive.</p>
 <th class="tableblock halign-left valign-middle">Name</th>
 <th class="tableblock halign-left valign-middle">Description</th>
 <th class="tableblock halign-left valign-middle">Schema</th>
+<th class="tableblock halign-left valign-middle">Default</th>
 </tr>
 </thead>
 <tbody>
@@ -1043,14 +1212,16 @@ All the string filter operations are case insensitive.</p>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>after</strong><br>
 <em>optional</em></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">Filter objects after this date</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">string(date-time)</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">string (date-time)</p></td>
+<td class="tableblock halign-left valign-middle"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>Query</strong></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>before</strong><br>
 <em>optional</em></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">Filter objects before this date</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">string(date-time)</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">string (date-time)</p></td>
+<td class="tableblock halign-left valign-middle"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>Query</strong></p></td>
@@ -1058,6 +1229,23 @@ All the string filter operations are case insensitive.</p>
 <em>optional</em></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">Filter by company</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">integer</p></td>
+<td class="tableblock halign-left valign-middle"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>Query</strong></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>limit</strong><br>
+<em>optional</em></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">The number of elements in a page.</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">integer</p></td>
+<td class="tableblock halign-left valign-middle"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>Query</strong></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>page</strong><br>
+<em>optional</em></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">The page to query.</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">integer</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>0</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>Query</strong></p></td>
@@ -1065,12 +1253,13 @@ All the string filter operations are case insensitive.</p>
 <em>optional</em></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">Filter by user</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">integer</p></td>
+<td class="tableblock halign-left valign-middle"></td>
 </tr>
 </tbody>
 </table>
 </div>
-<div class="sect3">
-<h4 id="_responses_7">Responses</h4>
+<div class="sect4">
+<h5 id="_responses_7">Responses</h5>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 10%;">
@@ -1088,13 +1277,89 @@ All the string filter operations are case insensitive.</p>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>200</strong></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">OK</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><a href="#_roles_get_response_200">Response 200</a></p></td>
+</tr>
+</tbody>
+</table>
+<div id="_roles_get_response_200" class="paragraph">
+<p><strong>Response 200</strong></p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 61.1111%;">
+<col style="width: 22.2223%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-middle">Name</th>
+<th class="tableblock halign-left valign-middle">Description</th>
+<th class="tableblock halign-left valign-middle">Schema</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>data</strong><br>
+<em>optional</em></p></td>
+<td class="tableblock halign-left valign-middle"></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">&lt; <a href="#_role">Role</a> &gt; array</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>first</strong><br>
+<em>optional</em></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Link to the first page, if applicable.<br>
+<strong>Example</strong> : <code>"/vehicles&amp;page=0"</code></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">string</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>last</strong><br>
+<em>optional</em></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Link to the last page, if applicable.<br>
+<strong>Example</strong> : <code>"/vehicles&amp;page=100"</code></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">string</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>limit</strong><br>
+<em>optional</em></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">The maximum number of items on a page.<br>
+<strong>Example</strong> : <code>10</code></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">integer</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>next</strong><br>
+<em>optional</em></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Link to the next page, if applicable.<br>
+<strong>Example</strong> : <code>"/vehicles&amp;page=20"</code></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">string</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>offset</strong><br>
+<em>optional</em></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">The number of items before this page (exclusive). This means
+that when offset = 20, this page will contains items 20 to
+20 + limit. For limit = 10, it will be 20 - 29 (including 29).<br>
+<strong>Example</strong> : <code>20</code></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">integer</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>previous</strong><br>
+<em>optional</em></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Link to the previous page, if applicable.<br>
+<strong>Example</strong> : <code>"/vehicles&amp;page=1"</code></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">string</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>total</strong><br>
+<em>optional</em></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Total number of items.<br>
+<strong>Example</strong> : <code>50</code></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">integer</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<div class="sect3">
-<h4 id="_produces_6">Produces</h4>
+<div class="sect4">
+<h5 id="_produces_6">Produces</h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1104,16 +1369,16 @@ All the string filter operations are case insensitive.</p>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_roles_id_get">GET /roles/{id}</h3>
 <div class="sect3">
-<h4 id="_description_6">Description</h4>
+<h4 id="_roles_id_get">GET /roles/{id}</h4>
+<div class="sect4">
+<h5 id="_description_6">Description</h5>
 <div class="paragraph">
 <p>Find Role by ID</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_parameters_8">Parameters</h4>
+<div class="sect4">
+<h5 id="_parameters_8">Parameters</h5>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 11.1111%;">
@@ -1140,8 +1405,8 @@ All the string filter operations are case insensitive.</p>
 </tbody>
 </table>
 </div>
-<div class="sect3">
-<h4 id="_responses_8">Responses</h4>
+<div class="sect4">
+<h5 id="_responses_8">Responses</h5>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 10%;">
@@ -1169,8 +1434,8 @@ All the string filter operations are case insensitive.</p>
 </tbody>
 </table>
 </div>
-<div class="sect3">
-<h4 id="_produces_7">Produces</h4>
+<div class="sect4">
+<h5 id="_produces_7">Produces</h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1180,15 +1445,15 @@ All the string filter operations are case insensitive.</p>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_roles_id_put">Update a <code>Role</code> object.</h3>
+<div class="sect3">
+<h4 id="_roles_id_put">Update a <code>Role</code> object.</h4>
 <div class="literalblock">
 <div class="content">
 <pre>PUT /roles/{id}</pre>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_description_7">Description</h4>
+<div class="sect4">
+<h5 id="_description_7">Description</h5>
 <div class="paragraph">
 <p>Only the attributes that are marked as required should be filled in. The values of the other attributes are generated by the
 server. The server will ignore any data in the not required attributes. A successful response contains an updated <code>Role</code>
@@ -1196,8 +1461,8 @@ object with valid values for the server generated attributes. The following attr
 by the server when present: <code>endDate</code>.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_parameters_9">Parameters</h4>
+<div class="sect4">
+<h5 id="_parameters_9">Parameters</h5>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 11.1111%;">
@@ -1231,8 +1496,8 @@ by the server when present: <code>endDate</code>.</p>
 </tbody>
 </table>
 </div>
-<div class="sect3">
-<h4 id="_responses_9">Responses</h4>
+<div class="sect4">
+<h5 id="_responses_9">Responses</h5>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 10%;">
@@ -1277,8 +1542,8 @@ should be reported back in the error object.</p></td>
 </tbody>
 </table>
 </div>
-<div class="sect3">
-<h4 id="_consumes_4">Consumes</h4>
+<div class="sect4">
+<h5 id="_consumes_4">Consumes</h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1287,8 +1552,8 @@ should be reported back in the error object.</p></td>
 </ul>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_produces_8">Produces</h4>
+<div class="sect4">
+<h5 id="_produces_8">Produces</h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1298,15 +1563,15 @@ should be reported back in the error object.</p></td>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_roles_id_delete">Archive the Role with the given ID.</h3>
+<div class="sect3">
+<h4 id="_roles_id_delete">Archive the Role with the given ID.</h4>
 <div class="literalblock">
 <div class="content">
 <pre>DELETE /roles/{id}</pre>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_parameters_10">Parameters</h4>
+<div class="sect4">
+<h5 id="_parameters_10">Parameters</h5>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 11.1111%;">
@@ -1333,8 +1598,8 @@ should be reported back in the error object.</p></td>
 </tbody>
 </table>
 </div>
-<div class="sect3">
-<h4 id="_responses_10">Responses</h4>
+<div class="sect4">
+<h5 id="_responses_10">Responses</h5>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 10%;">
@@ -1361,32 +1626,40 @@ should be reported back in the error object.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>409</strong></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">The role could not be archived due to a conflict. An example might
-be that the role is the users own role, and archiving the role might
-cause the user to be locked out.</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">No Content</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">There was a conflict while updating or saving the model. This is not the
+same as a <code>422</code> code. This response indicates the request has a correct
+syntax and the content is correctly formed, but it still could not be saved.
+An example might be trying to add a vehicle with a chassis number that already
+exists in the database. The error response contains all fields (or the field) that
+triggered the error. Continuing the vehicle example, it would contain the field
+<code>chassisNumber</code>.
+Another example might be trying to delete a company that is still used.</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><a href="#_error">Error</a></p></td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
+</div>
 <div class="sect2">
-<h3 id="_users_post">Add a new <code>User</code> to the list of users</h3>
+<h3 id="_users_resource">Users</h3>
+<div class="sect3">
+<h4 id="_users_post">Add a new <code>User</code> to the list of users</h4>
 <div class="literalblock">
 <div class="content">
 <pre>POST /users</pre>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_description_8">Description</h4>
+<div class="sect4">
+<h5 id="_description_8">Description</h5>
 <div class="paragraph">
 <p>Only the attributes that are marked as required should be filled in. The values of the other attributes are generated by the
 server. The server will ignore any data in the not required attributes. A successful response contains an updated <code>User</code>
 object with valid values for the server generated attributes.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_parameters_11">Parameters</h4>
+<div class="sect4">
+<h5 id="_parameters_11">Parameters</h5>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 11.1111%;">
@@ -1413,8 +1686,8 @@ object with valid values for the server generated attributes.</p>
 </tbody>
 </table>
 </div>
-<div class="sect3">
-<h4 id="_responses_11">Responses</h4>
+<div class="sect4">
+<h5 id="_responses_11">Responses</h5>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 10%;">
@@ -1432,7 +1705,7 @@ object with valid values for the server generated attributes.</p>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>200</strong></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">OK</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">No Content</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><a href="#_user">User</a></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>400</strong></p></td>
@@ -1441,11 +1714,15 @@ object with valid values for the server generated attributes.</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>409</strong></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">The user already exists. This is not the same as <code>422</code>. This response
-indicates the request has a correct syntax and the content is correctly formed,
-e.g. the email has the correct format, but a user with this e-mail already
-exists.</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">No Content</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">There was a conflict while updating or saving the model. This is not the
+same as a <code>422</code> code. This response indicates the request has a correct
+syntax and the content is correctly formed, but it still could not be saved.
+An example might be trying to add a vehicle with a chassis number that already
+exists in the database. The error response contains all fields (or the field) that
+triggered the error. Continuing the vehicle example, it would contain the field
+<code>chassisNumber</code>.
+Another example might be trying to delete a company that is still used.</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><a href="#_error">Error</a></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>415</strong></p></td>
@@ -1462,8 +1739,8 @@ should be reported back in the error object.</p></td>
 </tbody>
 </table>
 </div>
-<div class="sect3">
-<h4 id="_consumes_5">Consumes</h4>
+<div class="sect4">
+<h5 id="_consumes_5">Consumes</h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1472,8 +1749,8 @@ should be reported back in the error object.</p></td>
 </ul>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_produces_9">Produces</h4>
+<div class="sect4">
+<h5 id="_produces_9">Produces</h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1483,29 +1760,30 @@ should be reported back in the error object.</p></td>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_users_get">Get a list of User objects</h3>
+<div class="sect3">
+<h4 id="_users_get">Get a list of User objects</h4>
 <div class="literalblock">
 <div class="content">
 <pre>GET /users</pre>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_description_9">Description</h4>
+<div class="sect4">
+<h5 id="_description_9">Description</h5>
 <div class="paragraph">
 <p>Get a list of <code>User</code> objects, eventually filtered by the query
 parameters. When combining parameters, the conditions are joined by
 AND. This means the resulting objects must satisfy all filters. All the string filter operations are case insensitive.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_parameters_12">Parameters</h4>
+<div class="sect4">
+<h5 id="_parameters_12">Parameters</h5>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
-<col style="width: 11.1111%;">
-<col style="width: 16.6666%;">
-<col style="width: 50%;">
-<col style="width: 22.2223%;">
+<col style="width: 10%;">
+<col style="width: 15%;">
+<col style="width: 45%;">
+<col style="width: 20%;">
+<col style="width: 10%;">
 </colgroup>
 <thead>
 <tr>
@@ -1513,6 +1791,7 @@ AND. This means the resulting objects must satisfy all filters. All the string f
 <th class="tableblock halign-left valign-middle">Name</th>
 <th class="tableblock halign-left valign-middle">Description</th>
 <th class="tableblock halign-left valign-middle">Schema</th>
+<th class="tableblock halign-left valign-middle">Default</th>
 </tr>
 </thead>
 <tbody>
@@ -1521,7 +1800,8 @@ AND. This means the resulting objects must satisfy all filters. All the string f
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>email</strong><br>
 <em>optional</em></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">Filter by email.</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">string(email)</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">string (email)</p></td>
+<td class="tableblock halign-left valign-middle"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>Query</strong></p></td>
@@ -1529,6 +1809,7 @@ AND. This means the resulting objects must satisfy all filters. All the string f
 <em>optional</em></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">Filter by first name.</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">string</p></td>
+<td class="tableblock halign-left valign-middle"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>Query</strong></p></td>
@@ -1536,12 +1817,29 @@ AND. This means the resulting objects must satisfy all filters. All the string f
 <em>optional</em></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">Filter by last name.</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">string</p></td>
+<td class="tableblock halign-left valign-middle"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>Query</strong></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>limit</strong><br>
+<em>optional</em></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">The number of elements in a page.</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">integer</p></td>
+<td class="tableblock halign-left valign-middle"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>Query</strong></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>page</strong><br>
+<em>optional</em></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">The page to query.</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">integer</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>0</code></p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<div class="sect3">
-<h4 id="_responses_12">Responses</h4>
+<div class="sect4">
+<h5 id="_responses_12">Responses</h5>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 10%;">
@@ -1559,13 +1857,89 @@ AND. This means the resulting objects must satisfy all filters. All the string f
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>200</strong></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">OK</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><a href="#_users_get_response_200">Response 200</a></p></td>
+</tr>
+</tbody>
+</table>
+<div id="_users_get_response_200" class="paragraph">
+<p><strong>Response 200</strong></p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 61.1111%;">
+<col style="width: 22.2223%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-middle">Name</th>
+<th class="tableblock halign-left valign-middle">Description</th>
+<th class="tableblock halign-left valign-middle">Schema</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>data</strong><br>
+<em>optional</em></p></td>
+<td class="tableblock halign-left valign-middle"></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">&lt; <a href="#_user">User</a> &gt; array</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>first</strong><br>
+<em>optional</em></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Link to the first page, if applicable.<br>
+<strong>Example</strong> : <code>"/vehicles&amp;page=0"</code></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">string</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>last</strong><br>
+<em>optional</em></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Link to the last page, if applicable.<br>
+<strong>Example</strong> : <code>"/vehicles&amp;page=100"</code></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">string</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>limit</strong><br>
+<em>optional</em></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">The maximum number of items on a page.<br>
+<strong>Example</strong> : <code>10</code></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">integer</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>next</strong><br>
+<em>optional</em></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Link to the next page, if applicable.<br>
+<strong>Example</strong> : <code>"/vehicles&amp;page=20"</code></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">string</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>offset</strong><br>
+<em>optional</em></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">The number of items before this page (exclusive). This means
+that when offset = 20, this page will contains items 20 to
+20 + limit. For limit = 10, it will be 20 - 29 (including 29).<br>
+<strong>Example</strong> : <code>20</code></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">integer</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>previous</strong><br>
+<em>optional</em></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Link to the previous page, if applicable.<br>
+<strong>Example</strong> : <code>"/vehicles&amp;page=1"</code></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">string</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>total</strong><br>
+<em>optional</em></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Total number of items.<br>
+<strong>Example</strong> : <code>50</code></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">integer</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<div class="sect3">
-<h4 id="_produces_10">Produces</h4>
+<div class="sect4">
+<h5 id="_produces_10">Produces</h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1575,15 +1949,15 @@ AND. This means the resulting objects must satisfy all filters. All the string f
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_users_id_get">Find User by ID</h3>
+<div class="sect3">
+<h4 id="_users_id_get">Find User by ID</h4>
 <div class="literalblock">
 <div class="content">
 <pre>GET /users/{id}</pre>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_parameters_13">Parameters</h4>
+<div class="sect4">
+<h5 id="_parameters_13">Parameters</h5>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 11.1111%;">
@@ -1610,8 +1984,8 @@ AND. This means the resulting objects must satisfy all filters. All the string f
 </tbody>
 </table>
 </div>
-<div class="sect3">
-<h4 id="_responses_13">Responses</h4>
+<div class="sect4">
+<h5 id="_responses_13">Responses</h5>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 10%;">
@@ -1639,8 +2013,8 @@ AND. This means the resulting objects must satisfy all filters. All the string f
 </tbody>
 </table>
 </div>
-<div class="sect3">
-<h4 id="_produces_11">Produces</h4>
+<div class="sect4">
+<h5 id="_produces_11">Produces</h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1650,23 +2024,23 @@ AND. This means the resulting objects must satisfy all filters. All the string f
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_users_id_put">Update the ´User` with the given ID</h3>
+<div class="sect3">
+<h4 id="_users_id_put">Update the ´User` with the given ID</h4>
 <div class="literalblock">
 <div class="content">
 <pre>PUT /users/{id}</pre>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_description_10">Description</h4>
+<div class="sect4">
+<h5 id="_description_10">Description</h5>
 <div class="paragraph">
 <p>Only the attributes that are marked as required should be filled in. The values of the other attributes are generated by the
 server. The server will ignore any data in the not required attributes. A successful response contains an updated <code>User</code>
 object with valid values for the server generated attributes.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_parameters_14">Parameters</h4>
+<div class="sect4">
+<h5 id="_parameters_14">Parameters</h5>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 11.1111%;">
@@ -1700,8 +2074,8 @@ object with valid values for the server generated attributes.</p>
 </tbody>
 </table>
 </div>
-<div class="sect3">
-<h4 id="_responses_14">Responses</h4>
+<div class="sect4">
+<h5 id="_responses_14">Responses</h5>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 10%;">
@@ -1733,10 +2107,15 @@ object with valid values for the server generated attributes.</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>409</strong></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">There was a conflict saving the data. This is not the same as <code>422</code>. This response
-indicates the request has a correct syntax and the content is correctly formed,
-but it could not be saved, e.g. if another user already has this email.</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">No Content</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">There was a conflict while updating or saving the model. This is not the
+same as a <code>422</code> code. This response indicates the request has a correct
+syntax and the content is correctly formed, but it still could not be saved.
+An example might be trying to add a vehicle with a chassis number that already
+exists in the database. The error response contains all fields (or the field) that
+triggered the error. Continuing the vehicle example, it would contain the field
+<code>chassisNumber</code>.
+Another example might be trying to delete a company that is still used.</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><a href="#_error">Error</a></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>415</strong></p></td>
@@ -1753,8 +2132,8 @@ should be reported back in the error object.</p></td>
 </tbody>
 </table>
 </div>
-<div class="sect3">
-<h4 id="_consumes_6">Consumes</h4>
+<div class="sect4">
+<h5 id="_consumes_6">Consumes</h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1763,8 +2142,8 @@ should be reported back in the error object.</p></td>
 </ul>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_produces_12">Produces</h4>
+<div class="sect4">
+<h5 id="_produces_12">Produces</h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1774,16 +2153,16 @@ should be reported back in the error object.</p></td>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_users_id_delete">DELETE /users/{id}</h3>
 <div class="sect3">
-<h4 id="_description_11">Description</h4>
+<h4 id="_users_id_delete">DELETE /users/{id}</h4>
+<div class="sect4">
+<h5 id="_description_11">Description</h5>
 <div class="paragraph">
 <p>Archive the User with the given ID.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_parameters_15">Parameters</h4>
+<div class="sect4">
+<h5 id="_parameters_15">Parameters</h5>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 11.1111%;">
@@ -1810,8 +2189,8 @@ should be reported back in the error object.</p></td>
 </tbody>
 </table>
 </div>
-<div class="sect3">
-<h4 id="_responses_15">Responses</h4>
+<div class="sect4">
+<h5 id="_responses_15">Responses</h5>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 10%;">
@@ -1838,22 +2217,32 @@ should be reported back in the error object.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>409</strong></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">The user could not be archived due to a conflict.</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">No Content</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">There was a conflict while updating or saving the model. This is not the
+same as a <code>422</code> code. This response indicates the request has a correct
+syntax and the content is correctly formed, but it still could not be saved.
+An example might be trying to add a vehicle with a chassis number that already
+exists in the database. The error response contains all fields (or the field) that
+triggered the error. Continuing the vehicle example, it would contain the field
+<code>chassisNumber</code>.
+Another example might be trying to delete a company that is still used.</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><a href="#_error">Error</a></p></td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
+</div>
 <div class="sect2">
-<h3 id="_vehicles_post">Add a new <code>Vehicle</code> to the list of vehicles</h3>
+<h3 id="_vehicles_resource">Vehicles</h3>
+<div class="sect3">
+<h4 id="_vehicles_post">Add a new <code>Vehicle</code> to the list of vehicles</h4>
 <div class="literalblock">
 <div class="content">
 <pre>POST /vehicles</pre>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_description_12">Description</h4>
+<div class="sect4">
+<h5 id="_description_12">Description</h5>
 <div class="paragraph">
 <p>Only the attributes that are marked as required should be filled in. The values of the other attributes are generated by the
 server. The server will ignore any data in the not required attributes. A successful response contains an updated <code>Vehicle</code>
@@ -1861,8 +2250,8 @@ object with valid values for the server generated attributes. The following attr
 by the server if present: <code>leasingCompany</code>, <code>company</code>, <code>licensePlate</code>.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_parameters_16">Parameters</h4>
+<div class="sect4">
+<h5 id="_parameters_16">Parameters</h5>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 11.1111%;">
@@ -1889,8 +2278,8 @@ by the server if present: <code>leasingCompany</code>, <code>company</code>, <co
 </tbody>
 </table>
 </div>
-<div class="sect3">
-<h4 id="_responses_16">Responses</h4>
+<div class="sect4">
+<h5 id="_responses_16">Responses</h5>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 10%;">
@@ -1917,11 +2306,15 @@ by the server if present: <code>leasingCompany</code>, <code>company</code>, <co
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>409</strong></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">The vehicle already exists. This is not the same as <code>422</code>. This response
-indicates the request has a correct syntax and the content is correctly formed,
-e.g. the licensePlate has the correct format, but it could not be added
-due to other constraints (such as uniqueness).</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">No Content</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">There was a conflict while updating or saving the model. This is not the
+same as a <code>422</code> code. This response indicates the request has a correct
+syntax and the content is correctly formed, but it still could not be saved.
+An example might be trying to add a vehicle with a chassis number that already
+exists in the database. The error response contains all fields (or the field) that
+triggered the error. Continuing the vehicle example, it would contain the field
+<code>chassisNumber</code>.
+Another example might be trying to delete a company that is still used.</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><a href="#_error">Error</a></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>415</strong></p></td>
@@ -1938,8 +2331,8 @@ should be reported back in the error object.</p></td>
 </tbody>
 </table>
 </div>
-<div class="sect3">
-<h4 id="_consumes_7">Consumes</h4>
+<div class="sect4">
+<h5 id="_consumes_7">Consumes</h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1948,8 +2341,8 @@ should be reported back in the error object.</p></td>
 </ul>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_produces_13">Produces</h4>
+<div class="sect4">
+<h5 id="_produces_13">Produces</h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1959,29 +2352,30 @@ should be reported back in the error object.</p></td>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_vehicles_get">Get a list of Vehicle objects</h3>
+<div class="sect3">
+<h4 id="_vehicles_get">Get a list of Vehicle objects</h4>
 <div class="literalblock">
 <div class="content">
 <pre>GET /vehicles</pre>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_description_13">Description</h4>
+<div class="sect4">
+<h5 id="_description_13">Description</h5>
 <div class="paragraph">
 <p>Get a list of <code>Vehicle</code> objects, eventually filtered by the query
 parameters. When combining parameters, the conditions are joined by
 AND. This means the resulting objects must satisfy all filters. All the string filter operations are case insensitive.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_parameters_17">Parameters</h4>
+<div class="sect4">
+<h5 id="_parameters_17">Parameters</h5>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
-<col style="width: 11.1111%;">
-<col style="width: 16.6666%;">
-<col style="width: 50%;">
-<col style="width: 22.2223%;">
+<col style="width: 10%;">
+<col style="width: 15%;">
+<col style="width: 45%;">
+<col style="width: 20%;">
+<col style="width: 10%;">
 </colgroup>
 <thead>
 <tr>
@@ -1989,6 +2383,7 @@ AND. This means the resulting objects must satisfy all filters. All the string f
 <th class="tableblock halign-left valign-middle">Name</th>
 <th class="tableblock halign-left valign-middle">Description</th>
 <th class="tableblock halign-left valign-middle">Schema</th>
+<th class="tableblock halign-left valign-middle">Default</th>
 </tr>
 </thead>
 <tbody>
@@ -1998,6 +2393,7 @@ AND. This means the resulting objects must satisfy all filters. All the string f
 <em>optional</em></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">Filter by chassis number.</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">string</p></td>
+<td class="tableblock halign-left valign-middle"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>Query</strong></p></td>
@@ -2005,6 +2401,7 @@ AND. This means the resulting objects must satisfy all filters. All the string f
 <em>optional</em></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">Filter by company.</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">integer</p></td>
+<td class="tableblock halign-left valign-middle"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>Query</strong></p></td>
@@ -2012,6 +2409,7 @@ AND. This means the resulting objects must satisfy all filters. All the string f
 <em>optional</em></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">Filter by leasingCompany.</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">integer</p></td>
+<td class="tableblock halign-left valign-middle"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>Query</strong></p></td>
@@ -2019,6 +2417,31 @@ AND. This means the resulting objects must satisfy all filters. All the string f
 <em>optional</em></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">Filter by license plate.</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">string</p></td>
+<td class="tableblock halign-left valign-middle"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>Query</strong></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>limit</strong><br>
+<em>optional</em></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">The number of elements in a page.</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">integer</p></td>
+<td class="tableblock halign-left valign-middle"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>Query</strong></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>page</strong><br>
+<em>optional</em></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">The page to query.</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">integer</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>0</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>Query</strong></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>type</strong><br>
+<em>optional</em></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Filter by vehicle type.</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">string</p></td>
+<td class="tableblock halign-left valign-middle"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>Query</strong></p></td>
@@ -2026,12 +2449,13 @@ AND. This means the resulting objects must satisfy all filters. All the string f
 <em>optional</em></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">Filter by build year.</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">integer</p></td>
+<td class="tableblock halign-left valign-middle"></td>
 </tr>
 </tbody>
 </table>
 </div>
-<div class="sect3">
-<h4 id="_responses_17">Responses</h4>
+<div class="sect4">
+<h5 id="_responses_17">Responses</h5>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 10%;">
@@ -2049,13 +2473,89 @@ AND. This means the resulting objects must satisfy all filters. All the string f
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>200</strong></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">OK</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><a href="#_vehicles_get_response_200">Response 200</a></p></td>
+</tr>
+</tbody>
+</table>
+<div id="_vehicles_get_response_200" class="paragraph">
+<p><strong>Response 200</strong></p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 61.1111%;">
+<col style="width: 22.2223%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-middle">Name</th>
+<th class="tableblock halign-left valign-middle">Description</th>
+<th class="tableblock halign-left valign-middle">Schema</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>data</strong><br>
+<em>optional</em></p></td>
+<td class="tableblock halign-left valign-middle"></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">&lt; <a href="#_vehicle">Vehicle</a> &gt; array</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>first</strong><br>
+<em>optional</em></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Link to the first page, if applicable.<br>
+<strong>Example</strong> : <code>"/vehicles&amp;page=0"</code></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">string</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>last</strong><br>
+<em>optional</em></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Link to the last page, if applicable.<br>
+<strong>Example</strong> : <code>"/vehicles&amp;page=100"</code></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">string</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>limit</strong><br>
+<em>optional</em></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">The maximum number of items on a page.<br>
+<strong>Example</strong> : <code>10</code></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">integer</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>next</strong><br>
+<em>optional</em></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Link to the next page, if applicable.<br>
+<strong>Example</strong> : <code>"/vehicles&amp;page=20"</code></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">string</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>offset</strong><br>
+<em>optional</em></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">The number of items before this page (exclusive). This means
+that when offset = 20, this page will contains items 20 to
+20 + limit. For limit = 10, it will be 20 - 29 (including 29).<br>
+<strong>Example</strong> : <code>20</code></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">integer</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>previous</strong><br>
+<em>optional</em></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Link to the previous page, if applicable.<br>
+<strong>Example</strong> : <code>"/vehicles&amp;page=1"</code></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">string</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>total</strong><br>
+<em>optional</em></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Total number of items.<br>
+<strong>Example</strong> : <code>50</code></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">integer</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<div class="sect3">
-<h4 id="_produces_14">Produces</h4>
+<div class="sect4">
+<h5 id="_produces_14">Produces</h5>
 <div class="ulist">
 <ul>
 <li>
@@ -2065,15 +2565,15 @@ AND. This means the resulting objects must satisfy all filters. All the string f
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_vehicles_id_get">Find Company by ID.</h3>
+<div class="sect3">
+<h4 id="_vehicles_id_get">Find Company by ID.</h4>
 <div class="literalblock">
 <div class="content">
 <pre>GET /vehicles/{id}</pre>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_parameters_18">Parameters</h4>
+<div class="sect4">
+<h5 id="_parameters_18">Parameters</h5>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 11.1111%;">
@@ -2100,8 +2600,8 @@ AND. This means the resulting objects must satisfy all filters. All the string f
 </tbody>
 </table>
 </div>
-<div class="sect3">
-<h4 id="_responses_18">Responses</h4>
+<div class="sect4">
+<h5 id="_responses_18">Responses</h5>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 10%;">
@@ -2129,8 +2629,8 @@ AND. This means the resulting objects must satisfy all filters. All the string f
 </tbody>
 </table>
 </div>
-<div class="sect3">
-<h4 id="_produces_15">Produces</h4>
+<div class="sect4">
+<h5 id="_produces_15">Produces</h5>
 <div class="ulist">
 <ul>
 <li>
@@ -2140,15 +2640,15 @@ AND. This means the resulting objects must satisfy all filters. All the string f
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_vehicles_id_put">Update the Vehicle with the given ID</h3>
+<div class="sect3">
+<h4 id="_vehicles_id_put">Update the Vehicle with the given ID</h4>
 <div class="literalblock">
 <div class="content">
 <pre>PUT /vehicles/{id}</pre>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_description_14">Description</h4>
+<div class="sect4">
+<h5 id="_description_14">Description</h5>
 <div class="paragraph">
 <p>Only the attributes that are marked as required should be filled in. The values of the other attributes are generated by the
 server. The server will ignore any data in the not required attributes. A successful response contains an updated <code>Vehicle</code>
@@ -2156,8 +2656,8 @@ object with valid values for the server generated attributes. The following attr
 by the server if present: <code>leasingCompany</code>, <code>company</code>, <code>licensePlate</code>.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_parameters_19">Parameters</h4>
+<div class="sect4">
+<h5 id="_parameters_19">Parameters</h5>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 11.1111%;">
@@ -2191,8 +2691,8 @@ by the server if present: <code>leasingCompany</code>, <code>company</code>, <co
 </tbody>
 </table>
 </div>
-<div class="sect3">
-<h4 id="_responses_19">Responses</h4>
+<div class="sect4">
+<h5 id="_responses_19">Responses</h5>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 10%;">
@@ -2224,11 +2724,15 @@ by the server if present: <code>leasingCompany</code>, <code>company</code>, <co
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>409</strong></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">The vehicle already exists. This is not the same as <code>422</code>. This response
-indicates the request has a correct syntax and the content is correctly formed,
-e.g. the licensePlate has the correct format, but it could not be added
-due to other constraints (such as uniqueness).</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">No Content</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">There was a conflict while updating or saving the model. This is not the
+same as a <code>422</code> code. This response indicates the request has a correct
+syntax and the content is correctly formed, but it still could not be saved.
+An example might be trying to add a vehicle with a chassis number that already
+exists in the database. The error response contains all fields (or the field) that
+triggered the error. Continuing the vehicle example, it would contain the field
+<code>chassisNumber</code>.
+Another example might be trying to delete a company that is still used.</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><a href="#_error">Error</a></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>415</strong></p></td>
@@ -2245,8 +2749,8 @@ should be reported back in the error object.</p></td>
 </tbody>
 </table>
 </div>
-<div class="sect3">
-<h4 id="_consumes_8">Consumes</h4>
+<div class="sect4">
+<h5 id="_consumes_8">Consumes</h5>
 <div class="ulist">
 <ul>
 <li>
@@ -2255,8 +2759,8 @@ should be reported back in the error object.</p></td>
 </ul>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_produces_16">Produces</h4>
+<div class="sect4">
+<h5 id="_produces_16">Produces</h5>
 <div class="ulist">
 <ul>
 <li>
@@ -2266,15 +2770,15 @@ should be reported back in the error object.</p></td>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_vehicles_id_delete">Archive the Vehicle with the given ID.</h3>
+<div class="sect3">
+<h4 id="_vehicles_id_delete">Archive the Vehicle with the given ID.</h4>
 <div class="literalblock">
 <div class="content">
 <pre>DELETE /vehicles/{id}</pre>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_parameters_20">Parameters</h4>
+<div class="sect4">
+<h5 id="_parameters_20">Parameters</h5>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 11.1111%;">
@@ -2301,8 +2805,8 @@ should be reported back in the error object.</p></td>
 </tbody>
 </table>
 </div>
-<div class="sect3">
-<h4 id="_responses_20">Responses</h4>
+<div class="sect4">
+<h5 id="_responses_20">Responses</h5>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 10%;">
@@ -2329,13 +2833,19 @@ should be reported back in the error object.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>409</strong></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">The vehicle could not be archived due to a conflict. An example might
-be that the Vehicle is still being used elsewhere, and the archiving could
-not be automatically cascaded.</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">No Content</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">There was a conflict while updating or saving the model. This is not the
+same as a <code>422</code> code. This response indicates the request has a correct
+syntax and the content is correctly formed, but it still could not be saved.
+An example might be trying to add a vehicle with a chassis number that already
+exists in the database. The error response contains all fields (or the field) that
+triggered the error. Continuing the vehicle example, it would contain the field
+<code>chassisNumber</code>.
+Another example might be trying to delete a company that is still used.</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><a href="#_error">Error</a></p></td>
 </tr>
 </tbody>
 </table>
+</div>
 </div>
 </div>
 </div>
@@ -2418,7 +2928,7 @@ not be automatically cascaded.</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>createdAt</strong><br>
 <em>optional</em></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>Example</strong> : <code>"2016-08-29T09:12:33.001+0000"</code></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">string(date-time)</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">string (date-time)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>id</strong><br>
@@ -2430,7 +2940,7 @@ not be automatically cascaded.</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>lastUpdated</strong><br>
 <em>optional</em></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>Example</strong> : <code>"2016-08-29T09:12:33.001+0000"</code></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">string(date-time)</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">string (date-time)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>lastUpdatedBy</strong><br>
@@ -2448,7 +2958,7 @@ not be automatically cascaded.</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>phoneNumber</strong><br>
 <em>required</em></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>Example</strong> : <code>"+32 56 33 66 00"</code></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">string(phone)</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">string (phone)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>url</strong><br>
@@ -2517,14 +3027,14 @@ having a conflict.</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>createdAt</strong><br>
 <em>optional</em></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>Example</strong> : <code>"2016-08-29T09:12:33.001+0000"</code></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">string(date-time)</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">string (date-time)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>endDate</strong><br>
 <em>optional</em></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">A null value indicates that there is no end on this role.<br>
 <strong>Example</strong> : <code>"2016-08-29T09:12:33.001+0000"</code></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">string(date-time)</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">string (date-time)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>function</strong><br>
@@ -2548,13 +3058,13 @@ having a conflict.</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>startDate</strong><br>
 <em>required</em></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>Example</strong> : <code>"2016-08-29T09:12:33.001+0000"</code></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">string(date-time)</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">string (date-time)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>updatedAt</strong><br>
 <em>optional</em></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>Example</strong> : <code>"2016-08-29T09:12:33.001+0000"</code></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">string(date-time)</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">string (date-time)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>url</strong><br>
@@ -2591,13 +3101,13 @@ having a conflict.</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>createdAt</strong><br>
 <em>optional</em></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>Example</strong> : <code>"2016-08-29T09:12:33.001+0000"</code></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">string(date-time)</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">string (date-time)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>email</strong><br>
 <em>required</em></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>Example</strong> : <code>"<a href="mailto:user@ugent.be">user@ugent.be</a>"</code></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">string(email)</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">string (email)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>firstName</strong><br>
@@ -2621,19 +3131,19 @@ having a conflict.</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>lastUpdatedBy</strong><br>
 <em>optional</em></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>Example</strong> : <code>"2016-08-29T09:12:33.001+0000"</code></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">string(date-time)</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">string (date-time)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>password</strong><br>
 <em>required</em></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>Example</strong> : <code>"<strong><strong></strong></strong>"</code></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">string(password)</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">string (password)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>updatedAt</strong><br>
 <em>optional</em></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>Example</strong> : <code>"2016-08-29T09:12:33.001+0000"</code></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">string(date-time)</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">string (date-time)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>url</strong><br>
@@ -2682,7 +3192,7 @@ having a conflict.</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>createdAt</strong><br>
 <em>optional</em></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>Example</strong> : <code>"2016-08-29T09:12:33.001+0000"</code></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">string(date-time)</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">string (date-time)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>id</strong><br>
@@ -2731,19 +3241,19 @@ having a conflict.</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>updatedAt</strong><br>
 <em>optional</em></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>Example</strong> : <code>"2016-08-29T09:12:33.001+0000"</code></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">string(date-time)</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">string (date-time)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>url</strong><br>
 <em>optional</em></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>Example</strong> : <code>"/vehicles/1"</code></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">string(url)</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">string (url)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>year</strong><br>
 <em>required</em></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>Example</strong> : <code>"2012"</code></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">string(date)</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">string (date)</p></td>
 </tr>
 </tbody>
 </table>
@@ -2753,7 +3263,7 @@ having a conflict.</p></td>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-03-08 21:27:12 Romance (standaardtijd)
+Last updated 2017-03-10 18:51:13 +01:00
 </div>
 </div>
 </body>

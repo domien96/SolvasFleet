@@ -7,16 +7,38 @@ De specificatie staat in het bestand `volledig.yaml`, en volgt [The Open Specifi
 
 ## Lezen
 
-Het lezen van specificatie gebeurt best aan de hand van de gegenereerde bestanden. In de map `generated` zijn
-er 3 verschillende versies. Het bestand `generated-adoc.html` leest het gemakkelijkst, maar voor bepaalde onderdelen
-zijn de andere versies beter.
+Om de documentatie te lezen, wordt de best het HTML-bestand gelezen in de map generated. Als de documentatie
+onduidelijk zou zijn, contacteer de API-beheerder of lees de specificatie zelf.
 
-Als er onduidelijkheden zijn in de bestanden, raadpleeg de specificatie zelf of contacteer de API-beheerder.
+De voornaamste bestanden zijn `generated/generated-primary.html` en `generated/generated-examples.html`.
+Dat laatste bestand bevat ook voorbeelden van antwoorden.
 
-## Genereren
 
-Er zijn twee manieren om leesbare versies te genereren van de specificatie:
+## Generator
 
-1. Met [Swagger CodeGen](http://swagger.io/swagger-codegen/), naar HTML (de beide versies zijn gegeven).
-2. Met [Swagger2Markup](https://github.com/Swagger2Markup/swagger2markup), naar Ascii Doc. Vanuit dit formaat kan het
-dan naar andere formaten overgezet worden (zoals HTML, ook gegeven).
+Er is een generator om zelf het de HTML (of Markdown, AsciiDoc, PDF) te genereren.
+
+Hiervoor moet eerst het project gebuild worden met Gradle. Dit is normaal gezien eenvoudig. 
+Vanuit de `api`-map:
+```
+gradlew build
+```
+
+Daarna kan het worden uitgevoerd:
+```
+java -jar build/libs/ApiGenerator-1.0.jar -i volledig.yaml generated/docs
+```
+Dit zal een HTML-bestand `generated/docs.html` maken.
+
+Volledig gebruik:
+```
+usage: generator [-e | -f <md|adoc|html|pdf> | -i <spec.yaml> | -o
+       <output>]  [-h]
+ -e,--examples                    Generate examples
+ -f,--format <md|adoc|html|pdf>   Output format. Can be md for Markdown,
+                                  adoc for Asciidoc, html for HTML or pdf
+                                  for PDF
+ -h,--help                        Display help and usage
+ -i,--input <spec.yaml>           The API spec file.
+ -o,--output <output>             The output file (without extension)
+```

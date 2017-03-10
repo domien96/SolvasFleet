@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">The API definitions for the first Milestone. </div>
     <div class="app-desc">More information: <a href="https://helloreverb.com">https://helloreverb.com</a></div>
     <div class="app-desc">Contact Info: <a href="hello@helloreverb.com">hello@helloreverb.com</a></div>
-    <div class="app-desc">Version: 0.1.0</div>
+    <div class="app-desc">Version: 0.1.1</div>
     
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -238,13 +238,17 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter by city. </div><div class="param">postalCode (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter by postal code. </div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter by postal code. </div><div class="param">page (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; The page to query. default: 0 </div><div class="param">limit (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; The number of elements in a page. </div>
     </div>  <!-- field-items -->
 
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      array[<a href="#Company">Company</a>]
+      <a href="#inline_response_200">inline_response_200</a>
       
     </div>
 
@@ -252,23 +256,32 @@ font-style: italic;
 
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
-    <pre class="example"><code>[ {
-  "createdAt" : "2016-08-29T09:12:33.001+0000",
-  "lastUpdated" : "2016-08-29T09:12:33.001+0000",
-  "lastUpdatedBy" : "",
-  "phoneNumber" : "+32 56 33 66 00",
-  "address" : {
-    "country" : "België",
-    "city" : "Gent",
-    "street" : "Jozef Plateaustraat",
-    "postalCode" : "9000",
-    "houseNumber" : "52B"
-  },
-  "name" : "aeiou",
-  "id" : "",
-  "url" : "aeiou",
-  "vatNumber" : "BE123456789B01"
-} ]</code></pre>
+    <pre class="example"><code>{
+  "next" : "/vehicles&page=20",
+  "total" : 50,
+  "data" : [ {
+    "createdAt" : "2016-08-29T09:12:33.001+0000",
+    "lastUpdated" : "2016-08-29T09:12:33.001+0000",
+    "lastUpdatedBy" : "",
+    "phoneNumber" : "+32 56 33 66 00",
+    "address" : {
+      "country" : "België",
+      "city" : "Gent",
+      "street" : "Jozef Plateaustraat",
+      "postalCode" : "9000",
+      "houseNumber" : "52B"
+    },
+    "name" : "aeiou",
+    "id" : "",
+    "url" : "aeiou",
+    "vatNumber" : "BE123456789B01"
+  } ],
+  "offset" : 20,
+  "previous" : "/vehicles&page=1",
+  "last" : "/vehicles&page=100",
+  "limit" : 10,
+  "first" : "/vehicles&page=0"
+}</code></pre>
 
     <h3 class="field-label">Produces</h3>
     This API call produces the following media types according to the <span class="header">Accept</span> request header;
@@ -280,7 +293,7 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        
+        <a href="#inline_response_200">inline_response_200</a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="companiesIdDelete"/>
@@ -315,8 +328,8 @@ font-style: italic;
     The resource with the given ID was not found. 
         <a href="#"></a>
     <h4 class="field-label">409</h4>
-    The company could not be archived due to a conflict. An example might be that the company is still being used elsewhere, and the archiving could not be automatically cascaded. 
-        <a href="#"></a>
+    There was a conflict while updating or saving the model. This is not the same as a &#x60;422&#x60; code. This response indicates the request has a correct syntax and the content is correctly formed, but it still could not be saved. An example might be trying to add a vehicle with a chassis number that already exists in the database. The error response contains all fields (or the field) that triggered the error. Continuing the vehicle example, it would contain the field &#x60;chassisNumber&#x60;. Another example might be trying to delete a company that is still used. 
+        <a href="#Error">Error</a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="companiesIdGet"/>
@@ -554,13 +567,17 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter objects before this date format: date-time</div><div class="param">after (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter objects after this date format: date-time</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter objects after this date format: date-time</div><div class="param">page (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; The page to query. default: 0 </div><div class="param">limit (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; The number of elements in a page. </div>
     </div>  <!-- field-items -->
 
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      array[<a href="#Role">Role</a>]
+      <a href="#inline_response_200_1">inline_response_200_1</a>
       
     </div>
 
@@ -568,18 +585,27 @@ font-style: italic;
 
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
-    <pre class="example"><code>[ {
-  "createdAt" : "2016-08-29T09:12:33.001+0000",
-  "lastUpdatedBy" : "",
-  "endDate" : "2016-08-29T09:12:33.001+0000",
-  "function" : "aeiou",
-  "company" : "",
-  "id" : "",
-  "user" : "",
-  "startDate" : "2016-08-29T09:12:33.001+0000",
-  "url" : "aeiou",
-  "updatedAt" : "2016-08-29T09:12:33.001+0000"
-} ]</code></pre>
+    <pre class="example"><code>{
+  "next" : "/vehicles&page=20",
+  "total" : 50,
+  "data" : [ {
+    "createdAt" : "2016-08-29T09:12:33.001+0000",
+    "lastUpdatedBy" : "",
+    "endDate" : "2016-08-29T09:12:33.001+0000",
+    "function" : "aeiou",
+    "company" : "",
+    "id" : "",
+    "user" : "",
+    "startDate" : "2016-08-29T09:12:33.001+0000",
+    "url" : "aeiou",
+    "updatedAt" : "2016-08-29T09:12:33.001+0000"
+  } ],
+  "offset" : 20,
+  "previous" : "/vehicles&page=1",
+  "last" : "/vehicles&page=100",
+  "limit" : 10,
+  "first" : "/vehicles&page=0"
+}</code></pre>
 
     <h3 class="field-label">Produces</h3>
     This API call produces the following media types according to the <span class="header">Accept</span> request header;
@@ -591,7 +617,7 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        
+        <a href="#inline_response_200_1">inline_response_200_1</a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="rolesIdDelete"/>
@@ -626,8 +652,8 @@ font-style: italic;
     The resource with the given ID was not found. 
         <a href="#"></a>
     <h4 class="field-label">409</h4>
-    The role could not be archived due to a conflict. An example might be that the role is the users own role, and archiving the role might cause the user to be locked out. 
-        <a href="#"></a>
+    There was a conflict while updating or saving the model. This is not the same as a &#x60;422&#x60; code. This response indicates the request has a correct syntax and the content is correctly formed, but it still could not be saved. An example might be trying to add a vehicle with a chassis number that already exists in the database. The error response contains all fields (or the field) that triggered the error. Continuing the vehicle example, it would contain the field &#x60;chassisNumber&#x60;. Another example might be trying to delete a company that is still used. 
+        <a href="#Error">Error</a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="rolesIdGet"/>
@@ -790,9 +816,28 @@ font-style: italic;
 
 
 
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#Role">Role</a>
+      
+    </div>
 
     <!--Todo: process Response Object and its headers, schema, examples -->
 
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "createdAt" : "2016-08-29T09:12:33.001+0000",
+  "lastUpdatedBy" : "",
+  "endDate" : "2016-08-29T09:12:33.001+0000",
+  "function" : "aeiou",
+  "company" : "",
+  "id" : "",
+  "user" : "",
+  "startDate" : "2016-08-29T09:12:33.001+0000",
+  "url" : "aeiou",
+  "updatedAt" : "2016-08-29T09:12:33.001+0000"
+}</code></pre>
 
     <h3 class="field-label">Produces</h3>
     This API call produces the following media types according to the <span class="header">Accept</span> request header;
@@ -804,7 +849,7 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#"></a>
+        <a href="#Role">Role</a>
     <h4 class="field-label">400</h4>
     The JSON is malformed. This is a syntax error.
         <a href="#"></a>
@@ -835,13 +880,17 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter by first name. </div><div class="param">lastName (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter by last name. </div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter by last name. </div><div class="param">page (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; The page to query. default: 0 </div><div class="param">limit (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; The number of elements in a page. </div>
     </div>  <!-- field-items -->
 
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      array[<a href="#User">User</a>]
+      <a href="#inline_response_200_2">inline_response_200_2</a>
       
     </div>
 
@@ -849,17 +898,26 @@ font-style: italic;
 
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
-    <pre class="example"><code>[ {
-  "firstName" : "Jan",
-  "lastName" : "Janssens",
-  "createdAt" : "2016-08-29T09:12:33.001+0000",
-  "lastUpdatedBy" : "2016-08-29T09:12:33.001+0000",
-  "password" : "******",
-  "id" : 12345,
-  "email" : "user@ugent.be",
-  "url" : "/users/",
-  "updatedAt" : "2016-08-29T09:12:33.001+0000"
-} ]</code></pre>
+    <pre class="example"><code>{
+  "next" : "/vehicles&page=20",
+  "total" : 50,
+  "data" : [ {
+    "firstName" : "Jan",
+    "lastName" : "Janssens",
+    "createdAt" : "2016-08-29T09:12:33.001+0000",
+    "lastUpdatedBy" : "2016-08-29T09:12:33.001+0000",
+    "password" : "******",
+    "id" : 12345,
+    "email" : "user@ugent.be",
+    "url" : "/users/",
+    "updatedAt" : "2016-08-29T09:12:33.001+0000"
+  } ],
+  "offset" : 20,
+  "previous" : "/vehicles&page=1",
+  "last" : "/vehicles&page=100",
+  "limit" : 10,
+  "first" : "/vehicles&page=0"
+}</code></pre>
 
     <h3 class="field-label">Produces</h3>
     This API call produces the following media types according to the <span class="header">Accept</span> request header;
@@ -871,7 +929,7 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        
+        <a href="#inline_response_200_2">inline_response_200_2</a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="usersIdDelete"/>
@@ -906,8 +964,8 @@ font-style: italic;
     The resource with the given ID was not found. 
         <a href="#"></a>
     <h4 class="field-label">409</h4>
-    The user could not be archived due to a conflict. 
-        <a href="#"></a>
+    There was a conflict while updating or saving the model. This is not the same as a &#x60;422&#x60; code. This response indicates the request has a correct syntax and the content is correctly formed, but it still could not be saved. An example might be trying to add a vehicle with a chassis number that already exists in the database. The error response contains all fields (or the field) that triggered the error. Continuing the vehicle example, it would contain the field &#x60;chassisNumber&#x60;. Another example might be trying to delete a company that is still used. 
+        <a href="#Error">Error</a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="usersIdGet"/>
@@ -1037,8 +1095,8 @@ font-style: italic;
     The resource with the given ID was not found. 
         <a href="#"></a>
     <h4 class="field-label">409</h4>
-    There was a conflict saving the data. This is not the same as &#x60;422&#x60;. This response indicates the request has a correct syntax and the content is correctly formed, but it could not be saved, e.g. if another user already has this email. 
-        <a href="#"></a>
+    There was a conflict while updating or saving the model. This is not the same as a &#x60;422&#x60; code. This response indicates the request has a correct syntax and the content is correctly formed, but it still could not be saved. An example might be trying to add a vehicle with a chassis number that already exists in the database. The error response contains all fields (or the field) that triggered the error. Continuing the vehicle example, it would contain the field &#x60;chassisNumber&#x60;. Another example might be trying to delete a company that is still used. 
+        <a href="#Error">Error</a>
     <h4 class="field-label">415</h4>
     The &#x60;Content-Type&#x60; header is not set to &#x60;application/json&#x60;. 
         <a href="#"></a>
@@ -1071,9 +1129,27 @@ font-style: italic;
 
 
 
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#User">User</a>
+      
+    </div>
 
     <!--Todo: process Response Object and its headers, schema, examples -->
 
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "firstName" : "Jan",
+  "lastName" : "Janssens",
+  "createdAt" : "2016-08-29T09:12:33.001+0000",
+  "lastUpdatedBy" : "2016-08-29T09:12:33.001+0000",
+  "password" : "******",
+  "id" : 12345,
+  "email" : "user@ugent.be",
+  "url" : "/users/",
+  "updatedAt" : "2016-08-29T09:12:33.001+0000"
+}</code></pre>
 
     <h3 class="field-label">Produces</h3>
     This API call produces the following media types according to the <span class="header">Accept</span> request header;
@@ -1085,13 +1161,13 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#"></a>
+        <a href="#User">User</a>
     <h4 class="field-label">400</h4>
     The JSON is malformed. This is a syntax error.
         <a href="#"></a>
     <h4 class="field-label">409</h4>
-    The user already exists. This is not the same as &#x60;422&#x60;. This response indicates the request has a correct syntax and the content is correctly formed,  e.g. the email has the correct format, but a user with this e-mail already exists. 
-        <a href="#"></a>
+    There was a conflict while updating or saving the model. This is not the same as a &#x60;422&#x60; code. This response indicates the request has a correct syntax and the content is correctly formed, but it still could not be saved. An example might be trying to add a vehicle with a chassis number that already exists in the database. The error response contains all fields (or the field) that triggered the error. Continuing the vehicle example, it would contain the field &#x60;chassisNumber&#x60;. Another example might be trying to delete a company that is still used. 
+        <a href="#Error">Error</a>
     <h4 class="field-label">415</h4>
     The &#x60;Content-Type&#x60; header is not set to &#x60;application/json&#x60;. 
         <a href="#"></a>
@@ -1123,13 +1199,19 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter by build year. </div><div class="param">company (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter by company. </div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter by company. </div><div class="param">type (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter by vehicle type. </div><div class="param">page (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; The page to query. default: 0 </div><div class="param">limit (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; The number of elements in a page. </div>
     </div>  <!-- field-items -->
 
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      array[<a href="#Vehicle">Vehicle</a>]
+      <a href="#inline_response_200_3">inline_response_200_3</a>
       
     </div>
 
@@ -1137,22 +1219,31 @@ font-style: italic;
 
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
-    <pre class="example"><code>[ {
-  "lastUpdatedBy" : "",
-  "year" : "2012",
-  "leasingCompany" : "",
-  "type" : "Persoonswagen",
-  "url" : "/vehicles/1",
-  "chassisNumber" : "LJCPCBLCX11000237",
-  "createdAt" : "2016-08-29T09:12:33.001+0000",
-  "licensePlate" : "1-ABC-456",
-  "model" : "Golf 7",
-  "company" : "",
-  "id" : 25,
-  "brand" : "Volkswagen",
-  "mileage" : 132000,
-  "updatedAt" : "2016-08-29T09:12:33.001+0000"
-} ]</code></pre>
+    <pre class="example"><code>{
+  "next" : "/vehicles&page=20",
+  "total" : 50,
+  "data" : [ {
+    "lastUpdatedBy" : "",
+    "year" : "2012",
+    "leasingCompany" : "",
+    "type" : "Persoonswagen",
+    "url" : "/vehicles/1",
+    "chassisNumber" : "LJCPCBLCX11000237",
+    "createdAt" : "2016-08-29T09:12:33.001+0000",
+    "licensePlate" : "1-ABC-456",
+    "model" : "Golf 7",
+    "company" : "",
+    "id" : 25,
+    "brand" : "Volkswagen",
+    "mileage" : 132000,
+    "updatedAt" : "2016-08-29T09:12:33.001+0000"
+  } ],
+  "offset" : 20,
+  "previous" : "/vehicles&page=1",
+  "last" : "/vehicles&page=100",
+  "limit" : 10,
+  "first" : "/vehicles&page=0"
+}</code></pre>
 
     <h3 class="field-label">Produces</h3>
     This API call produces the following media types according to the <span class="header">Accept</span> request header;
@@ -1164,7 +1255,7 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        
+        <a href="#inline_response_200_3">inline_response_200_3</a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="vehiclesIdDelete"/>
@@ -1199,8 +1290,8 @@ font-style: italic;
     The resource with the given ID was not found. 
         <a href="#"></a>
     <h4 class="field-label">409</h4>
-    The vehicle could not be archived due to a conflict. An example might be that the Vehicle is still being used elsewhere, and the archiving could not be automatically cascaded. 
-        <a href="#"></a>
+    There was a conflict while updating or saving the model. This is not the same as a &#x60;422&#x60; code. This response indicates the request has a correct syntax and the content is correctly formed, but it still could not be saved. An example might be trying to add a vehicle with a chassis number that already exists in the database. The error response contains all fields (or the field) that triggered the error. Continuing the vehicle example, it would contain the field &#x60;chassisNumber&#x60;. Another example might be trying to delete a company that is still used. 
+        <a href="#Error">Error</a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="vehiclesIdGet"/>
@@ -1340,8 +1431,8 @@ font-style: italic;
     The resource with the given ID was not found. 
         <a href="#"></a>
     <h4 class="field-label">409</h4>
-    The vehicle already exists. This is not the same as &#x60;422&#x60;. This response indicates the request has a correct syntax and the content is correctly formed,  e.g. the licensePlate has the correct format, but it could not be added due to other constraints (such as uniqueness). 
-        <a href="#"></a>
+    There was a conflict while updating or saving the model. This is not the same as a &#x60;422&#x60; code. This response indicates the request has a correct syntax and the content is correctly formed, but it still could not be saved. An example might be trying to add a vehicle with a chassis number that already exists in the database. The error response contains all fields (or the field) that triggered the error. Continuing the vehicle example, it would contain the field &#x60;chassisNumber&#x60;. Another example might be trying to delete a company that is still used. 
+        <a href="#Error">Error</a>
     <h4 class="field-label">415</h4>
     The &#x60;Content-Type&#x60; header is not set to &#x60;application/json&#x60;. 
         <a href="#"></a>
@@ -1416,8 +1507,8 @@ font-style: italic;
     The JSON is malformed. This is a syntax error.
         <a href="#"></a>
     <h4 class="field-label">409</h4>
-    The vehicle already exists. This is not the same as &#x60;422&#x60;. This response indicates the request has a correct syntax and the content is correctly formed,  e.g. the licensePlate has the correct format, but it could not be added due to other constraints (such as uniqueness). 
-        <a href="#"></a>
+    There was a conflict while updating or saving the model. This is not the same as a &#x60;422&#x60; code. This response indicates the request has a correct syntax and the content is correctly formed, but it still could not be saved. An example might be trying to add a vehicle with a chassis number that already exists in the database. The error response contains all fields (or the field) that triggered the error. Continuing the vehicle example, it would contain the field &#x60;chassisNumber&#x60;. Another example might be trying to delete a company that is still used. 
+        <a href="#Error">Error</a>
     <h4 class="field-label">415</h4>
     The &#x60;Content-Type&#x60; header is not set to &#x60;application/json&#x60;. 
         <a href="#"></a>
@@ -1436,6 +1527,10 @@ font-style: italic;
     <li><a href="#Address"><code>Address</code></a></li>
     <li><a href="#Company"><code>Company</code></a></li>
     <li><a href="#Error"><code>Error</code></a></li>
+    <li><a href="#inline_response_200"><code>inline_response_200</code></a></li>
+    <li><a href="#inline_response_200_1"><code>inline_response_200_1</code></a></li>
+    <li><a href="#inline_response_200_2"><code>inline_response_200_2</code></a></li>
+    <li><a href="#inline_response_200_3"><code>inline_response_200_3</code></a></li>
     <li><a href="#Role"><code>Role</code></a></li>
     <li><a href="#User"><code>User</code></a></li>
     <li><a href="#Vehicle"><code>Vehicle</code></a></li>
@@ -1469,6 +1564,58 @@ font-style: italic;
     <h3 class="field-label"><a name="Error">Error</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">errors (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Contains a list of attributes that have an error. This can range from being required to having a conflict.  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="inline_response_200">inline_response_200</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">data (optional)</div><div class="param-desc"><span class="param-type"><a href="#Company">array[Company]</a></span>  </div>
+<div class="param">total (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Total number of items. </div>
+<div class="param">offset (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The number of items before this page (exclusive). This means that when offset &#x3D; 20, this page will contains items 20 to 20 + limit. For limit &#x3D; 10, it will be 20 - 29 (including 29).  </div>
+<div class="param">limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The maximum number of items on a page. </div>
+<div class="param">previous (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Link to the previous page, if applicable. </div>
+<div class="param">next (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Link to the next page, if applicable. </div>
+<div class="param">first (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Link to the first page, if applicable. </div>
+<div class="param">last (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Link to the last page, if applicable. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="inline_response_200_1">inline_response_200_1</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">data (optional)</div><div class="param-desc"><span class="param-type"><a href="#Role">array[Role]</a></span>  </div>
+<div class="param">total (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Total number of items. </div>
+<div class="param">offset (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The number of items before this page (exclusive). This means that when offset &#x3D; 20, this page will contains items 20 to 20 + limit. For limit &#x3D; 10, it will be 20 - 29 (including 29).  </div>
+<div class="param">limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The maximum number of items on a page. </div>
+<div class="param">previous (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Link to the previous page, if applicable. </div>
+<div class="param">next (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Link to the next page, if applicable. </div>
+<div class="param">first (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Link to the first page, if applicable. </div>
+<div class="param">last (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Link to the last page, if applicable. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="inline_response_200_2">inline_response_200_2</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">data (optional)</div><div class="param-desc"><span class="param-type"><a href="#User">array[User]</a></span>  </div>
+<div class="param">total (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Total number of items. </div>
+<div class="param">offset (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The number of items before this page (exclusive). This means that when offset &#x3D; 20, this page will contains items 20 to 20 + limit. For limit &#x3D; 10, it will be 20 - 29 (including 29).  </div>
+<div class="param">limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The maximum number of items on a page. </div>
+<div class="param">previous (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Link to the previous page, if applicable. </div>
+<div class="param">next (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Link to the next page, if applicable. </div>
+<div class="param">first (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Link to the first page, if applicable. </div>
+<div class="param">last (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Link to the last page, if applicable. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="inline_response_200_3">inline_response_200_3</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">data (optional)</div><div class="param-desc"><span class="param-type"><a href="#Vehicle">array[Vehicle]</a></span>  </div>
+<div class="param">total (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Total number of items. </div>
+<div class="param">offset (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The number of items before this page (exclusive). This means that when offset &#x3D; 20, this page will contains items 20 to 20 + limit. For limit &#x3D; 10, it will be 20 - 29 (including 29).  </div>
+<div class="param">limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The maximum number of items on a page. </div>
+<div class="param">previous (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Link to the previous page, if applicable. </div>
+<div class="param">next (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Link to the next page, if applicable. </div>
+<div class="param">first (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Link to the first page, if applicable. </div>
+<div class="param">last (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Link to the last page, if applicable. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
