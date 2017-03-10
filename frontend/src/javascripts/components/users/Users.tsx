@@ -1,5 +1,5 @@
 import React from 'react';
-import { browserHistory } from'react-router';
+import { browserHistory, Link } from'react-router';
 
 import Card       from '../app/Card.tsx';
 import Header     from '../app/Header.tsx';
@@ -53,7 +53,11 @@ class Users extends React.Component<{}, Users.State> {
     return (
       <div>
         <Header>
-          <h2>Users</h2>
+          <h2>Users
+            <Link to='/users/new'>
+              <span className='glyphicon glyphicon-plus' aria-hidden='true'></span>
+            </Link>
+          </h2>
         </Header>
         <div className='wrapper'>
           <div className='row'>
