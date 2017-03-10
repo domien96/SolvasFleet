@@ -836,7 +836,7 @@ DELETE /vehicles/{id}
 |**firstName**  <br>*required*|**Example** : `"Jan"`|string|
 |**id**  <br>*optional*|**Example** : `12345`|integer|
 |**lastName**  <br>*required*|**Example** : `"Janssens"`|string|
-|**lastUpdatedBy**  <br>*optional*|**Example** : `"2016-08-29T09:12:33.001+0000"`|string (date-time)|
+|**lastUpdatedBy**  <br>*optional*||integer|
 |**password**  <br>*required*|**Example** : `"******"`|string (password)|
 |**updatedAt**  <br>*optional*|**Example** : `"2016-08-29T09:12:33.001+0000"`|string (date-time)|
 |**url**  <br>*optional*|**Example** : `"/users/"`|string|
@@ -860,7 +860,7 @@ DELETE /vehicles/{id}
 |**type**  <br>*required*|**Example** : `"Persoonswagen"`|string|
 |**updatedAt**  <br>*optional*|**Example** : `"2016-08-29T09:12:33.001+0000"`|string (date-time)|
 |**url**  <br>*optional*|**Example** : `"/vehicles/1"`|string (url)|
-|**year**  <br>*required*|**Example** : `"2012"`|string (date)|
+|**year**  <br>*required*|**Example** : `2012`|integer|
 
 
 

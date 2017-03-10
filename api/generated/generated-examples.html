@@ -2218,7 +2218,7 @@ should be reported back in the error object.</p></td>
   "password" : "******",
   "createdAt" : "2016-08-29T09:12:33.001+0000",
   "updatedAt" : "2016-08-29T09:12:33.001+0000",
-  "lastUpdatedBy" : "2016-08-29T09:12:33.001+0000",
+  "lastUpdatedBy" : 0,
   "url" : "/users/"
 }</code></pre>
 </div>
@@ -2239,7 +2239,7 @@ should be reported back in the error object.</p></td>
   "password" : "******",
   "createdAt" : "2016-08-29T09:12:33.001+0000",
   "updatedAt" : "2016-08-29T09:12:33.001+0000",
-  "lastUpdatedBy" : "2016-08-29T09:12:33.001+0000",
+  "lastUpdatedBy" : 0,
   "url" : "/users/"
 }</code></pre>
 </div>
@@ -2591,7 +2591,7 @@ that when offset = 20, this page will contains items 20 to
   "password" : "******",
   "createdAt" : "2016-08-29T09:12:33.001+0000",
   "updatedAt" : "2016-08-29T09:12:33.001+0000",
-  "lastUpdatedBy" : "2016-08-29T09:12:33.001+0000",
+  "lastUpdatedBy" : 0,
   "url" : "/users/"
 }</code></pre>
 </div>
@@ -2749,7 +2749,7 @@ should be reported back in the error object.</p></td>
   "password" : "******",
   "createdAt" : "2016-08-29T09:12:33.001+0000",
   "updatedAt" : "2016-08-29T09:12:33.001+0000",
-  "lastUpdatedBy" : "2016-08-29T09:12:33.001+0000",
+  "lastUpdatedBy" : 0,
   "url" : "/users/"
 }</code></pre>
 </div>
@@ -2770,7 +2770,7 @@ should be reported back in the error object.</p></td>
   "password" : "******",
   "createdAt" : "2016-08-29T09:12:33.001+0000",
   "updatedAt" : "2016-08-29T09:12:33.001+0000",
-  "lastUpdatedBy" : "2016-08-29T09:12:33.001+0000",
+  "lastUpdatedBy" : 0,
   "url" : "/users/"
 }</code></pre>
 </div>
@@ -3042,7 +3042,7 @@ should be reported back in the error object.</p></td>
   "model" : "Golf 7",
   "type" : "Persoonswagen",
   "mileage" : 132000,
-  "year" : "2012",
+  "year" : 2012,
   "leasingCompany" : 0,
   "company" : 0,
   "createdAt" : "2016-08-29T09:12:33.001+0000",
@@ -3068,7 +3068,7 @@ should be reported back in the error object.</p></td>
   "model" : "Golf 7",
   "type" : "Persoonswagen",
   "mileage" : 132000,
-  "year" : "2012",
+  "year" : 2012,
   "leasingCompany" : 0,
   "company" : 0,
   "createdAt" : "2016-08-29T09:12:33.001+0000",
@@ -3452,7 +3452,7 @@ that when offset = 20, this page will contains items 20 to
   "model" : "Golf 7",
   "type" : "Persoonswagen",
   "mileage" : 132000,
-  "year" : "2012",
+  "year" : 2012,
   "leasingCompany" : 0,
   "company" : 0,
   "createdAt" : "2016-08-29T09:12:33.001+0000",
@@ -3616,7 +3616,7 @@ should be reported back in the error object.</p></td>
   "model" : "Golf 7",
   "type" : "Persoonswagen",
   "mileage" : 132000,
-  "year" : "2012",
+  "year" : 2012,
   "leasingCompany" : 0,
   "company" : 0,
   "createdAt" : "2016-08-29T09:12:33.001+0000",
@@ -3642,7 +3642,7 @@ should be reported back in the error object.</p></td>
   "model" : "Golf 7",
   "type" : "Persoonswagen",
   "mileage" : 132000,
-  "year" : "2012",
+  "year" : 2012,
   "leasingCompany" : 0,
   "company" : 0,
   "createdAt" : "2016-08-29T09:12:33.001+0000",
@@ -4060,8 +4060,8 @@ having a conflict.<br>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>lastUpdatedBy</strong><br>
 <em>optional</em></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>Example</strong> : <code>"2016-08-29T09:12:33.001+0000"</code></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">string (date-time)</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>Example</strong> : <code>0</code></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">integer</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>password</strong><br>
@@ -4184,8 +4184,8 @@ having a conflict.<br>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>year</strong><br>
 <em>required</em></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>Example</strong> : <code>"2012"</code></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">string (date)</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><strong>Example</strong> : <code>2012</code></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">integer</p></td>
 </tr>
 </tbody>
 </table>
@@ -4195,7 +4195,7 @@ having a conflict.<br>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-03-10 18:51:30 +01:00
+Last updated 2017-03-10 22:12:32 +01:00
 </div>
 </div>
 </body>

@@ -768,8 +768,7 @@ definitions:
         type: integer
         example: 132000
       year:
-        type: string
-        format: date
+        type: integer
         example: 2012
       leasingCompany:
         type: integer
@@ -854,9 +853,8 @@ definitions:
         format: date-time
         example: 2016-08-29T09:12:33.001Z
       lastUpdatedBy:
-        type: string
-        format: date-time
-        example: 2016-08-29T09:12:33.001Z
+        lastUpdatedBy:
+        type: integer
       url:
         type: string
         example: "/users/"
