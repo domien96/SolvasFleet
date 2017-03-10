@@ -1,11 +1,19 @@
 package matchers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.hamcrest.Matchers;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import solvas.models.Company;
 import solvas.models.Role;
+
+import java.time.LocalDateTime;
+import java.util.Date;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
+import static org.hamcrest.Matchers.anyOf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 /***
@@ -23,9 +31,16 @@ public class RoleMatcher implements TestMatcher<Role> {
      */
     @Override
     public void jsonMatcher(ResultActions res,Role role) throws Exception {
-        res.andExpect(jsonPath("id").value(role.getId()));
-        res.andExpect(jsonPath("function").value(role.getFunction()));
-        res.andExpect(jsonPath("url").value(role.getUrl()));
+        res
+                .andExpect(jsonPath("id").value(role.getId()))
+                .andExpect(jsonPath("function").value(role.getFunction()))
+                .andExpect(jsonPath("url").value(role.getUrl()))
+                .andExpect(jsonPath("createdAt").value(role.getCreatedAt()))
+                .andExpect(jsonPath("updatedAt").value(role.getUpdatedAt()));
+
+        //todo testen inner objects
+
+        //res.andExpect(jsonPath("endDate").value(Matchers.anyOf(Matchers.equalTo())));
 /*       res.andExpect(jsonPath("endDate").value(role.getEndDate()));
         res.andExpect(jsonPath("startDate").value(role.getStartDate()));
         /*res.andExpect(jsonPath("company").value(role.getCompany()));
