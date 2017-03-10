@@ -30,7 +30,11 @@ class User extends React.Component<User.Props, User.State> {
   }
 
   deleteUser(){
-    deleteUser(this.props.params.id);
+    var reloadUsers = this.props.fetchUsers;
+    deleteUser(this.props.params.id)
+    .then(function(this: any) {
+      reloadUsers();
+    });
     browserHistory.push('/users');
   }
 

@@ -43,6 +43,10 @@ class Users extends React.Component<{}, Users.State> {
   }
 
   componentDidMount() {
+    this.fetchUsers();
+  }
+
+  fetchUsers() {
     fetchUsers()
       .then((data : Users.Data) => {
         this.setState({ users: data.users })
@@ -50,6 +54,11 @@ class Users extends React.Component<{}, Users.State> {
   }
 
   render() {
+    const children = React.Children.map(this.props.children,
+      (child : any) => React.cloneElement(child, {
+        fetchUsers: this.fetchUsers.bind(this)
+      })
+    );
     return (
       <div>
         <Header>
@@ -71,7 +80,7 @@ class Users extends React.Component<{}, Users.State> {
             </div>
             <div className='col-xs-12 col-md-5'>
               <Card>
-                { this.props.children }
+                { children }
               </Card>
             </div>
           </div>
