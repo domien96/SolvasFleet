@@ -3,7 +3,7 @@ import { browserHistory, Link } from'react-router';
 
 import Card       from '../app/Card.tsx';
 import Header     from '../app/Header.tsx';
-import { InfoTable, th }  from '../tables/InfoTable.tsx';
+import { InfoTable, th } from '../tables/InfoTable.tsx';
 
 import fetchUsers from '../../actions/fetch_users.ts';
 
@@ -18,7 +18,7 @@ class Overview extends React.Component<OverviewProps, {}> {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  public handleClick(id : number) {
+  handleClick(id : number) {
     browserHistory.push('/users/' + id);
   }
 
@@ -54,9 +54,6 @@ class Users extends React.Component<{}, Users.State> {
       <div>
         <Header>
           <h2>Users
-            <Link to='/users/new'>
-              <span className='glyphicon glyphicon-plus' aria-hidden='true'></span>
-            </Link>
           </h2>
         </Header>
         <div className='wrapper'>
@@ -64,6 +61,10 @@ class Users extends React.Component<{}, Users.State> {
             <div className='col-xs-12 col-md-7'>
               <Card>
                 <div className='card-content'>
+                  <Link to='/users/new' className='btn btn-default pull-right'>
+                    <span className='glyphicon glyphicon-plus' aria-hidden='true'></span>
+                    Add new user
+                  </Link>
                   <Overview users={ this.state.users } />
                 </div>
               </Card>

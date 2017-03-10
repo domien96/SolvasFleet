@@ -1,7 +1,7 @@
 import React from 'react';
 import { browserHistory } from'react-router';
 
-import fetchUser from '../../actions/fetch_user.ts';
+import fetchUser  from '../../actions/fetch_user.ts';
 import deleteUser from '../../actions/delete_user.ts';
 
 class User extends React.Component<User.Props, User.State> {
@@ -29,7 +29,7 @@ class User extends React.Component<User.Props, User.State> {
     }
   }
 
-  public deleteUser(){
+  deleteUser(){
     deleteUser(this.props.params.id);
     browserHistory.push('/users');
   }
@@ -39,15 +39,21 @@ class User extends React.Component<User.Props, User.State> {
 
     return (
       <div className='card-content user'>
-        <span className='pull-right'>
-          <button className='btn btn-default'>
-            <span className='glyphicon glyphicon-edit' />
-          </button>
-          <button onClick = { this.deleteUser } className='btn btn-default'>
-            <span className='glyphicon glyphicon-remove' />
-          </button>
-        </span>
         <h2>{ first_name } { last_name }</h2>
+        <div className='row actions'>
+          <div className='col-sm-6'>
+            <button className='btn btn-default form-control'>
+              <span className='glyphicon glyphicon-edit' />
+              Edit
+            </button>
+          </div>
+          <div className='col-sm-6'>
+            <button onClick = { this.deleteUser } className='btn btn-danger form-control'>
+              <span className='glyphicon glyphicon-remove' />
+              Delete
+            </button>
+          </div>
+        </div>
         <h5>Information</h5>
         <div>email: { email }</div>
         <div>password: { password }</div>
