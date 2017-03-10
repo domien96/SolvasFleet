@@ -1,57 +1,55 @@
 import React from 'react';
 
-import Card       from '../app/Card.tsx';
-import WrappedCol from '../app/WrappedCol.tsx';
-
 import fetchUser from '../../actions/fetch_user.ts';
 
 class User extends React.Component<UserProp, UserState> {
 
   constructor(){
     super();
-    this.state = { first_name: null, last_name: null, email: null, password: null, id: null };
+    this.state = {
+      id: null,
+      first_name: null,
+      last_name: null,
+      email: null,
+      password: null
+    };
   }
 
-  updateUser(){
+  fetchUser(){
     const id = this.props.params.id;
 
-    fetchUser( id )
-      .then((data : UserData) => {
-        this.setState({ 
-          first_name: data.first_name,
-          last_name: data.last_name,
-          email: data.email,
-          password: data.password,
-          id: data.id
-        })
-      }); 
+    fetchUser(id)
+      .then((data : any) => {
+        this.setState(data)
+      });
   }
 
   componentDidMount(){
-    this.updateUser();
+    this.fetchUser();
   }
 
-  componentWillReceiveProps(nextProps : any){
+  componentWillReceiveProps(nextProps : UserProp){
     if(nextProps.params.id != this.props.params.id){
       this.props.params.id = nextProps.params.id;
-      this.updateUser();
+      this.fetchUser();
     }
   }
 
   render() {
+    var { first_name, last_name, email, password } = this.state;
 
     return (
-      <WrappedCol>
-        <Card className='text-center' >
-          <div className='card-content'>
-            <button className='btn btn-default'>Edit User</button>
-            <h2> {this.state.first_name} {this.state.last_name} </h2>
-            <div>{this.state.email}</div>
-            <div>{this.state.password}</div>
-            <button className='btn btn-default'>See Fleets</button>
-          </div>
-        </Card>
-      </WrappedCol>
+      <div className='card-content'>
+        <span className='pull-right'>
+          <span className='glyphicon glyphicon-edit' />
+        </span>
+        <h2>{first_name} {last_name}</h2>
+        <h5>Information</h5>
+        <div>{ email }</div>
+        <div>{ password }</div>
+        <h5>Fleets</h5>
+        <button className='btn btn-default'>See Fleets</button>
+      </div>
     );
   }
 }

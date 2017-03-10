@@ -167,8 +167,13 @@ interface RoleState{
 
 /* Table */
 
+interface tableHead {
+  key: string;
+  label: string
+}
+
 interface InfoTableProps {
-  head: any;
+  head: tableHead[];
   data: any;
   onClick : (e : any) => void;
 }

@@ -4,7 +4,7 @@ import { Link } from'react-router';
 
 import Card       from '../app/Card.tsx';
 import WrappedCol from '../app/WrappedCol.tsx';
-import InfoTable  from '../tables/InfoTable.tsx';
+import { InfoTable }  from '../tables/InfoTable.tsx';
 
 import fetchVehicles from '../../actions/fetch_vehicles.ts';
 
