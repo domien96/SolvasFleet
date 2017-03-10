@@ -1,14 +1,17 @@
 namespace Vehicle {
-  export interface Props { }
+  export interface Props { 
+    [ params : string ] : { [ id : string ] : number };
+    fetchVehicles : () => void;
+  }
 
   export interface State {
     vehicle : Vehicle;
   }
 
   export type Field =
-    'id' | 'licencePlate' | 'chassisNumber' | 'brand'
-      | 'model' | 'type' | 'kmCount' | 'year'
-      | 'leasingCompany' | 'value' | 'company';
+    'id' | 'license_plate' | 'chassis_number' | 'brand'
+      | 'model' | 'type' | 'kilometer_count' | 'year'
+      | 'leasing_company' | 'value' | 'company';
 
 
   namespace New {
@@ -22,15 +25,16 @@ namespace Vehicle {
 }
 
 interface Vehicle {
-  id             : number;
-  licencePlate   : string;
-  chassisNumber  : string; //VIN: vehicle identification number
-  brand          : string;
-  model          : string;
-  type           : string;
-  kmCount        : number;
-  year           : number;
-  leasingCompany : string;
-  value          : number;
-  company        : string
+  id?             : number;
+  license_plate?   : string;
+  chassis_number?  : string; //VIN: vehicle identification number
+  brand?          : string;
+  model?          : string;
+  type?           : string;
+  kilometer_count?        : number;
+  year?           : number;
+  leasing_company? : string;
+  value?          : number;
+  company?        : string
+  [key : string]: string; 
 }
