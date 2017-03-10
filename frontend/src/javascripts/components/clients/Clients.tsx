@@ -6,7 +6,7 @@ import Header     from '../app/Header.tsx';
 
 import { InfoTable, th }  from '../tables/InfoTable.tsx';
 
-import fetchCompanies from '../../actions/fetch_companies.ts';
+import fetchClients from '../../actions/fetch_companies.ts';
 
 
 interface OverviewProps {
@@ -53,14 +53,13 @@ class Clients extends React.Component<{}, Companies.State> {
   }
 
   fetchClients() {
-    fetchCompanies()
+    fetchClients()
       .then((data : Companies.Data) => {
         this.setState({ companies: data.companies })
       });
   }
 
   render() {
-
     return (
       <div>
         <Header>
