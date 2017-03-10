@@ -54,7 +54,7 @@ class Users extends React.Component<{}, Users.State> {
       <div>
         <Header>
           <h2>Users
-            <Link to='users/new'>
+            <Link to='/users/new'>
               <span className='glyphicon glyphicon-plus' aria-hidden='true'></span>
             </Link>
           </h2>
