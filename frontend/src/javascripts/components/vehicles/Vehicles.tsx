@@ -4,7 +4,7 @@ import { Link } from'react-router';
 
 import Card       from '../app/Card.tsx';
 import WrappedCol from '../app/WrappedCol.tsx';
-import { InfoTable }  from '../tables/InfoTable.tsx';
+import { InfoTable, th }  from '../tables/InfoTable.tsx';
 
 import fetchVehicles from '../../actions/fetch_vehicles.ts';
 
@@ -29,12 +29,12 @@ class Vehicles extends React.Component<{}, Vehicles.State> {
 
   render() {
     const tableHead = [
-      { key: 'company', label: 'vehicle.company' },
-      { key: 'leasing_company', label: 'vehicle.leasing_company' },
-      { key: 'chassis_number', label: 'vehicle.chassis_number' },
-      { key: 'licence_plate', label: 'vehicle.license_plate' },
-      { key: 'brand', label: 'vehicle.brand' },
-      { key: 'model', label: 'vehicle.model' }
+      th('company', 'vehicle.company'),
+      th('leasing_company', 'vehicle.leasing_company'),
+      th('chassis_number', 'vehicle.chassis_number') ,
+      th('licence_plate', 'vehicle.license_plate') ,
+      th('brand', 'vehicle.brand') ,
+      th('model', 'vehicle.model') 
     ]
 
     return (
