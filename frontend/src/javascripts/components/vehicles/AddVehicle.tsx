@@ -40,43 +40,6 @@ class GeneralInfo extends React.Component<GeneralInfoProps, {}> {
   }
 }
 
-class Permissions extends React.Component<{}, {}> {
-  render() {
-    return (
-      <div className='col-xs-12'>
-        <Card>
-          <div className='card-title'>
-            <h5>
-              Permissions
-              <small> (Not implemented yet)</small>
-            </h5>
-          </div>
-          <div className='card-content'>
-            <div className='checkbox'>
-              <label>
-                <input type="checkbox" value='' />
-                Premies aanmaken
-              </label>
-            </div>
-            <div className='checkbox'>
-              <label>
-                <input type="checkbox" value='' />
-                Premies wijzigen
-              </label>
-            </div>
-            <div className='checkbox'>
-              <label>
-                <input type="checkbox" value='' />
-                Premies verwijderen
-              </label>
-            </div>
-          </div>
-        </Card>
-      </div>
-    );
-  }
-}
-
 class Submit extends React.Component<{}, {}> {
   render() {
     return (
@@ -145,10 +108,7 @@ class AddVehicle extends React.Component<Vehicle.Props, Vehicle.New.State> {
               <Errors errors={ this.state.errors } />
               <GeneralInfo handleChange={ this.handleChange } hasError={ this.hasError.bind(this) }/>
               <div className='col-xs-12 col-md-5'>
-                <div className='row'>
-                  <Permissions />
-                  <Submit />
-                </div>
+                <Submit />
               </div>
             </div>
           </div>
