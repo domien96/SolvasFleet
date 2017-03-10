@@ -1,6 +1,7 @@
 namespace User {
   export interface Props {
     [ params : string ] : { [ id : string ] : number };
+    fetchUsers : () => void;
   }
 
   export interface State {
