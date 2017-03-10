@@ -19,7 +19,7 @@ export class InfoTable extends React.Component<Table.Props, {}> {
   }
 
   render() {
-    const tableHead = this.props.head.map((headData : any) =>
+    const tableHead = this.props.head.map((headData : Table.Head.Data) =>
     (
       <th key={headData.key} scope='row' className='table-row' >{T.translate(headData.label)}</th>
     ));
