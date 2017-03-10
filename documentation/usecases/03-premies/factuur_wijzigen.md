@@ -32,4 +32,4 @@
 
 * (4). De klant heeft teveel betaald bij een vorige factuur door de wijziging
 
-  a. Het systeem stort het verschil terug of geeft de klant krediet voor de teveel betaalde som (naar ingestelde keuze)
+  a. De aangemaakte factuur wordt getoond aan de makelaar in plaats van verzonden naar de klant. De makelaar ontvangt eveneens een mail van deze factuur.
