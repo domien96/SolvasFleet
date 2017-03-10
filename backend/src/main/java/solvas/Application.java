@@ -18,7 +18,8 @@ import org.springframework.context.annotation.Configuration;
 public class Application {
 
     /**
-     * Start the SolvasFleet application
+     * Start the SolvasFleet application.
+     *
      * @param args The args passed in the command line
      */
     public static void main(String[] args) {
