@@ -43,7 +43,7 @@ public class Generator {
                 return;
             }
 
-            String format = line.getOptionValue("format", HTML);
+            String format = line.getOptionValue("f", HTML);
             MarkupLanguage language = fromString(format);
 
             String input = line.getOptionValue("i");
