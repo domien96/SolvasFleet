@@ -3,7 +3,7 @@
   template:
     src: nginx.conf
     dest: /etc/nginx/sites-enabled/letsencrypt.conf
-  notify: reload nginx
+  notify: nginx reload
 
 - meta: flush_handlers
 
@@ -14,4 +14,4 @@
   file:
     path: /etc/nginx/sites-enabled/webapps/letsencrypt.conf
     state: absent
-  notify: reload nginx
+  notify: nginx reload
