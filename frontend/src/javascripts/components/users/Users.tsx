@@ -62,8 +62,7 @@ class Users extends React.Component<{}, Users.State> {
     return (
       <div>
         <Header>
-          <h2>Users
-          </h2>
+          <h2>Users</h2>  
         </Header>
         <div className='wrapper'>
           <div className='row'>

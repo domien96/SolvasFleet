@@ -3,11 +3,10 @@ import { browserHistory, Link } from'react-router';
 
 import Card       from '../app/Card.tsx';
 import Header     from '../app/Header.tsx';
-//import WrappedCol from '../app/WrappedCol.tsx';
 
 import { InfoTable, th }  from '../tables/InfoTable.tsx';
 
-import fetchCompanies from '../../actions/fetch_companies.ts';
+import fetchClients from '../../actions/fetch_companies.ts';
 
 
 interface OverviewProps {
@@ -49,7 +48,7 @@ class Clients extends React.Component<{}, Companies.State> {
   }
 
   componentDidMount() {
-    fetchCompanies()
+    fetchClients()
       .then((data : Companies.Data) => {
         this.setState({ companies: data.companies })
       });
@@ -59,17 +58,17 @@ class Clients extends React.Component<{}, Companies.State> {
     return (
       <div>
         <Header>
-          <h2>Clients
-            <Link to='/clients/new'>
-              <span className='glyphicon glyphicon-plus' aria-hidden='true'></span>
-            </Link>
-          </h2>
+          <h2>Clients</h2>
         </Header>
         <div className='wrapper'>
           <div className='row'>
             <div className='col-xs-12 col-md-12'>
               <Card>
                 <div className='card-content'>
+                  <Link to='/clients/new' className='btn btn-default pull-right'>
+                    <span className='glyphicon glyphicon-plus' aria-hidden='true'></span>
+                    Add new client
+                  </Link>
                   <Overview companies={ this.state.companies } />
                 </div>
               </Card>

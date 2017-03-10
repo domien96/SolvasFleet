@@ -23,10 +23,10 @@ class GeneralInfo extends React.Component<GeneralInfoProps, {}> {
             <h5>General info</h5>
           </div>
           <div className='card-content'>
-            <FormField placeholder='form.placeholders.first_name' type='text'     callback={ this.props.handleChange.bind(this, 'first_name') } hasError={ this.props.hasError('first_name')} />
-            <FormField placeholder='form.placeholders.last_name'  type='text'     callback={ this.props.handleChange.bind(this, 'last_name')  } hasError={ this.props.hasError('last_name')}  />
-            <FormField placeholder='form.placeholders.email'      type='email'    callback={ this.props.handleChange.bind(this, 'email')      } hasError={ this.props.hasError('email')}      />
-            <FormField placeholder='form.placeholders.password'   type='password' callback={ this.props.handleChange.bind(this, 'password')   } hasError={ this.props.hasError('password')}   />
+            <FormField placeholder='user.first_name' type='text'     callback={ this.props.handleChange.bind(this, 'first_name') } hasError={ this.props.hasError('first_name')} />
+            <FormField placeholder='user.last_name'  type='text'     callback={ this.props.handleChange.bind(this, 'last_name')  } hasError={ this.props.hasError('last_name')}  />
+            <FormField placeholder='user.email'      type='email'    callback={ this.props.handleChange.bind(this, 'email')      } hasError={ this.props.hasError('email')}      />
+            <FormField placeholder='user.password'   type='password' callback={ this.props.handleChange.bind(this, 'password')   } hasError={ this.props.hasError('password')}   />
           </div>
         </Card>
       </div>
