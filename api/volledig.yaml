@@ -1,6 +1,6 @@
 swagger: '2.0'
 info:
-  version: 0.1.0
+  version: 0.1.1
   title: Solvas Fleet API - Milestone 1
   description: |
     The API definitions for the first Milestone.
@@ -32,13 +32,56 @@ paths:
           name: postalCode
           type: string
           description: Filter by postal code.
+        - in: query
+          name: page
+          type: integer
+          description: The page to query.
+          default: 0
+        - in: query
+          name: limit
+          type: integer
+          description: The number of elements in a page.
       responses:
         '200':
           description: OK
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/Company'
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/Company'
+              total:
+                description: Total number of items.
+                example: 50
+                type: integer
+              offset:
+                description: |
+                  The number of items before this page (exclusive). This means
+                  that when offset = 20, this page will contains items 20 to
+                  20 + limit. For limit = 10, it will be 20 - 29 (including 29).
+                example: 20
+                type: integer
+              limit:
+                description: The maximum number of items on a page.
+                example: 10
+                type: integer
+              previous:
+                description: Link to the previous page, if applicable.
+                example: /vehicles&page=1
+                type: string
+              next:
+                description: Link to the next page, if applicable.
+                type: string
+                example: /vehicles&page=20
+              first:
+                description: Link to the first page, if applicable.
+                type: string
+                example: /vehicles&page=0
+              last:
+                description: Link to the last page, if applicable.
+                type: string
+                example: /vehicles&page=100
     post:
       produces:
         - application/json
@@ -116,10 +159,7 @@ paths:
         '404':
           $ref: '#/responses/NotFound'
         '409':
-          description: | 
-            The company could not be archived due to a conflict. An example might
-            be that the company is still being used elsewhere, and the archiving could
-            not be automatically cascaded.
+          $ref: '#/responses/Conflict'
   /vehicles:
     get:
       summary: Get a list of Vehicle objects
@@ -150,13 +190,60 @@ paths:
           name: company
           type: integer
           description: Filter by company.
+        - in: query
+          name: type
+          type: string
+          description: Filter by vehicle type.
+        - in: query
+          name: page
+          type: integer
+          description: The page to query.
+          default: 0
+        - in: query
+          name: limit
+          type: integer
+          description: The number of elements in a page.
       responses:
         200:
           description: OK
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/Vehicle'
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/Vehicle'
+              total:
+                description: Total number of items.
+                example: 50
+                type: integer
+              offset:
+                description: |
+                  The number of items before this page (exclusive). This means
+                  that when offset = 20, this page will contains items 20 to
+                  20 + limit. For limit = 10, it will be 20 - 29 (including 29).
+                example: 20
+                type: integer
+              limit:
+                description: The maximum number of items on a page.
+                example: 10
+                type: integer
+              previous:
+                description: Link to the previous page, if applicable.
+                example: /vehicles&page=1
+                type: string
+              next:
+                description: Link to the next page, if applicable.
+                type: string
+                example: /vehicles&page=20
+              first:
+                description: Link to the first page, if applicable.
+                type: string
+                example: /vehicles&page=0
+              last:
+                description: Link to the last page, if applicable.
+                type: string
+                example: /vehicles&page=100
     post:
       produces:
         - application/json
@@ -182,11 +269,7 @@ paths:
         '400':
           $ref: '#/responses/Malformed'
         '409':
-          description: |
-            The vehicle already exists. This is not the same as `422`. This response
-            indicates the request has a correct syntax and the content is correctly formed, 
-            e.g. the licensePlate has the correct format, but it could not be added
-            due to other constraints (such as uniqueness).
+          $ref: '#/responses/Conflict'
         '422':
           $ref: '#/responses/WrongContent'
         '415':
@@ -237,11 +320,7 @@ paths:
         '404':
           $ref: '#/responses/NotFound'
         '409':
-          description: |
-            The vehicle already exists. This is not the same as `422`. This response
-            indicates the request has a correct syntax and the content is correctly formed, 
-            e.g. the licensePlate has the correct format, but it could not be added
-            due to other constraints (such as uniqueness).
+          $ref: '#/responses/Conflict'
         '422':
           $ref: '#/responses/WrongContent'
         '415':
@@ -254,10 +333,7 @@ paths:
         '404':
           $ref: '#/responses/NotFound'
         '409':
-          description: | 
-            The vehicle could not be archived due to a conflict. An example might
-            be that the Vehicle is still being used elsewhere, and the archiving could
-            not be automatically cascaded.
+          $ref: '#/responses/Conflict'
   /roles:
     get:
       produces:
@@ -287,13 +363,56 @@ paths:
           description: Filter objects after this date
           type: string
           format: date-time
+        - in: query
+          name: page
+          type: integer
+          description: The page to query.
+          default: 0
+        - in: query
+          name: limit
+          type: integer
+          description: The number of elements in a page.
       responses:
         '200':
           description: OK
           schema:
-            type: array
-            items:
-              $ref: "#/definitions/Role"
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/Role'
+              total:
+                description: Total number of items.
+                example: 50
+                type: integer
+              offset:
+                description: |
+                  The number of items before this page (exclusive). This means
+                  that when offset = 20, this page will contains items 20 to
+                  20 + limit. For limit = 10, it will be 20 - 29 (including 29).
+                example: 20
+                type: integer
+              limit:
+                description: The maximum number of items on a page.
+                example: 10
+                type: integer
+              previous:
+                description: Link to the previous page, if applicable.
+                example: /vehicles&page=1
+                type: string
+              next:
+                description: Link to the next page, if applicable.
+                type: string
+                example: /vehicles&page=20
+              first:
+                description: Link to the first page, if applicable.
+                type: string
+                example: /vehicles&page=0
+              last:
+                description: Link to the last page, if applicable.
+                type: string
+                example: /vehicles&page=100
     post:
       produces:
         - application/json
@@ -315,6 +434,8 @@ paths:
       responses:
         '200':
           description: OK
+          schema:
+            $ref: '#/definitions/Role'
         '400':
           $ref: '#/responses/Malformed'
         '422':
@@ -378,10 +499,7 @@ paths:
         '404':
           $ref: '#/responses/NotFound'
         '409':
-          description: | 
-            The role could not be archived due to a conflict. An example might
-            be that the role is the users own role, and archiving the role might
-            cause the user to be locked out.
+          $ref: '#/responses/Conflict'
   /users:
     get:
       produces:
@@ -405,13 +523,56 @@ paths:
           name: lastName
           type: string
           description: Filter by last name.
+        - in: query
+          type: integer
+          name: page
+          description: The page to query.
+          default: 0
+        - in: query
+          name: limit
+          type: integer
+          description: The number of elements in a page.
       responses:
         200:
           description: OK
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/User'
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/User'
+              total:
+                description: Total number of items.
+                example: 50
+                type: integer
+              offset:
+                description: |
+                  The number of items before this page (exclusive). This means
+                  that when offset = 20, this page will contains items 20 to
+                  20 + limit. For limit = 10, it will be 20 - 29 (including 29).
+                example: 20
+                type: integer
+              limit:
+                description: The maximum number of items on a page.
+                example: 10
+                type: integer
+              previous:
+                description: Link to the previous page, if applicable.
+                example: /vehicles&page=1
+                type: string
+              next:
+                description: Link to the next page, if applicable.
+                type: string
+                example: /vehicles&page=20
+              first:
+                description: Link to the first page, if applicable.
+                type: string
+                example: /vehicles&page=0
+              last:
+                description: Link to the last page, if applicable.
+                type: string
+                example: /vehicles&page=100
     post:
       produces:
         - application/json
@@ -432,14 +593,12 @@ paths:
       responses:
         '200':
           description: OK
+          schema:
+            $ref: '#/definitions/User'
         '400':
           $ref: '#/responses/Malformed'
         '409':
-          description: |
-            The user already exists. This is not the same as `422`. This response
-            indicates the request has a correct syntax and the content is correctly formed, 
-            e.g. the email has the correct format, but a user with this e-mail already
-            exists.
+          $ref: '#/responses/Conflict'
         '422':
           $ref: '#/responses/WrongContent'
         '415':
@@ -489,10 +648,7 @@ paths:
         '404':
           $ref: '#/responses/NotFound'
         '409':
-          description: |
-            There was a conflict saving the data. This is not the same as `422`. This response
-            indicates the request has a correct syntax and the content is correctly formed,
-            but it could not be saved, e.g. if another user already has this email.
+          $ref: '#/responses/Conflict'
         '422':
           $ref: '#/responses/WrongContent'
         '415':
@@ -505,8 +661,7 @@ paths:
         '404':
           $ref: '#/responses/NotFound'
         '409':
-          description: | 
-            The user could not be archived due to a conflict.
+          $ref: '#/responses/Conflict'
           
 responses:
   Malformed:
@@ -518,6 +673,18 @@ responses:
       should be reported back in the error object.
     schema:
       $ref: '#/definitions/Error'
+  Conflict:
+    description: |
+      There was a conflict while updating or saving the model. This is not the
+      same as a `422` code. This response indicates the request has a correct
+      syntax and the content is correctly formed, but it still could not be saved.
+      An example might be trying to add a vehicle with a chassis number that already
+      exists in the database. The error response contains all fields (or the field) that
+      triggered the error. Continuing the vehicle example, it would contain the field
+      `chassisNumber`.
+      Another example might be trying to delete a company that is still used.
+    schema:
+          $ref: '#/definitions/Error'
   WrongType:
     description: |
       The `Content-Type` header is not set to `application/json`.
