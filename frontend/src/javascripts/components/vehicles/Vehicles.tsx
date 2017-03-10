@@ -8,7 +8,7 @@ import { InfoTable }  from '../tables/InfoTable.tsx';
 
 import fetchVehicles from '../../actions/fetch_vehicles.ts';
 
-class Vehicles extends React.Component<{}, VehiclesState> {
+class Vehicles extends React.Component<{}, Vehicles.State> {
 
   constructor(props : {}) {
     super(props);
@@ -18,7 +18,7 @@ class Vehicles extends React.Component<{}, VehiclesState> {
 
   componentDidMount() {
     fetchVehicles()
-      .then((data : VehiclesData) => {
+      .then((data : Vehicles.Data) => {
         this.setState({ vehicles: data.vehicles })
       });
   }

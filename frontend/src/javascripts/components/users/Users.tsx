@@ -35,7 +35,7 @@ class Overview extends React.Component<OverviewProps, {}> {
   }
 }
 
-class Users extends React.Component<{}, UsersState> {
+class Users extends React.Component<{}, Users.State> {
 
   constructor(props : {}) {
     super(props);
@@ -44,7 +44,7 @@ class Users extends React.Component<{}, UsersState> {
 
   componentDidMount() {
     fetchUsers()
-      .then((data : UsersData) => {
+      .then((data : Users.Data) => {
         this.setState({ users: data.users })
       });
   }

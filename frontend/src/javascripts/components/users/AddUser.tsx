@@ -9,8 +9,6 @@ import Errors     from '../app/Errors.tsx';
 
 import createUser from '../../actions/create_user.ts';
 
-import { pluck } from '../../utils/utils.ts';
-
 interface GeneralInfoProps {
   handleChange: (field : string, e : any) => void;
   hasError: (e : any) => boolean;
@@ -93,32 +91,29 @@ class Submit extends React.Component<{}, {}> {
   }
 }
 
-class AddUser extends React.Component<UserProps, AddUserState> {
+class AddUser extends React.Component<User.Props, User.New.State> {
 
-  constructor(props : UserProps) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       errors: [ { field: 'first_name', error: 'null' }],
-      first_name: null,
-      last_name: null,
-      email: null,
-      password: null
+      user: {}
     };
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit     = this.onSubmit.bind(this);
     this.hasError     = this.hasError.bind(this);
   }
 
-  public handleChange(field : string, e : any) : void {
-    var state : any = {};
-    state[field] = e.target.value;
-    this.setState(state);
+  public handleChange(field : User.Field, e : any) : void {
+    var newUser : User = this.state.user;
+    newUser[field] = e.target.value;
+    this.setState({ user: newUser });
   }
 
   public onSubmit(e : any) : void {
     e.preventDefault();
 
-    createUser(pluck(this.state, ['first_name', 'last_name', 'email', 'password']))
+    createUser(this.state.user)
     .then(function(response) {
       return response.json()
     })

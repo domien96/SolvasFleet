@@ -2,7 +2,7 @@ import React      from 'react';
 import classNames from 'classnames';
 import T          from 'i18n-react';
 
-export default class FormField extends React.Component<LoginField, {}> {
+export default class FormField extends React.Component<Form.Field.Props, {}> {
   render() {
     const label = T.translate(this.props.placeholder);
     const wrapperClasses = classNames('form-group', { 'has-error': this.props.hasError });

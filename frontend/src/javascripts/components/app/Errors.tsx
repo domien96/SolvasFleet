@@ -3,7 +3,7 @@ import T     from 'i18n-react';
 
 import { humanize } from '../../utils/utils.ts';
 
-class Errors extends React.Component<ErrorsProps, {}> {
+class Errors extends React.Component<Form.Errors.Props, {}> {
   render() {
     if (this.props.errors.length == 0) {
       return null;
