@@ -28,6 +28,7 @@ class Sidebar extends React.Component<{}, {}> {
           <SidebarLink path='/'>Home</SidebarLink>
           <SidebarLink path='/users'>Users</SidebarLink>
           <SidebarLink path='/clients'>Clients</SidebarLink>
+          <SidebarLink path='/vehicles'>Vehicles</SidebarLink>
         </ul>
       </nav>
     );

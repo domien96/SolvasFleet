@@ -6,18 +6,8 @@ form:
     vatNumber: VAT number 
     phoneNumber: Phone number
     address: Address
-    licencePlate: Licence plate
-    chassisNumber: Vehicle Identification Number 
-    brand: Brand
-    model: Model
-    type: Type
-    kmCount: Kilometer count
-    year: Year of manufacture
-    leasingCompany: Leasing company
-    value: Estimated value
-    company: Company
-    firstName: First name
-    lastName: Last name
+    first_name: First name
+    last_name: Last name
     permission: Function in company
     permissionShort: Function
 login:
@@ -35,6 +25,26 @@ addRole:
 company:
   id: ID
   name: Name
-  vatNumber: VAT number
-  phoneNumber: Phone number
+  vat_number: VAT number
+  phone_number: Phone number
   address: Address
+errors:
+  null: is empty
+vehicle:
+  license_plate: License plate
+  chassis_number: Vehicle Identification Number 
+  brand: Brand
+  model: Model
+  type: Type
+  kilometer_count: Kilometer count
+  year: Year of manufacture
+  leasing_company: Leasing company
+  value: Estimated value
+  company: Company
+user:
+  id: ID
+  email: Email
+  password: Password
+  address: Address
+  first_name: First name
+  last_name: Last name

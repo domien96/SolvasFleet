@@ -1,18 +1,17 @@
 import React from 'react';
 import T from 'i18n-react';
-import { Link } from 'react-router';
+import { browserHistory, Link } from 'react-router';
 
 import Card       from '../app/Card.tsx';
 import FormField  from '../forms/FormField.tsx';
 import Header     from '../app/Header.tsx';
+import Errors     from '../app/Errors.tsx';
 
 import createUser from '../../actions/create_user.ts';
 
-import { pluck } from '../../utils/utils.ts';
-
 interface GeneralInfoProps {
-  handleChange: any;
-  hasError: any;
+  handleChange: (field : string, e : any) => void;
+  hasError: (e : any) => boolean;
 }
 
 class GeneralInfo extends React.Component<GeneralInfoProps, {}> {
@@ -24,10 +23,10 @@ class GeneralInfo extends React.Component<GeneralInfoProps, {}> {
             <h5>General info</h5>
           </div>
           <div className='card-content'>
-            <FormField placeholder='form.placeholders.firstName' type='text'     callback={ this.props.handleChange.bind(this, 'firstName') } hasError={ this.props.hasError('firstName')} />
-            <FormField placeholder='form.placeholders.lastName'  type='text'     callback={ this.props.handleChange.bind(this, 'lastName')  } hasError={ this.props.hasError('lastName')}  />
-            <FormField placeholder='form.placeholders.email'     type='email'    callback={ this.props.handleChange.bind(this, 'email')     } hasError={ this.props.hasError('email')}     />
-            <FormField placeholder='form.placeholders.password'  type='password' callback={ this.props.handleChange.bind(this, 'password')  } hasError={ this.props.hasError('password')}  />
+            <FormField placeholder='form.placeholders.first_name' type='text'     callback={ this.props.handleChange.bind(this, 'first_name') } hasError={ this.props.hasError('first_name')} />
+            <FormField placeholder='form.placeholders.last_name'  type='text'     callback={ this.props.handleChange.bind(this, 'last_name')  } hasError={ this.props.hasError('last_name')}  />
+            <FormField placeholder='form.placeholders.email'      type='email'    callback={ this.props.handleChange.bind(this, 'email')      } hasError={ this.props.hasError('email')}      />
+            <FormField placeholder='form.placeholders.password'   type='password' callback={ this.props.handleChange.bind(this, 'password')   } hasError={ this.props.hasError('password')}   />
           </div>
         </Card>
       </div>
@@ -92,35 +91,34 @@ class Submit extends React.Component<{}, {}> {
   }
 }
 
-class AddUser extends React.Component<UserProps, UserState> {
+class AddUser extends React.Component<User.Props, User.New.State> {
 
-  constructor(props : UserProps) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
-      errors: [],
-      firstName: null,
-      lastName: null,
-      email: null,
-      password: null
+      errors: [ { field: 'first_name', error: 'null' }],
+      user: {}
     };
-    this.onSubmit = this.onSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.onSubmit     = this.onSubmit.bind(this);
+    this.hasError     = this.hasError.bind(this);
   }
 
-  public handleChange(field : string, e : any) : void {
-    var state : any = {};
-    state[field] = e.target.value;
-    this.setState(state);
+  public handleChange(field : User.Field, e : any) : void {
+    var newUser : User = this.state.user;
+    newUser[field] = e.target.value;
+    this.setState({ user: newUser });
   }
 
   public onSubmit(e : any) : void {
     e.preventDefault();
 
-    createUser(pluck(this.state, ['firstName']))
+    createUser(this.state.user)
     .then(function(response) {
       return response.json()
     })
-    .then((data : any) => {
-      console.log(data);
+    .then(() => {
+      browserHistory.push('/users');
     });
   }
 
@@ -138,6 +136,7 @@ class AddUser extends React.Component<UserProps, UserState> {
         <form method='post' onSubmit={ this.onSubmit } >
           <div className='wrapper'>
             <div className='row'>
+              <Errors errors={ this.state.errors } />
               <GeneralInfo handleChange={ this.handleChange } hasError={ this.hasError.bind(this) }/>
               <div className='col-xs-12 col-md-5'>
                 <div className='row'>
