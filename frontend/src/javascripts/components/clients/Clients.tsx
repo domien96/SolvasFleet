@@ -48,11 +48,6 @@ class Clients extends React.Component<{}, Companies.State> {
   }
 
   componentDidMount() {
-    console.log("mounting")
-    this.fetchClients();
-  }
-
-  fetchClients() {
     fetchClients()
       .then((data : Companies.Data) => {
         this.setState({ companies: data.companies })

@@ -20,8 +20,9 @@ class Client extends React.Component<Company.Props, Company.State> {
   }
 
   public deleteClient(){
-    deleteClient(this.props.params.id);
-    browserHistory.push('/clients');
+    deleteClient(this.props.params.id).then(function(this: any) {
+      browserHistory.push('/clients');
+    });
   }
 
   render() {
