@@ -48,7 +48,7 @@ public class VehicleMatcher implements TestMatcher<Vehicle> {
     @Override
     public void performAsserts(Vehicle actual, Vehicle expected) {
         assertThat(actual.getId(),is(equalTo(expected.getId())));
-        assertThat(actual.getUrl(),is(equalTo(expected.getUrl())));
+        //assertThat(actual.getUrl(),is(equalTo(expected.getUrl())));
         assertThat(actual.getLicensePlate(),is(equalTo(expected.getLicensePlate())));
         assertThat(actual.getValue(),is(equalTo(expected.getValue())));
         assertThat(actual.getChassisNumber(),is(equalTo(expected.getChassisNumber())));

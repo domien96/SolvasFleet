@@ -57,7 +57,7 @@ public class RoleMatcher implements TestMatcher<Role> {
     public void performAsserts(Role actual, Role expected) {
         assertThat(actual.getId(),is(equalTo(expected.getId())));
         assertThat(actual.getFunction(),is(equalTo(expected.getFunction())));
-        assertThat(actual.getUrl(),is(equalTo(expected.getUrl())));
+        //assertThat(actual.getUrl(),is(equalTo(expected.getUrl())));
 
         /*assertThat(actual.getEndDate(),is(equalTo(expected.getEndDate())));
         assertThat(actual.getStartDate(),is(equalTo(expected.getStartDate())));
