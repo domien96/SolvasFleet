@@ -26,7 +26,7 @@ gradlew build
 
 Daarna kan het worden uitgevoerd:
 ```
-java -jar build/libs/ApiGenerator-1.0.jar -i volledig.yaml generated/docs
+java -jar build/libs/ApiGenerator-1.0.jar -i volledig.yaml -o generated/docs
 ```
 Dit zal een HTML-bestand `generated/docs.html` maken.
 
