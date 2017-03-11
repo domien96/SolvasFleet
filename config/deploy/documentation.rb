@@ -8,7 +8,6 @@ server "vopro6.ugent.be",
   }
 
 set :deploy_to, '/srv/documentation'
-set :repo_tree, 'documentation'
 
 after 'deploy:updated', 'docs:create_release'
 
