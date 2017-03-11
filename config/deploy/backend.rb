@@ -10,6 +10,8 @@ server "vopro6.ugent.be",
 set :deploy_to, '/srv/backend'
 set :repo_tree, 'backend'
 
+set :linked_files, %w(build/libs/application.properties)
+
 after 'deploy:updated', 'gradle:build'
 
 namespace :gradle do
