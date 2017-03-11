@@ -26,6 +26,15 @@ public class CompanyRestController extends AbstractRestController<Company> {
         super(dao);
     }
 
+    /**
+     * Query all models, accounting for pagination settings and respect the filters. The return value of this
+     * method will contain an object, according to the API spec.
+     *
+     * @param pagination The pagination information.
+     * @param filter The filters.
+     *
+     * @return ResponseEntity
+     */
     @RequestMapping(value = "/companies", method = RequestMethod.GET)
     public ResponseEntity<?> listAll(PaginationFilter pagination, CompanyFilter filter) {
         return super.listAll(pagination, filter);

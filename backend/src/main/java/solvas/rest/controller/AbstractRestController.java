@@ -34,6 +34,9 @@ public abstract class AbstractRestController<T extends Model> {
      * Query all models, accounting for pagination settings and respect the filters. The return value of this
      * method will contain an object, according to the API spec.
      *
+     * @param pagination The pagination information.
+     * @param filterable The filters.
+     *
      * @return ResponseEntity
      */
     protected ResponseEntity<?> listAll(Pageable pagination, Filterable<T> filterable) {

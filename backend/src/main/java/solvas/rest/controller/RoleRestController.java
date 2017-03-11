@@ -26,10 +26,20 @@ public class RoleRestController extends AbstractRestController<Role> {
         super(dao);
     }
 
+    /**
+     * Query all models, accounting for pagination settings and respect the filters. The return value of this
+     * method will contain an object, according to the API spec.
+     *
+     * @param pagination The pagination information.
+     * @param filter The filters.
+     *
+     * @return ResponseEntity
+     */
     @RequestMapping(value = "/roles", method = RequestMethod.GET)
     public ResponseEntity<?> listAll(PaginationFilter pagination, RoleFilter filter) {
         return super.listAll(pagination, filter);
     }
+
 
     @Override
     @RequestMapping(value = "/roles/{id}", method = RequestMethod.GET)
