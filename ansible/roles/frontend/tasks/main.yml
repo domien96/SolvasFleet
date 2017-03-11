@@ -1,0 +1,44 @@
+---
+
+- name: add frontend to keyslaves
+  user:
+    name: frontend
+    groups: keyslaves
+    append: true
+    shell: /bin/bash
+
+- name: create /srv/frontend folder
+  file:
+    path: /srv/frontend
+    mode: 0750
+    owner: frontend
+    group: frontend
+    state: directory
+
+- name: add www-data to frontend group
+  user:
+    name: www-data
+    groups: frontend
+    append: true
+
+- name: create config dirs
+  file:
+    path: /srv/frontend/{{ item }}
+    owner: frontend
+    group: frontend
+    state: directory
+  with_items:
+    - shared
+    - shared/src
+    - shared/src/javascripts
+    - shared/src/javascripts/constants
+
+- name: shared files
+  template:
+    src: "{{ item }}"
+    dest: /srv/frontend/shared/{{ item }}
+    owner: frontend
+    group: frontend
+  with_items:
+    - webpack.config.js
+    - src/javascripts/constants/constants.ts
