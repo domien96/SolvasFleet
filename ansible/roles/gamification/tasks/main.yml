@@ -49,6 +49,7 @@
     - shared
     - shared/config
     - shared/config/initializers
+    - shared/config/environments
 
 - name: shared files
   template:
@@ -59,3 +60,7 @@
   with_items:
     - config/database.yml
     - config/secrets.yml
+    - config/application.rb
+    - config/initializers/devise.rb
+    - config/initializers/github.rb
+    - config/environments/production.rb

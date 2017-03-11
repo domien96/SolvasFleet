@@ -7,9 +7,9 @@
     #  - role: documentation
     #      - role: sonarqube
     #  - role: snapshots
-    #      - role: gamification
-    - role: frontend
-    - role: backend
+      - role: gamification
+    # - role: frontend
+    # - role: backend
   vars_files:
     - vars/passwords.yml
     - vars/common.yml
