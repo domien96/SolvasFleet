@@ -37,3 +37,19 @@
     template: template0
   become: true
   become_user: postgres
+
+- name: Create solvasFleet systemd service
+  template:
+    src: solvasFleet.service
+    dest: /etc/systemd/system/solvasFleet.service
+
+- name: Enable solvasFleet systemd service
+  systemd:
+    name: solvasFleet
+    enabled: true
+
+- name: Allow backend user to restart solvasFleet service
+  lineinfile:
+    dest: /etc/sudoers
+    line: "%backend ALL= NOPASSWD: /bin/systemctl restart solvasFleet"
+    validate: visudo -cf %s
