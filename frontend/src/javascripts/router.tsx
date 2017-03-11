@@ -19,6 +19,7 @@ import Vehicle    from './components/vehicles/Vehicle.tsx';
 import NoVehicle    from './components/vehicles/NoVehicle.tsx';
 import AddVehicle    from './components/vehicles/AddVehicle.tsx';
 
+import Fleets from './components/fleets/Fleets.tsx';
 
 import NoMatch   from './components/NoMatch.tsx';
 
@@ -38,6 +39,7 @@ class SolvasRouter extends React.Component<{}, {}> {
           <Route path="/clients"     component={ Clients   } />
           <Route path="/clients/new" component={ AddClient } />
           <Route path="/clients/:id" component={ Client    } />
+          <Route path="/clients/:id/fleets" component = { Fleets } />
 
           <Route path="/vehicles/new"     component={ AddVehicle } />
           <Route path="/vehicles"         component={ Vehicles }>

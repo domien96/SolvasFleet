@@ -21,6 +21,7 @@ namespace Company {
 }
 
 interface Company {
+  id?           : number
   name?        : string;
   vat_number?   : string;
   phone_number? : string;
