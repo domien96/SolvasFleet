@@ -1,0 +1,18 @@
+.card {
+  background-color: #fff;
+  margin-bottom: 25px;
+
+  .card-title {
+    border-top: 2px solid #e7eaec;
+    padding: 15px 15px 7px;
+
+    h5 {
+      font-weight: 500;
+    }
+  }
+
+  .card-content {
+    border-top: 1px solid #e7eaec;
+    padding: 20px;
+  }
+}

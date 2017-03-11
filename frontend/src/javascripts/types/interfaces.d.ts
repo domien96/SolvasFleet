@@ -1,107 +1,34 @@
-/* Login */
+/// <reference path="form.d.ts"/>
+/// <reference path="user.d.ts"/>
+/// <reference path="users.d.ts"/>
+/// <reference path="company.d.ts"/>
+/// <reference path="companies.d.ts"/>
+/// <reference path="vehicle.d.ts"/>
+/// <reference path="vehicles.d.ts"/>
+/// <reference path="role.d.ts"/>
+/// <reference path="table.d.ts"/>
 
-interface LoginProps {
-  url : string;
+/* Sidebar */
+
+interface SidebarLinkProps {
+  path: string;
 }
 
-interface LoginState {
-  errors : FormError[];
-  email : string;
-  password : string;
+/* Card */
+
+interface CardProps {
+  className?: string;
 }
 
-interface LoginField {
-  placeholder : string;
-  type : string;
-  hasError: boolean;
-  callback : (e : any) => void;
+/* WrappedCol */
+
+interface WrappedColProps {
+  cols?: number;
 }
 
-/* Form Errors */
+/* App */
 
-interface FormError {
-  field : string;
-  error : string;
+interface AppProps {
+  location: any;
 }
 
-/* Company */
-
-interface CompanyProps{
-  url : string;
-}
-
-interface CompanyState{
-  errors : FormError[];
-  name : string;
-  vatNumber : string;
-  phoneNumber : string;
-  address : string;
-}
-
-/* Companies */
-
-interface Company {
-  name:         string;
-  VATnumber:    string;
-  phone_number: string;
-  address:      string;
-}
-
-interface CompaniesProps { }
-
-interface CompaniesState {
-  companies: Company[];
-}
-
-interface CompaniesData {
-  [ companies : string ] : any;
-}
-
-/* Vehicle */
-
-interface VehicleProps{
-  url : string;
-}
-
-interface VehicleState{
-  errors: FormError[];
-  licencePlate: string;
-  chassisNumber: string; //VIN: vehicle identification number
-  brand: string;
-  model: string;
-  type: string;
-  kmCount: number;
-  year: number;
-  leasingCompany: string;
-  value: number;
-  company: string;
-}
-
-/* User */
-
-interface UserProps{
-  url: string;
-}
-
-interface UserState{
-  errors: FormError[];
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-}
-
-/* Role */
-
-interface RoleProps{
-  url: string;
-}
-
-interface RoleState{
-  errors: FormError[];
-  company: string;
-  permission: string;
-  user: string;
-  startDate: string;
-  endDate: string;
-}

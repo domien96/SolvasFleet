@@ -1,6 +1,10 @@
 import React from 'react';
 
+
 import fetchCompanies from '../actions/fetch_companies.ts';
+import InfoTable from './tables/InfoTable.tsx';
+import Card       from './app/Card.tsx';
+import WrappedCol from './app/WrappedCol.tsx';
 
 class Companies extends React.Component<CompaniesProps, CompaniesState> {
 
@@ -17,13 +21,24 @@ class Companies extends React.Component<CompaniesProps, CompaniesState> {
   }
 
   render() {
-    const companies = this.state.companies.map((c, i) =>
-      <div key={ i } >{ c.name }</div>
-    );
+    //label = translation key for i18n
+    const tableHead = [
+      { key: 'id', label: 'company.id' },
+      { key: 'name', label: 'company.name' },
+      { key: 'VATnumber', label: 'company.vatNumber' },
+      { key: 'phoneNumber', label: 'company.phoneNumber' },
+      { key: 'address', label: 'company.address' }
+    ];
+
     return (
-      <div>
-        { companies }
-      </div>
+      <WrappedCol cols={ 12 }>
+        <Card>
+          <div className='card-title'><h5>List of all companies</h5></div>
+          <div className='card-content'>
+            <InfoTable head={tableHead} data={this.state.companies}/>  
+          </div>
+        </Card>
+      </WrappedCol>
     );
   }
 }

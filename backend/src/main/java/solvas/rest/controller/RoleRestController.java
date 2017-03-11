@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import solvas.models.Role;
-import solvas.persistence.Role.RoleDao;
+import solvas.persistence.role.RoleDao;
 
 
 /**
@@ -26,31 +26,31 @@ public class RoleRestController extends AbstractRestController<Role> {
 
     @Override
     @RequestMapping(value = "/roles", method = RequestMethod.GET)
-    ResponseEntity<?> listAll() {
-        return super.listAll();
+    public ResponseEntity<?> listAll() {
+        return super.listAll("roles");
     }
 
     @Override
     @RequestMapping(value = "/roles/{id}", method = RequestMethod.GET)
-    ResponseEntity<?> getById(@PathVariable int id) {
+    public ResponseEntity<?> getById(@PathVariable int id) {
         return super.getById(id);
     }
 
     @Override
     @RequestMapping(value = "/roles", method = RequestMethod.POST)
-    ResponseEntity<?> post(@RequestBody Role input) {
+    public ResponseEntity<?> post(@RequestBody Role input) {
         return super.post(input);
     }
 
     @Override
     @RequestMapping(value = "/roles/{id}", method = RequestMethod.DELETE)
-    ResponseEntity<?> deleteById(@PathVariable int id) {
+    public ResponseEntity<?> deleteById(@PathVariable int id) {
         return super.deleteById(id);
     }
 
     @Override
     @RequestMapping(value = "/roles", method = RequestMethod.PUT)
-    ResponseEntity<?> put(@RequestBody Role input) {
+    public ResponseEntity<?> put(@RequestBody Role input) {
         return super.put(input);
     }
 }

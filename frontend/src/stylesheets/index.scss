@@ -1,3 +1,38 @@
-@import './form.scss';
+@import './variables.scss';
+
+@import './cards.scss';
+@import './404.scss';
 @import './layout.scss';
-@import './form-wrapper.scss';
+@import './nav.scss';
+@import './user.scss';
+@import './table.scss';
+
+body {
+  background-color: $gray-lightest;
+  font-size: 13px;
+  color: #676a6c;
+  background-color: #2f4050;
+}
+
+/* ALIGNMENTS */
+
+.text-center {
+  text-align: center;
+}
+
+/* PADDING */
+
+.padding-md {
+  padding: 25px;
+}
+
+.wrapper {
+  padding: 20px 10px 40px;
+}
+
+/* HEADERS */
+
+h1, h2, h3, h4, h5, h6, h7 {
+  margin: 0;
+  font-weight: 200;
+}
