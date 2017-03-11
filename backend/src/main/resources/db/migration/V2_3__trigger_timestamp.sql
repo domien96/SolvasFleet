@@ -22,6 +22,7 @@ $$ language 'plpgsql';
 
 
 -- create
+
 CREATE TRIGGER update_updated_at BEFORE UPDATE
   ON companies FOR EACH ROW EXECUTE PROCEDURE  update_updated_at_column();
 

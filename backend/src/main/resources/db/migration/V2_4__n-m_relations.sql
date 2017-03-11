@@ -15,18 +15,21 @@ CREATE TABLE company_users (
 );
 
 -- users m : n roles
-DROP TABLE IF EXISTS userroles;
-CREATE TABLE userroles (
+DROP TABLE IF EXISTS user_company_roles;
+CREATE TABLE user_company_roles (
   user_id INT NOT NULL,
   role_id INT NOT NULL,
-  PRIMARY KEY (user_id,role_id),
+  company_id INT NOT NULL,
+  PRIMARY KEY (user_id,role_id,company_id),
   FOREIGN KEY (user_id) REFERENCES users(user_id),
-  FOREIGN KEY (role_id) REFERENCES roles(role_id)
+  FOREIGN KEY (role_id) REFERENCES roles(role_id),
+  FOREIGN KEY (company_id) REFERENCES companies(company_id)
+
 );
 
 -- roles m : n permissions
-DROP TABLE IF EXISTS rolepermissions;
-CREATE TABLE rolepermissions (
+DROP TABLE IF EXISTS role_permissions;
+CREATE TABLE role_permissions (
   role_id INT NOT NULL,
   permission_id INT NOT NULL,
   PRIMARY KEY (role_id,permission_id),
