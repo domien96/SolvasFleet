@@ -5,6 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import solvas.models.Role;
 import solvas.persistence.role.RoleDao;
+import solvas.rest.query.PaginationFilter;
+import solvas.rest.query.RoleFilter;
 
 
 /**
@@ -24,10 +26,9 @@ public class RoleRestController extends AbstractRestController<Role> {
         super(dao);
     }
 
-    @Override
     @RequestMapping(value = "/roles", method = RequestMethod.GET)
-    public ResponseEntity<?> listAll() {
-        return super.listAll("roles");
+    public ResponseEntity<?> listAll(PaginationFilter pagination, RoleFilter filter) {
+        return super.listAll(pagination, filter);
     }
 
     @Override

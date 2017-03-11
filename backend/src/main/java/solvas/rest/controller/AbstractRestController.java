@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import solvas.models.Model;
 import solvas.persistence.Dao;
 import solvas.persistence.EntityNotFoundException;
+import solvas.rest.query.Filterable;
+import solvas.rest.query.Pageable;
 import solvas.rest.utils.JsonListWrapper;
 
 /**
@@ -29,20 +31,18 @@ public abstract class AbstractRestController<T extends Model> {
     }
 
     /**
-     * Lists all models, and wrap them in JSON object with key
+     * Query all models, accounting for pagination settings and respect the filters. The return value of this
+     * method will contain an object, according to the API spec.
      *
      * @return ResponseEntity
      */
-    protected ResponseEntity<?> listAll(String key) {
-        return new ResponseEntity<>(new JsonListWrapper<T>(dao.findAll(), key), HttpStatus.OK);
+    protected ResponseEntity<?> listAll(Pageable pagination, Filterable<T> filterable) {
+        JsonListWrapper<T> wrapper = new JsonListWrapper<>(dao.findAll(pagination, filterable));
+        wrapper.put("limit", pagination.getLimit());
+        wrapper.put("offset", pagination.getLimit() * pagination.getPage());
+        wrapper.put("total", dao.count(filterable));
+        return new ResponseEntity<>(wrapper, HttpStatus.OK);
     }
-
-    /**
-     * List all models.
-     *
-     * @return ReponseEntity
-     */
-    public abstract ResponseEntity<?> listAll();
 
     /**
      * Show the model with the given ID.
