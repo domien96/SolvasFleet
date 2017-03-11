@@ -22,7 +22,7 @@ public class Company extends Model {
     private Set<User> representatives;
 
 
-    protected Company() {
+    public Company() {
     } // Hibernate wants a no-arg constructor
 
     public String getName() {

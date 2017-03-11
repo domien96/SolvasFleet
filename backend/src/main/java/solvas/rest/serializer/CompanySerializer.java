@@ -1,4 +1,4 @@
-package solvas.rest.utils.serializer;
+package solvas.rest.serializer;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -23,14 +23,17 @@ public class CompanySerializer extends StdSerializer<Company> {
     @Override
     public void serialize(Company value, JsonGenerator gen, SerializerProvider provider) throws IOException,JsonProcessingException {
         gen.writeStartObject();
-        gen.writeNumber(value.getId());
-        gen.writeString(value.getName());
-        gen.writeString(value.getPhoneNumber());
+        gen.writeNumberField("id",value.getId());
+        gen.writeStringField("name",value.getName());
+        gen.writeStringField("vatNumber",value.getVatNumber());
+        gen.writeStringField("phoneNumber",value.getPhoneNumber());
         //TODO adress
         //gen.writeString
-
-
-
+        gen.writeObjectField("createdAt",value.getCreatedAt());
+        gen.writeObjectField("lastUpdated",value.getUpdatedAt());
+        gen.writeNumberField("lastUpdatedBy",0);
+        //gen.writeObjectField()
+        gen.writeStringField("url","TODO");
 
         gen.writeEndObject();
 

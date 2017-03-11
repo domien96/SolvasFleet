@@ -23,7 +23,7 @@ CREATE TABLE user_company_roles (
   PRIMARY KEY (user_id,role_id,company_id),
   FOREIGN KEY (user_id) REFERENCES users(user_id),
   FOREIGN KEY (role_id) REFERENCES roles(role_id),
-  FOREIGN KEY (company_id) REFERENCES companies(company_id)
+  FOREIGN KEY (company_id) REFERENCES companies(company_id)  ---My suggestion--
 
 );
 

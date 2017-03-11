@@ -4,7 +4,7 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="solvas.models.Company" table="companies">
+    <class name="solvas.models.Company" table="companies" dynamic-update="true"><!-- do not update null values-->
         <meta attribute="class-description">
             This class contains the company detail.
         </meta>
@@ -17,13 +17,12 @@
 
         <property name="address" column="address" type="string"/>
 
-        <property name="updatedAt" column="updated_at" type="timestamp" generated="always"/>
-        <property name="createdAt" column="created_at" type="timestamp" generated="insert"/>
-
         <set name="representatives" table="company_users">
             <key column="company_id"/>
             <many-to-many column="user_id" class="solvas.models.User" />
         </set>
+        <property name="updatedAt" column="updated_at" type="java.time.LocalDateTime" generated="always"/>
+        <property name="createdAt" column="created_at" type="java.time.LocalDateTime" generated="insert"/>
 
     </class>
 </hibernate-mapping>
