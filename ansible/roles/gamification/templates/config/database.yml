@@ -1,7 +1,0 @@
-production:
-    database: gamification
-    username: gamification
-    adapter: postgres
-    encoding: utf8
-    port: 3306
-    password: {{ gamification_db_password }}

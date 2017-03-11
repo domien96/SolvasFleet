@@ -1,7 +1,0 @@
----
-
-dependencies:
-  - role: rbenv
-    user: gamification
-    ruby_version: 2.2.2
-  - role: postgresql
