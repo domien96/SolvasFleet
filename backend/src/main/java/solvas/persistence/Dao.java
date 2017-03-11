@@ -54,6 +54,7 @@ public interface Dao<T extends Model> {
     /**
      * Find all objects, filtered by the given filter.
      *
+     * @param pageable Pagination information.
      * @param filters The filter.
      *
      * @return The filtered items.
@@ -62,6 +63,8 @@ public interface Dao<T extends Model> {
 
     /**
      * Count the total number of items managed by this dao, respecting the given filter.
+     *
+     * @param filters The filters to use.
      *
      * @return The number of items.
      */

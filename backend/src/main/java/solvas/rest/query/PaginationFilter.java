@@ -7,7 +7,9 @@ package solvas.rest.query;
  */
 public class PaginationFilter implements Pageable {
 
-    private int limit = 100;
+    public static final int DEFAULT_PER_PAGE = 100;
+
+    private int limit = DEFAULT_PER_PAGE;
 
     private int page = 0;
 
@@ -27,6 +29,10 @@ public class PaginationFilter implements Pageable {
     }
 
     public void setPage(int page) {
-        this.page = page;
+        if (page < 0) {
+            this.page = 0;
+        } else {
+            this.page = page;
+        }
     }
 }

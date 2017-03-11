@@ -11,6 +11,8 @@ import java.util.Collection;
  * we are limited to .hbm.xml mapping files, we cannot use the JPA Metamodel generator, which
  * provides a type-safe way to access fields in the classes.
  *
+ * @param <T> The type of the model this filter is for.
+ *
  * @author Niko Strijbol
  */
 public interface Filterable<T> {
@@ -23,7 +25,8 @@ public interface Filterable<T> {
      * you should prevent this from happening, by not blindly mapping query parameters
      * to the root.
      *
-     * @param builder The builder to use.
+     * @param builder The JPA builder to use.
+     * @param root The JPA root, useful for selecting model fields.
      *
      * @return The predicates.
      */

@@ -21,7 +21,17 @@ public interface Pageable {
      */
     int getPage();
 
+    /**
+     * Set the limit per page.
+     *
+     * @param limit The limit.
+     */
     void setLimit(int limit);
 
+    /**
+     * Set the current page, starting from 0. If the page is less than 0, 0 is used.
+     *
+     * @param page The current page.
+     */
     void setPage(int page);
 }
