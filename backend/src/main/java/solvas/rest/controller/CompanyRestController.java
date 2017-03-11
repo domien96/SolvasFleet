@@ -26,31 +26,31 @@ public class CompanyRestController extends AbstractRestController<Company> {
 
     @Override
     @RequestMapping(value = "/companies", method = RequestMethod.GET)
-    ResponseEntity<?> listAll() {
-        return super.listAll();
+    public ResponseEntity<?> listAll() {
+        return super.listAll("companies");
     }
 
     @Override
     @RequestMapping(value = "/companies", method = RequestMethod.POST)
-    ResponseEntity<?> post(@RequestBody Company input) {
+    public ResponseEntity<?> post(@RequestBody Company input) {
         return super.post(input);
     }
 
     @Override
     @RequestMapping(value = "/companies/{id}", method = RequestMethod.GET)
-    ResponseEntity<?> getById(@PathVariable int id) {
+    public ResponseEntity<?> getById(@PathVariable int id) {
         return super.getById(id);
     }
 
     @Override
     @RequestMapping(value = "/companies/{id}", method = RequestMethod.DELETE)
-    ResponseEntity<?> deleteById(@PathVariable int id) {
+    public ResponseEntity<?> deleteById(@PathVariable int id) {
         return super.deleteById(id);
     }
 
     @Override
     @RequestMapping(value = "/companies", method = RequestMethod.PUT)
-    ResponseEntity<?> put(@RequestBody Company input) {
+    public ResponseEntity<?> put(@RequestBody Company input) {
         return super.put(input);
     }
 }

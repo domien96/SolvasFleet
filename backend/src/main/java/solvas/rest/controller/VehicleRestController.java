@@ -25,31 +25,31 @@ public class VehicleRestController extends AbstractRestController<Vehicle> {
 
     @Override
     @RequestMapping(value = "/vehicles", method = RequestMethod.GET)
-    ResponseEntity<?> listAll() {
-        return super.listAll();
+    public ResponseEntity<?> listAll() {
+        return super.listAll("vehicles");
     }
 
     @Override
     @RequestMapping(value = "/vehicles/{id}", method = RequestMethod.GET)
-    ResponseEntity<?> getById(@PathVariable int id) {
+    public ResponseEntity<?> getById(@PathVariable int id) {
         return super.getById(id);
     }
 
     @Override
     @RequestMapping(value = "/vehicles", method = RequestMethod.POST)
-    ResponseEntity<?> post(@RequestBody Vehicle input) {
+    public ResponseEntity<?> post(@RequestBody Vehicle input) {
         return super.post(input);
     }
 
     @Override
     @RequestMapping(value = "/vehicles/{id}", method = RequestMethod.DELETE)
-    ResponseEntity<?> deleteById(@PathVariable int id) {
+    public ResponseEntity<?> deleteById(@PathVariable int id) {
         return super.deleteById(id);
     }
 
     @Override
     @RequestMapping(value = "/vehicles", method = RequestMethod.PUT)
-    ResponseEntity<?> put(@RequestBody Vehicle input) {
+    public ResponseEntity<?> put(@RequestBody Vehicle input) {
         return super.put(input);
     }
 }
