@@ -8,6 +8,8 @@
     state: directory
   with_items:
     - shared
+    - shared/build
+    - shared/build/libs
 
 - name: shared files
   template:
@@ -16,7 +18,7 @@
     owner: backend
     group: backend
   with_items:
-    - application.properties
+    - build/libs/application.properties
 
 - name: Create solvasfleet postgresql user
   postgresql_user:

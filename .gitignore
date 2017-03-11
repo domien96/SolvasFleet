@@ -4,7 +4,9 @@
 /ansible/*.retry
 
 .gradle
-build/
+/api/build/
+/backend/build/
+/frontend/build/
 
 # Ignore Gradle GUI config
 gradle-app.setting
@@ -24,7 +26,6 @@ gradle-app.setting
 /backend/out/
 .idea
 /backend/backend.iml
-<<<<<<< Updated upstream
 
 # SonarQube
 .sonar
