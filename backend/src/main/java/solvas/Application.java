@@ -1,7 +1,7 @@
 package solvas;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
@@ -22,7 +22,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 public class Application {
 
     /**
-     * Start the SolvasFleet application
+     * Start the SolvasFleet application.
+     *
      * @param args The args passed in the command line
      */
     public static void main(String[] args) {
@@ -36,7 +37,9 @@ public class Application {
      */
     @Bean
     public ObjectMapper jacksonObjectMapper() {
-        return new ObjectMapper().setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
+        return new ObjectMapper()
+                .findAndRegisterModules()
+                .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
     }
 
     @Bean
