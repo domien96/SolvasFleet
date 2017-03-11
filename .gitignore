@@ -24,6 +24,7 @@ gradle-app.setting
 /backend/out/
 .idea
 /backend/backend.iml
+<<<<<<< Updated upstream
 
 # SonarQube
 .sonar

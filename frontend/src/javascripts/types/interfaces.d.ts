@@ -38,6 +38,25 @@ interface CompanyState{
   address : string;
 }
 
+/* Companies */
+
+interface Company {
+  name:         string;
+  VATnumber:    string;
+  phone_number: string;
+  address:      string;
+}
+
+interface CompaniesProps { }
+
+interface CompaniesState {
+  companies: Company[];
+}
+
+interface CompaniesData {
+  [ companies : string ] : any;
+}
+
 /* Vehicle */
 
 interface VehicleProps{
