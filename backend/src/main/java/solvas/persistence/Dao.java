@@ -1,6 +1,8 @@
 package solvas.persistence;
 
 import solvas.models.Model;
+import solvas.rest.query.Filterable;
+import solvas.rest.query.Pageable;
 
 import java.util.Collection;
 
@@ -48,4 +50,23 @@ public interface Dao<T extends Model> {
      * @return A collection containing all objects.
      */
     Collection<T> findAll();
+
+    /**
+     * Find all objects, filtered by the given filter.
+     *
+     * @param pageable Pagination information.
+     * @param filters The filter.
+     *
+     * @return The filtered items.
+     */
+    Collection<T> findAll(Pageable pageable, Filterable<T> filters);
+
+    /**
+     * Count the total number of items managed by this dao, respecting the given filter.
+     *
+     * @param filters The filters to use.
+     *
+     * @return The number of items.
+     */
+    long count(Filterable<T> filters);
 }

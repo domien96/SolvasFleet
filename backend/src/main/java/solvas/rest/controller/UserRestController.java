@@ -5,6 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import solvas.models.User;
 import solvas.persistence.user.UserDao;
+import solvas.rest.query.PaginationFilter;
+import solvas.rest.query.UserFilter;
 
 /**
  * Rest controller for User
@@ -23,10 +25,18 @@ public class UserRestController extends AbstractRestController<User> {
         super(dao);
     }
 
-    @Override
+    /**
+     * Query all models, accounting for pagination settings and respect the filters. The return value of this
+     * method will contain an object, according to the API spec.
+     *
+     * @param pagination The pagination information.
+     * @param filter The filters.
+     *
+     * @return ResponseEntity
+     */
     @RequestMapping(value = "/users", method = RequestMethod.GET)
-    public ResponseEntity<?> listAll() {
-        return super.listAll("users");
+    public ResponseEntity<?> listAll(PaginationFilter pagination, UserFilter filter) {
+        return super.listAll(pagination, filter);
     }
 
     @Override

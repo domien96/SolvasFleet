@@ -5,6 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import solvas.models.Vehicle;
 import solvas.persistence.vehicle.VehicleDao;
+import solvas.rest.query.PaginationFilter;
+import solvas.rest.query.VehicleFilter;
 
 /**
  * Rest controller for Vehicle
@@ -23,10 +25,18 @@ public class VehicleRestController extends AbstractRestController<Vehicle> {
         super(dao);
     }
 
-    @Override
+    /**
+     * Query all models, accounting for pagination settings and respect the filters. The return value of this
+     * method will contain an object, according to the API spec.
+     *
+     * @param pagination The pagination information.
+     * @param filter The filters.
+     *
+     * @return ResponseEntity
+     */
     @RequestMapping(value = "/vehicles", method = RequestMethod.GET)
-    public ResponseEntity<?> listAll() {
-        return super.listAll("vehicles");
+    public ResponseEntity<?> listAll(PaginationFilter pagination, VehicleFilter filter) {
+        return super.listAll(pagination, filter);
     }
 
     @Override

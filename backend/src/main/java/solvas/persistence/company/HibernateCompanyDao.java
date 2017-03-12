@@ -29,18 +29,16 @@ public class HibernateCompanyDao extends HibernateDao<Company> implements Compan
 
     @Override
     public Collection<Company> withName(String name) {
-        return run(s -> {
-            // Criteria builder
-            CriteriaBuilder builder = s.getCriteriaBuilder();
-            // Select from the company table
-            CriteriaQuery<Company> criteriaQuery = builder.createQuery(Company.class);
-            Root<Company> root = criteriaQuery.from(Company.class);
-            // Actual criteria
-            Predicate predicate = builder.equal(root.get("name"), name);
-            // Prepare query
-            criteriaQuery.select(root).where(predicate);
-            // Do the query
-            return s.createQuery(criteriaQuery).getResultList();
-        });
+        // Criteria builder
+        CriteriaBuilder builder = getSession().getCriteriaBuilder();
+        // Select from the company table
+        CriteriaQuery<Company> criteriaQuery = builder.createQuery(Company.class);
+        Root<Company> root = criteriaQuery.from(Company.class);
+        // Actual criteria
+        Predicate predicate = builder.equal(root.get("name"), name);
+        // Prepare query
+        criteriaQuery.select(root).where(predicate);
+        // Do the query
+        return getSession().createQuery(criteriaQuery).getResultList();
     }
 }

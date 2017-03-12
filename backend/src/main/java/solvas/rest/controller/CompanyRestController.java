@@ -5,6 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import solvas.models.Company;
 import solvas.persistence.company.CompanyDao;
+import solvas.rest.query.CompanyFilter;
+import solvas.rest.query.PaginationFilter;
 
 
 /**
@@ -24,10 +26,18 @@ public class CompanyRestController extends AbstractRestController<Company> {
         super(dao);
     }
 
-    @Override
+    /**
+     * Query all models, accounting for pagination settings and respect the filters. The return value of this
+     * method will contain an object, according to the API spec.
+     *
+     * @param pagination The pagination information.
+     * @param filter The filters.
+     *
+     * @return ResponseEntity
+     */
     @RequestMapping(value = "/companies", method = RequestMethod.GET)
-    public ResponseEntity<?> listAll() {
-        return super.listAll("companies");
+    public ResponseEntity<?> listAll(PaginationFilter pagination, CompanyFilter filter) {
+        return super.listAll(pagination, filter);
     }
 
     @Override
