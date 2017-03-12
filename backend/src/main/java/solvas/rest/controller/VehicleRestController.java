@@ -48,8 +48,8 @@ public class VehicleRestController extends AbstractRestController<Vehicle> {
     }
 
     @Override
-    @RequestMapping(value = "/vehicles", method = RequestMethod.PUT)
-    public ResponseEntity<?> put(@RequestBody Vehicle input) {
-        return super.put(input);
+    @RequestMapping(value = "/vehicles/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<?> put(@PathVariable int id, @RequestBody Vehicle input) {
+        return super.put(id, input);
     }
 }

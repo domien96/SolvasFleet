@@ -113,8 +113,9 @@ public abstract class AbstractRestController<T extends Model> {
      * @param input model to be updated
      * @return ResponseEntity
      */
-    protected ResponseEntity<?> put(T input) {
+    protected ResponseEntity<?> put(int id, T input) {
         try {
+            input.setId(id);
             return new ResponseEntity<>(dao.save(input), HttpStatus.OK);
         } catch (EntityNotFoundException unused) {
             return notFound();
