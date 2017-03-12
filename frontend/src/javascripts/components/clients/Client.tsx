@@ -32,7 +32,9 @@ class Client extends React.Component<Company.Props, Company.State> {
   }
 
   render() {
-    var { id, name, vat_number, phone_number, address } = this.state.company;
+    var { name, vat_number, phone_number, address } = this.state.company;
+    var id = this.props.params.id;
+    console.log(id)
 
     const data = [
       th('company.vat_number', vat_number),
@@ -69,7 +71,7 @@ class Client extends React.Component<Company.Props, Company.State> {
               </div>
             </Card>
             <Card>
-              <div className='col-sm-12'>
+              <div className='col-sm-6'>
                 <div className='card-content'>
                   <DetailTable data={ data }/>
                 </div>

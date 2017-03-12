@@ -8,6 +8,7 @@ import SubFleets from '../subfleets/SubFleets.tsx'
 import fetchFleets from '../../actions/fetch_fleets.ts';
 
 interface OverviewProps {
+  clientId : number
   fleets: Fleet[];
 }
 
@@ -18,8 +19,8 @@ class Overview extends React.Component<OverviewProps, {}> {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  handleClick(id : number) {
-    browserHistory.push('fleets/' + id + '/subfleets');
+  handleClick(fleetId : number) {
+    browserHistory.push('/clients/' + this.props.clientId + '/fleets/' + fleetId + '/subfleets');
   }
 
   render() {
@@ -54,6 +55,9 @@ class Fleets extends React.Component<Fleets.Props, Fleets.State> {
   }
 
   render() {
+
+    let addFleetUrl = '/clients/'+ this.props.id +'/fleets/new';
+    let fleetId = 0;
     
     return (
       <div>
@@ -63,21 +67,19 @@ class Fleets extends React.Component<Fleets.Props, Fleets.State> {
               <Card>
                 <div className='card-title'>
                   <h2>Fleets
-                    <Link to='/fleets/new' className='btn btn-default pull-right'>
+                    <Link to={ addFleetUrl } className='btn btn-default pull-right'>
                       <span className='glyphicon glyphicon-plus' aria-hidden='true'></span>
                       Add new fleet
                     </Link>
                   </h2>
                 </div>
                 <div className='card-content'>
-                  <Overview fleets={ this.state.fleets } />
+                  <Overview clientId={this.props.id} fleets={ this.state.fleets } />
                 </div>
               </Card>
             </div>
             <div className='col-xs-12 col-md-6'>
-              
-                <SubFleets id={this.props.id} />
-              
+                <SubFleets id={ fleetId } />
             </div>
           </div>
         </div>

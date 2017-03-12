@@ -7,14 +7,14 @@ render() {
     
     const tableRows = this.props.data.map((c : Table.Head.Data, i : number) =>
     (  
-      <tr key={i}>
-        <td>{T.translate(c.key)}</td>
+      <tr key={i} className='table-row-left'>
+        <td>{ T.translate(c.key) }</td>
         <td>{ c.label }</td>
       </tr>
     ));
 
     return (
-      <div className='col-sm-6'>
+      <div>
         <div><h3>Information</h3></div>
         <div className='table-wrap'>
         <table className='table'>
