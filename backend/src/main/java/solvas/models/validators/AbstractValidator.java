@@ -4,6 +4,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 import solvas.models.Model;
+import solvas.rest.api.models.ApiModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,14 +18,14 @@ import java.util.stream.Stream;
  * @author David Vandorpe
  * @param <T> Type of model that should be validated
  */
-public abstract class AbstractValidator<T extends Model> implements Validator {
+public abstract class AbstractValidator<T extends ApiModel> implements Validator {
     private final List<Validation<T>> validations = new ArrayList<>();
-    private final Class<? extends Model> clazz;
+    private final Class<? extends ApiModel> clazz;
 
     /**
      * @param clazz The class this validator supports
      */
-    protected AbstractValidator(Class<? extends Model> clazz) {
+    protected AbstractValidator(Class<? extends ApiModel> clazz) {
         this.clazz = clazz;
     }
 
@@ -71,7 +72,8 @@ public abstract class AbstractValidator<T extends Model> implements Validator {
      * A custom validation
      * @param <T> Type of model that should be validated
      */
-    public interface Validation<T extends Model> {
+    @FunctionalInterface
+    public interface Validation<T extends ApiModel> {
         /**
          * @param target The entity to be validated
          * @param errors The errors for this entity

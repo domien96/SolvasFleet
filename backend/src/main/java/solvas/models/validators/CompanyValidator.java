@@ -2,6 +2,7 @@ package solvas.models.validators;
 
 import org.springframework.stereotype.Component;
 import solvas.models.Company;
+import solvas.rest.api.models.ApiModel;
 
 /**
  * Validate Companies
@@ -9,9 +10,9 @@ import solvas.models.Company;
  * @author David Vandorpe.
  */
 @Component
-public class CompanyValidator extends AbstractValidator<Company> {
+public class CompanyValidator extends AbstractValidator<ApiModel> {
     {
-        require("name", "vatNumber", "phoneNumber", "address", "url");
+        require("name", "vatNumber", "phoneNumber", "address");
         // Examples:
          /* addValidations((target, errors) -> {
              Do stuff
@@ -21,6 +22,6 @@ public class CompanyValidator extends AbstractValidator<Company> {
      * Create a validator for companies
      */
     public CompanyValidator() {
-        super(Company.class);
+        super(ApiModel.class);
     }
 }
