@@ -6,6 +6,8 @@ __De vragen hier zullen doorgegeven worden naar de klant door de CRO:__
 
 * Is het nuttig voor Solvas dat de klanten (bedrijven), simulaties kunnen uitvoeren om te zien wat er verandert (in premie) bij het toevoegen/verwijderen van een nieuw voertuig, of het overschakelen naar een andere verzekering?
 
+* Zie opmerking van lesgevers bij ons domeinmodel
+
 <br><br>
 
 
