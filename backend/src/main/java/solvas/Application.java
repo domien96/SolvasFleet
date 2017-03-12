@@ -13,9 +13,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import solvas.models.Company;
-import solvas.rest.deserializer.CompanyDeserializer;
-import solvas.rest.serializer.CompanySerializer;
+
 
 /**
  * The SolvasFleet application bootstrap
@@ -41,24 +39,13 @@ public class Application {
      */
     @Bean
     public ObjectMapper jacksonObjectMapper() {
-        CompanyDeserializer companyDeserializer=new CompanyDeserializer();
 
-        SimpleModule module = new SimpleModule();
-        module.addSerializer(Company.class,new CompanySerializer());
-        module.addDeserializer(Company.class,companyDeserializer);
-
-
-
-
-        ObjectMapper mapper = new ObjectMapper()
+        return new ObjectMapper()
                 .findAndRegisterModules()
-                .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
-                .registerModule(module);
-
-        companyDeserializer.setObjectMapper(mapper);
+                .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
 
 
-        return mapper;
+
     }
 
     @Bean
