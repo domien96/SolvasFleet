@@ -89,12 +89,12 @@ CREATE TABLE permissions (
 );
 
 CREATE TABLE subfleets (
-  sub_fleet_id SERIAL NOT NULL,
+  subfleet_id SERIAL NOT NULL,
   fleet_id INT NOT NULL REFERENCES fleets(fleet_id),
   vehicletype_id INT NOT NULL REFERENCES vehicle_types(vehicletype_id),
   updated_at TIMESTAMP NOT NULL,
   created_at TIMESTAMP NOT NULL,
-  PRIMARY KEY (sub_fleet_id)
+  PRIMARY KEY (subfleet_id)
 );
 
 CREATE TABLE fleet_subscriptions (
@@ -102,7 +102,7 @@ CREATE TABLE fleet_subscriptions (
   start_date DATE NOT NULL,
   end_date DATE NOT NULL,
   vehicle_id INT NOT NULL REFERENCES vehicles(vehicle_id),
-  sub_fleet_id INT NOT NULL REFERENCES sub_fleets(sub_fleet_id),
+  subfleet_id INT NOT NULL REFERENCES subfleets(subfleet_id),
   updated_at TIMESTAMP NOT NULL,
   created_at TIMESTAMP NOT NULL,
   PRIMARY KEY (fleet_subscription_id)
