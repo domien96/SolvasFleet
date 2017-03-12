@@ -12,7 +12,7 @@ public class Permission extends Model {
     /**
      * The roles which contain this permission.
      */
-    private Set<Role> roles;
+    private Set<Role> roles; //TODO should be removed
 
     public String getName() {
         return name;

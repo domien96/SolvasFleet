@@ -1,10 +1,17 @@
 package solvas.rest.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import solvas.models.Company;
 import solvas.persistence.company.CompanyDao;
+import solvas.rest.api.mappings.CompanyMapping;
+import solvas.rest.api.models.ApiModel;
+import solvas.rest.utils.JsonListWrapper;
+
+import java.util.Collection;
+import java.util.HashSet;
 
 
 /**
@@ -24,10 +31,19 @@ public class CompanyRestController extends AbstractRestController<Company> {
         super(dao);
     }
 
+
     @Override
     @RequestMapping(value = "/companies", method = RequestMethod.GET)
     public ResponseEntity<?> listAll() {
-        return super.listAll("companies");
+        CompanyMapping mapping = new CompanyMapping();
+        Collection<ApiModel> collection = new HashSet<>();
+        for (Company item: dao.findAll()){
+            collection.add(mapping.convertToApiModel(item));
+        }
+        return new ResponseEntity<>(new JsonListWrapper<ApiModel>(collection, "companies"), HttpStatus.OK);
+
+
+        //return super.listAll("companies");
     }
 
     @Override

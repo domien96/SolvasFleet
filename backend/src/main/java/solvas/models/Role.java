@@ -12,19 +12,20 @@ public class Role extends Model {
 
     private LocalDateTime startDate; //todo check if it should be replaced by localdate
     private LocalDateTime endDate;
-    private String url; // calculate on th fly?
+    private final String url="/roles/";
 
     /**
      * Users who have this role.
      */
-    private Set<User> users;
+    private User user;
+    private Company company;
 
     /**
      * The set of permissions which belong to this role.
      */
     private Set<Permission> permissions;
 
-    protected Role() {
+    public Role() {
     }
 
     public String getFunction() {
@@ -52,20 +53,9 @@ public class Role extends Model {
     }
 
     public String getUrl() {
-        return url;
+        return url+getId();
     }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public Set<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Set<User> users) {
-        this.users = users;
-    }
 
     public Set<Permission> getPermissions() {
         return permissions;
@@ -73,5 +63,21 @@ public class Role extends Model {
 
     public void setPermissions(Set<Permission> permissions) {
         this.permissions = permissions;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
     }
 }

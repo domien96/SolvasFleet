@@ -15,7 +15,7 @@
       <property name="name" column="name" type="string" not-null="true"/>
 
 
-       <set name="roles" table="rolepermissions" inverse="true"> <!-- Role is owner of relationship -->
+       <set name="roles" table="role_permissions" inverse="true"> <!-- Role is owner of relationship -->
            <key column="permission_id"/>
            <many-to-many column="role_id" class="solvas.models.Role" />
        </set>

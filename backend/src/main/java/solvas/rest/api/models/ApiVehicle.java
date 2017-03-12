@@ -1,28 +1,19 @@
-package solvas.models;
-
-import java.util.Collection;
+package solvas.rest.api.models;
 
 /**
- * Models a vehicle
- * @author steven
+ * Created by steve on 11/03/2017.
  */
-public class Vehicle extends Model {
+public class ApiVehicle extends ApiModel{
     private String licensePlate;
-    private String chassisNumber; //can contain letters https://en.wikipedia.org/wiki/Vehicle_identification_number
+    private String chassisNumber;
     private String model;
-    private VehicleType type;
-    private int kilometerCount;
+    private String type;
+    private int mileage;
     private int year;
-    private Company leasingCompany;
-    private int value; //TODO check if used
-    private final String url="/vehicles/";
+    private int leasingCompany;
+    private int value=0;
+    private int company;
     private String brand;
-
-
-
-    public Vehicle() {
-    }
-
 
     public String getLicensePlate() {
         return licensePlate;
@@ -48,20 +39,20 @@ public class Vehicle extends Model {
         this.model = model;
     }
 
-    public VehicleType getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(VehicleType type) {
+    public void setType(String type) {
         this.type = type;
     }
 
-    public int getKilometerCount() {
-        return kilometerCount;
+    public int getMileage() {
+        return mileage;
     }
 
-    public void setKilometerCount(int kilometerCount) {
-        this.kilometerCount = kilometerCount;
+    public void setMileage(int kilometerCount) {
+        this.mileage = kilometerCount;
     }
 
     public int getYear() {
@@ -72,11 +63,11 @@ public class Vehicle extends Model {
         this.year = year;
     }
 
-    public Company getLeasingCompany() {
+    public int getLeasingCompany() {
         return leasingCompany;
     }
 
-    public void setLeasingCompany(Company leasingCompany) {
+    public void setLeasingCompany(int leasingCompany) {
         this.leasingCompany = leasingCompany;
     }
 
@@ -88,8 +79,12 @@ public class Vehicle extends Model {
         this.value = value;
     }
 
-    public String getUrl() {
-        return url+getId();
+    public int getCompany() {
+        return company;
+    }
+
+    public void setCompany(int company) {
+        this.company = company;
     }
 
     public String getBrand() {
@@ -99,5 +94,4 @@ public class Vehicle extends Model {
     public void setBrand(String brand) {
         this.brand = brand;
     }
-
 }

@@ -4,7 +4,7 @@
  "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"> 
 
 <hibernate-mapping>
-   <class name="solvas.models.Vehicletype" table="vehicletypes">
+   <class name="solvas.models.VehicleType" table="vehicle_types">
       <meta attribute="class-description">
          This class contains the vehicletype detail.
       </meta>
@@ -13,9 +13,6 @@
       </id>
 
       <property name="name" column="name" type="string" not-null="true"/>
-
-      <property name="updatedAt" column="updated_at" type="java.time.LocalDateTime" generated="always"/>
-      <property name="createdAt" column="created_at" type="java.time.LocalDateTime" generated="insert"/>
 
    </class>
 </hibernate-mapping>

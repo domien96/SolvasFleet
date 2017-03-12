@@ -11,7 +11,7 @@ public class User extends Model {
     private String lastName;
     private String email;
     private String password; //change to non string?
-    private String url;
+    private final String url="/users/";
 
     /**
      * Companies this user represents.
@@ -20,7 +20,7 @@ public class User extends Model {
 
     private Set<Role> roles;
 
-    protected User() {
+    public User() {
     }
 
     public String getFirstName() {
@@ -56,12 +56,9 @@ public class User extends Model {
     }
 
     public String getUrl() {
-        return url;
+        return url+getId();
     }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
 
     public Set getCompanies() {
         return companies; // todo: does this need a defensive copy or not?

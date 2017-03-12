@@ -21,19 +21,29 @@ public class CompanySerializer extends StdSerializer<Company> {
     }
 
     @Override
-    public void serialize(Company value, JsonGenerator gen, SerializerProvider provider) throws IOException,JsonProcessingException {
+    public void serialize(Company value, JsonGenerator gen, SerializerProvider provider) throws IOException {
         gen.writeStartObject();
         gen.writeNumberField("id",value.getId());
         gen.writeStringField("name",value.getName());
         gen.writeStringField("vatNumber",value.getVatNumber());
         gen.writeStringField("phoneNumber",value.getPhoneNumber());
-        //TODO adress
-        //gen.writeString
+
+        //Address
+        gen.writeFieldName("address");
+        gen.writeStartObject();
+        gen.writeStringField("country",value.getAddressCountry());
+        gen.writeStringField("city",value.getAddressCountry());
+        gen.writeStringField("street",value.getAddressStreet());
+        gen.writeStringField("houseNumber",value.getAddressHouseNumber());
+        gen.writeStringField("postalCode",value.getAddressPostalCode());
+        gen.writeEndObject();
+
+
         gen.writeObjectField("createdAt",value.getCreatedAt());
         gen.writeObjectField("lastUpdated",value.getUpdatedAt());
+        //TODO milestone 2
         gen.writeNumberField("lastUpdatedBy",0);
-        //gen.writeObjectField()
-        gen.writeStringField("url","TODO");
+        gen.writeStringField("url",value.getUrl());
 
         gen.writeEndObject();
 

@@ -34,20 +34,25 @@ public class CompanyDeserializer extends StdDeserializer<Company> {
     }
 
     @Override
-    public Company deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public Company deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
         JsonNode node = p.getCodec().readTree(p);
         Company company = new Company();
         company.setId(node.has("id") ? (int) node.get("id").numberValue() : 0);
-        company.setName(node.get("name").asText());
-        company.setVatNumber(node.get("vatNumber").asText());
-        company.setPhoneNumber(node.get("phoneNumber").asText());
+        company.setName(node.has("name") ? node.get("name").asText(): null);
+        company.setVatNumber(node.has("vatNumber") ? node.get("vatNumber").asText(): null);
+        company.setPhoneNumber(node.has("phoneNumber") ? node.get("phoneNumber").asText():null);
+        JsonNode address =  node.path("address");
+        company.setAddressCountry(address.has("country") ? address.get("country").asText():null);
+        company.setAddressCity(address.has("city") ? address.get("city").asText():null);
+        company.setAddressStreet(address.has("street") ? address.get("street").asText():null);
+        company.setAddressHouseNumber(address.has("houseNumber") ? address.get("houseNumber").asText():null);
+        company.setAddressPostalCode(address.has("postalCode") ? address.get("postalCode").asText():null);
 
 
-
+        //Dates should not be set
         //company.setCreatedAt( objectMapper.treeToValue(node.get("createdAt"),LocalDateTime.class));
 
-        //company.setCreatedAt( node.has("lastUpdated")?
-              //  ctxt.readValue(node.get("lastUpdated").traverse(), LocalDateTime.class):null);
+
         return company;
 
 
