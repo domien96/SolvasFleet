@@ -7,7 +7,7 @@ import UserForm from './UserForm.tsx';
 
 import fetchUser from '../../actions/fetch_user.ts';
 
-class EditUser extends React.Component<{}, User.UForm.State> {
+class EditUser extends React.Component<User.Props, User.UForm.State> {
   constructor() {
     super();
     this.state = {
@@ -20,7 +20,7 @@ class EditUser extends React.Component<{}, User.UForm.State> {
   }
 
   componentDidMount() {
-    fetchUser(1)
+    fetchUser(this.props.params.id)
       .then((data : any) => {
         console.log('fetched');
         console.log(data);
