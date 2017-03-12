@@ -5,14 +5,6 @@ import org.springframework.stereotype.Component;
 import solvas.models.Company;
 import solvas.models.Vehicle;
 import solvas.persistence.DaoContext;
-import solvas.persistence.company.CompanyDao;
-import solvas.persistence.fleet.FleetDao;
-import solvas.persistence.fleetSubscription.FleetSubscriptionDao;
-import solvas.persistence.role.RoleDao;
-import solvas.persistence.subFleet.SubFleetDao;
-import solvas.persistence.user.UserDao;
-import solvas.persistence.vehicle.VehicleDao;
-import solvas.persistence.vehicleType.VehicleTypeDao;
 import solvas.rest.api.models.ApiVehicle;
 import solvas.rest.logic.GetVehicleToCompany;
 import solvas.rest.logic.InconsistentDbException;
@@ -22,14 +14,14 @@ import solvas.rest.logic.LinkVehicleCompany;
  * Created by steve on 11/03/2017.
  */
 @Component
-public class VehicleAbstractMapper extends AbstractMapper<Vehicle,ApiVehicle> {
+public class VehicleMapper extends AbstractMapper<Vehicle,ApiVehicle> {
 
     /**
      * TODO document
      *
      * @param daoContext
      */
-    public VehicleAbstractMapper(DaoContext daoContext) {
+    public VehicleMapper(DaoContext daoContext) {
         super(daoContext);
     }
 
@@ -66,7 +58,7 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle,ApiVehicle> {
         vehicle.setBrand(api.getBrand()==null
                 ? vehicle.getBrand() : api.getBrand());
         vehicle.setType(api.getType()==null ? vehicle.getType() :
-                new VehicleTypeAbstractMapper(daoContext).convertToModel(api.getType()));
+                new VehicleTypeMapper(daoContext).convertToModel(api.getType()));
 
         //create link between company and vehicle
         if (api.getCompany()!=0) {

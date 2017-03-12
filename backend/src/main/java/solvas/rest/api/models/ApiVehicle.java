@@ -3,7 +3,7 @@ package solvas.rest.api.models;
 /**
  * Created by steve on 11/03/2017.
  */
-public class ApiVehicle extends ApiModel{
+public class ApiVehicle extends ApiModel {
     private String licensePlate;
     private String chassisNumber;
     private String model;

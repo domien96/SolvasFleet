@@ -18,14 +18,14 @@ import java.util.Collection;
  * Created by steve on 11/03/2017.
  */
 @Component
-public class VehicleTypeAbstractMapper extends AbstractMapper<VehicleType,String> {
+public class VehicleTypeMapper extends AbstractMapper<VehicleType,String> {
 
     /**
      * TODO document
      *
      * @param daoContext
      */
-    public VehicleTypeAbstractMapper(DaoContext daoContext) {
+    public VehicleTypeMapper(DaoContext daoContext) {
         super(daoContext);
     }
 

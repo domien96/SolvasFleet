@@ -7,8 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import solvas.models.User;
 import solvas.models.validators.UserValidator;
 import solvas.persistence.DaoContext;
-import solvas.persistence.user.UserDao;
-import solvas.rest.api.mappers.UserAbstractMapper;
+import solvas.rest.api.mappers.UserMapper;
 import solvas.rest.api.models.ApiUser;
 import solvas.rest.query.PaginationFilter;
 import solvas.rest.query.UserFilter;
@@ -28,7 +27,7 @@ public class UserRestController extends AbstractRestController<User,ApiUser> {
      * @param validator Validator for users
      */
     @Autowired
-    public UserRestController(DaoContext daoContext, UserAbstractMapper mapper, UserValidator validator) {
+    public UserRestController(DaoContext daoContext, UserMapper mapper, UserValidator validator) {
         super(daoContext.getUserDao(),mapper,validator);
     }
 

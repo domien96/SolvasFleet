@@ -17,14 +17,14 @@ import solvas.rest.api.models.ApiUser;
  * Created by steve on 11/03/2017.
  */
 @Component
-public class UserAbstractMapper extends AbstractMapper<User,ApiUser> {
+public class UserMapper extends AbstractMapper<User,ApiUser> {
 
     /**
      * TODO document
      *
      * @param daoContext
      */
-    public UserAbstractMapper(DaoContext daoContext) {
+    public UserMapper(DaoContext daoContext) {
         super(daoContext);
     }
 

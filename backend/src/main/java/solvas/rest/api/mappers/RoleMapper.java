@@ -17,14 +17,14 @@ import solvas.rest.api.models.ApiRole;
  * Created by steve on 11/03/2017.
  */
 @Component
-public class RoleAbstractMapper extends AbstractMapper<Role,ApiRole> {
+public class RoleMapper extends AbstractMapper<Role,ApiRole> {
 
     /**
      * TODO document
      *
      * @param daoContext
      */
-    public RoleAbstractMapper(DaoContext daoContext) {
+    public RoleMapper(DaoContext daoContext) {
         super(daoContext);
     }
 
