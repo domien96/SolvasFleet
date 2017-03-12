@@ -1,6 +1,5 @@
-package solvas.rest.api.mappings;
+package solvas.rest.api.mappers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import solvas.models.Role;
 import solvas.persistence.company.CompanyDao;
@@ -17,9 +16,20 @@ import solvas.rest.api.models.ApiRole;
  * Created by steve on 11/03/2017.
  */
 @Component
-public class RoleMapping extends Mapping<Role,ApiRole> {
+public class RoleAbstractMapper extends AbstractMapper<Role,ApiRole> {
 
-    public RoleMapping(RoleDao roleDao, CompanyDao companyDao, UserDao userDao, VehicleDao vehicleDao
+    /**
+     * TODO document
+     * @param roleDao
+     * @param companyDao
+     * @param userDao
+     * @param vehicleDao
+     * @param vehicleTypeDao
+     * @param fleetSubscriptionDao
+     * @param fleetDao
+     * @param subFleetDao
+     */
+    public RoleAbstractMapper(RoleDao roleDao, CompanyDao companyDao, UserDao userDao, VehicleDao vehicleDao
             , VehicleTypeDao vehicleTypeDao, FleetSubscriptionDao fleetSubscriptionDao, FleetDao fleetDao, SubFleetDao subFleetDao) {
         super(roleDao, companyDao, userDao, vehicleDao, vehicleTypeDao, fleetSubscriptionDao, fleetDao, subFleetDao);
     }

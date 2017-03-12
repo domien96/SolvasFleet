@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import solvas.models.Vehicle;
 import solvas.models.validators.VehicleValidator;
 import solvas.persistence.vehicle.VehicleDao;
-import solvas.rest.api.mappings.VehicleMapping;
+import solvas.rest.api.mappers.VehicleAbstractMapper;
 import solvas.rest.api.models.ApiVehicle;
 import solvas.rest.query.PaginationFilter;
 import solvas.rest.query.VehicleFilter;
@@ -23,11 +23,12 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
      * Rest controller for Vehicle
      *
      * @param dao Autowired
+     * @param mapper The mapper class for vehicles
      * @param validator Validator for vehicles
      */
     @Autowired
-    public VehicleRestController(VehicleDao dao,VehicleMapping mapping,VehicleValidator validator) {
-        super(dao,mapping,validator);
+    public VehicleRestController(VehicleDao dao, VehicleAbstractMapper mapper, VehicleValidator validator) {
+        super(dao,mapper,validator);
     }
 
     /**

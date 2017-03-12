@@ -3,12 +3,11 @@ package solvas.rest.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.*;
 import solvas.models.Company;
 import solvas.models.validators.CompanyValidator;
 import solvas.persistence.company.CompanyDao;
-import solvas.rest.api.mappings.CompanyMapping;
+import solvas.rest.api.mappers.CompanyMapper;
 import solvas.rest.api.models.ApiCompany;
 import solvas.rest.query.CompanyFilter;
 import solvas.rest.query.PaginationFilter;
@@ -25,11 +24,12 @@ public class CompanyRestController extends AbstractRestController<Company,ApiCom
      * Rest controller for Company
      *
      * @param dao Autowired
+     * @param mapper The mapper class for companies
      * @param validator Validator for companies
      */
     @Autowired
-    public CompanyRestController(CompanyDao dao,CompanyMapping mapping,CompanyValidator validator) {
-        super(dao, mapping, validator);
+    public CompanyRestController(CompanyDao dao, CompanyMapper mapper, CompanyValidator validator) {
+        super(dao, mapper, validator);
     }
 
 

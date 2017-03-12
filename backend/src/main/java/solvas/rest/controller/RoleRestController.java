@@ -3,12 +3,11 @@ package solvas.rest.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.*;
 import solvas.models.Role;
 import solvas.models.validators.RoleValidator;
 import solvas.persistence.role.RoleDao;
-import solvas.rest.api.mappings.RoleMapping;
+import solvas.rest.api.mappers.RoleAbstractMapper;
 import solvas.rest.api.models.ApiRole;
 import solvas.rest.query.PaginationFilter;
 import solvas.rest.query.RoleFilter;
@@ -25,11 +24,12 @@ public class RoleRestController extends AbstractRestController<Role,ApiRole> {
      * Rest controller for Role
      *
      * @param dao Autowired
+     * @param mapper The mapper class for roles
      * @param validator Validator for roles
      */
     @Autowired
-    public RoleRestController(RoleDao dao,RoleMapping mapping,RoleValidator validator) {
-        super(dao,mapping,validator);
+    public RoleRestController(RoleDao dao, RoleAbstractMapper mapper, RoleValidator validator) {
+        super(dao,mapper,validator);
     }
 
     /**

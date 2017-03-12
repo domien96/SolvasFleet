@@ -1,6 +1,5 @@
-package solvas.rest.api.mappings;
+package solvas.rest.api.mappers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import solvas.models.Model;
 import solvas.persistence.company.CompanyDao;
 import solvas.persistence.fleet.FleetDao;
@@ -12,9 +11,11 @@ import solvas.persistence.vehicle.VehicleDao;
 import solvas.persistence.vehicleType.VehicleTypeDao;
 
 /**
+ * Class parameter T : class of the domain model class.
+ * Class parameter E : class of the api model class.
  * Created by steve on 11/03/2017.
  */
-public abstract class Mapping<T extends Model,E> {
+public abstract class AbstractMapper<T extends Model,E> {
 
     protected final RoleDao roleDao;
     protected final CompanyDao companyDao;
@@ -25,8 +26,18 @@ public abstract class Mapping<T extends Model,E> {
     protected final FleetDao fleetDao;
     protected final SubFleetDao subFleetDao;
 
-
-    public Mapping(RoleDao roleDao, CompanyDao companyDao, UserDao userDao, VehicleDao vehicleDao, VehicleTypeDao vehicleTypeDao, FleetSubscriptionDao fleetSubscriptionDao, FleetDao fleetDao, SubFleetDao subFleetDao) {
+    /**
+     * TODO document
+     * @param roleDao
+     * @param companyDao
+     * @param userDao
+     * @param vehicleDao
+     * @param vehicleTypeDao
+     * @param fleetSubscriptionDao
+     * @param fleetDao
+     * @param subFleetDao
+     */
+    public AbstractMapper(RoleDao roleDao, CompanyDao companyDao, UserDao userDao, VehicleDao vehicleDao, VehicleTypeDao vehicleTypeDao, FleetSubscriptionDao fleetSubscriptionDao, FleetDao fleetDao, SubFleetDao subFleetDao) {
         this.roleDao = roleDao;
         this.companyDao = companyDao;
         this.userDao = userDao;
@@ -38,8 +49,18 @@ public abstract class Mapping<T extends Model,E> {
     }
 
 
+    /**
+     * TODO document
+     * @param api
+     * @return
+     */
     public abstract T convertToModel(E api);
 
+    /**
+     * TODO document
+     * @param model
+     * @return
+     */
     public abstract E convertToApiModel(T model);
 
 

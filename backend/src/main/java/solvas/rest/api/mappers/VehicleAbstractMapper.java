@@ -1,9 +1,7 @@
-package solvas.rest.api.mappings;
+package solvas.rest.api.mappers;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import solvas.models.Company;
 import solvas.models.Vehicle;
 import solvas.persistence.company.CompanyDao;
@@ -23,9 +21,20 @@ import solvas.rest.logic.LinkVehicleCompany;
  * Created by steve on 11/03/2017.
  */
 @Component
-public class VehicleMapping extends Mapping<Vehicle,ApiVehicle> {
+public class VehicleAbstractMapper extends AbstractMapper<Vehicle,ApiVehicle> {
 
-    public VehicleMapping(RoleDao roleDao, CompanyDao companyDao, UserDao userDao, VehicleDao vehicleDao
+    /**
+     * TODO document
+     * @param roleDao
+     * @param companyDao
+     * @param userDao
+     * @param vehicleDao
+     * @param vehicleTypeDao
+     * @param fleetSubscriptionDao
+     * @param fleetDao
+     * @param subFleetDao
+     */
+    public VehicleAbstractMapper(RoleDao roleDao, CompanyDao companyDao, UserDao userDao, VehicleDao vehicleDao
             , VehicleTypeDao vehicleTypeDao, FleetSubscriptionDao fleetSubscriptionDao, FleetDao fleetDao, SubFleetDao subFleetDao) {
         super(roleDao, companyDao, userDao, vehicleDao, vehicleTypeDao, fleetSubscriptionDao, fleetDao, subFleetDao);
     }
@@ -63,7 +72,7 @@ public class VehicleMapping extends Mapping<Vehicle,ApiVehicle> {
         vehicle.setBrand(api.getBrand()==null
                 ? vehicle.getBrand() : api.getBrand());
         vehicle.setType(api.getType()==null ? vehicle.getType() :
-                new VehicleTypeMapping(roleDao, companyDao, userDao, vehicleDao,
+                new VehicleTypeAbstractMapper(roleDao, companyDao, userDao, vehicleDao,
                         vehicleTypeDao, fleetSubscriptionDao,fleetDao,subFleetDao).convertToModel(api.getType()));
 
         //create link between company and vehicle

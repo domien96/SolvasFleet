@@ -1,6 +1,5 @@
-package solvas.rest.api.mappings;
+package solvas.rest.api.mappers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import solvas.models.VehicleType;
 import solvas.persistence.company.CompanyDao;
@@ -18,9 +17,20 @@ import java.util.Collection;
  * Created by steve on 11/03/2017.
  */
 @Component
-public class VehicleTypeMapping extends Mapping<VehicleType,String> {
+public class VehicleTypeAbstractMapper extends AbstractMapper<VehicleType,String> {
 
-    public VehicleTypeMapping(RoleDao roleDao, CompanyDao companyDao, UserDao userDao, VehicleDao vehicleDao
+    /**
+     * TODO document
+     * @param roleDao
+     * @param companyDao
+     * @param userDao
+     * @param vehicleDao
+     * @param vehicleTypeDao
+     * @param fleetSubscriptionDao
+     * @param fleetDao
+     * @param subFleetDao
+     */
+    public VehicleTypeAbstractMapper(RoleDao roleDao, CompanyDao companyDao, UserDao userDao, VehicleDao vehicleDao
             , VehicleTypeDao vehicleTypeDao, FleetSubscriptionDao fleetSubscriptionDao, FleetDao fleetDao, SubFleetDao subFleetDao) {
         super(roleDao, companyDao, userDao, vehicleDao, vehicleTypeDao, fleetSubscriptionDao, fleetDao, subFleetDao);
     }
