@@ -26,7 +26,7 @@ import java.util.HashSet;
  * @param <T> Type of the entity to work with.
  */
 @Component
-@Transactional // Replace by services
+@Transactional // TODO Replace by services
 public abstract class AbstractRestController<T extends Model, E> {
 
     protected final Dao<T> dao;

@@ -4,6 +4,7 @@ package solvas.rest.api.mappers;
 import org.springframework.stereotype.Component;
 import solvas.models.Company;
 import solvas.models.Vehicle;
+import solvas.persistence.DaoContext;
 import solvas.persistence.company.CompanyDao;
 import solvas.persistence.fleet.FleetDao;
 import solvas.persistence.fleetSubscription.FleetSubscriptionDao;
@@ -27,18 +28,11 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle,ApiVehicle> {
     private String rootPath="/vehicles/";
     /**
      * TODO document
-     * @param roleDao
-     * @param companyDao
-     * @param userDao
-     * @param vehicleDao
-     * @param vehicleTypeDao
-     * @param fleetSubscriptionDao
-     * @param fleetDao
-     * @param subFleetDao
+     *
+     * @param daoContext
      */
-    public VehicleAbstractMapper(RoleDao roleDao, CompanyDao companyDao, UserDao userDao, VehicleDao vehicleDao
-            , VehicleTypeDao vehicleTypeDao, FleetSubscriptionDao fleetSubscriptionDao, FleetDao fleetDao, SubFleetDao subFleetDao) {
-        super(roleDao, companyDao, userDao, vehicleDao, vehicleTypeDao, fleetSubscriptionDao, fleetDao, subFleetDao);
+    public VehicleAbstractMapper(DaoContext daoContext) {
+        super(daoContext);
     }
 
     @Override
@@ -48,7 +42,7 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle,ApiVehicle> {
 
         if (vehicle.getId()!=0){
 
-            vehicle = vehicleDao.find(vehicle.getId());
+            vehicle = daoContext.getVehicleDao().find(vehicle.getId());
             if (vehicle==null){
                 vehicle= new Vehicle();
             }
@@ -68,19 +62,18 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle,ApiVehicle> {
         vehicle.setYear(api.getYear()==0
                 ? vehicle.getYear() : api.getYear());
         vehicle.setLeasingCompany(api.getLeasingCompany()==0
-                ? vehicle.getLeasingCompany() :companyDao.find(api.getLeasingCompany()));
+                ? vehicle.getLeasingCompany() :daoContext.getCompanyDao().find(api.getLeasingCompany()));
         vehicle.setValue(0);//api.getValue()
 
         vehicle.setBrand(api.getBrand()==null
                 ? vehicle.getBrand() : api.getBrand());
         vehicle.setType(api.getType()==null ? vehicle.getType() :
-                new VehicleTypeAbstractMapper(roleDao, companyDao, userDao, vehicleDao,
-                        vehicleTypeDao, fleetSubscriptionDao,fleetDao,subFleetDao).convertToModel(api.getType()));
+                new VehicleTypeAbstractMapper(daoContext).convertToModel(api.getType()));
 
         //create link between company and vehicle
         if (api.getCompany()!=0) {
 
-            vehicle = vehicleDao.save(vehicle);
+            vehicle = daoContext.getVehicleDao().save(vehicle);
             generateLinkVehicleCompany(api.getCompany(),vehicle);
             //TODO save vehicle first then save active subscription
         }
@@ -116,7 +109,10 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle,ApiVehicle> {
         //TODO
         //diference between company change detect it and handle it
         try {
-            new LinkVehicleCompany().run(companyId,v,fleetSubscriptionDao,subFleetDao,fleetDao,companyDao);
+            new LinkVehicleCompany().run(companyId,v,
+                    daoContext.getFleetSubscriptionDao(),
+                    daoContext.getSubFleetDao(),
+                    daoContext.getFleetDao(),daoContext.getCompanyDao());
         } catch (InconsistentDbException e) {
             e.printStackTrace();
         }
@@ -131,7 +127,7 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle,ApiVehicle> {
     private int getApiCompany(Vehicle vehicle){
         int companyId;
         try {
-            Company company = new GetVehicleToCompany().run(vehicle,fleetSubscriptionDao);
+            Company company = new GetVehicleToCompany().run(vehicle,daoContext.getFleetSubscriptionDao());
             companyId =company.getId();
         } catch (InconsistentDbException e) {
             e.printStackTrace(); //Should not happen

@@ -2,6 +2,7 @@ package solvas.rest.api.mappers;
 
 import org.springframework.stereotype.Component;
 import solvas.models.User;
+import solvas.persistence.DaoContext;
 import solvas.persistence.company.CompanyDao;
 import solvas.persistence.fleet.FleetDao;
 import solvas.persistence.fleetSubscription.FleetSubscriptionDao;
@@ -21,18 +22,11 @@ public class UserAbstractMapper extends AbstractMapper<User,ApiUser> {
     private String rootPath="/users/";
     /**
      * TODO document
-     * @param roleDao
-     * @param companyDao
-     * @param userDao
-     * @param vehicleDao
-     * @param vehicleTypeDao
-     * @param fleetSubscriptionDao
-     * @param fleetDao
-     * @param subFleetDao
+     *
+     * @param daoContext
      */
-    public UserAbstractMapper(RoleDao roleDao, CompanyDao companyDao, UserDao userDao, VehicleDao vehicleDao
-            , VehicleTypeDao vehicleTypeDao, FleetSubscriptionDao fleetSubscriptionDao, FleetDao fleetDao, SubFleetDao subFleetDao) {
-        super(roleDao, companyDao, userDao, vehicleDao, vehicleTypeDao, fleetSubscriptionDao, fleetDao, subFleetDao);
+    public UserAbstractMapper(DaoContext daoContext) {
+        super(daoContext);
     }
 
     @Override
