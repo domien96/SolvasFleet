@@ -17,6 +17,8 @@ import java.util.List;
 @SuppressWarnings("unused")
 public class CompanyFilter implements Filterable<Company> {
 
+    private static final String ADDRESS = "address";
+
     private String city;
     private String country;
     private String nameContains;
@@ -27,13 +29,13 @@ public class CompanyFilter implements Filterable<Company> {
         List<Predicate> predicates = new ArrayList<>();
         if (city != null) {
             predicates.add(builder.like(
-                    builder.lower(root.get("address")),
+                    builder.lower(root.get(ADDRESS)),
                     "%" + city.toLowerCase() + "%"
             ));
         }
         if (country != null) {
             predicates.add(builder.like(
-                    builder.lower(root.get("address")),
+                    builder.lower(root.get(ADDRESS)),
                     "%" + country.toLowerCase() + "%"
             ));
         }
@@ -45,7 +47,7 @@ public class CompanyFilter implements Filterable<Company> {
         }
         if (postalCode != null) {
             predicates.add(builder.like(
-                    builder.lower(root.get("address")),
+                    builder.lower(root.get(ADDRESS)),
                     "%" + postalCode.toLowerCase() + "%"
             ));
         }
