@@ -4,7 +4,7 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="solvas.models.SubFleet" table="sub_fleets">
+    <class name="solvas.models.SubFleet" table="subfleets">
         <meta attribute="class-description">
             This class contains the subFleet detail.
         </meta>
