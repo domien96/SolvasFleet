@@ -1,6 +1,7 @@
 package solvas.rest.query;
 
 import solvas.models.Company;
+import solvas.persistence.Filter;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;
@@ -15,7 +16,7 @@ import java.util.List;
  * @author Niko Strijbol
  */
 @SuppressWarnings("unused")
-public class CompanyFilter implements Filterable<Company> {
+public class CompanyFilter implements Filter<Company> {
 
     private String city;
     private String country;
