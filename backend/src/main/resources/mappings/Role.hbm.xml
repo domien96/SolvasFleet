@@ -12,7 +12,7 @@
          <generator class="identity"/>
       </id>
 
-       <property name="function" column="function" type="string"/>
+       <property name="function" column="function" type="string" not-null="true"/>
 
        <many-to-one name="user" column="user_id"
                     class="solvas.models.User" not-null="true"/>
@@ -25,8 +25,8 @@
            <many-to-many column="permission_id" class="solvas.models.Permission" />
        </set>
 
-       <property name="updatedAt" column="updated_at" type="java.time.LocalDateTime" generated="always"/>
-       <property name="createdAt" column="created_at" type="java.time.LocalDateTime" generated="insert"/>
+       <property name="updatedAt" column="updated_at" type="java.time.LocalDateTime" generated="always" not-null="true"/>
+       <property name="createdAt" column="created_at" type="java.time.LocalDateTime" generated="insert" not-null="true"/>
 
 
    </class>
