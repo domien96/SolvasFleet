@@ -3,6 +3,7 @@ package solvas.rest.query;
 import solvas.models.Company;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
@@ -17,8 +18,6 @@ import java.util.List;
 @SuppressWarnings("unused")
 public class CompanyFilter implements Filterable<Company> {
 
-    private static final String ADDRESS = "address";
-
     private String city;
     private String country;
     private String nameContains;
@@ -27,15 +26,17 @@ public class CompanyFilter implements Filterable<Company> {
     @Override
     public Collection<Predicate> asPredicates(CriteriaBuilder builder, Root<Company> root) {
         List<Predicate> predicates = new ArrayList<>();
+        final Expression<String> address = builder.lower(root.get("address"));
+
         if (city != null) {
             predicates.add(builder.like(
-                    builder.lower(root.get(ADDRESS)),
+                    address,
                     "%" + city.toLowerCase() + "%"
             ));
         }
         if (country != null) {
             predicates.add(builder.like(
-                    builder.lower(root.get(ADDRESS)),
+                    address,
                     "%" + country.toLowerCase() + "%"
             ));
         }
@@ -47,7 +48,7 @@ public class CompanyFilter implements Filterable<Company> {
         }
         if (postalCode != null) {
             predicates.add(builder.like(
-                    builder.lower(root.get(ADDRESS)),
+                    address,
                     "%" + postalCode.toLowerCase() + "%"
             ));
         }
