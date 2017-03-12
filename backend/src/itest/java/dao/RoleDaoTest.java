@@ -15,6 +15,7 @@ import solvas.models.Role;
 import solvas.persistence.HibernateConfig;
 import solvas.persistence.company.CompanyDao;
 import solvas.persistence.role.RoleDao;
+import solvas.persistence.user.UserDao;
 
 import java.util.Iterator;
 
@@ -25,10 +26,9 @@ import static org.hamcrest.Matchers.hasSize;
 /**
  * Integration tests of RoleDao
  */
-@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles("test")
-@ContextConfiguration(classes = {HibernateConfig.class,HibernateTestConfig.class},loader = AnnotationConfigContextLoader.class)
+@ContextConfiguration(classes = {HibernateTestConfig.class},loader = AnnotationConfigContextLoader.class)
 @Transactional
 public class RoleDaoTest {
 
@@ -36,6 +36,8 @@ public class RoleDaoTest {
     private RoleDao roleDao;
     @Autowired
     private CompanyDao companyDao;
+    @Autowired
+    private UserDao userDao;
 
     private Role role;
     private RoleMatcher matcher = new RoleMatcher();
@@ -43,11 +45,11 @@ public class RoleDaoTest {
     @Before
     public void setUp()
     {
-        role=random(Role.class);
+        role=random(Role.class,"id");
         role.getCompany().setId(0);
-        //Company has to be in the database before adding the role
-        role.setCompany(companyDao.save(role.getCompany()));
-        role.setId(0); //new role has id 0
+        companyDao.save(role.getCompany());
+        role.getUser().setId(0);
+        userDao.save(role.getUser());
     }
 
     /**
@@ -57,7 +59,7 @@ public class RoleDaoTest {
     public void addRole()
     {
         roleDao.save(role);
-        assertThat(roleDao.findAll(),hasSize(1));
+        assertThat(roleDao.findAll(),hasSize(101));
         matcher.performAsserts(role,roleDao.find(role.getId()));
     }
 
@@ -68,9 +70,9 @@ public class RoleDaoTest {
     public void destroyRole()
     {
         roleDao.save(role);
-        assertThat(roleDao.findAll(),hasSize(1));
+        assertThat(roleDao.findAll(),hasSize(101));
         roleDao.destroy(role);
-        assertThat(roleDao.findAll(),hasSize(0));
+        assertThat(roleDao.findAll(),hasSize(100));
     }
 
     /**
@@ -79,12 +81,9 @@ public class RoleDaoTest {
     @Test
     public void updateRole()
     {
+        role.setId(10);
         roleDao.save(role);
-        role.setUrl("newurl");
-        Role update=random(Role.class);
-        update.setId(role.getId());
-        roleDao.save(update);
-        matcher.performAsserts(update,roleDao.find(role.getId()));
+        matcher.performAsserts(role,roleDao.find(role.getId()));
     }
 
     /**
@@ -103,13 +102,6 @@ public class RoleDaoTest {
     @Test
     public void findRoles()
     {
-        Role second = random(Role.class);
-        second.setId(0);
-        roleDao.save(role);
-        roleDao.save(second);
-        assertThat(roleDao.findAll(),hasSize(2));
-        Iterator<Role> i = roleDao.findAll().iterator();
-        matcher.performAsserts(role,i.next());
-        matcher.performAsserts(second,i.next());
+        assertThat(roleDao.findAll(),hasSize(100));
     }
 }
