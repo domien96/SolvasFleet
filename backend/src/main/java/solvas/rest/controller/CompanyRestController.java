@@ -59,8 +59,8 @@ public class CompanyRestController extends AbstractRestController<Company> {
     }
 
     @Override
-    @RequestMapping(value = "/companies", method = RequestMethod.PUT)
-    public ResponseEntity<?> put(@RequestBody Company input) {
-        return super.put(input);
+    @RequestMapping(value = "/companies/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<?> put(@PathVariable int id, @RequestBody Company input) {
+        return super.put(id, input);
     }
 }

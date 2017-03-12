@@ -1,15 +1,19 @@
 __De vragen hier zullen doorgegeven worden naar de klant door de CRO:__
 
-* Hoewel een voertuig hoofdzakelijk bij maar 1 bedrijf aangesloten zal zijn, is dit geen garantie. Is het voor Solvas interessant dat we een geschiedenis bijhouden voor ieder voertuig, bij welke bedrijven of banken het voertuig ooit aangesloten was (in context van leasing)?
 
-* Zijn overschreven kosten, zoals bvb de commissie, gelinkt aan een voertuig of aan een subvloot. In andere woorden hebben alle voertuigen van een bepaald type van een subvloot dezelfde overschreven kosten, of kan het zijn dat er op de pw van de baas minder commissie zit dan op de pw van een werknemer?
-
-* Is het nuttig voor Solvas dat de klanten (bedrijven), simulaties kunnen uitvoeren om te zien wat er verandert (in premie) bij het toevoegen/verwijderen van een nieuw voertuig, of het overschakelen naar een andere verzekering?
 
 <br><br>
 
 
 __Vragen die reeds verstuurd zijn:__
+
+* Hoewel een voertuig hoofdzakelijk bij maar 1 bedrijf aangesloten zal zijn, is dit geen garantie. Is het voor Solvas interessant dat we een geschiedenis bijhouden voor ieder voertuig, bij welke bedrijven of banken het voertuig ooit aangesloten was (in context van leasing)?
+
+* Zijn overschreven kosten, zoals bvb de commissie, gelinkt aan een voertuig of aan een subvloot. In andere woorden hebben alle voertuigen van een bepaald type van een subvloot dezelfde overschreven kosten, of kan het zijn dat er op de pw van de baas minder commissie zit dan op de pw van een werknemer?
+
+* Is het nuttig voor Solvas dat de klanten (bedrijven), simulaties kunnen uitvoeren om te zien wat er verandert (in premie) bij het toevoegen/verwijderen van een nieuw voertuig, of het overschakelen naar een andere verzekering? 
+
+> ja, maar als kers op de taart, geen prioriteit
 
 * **David** Zijn BA, Omnium en rechtsbijstand de enige verzekeringstypes? Kunnen we dus voor een subvloot in drie kolommen bijhouden tot welke verzekeringsmaatschappij ze behoren, of dienen we een tabel met verzekeringstypes te hebben?
 
