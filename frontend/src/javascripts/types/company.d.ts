@@ -1,7 +1,6 @@
 namespace Company {
   export interface Props { 
     [ params : string ] : { [ id : string ] : number };
-    fetchClients : () => void;
   }
 
   export interface State {
@@ -22,10 +21,11 @@ namespace Company {
 }
 
 interface Company {
+  id?           : number
   name?        : string;
   vat_number?   : string;
   phone_number? : string;
   address?     : string;
-  [key : string]: string;
+  [key : string]: string; 
 }
 

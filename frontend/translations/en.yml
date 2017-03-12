@@ -49,3 +49,13 @@ user:
 role:
   permission: Function in company
   permissionShort: Function
+
+fleet:
+  id: ID
+  name: Name
+  size: Size
+
+subfleet:
+  id: ID
+  name: Name
+  size: Size
