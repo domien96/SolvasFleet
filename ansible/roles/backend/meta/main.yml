@@ -1,0 +1,7 @@
+---
+
+dependencies:
+  - role: srv_user
+    name: backend
+  - role: postgresql
+  - role: java8

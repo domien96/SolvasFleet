@@ -8,5 +8,4 @@ server "vopro6.ugent.be",
    }
 
 set :deploy_to, '/srv/application'
-set :deploy_via, :copy
 set :repo_tree, 'backend'

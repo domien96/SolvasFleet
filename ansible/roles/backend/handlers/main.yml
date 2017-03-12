@@ -1,0 +1,6 @@
+---
+
+- name: solvas restart
+  systemd:
+    name: solvasFleet
+    state: restarted

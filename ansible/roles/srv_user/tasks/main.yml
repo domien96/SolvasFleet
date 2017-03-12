@@ -1,0 +1,22 @@
+---
+
+- name: create {{ name }} user
+  user:
+    name: "{{ name }}"
+    groups: keyslaves
+    append: true
+    shell: /bin/bash
+
+- name: create /srv/{{ name }} folder
+  file:
+    path: /srv/{{ name }}
+    mode: 0750
+    owner: "{{ name }}"
+    group: "{{ name }}"
+    state: directory
+- name: add www-data to {{ name }} group
+  user:
+    name: www-data
+    groups: "{{ name }}"
+    append: true
+
