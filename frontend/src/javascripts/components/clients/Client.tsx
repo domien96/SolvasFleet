@@ -7,7 +7,6 @@ import Card       from '../app/Card.tsx';
 import Header     from '../app/Header.tsx';
 import { DetailTable, th } from '../tables/DetailTable.tsx';
 
-
 import Fleets from '../fleets/Fleets.tsx'
 
 class Client extends React.Component<Company.Props, Company.State> {

@@ -28,15 +28,15 @@ errors:
 
 vehicle:
   licensePlate: License plate
-  chassisNumber: Vehicle Identification Number 
+  vin: Vehicle Identification Number 
   brand: Brand
   model: Model
   type: Type
-  kilometerCount: Kilometer count
+  mileage: Mileage (kilimeter count)
   year: Year of manufacture
   leasingCompany: Leasing company
   value: Estimated value
-  company: Company
+  fleet: Fleet ID
 
 user:
   id: ID

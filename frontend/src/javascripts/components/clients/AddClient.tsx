@@ -43,7 +43,7 @@ class AddClient extends React.Component<{}, Company.CForm.State> {
     return (
       <div>
         <Header>
-          <h2>Add A New User</h2>
+          <h2>Add A New Client</h2>
         </Header>
         <ClientForm
           company={ this.state.company }
