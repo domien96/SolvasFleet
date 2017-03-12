@@ -1,7 +1,7 @@
-import { COMPANIES_URL } from '../constants/constants.ts';
+import { COMPANY_URL } from '../constants/constants.ts';
 
 export default function(id : number, fleet_params : Fleet) {
-  return fetch(COMPANIES_URL + '/' + { id } + '/' + 'fleets', {
+  return fetch(COMPANY_URL(id) + '/' + 'fleets', {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
