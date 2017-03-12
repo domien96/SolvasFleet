@@ -2,8 +2,11 @@ package solvas.rest.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.*;
 import solvas.models.Role;
+import solvas.models.validators.RoleValidator;
 import solvas.persistence.role.RoleDao;
 import solvas.rest.api.mappings.RoleMapping;
 import solvas.rest.api.models.ApiRole;
@@ -22,10 +25,11 @@ public class RoleRestController extends AbstractRestController<Role,ApiRole> {
      * Rest controller for Role
      *
      * @param dao Autowired
+     * @param validator Validator for roles
      */
     @Autowired
-    public RoleRestController(RoleDao dao,RoleMapping mapping) {
-        super(dao,mapping);
+    public RoleRestController(RoleDao dao,RoleMapping mapping,RoleValidator validator) {
+        super(dao,mapping,validator);
     }
 
     /**
@@ -51,8 +55,8 @@ public class RoleRestController extends AbstractRestController<Role,ApiRole> {
 
     @Override
     @RequestMapping(value = "/roles", method = RequestMethod.POST)
-    public ResponseEntity<?> post(@RequestBody ApiRole input) {
-        return super.post(input);
+    public ResponseEntity<?> post(@RequestBody ApiRole input,BindingResult result) {
+        return super.post(input,result);
     }
 
     @Override
@@ -62,9 +66,8 @@ public class RoleRestController extends AbstractRestController<Role,ApiRole> {
     }
 
     @Override
-
     @RequestMapping(value = "/roles/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> put(@PathVariable int id, @RequestBody ApiRole input) {
-        return super.put(id, input);
+    public ResponseEntity<?> put(@PathVariable int id, @RequestBody ApiRole input,BindingResult result) {
+        return super.put(id, input,result);
     }
 }

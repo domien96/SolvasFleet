@@ -2,8 +2,11 @@ package solvas.rest.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.*;
 import solvas.models.Company;
+import solvas.models.validators.CompanyValidator;
 import solvas.persistence.company.CompanyDao;
 import solvas.rest.api.mappings.CompanyMapping;
 import solvas.rest.api.models.ApiCompany;
@@ -22,10 +25,11 @@ public class CompanyRestController extends AbstractRestController<Company,ApiCom
      * Rest controller for Company
      *
      * @param dao Autowired
+     * @param validator Validator for companies
      */
     @Autowired
-    public CompanyRestController(CompanyDao dao,CompanyMapping mapping) {
-        super(dao,mapping);
+    public CompanyRestController(CompanyDao dao,CompanyMapping mapping,CompanyValidator validator) {
+        super(dao, mapping, validator);
     }
 
 
@@ -47,8 +51,8 @@ public class CompanyRestController extends AbstractRestController<Company,ApiCom
 
     @Override
     @RequestMapping(value = "/companies", method = RequestMethod.POST)
-    public ResponseEntity<?> post(@RequestBody ApiCompany input) {
-        return super.post(input);
+    public ResponseEntity<?> post(@RequestBody ApiCompany input, BindingResult result) {
+        return super.post(input, result);
     }
 
     @Override
@@ -65,7 +69,7 @@ public class CompanyRestController extends AbstractRestController<Company,ApiCom
 
     @Override
     @RequestMapping(value = "/companies/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> put(@PathVariable int id, @RequestBody ApiCompany input) {
-        return super.put(id, input);
+    public ResponseEntity<?> put(@PathVariable int id, @RequestBody ApiCompany input,BindingResult result) {
+        return super.put(id, input,result);
     }
 }

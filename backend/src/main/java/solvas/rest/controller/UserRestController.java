@@ -2,8 +2,10 @@ package solvas.rest.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import solvas.models.User;
+import solvas.models.validators.UserValidator;
 import solvas.persistence.user.UserDao;
 import solvas.rest.api.mappings.UserMapping;
 import solvas.rest.api.models.ApiUser;
@@ -21,10 +23,11 @@ public class UserRestController extends AbstractRestController<User,ApiUser> {
      * Rest controller for User
      *
      * @param dao Autowired
+     * @param validator Validator for users
      */
     @Autowired
-    public UserRestController(UserDao dao,UserMapping mapping) {
-        super(dao,mapping);
+    public UserRestController(UserDao dao,UserMapping mapping,UserValidator validator) {
+        super(dao,mapping,validator);
     }
 
     /**
@@ -49,8 +52,8 @@ public class UserRestController extends AbstractRestController<User,ApiUser> {
 
     @Override
     @RequestMapping(value = "/users", method = RequestMethod.POST)
-    public ResponseEntity<?> post(@RequestBody ApiUser input) {
-        return super.post(input);
+    public ResponseEntity<?> post(@RequestBody ApiUser input,BindingResult result) {
+        return super.post(input,result);
     }
 
     @Override
@@ -61,7 +64,7 @@ public class UserRestController extends AbstractRestController<User,ApiUser> {
 
     @Override
     @RequestMapping(value = "/users/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> put(@PathVariable int id, @RequestBody ApiUser input) {
-        return super.put(id, input);
+    public ResponseEntity<?> put(@PathVariable int id, @RequestBody ApiUser input,BindingResult result) {
+        return super.put(id, input,result);
     }
 }

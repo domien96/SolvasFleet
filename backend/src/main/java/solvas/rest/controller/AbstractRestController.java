@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ClassUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import solvas.models.Model;
 import solvas.persistence.Dao;
@@ -29,15 +31,18 @@ public abstract class AbstractRestController<T extends Model, E> {
 
     protected final Dao<T> dao;
     protected Mapping<T,E> mapping;
+    protected final Validator validator;
 
     /**
      * Default constructor.
      *
      * @param dao The dao to work with.
+     * @param validator The validator to use when creating/updating entities
      */
-    protected AbstractRestController(Dao<T> dao, Mapping<T,E> mapping) {
+    protected AbstractRestController(Dao<T> dao, Mapping<T,E> mapping,Validator validator) {
         this.dao = dao;
         this.mapping = mapping;
+        this.validator = validator;
     }
 
     /**
@@ -96,17 +101,14 @@ public abstract class AbstractRestController<T extends Model, E> {
      * Save a new model in the database.
      *
      * @param input The model to save.
+     * @param binding The binding to use to validate
      * @return Response with the saved model, or 400.
      */
-    protected ResponseEntity<?> post(E input) {
-        //post message met application/json {"name":"comp4","vat":"4"}
-        //TODO validate whether input is valid
-
-        if (input != null) {
-            T result = dao.save(mapping.convertToModel(input));
-            return new ResponseEntity<>(mapping.convertToApiModel(result), HttpStatus.OK); // add URI to location header field
-        }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    protected ResponseEntity<?> post(E input, BindingResult binding) {
+            return save(input,binding,() -> {
+                T model =mapping.convertToModel(input);
+                return mapping.convertToApiModel(dao.create(model));
+            });
     }
 
     /**
@@ -128,22 +130,58 @@ public abstract class AbstractRestController<T extends Model, E> {
      * Updates a model in db
      *
      * @param input model to be updated
+     * @param binding The binding to use to validate
      * @return ResponseEntity
      */
-    protected ResponseEntity<?> put(int id,E input) {
-        try {
+    protected ResponseEntity<?> put(int id,E input,BindingResult binding) {
+        return save(input, binding, () -> {
             T model = mapping.convertToModel(input);
             model.setId(id);
-            return new ResponseEntity<>(mapping.convertToApiModel(dao
-                    .save(model)), HttpStatus.OK);
+            return mapping.convertToApiModel(dao
+                    .save(model));
+        });
+    }
 
-        } catch (EntityNotFoundException unused) {
-            return notFound();
+    /**
+     * @return ResponseEntity of a 404
+     */
+    private ResponseEntity<?> notFound() {
+        return new ResponseEntity<>("Could not find object.", HttpStatus.NOT_FOUND);
+    }
+
+    /**
+     * @param input The input entity to save
+     * @param binding BindingResult to use for validations
+     * @param saveMethod The saveMethod (example: dao.update or dao.create)
+     * @return ResponseEntity to return to user
+     */
+    private ResponseEntity<?> save(E input, BindingResult binding, SaveMethod<E> saveMethod) {
+        validator.validate(input, binding);
+        if (!binding.hasErrors()) {
+            try {
+                return new ResponseEntity<>(saveMethod.run(), HttpStatus.OK);
+            } catch (EntityNotFoundException unused) {
+                // Notify user the record wasn't found
+                // Shouldn't happen when creating a record
+                return notFound();
+            }
+        } else {
+            // Return validation errors to user
+            return new ResponseEntity<Object>(
+                    new JsonListWrapper<>(binding.getFieldErrors(), "errors"),
+                    HttpStatus.BAD_REQUEST);
         }
     }
 
-
-    private ResponseEntity<?> notFound() {
-        return new ResponseEntity<>("Could not find object.", HttpStatus.NOT_FOUND);
+    /**
+     * Specify how to save an entity
+     * @param <T> Type of the entity to save
+     */
+    protected interface SaveMethod<T> {
+        /**
+         * Method to run to save an entity
+         * @return the saved entity
+         */
+        T run();
     }
 }

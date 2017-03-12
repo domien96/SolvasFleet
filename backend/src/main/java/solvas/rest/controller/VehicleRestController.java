@@ -2,8 +2,10 @@ package solvas.rest.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import solvas.models.Vehicle;
+import solvas.models.validators.VehicleValidator;
 import solvas.persistence.vehicle.VehicleDao;
 import solvas.rest.api.mappings.VehicleMapping;
 import solvas.rest.api.models.ApiVehicle;
@@ -21,10 +23,11 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
      * Rest controller for Vehicle
      *
      * @param dao Autowired
+     * @param validator Validator for vehicles
      */
     @Autowired
-    public VehicleRestController(VehicleDao dao,VehicleMapping mapping) {
-        super(dao,mapping);
+    public VehicleRestController(VehicleDao dao,VehicleMapping mapping,VehicleValidator validator) {
+        super(dao,mapping,validator);
     }
 
     /**
@@ -49,8 +52,8 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
 
     @Override
     @RequestMapping(value = "/vehicles", method = RequestMethod.POST)
-    public ResponseEntity<?> post(@RequestBody ApiVehicle input) {
-        return super.post(input);
+    public ResponseEntity<?> post(@RequestBody ApiVehicle input,BindingResult result) {
+        return super.post(input,result);
     }
 
     @Override
@@ -62,7 +65,7 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
     @Override
 
     @RequestMapping(value = "/vehicles/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> put(@PathVariable int id, @RequestBody ApiVehicle input) {
-        return super.put(id, input);
+    public ResponseEntity<?> put(@PathVariable int id, @RequestBody ApiVehicle input,BindingResult result) {
+        return super.put(id, input,result);
     }
 }
