@@ -24,13 +24,11 @@ class Overview extends React.Component<OverviewProps, {}> {
 
   render() {
     const tableHead = [
-      th('company', 'vehicle.company'),
-      th('leasingCompany', 'vehicle.leasingCompany'),
-      th('chassisNumber', 'vehicle.chassisNumber') ,
+      th('fleet', 'vehicle.fleet'),
+      th('vin', 'vehicle.vin') ,
       th('licensePlate', 'vehicle.licensePlate') ,
-      th('brand', 'vehicle.brand') ,
-      th('model', 'vehicle.model') 
-    ]
+      th('type', 'vehicle.type') 
+    ];
 
     return (
       <InfoTable head={ tableHead } data={ this.props.vehicles } onClick={ this.handleClick } />

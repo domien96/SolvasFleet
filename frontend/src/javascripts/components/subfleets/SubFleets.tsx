@@ -18,7 +18,7 @@ class Overview extends React.Component<OverviewProps, {}> {
   }
 
   handleClick(id : number) {
-    browserHistory.push('subfleets/' + id + '/vehicles');
+    browserHistory.push('/subfleets/' + id + '/vehicles');
   }
 
   render() {

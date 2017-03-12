@@ -9,17 +9,23 @@ namespace Vehicle {
   }
 
   export type Field =
-    'id' | 'licensePlate' | 'chassisNumber' | 'brand'
-      | 'model' | 'type' | 'kilometerCount' | 'year'
-      | 'leasingCompany' | 'value' | 'company';
+    'id' | 'licensePlate' | 'vin' | 'brand'
+      | 'model' | 'type' | 'mileage' | 'year'
+      | 'leasingCompany' | 'value' | 'fleet';
 
 
-  namespace New {
-    export interface Props { }
+  namespace VForm {
+    export interface Props {
+      onSubmit     : (e : any) => void;
+      handleChange : (field : Vehicle.Field, e : any) => void;
+      errors       : Form.Error[];
+      hasError     : (field : Vehicle.Field) => boolean;
+      vehicle      : Vehicle;
+    }
 
     export interface State {
-      errors  : Form.Error[];
-      vehicle : Vehicle;
+      errors : Form.Error[];
+      vehicle   : Vehicle;
     }
   }
 }
@@ -27,14 +33,14 @@ namespace Vehicle {
 interface Vehicle {
   id?             : number;
   licensePlate?   : string;
-  chassisNumber?  : string; //VIN: vehicle identification number
+  vin?            : string; //VIN: vehicle identification number
   brand?          : string;
   model?          : string;
   type?           : string;
-  kilometerCount?        : number;
+  mileage?        : number;
   year?           : number;
   leasingCompany? : string;
   value?          : number;
-  company?        : string
-  [key : string]: string; 
+  fleet?          : number
+  [key : string]  : string; 
 }

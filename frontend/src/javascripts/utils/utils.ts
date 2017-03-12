@@ -12,3 +12,8 @@ export function humanize(s : string) : string {
       return match.charAt(0).toUpperCase() + match.slice(1);
     });
 }
+
+export function hasError(this: any, k : string) : boolean {
+  const errors = this.state.errors.filter(function(el : Form.Error) { return el.field == k; });
+  return (errors.length != 0);
+}

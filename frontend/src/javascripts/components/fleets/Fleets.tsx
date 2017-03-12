@@ -20,7 +20,7 @@ class Overview extends React.Component<OverviewProps, {}> {
   }
 
   handleClick(fleetId : number) {
-    browserHistory.push('/clients/' + this.props.clientId + '/fleets/' + fleetId + '/subfleets');
+    browserHistory.push('/fleets/' + fleetId + '/subfleets');
   }
 
   render() {

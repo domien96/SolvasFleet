@@ -7,7 +7,8 @@ import FormField  from '../forms/FormField.tsx';
 import Header     from '../app/Header.tsx';
 import Errors     from '../app/Errors.tsx';
 
-import createFleet from '../../actions/create_fleet.ts';
+import createFleet  from '../../actions/create_fleet.ts';
+import { hasError } from '../../utils/utils.ts';
 
 interface GeneralInfoProps {
   handleChange: (field : string, e : any) => void;
@@ -66,7 +67,6 @@ class AddFleet extends React.Component<Fleet.Props, Fleet.New.State> {
     };
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit     = this.onSubmit.bind(this);
-    this.hasError     = this.hasError.bind(this);
   }
 
   public handleChange(field : Fleet.Field, e : any) : void {
@@ -87,11 +87,6 @@ class AddFleet extends React.Component<Fleet.Props, Fleet.New.State> {
     });
   }
 
-  public hasError(k : string) : boolean {
-    const errors = this.state.errors.filter(function(el) {return el.field == k; });
-    return (errors.length != 0);
-  }
-
   render() {
     return (
       <div>
@@ -102,7 +97,7 @@ class AddFleet extends React.Component<Fleet.Props, Fleet.New.State> {
           <div className='wrapper'>
             <div className='row'>
               <Errors errors={ this.state.errors } />
-              <GeneralInfo fleet={ this.state.fleet } handleChange={ this.handleChange } hasError={ this.hasError.bind(this) }/>
+              <GeneralInfo fleet={ this.state.fleet } handleChange={ this.handleChange } hasError={ hasError.bind(this) }/>
               <div className='col-xs-12 col-md-5'>
                 <div className='row'>
                   <Submit id={this.props.params.id} />
