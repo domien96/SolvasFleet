@@ -28,7 +28,7 @@
 
   a. Het systeem geeft een errormelding voor onvolledige invoer weer
 
-  b. ga naar stap (2)
+  b. ga naar stap (1)
 
 * (4). De klant heeft teveel betaald bij een vorige factuur door de wijziging
 
