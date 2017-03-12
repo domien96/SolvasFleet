@@ -28,6 +28,6 @@ render() {
   }
 }
 
-export function th(key : string, label : any) : Table.Head.Data {
+export function th(key : string, label : string | number) : Table.Head.Data {
   return { key: key, label: label };
 }
