@@ -18,7 +18,7 @@ import java.util.List;
 @SuppressWarnings("unused")
 public class VehicleFilter implements Filter<Vehicle> {
 
-    private String chassisNumber;
+    private String vin;
     private int leasingCompany = -1;
     private String licensePlate;
     private String type;
@@ -27,10 +27,10 @@ public class VehicleFilter implements Filter<Vehicle> {
     @Override
     public Collection<Predicate> asPredicates(CriteriaBuilder builder, Root<Vehicle> root) {
         List<Predicate> predicates = new ArrayList<>();
-        if (chassisNumber != null) {
+        if (vin != null) {
             predicates.add(builder.equal(
-                    builder.lower(root.get("chassisNumber")),
-                    chassisNumber.toLowerCase()
+                    builder.lower(root.get("vin")),
+                    vin.toLowerCase()
             ));
         }
         if (leasingCompany >= 0) {
@@ -56,8 +56,8 @@ public class VehicleFilter implements Filter<Vehicle> {
         return predicates;
     }
 
-    public void setChassisNumber(String chassisNumber) {
-        this.chassisNumber = chassisNumber;
+    public void setVin(String vin) {
+        this.vin = vin;
     }
 
     public void setLeasingCompany(int leasingCompany) {

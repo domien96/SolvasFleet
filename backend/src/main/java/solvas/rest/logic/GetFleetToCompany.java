@@ -9,8 +9,9 @@ import java.time.LocalDate;
  * Created by steve on 11/03/2017.
  *
  */
-public class GetVehicleToCompany {
-    public Company run(Vehicle vehicle,FleetSubscriptionDao fleetSubscriptionDao) throws InconsistentDbException, NoActiveSubscriptionException {
+public class GetFleetToCompany {
+
+    public Fleet run(Vehicle vehicle, FleetSubscriptionDao fleetSubscriptionDao) throws InconsistentDbException, NoActiveSubscriptionException {
 
         //Find active subscription
         FleetSubscription activeFleetSubscription=null;
@@ -40,12 +41,7 @@ public class GetVehicleToCompany {
             throw new InconsistentDbException();
         }
 
-        //Find Company
-        Company company = fleet.getCompany();
-        if (company==null) {
-            throw new InconsistentDbException();
-        }
-        return company;
+        return fleet;
     }
     public class NoActiveSubscriptionException extends Exception{
 
