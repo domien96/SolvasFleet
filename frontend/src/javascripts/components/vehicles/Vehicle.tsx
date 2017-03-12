@@ -5,7 +5,9 @@ import fetchVehicle  from '../../actions/fetch_vehicle.ts';
 import deleteVehicle from '../../actions/delete_vehicle.ts';
 
 import Card       from '../app/Card.tsx';
-import { DetailTable, th } from '../tables/DetailTable.tsx';
+import DetailTable from '../tables/DetailTable.tsx';
+
+import { th } from '../../utils/utils.ts';
 
 class Vehicle extends React.Component<Vehicle.Props, Vehicle.State> {
 

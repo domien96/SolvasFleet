@@ -21,7 +21,7 @@ class InfoTable extends React.Component<Table.Info.Props, {}> {
   render() {
     const tableHead = this.props.head.map((headData : Table.Head.Data) =>
     (
-      <th key={headData.key} scope='row' className='table-row' >{T.translate(headData.label)}</th>
+      <th key={ headData.key } scope='row' className='table-row' >{ T.translate(headData.label) }</th>
     ));
 
     const tableRows = this.getRows();

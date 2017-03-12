@@ -19,5 +19,5 @@ export function hasError(this: any, k : string) : boolean {
 }
 
 export function th(key : string, label : string | number) : Table.Head.Data {
-  return { key: key, label: label };
+  return { key: key, label: label.toString() };
 }
