@@ -1,0 +1,5 @@
+---
+
+- name: Install Java 8 JDK
+  apt:
+    name: default-jdk

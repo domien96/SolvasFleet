@@ -1,0 +1,17 @@
+---
+
+- name: Lookup Jenkins admin password
+  shell: cat /var/lib/jenkins/secrets/initialAdminPassword
+  register: admin_password
+  changed_when: False
+
+- include: jenkins.yml
+  vars:
+    jenkins_params:
+      url: http://localhost:8081/jenkins/
+      url_username: admin
+      url_password: "{{ admin_password.stdout }}"
+
+- name: Install postfix
+  apt:
+    name: postfix

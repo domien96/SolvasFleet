@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"> 
+
+<hibernate-mapping>
+   <class name="solvas.models.Vehicle" table="vehicles">
+      <meta attribute="class-description">
+         This class contains the vehicle detail.
+      </meta>
+      <id name="id" type="int" column="vehicle_id">
+         <generator class="identity"/>
+      </id>
+
+      <property name="licensePlate" column="license_plate" type="string"/>
+       <property name="chassisNumber" column="chassis_number" type="string"/>
+
+       <many-to-one name="type" column="vehicletype_id"
+                    class="solvas.models.VehicleType" not-null="true"/>
+
+       <property name="model" column="model" type="string"/>
+       <property name="kilometerCount" column="kilometer_count" type="int"/>
+       <property name="year" column="year" type="int"/>
+
+       <many-to-one name="leasingCompany" column="leasing_company_id"
+                    class="solvas.models.Company" not-null="false"/>
+
+       <property name="value" column="value" type="int"/>
+       <property name="brand" column="brand" type="string"/>
+
+
+       <property name="updatedAt" column="updated_at" type="java.time.LocalDateTime" generated="always"/>
+       <property name="createdAt" column="created_at" type="java.time.LocalDateTime" generated="insert"/>
+
+   </class>
+</hibernate-mapping>

@@ -4,19 +4,18 @@ buildscript {
         mavenLocal()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.0.1.RELEASE")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.2.RELEASE")
     }
 }
  
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
-apply plugin: 'spring-boot'
+apply plugin: 'org.springframework.boot'
  
 jar {
     baseName = 'SolvasFleet'
     version =  '0.1.0'
-    mainClassName = "solvas.Application"
 }
  
 repositories {
@@ -25,14 +24,16 @@ repositories {
 }
  
 dependencies {
-    compile "org.springframework.boot:spring-boot-starter-web"
-    compile "org.hibernate:hibernate-core:4.3.6.Final"
-    compile "org.postgresql:postgresql:9.4-1201-jdbc41"
+    // The Spring Boot Gradle plugin automatically manages versions for select dependencies.
+    // See http://docs.spring.io/spring-boot/docs/current/reference/html/appendix-dependency-versions.html
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework:spring-orm'
+    compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+
+    // We want newer versions of these, so we add the version.
+    compile 'org.flywaydb:flyway-core:4.1.1'
+    compile 'org.hibernate:hibernate-core:5.2.8.Final'
+    compile 'org.postgresql:postgresql:42.0.0.jre7'
 
     testCompile "junit:junit"
 }
- 
-task wrapper(type: Wrapper) {
-    gradleVersion = '1.11'
-}
-
