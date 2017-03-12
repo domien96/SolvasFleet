@@ -12,25 +12,25 @@
          <generator class="identity"/>
       </id>
 
-      <property name="licensePlate" column="license_plate" type="string"/>
-       <property name="chassisNumber" column="chassis_number" type="string"/>
+      <property name="licensePlate" column="license_plate" type="string" not-null="true"/>
+       <property name="chassisNumber" column="chassis_number" type="string" not-null="true"/>
 
        <many-to-one name="type" column="vehicletype_id"
                     class="solvas.models.VehicleType" not-null="true"/>
 
-       <property name="model" column="model" type="string"/>
-       <property name="kilometerCount" column="kilometer_count" type="int"/>
-       <property name="year" column="year" type="int"/>
+       <property name="model" column="model" type="string" not-null="true"/>
+       <property name="kilometerCount" column="kilometer_count" type="int" not-null="true"/>
+       <property name="year" column="year" type="int" not-null="true"/>
 
        <many-to-one name="leasingCompany" column="leasing_company_id"
                     class="solvas.models.Company" not-null="false"/>
 
-       <property name="value" column="value" type="int"/>
-       <property name="brand" column="brand" type="string"/>
+       <property name="value" column="value" type="int" not-null="true"/>
+       <property name="brand" column="brand" type="string" not-null="true"/>
 
 
-       <property name="updatedAt" column="updated_at" type="java.time.LocalDateTime" generated="always"/>
-       <property name="createdAt" column="created_at" type="java.time.LocalDateTime" generated="insert"/>
+       <property name="updatedAt" column="updated_at" type="java.time.LocalDateTime" generated="always" not-null="true"/>
+       <property name="createdAt" column="created_at" type="java.time.LocalDateTime" generated="insert" not-null="true"/>
 
    </class>
 </hibernate-mapping>
