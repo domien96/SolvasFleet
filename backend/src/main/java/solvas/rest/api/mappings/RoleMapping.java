@@ -56,6 +56,6 @@ public class RoleMapping extends Mapping<Role,ApiRole> {
         apiRole.setFunction(role.getFunction());
         apiRole.setStartDate(role.getStartDate());
         apiRole.setEndDate(role.getEndDate());
-        return null;
+        return apiRole;
     }
 }
