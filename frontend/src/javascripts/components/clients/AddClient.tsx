@@ -8,6 +8,7 @@ import Header     from '../app/Header.tsx';
 import Errors     from '../app/Errors.tsx';
 
 import createCompany from '../../actions/create_company.ts';
+import { hasError }  from '../../utils/utils.ts';
 
 interface GeneralInfoProps {
   handleChange: (field : string, e : any) => void;
@@ -66,7 +67,6 @@ class AddClient extends React.Component<Company.Props, Company.New.State> {
     };
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit     = this.onSubmit.bind(this);
-    this.hasError     = this.hasError.bind(this);
   }
 
   public handleChange(field : Company.Field, e : any) : void {
@@ -87,11 +87,6 @@ class AddClient extends React.Component<Company.Props, Company.New.State> {
     });
   }
 
-  public hasError(k : string) : boolean {
-    const errors = this.state.errors.filter(function(el) {return el.field == k; });
-    return (errors.length != 0);
-  }
-
   render() {
     return (
       <div>
@@ -102,7 +97,7 @@ class AddClient extends React.Component<Company.Props, Company.New.State> {
           <div className='wrapper'>
             <div className='row'>
               <Errors errors={ this.state.errors } />
-              <GeneralInfo company={ this.state.company } handleChange={ this.handleChange } hasError={ this.hasError.bind(this) }/>
+              <GeneralInfo company={ this.state.company } handleChange={ this.handleChange } hasError={ hasError.bind(this) }/>
               <div className='col-xs-12 col-md-5'>
                   <Submit />
               </div>
