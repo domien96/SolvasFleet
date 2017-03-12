@@ -3,14 +3,11 @@ package solvas.models.validators;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
-import solvas.models.Model;
 import solvas.rest.api.models.ApiModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.stream.Stream;
 
 /**
  * Contains boilerplate code for validators

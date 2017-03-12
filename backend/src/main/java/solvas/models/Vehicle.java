@@ -1,7 +1,5 @@
 package solvas.models;
 
-import java.util.Collection;
-
 /**
  * Models a vehicle
  * @author steven

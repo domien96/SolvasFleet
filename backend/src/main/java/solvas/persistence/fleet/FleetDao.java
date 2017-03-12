@@ -1,6 +1,5 @@
 package solvas.persistence.fleet;
 
-import solvas.models.Company;
 import solvas.models.Fleet;
 import solvas.persistence.Dao;
 

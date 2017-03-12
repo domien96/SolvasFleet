@@ -1,7 +1,6 @@
 package solvas.models.validators;
 
 import org.springframework.stereotype.Component;
-import solvas.models.User;
 import solvas.rest.api.models.ApiUser;
 
 /**

@@ -2,7 +2,6 @@ package solvas.persistence.fleetSubscription;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import solvas.models.Company;
 import solvas.models.FleetSubscription;
 import solvas.persistence.HibernateDao;
 

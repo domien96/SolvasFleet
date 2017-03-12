@@ -13,8 +13,8 @@ import solvas.persistence.user.UserDao;
 import solvas.persistence.vehicle.VehicleDao;
 import solvas.persistence.vehicleType.VehicleTypeDao;
 import solvas.rest.api.models.ApiVehicle;
-import solvas.rest.logic.InconsistentDbException;
 import solvas.rest.logic.GetVehicleToCompany;
+import solvas.rest.logic.InconsistentDbException;
 import solvas.rest.logic.LinkVehicleCompany;
 
 /**
