@@ -16,7 +16,7 @@
        <property name="chassisNumber" column="chassis_number" type="string"/>
 
        <many-to-one name="type" column="vehicletype_id"
-                    class="solvas.models.Vehicletype" not-null="true"/>
+                    class="solvas.models.VehicleType" not-null="true"/>
 
        <property name="model" column="model" type="string"/>
        <property name="kilometerCount" column="kilometer_count" type="int"/>
@@ -25,13 +25,12 @@
        <many-to-one name="leasingCompany" column="leasing_company_id"
                     class="solvas.models.Company" not-null="false"/>
 
-       <property name="value" column="vat" type="int"/>
+       <property name="value" column="value" type="int"/>
+       <property name="brand" column="brand" type="string"/>
 
-       <many-to-one name="company" column="company_id"
-                    class="solvas.models.Company" not-null="false"/>
 
-       <property name="updatedAt" column="updated_at" type="timestamp" generated="always"/>
-       <property name="createdAt" column="created_at" type="timestamp" generated="insert"/>
+       <property name="updatedAt" column="updated_at" type="java.time.LocalDateTime" generated="always"/>
+       <property name="createdAt" column="created_at" type="java.time.LocalDateTime" generated="insert"/>
 
    </class>
 </hibernate-mapping>

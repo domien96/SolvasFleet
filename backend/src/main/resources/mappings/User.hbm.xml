@@ -18,9 +18,13 @@
 
       <property name="password" column="password" type="string"/>
 
-      <property name="updatedAt" column="updated_at" type="timestamp" generated="always"/>
-      <property name="createdAt" column="created_at" type="timestamp" generated="insert"/>
+      <property name="updatedAt" column="updated_at" type="java.time.LocalDateTime" generated="always"/>
+      <property name="createdAt" column="created_at" type="java.time.LocalDateTime" generated="insert"/>
 
 
+      <set name="companies" table="company_users" inverse="true"> <!-- Company is owner of relationship -->
+         <key column="user_id"/>
+         <many-to-many column="company_id" class="solvas.models.Company" />
+      </set>
    </class>
 </hibernate-mapping>

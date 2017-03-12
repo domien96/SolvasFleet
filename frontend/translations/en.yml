@@ -1,40 +1,61 @@
-form:
-  placeholders:
-    email: Email
-    password: Password
-    name: Name
-    vatNumber: VAT number 
-    phoneNumber: Phone number
-    address: Address
-    licencePlate: Licence plate
-    chassisNumber: Vehicle Identification Number 
-    brand: Brand
-    model: Model
-    type: Type
-    kmCount: Kilometer count
-    year: Year of manufacture
-    leasingCompany: Leasing company
-    value: Estimated value
-    company: Company
-    firstName: First name
-    lastName: Last name
-    permission: Function in company
-    permissionShort: Function
+
 login:
   submit: 'Login'
-addCompany:
-  submit: 'Add Comany'
+
+addClient:
+  submit: 'Add Client'
+
 addVehicle: 
   submit: 'Add Vehicle'
+
 addUser: 
   submit: 'Add User'
+
 addRole:
   submit: 'Add Role to user'
   startDate: Start date
   endDate: End date
+
 company:
   id: ID
   name: Name
   vatNumber: VAT number
   phoneNumber: Phone number
   address: Address
+
+errors:
+  null: is empty
+
+vehicle:
+  licensePlate: License plate
+  chassisNumber: Vehicle Identification Number 
+  brand: Brand
+  model: Model
+  type: Type
+  kilometerCount: Kilometer count
+  year: Year of manufacture
+  leasingCompany: Leasing company
+  value: Estimated value
+  company: Company
+
+user:
+  id: ID
+  email: Email
+  password: Password
+  address: Address
+  firstName: First name
+  lastName: Last name
+
+role:
+  permission: Function in company
+  permissionShort: Function
+
+fleet:
+  id: ID
+  name: Name
+  size: Size
+
+subfleet:
+  id: ID
+  name: Name
+  size: Size

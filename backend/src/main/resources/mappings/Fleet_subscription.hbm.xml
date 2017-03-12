@@ -6,22 +6,22 @@
 <hibernate-mapping>
    <class name="solvas.models.FleetSubscription" table="fleet_subscriptions">
       <meta attribute="class-description">
-         This class contains the subscribed fleet detail.
+         This class contains the subscribed subFleet detail.
       </meta>
       <id name="id" type="int" column="fleet_subscription_id">
          <generator class="identity"/>
       </id>
 
-       <property name="endDate" column="end_date" type="date" not-null="true"/>
-      <property name="startDate" column="start_date" type="date" not-null="true"/>
+       <property name="endDate" column="end_date" type="java.time.LocalDate" not-null="true"/>
+      <property name="startDate" column="start_date" type="java.time.LocalDate" not-null="true"/>
 
        <many-to-one name="vehicle" column="vehicle_id"
-                    class="solvas.models.Vehicle" not-null="true"/>
-      <many-to-one name="fleet" column="fleet_id"
-                   class="solvas.models.Fleet" not-null="true"/>
+                    class="solvas.models.Vehicle" /> <!-- TODO shoould be not null not-null="true"/>-->
+      <many-to-one name="subFleet" column="sub_fleet_id"
+                   class="solvas.models.SubFleet" not-null="true"/>
 
-      <property name="updatedAt" column="updated_at" type="timestamp" generated="always"/>
-      <property name="createdAt" column="created_at" type="timestamp" generated="insert"/>
+      <property name="updatedAt" column="updated_at" type="java.time.LocalDateTime" generated="always"/>
+      <property name="createdAt" column="created_at" type="java.time.LocalDateTime" generated="insert"/>
 
    </class>
 </hibernate-mapping>

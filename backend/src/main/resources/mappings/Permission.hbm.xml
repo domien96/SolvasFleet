@@ -14,8 +14,14 @@
 
       <property name="name" column="name" type="string" not-null="true"/>
 
-      <property name="updatedAt" column="updated_at" type="timestamp" generated="always"/>
-      <property name="createdAt" column="created_at" type="timestamp" generated="insert"/>
+
+       <set name="roles" table="role_permissions" inverse="true"> <!-- Role is owner of relationship -->
+           <key column="permission_id"/>
+           <many-to-many column="role_id" class="solvas.models.Role" />
+       </set>
+
+      <property name="updatedAt" column="updated_at" type="java.time.LocalDateTime" generated="always"/>
+      <property name="createdAt" column="created_at" type="java.time.LocalDateTime" generated="insert"/>
 
    </class>
 </hibernate-mapping>
