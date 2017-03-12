@@ -25,6 +25,11 @@
        <many-to-one name="leasingCompany" column="leasing_company_id"
                     class="solvas.models.Company" not-null="false"/>
 
+       <set name="subFleets" table="fleet_subscriptions" lazy="true">
+           <key column="vehicle_id" />
+           <one-to-many class="solvas.models.FleetSubscription"/>
+       </set>
+
        <property name="value" column="value" type="int"/>
        <property name="brand" column="brand" type="string"/>
 

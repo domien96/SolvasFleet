@@ -1,13 +1,10 @@
 package solvas.rest.query;
 
-import solvas.models.Vehicle;
-import solvas.models.VehicleType;
+import solvas.models.*;
 import solvas.persistence.Filter;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -23,6 +20,7 @@ public class VehicleFilter implements Filter<Vehicle> {
     private String licensePlate;
     private String type;
     private int year = -1;
+    private int fleet = -1;
 
     @Override
     public Collection<Predicate> asPredicates(CriteriaBuilder builder, Root<Vehicle> root) {
@@ -52,6 +50,28 @@ public class VehicleFilter implements Filter<Vehicle> {
                     type.toLowerCase()
             ));
         }
+        if (fleet >= 0) {
+            Join<Vehicle, FleetSubscription> subscriptionJoin = root.join("subFleets");
+            Join<FleetSubscription, SubFleet> subFleetJoin = subscriptionJoin.join("subFleet");
+            Join<SubFleet, Fleet> fleetJoin = subFleetJoin.join("fleet");
+
+            LocalDate now = LocalDate.now();
+            // The start must be before today
+            Predicate start = builder.lessThan(subscriptionJoin.get("startDate"), now);
+            // The end is not set or after today
+            Predicate end = builder.or(
+                    builder.isNull(subscriptionJoin.get("endDate")),
+                    builder.greaterThan(subscriptionJoin.get("endDate"), now)
+            );
+
+            predicates.add(
+                builder.and(
+                        builder.equal(fleetJoin.get("id"), fleet),
+                        start,
+                        end
+                )
+            );
+        }
 
         return predicates;
     }
@@ -74,5 +94,9 @@ public class VehicleFilter implements Filter<Vehicle> {
 
     public void setYear(int year) {
         this.year = year;
+    }
+
+    public void setFleet(int fleet) {
+        this.fleet = fleet;
     }
 }

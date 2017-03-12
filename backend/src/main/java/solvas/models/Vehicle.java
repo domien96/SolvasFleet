@@ -1,5 +1,7 @@
 package solvas.models;
 
+import java.util.Set;
+
 /**
  * Models a vehicle
  * @author steven
@@ -15,7 +17,15 @@ public class Vehicle extends Model {
     private int value; //TODO check if used
     private String brand;
 
+    public Set<FleetSubscription> getSubFleets() {
+        return subFleets;
+    }
 
+    public void setSubFleets(Set<FleetSubscription> subFleets) {
+        this.subFleets = subFleets;
+    }
+
+    private Set<FleetSubscription> subFleets;
 
     public Vehicle() {
     }
