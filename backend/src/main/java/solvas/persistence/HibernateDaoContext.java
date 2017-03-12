@@ -1,5 +1,7 @@
 package solvas.persistence;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import solvas.models.Company;
 import solvas.persistence.company.CompanyDao;
 import solvas.persistence.company.HibernateCompanyDao;
@@ -22,77 +24,74 @@ import solvas.persistence.vehicleType.VehicleTypeDao;
  * Uses lazy creation.
  * Created by domien on 12/03/2017.
  */
+@Repository
 public class HibernateDaoContext implements DaoContext {
 
-    private CompanyDao companyDao = null;
+    @Autowired
+    public HibernateDaoContext(CompanyDao companyDao, FleetDao fleetDao, FleetSubscriptionDao fleetSubscriptionDao, RoleDao roleDao, SubFleetDao subFleetDao, UserDao userDao, VehicleDao vehicleDao, VehicleTypeDao vehicleTypeDao) {
+        this.companyDao = companyDao;
+        this.fleetDao = fleetDao;
+        this.fleetSubscriptionDao = fleetSubscriptionDao;
+        this.roleDao = roleDao;
+        this.subFleetDao = subFleetDao;
+        this.userDao = userDao;
+        this.vehicleDao = vehicleDao;
+        this.vehicleTypeDao = vehicleTypeDao;
+    }
+
+    private CompanyDao companyDao;
 
     @Override
     public CompanyDao getCompanyDao() {
-        if (companyDao==null)
-            companyDao = new HibernateCompanyDao();
         return companyDao;
     }
 
-    private FleetDao fleetDao = null;
+    private FleetDao fleetDao;
 
     @Override
     public FleetDao getFleetDao() {
-        if (fleetDao==null)
-            fleetDao = new HibernateFleetDao();
         return fleetDao;
     }
 
-    private FleetSubscriptionDao fleetSubscriptionDao = null;
+    private FleetSubscriptionDao fleetSubscriptionDao;
 
     @Override
     public FleetSubscriptionDao getFleetSubscriptionDao() {
-        if (fleetSubscriptionDao==null)
-            fleetSubscriptionDao = new HibernateFleetSubscriptionDao();
         return fleetSubscriptionDao;
     }
 
-    private RoleDao roleDao = null;
+    private RoleDao roleDao;
 
     @Override
     public RoleDao getRoleDao() {
-        if (roleDao==null)
-            roleDao = new HibernateRoleDao();
         return roleDao;
     }
 
-    private SubFleetDao subFleetDao = null;
+    private SubFleetDao subFleetDao;
 
     @Override
     public SubFleetDao getSubFleetDao() {
-        if (subFleetDao==null)
-            subFleetDao = new HibernateSubFleetDao();
         return subFleetDao;
     }
 
-    private UserDao userDao = null;
+    private UserDao userDao;
 
     @Override
     public UserDao getUserDao() {
-        if (userDao==null)
-            userDao = new HibernateUserDao();
         return userDao;
     }
 
-    private VehicleDao vehicleDao = null;
+    private VehicleDao vehicleDao;
 
     @Override
     public VehicleDao getVehicleDao() {
-        if (vehicleDao==null)
-            vehicleDao = new HibernateVehicleDao();
         return vehicleDao;
     }
 
-    private VehicleTypeDao vehicleTypeDao = null;
+    private VehicleTypeDao vehicleTypeDao;
 
     @Override
     public VehicleTypeDao getVehicleTypeDao() {
-        if (vehicleTypeDao==null)
-            vehicleTypeDao = new HibernateVehicleTypeDao();
         return vehicleTypeDao;
     }
 }

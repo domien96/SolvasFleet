@@ -12,8 +12,8 @@ import solvas.persistence.vehicleType.VehicleTypeDao;
 /**
  * This class ressembles a context/environment wherein the DAO's operate.
  * This class groups all the DAO's that belong to a specific context.
- * A context can one see as the environment where the data is stored.
- * Examples of contexts: postgres DB, MySql DB, CSV files, etc...
+ * A persistence context can one see as the storage environment where the data is stored.
+ * Examples of persistence contexts: postgres DB, MySql DB, CSV files, etc...
  *
  * Created by domien on 12/03/2017.
  */
