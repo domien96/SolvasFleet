@@ -2,6 +2,7 @@ package solvas.rest.query;
 
 import solvas.models.Vehicle;
 import solvas.models.VehicleType;
+import solvas.persistence.Filter;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Join;
@@ -15,7 +16,7 @@ import java.util.List;
  * @author Niko Strijbol
  */
 @SuppressWarnings("unused")
-public class VehicleFilter implements Filterable<Vehicle> {
+public class VehicleFilter implements Filter<Vehicle> {
 
     private String chassisNumber;
     private int leasingCompany = -1;

@@ -1,6 +1,7 @@
 package solvas.rest.query;
 
 import solvas.models.Role;
+import solvas.persistence.Filter;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;
@@ -12,7 +13,7 @@ import java.util.List;
 /**
  * @author Niko Strijbol
  */
-public class RoleFilter implements Filterable<Role> {
+public class RoleFilter implements Filter<Role> {
 
     private int company = -1;
     private int user = -1;

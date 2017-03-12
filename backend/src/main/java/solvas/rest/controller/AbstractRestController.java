@@ -13,7 +13,7 @@ import solvas.models.Model;
 import solvas.persistence.Dao;
 import solvas.persistence.EntityNotFoundException;
 import solvas.rest.api.mappers.AbstractMapper;
-import solvas.rest.query.Filterable;
+import solvas.persistence.Filter;
 import solvas.rest.query.Pageable;
 import solvas.rest.utils.JsonListWrapper;
 
@@ -51,19 +51,19 @@ public abstract class AbstractRestController<T extends Model, E> {
      * method will contain an object, according to the API spec.
      *
      * @param pagination The pagination information.
-     * @param filterable The filters.
+     * @param filter The filters.
      *
      * @return ResponseEntity
      */
-    protected ResponseEntity<?> listAll(Pageable pagination, Filterable<T> filterable) {
+    protected ResponseEntity<?> listAll(Pageable pagination, Filter<T> filter) {
         Collection<E> collection = new HashSet<>();
-        for (T item: dao.findAll(pagination, filterable)){
+        for (T item: dao.findAll(pagination, filter)){
             collection.add(mapper.convertToApiModel(item));
         }
         JsonListWrapper<E> wrapper = new JsonListWrapper<>(collection);
         wrapper.put("limit", pagination.getLimit());
         wrapper.put("offset", pagination.getLimit() * pagination.getPage());
-        wrapper.put("total", dao.count(filterable));
+        wrapper.put("total", dao.count(filter));
         return new ResponseEntity<>(wrapper, HttpStatus.OK);
     }
 
