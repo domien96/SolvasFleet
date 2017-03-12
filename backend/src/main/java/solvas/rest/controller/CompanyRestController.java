@@ -2,9 +2,14 @@ package solvas.rest.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.*;
 import solvas.models.Company;
+import solvas.models.validators.CompanyValidator;
 import solvas.persistence.company.CompanyDao;
+import solvas.rest.api.mappings.CompanyMapping;
+import solvas.rest.api.models.ApiCompany;
 import solvas.rest.query.CompanyFilter;
 import solvas.rest.query.PaginationFilter;
 
@@ -14,17 +19,21 @@ import solvas.rest.query.PaginationFilter;
  * Visit @ /companies
  */
 @RestController
-public class CompanyRestController extends AbstractRestController<Company> {
+public class CompanyRestController extends AbstractRestController<Company,ApiCompany> {
 
     /**
      * Rest controller for Company
      *
      * @param dao Autowired
+     * @param validator Validator for companies
      */
     @Autowired
-    public CompanyRestController(CompanyDao dao) {
-        super(dao);
+    public CompanyRestController(CompanyDao dao,CompanyMapping mapping,CompanyValidator validator) {
+        super(dao, mapping, validator);
     }
+
+
+
 
     /**
      * Query all models, accounting for pagination settings and respect the filters. The return value of this
@@ -42,8 +51,8 @@ public class CompanyRestController extends AbstractRestController<Company> {
 
     @Override
     @RequestMapping(value = "/companies", method = RequestMethod.POST)
-    public ResponseEntity<?> post(@RequestBody Company input) {
-        return super.post(input);
+    public ResponseEntity<?> post(@RequestBody ApiCompany input, BindingResult result) {
+        return super.post(input, result);
     }
 
     @Override
@@ -60,7 +69,7 @@ public class CompanyRestController extends AbstractRestController<Company> {
 
     @Override
     @RequestMapping(value = "/companies/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> put(@PathVariable int id, @RequestBody Company input) {
-        return super.put(id, input);
+    public ResponseEntity<?> put(@PathVariable int id, @RequestBody ApiCompany input,BindingResult result) {
+        return super.put(id, input,result);
     }
 }

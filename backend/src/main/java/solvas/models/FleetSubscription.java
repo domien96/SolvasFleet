@@ -5,14 +5,14 @@ package solvas.models;
 import java.time.LocalDate;
 
 /**
- * Models a fleet subsrciption
+ * Models a subFleet subsrciption
  * @author domien on 4/03/2017.
  */
 public class FleetSubscription extends Model {
     private LocalDate startDate;
     private LocalDate endDate;
     private Vehicle vehicle;
-    private Fleet fleet;
+    private SubFleet subFleet;
 
 
     public LocalDate getStartDate() {
@@ -39,11 +39,12 @@ public class FleetSubscription extends Model {
         this.vehicle = vehicle;
     }
 
-    public Fleet getFleet() {
-        return fleet;
+
+    public SubFleet getSubFleet() {
+        return subFleet;
     }
 
-    public void setFleet(Fleet fleet) {
-        this.fleet = fleet;
+    public void setSubFleet(SubFleet subFleet) {
+        this.subFleet = subFleet;
     }
 }

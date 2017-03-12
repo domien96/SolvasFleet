@@ -22,5 +22,9 @@
       <property name="createdAt" column="created_at" type="java.time.LocalDateTime" generated="insert"/>
 
 
+      <set name="companies" table="company_users" inverse="true"> <!-- Company is owner of relationship -->
+         <key column="user_id"/>
+         <many-to-many column="company_id" class="solvas.models.Company" />
+      </set>
    </class>
 </hibernate-mapping>

@@ -3,31 +3,46 @@ package solvas.rest.controller;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ClassUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import solvas.models.Model;
 import solvas.persistence.Dao;
 import solvas.persistence.EntityNotFoundException;
+import solvas.rest.api.mappings.Mapping;
 import solvas.rest.query.Filterable;
 import solvas.rest.query.Pageable;
 import solvas.rest.utils.JsonListWrapper;
+
+import java.util.Collection;
+import java.util.HashSet;
 
 /**
  * Abstract REST controller.
  *
  * @param <T> Type of the entity to work with.
  */
-public abstract class AbstractRestController<T extends Model> {
+@Component
+@Transactional // Replace by services
+public abstract class AbstractRestController<T extends Model, E> {
 
     protected final Dao<T> dao;
+    protected Mapping<T,E> mapping;
+    protected final Validator validator;
 
     /**
      * Default constructor.
      *
      * @param dao The dao to work with.
+     * @param validator The validator to use when creating/updating entities
      */
-    protected AbstractRestController(Dao<T> dao) {
+    protected AbstractRestController(Dao<T> dao, Mapping<T,E> mapping,Validator validator) {
         this.dao = dao;
+        this.mapping = mapping;
+        this.validator = validator;
     }
 
     /**
@@ -40,7 +55,11 @@ public abstract class AbstractRestController<T extends Model> {
      * @return ResponseEntity
      */
     protected ResponseEntity<?> listAll(Pageable pagination, Filterable<T> filterable) {
-        JsonListWrapper<T> wrapper = new JsonListWrapper<>(dao.findAll(pagination, filterable));
+        Collection<E> collection = new HashSet<>();
+        for (T item: dao.findAll(pagination, filterable)){
+            collection.add(mapping.convertToApiModel(item));
+        }
+        JsonListWrapper<E> wrapper = new JsonListWrapper<>(collection);
         wrapper.put("limit", pagination.getLimit());
         wrapper.put("offset", pagination.getLimit() * pagination.getPage());
         wrapper.put("total", dao.count(filterable));
@@ -56,7 +75,7 @@ public abstract class AbstractRestController<T extends Model> {
 
     protected ResponseEntity<?> getById(int id) {
         try {
-            return new ResponseEntity<>(dao.find(id), HttpStatus.OK);
+            return new ResponseEntity<>(mapping.convertToApiModel(dao.find(id)), HttpStatus.OK);
         } catch (EntityNotFoundException unused) {
             return notFound();
         }
@@ -82,17 +101,14 @@ public abstract class AbstractRestController<T extends Model> {
      * Save a new model in the database.
      *
      * @param input The model to save.
+     * @param binding The binding to use to validate
      * @return Response with the saved model, or 400.
      */
-    protected ResponseEntity<?> post(T input) {
-        //post message met application/json {"name":"comp4","vat":"4"}
-        //TODO validate whether input is valid
-
-        if (input != null) {
-            T result = dao.save(input);
-            return new ResponseEntity<>(result, HttpStatus.OK); // add URI to location header field
-        }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    protected ResponseEntity<?> post(E input, BindingResult binding) {
+            return save(input,binding,() -> {
+                T model =mapping.convertToModel(input);
+                return mapping.convertToApiModel(dao.create(model));
+            });
     }
 
     /**
@@ -114,18 +130,58 @@ public abstract class AbstractRestController<T extends Model> {
      * Updates a model in db
      *
      * @param input model to be updated
+     * @param binding The binding to use to validate
      * @return ResponseEntity
      */
-    protected ResponseEntity<?> put(int id, T input) {
-        try {
-            input.setId(id);
-            return new ResponseEntity<>(dao.save(input), HttpStatus.OK);
-        } catch (EntityNotFoundException unused) {
-            return notFound();
+    protected ResponseEntity<?> put(int id,E input,BindingResult binding) {
+        return save(input, binding, () -> {
+            T model = mapping.convertToModel(input);
+            model.setId(id);
+            return mapping.convertToApiModel(dao
+                    .save(model));
+        });
+    }
+
+    /**
+     * @return ResponseEntity of a 404
+     */
+    private ResponseEntity<?> notFound() {
+        return new ResponseEntity<>("Could not find object.", HttpStatus.NOT_FOUND);
+    }
+
+    /**
+     * @param input The input entity to save
+     * @param binding BindingResult to use for validations
+     * @param saveMethod The saveMethod (example: dao.update or dao.create)
+     * @return ResponseEntity to return to user
+     */
+    private ResponseEntity<?> save(E input, BindingResult binding, SaveMethod<E> saveMethod) {
+        validator.validate(input, binding);
+        if (!binding.hasErrors()) {
+            try {
+                return new ResponseEntity<>(saveMethod.run(), HttpStatus.OK);
+            } catch (EntityNotFoundException unused) {
+                // Notify user the record wasn't found
+                // Shouldn't happen when creating a record
+                return notFound();
+            }
+        } else {
+            // Return validation errors to user
+            return new ResponseEntity<Object>(
+                    new JsonListWrapper<>(binding.getFieldErrors(), "errors"),
+                    HttpStatus.BAD_REQUEST);
         }
     }
 
-    private ResponseEntity<?> notFound() {
-        return new ResponseEntity<>("Could not find object.", HttpStatus.NOT_FOUND);
+    /**
+     * Specify how to save an entity
+     * @param <T> Type of the entity to save
+     */
+    protected interface SaveMethod<T> {
+        /**
+         * Method to run to save an entity
+         * @return the saved entity
+         */
+        T run();
     }
 }

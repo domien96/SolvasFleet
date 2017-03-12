@@ -1,7 +1,7 @@
 package solvas.rest.query;
 
 import solvas.models.Vehicle;
-import solvas.models.Vehicletype;
+import solvas.models.VehicleType;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Join;
@@ -45,7 +45,7 @@ public class VehicleFilter implements Filterable<Vehicle> {
             ));
         }
         if (type != null) {
-            Join<Vehicle, Vehicletype> join = root.join("type");
+            Join<Vehicle, VehicleType> join = root.join("type");
             predicates.add(builder.equal(
                     builder.lower(join.get("name")),
                     type.toLowerCase()

@@ -1,31 +1,31 @@
 package solvas.models;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 /**
  * Models a role
  * @author steve on 04/03/2017.
  */
 public class Role extends Model {
-    private Company company;
     private String function; // change to ?
-    private User user;
 
     private LocalDateTime startDate; //todo check if it should be replaced by localdate
     private LocalDateTime endDate;
-    private String url; // calculate on th fly?
+    private final String url="/roles/";
 
+    /**
+     * Users who have this role.
+     */
+    private User user;
+    private Company company;
 
+    /**
+     * The set of permissions which belong to this role.
+     */
+    private Set<Permission> permissions;
 
-    protected Role() {
-    }
-
-    public Company getCompany() {
-        return company;
-    }
-
-    public void setCompany(Company company) {
-        this.company = company;
+    public Role() {
     }
 
     public String getFunction() {
@@ -34,14 +34,6 @@ public class Role extends Model {
 
     public void setFunction(String function) {
         this.function = function;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public LocalDateTime getStartDate() {
@@ -61,10 +53,31 @@ public class Role extends Model {
     }
 
     public String getUrl() {
-        return url;
+        return url+getId();
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+
+    public Set<Permission> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(Set<Permission> permissions) {
+        this.permissions = permissions;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
     }
 }

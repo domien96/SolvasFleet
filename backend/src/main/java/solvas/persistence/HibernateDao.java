@@ -20,7 +20,7 @@ import java.util.Collection;
  * @param <T> Model 
  */
 @Repository
-@Transactional
+//@Transactional -> lazy fetch
 public abstract class HibernateDao<T extends Model> implements Dao<T> {
 
     @Autowired
@@ -40,16 +40,22 @@ public abstract class HibernateDao<T extends Model> implements Dao<T> {
     }
 
     @Override
-    public T save(T model) {
+    public T create(T model) {
         Session s = getSession();
-        if(model.getId() != 0) { // Update entity with this id
-            find(model.getId()); // Make sure entity exists
-            s.update(s.merge(model));
-        } else { // New entity
-            s.save(model);
-        }
+        s.save(model);
         return model;
     }
+
+    @Override
+    public T update(T model) {
+        Session s = getSession();
+        find(model.getId()); // Make sure entity exists
+        s.update(s.merge(model));
+        return model;
+    }
+
+
+
 
     @Override
     public T destroy(T model) {
