@@ -5,13 +5,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import solvas.models.User;
 import solvas.persistence.user.UserDao;
+import solvas.rest.api.mappings.UserMapping;
+import solvas.rest.api.models.ApiUser;
 
 /**
  * Rest controller for User
  * Visit @ /users
  */
 @RestController
-public class UserRestController extends AbstractRestController<User> {
+public class UserRestController extends AbstractRestController<User,ApiUser> {
 
     /**
      * Rest controller for User
@@ -19,8 +21,8 @@ public class UserRestController extends AbstractRestController<User> {
      * @param dao Autowired
      */
     @Autowired
-    public UserRestController(UserDao dao) {
-        super(dao);
+    public UserRestController(UserDao dao,UserMapping mapping) {
+        super(dao,mapping);
     }
 
     @Override
@@ -37,7 +39,7 @@ public class UserRestController extends AbstractRestController<User> {
 
     @Override
     @RequestMapping(value = "/users", method = RequestMethod.POST)
-    public ResponseEntity<?> post(@RequestBody User input) {
+    public ResponseEntity<?> post(@RequestBody ApiUser input) {
         return super.post(input);
     }
 
@@ -49,7 +51,7 @@ public class UserRestController extends AbstractRestController<User> {
 
     @Override
     @RequestMapping(value = "/users", method = RequestMethod.PUT)
-    public ResponseEntity<?> put(@RequestBody User input) {
+    public ResponseEntity<?> put(@RequestBody ApiUser input) {
         return super.put(input);
     }
 }

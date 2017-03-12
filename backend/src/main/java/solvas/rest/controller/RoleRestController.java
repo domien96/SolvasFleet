@@ -5,6 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import solvas.models.Role;
 import solvas.persistence.role.RoleDao;
+import solvas.rest.api.mappings.RoleMapping;
+import solvas.rest.api.models.ApiRole;
 
 
 /**
@@ -12,7 +14,7 @@ import solvas.persistence.role.RoleDao;
  * Visit @ /roles
  */
 @RestController
-public class RoleRestController extends AbstractRestController<Role> {
+public class RoleRestController extends AbstractRestController<Role,ApiRole> {
 
     /**
      * Rest controller for Role
@@ -20,8 +22,8 @@ public class RoleRestController extends AbstractRestController<Role> {
      * @param dao Autowired
      */
     @Autowired
-    public RoleRestController(RoleDao dao) {
-        super(dao);
+    public RoleRestController(RoleDao dao,RoleMapping mapping) {
+        super(dao,mapping);
     }
 
     @Override
@@ -38,7 +40,7 @@ public class RoleRestController extends AbstractRestController<Role> {
 
     @Override
     @RequestMapping(value = "/roles", method = RequestMethod.POST)
-    public ResponseEntity<?> post(@RequestBody Role input) {
+    public ResponseEntity<?> post(@RequestBody ApiRole input) {
         return super.post(input);
     }
 
@@ -50,7 +52,7 @@ public class RoleRestController extends AbstractRestController<Role> {
 
     @Override
     @RequestMapping(value = "/roles", method = RequestMethod.PUT)
-    public ResponseEntity<?> put(@RequestBody Role input) {
+    public ResponseEntity<?> put(@RequestBody ApiRole input) {
         return super.put(input);
     }
 }

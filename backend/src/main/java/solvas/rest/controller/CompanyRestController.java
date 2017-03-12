@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import solvas.models.Company;
 import solvas.persistence.company.CompanyDao;
 import solvas.rest.api.mappings.CompanyMapping;
+import solvas.rest.api.models.ApiCompany;
 import solvas.rest.api.models.ApiModel;
 import solvas.rest.utils.JsonListWrapper;
 
@@ -19,7 +20,7 @@ import java.util.HashSet;
  * Visit @ /companies
  */
 @RestController
-public class CompanyRestController extends AbstractRestController<Company> {
+public class CompanyRestController extends AbstractRestController<Company,ApiCompany> {
 
     /**
      * Rest controller for Company
@@ -27,28 +28,20 @@ public class CompanyRestController extends AbstractRestController<Company> {
      * @param dao Autowired
      */
     @Autowired
-    public CompanyRestController(CompanyDao dao) {
-        super(dao);
+    public CompanyRestController(CompanyDao dao,CompanyMapping mapping) {
+        super(dao,mapping);
     }
 
 
     @Override
     @RequestMapping(value = "/companies", method = RequestMethod.GET)
     public ResponseEntity<?> listAll() {
-        CompanyMapping mapping = new CompanyMapping();
-        Collection<ApiModel> collection = new HashSet<>();
-        for (Company item: dao.findAll()){
-            collection.add(mapping.convertToApiModel(item));
-        }
-        return new ResponseEntity<>(new JsonListWrapper<ApiModel>(collection, "companies"), HttpStatus.OK);
-
-
-        //return super.listAll("companies");
+        return super.listAll("companies");
     }
 
     @Override
     @RequestMapping(value = "/companies", method = RequestMethod.POST)
-    public ResponseEntity<?> post(@RequestBody Company input) {
+    public ResponseEntity<?> post(@RequestBody ApiCompany input) {
         return super.post(input);
     }
 
@@ -66,7 +59,7 @@ public class CompanyRestController extends AbstractRestController<Company> {
 
     @Override
     @RequestMapping(value = "/companies", method = RequestMethod.PUT)
-    public ResponseEntity<?> put(@RequestBody Company input) {
+    public ResponseEntity<?> put(@RequestBody ApiCompany input) {
         return super.put(input);
     }
 }

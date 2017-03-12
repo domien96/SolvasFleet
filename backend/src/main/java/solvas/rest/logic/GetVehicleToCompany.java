@@ -9,7 +9,7 @@ import java.time.LocalDate;
  * Created by steve on 11/03/2017.
  *
  */
-public class VehicleToCompany {
+public class GetVehicleToCompany {
     public Company run(Vehicle vehicle,FleetSubscriptionDao fleetSubscriptionDao) throws InconsistentDbException, NoActiveSubscriptionException {
 
         //Find active subscription
