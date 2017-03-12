@@ -23,6 +23,8 @@ import solvas.rest.logic.LinkVehicleCompany;
 @Component
 public class VehicleAbstractMapper extends AbstractMapper<Vehicle,ApiVehicle> {
 
+
+    private String rootPath="/vehicles/";
     /**
      * TODO document
      * @param roleDao
@@ -106,6 +108,7 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle,ApiVehicle> {
         api.setType(vehicle.getType().getName());
         api.setUpdatedAt(vehicle.getUpdatedAt());
         api.setCreatedAt(vehicle.getCreatedAt());
+        api.setUrl(rootPath+api.getId());
         return api;
     }
 

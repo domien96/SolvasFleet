@@ -19,6 +19,8 @@ import solvas.rest.api.models.ApiCompany;
 @Component
 public class CompanyMapper extends AbstractMapper<Company,ApiCompany> {
 
+    private String rootPath="/companies/";
+
     /**
      * TODO document
      * @param roleDao
@@ -88,7 +90,7 @@ public class CompanyMapper extends AbstractMapper<Company,ApiCompany> {
         apiCompany.getAddress().setStreet(company.getAddressStreet());
         apiCompany.setCreatedAt(company.getCreatedAt());
         apiCompany.setUpdatedAt(company.getUpdatedAt());
-        apiCompany.setUrl(company.getUrl());
+        apiCompany.setUrl(rootPath+apiCompany.getId());
         return apiCompany;
     }
 }
