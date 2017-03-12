@@ -9,10 +9,16 @@ namespace User {
   }
 
   export type Field =
-    'id' | 'first_name' | 'last_name' | 'email' | 'password';
+    'id' | 'firstName' | 'lastName' | 'email' | 'password';
 
-  namespace New {
-    export interface Props { }
+  namespace UForm {
+    export interface Props {
+      onSubmit     : (e : any) => void;
+      handleChange : (field : User.Field, e : any) => void;
+      errors       : Form.Error[];
+      hasError     : (field : User.Field) => boolean;
+      user         : User;
+    }
 
     export interface State {
       errors : Form.Error[];
@@ -23,16 +29,8 @@ namespace User {
 
 interface User {
   id?         : number;
-  first_name? : string;
-  last_name?  : string;
+  firstName? : string;
+  lastName?  : string;
   email?      : string;
   password?   : string;
-}
-
-interface UserTemp {
-  id         : number;
-  first_name : string;
-  last_name  : string;
-  email      : string;
-  [ password : string ]   : string;
 }
