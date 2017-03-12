@@ -1,6 +1,5 @@
 namespace Table {
-
-  namespace Info{
+  namespace Info {
     export interface Props {
       head    : Table.Head.Data[];
       data    : any;
@@ -8,7 +7,7 @@ namespace Table {
     }
   }
 
-  namespace Detail{
+  namespace Detail {
     export interface Props {
       data : Table.Head.Data[];
     }

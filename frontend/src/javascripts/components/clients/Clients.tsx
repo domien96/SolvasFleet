@@ -3,10 +3,10 @@ import { browserHistory, Link } from'react-router';
 
 import Card       from '../app/Card.tsx';
 import Header     from '../app/Header.tsx';
-
-import { InfoTable, th }  from '../tables/InfoTable.tsx';
+import InfoTable  from '../tables/InfoTable.tsx';
 
 import fetchClients from '../../actions/fetch_companies.ts';
+import { th } from '../../utils/utils.ts';
 
 
 interface OverviewProps {

@@ -1,10 +1,12 @@
 import React from 'react';
 import { browserHistory, Link } from'react-router';
 
-import fetchUser  from '../../actions/fetch_user.ts';
-import deleteUser from '../../actions/delete_user.ts';
-import Card       from '../app/Card.tsx';
-import { DetailTable, th } from '../tables/DetailTable.tsx';
+import fetchUser   from '../../actions/fetch_user.ts';
+import deleteUser  from '../../actions/delete_user.ts';
+import Card        from '../app/Card.tsx';
+import DetailTable from '../tables/DetailTable.tsx';
+
+import { th } from '../../utils/utils.ts';
 
 class User extends React.Component<User.Props, User.State> {
 
@@ -51,30 +53,30 @@ class User extends React.Component<User.Props, User.State> {
     ];
 
     return (
-    <div>
-      <div className='card-content user'>
-        <h2>{ firstName } { lastName }</h2>
-        <div className='row actions'>
-          <div className='col-sm-6'>
-            <Link to={ '/users/' + id + '/edit' } className='btn btn-default form-control'>
-              <span className='glyphicon glyphicon-edit' /> Edit
-            </Link>
-          </div>
-          <div className='col-sm-6'>
-            <button onClick = { this.deleteUser } className='btn btn-danger form-control'>
-              <span className='glyphicon glyphicon-remove' /> Delete
-            </button>
+      <div>
+        <div className='card-content user'>
+          <h2>{ firstName } { lastName }</h2>
+          <div className='row actions'>
+            <div className='col-sm-6'>
+              <Link to={ '/users/' + id + '/edit' } className='btn btn-default form-control'>
+                <span className='glyphicon glyphicon-edit' /> Edit
+              </Link>
+            </div>
+            <div className='col-sm-6'>
+              <button onClick = { this.deleteUser } className='btn btn-danger form-control'>
+                <span className='glyphicon glyphicon-remove' /> Delete
+              </button>
+            </div>
           </div>
         </div>
+        <Card>
+          <div className='col-sm-12'>
+            <div className='card-content'>
+              <DetailTable data={ data }/>
+            </div>
+          </div>
+        </Card>
       </div>
-      <Card>
-      	<div className='col-sm-12'>
-          <div className='card-content'>
-            <DetailTable data={ data }/>
-          </div>
-        </div>
-      </Card>
-    </div>
     );
   }
 }

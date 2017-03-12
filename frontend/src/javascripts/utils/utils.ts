@@ -17,3 +17,7 @@ export function hasError(this: any, k : string) : boolean {
   const errors = this.state.errors.filter(function(el : Form.Error) { return el.field == k; });
   return (errors.length != 0);
 }
+
+export function th(key : string, label : string | number) : Table.Head.Data {
+  return { key: key, label: label };
+}
