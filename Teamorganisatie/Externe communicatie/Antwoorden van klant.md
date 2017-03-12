@@ -2,12 +2,14 @@
 
 >Hoewel een voertuig hoofdzakelijk bij maar 1 bedrijf aangesloten zal zijn, is dit geen garantie. Is het voor Solvas interessant dat we een geschiedenis bijhouden voor ieder voertuig, bij welke bedrijven of banken het voertuig ooit aangesloten was (in context van leasing)?
 
-*de commissie hangt vast aan de verzekeringswaarborg van een voertuig.
-je kan per verzekeringswaarborg van een  voertuig een default gebruiken maar de mogelijkheid moet bestaan om er van af te wijken...*
+*De geschiedenis van een voertuig is niet onmiddellijk interessant.  Maar eens een voertuig is gekoppeld geweest aan een bank of een leasingmaatschappij dat wordt dit gegeven wel behouden in de DB en kan men dit altijd terugvinden....*
 
 >Zijn overschreven kosten, zoals bvb de commissie, gelinkt aan een voertuig of aan een subvloot? In andere woorden hebben alle voertuigen van een bepaald type van een subvloot dezelfde overschreven kosten, of kan het zijn dat de commissie op de pw van de baas verschilt met de commissie op de pw van een werknemer?
 
-*De geschiedenis van een voertuig is niet onmiddellijk interessant.  Maar eens een voertuig is gekoppeld geweest aan een bank of een leasingmaatschappij dat wordt dit gegeven wel behouden in de DB en kan men dit altijd terugvinden....*
+*de commissie hangt vast aan de verzekeringswaarborg van een voertuig.
+je kan per verzekeringswaarborg van een  voertuig een default gebruiken maar de mogelijkheid moet bestaan om er van af te wijken...*
+
+
 
 ---
 
