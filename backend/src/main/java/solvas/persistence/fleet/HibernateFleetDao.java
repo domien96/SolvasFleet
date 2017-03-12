@@ -2,6 +2,7 @@ package solvas.persistence.fleet;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import solvas.models.Company;
 import solvas.models.Fleet;
 import solvas.persistence.Filter;
 import solvas.persistence.HibernateDao;
