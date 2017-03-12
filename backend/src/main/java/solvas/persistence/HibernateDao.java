@@ -6,9 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import solvas.models.Model;
+import solvas.rest.query.Filterable;
+import solvas.rest.query.Pageable;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.Collection;
 
@@ -38,24 +41,25 @@ public abstract class HibernateDao<T extends Model> implements Dao<T> {
 
     @Override
     public T save(T model) {
+        Session s = getSession();
         if(model.getId() != 0) { // Update entity with this id
             find(model.getId()); // Make sure entity exists
-            run(Query.empty(s -> s.update(s.merge(model))));
+            s.update(s.merge(model));
         } else { // New entity
-            run(s -> s.save(model));
+            s.save(model);
         }
         return model;
     }
 
     @Override
     public T destroy(T model) {
-        run(Query.empty(s -> s.delete(model)));
+        getSession().delete(model);
         return model;
     }
 
     @Override
     public T find(int id) {
-        T result = run(s -> s.get(clazz, id));
+        T result = getSession().get(clazz, id);
         if(result == null) {
             throw new EntityNotFoundException();
         }
@@ -64,23 +68,45 @@ public abstract class HibernateDao<T extends Model> implements Dao<T> {
 
     @Override
     public Collection<T> findAll() {
-        return run(s -> {
-            CriteriaBuilder builder = s.getCriteriaBuilder();
-            CriteriaQuery<T> criteriaQuery = builder.createQuery(clazz);
-            Root<T> root = criteriaQuery.from(clazz);
-            criteriaQuery.select(root);
-            return s.createQuery(criteriaQuery).getResultList();
-        });
+        CriteriaBuilder builder = getSession().getCriteriaBuilder();
+        CriteriaQuery<T> criteriaQuery = builder.createQuery(clazz);
+        Root<T> root = criteriaQuery.from(clazz);
+        criteriaQuery.select(root);
+        return getSession().createQuery(criteriaQuery).getResultList();
     }
 
-    /**
-     * Run a query.
-     *
-     * @param query The query to run.
-     *
-     * @return The result of the query.
-     */
-    protected <R> R run(Query<R> query) {
-        return query.run(getSession());
+    @Override
+    public Collection<T> findAll(Pageable pageable, Filterable<T> filters) {
+        CriteriaBuilder builder = getSession().getCriteriaBuilder();
+        CriteriaQuery<T> criteriaQuery = builder.createQuery(clazz);
+        Root<T> root = criteriaQuery.from(clazz);
+
+        // Apply filters
+        Collection<Predicate> predicates = filters.asPredicates(builder, root);
+        Predicate[] array = new Predicate[predicates.size()];
+        criteriaQuery.select(root).where(predicates.toArray(array));
+
+        // Apply pagination
+        int start = pageable.getLimit() * pageable.getPage();
+
+        return getSession().createQuery(criteriaQuery)
+                .setFirstResult(start)
+                .setMaxResults(pageable.getLimit())
+                .getResultList();
+    }
+
+    @Override
+    public long count(Filterable<T> filters) {
+        CriteriaBuilder builder = getSession().getCriteriaBuilder();
+        CriteriaQuery<Long> criteriaQuery = builder.createQuery(Long.class);
+        Root<T> root = criteriaQuery.from(clazz);
+
+        // Apply filters
+        Collection<Predicate> predicates = filters.asPredicates(builder, root);
+        Predicate[] array = new Predicate[predicates.size()];
+        criteriaQuery.select(builder.count(root)).where(predicates.toArray(array));
+
+        return getSession().createQuery(criteriaQuery)
+                .getSingleResult();
     }
 }

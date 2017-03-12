@@ -7,6 +7,8 @@ import solvas.models.Vehicle;
 import solvas.persistence.vehicle.VehicleDao;
 import solvas.rest.api.mappings.VehicleMapping;
 import solvas.rest.api.models.ApiVehicle;
+import solvas.rest.query.PaginationFilter;
+import solvas.rest.query.VehicleFilter;
 
 /**
  * Rest controller for Vehicle
@@ -25,10 +27,18 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
         super(dao,mapping);
     }
 
-    @Override
+    /**
+     * Query all models, accounting for pagination settings and respect the filters. The return value of this
+     * method will contain an object, according to the API spec.
+     *
+     * @param pagination The pagination information.
+     * @param filter The filters.
+     *
+     * @return ResponseEntity
+     */
     @RequestMapping(value = "/vehicles", method = RequestMethod.GET)
-    public ResponseEntity<?> listAll() {
-        return super.listAll("vehicles");
+    public ResponseEntity<?> listAll(PaginationFilter pagination, VehicleFilter filter) {
+        return super.listAll(pagination, filter);
     }
 
     @Override
@@ -50,8 +60,9 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
     }
 
     @Override
-    @RequestMapping(value = "/vehicles", method = RequestMethod.PUT)
-    public ResponseEntity<?> put(@RequestBody ApiVehicle input) {
-        return super.put(input);
+
+    @RequestMapping(value = "/vehicles/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<?> put(@PathVariable int id, @RequestBody ApiVehicle input) {
+        return super.put(id, input);
     }
 }

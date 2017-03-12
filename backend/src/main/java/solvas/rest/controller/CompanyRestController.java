@@ -1,18 +1,14 @@
 package solvas.rest.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import solvas.models.Company;
 import solvas.persistence.company.CompanyDao;
 import solvas.rest.api.mappings.CompanyMapping;
 import solvas.rest.api.models.ApiCompany;
-import solvas.rest.api.models.ApiModel;
-import solvas.rest.utils.JsonListWrapper;
-
-import java.util.Collection;
-import java.util.HashSet;
+import solvas.rest.query.CompanyFilter;
+import solvas.rest.query.PaginationFilter;
 
 
 /**
@@ -33,10 +29,20 @@ public class CompanyRestController extends AbstractRestController<Company,ApiCom
     }
 
 
-    @Override
+
+
+    /**
+     * Query all models, accounting for pagination settings and respect the filters. The return value of this
+     * method will contain an object, according to the API spec.
+     *
+     * @param pagination The pagination information.
+     * @param filter The filters.
+     *
+     * @return ResponseEntity
+     */
     @RequestMapping(value = "/companies", method = RequestMethod.GET)
-    public ResponseEntity<?> listAll() {
-        return super.listAll("companies");
+    public ResponseEntity<?> listAll(PaginationFilter pagination, CompanyFilter filter) {
+        return super.listAll(pagination, filter);
     }
 
     @Override
@@ -58,8 +64,8 @@ public class CompanyRestController extends AbstractRestController<Company,ApiCom
     }
 
     @Override
-    @RequestMapping(value = "/companies", method = RequestMethod.PUT)
-    public ResponseEntity<?> put(@RequestBody ApiCompany input) {
-        return super.put(input);
+    @RequestMapping(value = "/companies/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<?> put(@PathVariable int id, @RequestBody ApiCompany input) {
+        return super.put(id, input);
     }
 }

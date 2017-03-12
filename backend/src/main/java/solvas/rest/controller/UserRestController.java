@@ -7,6 +7,8 @@ import solvas.models.User;
 import solvas.persistence.user.UserDao;
 import solvas.rest.api.mappings.UserMapping;
 import solvas.rest.api.models.ApiUser;
+import solvas.rest.query.PaginationFilter;
+import solvas.rest.query.UserFilter;
 
 /**
  * Rest controller for User
@@ -25,10 +27,18 @@ public class UserRestController extends AbstractRestController<User,ApiUser> {
         super(dao,mapping);
     }
 
-    @Override
+    /**
+     * Query all models, accounting for pagination settings and respect the filters. The return value of this
+     * method will contain an object, according to the API spec.
+     *
+     * @param pagination The pagination information.
+     * @param filter The filters.
+     *
+     * @return ResponseEntity
+     */
     @RequestMapping(value = "/users", method = RequestMethod.GET)
-    public ResponseEntity<?> listAll() {
-        return super.listAll("users");
+    public ResponseEntity<?> listAll(PaginationFilter pagination, UserFilter filter) {
+        return super.listAll(pagination, filter);
     }
 
     @Override
@@ -50,8 +60,8 @@ public class UserRestController extends AbstractRestController<User,ApiUser> {
     }
 
     @Override
-    @RequestMapping(value = "/users", method = RequestMethod.PUT)
-    public ResponseEntity<?> put(@RequestBody ApiUser input) {
-        return super.put(input);
+    @RequestMapping(value = "/users/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<?> put(@PathVariable int id, @RequestBody ApiUser input) {
+        return super.put(id, input);
     }
 }

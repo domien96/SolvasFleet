@@ -29,9 +29,8 @@ public class HibernateVehicleTypeDao extends HibernateDao<VehicleType> implement
 
     @Override
     public Collection<VehicleType> withType(String name) {
-        return run(s -> {
             // Criteria builder
-            CriteriaBuilder builder = s.getCriteriaBuilder();
+            CriteriaBuilder builder = getSession().getCriteriaBuilder();
             // Select from the company table
             CriteriaQuery<VehicleType> criteriaQuery = builder.createQuery(VehicleType.class);
             Root<VehicleType> root = criteriaQuery.from(VehicleType.class);
@@ -40,7 +39,6 @@ public class HibernateVehicleTypeDao extends HibernateDao<VehicleType> implement
             // Prepare query
             criteriaQuery.select(root).where(predicate);
             // Do the query
-            return s.createQuery(criteriaQuery).getResultList();
-        });
+            return getSession().createQuery(criteriaQuery).getResultList();
     }
 }

@@ -4,7 +4,6 @@ import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,6 +11,8 @@ import solvas.models.Model;
 import solvas.persistence.Dao;
 import solvas.persistence.EntityNotFoundException;
 import solvas.rest.api.mappings.Mapping;
+import solvas.rest.query.Filterable;
+import solvas.rest.query.Pageable;
 import solvas.rest.utils.JsonListWrapper;
 
 import java.util.Collection;
@@ -40,24 +41,25 @@ public abstract class AbstractRestController<T extends Model, E> {
     }
 
     /**
-     * Lists all models, and wrap them in JSON object with key
+     * Query all models, accounting for pagination settings and respect the filters. The return value of this
+     * method will contain an object, according to the API spec.
+     *
+     * @param pagination The pagination information.
+     * @param filterable The filters.
      *
      * @return ResponseEntity
      */
-    protected ResponseEntity<?> listAll(String key) {
+    protected ResponseEntity<?> listAll(Pageable pagination, Filterable<T> filterable) {
         Collection<E> collection = new HashSet<>();
-        for (T item: dao.findAll()){
+        for (T item: dao.findAll(pagination, filterable)){
             collection.add(mapping.convertToApiModel(item));
         }
-        return new ResponseEntity<>(new JsonListWrapper<E>(collection, key), HttpStatus.OK);
+        JsonListWrapper<E> wrapper = new JsonListWrapper<>(collection);
+        wrapper.put("limit", pagination.getLimit());
+        wrapper.put("offset", pagination.getLimit() * pagination.getPage());
+        wrapper.put("total", dao.count(filterable));
+        return new ResponseEntity<>(wrapper, HttpStatus.OK);
     }
-
-    /**
-     * List all models.
-     *
-     * @return ReponseEntity
-     */
-    public abstract ResponseEntity<?> listAll();
 
     /**
      * Show the model with the given ID.
@@ -128,14 +130,18 @@ public abstract class AbstractRestController<T extends Model, E> {
      * @param input model to be updated
      * @return ResponseEntity
      */
-    protected ResponseEntity<?> put(E input) {
+    protected ResponseEntity<?> put(int id,E input) {
         try {
+            T model = mapping.convertToModel(input);
+            model.setId(id);
             return new ResponseEntity<>(mapping.convertToApiModel(dao
-                    .save(mapping.convertToModel(input))), HttpStatus.OK);
+                    .save(model)), HttpStatus.OK);
+
         } catch (EntityNotFoundException unused) {
             return notFound();
         }
     }
+
 
     private ResponseEntity<?> notFound() {
         return new ResponseEntity<>("Could not find object.", HttpStatus.NOT_FOUND);

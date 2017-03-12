@@ -30,9 +30,8 @@ public class HibernateFleetDao extends HibernateDao<Fleet> implements FleetDao {
 
     @Override
     public Collection<Fleet> withCompanyId(int companyId) {
-        return run(s -> {
             // Criteria builder
-            CriteriaBuilder builder = s.getCriteriaBuilder();
+            CriteriaBuilder builder = getSession().getCriteriaBuilder();
             // Select from the company table
             CriteriaQuery<Fleet> criteriaQuery = builder.createQuery(Fleet.class);
             Root<Fleet> root = criteriaQuery.from(Fleet.class);
@@ -41,7 +40,6 @@ public class HibernateFleetDao extends HibernateDao<Fleet> implements FleetDao {
             // Prepare query
             criteriaQuery.select(root).where(predicate);
             // Do the query
-            return s.createQuery(criteriaQuery).getResultList();
-        });
+            return getSession().createQuery(criteriaQuery).getResultList();
     }
 }

@@ -30,9 +30,8 @@ public class HibernateFleetSubscriptionDao extends HibernateDao<FleetSubscriptio
 
     @Override
     public Collection<FleetSubscription> withVehicleId(int vehicleId) {
-        return run(s -> {
             // Criteria builder
-            CriteriaBuilder builder = s.getCriteriaBuilder();
+            CriteriaBuilder builder = getSession().getCriteriaBuilder();
             // Select from the company table
             CriteriaQuery<FleetSubscription> criteriaQuery = builder.createQuery(FleetSubscription.class);
             Root<FleetSubscription> root = criteriaQuery.from(FleetSubscription.class);
@@ -41,15 +40,13 @@ public class HibernateFleetSubscriptionDao extends HibernateDao<FleetSubscriptio
             // Prepare query
             criteriaQuery.select(root).where(predicate);
             // Do the query
-            return s.createQuery(criteriaQuery).getResultList();
-        });
+            return getSession().createQuery(criteriaQuery).getResultList();
     }
 
     @Override
     public Collection<FleetSubscription> withFleetId(int subFleetId) {
-        return run(s -> {
             // Criteria builder
-            CriteriaBuilder builder = s.getCriteriaBuilder();
+            CriteriaBuilder builder = getSession().getCriteriaBuilder();
             // Select from the company table
             CriteriaQuery<FleetSubscription> criteriaQuery = builder.createQuery(FleetSubscription.class);
             Root<FleetSubscription> root = criteriaQuery.from(FleetSubscription.class);
@@ -58,8 +55,7 @@ public class HibernateFleetSubscriptionDao extends HibernateDao<FleetSubscriptio
             // Prepare query
             criteriaQuery.select(root).where(predicate);
             // Do the query
-            return s.createQuery(criteriaQuery).getResultList();
-        });
+            return getSession().createQuery(criteriaQuery).getResultList();
     }
 
 

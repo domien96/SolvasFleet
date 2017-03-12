@@ -30,9 +30,8 @@ public class HibernateSubFleetDao extends HibernateDao<SubFleet> implements SubF
 
     @Override
     public Collection<SubFleet> withFleetId(int fleetId) {
-        return run(s -> {
             // Criteria builder
-            CriteriaBuilder builder = s.getCriteriaBuilder();
+            CriteriaBuilder builder = getSession().getCriteriaBuilder();
             // Select from the company table
             CriteriaQuery<SubFleet> criteriaQuery = builder.createQuery(SubFleet.class);
             Root<SubFleet> root = criteriaQuery.from(SubFleet.class);
@@ -41,7 +40,6 @@ public class HibernateSubFleetDao extends HibernateDao<SubFleet> implements SubF
             // Prepare query
             criteriaQuery.select(root).where(predicate);
             // Do the query
-            return s.createQuery(criteriaQuery).getResultList();
-        });
+            return getSession().createQuery(criteriaQuery).getResultList();
     }
 }
