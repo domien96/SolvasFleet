@@ -29,7 +29,7 @@ import static org.hamcrest.core.Is.is;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles("test")
-@ContextConfiguration(classes = {HibernateTestConfig.class},loader = AnnotationConfigContextLoader.class)
+@ContextConfiguration(classes = {HibernateConfig.class,HibernateTestConfig.class},loader = AnnotationConfigContextLoader.class)
 @Transactional
 public class CompanyDaoTest {
 
