@@ -23,10 +23,8 @@ gradle-app.setting
 *.iml
 /backend/out/
 .idea
-<<<<<<< HEAD
 
 /api/generated/
-=======
 /backend/backend.iml
 
 # SonarQube
@@ -39,4 +37,3 @@ backend/web/WEB-INF/applicationContext.xml
 backend/web/WEB-INF/dispatcher-servlet.xml
 backend/web/WEB-INF/web.xml
 backend/web/index.jsp
->>>>>>> master
