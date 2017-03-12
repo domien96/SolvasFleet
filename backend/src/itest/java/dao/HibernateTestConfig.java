@@ -67,14 +67,104 @@ public class HibernateTestConfig {
 
     @Bean
     public DataSource getDataSource() {
-
+        return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2)
+                .addScript("db/migration/V2__milestone1.sql").addScript("schema.sql").build();
+/*
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("org.h2.Driver");
-        dataSource.setUrl("jdbc:h2:~/db/database.db;DB_CLOSE_ON_EXIT=TRUE;INIT=create schema IF NOT EXISTS generic;");
+        dataSource.setUrl("jdbc:h2:mem:sample;INIT=RUNSCRIPT FROM 'classpath:schema.sql'");
+        //dataSource.setUrl("jdbc:h2:~/db/database.db;DB_CLOSE_ON_EXIT=TRUE;INIT=create schema IF NOT EXISTS generic;");
         dataSource.setUsername("vop");
         dataSource.setPassword("vop");
 
-        return dataSource;
+
+        return dataSource;*/
+    }
+
+    private final Environment env;
+    private final ResourceLoader rl;
+
+    /**
+     * Injection constructor.
+     *
+     *
+     * @param env The environment.
+     * @param resourceLoader The resource loader.
+     */
+    @Autowired
+    public HibernateTestConfig(Environment env, ResourceLoader resourceLoader) {
+        this.env = env;
+        this.rl = resourceLoader;
+    }
+
+    private Resource[] loadResources() throws IOException {
+        return ResourcePatternUtils.getResourcePatternResolver(rl)
+                .getResources("classpath:/mappings/*.hbm.xml");
+    }
+
+
+    /**
+     * The session factory bean. Spring manages everything for us.
+     *
+     * @return The factory.
+     */
+    @Bean
+    @Profile("default,test")
+    public LocalSessionFactoryBean sessionFactory() {
+        return createSessionFactory(getHibernateProperties());
+    }
+
+
+
+
+
+    /**
+     * Create a session factory bean, given some properties.
+     *
+     * @param hibernateProperties The hibernate properties to use.
+     *
+     * @return The bean if successful, otherwise a {@link BeanCreationException} is thrown.
+     */
+    @Bean
+    public LocalSessionFactoryBean createSessionFactory(Properties hibernateProperties) {
+        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
+        sessionFactory.setDataSource(getDataSource());
+        sessionFactory.setHibernateProperties(hibernateProperties);
+        try {
+            // Automatically load mappings.
+            sessionFactory.setMappingLocations(loadResources());
+            return sessionFactory;
+        } catch (IOException e) {
+            throw new BeanCreationException("sessionFactory", e);
+        }
+    }
+
+    /**
+     * @return Hibernate properties from a file.
+     */
+    private Properties getHibernateProperties() {
+        Properties properties = new Properties();
+        properties.put(AvailableSettings.DIALECT, env.getRequiredProperty("hibernate.dialect"));
+        properties.put(AvailableSettings.CURRENT_SESSION_CONTEXT_CLASS, env.getRequiredProperty("hibernate.current.session.context.class"));
+        properties.put(AvailableSettings.STATEMENT_BATCH_SIZE, env.getRequiredProperty("hibernate.batch.size"));
+
+        properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
+
+        return properties;
+    }
+
+    /**
+     * Transaction bean.
+     *
+     * @param sessionFactory Injected session factory.
+     *
+     * @return The transaction manager.
+     */
+    @Bean
+    public HibernateTransactionManager transactionManager(LocalSessionFactoryBean sessionFactory) {
+        HibernateTransactionManager txManager = new HibernateTransactionManager();
+        txManager.setSessionFactory(sessionFactory.getObject());
+        return txManager;
     }
 
 
