@@ -25,7 +25,7 @@
        <many-to-one name="leasingCompany" column="leasing_company_id"
                     class="solvas.models.Company" not-null="false"/>
 
-       <property name="value" column="vat" type="int"/>
+       <property name="value" column="value" type="int"/>
        <property name="brand" column="brand" type="string"/>
 
 

@@ -3,20 +3,21 @@ package solvas.rest.api.mappings;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import solvas.models.Company;
-import solvas.models.FleetSubscription;
 import solvas.models.Vehicle;
 import solvas.persistence.company.CompanyDao;
+import solvas.persistence.fleet.FleetDao;
 import solvas.persistence.fleetSubscription.FleetSubscriptionDao;
 import solvas.persistence.role.RoleDao;
+import solvas.persistence.subFleet.SubFleetDao;
 import solvas.persistence.user.UserDao;
 import solvas.persistence.vehicle.VehicleDao;
 import solvas.persistence.vehicleType.VehicleTypeDao;
 import solvas.rest.api.models.ApiVehicle;
 import solvas.rest.logic.InconsistentDbException;
 import solvas.rest.logic.GetVehicleToCompany;
-
-import java.util.Collection;
+import solvas.rest.logic.LinkVehicleCompany;
 
 /**
  * Created by steve on 11/03/2017.
@@ -24,9 +25,9 @@ import java.util.Collection;
 @Component
 public class VehicleMapping extends Mapping<Vehicle,ApiVehicle> {
 
-    @Autowired
-    public VehicleMapping(RoleDao roleDao, CompanyDao companyDao, UserDao userDao, VehicleDao vehicleDao, VehicleTypeDao vehicleTypeDao, FleetSubscriptionDao fleetSubscriptionDao) {
-        super(roleDao, companyDao, userDao, vehicleDao, vehicleTypeDao, fleetSubscriptionDao);
+    public VehicleMapping(RoleDao roleDao, CompanyDao companyDao, UserDao userDao, VehicleDao vehicleDao
+            , VehicleTypeDao vehicleTypeDao, FleetSubscriptionDao fleetSubscriptionDao, FleetDao fleetDao, SubFleetDao subFleetDao) {
+        super(roleDao, companyDao, userDao, vehicleDao, vehicleTypeDao, fleetSubscriptionDao, fleetDao, subFleetDao);
     }
 
     @Override
@@ -63,11 +64,13 @@ public class VehicleMapping extends Mapping<Vehicle,ApiVehicle> {
                 ? vehicle.getBrand() : api.getBrand());
         vehicle.setType(api.getType()==null ? vehicle.getType() :
                 new VehicleTypeMapping(roleDao, companyDao, userDao, vehicleDao,
-                        vehicleTypeDao, fleetSubscriptionDao).convertToModel(api.getType()));
+                        vehicleTypeDao, fleetSubscriptionDao,fleetDao,subFleetDao).convertToModel(api.getType()));
 
         //create link between company and vehicle
         if (api.getCompany()!=0) {
-            generateLinkVehicleCompany(api.getCompany(),vehicle.getId());
+
+            vehicle = vehicleDao.save(vehicle);
+            generateLinkVehicleCompany(api.getCompany(),vehicle);
             //TODO save vehicle first then save active subscription
         }
 
@@ -87,18 +90,24 @@ public class VehicleMapping extends Mapping<Vehicle,ApiVehicle> {
         api.setModel(vehicle.getModel());
         api.setMileage(vehicle.getKilometerCount());
         api.setYear(vehicle.getYear());
-        api.setLeasingCompany(vehicle.getLeasingCompany().getId());
+        api.setLeasingCompany(vehicle.getLeasingCompany()==null ? 0 :vehicle.getLeasingCompany().getId());
         api.setValue(0);//api.getValue()
         api.setBrand(vehicle.getBrand());
         api.setCompany(getApiCompany(vehicle));
         api.setType(vehicle.getType().getName());
         api.setUpdatedAt(vehicle.getUpdatedAt());
         api.setCreatedAt(vehicle.getCreatedAt());
-        return null;
+        return api;
     }
 
-    private void generateLinkVehicleCompany(int companyId, int vehicleId){
+    private void generateLinkVehicleCompany(int companyId, Vehicle v){
         //TODO
+        //diference between company change detect it and handle it
+        try {
+            new LinkVehicleCompany().run(companyId,v,fleetSubscriptionDao,subFleetDao,fleetDao,companyDao);
+        } catch (InconsistentDbException e) {
+            e.printStackTrace();
+        }
     }
 
 

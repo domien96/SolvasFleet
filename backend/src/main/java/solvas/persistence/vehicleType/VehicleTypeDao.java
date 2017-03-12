@@ -7,5 +7,5 @@ import java.util.Collection;
 
 public interface VehicleTypeDao extends Dao<VehicleType> {
 
-    VehicleType withType(String type);
+    Collection<VehicleType> withType(String type);
 }

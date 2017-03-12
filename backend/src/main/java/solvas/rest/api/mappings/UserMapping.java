@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import solvas.models.User;
 import solvas.persistence.company.CompanyDao;
+import solvas.persistence.fleet.FleetDao;
 import solvas.persistence.fleetSubscription.FleetSubscriptionDao;
 import solvas.persistence.role.RoleDao;
+import solvas.persistence.subFleet.SubFleetDao;
 import solvas.persistence.user.UserDao;
 import solvas.persistence.vehicle.VehicleDao;
 import solvas.persistence.vehicleType.VehicleTypeDao;
@@ -17,9 +19,9 @@ import solvas.rest.api.models.ApiUser;
 @Component
 public class UserMapping extends Mapping<User,ApiUser> {
 
-    @Autowired
-    public UserMapping(RoleDao roleDao, CompanyDao companyDao, UserDao userDao, VehicleDao vehicleDao, VehicleTypeDao vehicleTypeDao, FleetSubscriptionDao fleetSubscriptionDao) {
-        super(roleDao, companyDao, userDao, vehicleDao, vehicleTypeDao, fleetSubscriptionDao);
+    public UserMapping(RoleDao roleDao, CompanyDao companyDao, UserDao userDao, VehicleDao vehicleDao
+            , VehicleTypeDao vehicleTypeDao, FleetSubscriptionDao fleetSubscriptionDao, FleetDao fleetDao, SubFleetDao subFleetDao) {
+        super(roleDao, companyDao, userDao, vehicleDao, vehicleTypeDao, fleetSubscriptionDao, fleetDao, subFleetDao);
     }
 
     @Override

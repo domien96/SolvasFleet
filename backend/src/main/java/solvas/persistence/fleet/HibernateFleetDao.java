@@ -1,8 +1,9 @@
-package solvas.persistence.vehicleType;
+package solvas.persistence.fleet;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import solvas.models.VehicleType;
+import solvas.models.Company;
+import solvas.models.Fleet;
 import solvas.persistence.HibernateDao;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -18,25 +19,25 @@ import java.util.Collection;
  */
 @Repository
 @Transactional
-public class HibernateVehicleTypeDao extends HibernateDao<VehicleType> implements VehicleTypeDao {
+public class HibernateFleetDao extends HibernateDao<Fleet> implements FleetDao {
 
     /**
      * Hibernate implementation for Company.
      */
-    public HibernateVehicleTypeDao() {
-        super(VehicleType.class);
+    public HibernateFleetDao() {
+        super(Fleet.class);
     }
 
     @Override
-    public Collection<VehicleType> withType(String name) {
+    public Collection<Fleet> withCompanyId(int companyId) {
         return run(s -> {
             // Criteria builder
             CriteriaBuilder builder = s.getCriteriaBuilder();
             // Select from the company table
-            CriteriaQuery<VehicleType> criteriaQuery = builder.createQuery(VehicleType.class);
-            Root<VehicleType> root = criteriaQuery.from(VehicleType.class);
+            CriteriaQuery<Fleet> criteriaQuery = builder.createQuery(Fleet.class);
+            Root<Fleet> root = criteriaQuery.from(Fleet.class);
             // Actual criteria
-            Predicate predicate = builder.equal(root.get("name"), name);
+            Predicate predicate = builder.equal(root.get("company"), companyId);
             // Prepare query
             criteriaQuery.select(root).where(predicate);
             // Do the query

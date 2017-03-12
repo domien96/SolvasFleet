@@ -16,8 +16,8 @@ public class GetVehicleToCompany {
         FleetSubscription activeFleetSubscription=null;
 
         for (FleetSubscription subs: fleetSubscriptionDao.withVehicleId(vehicle.getId())){
-            if (subs.getStartDate().isBefore(LocalDate.now())
-                    && subs.getEndDate().isAfter(LocalDate.now())){
+            if ((subs.getStartDate().isBefore(LocalDate.now())|| subs.getStartDate().equals(LocalDate.now())
+                    && (subs.getEndDate().isAfter(LocalDate.now()) || subs.getEndDate().equals(LocalDate.now())))){
                 if (activeFleetSubscription!=null){
                     throw new InconsistentDbException();
                 }

@@ -17,7 +17,7 @@ import java.util.Collection;
  * @param <T> Model 
  */
 @Repository
-@Transactional
+//@Transactional -> lazy fetch
 public abstract class HibernateDao<T extends Model> implements Dao<T> {
 
     @Autowired

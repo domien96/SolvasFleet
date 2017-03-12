@@ -3,6 +3,9 @@ package solvas.rest.controller;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import solvas.models.Model;
@@ -19,6 +22,8 @@ import java.util.HashSet;
  *
  * @param <T> Type of the entity to work with.
  */
+@Component
+@Transactional // Replace by services
 public abstract class AbstractRestController<T extends Model, E> {
 
     protected final Dao<T> dao;
