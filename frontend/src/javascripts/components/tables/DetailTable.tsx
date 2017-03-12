@@ -1,7 +1,7 @@
 import React from 'react';
 import T     from 'i18n-react';
 
-export class DetailTable extends React.Component<Table.Detail.Props, {}> {
+class DetailTable extends React.Component<Table.Detail.Props, {}> {
 
   render() {
     const tableRows = this.props.data.map((c : Table.Head.Data, i : number) =>
@@ -28,3 +28,5 @@ export class DetailTable extends React.Component<Table.Detail.Props, {}> {
     );
   }
 }
+
+export default DetailTable;
