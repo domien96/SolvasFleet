@@ -48,8 +48,8 @@ public class UserRestController extends AbstractRestController<User> {
     }
 
     @Override
-    @RequestMapping(value = "/users", method = RequestMethod.PUT)
-    public ResponseEntity<?> put(@RequestBody User input) {
-        return super.put(input);
+    @RequestMapping(value = "/users/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<?> put(@PathVariable int id, @RequestBody User input) {
+        return super.put(id, input);
     }
 }

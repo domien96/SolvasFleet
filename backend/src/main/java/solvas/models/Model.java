@@ -33,8 +33,7 @@ public abstract class Model {
      *
      * @param id The unique identifier for this model.
      */
-    @SuppressWarnings("unused")
-    protected void setId(int id) {
+    public void setId(int id) {
         this.id = id;
     }
 

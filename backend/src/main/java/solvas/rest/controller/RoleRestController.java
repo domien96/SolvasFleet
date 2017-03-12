@@ -49,8 +49,8 @@ public class RoleRestController extends AbstractRestController<Role> {
     }
 
     @Override
-    @RequestMapping(value = "/roles", method = RequestMethod.PUT)
-    public ResponseEntity<?> put(@RequestBody Role input) {
-        return super.put(input);
+    @RequestMapping(value = "/roles/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<?> put(@PathVariable int id, @RequestBody Role input) {
+        return super.put(id, input);
     }
 }
