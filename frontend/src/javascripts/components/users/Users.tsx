@@ -1,11 +1,12 @@
 import React from 'react';
 import { browserHistory, Link } from'react-router';
 
-import Card       from '../app/Card.tsx';
-import Header     from '../app/Header.tsx';
-import { InfoTable, th } from '../tables/InfoTable.tsx';
+import Card      from '../app/Card.tsx';
+import Header    from '../app/Header.tsx';
+import InfoTable from '../tables/InfoTable.tsx';
 
 import fetchUsers from '../../actions/fetch_users.ts';
+import { th }     from '../../utils/utils.ts';
 
 interface OverviewProps {
   users: User[];

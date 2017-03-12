@@ -1,7 +1,7 @@
 import React from 'react';
 import T     from 'i18n-react';
 
-export class InfoTable extends React.Component<Table.Info.Props, {}> {
+class InfoTable extends React.Component<Table.Info.Props, {}> {
 
   public getRows() : any {
     var { head, data } = this.props;
@@ -41,6 +41,4 @@ export class InfoTable extends React.Component<Table.Info.Props, {}> {
   }
 }
 
-export function th(key : string, label : string) : Table.Head.Data {
-  return { key: key, label: label };
-}
+export default InfoTable;

@@ -1,10 +1,12 @@
 import React from 'react';
 import { browserHistory, Link } from'react-router';
 
-import fetchUser  from '../../actions/fetch_user.ts';
-import deleteUser from '../../actions/delete_user.ts';
-import Card       from '../app/Card.tsx';
-import { DetailTable, th } from '../tables/DetailTable.tsx';
+import fetchUser   from '../../actions/fetch_user.ts';
+import deleteUser  from '../../actions/delete_user.ts';
+import Card        from '../app/Card.tsx';
+import DetailTable from '../tables/DetailTable.tsx';
+
+import { th } from '../../utils/utils.ts';
 
 class User extends React.Component<User.Props, User.State> {
 
