@@ -10,7 +10,11 @@ class Errors extends React.Component<Form.Errors.Props, {}> {
     }
 
     const errors = this.props.errors.map((e, i) => {
-      return (<li key={ i }>{ humanize(e.field) } { T.translate('errors.' + e.error) }</li>);
+      return (
+        <li key={ i }>
+          { humanize(e.field) } { T.translate('errors.' + e.error) }
+        </li>
+      );
     });
 
     return (
