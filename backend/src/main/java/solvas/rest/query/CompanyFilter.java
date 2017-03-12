@@ -27,13 +27,13 @@ public class CompanyFilter implements Filterable<Company> {
         List<Predicate> predicates = new ArrayList<>();
 
         if (city != null) {
-            predicates.add(builder.like(
+            predicates.add(builder.equal(
                     builder.lower(root.get("addressCity")),
                     city.toLowerCase()
             ));
         }
         if (country != null) {
-            predicates.add(builder.like(
+            predicates.add(builder.equal(
                     builder.lower(root.get("addressCountry")),
                     country.toLowerCase()
             ));
@@ -45,7 +45,7 @@ public class CompanyFilter implements Filterable<Company> {
             ));
         }
         if (postalCode != null) {
-            predicates.add(builder.like(
+            predicates.add(builder.equal(
                     builder.lower(root.get("addressPostalCode")),
                     postalCode.toLowerCase()
             ));
