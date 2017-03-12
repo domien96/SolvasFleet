@@ -20,7 +20,7 @@ class EditUser extends React.Component<{}, any> {
   }
 
   componentDidMount() {
-    fetchUser(7)
+    fetchUser(1)
       .then((data : any) => {
         console.log('fetched');
         console.log(data);
@@ -42,7 +42,7 @@ class EditUser extends React.Component<{}, any> {
   onSubmit(e : any) : void {
     e.preventDefault();
     fetch(USERS_URL + '/' + this.state.user.id, {
-      method: 'PATCH',
+      method: 'PUT',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'

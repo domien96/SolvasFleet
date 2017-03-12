@@ -39,11 +39,11 @@ class User extends React.Component<User.Props, User.State> {
   }
 
   render() {
-    var { id, first_name, last_name, email, password } = this.state.user;
+    var { id, firstName, lastName, email, password } = this.state.user;
 
     return (
       <div className='card-content user'>
-        <h2>{ first_name } { last_name }</h2>
+        <h2>{ firstName } { lastName }</h2>
         <div className='row actions'>
           <div className='col-sm-6'>
             <Link to={ '/users/' + id + '/edit' } className='btn btn-default form-control'>

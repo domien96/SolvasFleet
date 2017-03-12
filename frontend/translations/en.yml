@@ -43,8 +43,8 @@ user:
   email: Email
   password: Password
   address: Address
-  first_name: First name
-  last_name: Last name
+  firstName: First name
+  lastName: Last name
 
 role:
   permission: Function in company

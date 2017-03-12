@@ -31,10 +31,10 @@ class GeneralInfo extends React.Component<GeneralInfoProps, {}> {
             <h5>General info</h5>
           </div>
           <div className='card-content'>
-            <FormField value={this.props.user.first_name} placeholder='user.first_name' type='text'     callback={ this.handleChange('first_name') } hasError={ this.props.hasError('first_name')} />
-            <FormField value={ this.props.user.last_name} placeholder='user.last_name'  type='text'     callback={ this.handleChange('last_name')  } hasError={ this.props.hasError('last_name')}  />
-            <FormField value={ this.props.user.email} placeholder='user.email'      type='email'    callback={ this.handleChange('email')      } hasError={ this.props.hasError('email')}      />
-            <FormField value={ this.props.user.password} placeholder='user.password'   type='password' callback={ this.handleChange('password')   } hasError={ this.props.hasError('password')}   />
+            <FormField value={ this.props.user.firstName } placeholder='user.firstName' type='text'     callback={ this.handleChange('firstName') } hasError={ this.props.hasError('firstName')} />
+            <FormField value={ this.props.user.lastName  } placeholder='user.lastName'  type='text'     callback={ this.handleChange('lastName')  } hasError={ this.props.hasError('lastName')}  />
+            <FormField value={ this.props.user.email     } placeholder='user.email'     type='email'    callback={ this.handleChange('email')     } hasError={ this.props.hasError('email')}     />
+            <FormField value={ this.props.user.password  } placeholder='user.password'  type='password' callback={ this.handleChange('password')  } hasError={ this.props.hasError('password')}  />
           </div>
         </Card>
       </div>
@@ -99,14 +99,7 @@ class Submit extends React.Component<{}, {}> {
   }
 }
 
-interface UserFormProps {
-  onSubmit : any;
-  handleChange : any;
-  errors : Form.Error[];
-  hasError : any;
-  user : User;
-}
-class UserForm extends React.Component<UserFormProps, any> {
+class UserForm extends React.Component<User.UForm.Props, any> {
   render() {
     return (
       <form method='post' onSubmit={ this.props.onSubmit } >
