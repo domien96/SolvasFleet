@@ -1,5 +1,5 @@
 import React from 'react';
-import { browserHistory } from'react-router';
+import { browserHistory, Link } from'react-router';
 
 import fetchUser  from '../../actions/fetch_user.ts';
 import deleteUser from '../../actions/delete_user.ts';
@@ -39,22 +39,20 @@ class User extends React.Component<User.Props, User.State> {
   }
 
   render() {
-    var { first_name, last_name, email, password } = this.state.user;
+    var { id, first_name, last_name, email, password } = this.state.user;
 
     return (
       <div className='card-content user'>
         <h2>{ first_name } { last_name }</h2>
         <div className='row actions'>
           <div className='col-sm-6'>
-            <button className='btn btn-default form-control'>
-              <span className='glyphicon glyphicon-edit' />
-              Edit
-            </button>
+            <Link to={ '/users/' + id + '/edit' } className='btn btn-default form-control'>
+              <span className='glyphicon glyphicon-edit' /> Edit
+            </Link>
           </div>
           <div className='col-sm-6'>
             <button onClick = { this.deleteUser } className='btn btn-danger form-control'>
-              <span className='glyphicon glyphicon-remove' />
-              Delete
+              <span className='glyphicon glyphicon-remove' /> Delete
             </button>
           </div>
         </div>

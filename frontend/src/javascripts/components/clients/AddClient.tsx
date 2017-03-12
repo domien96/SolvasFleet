@@ -3,7 +3,6 @@ import T from 'i18n-react';
 import { browserHistory, Link } from 'react-router';
 
 import Card       from '../app/Card.tsx';
-import FormField  from '../forms/FormField.tsx';
 import Header     from '../app/Header.tsx';
 import Errors     from '../app/Errors.tsx';
 
@@ -23,10 +22,6 @@ class GeneralInfo extends React.Component<GeneralInfoProps, {}> {
             <h5>General info</h5>
           </div>
           <div className='card-content'>
-            <FormField placeholder='company.name' type='text'     callback={ this.props.handleChange.bind(this, 'name') } hasError={ this.props.hasError('name')} />
-            <FormField placeholder='company.vat_number'  type='text'     callback={ this.props.handleChange.bind(this, 'vat_number')  } hasError={ this.props.hasError('vat_number')}  />
-            <FormField placeholder='company.phone_number'      type='tel'    callback={ this.props.handleChange.bind(this, 'phone_number')      } hasError={ this.props.hasError('phone_number')}      />
-            <FormField placeholder='company.address'   type='text' callback={ this.props.handleChange.bind(this, 'address')   } hasError={ this.props.hasError('address')}   />
           </div>
         </Card>
       </div>
