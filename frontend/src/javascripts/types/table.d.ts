@@ -1,8 +1,17 @@
 namespace Table {
-  export interface Props {
-    head    : Table.Head.Data[];
-    data    : any;
-    onClick : (e : any) => void;
+
+  namespace Info{
+    export interface Props {
+      head    : Table.Head.Data[];
+      data    : any;
+      onClick : (e : any) => void;
+    }
+  }
+
+  namespace Detail{
+    export interface Props {
+      data : Table.Head.Data[];
+    }
   }
 
   namespace Head {

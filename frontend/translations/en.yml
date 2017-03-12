@@ -19,22 +19,22 @@ addRole:
 company:
   id: ID
   name: Name
-  vat_number: VAT number
-  phone_number: Phone number
+  vatNumber: VAT number
+  phoneNumber: Phone number
   address: Address
 
 errors:
   null: is empty
 
 vehicle:
-  license_plate: License plate
-  chassis_number: Vehicle Identification Number 
+  licensePlate: License plate
+  chassisNumber: Vehicle Identification Number 
   brand: Brand
   model: Model
   type: Type
-  kilometer_count: Kilometer count
+  kilometerCount: Kilometer count
   year: Year of manufacture
-  leasing_company: Leasing company
+  leasingCompany: Leasing company
   value: Estimated value
   company: Company
 
@@ -49,3 +49,13 @@ user:
 role:
   permission: Function in company
   permissionShort: Function
+
+fleet:
+  id: ID
+  name: Name
+  size: Size
+
+subfleet:
+  id: ID
+  name: Name
+  size: Size

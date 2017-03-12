@@ -7,17 +7,16 @@ import FormField  from '../forms/FormField.tsx';
 import Header     from '../app/Header.tsx';
 import Errors     from '../app/Errors.tsx';
 
-import createCompany from '../../actions/create_company.ts';
+import createFleet from '../../actions/create_fleet.ts';
 
 interface GeneralInfoProps {
   handleChange: (field : string, e : any) => void;
   hasError: (e : any) => boolean;
-  company : Company;
+  fleet : Fleet
 }
 
 class GeneralInfo extends React.Component<GeneralInfoProps, {}> {
   render() {
-    var { name, vatNumber, phoneNumber, address } = this.props.company;
     return (
       <div className='col-xs-12 col-md-7'>
         <Card>
@@ -25,10 +24,7 @@ class GeneralInfo extends React.Component<GeneralInfoProps, {}> {
             <h5>General info</h5>
           </div>
           <div className='card-content'>
-            <FormField value={ name         } placeholder='company.name'         type='text' callback={ this.props.handleChange.bind(this, 'name')         } hasError={ this.props.hasError('name')}         />
-            <FormField value={ vatNumber   } placeholder='company.vatNumber'   type='text' callback={ this.props.handleChange.bind(this, 'vatNumber')   } hasError={ this.props.hasError('vatNumber')}   />
-            <FormField value={ phoneNumber } placeholder='company.phoneNumber' type='tel'  callback={ this.props.handleChange.bind(this, 'phoneNumber') } hasError={ this.props.hasError('phoneNumber')} />
-            <FormField value={ address      } placeholder='company.address'      type='text' callback={ this.props.handleChange.bind(this, 'address')      } hasError={ this.props.hasError('address')}      />
+            <FormField value={ this.props.fleet.name } placeholder='fleet.name' type='text' callback={ this.props.handleChange.bind(this, 'name') } hasError={ this.props.hasError('name')} />
           </div>
         </Card>
       </div>
@@ -36,7 +32,11 @@ class GeneralInfo extends React.Component<GeneralInfoProps, {}> {
   }
 }
 
-class Submit extends React.Component<{}, {}> {
+interface SubmitProps {
+  id : number
+}
+
+class Submit extends React.Component<SubmitProps, {}> {
   render() {
     return (
       <div className='col-xs-12'>
@@ -46,9 +46,9 @@ class Submit extends React.Component<{}, {}> {
           </div>
           <div className='card-content'>
             <button type='submit' className='btn btn-default'>
-              <T.text tag='span' text='addClient.submit' />
+              <T.text tag='span' text='addFleet.submit' />
             </button>
-            <Link to='/clients' className='btn btn-default'>Cancel</Link>
+            <Link to='/clients/${this.props.id}' className='btn btn-default'>Cancel</Link>
           </div>
         </Card>
       </div>
@@ -56,34 +56,34 @@ class Submit extends React.Component<{}, {}> {
   }
 }
 
-class AddClient extends React.Component<Company.Props, Company.New.State> {
+class AddFleet extends React.Component<Fleet.Props, Fleet.New.State> {
 
   constructor() {
     super();
     this.state = {
       errors: [ { field: 'name', error: 'null' }],
-      company: {}
+      fleet: {}
     };
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit     = this.onSubmit.bind(this);
     this.hasError     = this.hasError.bind(this);
   }
 
-  public handleChange(field : Company.Field, e : any) : void {
-    var newClient : Company = this.state.company;
-    newClient[field] = e.target.value;
-    this.setState({ company: newClient });
+  public handleChange(field : Fleet.Field, e : any) : void {
+    var newFleet : Fleet = this.state.fleet;
+    newFleet[field] = e.target.value;
+    this.setState({ fleet: newFleet });
   }
 
   public onSubmit(e : any) : void {
     e.preventDefault();
 
-    createCompany(this.state.company)
+    createFleet(this.props.params.id, this.state.fleet)
     .then(function(response) {
       return response.json()
     })
     .then(() => {
-      browserHistory.push('/clients');
+      browserHistory.push('/clients/' + this.props.params.id);
     });
   }
 
@@ -96,15 +96,17 @@ class AddClient extends React.Component<Company.Props, Company.New.State> {
     return (
       <div>
         <Header>
-          <h2>Add A New Client</h2>
+          <h2>Add A New Fleet</h2>
         </Header>
         <form method='post' onSubmit={ this.onSubmit } >
           <div className='wrapper'>
             <div className='row'>
               <Errors errors={ this.state.errors } />
-              <GeneralInfo company={ this.state.company } handleChange={ this.handleChange } hasError={ this.hasError.bind(this) }/>
+              <GeneralInfo fleet={ this.state.fleet } handleChange={ this.handleChange } hasError={ this.hasError.bind(this) }/>
               <div className='col-xs-12 col-md-5'>
-                  <Submit />
+                <div className='row'>
+                  <Submit id={this.props.params.id} />
+                </div>
               </div>
             </div>
           </div>
@@ -114,4 +116,4 @@ class AddClient extends React.Component<Company.Props, Company.New.State> {
   }
 }
 
-export default AddClient;
+export default AddFleet;

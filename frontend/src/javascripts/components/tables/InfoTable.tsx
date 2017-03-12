@@ -1,7 +1,7 @@
 import React from 'react';
 import T     from 'i18n-react';
 
-export class InfoTable extends React.Component<Table.Props, {}> {
+export class InfoTable extends React.Component<Table.Info.Props, {}> {
 
   public getRows() : any {
     var { head, data } = this.props;

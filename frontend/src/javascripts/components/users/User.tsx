@@ -3,6 +3,8 @@ import { browserHistory, Link } from'react-router';
 
 import fetchUser  from '../../actions/fetch_user.ts';
 import deleteUser from '../../actions/delete_user.ts';
+import Card       from '../app/Card.tsx';
+import { DetailTable, th } from '../tables/DetailTable.tsx';
 
 class User extends React.Component<User.Props, User.State> {
 
@@ -41,7 +43,15 @@ class User extends React.Component<User.Props, User.State> {
   render() {
     var { id, firstName, lastName, email, password } = this.state.user;
 
+    const data = [
+      th('user.firstName', firstName),
+      th('user.lastName', lastName),
+      th('user.email', email),
+      th('user.password', password)
+    ];
+
     return (
+    <div>
       <div className='card-content user'>
         <h2>{ firstName } { lastName }</h2>
         <div className='row actions'>
@@ -56,10 +66,15 @@ class User extends React.Component<User.Props, User.State> {
             </button>
           </div>
         </div>
-        <h5>Information</h5>
-        <div>email: { email }</div>
-        <div>password: { password }</div>
       </div>
+      <Card>
+      	<div className='col-sm-12'>
+          <div className='card-content'>
+            <DetailTable data={ data }/>
+          </div>
+        </div>
+      </Card>
+    </div>
     );
   }
 }
