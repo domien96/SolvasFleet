@@ -4,6 +4,8 @@ import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.ClassUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import solvas.models.Model;
 import solvas.persistence.Dao;
@@ -18,14 +20,17 @@ import solvas.rest.utils.JsonListWrapper;
 public abstract class AbstractRestController<T extends Model> {
 
     protected final Dao<T> dao;
+    protected final Validator validator;
 
     /**
      * Default constructor.
      *
      * @param dao The dao to work with.
+     * @param validator The validator to use when creating/updating entities
      */
-    protected AbstractRestController(Dao<T> dao) {
+    protected AbstractRestController(Dao<T> dao, Validator validator) {
         this.dao = dao;
+        this.validator = validator;
     }
 
     /**
@@ -79,17 +84,11 @@ public abstract class AbstractRestController<T extends Model> {
      * Save a new model in the database.
      *
      * @param input The model to save.
+     * @param binding The binding to use to validate
      * @return Response with the saved model, or 400.
      */
-    protected ResponseEntity<?> post(T input) {
-        //post message met application/json {"name":"comp4","vat":"4"}
-        //TODO validate whether input is valid
-
-        if (input != null) {
-            T result = dao.save(input);
-            return new ResponseEntity<>(result, HttpStatus.OK); // add URI to location header field
-        }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    protected ResponseEntity<?> post(T input, BindingResult binding) {
+        return save(input, binding, () -> dao.create(input));
     }
 
     /**
@@ -111,17 +110,53 @@ public abstract class AbstractRestController<T extends Model> {
      * Updates a model in db
      *
      * @param input model to be updated
+     * @param binding The binding to use to validate
      * @return ResponseEntity
      */
-    protected ResponseEntity<?> put(T input) {
-        try {
-            return new ResponseEntity<>(dao.save(input), HttpStatus.OK);
-        } catch (EntityNotFoundException unused) {
-            return notFound();
+    protected ResponseEntity<?> put(T input, BindingResult binding) {
+        return save(input, binding, () -> dao.update(input));
+    }
+
+    /**
+     * @return ResponseEntity of a 404
+     */
+    private ResponseEntity<?> notFound() {
+        return new ResponseEntity<>("Could not find object.", HttpStatus.NOT_FOUND);
+    }
+
+    /**
+     * @param input The input entity to save
+     * @param binding BindingResult to use for validations
+     * @param saveMethod The saveMethod (example: dao.update or dao.create)
+     * @return ResponseEntity to return to user
+     */
+    private ResponseEntity<?> save(T input, BindingResult binding, SaveMethod<T> saveMethod) {
+        validator.validate(input, binding);
+        if (!binding.hasErrors()) {
+            try {
+                return new ResponseEntity<>(saveMethod.run(), HttpStatus.OK);
+            } catch (EntityNotFoundException unused) {
+                // Notify user the record wasn't found
+                // Shouldn't happen when creating a record
+                return notFound();
+            }
+        } else {
+            // Return validation errors to user
+            return new ResponseEntity<Object>(
+                    new JsonListWrapper<>(binding.getFieldErrors(), "errors"),
+                    HttpStatus.BAD_REQUEST);
         }
     }
 
-    private ResponseEntity<?> notFound() {
-        return new ResponseEntity<>("Could not find object.", HttpStatus.NOT_FOUND);
+    /**
+     * Specify how to save an entity
+     * @param <T> Type of the entity to save
+     */
+    protected interface SaveMethod<T> {
+        /**
+         * Method to run to save an entity
+         * @return the saved entity
+         */
+        T run();
     }
 }

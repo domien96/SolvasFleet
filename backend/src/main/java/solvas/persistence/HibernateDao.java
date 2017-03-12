@@ -37,13 +37,15 @@ public abstract class HibernateDao<T extends Model> implements Dao<T> {
     }
 
     @Override
-    public T save(T model) {
-        if(model.getId() != 0) { // Update entity with this id
-            find(model.getId()); // Make sure entity exists
-            run(Query.empty(s -> s.update(s.merge(model))));
-        } else { // New entity
-            run(s -> s.save(model));
-        }
+    public T create(T model) {
+        run(s -> s.save(model));
+        return model;
+    }
+
+    @Override
+    public T update(T model) {
+        find(model.getId()); // Make sure entity exists
+        run(Query.empty(s -> s.update(s.merge(model))));
         return model;
     }
 
