@@ -40,7 +40,7 @@ public class CompanyMapping extends Mapping<Company,ApiCompany> {
         apiCompany.getAddress().setHouseNumber(company.getAddressHouseNumber());
         apiCompany.getAddress().setPostalCode(company.getAddressPostalCode());
         apiCompany.getAddress().setStreet(company.getAddressStreet());
-        apiCompany.setUpdatedAt(company.getCreatedAt());
+        apiCompany.setCreatedAt(company.getCreatedAt());
         apiCompany.setUpdatedAt(company.getUpdatedAt());
         apiCompany.setUrl(company.getUrl());
         return apiCompany;
