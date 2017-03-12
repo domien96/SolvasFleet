@@ -28,8 +28,8 @@ class Overview extends React.Component<OverviewProps, {}> {
     const tableHead = [
       th('id', 'company.id'),
       th('name', 'company.name'),
-      th('vat_number', 'company.vat_number'),
-      th('phone_number', 'company.phone_number'),
+      th('vatNumber', 'company.vatNumber'),
+      th('phoneNumber', 'company.phoneNumber'),
       th('address', 'company.address')
     ];
 

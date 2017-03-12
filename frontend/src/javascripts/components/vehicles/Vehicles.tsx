@@ -25,9 +25,9 @@ class Overview extends React.Component<OverviewProps, {}> {
   render() {
     const tableHead = [
       th('company', 'vehicle.company'),
-      th('leasing_company', 'vehicle.leasing_company'),
-      th('chassis_number', 'vehicle.chassis_number') ,
-      th('licence_plate', 'vehicle.license_plate') ,
+      th('leasingCompany', 'vehicle.leasingCompany'),
+      th('chassisNumber', 'vehicle.chassisNumber') ,
+      th('licensePlate', 'vehicle.licensePlate') ,
       th('brand', 'vehicle.brand') ,
       th('model', 'vehicle.model') 
     ]
@@ -69,7 +69,7 @@ class Vehicles extends React.Component<{}, Vehicles.State> {
         </Header>
         <div className='wrapper'>
           <div className='row'>
-            <div className='col-xs-12 col-md-7'>
+            <div className='col-xs-12 col-md-8'>
               <Card>
                 <div className='card-content'>
                   <Link to='/vehicles/new' className='btn btn-default pull-right'>
@@ -80,7 +80,7 @@ class Vehicles extends React.Component<{}, Vehicles.State> {
                 </div>
               </Card>
             </div>
-            <div className='col-xs-12 col-md-5'>
+            <div className='col-xs-12 col-md-4'>
               <Card>
                 { children }
               </Card>

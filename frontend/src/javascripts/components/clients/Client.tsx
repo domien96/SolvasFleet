@@ -32,13 +32,13 @@ class Client extends React.Component<Company.Props, Company.State> {
   }
 
   render() {
-    var { name, vat_number, phone_number, address } = this.state.company;
+    var { name, vatNumber, phoneNumber, address } = this.state.company;
     var id = this.props.params.id;
     console.log(id)
 
     const data = [
-      th('company.vat_number', vat_number),
-      th('company.phone_number', phone_number),
+      th('company.vatNumber', vatNumber),
+      th('company.phoneNumber', phoneNumber),
       th('company.address', address)
     ];
 

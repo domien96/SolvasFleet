@@ -8,7 +8,7 @@ namespace Company {
   }
 
   export type Field =
-    'id' | 'name' | 'vat_number' | 'phone_number' | 'address';
+    'id' | 'name' | 'vatNumber' | 'phoneNumber' | 'address';
 
   namespace New {
     export interface Props { }
@@ -23,8 +23,8 @@ namespace Company {
 interface Company {
   id?           : number
   name?        : string;
-  vat_number?   : string;
-  phone_number? : string;
+  vatNumber?   : string;
+  phoneNumber? : string;
   address?     : string;
   [key : string]: string; 
 }

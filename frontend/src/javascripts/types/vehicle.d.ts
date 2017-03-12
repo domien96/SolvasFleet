@@ -9,9 +9,9 @@ namespace Vehicle {
   }
 
   export type Field =
-    'id' | 'license_plate' | 'chassis_number' | 'brand'
-      | 'model' | 'type' | 'kilometer_count' | 'year'
-      | 'leasing_company' | 'value' | 'company';
+    'id' | 'licensePlate' | 'chassisNumber' | 'brand'
+      | 'model' | 'type' | 'kilometerCount' | 'year'
+      | 'leasingCompany' | 'value' | 'company';
 
 
   namespace New {
@@ -26,14 +26,14 @@ namespace Vehicle {
 
 interface Vehicle {
   id?             : number;
-  license_plate?   : string;
-  chassis_number?  : string; //VIN: vehicle identification number
+  licensePlate?   : string;
+  chassisNumber?  : string; //VIN: vehicle identification number
   brand?          : string;
   model?          : string;
   type?           : string;
-  kilometer_count?        : number;
+  kilometerCount?        : number;
   year?           : number;
-  leasing_company? : string;
+  leasingCompany? : string;
   value?          : number;
   company?        : string
   [key : string]: string; 

@@ -12,10 +12,14 @@ import createVehicle from '../../actions/create_vehicle.ts';
 interface GeneralInfoProps {
   handleChange: (field : string, e : any) => void;
   hasError: (e : any) => boolean;
+  vehicle : Vehicle
 }
 
 class GeneralInfo extends React.Component<GeneralInfoProps, {}> {
   render() {
+
+    var { licensePlate, chassisNumber, company, leasingCompany, brand, model, type, kilometerCount, year, value } = this.props.vehicle;
+
     return (
       <div className='col-xs-12 col-md-7'>
         <Card>
@@ -23,16 +27,16 @@ class GeneralInfo extends React.Component<GeneralInfoProps, {}> {
             <h5>General info</h5>
           </div>
           <div className='card-content'>
-            <FormField placeholder='vehicle.license_plate' type='text'     callback={ this.props.handleChange.bind(this, 'license_plate') } hasError={ this.props.hasError('license_plate')} />
-            <FormField placeholder='vehicle.chassis_number'      type='text'    callback={ this.props.handleChange.bind(this, 'chassis_number')      } hasError={ this.props.hasError('chassis_number')}      />
-            <FormField placeholder='vehicle.company'   type='text' callback={ this.props.handleChange.bind(this, 'company')   } hasError={ this.props.hasError('company')}   />
-            <FormField placeholder='vehicle.leasing_company'  type='text'     callback={ this.props.handleChange.bind(this, 'leasing_company')  } hasError={ this.props.hasError('leasing_company')}  />
-            <FormField placeholder='vehicle.brand'      type='text'    callback={ this.props.handleChange.bind(this, 'brand')      } hasError={ this.props.hasError('brand')}      />
-            <FormField placeholder='vehicle.model'   type='text' callback={ this.props.handleChange.bind(this, 'model')   } hasError={ this.props.hasError('model')}   />
-            <FormField placeholder='vehicle.type'  type='text'     callback={ this.props.handleChange.bind(this, 'type')  } hasError={ this.props.hasError('type')}  />
-            <FormField placeholder='vehicle.kilometer_count'  type='text'     callback={ this.props.handleChange.bind(this, 'kilometer_count')  } hasError={ this.props.hasError('kilometer_count')}  />
-            <FormField placeholder='vehicle.year'      type='number'    callback={ this.props.handleChange.bind(this, 'year')      } hasError={ this.props.hasError('year')}      />
-            <FormField placeholder='vehicle.value'   type='number' callback={ this.props.handleChange.bind(this, 'value')   } hasError={ this.props.hasError('value')}   />
+            <FormField value={ licensePlate }    placeholder='vehicle.licensePlate' type='text'     callback={ this.props.handleChange.bind(this, 'licensePlate') } hasError={ this.props.hasError('licensePlate')} />
+            <FormField value={ chassisNumber }   placeholder='vehicle.chassisNumber'      type='text'    callback={ this.props.handleChange.bind(this, 'chassisNumber')      } hasError={ this.props.hasError('chassisNumber')}      />
+            <FormField value={ company }        placeholder='vehicle.company'   type='text' callback={ this.props.handleChange.bind(this, 'company')   } hasError={ this.props.hasError('company')}   />
+            <FormField value={ leasingCompany }  placeholder='vehicle.leasingCompany'  type='text'     callback={ this.props.handleChange.bind(this, 'leasingCompany')  } hasError={ this.props.hasError('leasingCompany')}  />
+            <FormField value={ brand }           placeholder='vehicle.brand'      type='text'    callback={ this.props.handleChange.bind(this, 'brand')      } hasError={ this.props.hasError('brand')}      />
+            <FormField value={ model }           placeholder='vehicle.model'   type='text' callback={ this.props.handleChange.bind(this, 'model')   } hasError={ this.props.hasError('model')}   />
+            <FormField value={ type }            placeholder='vehicle.type'  type='text'     callback={ this.props.handleChange.bind(this, 'type')  } hasError={ this.props.hasError('type')}  />
+            <FormField value={ kilometerCount }  placeholder='vehicle.kilometerCount'  type='text'     callback={ this.props.handleChange.bind(this, 'kilometerCount')  } hasError={ this.props.hasError('kilometerCount')}  />
+            <FormField value={ year }            placeholder='vehicle.year'      type='number'    callback={ this.props.handleChange.bind(this, 'year')      } hasError={ this.props.hasError('year')}      />
+            <FormField value={ value }           placeholder='vehicle.value'   type='number' callback={ this.props.handleChange.bind(this, 'value')   } hasError={ this.props.hasError('value')}   />
           </div>
         </Card>
       </div>
@@ -106,7 +110,7 @@ class AddVehicle extends React.Component<Vehicle.Props, Vehicle.New.State> {
           <div className='wrapper'>
             <div className='row'>
               <Errors errors={ this.state.errors } />
-              <GeneralInfo handleChange={ this.handleChange } hasError={ this.hasError.bind(this) }/>
+              <GeneralInfo vehicle={ this.state.vehicle } handleChange={ this.handleChange } hasError={ this.hasError.bind(this) }/>
               <div className='col-xs-12 col-md-5'>
                 <Submit />
               </div>

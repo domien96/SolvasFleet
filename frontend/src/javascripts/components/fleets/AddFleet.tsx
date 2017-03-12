@@ -12,6 +12,7 @@ import createFleet from '../../actions/create_fleet.ts';
 interface GeneralInfoProps {
   handleChange: (field : string, e : any) => void;
   hasError: (e : any) => boolean;
+  fleet : Fleet
 }
 
 class GeneralInfo extends React.Component<GeneralInfoProps, {}> {
@@ -23,7 +24,7 @@ class GeneralInfo extends React.Component<GeneralInfoProps, {}> {
             <h5>General info</h5>
           </div>
           <div className='card-content'>
-            <FormField placeholder='fleet.name' type='text'     callback={ this.props.handleChange.bind(this, 'name') } hasError={ this.props.hasError('name')} />
+            <FormField value={ this.props.fleet.name } placeholder='fleet.name' type='text' callback={ this.props.handleChange.bind(this, 'name') } hasError={ this.props.hasError('name')} />
           </div>
         </Card>
       </div>
@@ -101,7 +102,7 @@ class AddFleet extends React.Component<Fleet.Props, Fleet.New.State> {
           <div className='wrapper'>
             <div className='row'>
               <Errors errors={ this.state.errors } />
-              <GeneralInfo handleChange={ this.handleChange } hasError={ this.hasError.bind(this) }/>
+              <GeneralInfo fleet={ this.state.fleet } handleChange={ this.handleChange } hasError={ this.hasError.bind(this) }/>
               <div className='col-xs-12 col-md-5'>
                 <div className='row'>
                   <Submit id={this.props.params.id} />

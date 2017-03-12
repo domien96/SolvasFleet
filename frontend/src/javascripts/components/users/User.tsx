@@ -44,8 +44,8 @@ class User extends React.Component<User.Props, User.State> {
     var { id, firstName, lastName, email, password } = this.state.user;
 
     const data = [
-      th('user.first_name', first_name),
-      th('user.last_name', last_name),
+      th('user.firstName', firstName),
+      th('user.lastName', lastName),
       th('user.email', email),
       th('user.password', password)
     ];

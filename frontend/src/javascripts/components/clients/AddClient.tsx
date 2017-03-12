@@ -17,7 +17,7 @@ interface GeneralInfoProps {
 
 class GeneralInfo extends React.Component<GeneralInfoProps, {}> {
   render() {
-    var { name, vat_number, phone_number, address } = this.props.company;
+    var { name, vatNumber, phoneNumber, address } = this.props.company;
     return (
       <div className='col-xs-12 col-md-7'>
         <Card>
@@ -26,8 +26,8 @@ class GeneralInfo extends React.Component<GeneralInfoProps, {}> {
           </div>
           <div className='card-content'>
             <FormField value={ name         } placeholder='company.name'         type='text' callback={ this.props.handleChange.bind(this, 'name')         } hasError={ this.props.hasError('name')}         />
-            <FormField value={ vat_number   } placeholder='company.vat_number'   type='text' callback={ this.props.handleChange.bind(this, 'vat_number')   } hasError={ this.props.hasError('vat_number')}   />
-            <FormField value={ phone_number } placeholder='company.phone_number' type='tel'  callback={ this.props.handleChange.bind(this, 'phone_number') } hasError={ this.props.hasError('phone_number')} />
+            <FormField value={ vatNumber   } placeholder='company.vatNumber'   type='text' callback={ this.props.handleChange.bind(this, 'vatNumber')   } hasError={ this.props.hasError('vatNumber')}   />
+            <FormField value={ phoneNumber } placeholder='company.phoneNumber' type='tel'  callback={ this.props.handleChange.bind(this, 'phoneNumber') } hasError={ this.props.hasError('phoneNumber')} />
             <FormField value={ address      } placeholder='company.address'      type='text' callback={ this.props.handleChange.bind(this, 'address')      } hasError={ this.props.hasError('address')}      />
           </div>
         </Card>
