@@ -7,7 +7,7 @@ import UserForm from './UserForm.tsx';
 
 import fetchUser from '../../actions/fetch_user.ts';
 
-class EditUser extends React.Component<{}, any> {
+class EditUser extends React.Component<{}, User.UForm.State> {
   constructor() {
     super();
     this.state = {
@@ -29,14 +29,14 @@ class EditUser extends React.Component<{}, any> {
   }
 
   public hasError(k : string) : boolean {
-    const errors = this.state.errors.filter(function(el : Form.Error) {return el.field == k; });
+    const errors = this.state.errors.filter(function(el) {return el.field == k; });
     return (errors.length != 0);
   }
 
   handleChange(field : User.Field, e : any) : any {
-    var newUser : User = this.state.user;
-    newUser[field] = e.target.value;
-    this.setState({ user: newUser });
+    var user : User = this.state.user;
+    user[field] = e.target.value;
+    this.setState({ user });
   }
 
   onSubmit(e : any) : void {
@@ -63,7 +63,13 @@ class EditUser extends React.Component<{}, any> {
         <Header>
           <h2>Edit User</h2>
         </Header>
-        <UserForm user={ this.state.user } onSubmit={ this.onSubmit } handleChange={ this.handleChange } hasError={ this.hasError } errors={ this.state.errors }/>
+        <UserForm
+          user={ this.state.user }
+          onSubmit={ this.onSubmit }
+          handleChange={ this.handleChange }
+          hasError={ this.hasError }
+          errors={ this.state.errors }
+          />
       </div>
     )
   }

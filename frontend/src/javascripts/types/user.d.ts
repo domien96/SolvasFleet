@@ -19,10 +19,6 @@ namespace User {
       hasError     : (field : User.Field) => boolean;
       user         : User;
     }
-  }
-
-  namespace New {
-    export interface Props { }
 
     export interface State {
       errors : Form.Error[];
