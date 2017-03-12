@@ -21,21 +21,10 @@ END;
 $$ language 'plpgsql';
 
 
--- create
+-- update
+
 CREATE TRIGGER update_updated_at BEFORE UPDATE
   ON companies FOR EACH ROW EXECUTE PROCEDURE  update_updated_at_column();
-
-CREATE TRIGGER update_updated_at BEFORE UPDATE
-  ON fleets FOR EACH ROW EXECUTE PROCEDURE  update_updated_at_column();
-
-CREATE TRIGGER update_updated_at BEFORE UPDATE
-  ON fleet_subscriptions FOR EACH ROW EXECUTE PROCEDURE  update_updated_at_column();
-
-CREATE TRIGGER update_updated_at BEFORE UPDATE
-  ON permissions FOR EACH ROW EXECUTE PROCEDURE  update_updated_at_column();
-
-CREATE TRIGGER update_updated_at BEFORE UPDATE
-  ON roles FOR EACH ROW EXECUTE PROCEDURE  update_updated_at_column();
 
 CREATE TRIGGER update_updated_at BEFORE UPDATE
   ON users FOR EACH ROW EXECUTE PROCEDURE  update_updated_at_column();
@@ -44,28 +33,50 @@ CREATE TRIGGER update_updated_at BEFORE UPDATE
   ON vehicles FOR EACH ROW EXECUTE PROCEDURE  update_updated_at_column();
 
 CREATE TRIGGER update_updated_at BEFORE UPDATE
-  ON vehicletypes FOR EACH ROW EXECUTE PROCEDURE  update_updated_at_column();
+  ON roles FOR EACH ROW EXECUTE PROCEDURE  update_updated_at_column();
+
+CREATE TRIGGER update_updated_at BEFORE UPDATE
+  ON fleets FOR EACH ROW EXECUTE PROCEDURE  update_updated_at_column();
+
+CREATE TRIGGER update_updated_at BEFORE UPDATE
+  ON permissions FOR EACH ROW EXECUTE PROCEDURE  update_updated_at_column();
+
+CREATE TRIGGER update_updated_at BEFORE UPDATE
+  ON sub_fleets FOR EACH ROW EXECUTE PROCEDURE  update_updated_at_column();
+
+CREATE TRIGGER update_updated_at BEFORE UPDATE
+  ON fleet_subscriptions FOR EACH ROW EXECUTE PROCEDURE  update_updated_at_column();
 
 
--- update
+
+
+-- create
 
 CREATE TRIGGER update_created_at BEFORE INSERT
   ON companies FOR EACH ROW EXECUTE PROCEDURE  update_created_at_column();
 
 CREATE TRIGGER update_created_at BEFORE INSERT
-  ON fleets FOR EACH ROW EXECUTE PROCEDURE  update_created_at_column();
-CREATE TRIGGER update_created_at BEFORE INSERT
+  ON users FOR EACH ROW EXECUTE PROCEDURE  update_created_at_column();
 
-  ON fleet_subscriptions FOR EACH ROW EXECUTE PROCEDURE  update_created_at_column();
+CREATE TRIGGER update_created_at BEFORE INSERT
+  ON vehicles FOR EACH ROW EXECUTE PROCEDURE  update_created_at_column();
+
+CREATE TRIGGER update_created_at BEFORE INSERT
+  ON roles FOR EACH ROW EXECUTE PROCEDURE  update_created_at_column();
+
+CREATE TRIGGER update_created_at BEFORE INSERT
+  ON fleets FOR EACH ROW EXECUTE PROCEDURE  update_created_at_column();
 
 CREATE TRIGGER update_created_at BEFORE INSERT
   ON permissions FOR EACH ROW EXECUTE PROCEDURE  update_created_at_column();
+
 CREATE TRIGGER update_created_at BEFORE INSERT
-  ON roles FOR EACH ROW EXECUTE PROCEDURE  update_created_at_column();
+  ON sub_fleets FOR EACH ROW EXECUTE PROCEDURE  update_created_at_column();
+
 CREATE TRIGGER update_created_at BEFORE INSERT
-  ON users FOR EACH ROW EXECUTE PROCEDURE  update_created_at_column();
-CREATE TRIGGER update_created_at BEFORE INSERT
-  ON vehicletypes FOR EACH ROW EXECUTE PROCEDURE  update_created_at_column();
+  ON fleet_subscriptions FOR EACH ROW EXECUTE PROCEDURE  update_created_at_column();
+
+
 
 
 

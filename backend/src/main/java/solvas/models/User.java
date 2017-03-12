@@ -1,5 +1,7 @@
 package solvas.models;
 
+import java.util.Set;
+
 /**
  * Models a User
  * @author steve on 04/03/2017.
@@ -9,10 +11,16 @@ public class User extends Model {
     private String lastName;
     private String email;
     private String password; //change to non string?
-    private String url;
+    private final String url="/users/";
 
+    /**
+     * Companies this user represents.
+     */
+    private Set<Company> companies;
 
-    protected User() {
+    private Set<Role> roles;
+
+    public User() {
     }
 
     public String getFirstName() {
@@ -48,10 +56,23 @@ public class User extends Model {
     }
 
     public String getUrl() {
-        return url;
+        return url+getId();
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+
+    public Set getCompanies() {
+        return companies; // todo: does this need a defensive copy or not?
+    }
+
+    public void setCompanies(Set companies) {
+        this.companies = companies;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }

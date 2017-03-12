@@ -1,6 +1,8 @@
 package solvas.persistence;
 
 import solvas.models.Model;
+import solvas.rest.query.Filterable;
+import solvas.rest.query.Pageable;
 
 import java.util.Collection;
 
@@ -22,7 +24,28 @@ public interface Dao<T extends Model> {
      * @exception EntityNotFoundException when trying to update a non-existent record
      * @return The model.
      */
-    T save(T model);
+    default T save(T model) {
+        if(model.getId() != 0) { // Update entity with this id
+            return save(model);
+        } else { // New entity
+            return create(model);
+        }
+    }
+
+    /**
+     * Create a model
+     * @param model The model to create
+     * @return The model with the id set
+     */
+    T create(T model);
+
+    /**
+     * Update model, identified by id
+     * @param model The model to update
+     * @exception EntityNotFoundException when trying to update a non-existent record
+     * @return The model
+     */
+    T update(T model);
 
     /**
      * Destroy a model.
@@ -48,4 +71,23 @@ public interface Dao<T extends Model> {
      * @return A collection containing all objects.
      */
     Collection<T> findAll();
+
+    /**
+     * Find all objects, filtered by the given filter.
+     *
+     * @param pageable Pagination information.
+     * @param filters The filter.
+     *
+     * @return The filtered items.
+     */
+    Collection<T> findAll(Pageable pageable, Filterable<T> filters);
+
+    /**
+     * Count the total number of items managed by this dao, respecting the given filter.
+     *
+     * @param filters The filters to use.
+     *
+     * @return The number of items.
+     */
+    long count(Filterable<T> filters);
 }

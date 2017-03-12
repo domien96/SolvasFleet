@@ -2,9 +2,15 @@ package solvas.rest.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import solvas.models.Company;
+import solvas.models.validators.CompanyValidator;
 import solvas.persistence.company.CompanyDao;
+import solvas.rest.api.mappers.CompanyMapper;
+import solvas.rest.api.models.ApiCompany;
+import solvas.rest.query.CompanyFilter;
+import solvas.rest.query.PaginationFilter;
 
 
 /**
@@ -12,28 +18,41 @@ import solvas.persistence.company.CompanyDao;
  * Visit @ /companies
  */
 @RestController
-public class CompanyRestController extends AbstractRestController<Company> {
+public class CompanyRestController extends AbstractRestController<Company,ApiCompany> {
 
     /**
      * Rest controller for Company
      *
      * @param dao Autowired
+     * @param mapper The mapper class for companies
+     * @param validator Validator for companies
      */
     @Autowired
-    public CompanyRestController(CompanyDao dao) {
-        super(dao);
+    public CompanyRestController(CompanyDao dao, CompanyMapper mapper, CompanyValidator validator) {
+        super(dao, mapper, validator);
     }
 
-    @Override
+
+
+
+    /**
+     * Query all models, accounting for pagination settings and respect the filters. The return value of this
+     * method will contain an object, according to the API spec.
+     *
+     * @param pagination The pagination information.
+     * @param filter The filters.
+     *
+     * @return ResponseEntity
+     */
     @RequestMapping(value = "/companies", method = RequestMethod.GET)
-    public ResponseEntity<?> listAll() {
-        return super.listAll("companies");
+    public ResponseEntity<?> listAll(PaginationFilter pagination, CompanyFilter filter) {
+        return super.listAll(pagination, filter);
     }
 
     @Override
     @RequestMapping(value = "/companies", method = RequestMethod.POST)
-    public ResponseEntity<?> post(@RequestBody Company input) {
-        return super.post(input);
+    public ResponseEntity<?> post(@RequestBody ApiCompany input, BindingResult result) {
+        return super.post(input, result);
     }
 
     @Override
@@ -50,7 +69,7 @@ public class CompanyRestController extends AbstractRestController<Company> {
 
     @Override
     @RequestMapping(value = "/companies/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> put(@PathVariable int id, @RequestBody Company input) {
-        return super.put(id, input);
+    public ResponseEntity<?> put(@PathVariable int id, @RequestBody ApiCompany input,BindingResult result) {
+        return super.put(id, input,result);
     }
 }

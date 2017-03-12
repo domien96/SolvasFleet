@@ -15,10 +15,18 @@
         <property name="vatNumber" column="vat" type="string"/>
         <property name="phoneNumber" column="phone" type="string"/>
 
-        <property name="address" column="address" type="string"/>
+        <property name="addressCity" column="address_city" type="string"/>
+        <property name="addressCountry" column="address_country" type="string"/>
+        <property name="addressHouseNumber" column="address_house_number" type="string"/>
+        <property name="addressPostalCode" column="address_postalCode" type="string"/>
+        <property name="addressStreet" column="address_street" type="string"/>
 
-        <property name="updatedAt" column="updated_at" type="java.time.LocalDateTime" generated="always"/>
-        <property name="createdAt" column="created_at" type="java.time.LocalDateTime" generated="insert"/>
+        <set name="representatives" table="company_users">
+            <key column="company_id"/>
+            <many-to-many column="user_id" class="solvas.models.User" />
+        </set>
+        <property name="updatedAt" column="updated_at" type="java.time.LocalDateTime" generated="always" insert="false"/>
+        <property name="createdAt" column="created_at" type="java.time.LocalDateTime" generated="insert" insert="false"/>
 
     </class>
 </hibernate-mapping>

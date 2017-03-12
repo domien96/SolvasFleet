@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="solvas.models.SubFleet" table="sub_fleets">
+        <meta attribute="class-description">
+            This class contains the subFleet detail.
+        </meta>
+        <id name="id" type="int" column="sub_fleet_id">
+            <generator class="identity"/>
+        </id>
+
+        <many-to-one name="vehicleType" column="vehicletype_id"
+                     class="solvas.models.VehicleType" not-null="true"/>
+
+        <many-to-one name="fleet" column="fleet_id"
+                     class="solvas.models.Fleet" not-null="true"/>
+
+        <property name="updatedAt" column="updated_at" type="java.time.LocalDateTime" generated="always"/>
+        <property name="createdAt" column="created_at" type="java.time.LocalDateTime" generated="insert"/>
+
+    </class>
+</hibernate-mapping>
