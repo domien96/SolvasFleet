@@ -13,7 +13,6 @@ public class Vehicle extends Model {
     private int year;
     private Company leasingCompany;
     private int value; //TODO check if used
-    private final String url="/vehicles/";
     private String brand;
 
 
@@ -86,9 +85,6 @@ public class Vehicle extends Model {
         this.value = value;
     }
 
-    public String getUrl() {
-        return url+getId();
-    }
 
     public String getBrand() {
         return brand;

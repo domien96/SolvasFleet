@@ -19,6 +19,7 @@ import solvas.rest.api.models.ApiRole;
 @Component
 public class RoleAbstractMapper extends AbstractMapper<Role,ApiRole> {
 
+    private String rootPath="/roles/";
     /**
      * TODO document
      *
@@ -54,7 +55,7 @@ public class RoleAbstractMapper extends AbstractMapper<Role,ApiRole> {
     public ApiRole convertToApiModel(Role role) {
         ApiRole apiRole = new ApiRole();
         apiRole.setId(role.getId());
-        apiRole.setUrl(role.getUrl());
+        apiRole.setUrl(rootPath+apiRole.getId());
         apiRole.setCompany(role.getCompany().getId());
         apiRole.setUser(role.getUser().getId());
         apiRole.setFunction(role.getFunction());

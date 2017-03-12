@@ -19,6 +19,7 @@ import solvas.rest.api.models.ApiUser;
 @Component
 public class UserAbstractMapper extends AbstractMapper<User,ApiUser> {
 
+    private String rootPath="/users/";
     /**
      * TODO document
      *
@@ -51,6 +52,7 @@ public class UserAbstractMapper extends AbstractMapper<User,ApiUser> {
         apiUser.setPassword(user.getPassword());
         apiUser.setUpdatedAt(user.getUpdatedAt());
         apiUser.setCreatedAt(user.getCreatedAt());
+        apiUser.setUrl(rootPath+apiUser.getId());
         return apiUser;
     }
 }
