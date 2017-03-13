@@ -4,7 +4,9 @@
 /ansible/*.retry
 
 .gradle
-build/
+/api/build/
+/backend/build/
+/frontend/build/
 
 # Ignore Gradle GUI config
 gradle-app.setting

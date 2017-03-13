@@ -12,7 +12,6 @@ public class Role extends Model {
 
     private LocalDateTime startDate; //todo check if it should be replaced by localdate
     private LocalDateTime endDate;
-    private final String url="/roles/";
 
     /**
      * Users who have this role.
@@ -51,11 +50,6 @@ public class Role extends Model {
     public void setEndDate(LocalDateTime endDate) {
         this.endDate = endDate;
     }
-
-    public String getUrl() {
-        return url+getId();
-    }
-
 
     public Set<Permission> getPermissions() {
         return permissions;

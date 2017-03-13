@@ -5,14 +5,14 @@ package solvas.rest.api.models;
  */
 public class ApiVehicle extends ApiModel{
     private String licensePlate;
-    private String chassisNumber;
+    private String vin;
     private String model;
     private String type;
     private int mileage;
     private int year;
     private int leasingCompany;
     private int value=0;
-    private int company;
+    private int fleet;
     private String brand;
 
     public String getLicensePlate() {
@@ -23,12 +23,12 @@ public class ApiVehicle extends ApiModel{
         this.licensePlate = licensePlate;
     }
 
-    public String getChassisNumber() {
-        return chassisNumber;
+    public String getVin() {
+        return vin;
     }
 
-    public void setChassisNumber(String chassisNumber) {
-        this.chassisNumber = chassisNumber;
+    public void setVin(String vin) {
+        this.vin = vin;
     }
 
     public String getModel() {
@@ -79,12 +79,12 @@ public class ApiVehicle extends ApiModel{
         this.value = value;
     }
 
-    public int getCompany() {
-        return company;
+    public int getFleet() {
+        return fleet;
     }
 
-    public void setCompany(int company) {
-        this.company = company;
+    public void setFleet(int fleet) {
+        this.fleet = fleet;
     }
 
     public String getBrand() {

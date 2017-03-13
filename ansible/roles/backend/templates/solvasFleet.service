@@ -1,0 +1,12 @@
+[Unit]
+Description=SolvasFleet
+After=syslog.target
+
+[Service]
+User=backend
+WorkingDirectory=/srv/backend/current/build/libs/
+ExecStart=/usr/bin/java -Xmx256m -jar SolvasFleet-0.1.0.jar
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target

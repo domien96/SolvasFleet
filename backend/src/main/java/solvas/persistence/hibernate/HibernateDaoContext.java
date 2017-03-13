@@ -1,22 +1,15 @@
 package solvas.persistence.hibernate;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import solvas.persistence.api.DaoContext;
-import solvas.persistence.api.dao.CompanyDao;
-import solvas.persistence.api.dao.FleetDao;
-import solvas.persistence.api.dao.FleetSubscriptionDao;
-import solvas.persistence.api.dao.RoleDao;
-import solvas.persistence.api.dao.SubFleetDao;
-import solvas.persistence.api.dao.UserDao;
-import solvas.persistence.api.dao.VehicleDao;
-import solvas.persistence.api.dao.VehicleTypeDao;
+import solvas.persistence.api.dao.*;
 
 /**
  * Uses lazy creation.
  * Created by domien on 12/03/2017.
  */
-@Repository
+@Service
 public class HibernateDaoContext implements DaoContext {
 
     @Autowired

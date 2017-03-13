@@ -5,9 +5,10 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import solvas.models.Model;
+import solvas.persistence.api.Filter;
 import solvas.persistence.api.Dao;
 import solvas.persistence.api.EntityNotFoundException;
-import solvas.rest.query.Filterable;
+
 import solvas.rest.query.Pageable;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -82,8 +83,26 @@ public abstract class HibernateDao<T extends Model> implements Dao<T> {
         return getSession().createQuery(criteriaQuery).getResultList();
     }
 
-    @Override
-    public Collection<T> findAll(Pageable pageable, Filterable<T> filters) {
+    /**
+     * Find all models that conform to predicates.
+     *
+     * @param filters The predicates.
+     *
+     * @return The models.
+     */
+    public Collection<T> findAll(Filter<T> filters) {
+        return getSession().createQuery(filterQuery(filters))
+                .getResultList();
+    }
+
+    /**
+     * Construct a criteria query from a filterable.
+     *
+     * @param filters The filters.
+     *
+     * @return The query.
+     */
+    protected CriteriaQuery<T> filterQuery(Filter<T> filters) {
         CriteriaBuilder builder = getSession().getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = builder.createQuery(clazz);
         Root<T> root = criteriaQuery.from(clazz);
@@ -93,17 +112,22 @@ public abstract class HibernateDao<T extends Model> implements Dao<T> {
         Predicate[] array = new Predicate[predicates.size()];
         criteriaQuery.select(root).where(predicates.toArray(array));
 
+        return criteriaQuery;
+    }
+
+    @Override
+    public Collection<T> findAll(Pageable pageable, Filter<T> filters) {
         // Apply pagination
         int start = pageable.getLimit() * pageable.getPage();
 
-        return getSession().createQuery(criteriaQuery)
+        return getSession().createQuery(filterQuery(filters))
                 .setFirstResult(start)
                 .setMaxResults(pageable.getLimit())
                 .getResultList();
     }
 
     @Override
-    public long count(Filterable<T> filters) {
+    public long count(Filter<T> filters) {
         CriteriaBuilder builder = getSession().getCriteriaBuilder();
         CriteriaQuery<Long> criteriaQuery = builder.createQuery(Long.class);
         Root<T> root = criteriaQuery.from(clazz);

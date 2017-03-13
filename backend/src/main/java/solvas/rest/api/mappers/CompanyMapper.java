@@ -7,16 +7,17 @@ import solvas.rest.api.models.ApiAddress;
 import solvas.rest.api.models.ApiCompany;
 
 /**
- * Created by steve on 11/03/2017.
+ * Mapper between Company and ApiCompany
  */
 @Component
 public class CompanyMapper extends AbstractMapper<Company,ApiCompany> {
 
+    private String rootPath="/companies/";
 
     /**
-     * TODO document
+     * Create a mapper between Company and ApiCompany
      *
-     * @param daoContext
+     * @param daoContext The context for Dao's
      */
     public CompanyMapper(DaoContext daoContext) {
         super(daoContext);
@@ -75,7 +76,7 @@ public class CompanyMapper extends AbstractMapper<Company,ApiCompany> {
         apiCompany.getAddress().setStreet(company.getAddressStreet());
         apiCompany.setCreatedAt(company.getCreatedAt());
         apiCompany.setUpdatedAt(company.getUpdatedAt());
-        apiCompany.setUrl(company.getUrl());
+        apiCompany.setUrl(rootPath+apiCompany.getId());
         return apiCompany;
     }
 }

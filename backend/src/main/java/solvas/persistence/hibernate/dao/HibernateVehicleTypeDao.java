@@ -3,13 +3,10 @@ package solvas.persistence.hibernate.dao;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import solvas.models.VehicleType;
-import solvas.persistence.hibernate.HibernateDao;
+import solvas.persistence.api.Filter;
 import solvas.persistence.api.dao.VehicleTypeDao;
+import solvas.persistence.hibernate.HibernateDao;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import java.util.Collection;
 
 /**
@@ -30,16 +27,8 @@ public class HibernateVehicleTypeDao extends HibernateDao<VehicleType> implement
 
     @Override
     public Collection<VehicleType> withType(String name) {
-            // Criteria builder
-            CriteriaBuilder builder = getSession().getCriteriaBuilder();
-            // Select from the company table
-            CriteriaQuery<VehicleType> criteriaQuery = builder.createQuery(VehicleType.class);
-            Root<VehicleType> root = criteriaQuery.from(VehicleType.class);
-            // Actual criteria
-            Predicate predicate = builder.equal(root.get("name"), name);
-            // Prepare query
-            criteriaQuery.select(root).where(predicate);
-            // Do the query
-            return getSession().createQuery(criteriaQuery).getResultList();
+        return findAll(Filter.predicate((builder, root) -> builder.equal(
+                root.get("name"), name
+        )));
     }
 }

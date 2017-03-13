@@ -37,3 +37,8 @@ dependencies {
 
     testCompile "junit:junit"
 }
+
+task javadocs(type: Javadoc) {
+    source = sourceSets.main.allJava
+    classpath = configurations.compile
+}

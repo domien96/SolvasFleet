@@ -3,13 +3,11 @@ package solvas.persistence.hibernate.dao;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import solvas.models.Company;
-import solvas.persistence.hibernate.HibernateDao;
+import solvas.persistence.api.Filter;
 import solvas.persistence.api.dao.CompanyDao;
+import solvas.persistence.hibernate.HibernateDao;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+
 import java.util.Collection;
 
 /**
@@ -30,16 +28,8 @@ public class HibernateCompanyDao extends HibernateDao<Company> implements Compan
 
     @Override
     public Collection<Company> withName(String name) {
-        // Criteria builder
-        CriteriaBuilder builder = getSession().getCriteriaBuilder();
-        // Select from the company table
-        CriteriaQuery<Company> criteriaQuery = builder.createQuery(Company.class);
-        Root<Company> root = criteriaQuery.from(Company.class);
-        // Actual criteria
-        Predicate predicate = builder.equal(root.get("name"), name);
-        // Prepare query
-        criteriaQuery.select(root).where(predicate);
-        // Do the query
-        return getSession().createQuery(criteriaQuery).getResultList();
+        return findAll(Filter.predicate(
+                (b, r) -> b.equal(r.get("name"), name)
+        ));
     }
 }

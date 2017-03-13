@@ -12,16 +12,16 @@
          <generator class="identity"/>
       </id>
 
-       <property name="endDate" column="end_date" type="java.time.LocalDate" not-null="true"/>
+       <property name="endDate" column="end_date" type="java.time.LocalDate"/>
       <property name="startDate" column="start_date" type="java.time.LocalDate" not-null="true"/>
 
        <many-to-one name="vehicle" column="vehicle_id"
-                    class="solvas.models.Vehicle" /> <!-- TODO shoould be not null not-null="true"/>-->
-      <many-to-one name="subFleet" column="sub_fleet_id"
+                    class="solvas.models.Vehicle" not-null="true"/>
+      <many-to-one name="subFleet" column="subfleet_id"
                    class="solvas.models.SubFleet" not-null="true"/>
 
-      <property name="updatedAt" column="updated_at" type="java.time.LocalDateTime" generated="always"/>
-      <property name="createdAt" column="created_at" type="java.time.LocalDateTime" generated="insert"/>
+      <property name="updatedAt" column="updated_at" type="java.time.LocalDateTime" generated="always" not-null="true"/>
+      <property name="createdAt" column="created_at" type="java.time.LocalDateTime" generated="insert" not-null="true"/>
 
    </class>
 </hibernate-mapping>

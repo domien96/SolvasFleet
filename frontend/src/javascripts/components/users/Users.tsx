@@ -1,11 +1,12 @@
 import React from 'react';
 import { browserHistory, Link } from'react-router';
 
-import Card       from '../app/Card.tsx';
-import Header     from '../app/Header.tsx';
-import { InfoTable, th } from '../tables/InfoTable.tsx';
+import Card      from '../app/Card.tsx';
+import Header    from '../app/Header.tsx';
+import InfoTable from '../tables/InfoTable.tsx';
 
 import fetchUsers from '../../actions/fetch_users.ts';
+import { th }     from '../../utils/utils.ts';
 
 interface OverviewProps {
   users: User[];
@@ -25,8 +26,8 @@ class Overview extends React.Component<OverviewProps, {}> {
   render() {
     const tableHead = [
       th('id',         'user.id'),
-      th('first_name', 'user.first_name'),
-      th('last_name',  'user.last_name')
+      th('firstName', 'user.firstName'),
+      th('lastName',  'user.lastName')
     ];
 
     return (
@@ -62,7 +63,7 @@ class Users extends React.Component<{}, Users.State> {
     return (
       <div>
         <Header>
-          <h2>Users</h2>  
+          <h2>Users</h2>
         </Header>
         <div className='wrapper'>
           <div className='row'>

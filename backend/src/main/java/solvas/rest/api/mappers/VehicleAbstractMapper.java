@@ -2,20 +2,23 @@ package solvas.rest.api.mappers;
 
 
 import org.springframework.stereotype.Component;
-import solvas.models.Company;
+import solvas.models.Fleet;
 import solvas.models.Vehicle;
 import solvas.persistence.api.DaoContext;
+import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.api.models.ApiVehicle;
-import solvas.rest.logic.GetVehicleToCompany;
+import solvas.rest.logic.VehicleToFleet;
 import solvas.rest.logic.InconsistentDbException;
 import solvas.rest.logic.LinkVehicleCompany;
 
 /**
- * Created by steve on 11/03/2017.
+ * Mapper between Vehicle and ApiVehicle
  */
 @Component
 public class VehicleAbstractMapper extends AbstractMapper<Vehicle,ApiVehicle> {
 
+
+    private String rootPath="/vehicles/";
     /**
      * TODO document
      *
@@ -41,8 +44,8 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle,ApiVehicle> {
 
         vehicle.setLicensePlate(api.getLicensePlate()==null
                 ? vehicle.getLicensePlate() : api.getLicensePlate());
-        vehicle.setChassisNumber(api.getChassisNumber()==null
-                ? vehicle.getChassisNumber() : api.getChassisNumber());
+        vehicle.setChassisNumber(api.getVin()==null
+                ? vehicle.getChassisNumber() : api.getVin());
         vehicle.setModel(api.getModel()==null
                 ? vehicle.getModel() : api.getModel());
         vehicle.setKilometerCount(api.getMileage()==0
@@ -61,10 +64,11 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle,ApiVehicle> {
                 new VehicleTypeAbstractMapper(daoContext).convertToModel(api.getType()));
 
         //create link between company and vehicle
-        if (api.getCompany()!=0) {
+        if (api.getFleet()!=0) {
 
             vehicle = daoContext.getVehicleDao().save(vehicle);
-            generateLinkVehicleCompany(api.getCompany(),vehicle);
+            Fleet fleet = daoContext.getFleetDao().find(api.getFleet());
+            generateLinkVehicleCompany(fleet.getCompany().getId(),vehicle);
             //TODO save vehicle first then save active subscription
         }
 
@@ -80,29 +84,27 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle,ApiVehicle> {
         api.setId(vehicle.getId());
         api.setId(vehicle.getId());
         api.setLicensePlate(vehicle.getLicensePlate());
-        api.setChassisNumber(vehicle.getChassisNumber());
+        api.setVin(vehicle.getChassisNumber());
         api.setModel(vehicle.getModel());
         api.setMileage(vehicle.getKilometerCount());
         api.setYear(vehicle.getYear());
         api.setLeasingCompany(vehicle.getLeasingCompany()==null ? 0 :vehicle.getLeasingCompany().getId());
         api.setValue(0);//api.getValue()
         api.setBrand(vehicle.getBrand());
-        api.setCompany(getApiCompany(vehicle));
+        api.setFleet(getApiFleet(vehicle));
         api.setType(vehicle.getType().getName());
         api.setUpdatedAt(vehicle.getUpdatedAt());
         api.setCreatedAt(vehicle.getCreatedAt());
+        api.setUrl(rootPath+api.getId());
         return api;
     }
 
-    private void generateLinkVehicleCompany(int companyId, Vehicle v){
+    private void generateLinkVehicleCompany(int fleetId, Vehicle v){
         //TODO
         //diference between company change detect it and handle it
         try {
-            new LinkVehicleCompany().run(companyId,v,
-                    daoContext.getFleetSubscriptionDao(),
-                    daoContext.getSubFleetDao(),
-                    daoContext.getFleetDao(),daoContext.getCompanyDao());
-        } catch (InconsistentDbException e) {
+            new LinkVehicleCompany().run(fleetId,v, daoContext);
+        } catch (InconsistentDbException | EntityNotFoundException e) {
             e.printStackTrace();
         }
     }
@@ -113,17 +115,17 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle,ApiVehicle> {
      * @param vehicle
      * @return returns 0 if there are no active Subscriptions.
      */
-    private int getApiCompany(Vehicle vehicle){
-        int companyId;
+    private int getApiFleet(Vehicle vehicle){
+        int fleetId;
         try {
-            Company company = new GetVehicleToCompany().run(vehicle,daoContext.getFleetSubscriptionDao());
-            companyId =company.getId();
+            Fleet fleet = new VehicleToFleet().run(vehicle, daoContext);
+            fleetId =fleet.getId();
         } catch (InconsistentDbException e) {
             e.printStackTrace(); //Should not happen
-            companyId=0;
-        } catch (GetVehicleToCompany.NoActiveSubscriptionException e) {
-            companyId=0;
+            fleetId=0;
+        } catch (VehicleToFleet.NoActiveSubscriptionException e) {
+            fleetId=0;
         }
-        return companyId;
+        return fleetId;
     }
 }

@@ -18,7 +18,6 @@ public class Company extends Model {
     private String addressStreet;
     private String addressHouseNumber;
     private String addressPostalCode;
-    private final String url="/companies/";
     /**
      * These users represent this company.
      * Remark: this is a subset of the set of all employees!
@@ -91,11 +90,6 @@ public class Company extends Model {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
-
-    public String getUrl() {
-        return url+getId();
-    }
-
 
     public Set getRepresentatives() {
         return representatives; // todo: does this need a defensive copy or not?

@@ -7,7 +7,7 @@ import solvas.persistence.api.DaoContext;
 import java.util.Collection;
 
 /**
- * Created by steve on 11/03/2017.
+ * Mapper between VehicleType and it's String representation
  */
 @Component
 public class VehicleTypeAbstractMapper extends AbstractMapper<VehicleType,String> {
@@ -24,7 +24,7 @@ public class VehicleTypeAbstractMapper extends AbstractMapper<VehicleType,String
     @Override
     public VehicleType convertToModel(String api) {
         Collection <VehicleType> types = daoContext.getVehicleTypeDao().withType(api);
-        VehicleType type=null;
+        VehicleType type;
         if (types.size()==0){
             type = new VehicleType();
             type.setId(0);

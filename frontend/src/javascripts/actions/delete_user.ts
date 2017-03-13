@@ -1,7 +1,7 @@
-import { USERS_URL } from '../constants/constants.ts';
+import { USER_URL } from '../constants/constants.ts';
 
 export default function(id : number) {
-  return fetch(USERS_URL + '/' + id, {
+  return fetch(USER_URL(id), {
     method: 'DELETE'
   });
 }
