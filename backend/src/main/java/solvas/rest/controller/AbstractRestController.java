@@ -14,6 +14,7 @@ import solvas.persistence.Dao;
 import solvas.persistence.EntityNotFoundException;
 import solvas.rest.api.mappers.AbstractMapper;
 import solvas.persistence.Filter;
+import solvas.rest.api.models.ApiModel;
 import solvas.rest.query.Pageable;
 import solvas.rest.utils.JsonListWrapper;
 
@@ -136,10 +137,11 @@ public abstract class AbstractRestController<T extends Model, E> {
      */
     protected ResponseEntity<?> put(int id,E input,BindingResult binding) {
         return save(input, binding, () -> {
+            ((ApiModel) input).setId(id);
             T model = mapper.convertToModel(input);
-            model.setId(id);
+
             return mapper.convertToApiModel(dao
-                    .save(model));
+                    .update(model));
         });
     }
 
