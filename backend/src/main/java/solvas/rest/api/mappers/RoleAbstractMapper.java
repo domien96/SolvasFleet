@@ -21,7 +21,7 @@ public class RoleAbstractMapper extends AbstractMapper<Role,ApiRole> {
 
     private String rootPath="/roles/";
     /**
-     * TODO document
+     * Create a mapper between Role and ApiRole
      *
      * @param daoContext
      */

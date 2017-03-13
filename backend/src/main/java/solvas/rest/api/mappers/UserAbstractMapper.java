@@ -15,16 +15,16 @@ import solvas.persistence.vehicleType.VehicleTypeDao;
 import solvas.rest.api.models.ApiUser;
 
 /**
- * Created by steve on 11/03/2017.
+ * Mapper between User and ApiUser
  */
 @Component
 public class UserAbstractMapper extends AbstractMapper<User,ApiUser> {
 
     private String rootPath="/users/";
     /**
-     * TODO document
+     * Create UserMapper
      *
-     * @param daoContext
+     * @param daoContext The DAO context
      */
     public UserAbstractMapper(DaoContext daoContext) {
         super(daoContext);

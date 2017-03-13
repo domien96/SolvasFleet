@@ -15,9 +15,9 @@ public class CompanyMapper extends AbstractMapper<Company,ApiCompany> {
     private String rootPath="/companies/";
 
     /**
-     * TODO document
+     * Create a mapper between Company and ApiCompany
      *
-     * @param daoContext
+     * @param daoContext The context for Dao's
      */
     public CompanyMapper(DaoContext daoContext) {
         super(daoContext);

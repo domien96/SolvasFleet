@@ -12,7 +12,7 @@ import solvas.rest.logic.InconsistentDbException;
 import solvas.rest.logic.LinkVehicleCompany;
 
 /**
- * Created by steve on 11/03/2017.
+ * Mapper between Vehicle and ApiVehicle
  */
 @Component
 public class VehicleAbstractMapper extends AbstractMapper<Vehicle,ApiVehicle> {
