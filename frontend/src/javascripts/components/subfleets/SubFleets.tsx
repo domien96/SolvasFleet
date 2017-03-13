@@ -19,13 +19,13 @@ class Overview extends React.Component<OverviewProps, {}> {
   }
 
   handleClick(id : number) {
-    browserHistory.push('/subfleets/' + id + '/vehicles');
+    console.log(id);
+    browserHistory.push('/vehicles/');
   }
 
   render() {
     const tableHead = [
-      th('id',   'subfleet.id'),
-      th('name', 'subfleet.name'),
+      th('type', 'subfleet.name'),
       th('size', 'subfleet.size')
     ];
 
@@ -47,7 +47,7 @@ class SubFleets extends React.Component<SubFleets.Props, SubFleets.State> {
   }
 
   fetchSubFleets(id : number) {
-    fetchSubFleets(id)
+    fetchSubFleets(id, 'persoonswagen') // TODO
       .then((data : SubFleets.Data) => {
         this.setState({ subfleets: data.subfleets })
       });

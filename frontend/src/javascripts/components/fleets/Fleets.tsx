@@ -5,7 +5,7 @@ import Card       from '../app/Card.tsx';
 import InfoTable from '../tables/InfoTable.tsx';
 import SubFleets from '../subfleets/SubFleets.tsx'
 
-import fetchFleets from '../../actions/fetch_fleets.ts';
+import fetchFleetsByCompany from '../../actions/fetch_fleets_by_company.ts';
 import { th } from '../../utils/utils.ts';
 
 interface OverviewProps {
@@ -45,11 +45,7 @@ class Fleets extends React.Component<Fleets.Props, Fleets.State> {
   }
 
   componentDidMount() {
-    this.fetchFleets(this.props.id);
-  }
-
-  fetchFleets(id : number) {
-    fetchFleets(id)
+    fetchFleetsByCompany(this.props.id)
       .then((data : Fleets.Data) => {
         this.setState({ fleets: data.fleets })
       });
@@ -57,7 +53,7 @@ class Fleets extends React.Component<Fleets.Props, Fleets.State> {
 
   render() {
 
-    let addFleetUrl = '/clients/'+ this.props.id +'/fleets/new';
+    let addFleetUrl = '/fleets/new';
     let fleetId = 0;
 
     return (
