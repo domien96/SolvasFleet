@@ -1,5 +1,7 @@
 package solvas.rest.controller;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -91,10 +93,40 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      * Handle cases where the path variable cannot be converted to the required type.
      *
      * @param ex The exception.
-     * @return The error entity, containing a message explaining the error.
+     * @return A 400 error.
      */
     @ExceptionHandler(TypeMismatchException.class)
     public ResponseEntity<?> handleTypeMismatchException(TypeMismatchException ex) {
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * Handle cases where the input json cannot be mapped. This means the JSON syntax should
+     * be valid, but our mapping does not match. This often means a certain key does not contain
+     * the right type.
+     *
+     * @param ex The exception.
+     *
+     * @return A 422 error with the fields that caused an error.
+     */
+    @ExceptionHandler(JsonMappingException.class)
+    public ResponseEntity<?> handleJsonMappingException(JsonMappingException ex) {
+        JsonListWrapper<String> wrapper = new JsonListWrapper<>(
+                ex.getPath().stream().map(JsonMappingException.Reference::getFieldName).collect(Collectors.toList()),
+                "errors"
+        );
+        return new ResponseEntity<>(wrapper, HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
+    /**
+     * Handle cases where there are JSON syntax errors.
+     *
+     * @param ex The exception.
+     *
+     * @return A 400 error.
+     */
+    @ExceptionHandler(JsonParseException.class)
+    public ResponseEntity<?> handleJsonParseException(JsonParseException ex) {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
