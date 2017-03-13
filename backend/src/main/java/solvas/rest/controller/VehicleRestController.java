@@ -36,7 +36,9 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
      * method will contain an object, according to the API spec.
      *
      * @param pagination The pagination information.
+     * @param paginationResult The validation results of the pagination object.
      * @param filter The filters.
+     * @param result The validation results of the filterResult
      *
      * @return ResponseEntity
      */

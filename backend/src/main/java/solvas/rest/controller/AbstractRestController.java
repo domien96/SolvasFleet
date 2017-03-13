@@ -56,7 +56,9 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      * method will contain an object, according to the API spec.
      *
      * @param pagination The pagination information.
+     * @param paginationResult The validation results of the pagination object.
      * @param filter The filters.
+     * @param filterResult The validation results of the filterResult
      *
      * @return ResponseEntity
      */
