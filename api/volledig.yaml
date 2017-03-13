@@ -199,9 +199,9 @@ paths:
           type: integer
           description: Filter by build year.
         - in: query
-          name: company
+          name: fleet
           type: integer
-          description: Filter by company.
+          description: Filter by fleet.
         - in: query
           name: type
           type: string
