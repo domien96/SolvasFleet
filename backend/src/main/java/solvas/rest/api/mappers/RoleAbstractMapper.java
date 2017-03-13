@@ -3,14 +3,6 @@ package solvas.rest.api.mappers;
 import org.springframework.stereotype.Component;
 import solvas.models.Role;
 import solvas.persistence.DaoContext;
-import solvas.persistence.company.CompanyDao;
-import solvas.persistence.fleet.FleetDao;
-import solvas.persistence.fleetSubscription.FleetSubscriptionDao;
-import solvas.persistence.role.RoleDao;
-import solvas.persistence.subFleet.SubFleetDao;
-import solvas.persistence.user.UserDao;
-import solvas.persistence.vehicle.VehicleDao;
-import solvas.persistence.vehicleType.VehicleTypeDao;
 import solvas.rest.api.models.ApiRole;
 
 /**
@@ -46,8 +38,6 @@ public class RoleAbstractMapper extends AbstractMapper<Role,ApiRole> {
         role.setUser(api.getUser()==0 ? role.getUser() : daoContext.getUserDao().find(api.getUser()));
         role.setCompany(api.getCompany()==0 ? role.getCompany() : daoContext.getCompanyDao().find(api.getCompany()));
         //role permissions
-        role.setUpdatedAt(null);
-        role.setCreatedAt(role.getCreatedAt());
         return role;
     }
 
