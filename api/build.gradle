@@ -1,0 +1,25 @@
+
+apply plugin: 'java'
+apply plugin: 'idea'
+
+repositories {
+    jcenter()
+}
+
+jar {
+    baseName "ApiGenerator"
+    version =  '1.0'
+    manifest {
+        attributes 'Main-Class': 'solvas.api.Generator'
+    }
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+dependencies {
+    compile 'io.github.swagger2markup:swagger2markup:1.3.0'
+    compile 'org.asciidoctor:asciidoctorj:1.5.4.1'
+    compile 'org.asciidoctor:asciidoctorj-pdf:1.5.0-alpha.11'
+    compile 'commons-cli:commons-cli:1.3.1'
+}
