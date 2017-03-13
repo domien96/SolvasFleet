@@ -6,6 +6,7 @@ import solvas.models.Vehicle;
 import solvas.persistence.Filter;
 import solvas.persistence.fleetSubscription.FleetSubscriptionDao;
 
+import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import java.time.LocalDate;
@@ -27,9 +28,10 @@ public class VehicleToFleet {
             // Get active subscriptions for this vehicle.
             Join<FleetSubscription, Vehicle> join = root.join("vehicle");
             // The end is not set or after today
+            Expression<LocalDate> endDate = root.get("endDate");
             Predicate end = builder.or(
-                    builder.isNull(root.get("endDate")),
-                    builder.greaterThan(root.get("endDate"), now)
+                    builder.isNull(endDate),
+                    builder.greaterThan(endDate, now)
             );
 
             return builder.and(start, end, builder.equal(join.get("id"), vehicle.getId()));

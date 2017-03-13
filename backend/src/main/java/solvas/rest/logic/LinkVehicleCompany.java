@@ -33,7 +33,6 @@ public class LinkVehicleCompany {
             }
         }
         activeFleetSubscription = new FleetSubscription();
-        activeFleetSubscription.setEndDate(LocalDate.now().plusYears(10));
         activeFleetSubscription.setStartDate(LocalDate.now());
         activeFleetSubscription.setVehicle(vehicle);
 
