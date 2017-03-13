@@ -1,8 +1,6 @@
 package rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import matchers.TestMatcher;
-import matchers.UserMatcher;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -22,21 +20,15 @@ import solvas.rest.api.mappers.UserAbstractMapper;
 import solvas.rest.api.models.ApiUser;
 import solvas.rest.controller.UserRestController;
 
-import java.util.Collections;
-
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
 import static io.github.benas.randombeans.api.EnhancedRandom.randomCollectionOf;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * Integration tests of the UserRestController
