@@ -16,20 +16,18 @@ public class Vehicle extends Model {
     private Company leasingCompany;
     private int value; //TODO check if used
     private String brand;
-
-    public Set<FleetSubscription> getSubFleets() {
-        return subFleets;
-    }
-
-    public void setSubFleets(Set<FleetSubscription> subFleets) {
-        this.subFleets = subFleets;
-    }
-
-    private Set<FleetSubscription> subFleets;
+    private Set<FleetSubscription> fleetSubscriptions;
 
     public Vehicle() {
     }
 
+    public Set<FleetSubscription> getFleetSubscriptions() {
+        return fleetSubscriptions;
+    }
+
+    public void setFleetSubscriptions(Set<FleetSubscription> fleetSubscriptions) {
+        this.fleetSubscriptions = fleetSubscriptions;
+    }
 
     public String getLicensePlate() {
         return licensePlate;

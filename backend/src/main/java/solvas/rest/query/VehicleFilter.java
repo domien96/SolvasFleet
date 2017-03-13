@@ -51,7 +51,7 @@ public class VehicleFilter implements Filter<Vehicle> {
             ));
         }
         if (fleet >= 0) {
-            Join<Vehicle, FleetSubscription> subscriptionJoin = root.join("subFleets");
+            Join<Vehicle, FleetSubscription> subscriptionJoin = root.join("fleetSubscriptions");
             Join<FleetSubscription, SubFleet> subFleetJoin = subscriptionJoin.join("subFleet");
             Join<SubFleet, Fleet> fleetJoin = subFleetJoin.join("fleet");
 
