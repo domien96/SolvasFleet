@@ -24,7 +24,7 @@ public class VehicleToFleet {
         Filter<FleetSubscription> filter = Filter.predicate((builder, root) -> {
             LocalDate now = LocalDate.now();
             // The start must be before today
-            Predicate start = builder.lessThan(root.get("startDate"), now);
+            Predicate start = builder.lessThanOrEqualTo(root.get("startDate"), now);
             // Get active subscriptions for this vehicle.
             Join<FleetSubscription, Vehicle> join = root.join("vehicle");
             // The end is not set or after today

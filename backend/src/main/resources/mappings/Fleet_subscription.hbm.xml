@@ -12,7 +12,7 @@
          <generator class="identity"/>
       </id>
 
-       <property name="endDate" column="end_date" type="java.time.LocalDate" not-null="true"/>
+       <property name="endDate" column="end_date" type="java.time.LocalDate"/>
       <property name="startDate" column="start_date" type="java.time.LocalDate" not-null="true"/>
 
        <many-to-one name="vehicle" column="vehicle_id"

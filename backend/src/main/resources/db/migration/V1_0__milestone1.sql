@@ -100,7 +100,7 @@ CREATE TABLE subfleets (
 CREATE TABLE fleet_subscriptions (
   fleet_subscription_id SERIAL NOT NULL,
   start_date DATE NOT NULL,
-  end_date DATE NOT NULL,
+  end_date DATE,
   vehicle_id INT NOT NULL REFERENCES vehicles(vehicle_id),
   subfleet_id INT NOT NULL REFERENCES subfleets(subfleet_id),
   updated_at TIMESTAMP NOT NULL,
