@@ -10,14 +10,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import solvas.models.Model;
-<<<<<<< HEAD
 import solvas.persistence.api.Dao;
 import solvas.persistence.api.EntityNotFoundException;
-=======
-import solvas.persistence.Dao;
-import solvas.persistence.EntityNotFoundException;
 import solvas.persistence.api.Filter;
->>>>>>> backend
 import solvas.rest.api.mappers.AbstractMapper;
 import solvas.rest.api.models.ApiModel;
 import solvas.rest.query.Pageable;
