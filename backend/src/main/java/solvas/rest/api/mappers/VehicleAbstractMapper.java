@@ -72,8 +72,6 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle,ApiVehicle> {
             //TODO save vehicle first then save active subscription
         }
 
-        vehicle.setUpdatedAt(null);
-        vehicle.setCreatedAt(vehicle.getCreatedAt());
         return vehicle;
     }
 
