@@ -19,6 +19,8 @@ import java.util.Collection;
  */
 @Component
 public class VehicleTypeMapper extends AbstractMapper<VehicleType,String> {
+    private DaoContext daoContext;
+
 
     /**
      * TODO document
@@ -26,7 +28,7 @@ public class VehicleTypeMapper extends AbstractMapper<VehicleType,String> {
      * @param daoContext
      */
     public VehicleTypeMapper(DaoContext daoContext) {
-        super(daoContext);
+        this.daoContext = daoContext;
     }
 
     @Override

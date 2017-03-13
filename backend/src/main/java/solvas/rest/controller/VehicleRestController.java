@@ -8,6 +8,7 @@ import solvas.models.Vehicle;
 import solvas.models.validators.VehicleValidator;
 import solvas.persistence.DaoContext;
 import solvas.rest.api.mappers.VehicleMapper;
+import solvas.rest.api.mappers.exceptions.FieldNotFoundException;
 import solvas.rest.api.models.ApiVehicle;
 import solvas.rest.query.PaginationFilter;
 import solvas.rest.query.VehicleFilter;
@@ -41,19 +42,19 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
      * @return ResponseEntity
      */
     @RequestMapping(value = "/vehicles", method = RequestMethod.GET)
-    public ResponseEntity<?> listAll(PaginationFilter pagination, VehicleFilter filter) {
+    public ResponseEntity<?> listAll(PaginationFilter pagination, VehicleFilter filter) throws FieldNotFoundException {
         return super.listAll(pagination, filter);
     }
 
     @Override
     @RequestMapping(value = "/vehicles/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> getById(@PathVariable int id) {
+    public ResponseEntity<?> getById(@PathVariable int id) throws FieldNotFoundException {
         return super.getById(id);
     }
 
     @Override
     @RequestMapping(value = "/vehicles", method = RequestMethod.POST)
-    public ResponseEntity<?> post(@RequestBody ApiVehicle input,BindingResult result) {
+    public ResponseEntity<?> post(@RequestBody ApiVehicle input,BindingResult result) throws FieldNotFoundException {
         return super.post(input,result);
     }
 
@@ -66,7 +67,7 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
     @Override
 
     @RequestMapping(value = "/vehicles/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> put(@PathVariable int id, @RequestBody ApiVehicle input,BindingResult result) {
+    public ResponseEntity<?> put(@PathVariable int id, @RequestBody ApiVehicle input,BindingResult result) throws FieldNotFoundException {
         return super.put(id, input,result);
     }
 }

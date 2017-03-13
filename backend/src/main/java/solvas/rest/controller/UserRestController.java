@@ -8,6 +8,7 @@ import solvas.models.User;
 import solvas.models.validators.UserValidator;
 import solvas.persistence.DaoContext;
 import solvas.rest.api.mappers.UserMapper;
+import solvas.rest.api.mappers.exceptions.FieldNotFoundException;
 import solvas.rest.api.models.ApiUser;
 import solvas.rest.query.PaginationFilter;
 import solvas.rest.query.UserFilter;
@@ -41,19 +42,19 @@ public class UserRestController extends AbstractRestController<User,ApiUser> {
      * @return ResponseEntity
      */
     @RequestMapping(value = "/users", method = RequestMethod.GET)
-    public ResponseEntity<?> listAll(PaginationFilter pagination, UserFilter filter) {
+    public ResponseEntity<?> listAll(PaginationFilter pagination, UserFilter filter) throws FieldNotFoundException {
         return super.listAll(pagination, filter);
     }
 
     @Override
     @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> getById(@PathVariable int id) {
+    public ResponseEntity<?> getById(@PathVariable int id) throws FieldNotFoundException {
         return super.getById(id);
     }
 
     @Override
     @RequestMapping(value = "/users", method = RequestMethod.POST)
-    public ResponseEntity<?> post(@RequestBody ApiUser input,BindingResult result) {
+    public ResponseEntity<?> post(@RequestBody ApiUser input,BindingResult result) throws FieldNotFoundException {
         return super.post(input,result);
     }
 
@@ -65,7 +66,7 @@ public class UserRestController extends AbstractRestController<User,ApiUser> {
 
     @Override
     @RequestMapping(value = "/users/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> put(@PathVariable int id, @RequestBody ApiUser input,BindingResult result) {
+    public ResponseEntity<?> put(@PathVariable int id, @RequestBody ApiUser input,BindingResult result) throws FieldNotFoundException {
         return super.put(id, input,result);
     }
 }

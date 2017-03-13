@@ -1,8 +1,10 @@
 package solvas.rest.api.mappers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import solvas.models.Company;
 import solvas.persistence.DaoContext;
+import solvas.persistence.EntityNotFoundException;
 import solvas.persistence.company.CompanyDao;
 import solvas.persistence.fleet.FleetDao;
 import solvas.persistence.fleetSubscription.FleetSubscriptionDao;
@@ -11,6 +13,7 @@ import solvas.persistence.subFleet.SubFleetDao;
 import solvas.persistence.user.UserDao;
 import solvas.persistence.vehicle.VehicleDao;
 import solvas.persistence.vehicleType.VehicleTypeDao;
+import solvas.rest.api.mappers.exceptions.FieldNotFoundException;
 import solvas.rest.api.models.ApiAddress;
 import solvas.rest.api.models.ApiCompany;
 
@@ -20,70 +23,53 @@ import solvas.rest.api.models.ApiCompany;
 @Component
 public class CompanyMapper extends AbstractMapper<Company,ApiCompany> {
 
-
+    private final DaoContext daoContext;
     /**
      * TODO document
      *
      * @param daoContext
      */
-    public CompanyMapper(DaoContext daoContext) {
-        super(daoContext);
+    public CompanyMapper(@Autowired DaoContext daoContext) {
+        this.daoContext = daoContext;
     }
 
     @Override
-    public Company convertToModel(ApiCompany apiCompany) {
+    public Company convertToModel(ApiCompany apiCompany) throws EntityNotFoundException, FieldNotFoundException {
         Company company = new Company();
         company.setId(apiCompany.getId());
-
 
         if (company.getId()!=0) {
             //update
             company = daoContext.getCompanyDao().find(company.getId());
-            if (company==null){
-                company=new Company();
-            }
         }
 
-        company.setName(apiCompany.getName()==null
-                ? company.getName() : apiCompany.getName());
-        company.setVatNumber(apiCompany.getVatNumber()==null
-                ? company.getVatNumber() : apiCompany.getVatNumber());
-        company.setPhoneNumber(apiCompany.getPhoneNumber()==null
-                ? company.getPhoneNumber() : apiCompany.getPhoneNumber());
+        copyAttributes(company, apiCompany, "phoneNumber", "vatNumber", "name");
         if (apiCompany.getAddress()!=null) {
             company.setAddressCity(apiCompany.getAddress().getCity());
             company.setAddressCountry(apiCompany.getAddress().getCountry());
             company.setAddressHouseNumber(apiCompany.getAddress().getHouseNumber());
             company.setAddressPostalCode(apiCompany.getAddress().getPostalCode());
             company.setAddressStreet(apiCompany.getAddress().getStreet());
-        } else {
-            company.setAddressStreet(company.getAddressStreet());
-            company.setAddressCity(company.getAddressCity());
-            company.setAddressHouseNumber(company.getAddressHouseNumber());
-            company.setAddressPostalCode(company.getAddressPostalCode());
-            company.setAddressCountry(company.getAddressCountry());
         }
+
         company.setUpdatedAt(null);
         company.setCreatedAt(company.getCreatedAt());
         return company;
     }
 
     @Override
-    public ApiCompany convertToApiModel(Company company) {
+    public ApiCompany convertToApiModel(Company company) throws FieldNotFoundException {
         ApiCompany apiCompany = new ApiCompany();
-        apiCompany.setId(company.getId());
-        apiCompany.setName(company.getName());
-        apiCompany.setVatNumber(company.getVatNumber());
-        apiCompany.setPhoneNumber(company.getPhoneNumber());
+
+        copyAttributes(apiCompany, company, "id", "vatNumber", "phoneNumber", "createdAt", "updatedAt");
+
         apiCompany.setAddress(new ApiAddress());
         apiCompany.getAddress().setCity(company.getAddressCity());
         apiCompany.getAddress().setCountry(company.getAddressCountry());
         apiCompany.getAddress().setHouseNumber(company.getAddressHouseNumber());
         apiCompany.getAddress().setPostalCode(company.getAddressPostalCode());
-        apiCompany.getAddress().setStreet(company.getAddressStreet());
-        apiCompany.setCreatedAt(company.getCreatedAt());
-        apiCompany.setUpdatedAt(company.getUpdatedAt());
-        apiCompany.setUrl(company.getUrl());
+
+        apiCompany.setUrl(company.getUrl()); // TODO: decouple url from domainlayer
         return apiCompany;
     }
 }

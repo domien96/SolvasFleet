@@ -5,6 +5,8 @@ import org.springframework.stereotype.Component;
 import solvas.models.Company;
 import solvas.models.Vehicle;
 import solvas.persistence.DaoContext;
+import solvas.persistence.EntityNotFoundException;
+import solvas.rest.api.mappers.exceptions.FieldNotFoundException;
 import solvas.rest.api.models.ApiVehicle;
 import solvas.rest.logic.GetVehicleToCompany;
 import solvas.rest.logic.InconsistentDbException;
@@ -16,47 +18,31 @@ import solvas.rest.logic.LinkVehicleCompany;
 @Component
 public class VehicleMapper extends AbstractMapper<Vehicle,ApiVehicle> {
 
+    private DaoContext daoContext;
     /**
      * TODO document
      *
      * @param daoContext
      */
     public VehicleMapper(DaoContext daoContext) {
-        super(daoContext);
+        this.daoContext = daoContext;
     }
 
     @Override
-    public Vehicle convertToModel(ApiVehicle api) {
+    public Vehicle convertToModel(ApiVehicle api) throws EntityNotFoundException, FieldNotFoundException {
         Vehicle vehicle = new Vehicle();
         vehicle.setId(api.getId());
 
         if (vehicle.getId()!=0){
-
             vehicle = daoContext.getVehicleDao().find(vehicle.getId());
-            if (vehicle==null){
-                vehicle= new Vehicle();
-            }
         }
 
+        copyAttributes(vehicle, api, "licensePlate", "chassisNumber", "model", "mileage", "year", "brand", "createdAt");
 
-        vehicle.setLicensePlate(api.getLicensePlate()==null
-                ? vehicle.getLicensePlate() : api.getLicensePlate());
-        vehicle.setChassisNumber(api.getChassisNumber()==null
-                ? vehicle.getChassisNumber() : api.getChassisNumber());
-        vehicle.setModel(api.getModel()==null
-                ? vehicle.getModel() : api.getModel());
-        vehicle.setKilometerCount(api.getMileage()==0
-                ? vehicle.getKilometerCount() : api.getMileage());
-
-
-        vehicle.setYear(api.getYear()==0
-                ? vehicle.getYear() : api.getYear());
         vehicle.setLeasingCompany(api.getLeasingCompany()==0
                 ? vehicle.getLeasingCompany() :daoContext.getCompanyDao().find(api.getLeasingCompany()));
         vehicle.setValue(0);//api.getValue()
 
-        vehicle.setBrand(api.getBrand()==null
-                ? vehicle.getBrand() : api.getBrand());
         vehicle.setType(api.getType()==null ? vehicle.getType() :
                 new VehicleTypeMapper(daoContext).convertToModel(api.getType()));
 
@@ -68,33 +54,24 @@ public class VehicleMapper extends AbstractMapper<Vehicle,ApiVehicle> {
             //TODO save vehicle first then save active subscription
         }
 
-        vehicle.setUpdatedAt(null);
-        vehicle.setCreatedAt(vehicle.getCreatedAt());
         return vehicle;
     }
 
 
     @Override
-    public ApiVehicle convertToApiModel(Vehicle vehicle) {
+    public ApiVehicle convertToApiModel(Vehicle vehicle) throws FieldNotFoundException {
         ApiVehicle api = new ApiVehicle();
-        api.setId(vehicle.getId());
-        api.setId(vehicle.getId());
-        api.setLicensePlate(vehicle.getLicensePlate());
-        api.setChassisNumber(vehicle.getChassisNumber());
-        api.setModel(vehicle.getModel());
-        api.setMileage(vehicle.getKilometerCount());
-        api.setYear(vehicle.getYear());
+
+        copyAttributes(api, vehicle, "id", "licensePlate", "chassisNumber", "model", "mileage", "year", "brand", "createdAt");
+
         api.setLeasingCompany(vehicle.getLeasingCompany()==null ? 0 :vehicle.getLeasingCompany().getId());
-        api.setValue(0);//api.getValue()
-        api.setBrand(vehicle.getBrand());
+
         api.setCompany(getApiCompany(vehicle));
         api.setType(vehicle.getType().getName());
-        api.setUpdatedAt(vehicle.getUpdatedAt());
-        api.setCreatedAt(vehicle.getCreatedAt());
         return api;
     }
 
-    private void generateLinkVehicleCompany(int companyId, Vehicle v){
+    private void generateLinkVehicleCompany(int companyId, Vehicle v) throws EntityNotFoundException {
         //TODO
         //diference between company change detect it and handle it
         try {

@@ -45,7 +45,7 @@ public interface Dao<T extends Model> {
      * @exception EntityNotFoundException when trying to update a non-existent record
      * @return The model
      */
-    T update(T model);
+    T update(T model) throws EntityNotFoundException;
 
     /**
      * Destroy a model.
@@ -63,7 +63,7 @@ public interface Dao<T extends Model> {
      * @exception EntityNotFoundException no entity is associated with this id
      * @return The model.
      */
-    T find(int id);
+    T find(int id) throws EntityNotFoundException;
 
     /**
      * Find all objects of a certain type.

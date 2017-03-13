@@ -11,6 +11,7 @@ import solvas.persistence.subFleet.SubFleetDao;
 import solvas.persistence.user.UserDao;
 import solvas.persistence.vehicle.VehicleDao;
 import solvas.persistence.vehicleType.VehicleTypeDao;
+import solvas.rest.api.mappers.exceptions.FieldNotFoundException;
 import solvas.rest.api.models.ApiUser;
 
 /**
@@ -18,6 +19,8 @@ import solvas.rest.api.models.ApiUser;
  */
 @Component
 public class UserMapper extends AbstractMapper<User,ApiUser> {
+    private DaoContext daoContext;
+
 
     /**
      * TODO document
@@ -25,32 +28,23 @@ public class UserMapper extends AbstractMapper<User,ApiUser> {
      * @param daoContext
      */
     public UserMapper(DaoContext daoContext) {
-        super(daoContext);
+        this.daoContext = daoContext;
     }
 
     @Override
-    public User convertToModel(ApiUser apiUser) {
+    public User convertToModel(ApiUser apiUser) throws FieldNotFoundException {
         User user = new User();
-        user.setId(apiUser.getId());
-        user.setFirstName(apiUser.getFirstName());
-        user.setLastName(apiUser.getLastName());
-        user.setEmail(apiUser.getEmail());
-        user.setPassword(apiUser.getPassword());
-        user.setUpdatedAt(apiUser.getUpdatedAt());
-        user.setCreatedAt(apiUser.getCreatedAt());
+
+        copyAttributes(user, apiUser, "id", "firstName", "lastName", "email", "password", "createdAt", "updatedAt");
         return user;
     }
 
     @Override
-    public ApiUser convertToApiModel(User user) {
+    public ApiUser convertToApiModel(User user) throws FieldNotFoundException {
         ApiUser apiUser = new ApiUser();
-        apiUser.setId(user.getId());
-        apiUser.setFirstName(user.getFirstName());
-        apiUser.setLastName(user.getLastName());
-        apiUser.setEmail(user.getEmail());
-        apiUser.setPassword(user.getPassword());
-        apiUser.setUpdatedAt(user.getUpdatedAt());
-        apiUser.setCreatedAt(user.getCreatedAt());
+
+        copyAttributes(apiUser, user, "id", "firstName", "lastName", "email", "password", "createdAt", "updatedAt");
+
         return apiUser;
     }
 }

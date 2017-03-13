@@ -9,6 +9,7 @@ import solvas.models.validators.CompanyValidator;
 import solvas.persistence.DaoContext;
 import solvas.persistence.company.CompanyDao;
 import solvas.rest.api.mappers.CompanyMapper;
+import solvas.rest.api.mappers.exceptions.FieldNotFoundException;
 import solvas.rest.api.models.ApiCompany;
 import solvas.rest.query.CompanyFilter;
 import solvas.rest.query.PaginationFilter;
@@ -46,19 +47,19 @@ public class CompanyRestController extends AbstractRestController<Company,ApiCom
      * @return ResponseEntity
      */
     @RequestMapping(value = "/companies", method = RequestMethod.GET)
-    public ResponseEntity<?> listAll(PaginationFilter pagination, CompanyFilter filter) {
+    public ResponseEntity<?> listAll(PaginationFilter pagination, CompanyFilter filter) throws FieldNotFoundException {
         return super.listAll(pagination, filter);
     }
 
     @Override
     @RequestMapping(value = "/companies", method = RequestMethod.POST)
-    public ResponseEntity<?> post(@RequestBody ApiCompany input, BindingResult result) {
+    public ResponseEntity<?> post(@RequestBody ApiCompany input, BindingResult result) throws FieldNotFoundException {
         return super.post(input, result);
     }
 
     @Override
     @RequestMapping(value = "/companies/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> getById(@PathVariable int id) {
+    public ResponseEntity<?> getById(@PathVariable int id) throws FieldNotFoundException {
         return super.getById(id);
     }
 
@@ -70,7 +71,7 @@ public class CompanyRestController extends AbstractRestController<Company,ApiCom
 
     @Override
     @RequestMapping(value = "/companies/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> put(@PathVariable int id, @RequestBody ApiCompany input,BindingResult result) {
+    public ResponseEntity<?> put(@PathVariable int id, @RequestBody ApiCompany input,BindingResult result) throws FieldNotFoundException {
         return super.put(id, input,result);
     }
 }

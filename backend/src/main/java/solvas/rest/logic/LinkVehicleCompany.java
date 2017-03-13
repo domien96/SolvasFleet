@@ -4,6 +4,7 @@ import solvas.models.Fleet;
 import solvas.models.FleetSubscription;
 import solvas.models.SubFleet;
 import solvas.models.Vehicle;
+import solvas.persistence.EntityNotFoundException;
 import solvas.persistence.company.CompanyDao;
 import solvas.persistence.fleet.FleetDao;
 import solvas.persistence.fleetSubscription.FleetSubscriptionDao;
@@ -17,7 +18,7 @@ import java.util.Collection;
  */
 public class LinkVehicleCompany {
     public void run(int companyId, Vehicle vehicle, FleetSubscriptionDao fleetSubscriptionDao
-            , SubFleetDao subFleetDao, FleetDao fleetDao, CompanyDao companyDao) throws  InconsistentDbException {
+            , SubFleetDao subFleetDao, FleetDao fleetDao, CompanyDao companyDao) throws InconsistentDbException, EntityNotFoundException {
         //Find active subscription
         FleetSubscription activeFleetSubscription=null;
         for (FleetSubscription subs: fleetSubscriptionDao.withVehicleId(vehicle.getId())){

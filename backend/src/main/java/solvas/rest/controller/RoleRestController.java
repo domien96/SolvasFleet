@@ -8,6 +8,7 @@ import solvas.models.Role;
 import solvas.models.validators.RoleValidator;
 import solvas.persistence.DaoContext;
 import solvas.rest.api.mappers.RoleMapper;
+import solvas.rest.api.mappers.exceptions.FieldNotFoundException;
 import solvas.rest.api.models.ApiRole;
 import solvas.rest.query.PaginationFilter;
 import solvas.rest.query.RoleFilter;
@@ -42,20 +43,20 @@ public class RoleRestController extends AbstractRestController<Role,ApiRole> {
      * @return ResponseEntity
      */
     @RequestMapping(value = "/roles", method = RequestMethod.GET)
-    public ResponseEntity<?> listAll(PaginationFilter pagination, RoleFilter filter) {
+    public ResponseEntity<?> listAll(PaginationFilter pagination, RoleFilter filter) throws FieldNotFoundException {
         return super.listAll(pagination, filter);
     }
 
 
     @Override
     @RequestMapping(value = "/roles/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> getById(@PathVariable int id) {
+    public ResponseEntity<?> getById(@PathVariable int id) throws FieldNotFoundException {
         return super.getById(id);
     }
 
     @Override
     @RequestMapping(value = "/roles", method = RequestMethod.POST)
-    public ResponseEntity<?> post(@RequestBody ApiRole input,BindingResult result) {
+    public ResponseEntity<?> post(@RequestBody ApiRole input,BindingResult result) throws FieldNotFoundException {
         return super.post(input,result);
     }
 
@@ -67,7 +68,7 @@ public class RoleRestController extends AbstractRestController<Role,ApiRole> {
 
     @Override
     @RequestMapping(value = "/roles/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> put(@PathVariable int id, @RequestBody ApiRole input,BindingResult result) {
+    public ResponseEntity<?> put(@PathVariable int id, @RequestBody ApiRole input,BindingResult result) throws FieldNotFoundException {
         return super.put(id, input,result);
     }
 }

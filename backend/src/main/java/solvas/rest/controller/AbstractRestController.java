@@ -13,6 +13,7 @@ import solvas.models.Model;
 import solvas.persistence.Dao;
 import solvas.persistence.EntityNotFoundException;
 import solvas.rest.api.mappers.AbstractMapper;
+import solvas.rest.api.mappers.exceptions.FieldNotFoundException;
 import solvas.rest.query.Filterable;
 import solvas.rest.query.Pageable;
 import solvas.rest.utils.JsonListWrapper;
@@ -55,7 +56,7 @@ public abstract class AbstractRestController<T extends Model, E> {
      *
      * @return ResponseEntity
      */
-    protected ResponseEntity<?> listAll(Pageable pagination, Filterable<T> filterable) {
+    protected ResponseEntity<?> listAll(Pageable pagination, Filterable<T> filterable) throws FieldNotFoundException {
         Collection<E> collection = new HashSet<>();
         for (T item: dao.findAll(pagination, filterable)){
             collection.add(mapper.convertToApiModel(item));
@@ -74,7 +75,7 @@ public abstract class AbstractRestController<T extends Model, E> {
      * @return Response with the model or 404.
      */
 
-    protected ResponseEntity<?> getById(int id) {
+    protected ResponseEntity<?> getById(int id) throws FieldNotFoundException {
         try {
             return new ResponseEntity<>(mapper.convertToApiModel(dao.find(id)), HttpStatus.OK);
         } catch (EntityNotFoundException unused) {
@@ -105,7 +106,7 @@ public abstract class AbstractRestController<T extends Model, E> {
      * @param binding The binding to use to validate
      * @return Response with the saved model, or 400.
      */
-    protected ResponseEntity<?> post(E input, BindingResult binding) {
+    protected ResponseEntity<?> post(E input, BindingResult binding) throws FieldNotFoundException {
             return save(input,binding,() -> {
                 T model = mapper.convertToModel(input);
                 return mapper.convertToApiModel(dao.create(model));
@@ -134,7 +135,7 @@ public abstract class AbstractRestController<T extends Model, E> {
      * @param binding The binding to use to validate
      * @return ResponseEntity
      */
-    protected ResponseEntity<?> put(int id,E input,BindingResult binding) {
+    protected ResponseEntity<?> put(int id,E input,BindingResult binding) throws FieldNotFoundException {
         return save(input, binding, () -> {
             T model = mapper.convertToModel(input);
             model.setId(id);
@@ -156,7 +157,7 @@ public abstract class AbstractRestController<T extends Model, E> {
      * @param saveMethod The saveMethod (example: dao.update or dao.create)
      * @return ResponseEntity to return to user
      */
-    private ResponseEntity<?> save(E input, BindingResult binding, SaveMethod<E> saveMethod) {
+    private ResponseEntity<?> save(E input, BindingResult binding, SaveMethod<E> saveMethod) throws FieldNotFoundException {
         validator.validate(input, binding);
         if (!binding.hasErrors()) {
             try {
@@ -183,6 +184,6 @@ public abstract class AbstractRestController<T extends Model, E> {
          * Method to run to save an entity
          * @return the saved entity
          */
-        T run();
+        T run() throws FieldNotFoundException, EntityNotFoundException;
     }
 }

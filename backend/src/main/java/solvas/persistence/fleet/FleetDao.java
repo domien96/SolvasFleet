@@ -15,7 +15,7 @@ public interface FleetDao extends Dao<Fleet> {
     /**
      * Find all companies with a certain name.
      *
-     * @param name The name.
+     * @param companyId The id of the company.
      *
      * @return The companies.
      */
