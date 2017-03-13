@@ -17,13 +17,19 @@ class AddClient extends React.Component<{}, Company.CForm.State> {
       errors: [ { field: 'name', error: 'null' }],
       company: {}
     };
+    this.state.company.address = {};
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit     = this.onSubmit.bind(this);
   }
 
-  public handleChange(field : Company.Field, e : any) : void {
+  public handleChange(field : Company.Field, isAddress : boolean, e : any) : void {
     var newClient : Company = this.state.company;
-    newClient[field] = e.target.value;
+    if(isAddress){
+      newClient['address'][field] = e.target.value;
+    }
+    else{
+      newClient[field] = e.target.value;
+    }
     this.setState({ company: newClient });
   }
 

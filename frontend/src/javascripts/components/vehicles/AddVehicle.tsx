@@ -4,7 +4,6 @@ import { browserHistory } from 'react-router';
 import Header     from '../app/Header.tsx';
 import VehicleForm from './VehicleForm.tsx'
 
-
 import createVehicle from '../../actions/create_vehicle.ts';
 import { hasError }  from '../../utils/utils.ts';
 

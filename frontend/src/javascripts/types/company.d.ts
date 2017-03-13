@@ -13,7 +13,7 @@ namespace Company {
   namespace CForm {
     export interface Props {
       onSubmit     : (e : any) => void;
-      handleChange : (field : Company.Field, e : any) => void;
+      handleChange : (field : Company.Field, isAddress : boolean, e : any) => void;
       errors       : Form.Error[];
       hasError     : (field : Company.Field) => boolean;
       company      : Company;

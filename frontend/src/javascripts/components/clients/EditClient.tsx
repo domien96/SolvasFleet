@@ -15,6 +15,7 @@ class EditClient extends React.Component<Company.Props, Company.CForm.State> {
       errors: [ { field: 'name', error: 'null' }],
       company: {}
     };
+    this.state.company.address = {};
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit     = this.onSubmit.bind(this);
   }

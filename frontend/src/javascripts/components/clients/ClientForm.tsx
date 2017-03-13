@@ -7,7 +7,7 @@ import Errors     from '../app/Errors.tsx';
 import FormField  from '../forms/FormField.tsx';
 
 interface GeneralInfoProps {
-  handleChange: (field : string, e : any) => void;
+  handleChange: (field : string, isAddress : boolean, e : any) => void;
   hasError: (e : any) => boolean;
   company : Company;
 }
@@ -19,9 +19,9 @@ class GeneralInfo extends React.Component<GeneralInfoProps, {}> {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange(field : Company.Field) : any {
+  handleChange(field : Company.Field, isAddress : boolean) : any {
     return (e : any) => {
-      this.props.handleChange(field, e);
+      this.props.handleChange(field, isAddress, e);
     }
   }
 
@@ -35,15 +35,14 @@ class GeneralInfo extends React.Component<GeneralInfoProps, {}> {
             <h5>General info</h5>
           </div>
           <div className='card-content'>
-            <FormField value={ name }         placeholder='company.name'                type='text' callback={ this.handleChange('name') }         hasError={ this.props.hasError('name')}         />
-            <FormField value={ vatNumber }    placeholder='company.vatNumber'           type='text' callback={ this.handleChange('vatNumber') }    hasError={ this.props.hasError('vatNumber')}   />
-            <FormField value={ phoneNumber }  placeholder='company.phoneNumber'         type='tel'  callback={ this.handleChange('phoneNumber') }  hasError={ this.props.hasError('phoneNumber')} />
-            <FormField value={ street }       placeholder='company.address.street'      type='text' callback={ this.handleChange('street') }       hasError={ this.props.hasError('street')}      />
-            <FormField value={ houseNumber }  placeholder='company.address.houseNumber' type='text' callback={ this.handleChange('houseNumber') }  hasError={ this.props.hasError('houseNumber')}      />
-            <FormField value={ city }         placeholder='company.address.city'        type='text' callback={ this.handleChange('city') }         hasError={ this.props.hasError('city')}      />
-            <FormField value={ postalCode }   placeholder='company.address.postalCode'  type='text' callback={ this.handleChange('postalCode') }   hasError={ this.props.hasError('postalCode')}      />
-            <FormField value={ country }      placeholder='company.address.country'     type='text' callback={ this.handleChange('country') }      hasError={ this.props.hasError('country')}      />
-
+            <FormField value={ name }         placeholder='company.name'                type='text' callback={ this.handleChange('name', false) }         hasError={ this.props.hasError('name')}         />
+            <FormField value={ vatNumber }    placeholder='company.vatNumber'           type='text' callback={ this.handleChange('vatNumber', false) }    hasError={ this.props.hasError('vatNumber')}   />
+            <FormField value={ phoneNumber }  placeholder='company.phoneNumber'         type='tel'  callback={ this.handleChange('phoneNumber', false) }  hasError={ this.props.hasError('phoneNumber')} />
+            <FormField value={ street }       placeholder='company.address.street'      type='text' callback={ this.handleChange('street', true) }       hasError={ this.props.hasError('street')}      />
+            <FormField value={ houseNumber }  placeholder='company.address.houseNumber' type='text' callback={ this.handleChange('houseNumber', true) }  hasError={ this.props.hasError('houseNumber')}      />
+            <FormField value={ city }         placeholder='company.address.city'        type='text' callback={ this.handleChange('city', true) }         hasError={ this.props.hasError('city')}      />
+            <FormField value={ postalCode }   placeholder='company.address.postalCode'  type='text' callback={ this.handleChange('postalCode', true) }   hasError={ this.props.hasError('postalCode')}      />
+            <FormField value={ country }      placeholder='company.address.country'     type='text' callback={ this.handleChange('country', true) }      hasError={ this.props.hasError('country')}      />
           </div>
         </Card>
       </div>
