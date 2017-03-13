@@ -38,8 +38,6 @@ public class RoleAbstractMapper extends AbstractMapper<Role,ApiRole> {
         role.setUser(api.getUser()==0 ? role.getUser() : daoContext.getUserDao().find(api.getUser()));
         role.setCompany(api.getCompany()==0 ? role.getCompany() : daoContext.getCompanyDao().find(api.getCompany()));
         //role permissions
-        role.setUpdatedAt(null);
-        role.setCreatedAt(role.getCreatedAt());
         return role;
     }
 

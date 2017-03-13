@@ -17,7 +17,9 @@ public interface Dao<T extends Model> {
     /**
      * Save or update a model.
      * When the id of the model is set, the record with the same id will be updated in the database.
-     * Otherwise a new record will be created, and the returned Model will have it's id set
+     * Otherwise a new record will be created, and the returned Model will have it's id set.
+     *
+     * TODO: investigate why we don't use the update/create methods directly
      *
      * @param model The model to save.
      * @exception EntityNotFoundException when trying to update a non-existent record
@@ -25,7 +27,7 @@ public interface Dao<T extends Model> {
      */
     default T save(T model) {
         if(model.getId() != 0) { // Update entity with this id
-            return save(model);
+            return update(model);
         } else { // New entity
             return create(model);
         }

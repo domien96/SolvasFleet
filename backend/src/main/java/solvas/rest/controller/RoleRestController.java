@@ -42,8 +42,8 @@ public class RoleRestController extends AbstractRestController<Role,ApiRole> {
      * @return ResponseEntity
      */
     @RequestMapping(value = "/roles", method = RequestMethod.GET)
-    public ResponseEntity<?> listAll(PaginationFilter pagination, RoleFilter filter) {
-        return super.listAll(pagination, filter);
+    public ResponseEntity<?> listAll(PaginationFilter pagination, BindingResult paginationResult, RoleFilter filter, BindingResult result) {
+        return super.listAll(pagination, paginationResult, filter, result);
     }
 
 

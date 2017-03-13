@@ -63,7 +63,7 @@ CREATE TABLE vehicles (
 
 CREATE TABLE roles (
   role_id SERIAL NOT NULL,
-  name VARCHAR(255) NOT NULL,
+  function VARCHAR(255) NOT NULL,
   company_id INT REFERENCES companies(company_id),
   user_id INT REFERENCES users(user_id),
   updated_at TIMESTAMP NOT NULL,

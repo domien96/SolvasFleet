@@ -56,8 +56,6 @@ public class CompanyMapper extends AbstractMapper<Company,ApiCompany> {
             company.setAddressPostalCode(company.getAddressPostalCode());
             company.setAddressCountry(company.getAddressCountry());
         }
-        company.setUpdatedAt(null);
-        company.setCreatedAt(company.getCreatedAt());
         return company;
     }
 

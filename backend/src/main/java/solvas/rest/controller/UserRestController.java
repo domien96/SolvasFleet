@@ -41,8 +41,8 @@ public class UserRestController extends AbstractRestController<User,ApiUser> {
      * @return ResponseEntity
      */
     @RequestMapping(value = "/users", method = RequestMethod.GET)
-    public ResponseEntity<?> listAll(PaginationFilter pagination, UserFilter filter) {
-        return super.listAll(pagination, filter);
+    public ResponseEntity<?> listAll(PaginationFilter pagination, BindingResult paginationResult, UserFilter filter, BindingResult result) {
+        return super.listAll(pagination, paginationResult, filter, result);
     }
 
     @Override

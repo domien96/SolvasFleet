@@ -6,7 +6,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import solvas.models.Fleet;
 import solvas.models.validators.FleetValidator;
-import solvas.persistence.fleet.FleetDao;
+import solvas.persistence.api.dao.FleetDao;
 import solvas.rest.api.mappers.FleetMapper;
 import solvas.rest.api.models.ApiFleet;
 import solvas.rest.query.FleetFilter;
@@ -40,8 +40,8 @@ public class FleetRestController extends AbstractRestController<Fleet, ApiFleet>
      * @return ResponseEntity
      */
     @RequestMapping(value = "/fleets", method = RequestMethod.GET)
-    public ResponseEntity<?> listAll(PaginationFilter pagination, FleetFilter filter) {
-        return super.listAll(pagination, filter);
+    public ResponseEntity<?> listAll(PaginationFilter pagination, BindingResult paginationResult, FleetFilter filter, BindingResult result) {
+        return super.listAll(pagination, paginationResult, filter, result);
     }
 
     @Override
