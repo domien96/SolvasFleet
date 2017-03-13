@@ -7,7 +7,7 @@ import solvas.models.Vehicle;
 import solvas.persistence.DaoContext;
 import solvas.persistence.EntityNotFoundException;
 import solvas.rest.api.models.ApiVehicle;
-import solvas.rest.logic.GetFleetToCompany;
+import solvas.rest.logic.VehicleToFleet;
 import solvas.rest.logic.InconsistentDbException;
 import solvas.rest.logic.LinkVehicleCompany;
 
@@ -121,12 +121,12 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle,ApiVehicle> {
     private int getApiFleet(Vehicle vehicle){
         int fleetId;
         try {
-            Fleet fleet = new GetFleetToCompany().run(vehicle,daoContext.getFleetSubscriptionDao());
+            Fleet fleet = new VehicleToFleet().run(vehicle,daoContext.getFleetSubscriptionDao());
             fleetId =fleet.getId();
         } catch (InconsistentDbException e) {
             e.printStackTrace(); //Should not happen
             fleetId=0;
-        } catch (GetFleetToCompany.NoActiveSubscriptionException e) {
+        } catch (VehicleToFleet.NoActiveSubscriptionException e) {
             fleetId=0;
         }
         return fleetId;

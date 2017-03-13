@@ -1,50 +1,55 @@
 package solvas.rest.logic;
 
-import solvas.models.*;
+import solvas.models.Fleet;
+import solvas.models.FleetSubscription;
+import solvas.models.Vehicle;
+import solvas.persistence.Filter;
 import solvas.persistence.fleetSubscription.FleetSubscriptionDao;
 
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Predicate;
 import java.time.LocalDate;
+import java.util.Collection;
 
 /**
  * Created by steve on 11/03/2017.
  *
  */
-public class GetFleetToCompany {
+public class VehicleToFleet {
 
     public Fleet run(Vehicle vehicle, FleetSubscriptionDao fleetSubscriptionDao) throws InconsistentDbException, NoActiveSubscriptionException {
 
-        //Find active subscription
-        FleetSubscription activeFleetSubscription=null;
+        // We want all active subscriptions for this vehicle.
+        Filter<FleetSubscription> filter = Filter.predicate((builder, root) -> {
+            LocalDate now = LocalDate.now();
+            // The start must be before today
+            Predicate start = builder.lessThan(root.get("startDate"), now);
+            // Get active subscriptions for this vehicle.
+            Join<FleetSubscription, Vehicle> join = root.join("vehicle");
+            // The end is not set or after today
+            Predicate end = builder.or(
+                    builder.isNull(root.get("endDate")),
+                    builder.greaterThan(root.get("endDate"), now)
+            );
 
-        for (FleetSubscription subs: fleetSubscriptionDao.withVehicleId(vehicle.getId())){
-            if ((subs.getStartDate().isBefore(LocalDate.now())|| subs.getStartDate().equals(LocalDate.now())
-                    && (subs.getEndDate().isAfter(LocalDate.now()) || subs.getEndDate().equals(LocalDate.now())))){
-                if (activeFleetSubscription!=null){
-                    throw new InconsistentDbException();
-                }
-                activeFleetSubscription=subs;
-            }
+            return builder.and(start, end, builder.equal(join.get("id"), vehicle.getId()));
+        });
+
+        Collection<FleetSubscription> activeSubscriptions = fleetSubscriptionDao.findAll(filter);
+
+        // There can only be one active subscription at a time.
+        if (activeSubscriptions.size() > 1) {
+            throw new InconsistentDbException();
         }
-        if (activeFleetSubscription == null) {
+        // If there is no active subscription
+        if (activeSubscriptions.size() <= 0) {
             throw new NoActiveSubscriptionException();
         }
 
-        //Find subFleet
-        SubFleet subFleet =activeFleetSubscription.getSubFleet();
-        if (subFleet==null) {
-            throw new InconsistentDbException();
-        }
-
-        //Find Fleet
-        Fleet fleet = subFleet.getFleet();
-        if (fleet==null) {
-            throw new InconsistentDbException();
-        }
-
-        return fleet;
+        return activeSubscriptions.iterator().next().getSubFleet().getFleet();
     }
+
     public class NoActiveSubscriptionException extends Exception{
 
     }
-
 }
