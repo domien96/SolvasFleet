@@ -12,6 +12,9 @@ import java.util.HashMap;
  * @param <T> Type of items that should be wrapped
  */
 public class JsonListWrapper<T> extends HashMap<String, Object> {
+
+    public static final String ERROR_KEY = "errors";
+
     /**
      * Default no-arg constructor. You can set keys as you would for a map
      */

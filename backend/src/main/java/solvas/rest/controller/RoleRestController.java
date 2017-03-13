@@ -6,7 +6,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import solvas.models.Role;
 import solvas.models.validators.RoleValidator;
-import solvas.persistence.DaoContext;
+import solvas.persistence.api.DaoContext;
 import solvas.rest.api.mappers.RoleAbstractMapper;
 import solvas.rest.api.models.ApiRole;
 import solvas.rest.query.PaginationFilter;
@@ -37,7 +37,9 @@ public class RoleRestController extends AbstractRestController<Role,ApiRole> {
      * method will contain an object, according to the API spec.
      *
      * @param pagination The pagination information.
+     * @param paginationResult The validation results of the pagination object.
      * @param filter The filters.
+     * @param result The validation results of the filterResult
      *
      * @return ResponseEntity
      */

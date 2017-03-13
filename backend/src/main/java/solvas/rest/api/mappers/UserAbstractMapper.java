@@ -2,7 +2,7 @@ package solvas.rest.api.mappers;
 
 import org.springframework.stereotype.Component;
 import solvas.models.User;
-import solvas.persistence.DaoContext;
+import solvas.persistence.api.DaoContext;
 import solvas.rest.api.models.ApiUser;
 
 /**

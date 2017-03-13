@@ -6,7 +6,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import solvas.models.Company;
 import solvas.models.validators.CompanyValidator;
-import solvas.persistence.DaoContext;
+import solvas.persistence.api.DaoContext;
 import solvas.rest.api.mappers.CompanyMapper;
 import solvas.rest.api.models.ApiCompany;
 import solvas.rest.query.CompanyFilter;
@@ -40,7 +40,9 @@ public class CompanyRestController extends AbstractRestController<Company,ApiCom
      * method will contain an object, according to the API spec.
      *
      * @param pagination The pagination information.
+     * @param paginationResult The validation results of the pagination object.
      * @param filter The filters.
+     * @param result The validation results of the filterResult
      *
      * @return ResponseEntity
      */

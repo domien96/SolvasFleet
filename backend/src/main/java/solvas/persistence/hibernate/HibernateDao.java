@@ -1,10 +1,14 @@
-package solvas.persistence;
+package solvas.persistence.hibernate;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import solvas.models.Model;
+import solvas.persistence.api.Filter;
+import solvas.persistence.api.Dao;
+import solvas.persistence.api.EntityNotFoundException;
+
 import solvas.rest.query.Pageable;
 
 import javax.persistence.criteria.CriteriaBuilder;

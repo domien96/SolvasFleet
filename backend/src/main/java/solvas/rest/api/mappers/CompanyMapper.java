@@ -2,12 +2,12 @@ package solvas.rest.api.mappers;
 
 import org.springframework.stereotype.Component;
 import solvas.models.Company;
-import solvas.persistence.DaoContext;
+import solvas.persistence.api.DaoContext;
 import solvas.rest.api.models.ApiAddress;
 import solvas.rest.api.models.ApiCompany;
 
 /**
- * Created by steve on 11/03/2017.
+ * Mapper between Company and ApiCompany
  */
 @Component
 public class CompanyMapper extends AbstractMapper<Company,ApiCompany> {

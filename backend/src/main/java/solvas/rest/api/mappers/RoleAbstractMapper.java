@@ -2,11 +2,11 @@ package solvas.rest.api.mappers;
 
 import org.springframework.stereotype.Component;
 import solvas.models.Role;
-import solvas.persistence.DaoContext;
+import solvas.persistence.api.DaoContext;
 import solvas.rest.api.models.ApiRole;
 
 /**
- * Created by steve on 11/03/2017.
+ * Mapper between Role and ApiRole
  */
 @Component
 public class RoleAbstractMapper extends AbstractMapper<Role,ApiRole> {

@@ -1,7 +1,7 @@
-package solvas.persistence.role;
+package solvas.persistence.api.dao;
 
 import solvas.models.Role;
-import solvas.persistence.Dao;
+import solvas.persistence.api.Dao;
 
 /**
  * DAO for a role.

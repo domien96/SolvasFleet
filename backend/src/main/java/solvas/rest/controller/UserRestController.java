@@ -6,7 +6,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import solvas.models.User;
 import solvas.models.validators.UserValidator;
-import solvas.persistence.DaoContext;
+import solvas.persistence.api.DaoContext;
 import solvas.rest.api.mappers.UserAbstractMapper;
 import solvas.rest.api.models.ApiUser;
 import solvas.rest.query.PaginationFilter;
@@ -36,7 +36,9 @@ public class UserRestController extends AbstractRestController<User,ApiUser> {
      * method will contain an object, according to the API spec.
      *
      * @param pagination The pagination information.
+     * @param paginationResult The validation results of the pagination object.
      * @param filter The filters.
+     * @param result The validation results of the filterResult
      *
      * @return ResponseEntity
      */

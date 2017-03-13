@@ -1,10 +1,11 @@
-package solvas.persistence.vehicleType;
+package solvas.persistence.hibernate.dao;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import solvas.models.VehicleType;
-import solvas.persistence.Filter;
-import solvas.persistence.HibernateDao;
+import solvas.persistence.api.Filter;
+import solvas.persistence.api.dao.VehicleTypeDao;
+import solvas.persistence.hibernate.HibernateDao;
 
 import java.util.Collection;
 

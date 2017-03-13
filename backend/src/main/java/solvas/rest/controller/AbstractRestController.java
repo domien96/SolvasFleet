@@ -12,9 +12,9 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import solvas.models.Model;
-import solvas.persistence.Dao;
-import solvas.persistence.EntityNotFoundException;
-import solvas.persistence.Filter;
+import solvas.persistence.api.Dao;
+import solvas.persistence.api.EntityNotFoundException;
+import solvas.persistence.api.Filter;
 import solvas.rest.api.mappers.AbstractMapper;
 import solvas.rest.api.models.ApiModel;
 import solvas.rest.query.Pageable;
@@ -56,7 +56,9 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      * method will contain an object, according to the API spec.
      *
      * @param pagination The pagination information.
+     * @param paginationResult The validation results of the pagination object.
      * @param filter The filters.
+     * @param filterResult The validation results of the filterResult
      *
      * @return ResponseEntity
      */
@@ -113,7 +115,7 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
     public ResponseEntity<?> handleJsonMappingException(JsonMappingException ex) {
         JsonListWrapper<String> wrapper = new JsonListWrapper<>(
                 ex.getPath().stream().map(JsonMappingException.Reference::getFieldName).collect(Collectors.toList()),
-                "errors"
+                JsonListWrapper.ERROR_KEY
         );
         return new ResponseEntity<>(wrapper, HttpStatus.UNPROCESSABLE_ENTITY);
     }
@@ -195,7 +197,7 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
             return new ResponseEntity<Object>(
                     new JsonListWrapper<>(
                             binding.getFieldErrors().stream().map(FieldError::getField).collect(Collectors.toList()),
-                            "errors"
+                            JsonListWrapper.ERROR_KEY
                     ),
                     HttpStatus.BAD_REQUEST
             );

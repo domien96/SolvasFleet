@@ -6,7 +6,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import solvas.models.Vehicle;
 import solvas.models.validators.VehicleValidator;
-import solvas.persistence.DaoContext;
+import solvas.persistence.api.DaoContext;
 import solvas.rest.api.mappers.VehicleAbstractMapper;
 import solvas.rest.api.models.ApiVehicle;
 import solvas.rest.query.PaginationFilter;
@@ -36,7 +36,9 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
      * method will contain an object, according to the API spec.
      *
      * @param pagination The pagination information.
+     * @param paginationResult The validation results of the pagination object.
      * @param filter The filters.
+     * @param result The validation results of the filterResult
      *
      * @return ResponseEntity
      */

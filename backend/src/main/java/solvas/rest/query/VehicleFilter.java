@@ -1,7 +1,7 @@
 package solvas.rest.query;
 
 import solvas.models.*;
-import solvas.persistence.Filter;
+import solvas.persistence.api.Filter;
 
 import javax.persistence.criteria.*;
 import java.time.LocalDate;

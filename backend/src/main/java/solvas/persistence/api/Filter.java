@@ -1,4 +1,4 @@
-package solvas.persistence;
+package solvas.persistence.api;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;

@@ -1,7 +1,7 @@
 package solvas.rest.query;
 
 import solvas.models.Role;
-import solvas.persistence.Filter;
+import solvas.persistence.api.Filter;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;

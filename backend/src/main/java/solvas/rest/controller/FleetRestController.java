@@ -6,7 +6,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import solvas.models.Fleet;
 import solvas.models.validators.FleetValidator;
-import solvas.persistence.fleet.FleetDao;
+import solvas.persistence.api.dao.FleetDao;
 import solvas.rest.api.mappers.FleetMapper;
 import solvas.rest.api.models.ApiFleet;
 import solvas.rest.query.FleetFilter;
@@ -35,7 +35,9 @@ public class FleetRestController extends AbstractRestController<Fleet, ApiFleet>
      * method will contain an object, according to the API spec.
      *
      * @param pagination The pagination information.
+     * @param paginationResult The validation results of the pagination object.
      * @param filter The filters.
+     * @param result The validation results of the filterResult
      *
      * @return ResponseEntity
      */

@@ -1,15 +1,9 @@
-package solvas.persistence;
+package solvas.persistence.hibernate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import solvas.persistence.company.CompanyDao;
-import solvas.persistence.fleet.FleetDao;
-import solvas.persistence.fleetSubscription.FleetSubscriptionDao;
-import solvas.persistence.role.RoleDao;
-import solvas.persistence.subFleet.SubFleetDao;
-import solvas.persistence.user.UserDao;
-import solvas.persistence.vehicle.VehicleDao;
-import solvas.persistence.vehicleType.VehicleTypeDao;
+import solvas.persistence.api.DaoContext;
+import solvas.persistence.api.dao.*;
 
 /**
  * Uses lazy creation.
@@ -18,6 +12,17 @@ import solvas.persistence.vehicleType.VehicleTypeDao;
 @Service
 public class HibernateDaoContext implements DaoContext {
 
+    /**
+     * Create DaoContext with Dao's
+     * @param companyDao
+     * @param fleetDao
+     * @param fleetSubscriptionDao
+     * @param roleDao
+     * @param subFleetDao
+     * @param userDao
+     * @param vehicleDao
+     * @param vehicleTypeDao
+     */
     @Autowired
     public HibernateDaoContext(CompanyDao companyDao, FleetDao fleetDao, FleetSubscriptionDao fleetSubscriptionDao, RoleDao roleDao, SubFleetDao subFleetDao, UserDao userDao, VehicleDao vehicleDao, VehicleTypeDao vehicleTypeDao) {
         this.companyDao = companyDao;

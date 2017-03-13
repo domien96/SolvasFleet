@@ -1,11 +1,12 @@
-package solvas.persistence.subFleet;
+package solvas.persistence.hibernate.dao;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import solvas.models.Company;
 import solvas.models.Fleet;
-import solvas.models.SubFleet;
-import solvas.persistence.Filter;
-import solvas.persistence.HibernateDao;
+import solvas.persistence.api.Filter;
+import solvas.persistence.api.dao.FleetDao;
+import solvas.persistence.hibernate.HibernateDao;
 
 import javax.persistence.criteria.Join;
 import java.util.Collection;
@@ -17,22 +18,22 @@ import java.util.Collection;
  */
 @Repository
 @Transactional
-public class HibernateSubFleetDao extends HibernateDao<SubFleet> implements SubFleetDao {
+public class HibernateFleetDao extends HibernateDao<Fleet> implements FleetDao {
 
     /**
      * Hibernate implementation for Company.
      */
-    public HibernateSubFleetDao() {
-        super(SubFleet.class);
+    public HibernateFleetDao() {
+        super(Fleet.class);
     }
 
     @Override
-    public Collection<SubFleet> withFleetId(int fleetId) {
+    public Collection<Fleet> withCompanyId(int companyId) {
         return findAll(Filter.predicate((builder, root) -> {
-            Join<SubFleet, Fleet> join = root.join("fleet");
+            Join<Fleet, Company> join = root.join("company");
             return builder.equal(
                     join.get("id"),
-                    fleetId
+                    companyId
             );
         }));
     }

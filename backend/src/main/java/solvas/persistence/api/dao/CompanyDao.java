@@ -1,7 +1,7 @@
-package solvas.persistence.company;
+package solvas.persistence.api.dao;
 
 import solvas.models.Company;
-import solvas.persistence.Dao;
+import solvas.persistence.api.Dao;
 
 import java.util.Collection;
 
