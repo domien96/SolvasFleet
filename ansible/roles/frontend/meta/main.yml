@@ -1,0 +1,8 @@
+---
+
+dependencies:
+  - role: srv_user
+    name: frontend
+  - role: geerlingguy.nodejs
+    nodejs_version: 7.x
+    nodejs_install_npm_user: frontend

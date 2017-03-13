@@ -63,7 +63,7 @@ CREATE TABLE vehicles (
 
 CREATE TABLE roles (
   role_id SERIAL NOT NULL,
-  name VARCHAR(255) NOT NULL, --Todo change to function?
+  function VARCHAR(255) NOT NULL, --Todo change to function?
   company_id INT NOT NULL REFERENCES companies(company_id),
   user_id INT NOT NULL REFERENCES users(user_id), -- ToDo add endate, startDate
   updated_at TIMESTAMP NOT NULL,

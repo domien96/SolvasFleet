@@ -5,6 +5,7 @@ namespace Form {
       type        : string;
       hasError    : boolean;
       callback    : (e : any) => void;
+      value       : any;
     }
   }
 
