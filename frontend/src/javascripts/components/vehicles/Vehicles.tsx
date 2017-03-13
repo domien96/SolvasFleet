@@ -51,7 +51,7 @@ class Vehicles extends React.Component<{}, Vehicles.State> {
   fetchVehicles() {
     fetchVehicles()
       .then((data : Vehicles.Data) => {
-        this.setState({ vehicles: data.vehicles })
+        this.setState({ vehicles: data.data })
       });
   }
 
@@ -72,8 +72,7 @@ class Vehicles extends React.Component<{}, Vehicles.State> {
               <Card>
                 <div className='card-content'>
                   <Link to='/vehicles/new' className='btn btn-default pull-right'>
-                    <span className='glyphicon glyphicon-plus' aria-hidden='true'></span>
-                    Add new vehicle
+                    <span className='glyphicon glyphicon-plus' aria-hidden='true'></span> Add new vehicle
                   </Link>
                   <Overview vehicles={ this.state.vehicles } />
                 </div>

@@ -34,7 +34,7 @@ class AddVehicle extends React.Component<{}, Vehicle.VForm.State> {
     .then(function(response) {
       return response.json().then(function(data) {
         if (response.ok) {
-          browserHistory.push('/client/' + data.id);
+          browserHistory.push('/clients/' + data.id);
         } else {
           console.log(data);
           setErrors(data.errors.map(function(e : any) {
