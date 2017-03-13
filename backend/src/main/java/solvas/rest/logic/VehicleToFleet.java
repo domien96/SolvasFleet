@@ -67,6 +67,10 @@ public class VehicleToFleet {
         return activeSubscriptions.iterator().next().getSubFleet().getFleet();
     }
 
+    /**
+     * NoActiveSubscriptionException is a exception on the logic/service layer and is part of the retrieval process
+     * of a fleet from a vehicle. It means that the vehicle is currently not register to a fleet.
+     */
     public class NoActiveSubscriptionException extends Exception{
 
     }
