@@ -113,7 +113,7 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
     public ResponseEntity<?> handleJsonMappingException(JsonMappingException ex) {
         JsonListWrapper<String> wrapper = new JsonListWrapper<>(
                 ex.getPath().stream().map(JsonMappingException.Reference::getFieldName).collect(Collectors.toList()),
-                "errors"
+                JsonListWrapper.ERROR_KEY
         );
         return new ResponseEntity<>(wrapper, HttpStatus.UNPROCESSABLE_ENTITY);
     }
@@ -195,7 +195,7 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
             return new ResponseEntity<Object>(
                     new JsonListWrapper<>(
                             binding.getFieldErrors().stream().map(FieldError::getField).collect(Collectors.toList()),
-                            "errors"
+                            JsonListWrapper.ERROR_KEY
                     ),
                     HttpStatus.BAD_REQUEST
             );
