@@ -103,10 +103,7 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle,ApiVehicle> {
         //TODO
         //diference between company change detect it and handle it
         try {
-            new LinkVehicleCompany().run(fleetId,v,
-                    daoContext.getFleetSubscriptionDao(),
-                    daoContext.getSubFleetDao(),
-                    daoContext.getFleetDao(),daoContext.getCompanyDao());
+            new LinkVehicleCompany().run(fleetId,v, daoContext);
         } catch (InconsistentDbException | EntityNotFoundException e) {
             e.printStackTrace();
         }
@@ -121,7 +118,7 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle,ApiVehicle> {
     private int getApiFleet(Vehicle vehicle){
         int fleetId;
         try {
-            Fleet fleet = new VehicleToFleet().run(vehicle,daoContext.getFleetSubscriptionDao());
+            Fleet fleet = new VehicleToFleet().run(vehicle, daoContext);
             fleetId =fleet.getId();
         } catch (InconsistentDbException e) {
             e.printStackTrace(); //Should not happen

@@ -4,7 +4,7 @@ import solvas.models.Fleet;
 import solvas.models.FleetSubscription;
 import solvas.models.SubFleet;
 import solvas.models.Vehicle;
-import solvas.persistence.company.CompanyDao;
+import solvas.persistence.DaoContext;
 import solvas.persistence.fleet.FleetDao;
 import solvas.persistence.fleetSubscription.FleetSubscriptionDao;
 import solvas.persistence.subFleet.SubFleetDao;
@@ -16,8 +16,10 @@ import java.util.Collection;
  * Created by steve on 12/03/2017.
  */
 public class LinkVehicleCompany {
-    public void run(int fleetId, Vehicle vehicle, FleetSubscriptionDao fleetSubscriptionDao
-            , SubFleetDao subFleetDao, FleetDao fleetDao, CompanyDao companyDao) throws  InconsistentDbException {
+    public void run(int fleetId, Vehicle vehicle, DaoContext daoContext) throws  InconsistentDbException {
+        FleetSubscriptionDao fleetSubscriptionDao = daoContext.getFleetSubscriptionDao();
+        SubFleetDao subFleetDao = daoContext.getSubFleetDao();
+        FleetDao fleetDao = daoContext.getFleetDao();
         //Find active subscription
         FleetSubscription activeFleetSubscription=null;
         for (FleetSubscription subs: fleetSubscriptionDao.withVehicleId(vehicle.getId())){

@@ -3,6 +3,7 @@ package solvas.rest.logic;
 import solvas.models.Fleet;
 import solvas.models.FleetSubscription;
 import solvas.models.Vehicle;
+import solvas.persistence.DaoContext;
 import solvas.persistence.Filter;
 import solvas.persistence.fleetSubscription.FleetSubscriptionDao;
 
@@ -18,7 +19,8 @@ import java.util.Collection;
  */
 public class VehicleToFleet {
 
-    public Fleet run(Vehicle vehicle, FleetSubscriptionDao fleetSubscriptionDao) throws InconsistentDbException, NoActiveSubscriptionException {
+    public Fleet run(Vehicle vehicle, DaoContext daoContext) throws InconsistentDbException, NoActiveSubscriptionException {
+        FleetSubscriptionDao fleetSubscriptionDao = daoContext.getFleetSubscriptionDao();
 
         // We want all active subscriptions for this vehicle.
         Filter<FleetSubscription> filter = Filter.predicate((builder, root) -> {
