@@ -50,7 +50,7 @@ class Users extends React.Component<{}, Users.State> {
   fetchUsers() {
     fetchUsers()
       .then((data : Users.Data) => {
-        this.setState({ users: data.users })
+        this.setState({ users: data.data })
       });
   }
 

@@ -8,7 +8,7 @@ namespace Company {
   }
 
   export type Field =
-    'id' | 'name' | 'vatNumber' | 'phoneNumber' | 'address';
+    'id' | 'name' | 'vatNumber' | 'phoneNumber' | 'city' | 'country' | 'houseNumber' | 'postalCode' | 'street';
 
   namespace CForm {
     export interface Props {
@@ -31,7 +31,11 @@ interface Company {
   name?        : string;
   vatNumber?   : string;
   phoneNumber? : string;
-  address?     : string;
+  [address : string ] : { [ city : string ] : string ,
+                          [ country : string ] : string,
+                          [ street : string ] : string,
+                          [ postalCode : string ] : string,
+                          [ houseNumber : string ] : string  }
   [key : string]: string; 
 }
 
