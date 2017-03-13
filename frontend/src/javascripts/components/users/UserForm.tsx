@@ -79,8 +79,18 @@ class Permissions extends React.Component<{}, {}> {
   }
 }
 
-class Submit extends React.Component<{}, {}> {
+interface SubmitProps {
+  persisted : boolean
+}
+class Submit extends React.Component<SubmitProps, {}> {
   render() {
+    var buttonMessage;
+    if (this.props.persisted) {
+      buttonMessage = "update";
+    } else {
+      buttonMessage = "create";
+    }
+
     return (
       <div className='col-xs-12'>
         <Card>
@@ -89,7 +99,7 @@ class Submit extends React.Component<{}, {}> {
           </div>
           <div className='card-content'>
             <button type='submit' className='btn btn-default'>
-              <T.text tag='span' text='addUser.submit' />
+              <T.text tag='span' text={ 'form.' + buttonMessage } /> user
             </button>
             <Link to='/users' className='btn btn-default'>Cancel</Link>
           </div>
@@ -110,7 +120,7 @@ class UserForm extends React.Component<User.UForm.Props, any> {
             <div className='col-xs-12 col-md-5'>
               <div className='row'>
                 <Permissions />
-                <Submit />
+                <Submit persisted={ this.props.user.id != null } />
               </div>
             </div>
           </div>

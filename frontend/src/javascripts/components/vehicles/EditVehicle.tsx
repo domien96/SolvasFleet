@@ -12,7 +12,7 @@ class EditVehicle extends React.Component<Vehicle.Props, Vehicle.VForm.State> {
   constructor() {
     super();
     this.state = {
-      errors: [ { field: 'name', error: 'null' }],
+      errors: [],
       vehicle: {}
     };
     this.handleChange = this.handleChange.bind(this);
@@ -22,8 +22,6 @@ class EditVehicle extends React.Component<Vehicle.Props, Vehicle.VForm.State> {
   componentDidMount() {
     fetchVehicle(this.props.params.id)
       .then((data : any) => {
-        console.log('fetched');
-        console.log(data);
         this.setState({ vehicle: data })
       });
   }
@@ -36,6 +34,8 @@ class EditVehicle extends React.Component<Vehicle.Props, Vehicle.VForm.State> {
 
   onSubmit(e : any) : void {
     e.preventDefault();
+    let setErrors = (e : Form.Error[]) => this.setState({ errors: e });
+
     fetch(VEHICLES_URL + '/' + this.state.vehicle.id, {
       method: 'PUT',
       headers: {
@@ -45,10 +45,15 @@ class EditVehicle extends React.Component<Vehicle.Props, Vehicle.VForm.State> {
       body: JSON.stringify(this.state.vehicle)
     })
     .then(function(response) {
-      return response.json()
-    })
-    .then(() => {
-      browserHistory.push('/vehicles');
+      return response.json().then(function(data) {
+        if (response.ok) {
+          browserHistory.push('/vehicles/' + data.id);
+        } else {
+          setErrors(data.errors.map(function(e : any) {
+            return { field: e.field, error: 'null' };
+          }));
+        }
+      });
     });
   }
 

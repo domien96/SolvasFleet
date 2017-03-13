@@ -4,7 +4,6 @@ import { browserHistory } from 'react-router';
 import Header     from '../app/Header.tsx';
 import VehicleForm from './VehicleForm.tsx'
 
-
 import createVehicle from '../../actions/create_vehicle.ts';
 import { hasError }  from '../../utils/utils.ts';
 
@@ -14,7 +13,7 @@ class AddVehicle extends React.Component<{}, Vehicle.VForm.State> {
   constructor() {
     super();
     this.state = {
-      errors: [ { field: 'vin', error: 'null' }],
+      errors: [],
       vehicle: {}
     };
     this.handleChange = this.handleChange.bind(this);
@@ -29,13 +28,20 @@ class AddVehicle extends React.Component<{}, Vehicle.VForm.State> {
 
   public onSubmit(e : any) : void {
     e.preventDefault();
+    let setErrors = (e : Form.Error[]) => this.setState({ errors: e });
 
     createVehicle(this.state.vehicle)
     .then(function(response) {
-      return response.json()
-    })
-    .then(() => {
-      browserHistory.push('/vehicles');
+      return response.json().then(function(data) {
+        if (response.ok) {
+          browserHistory.push('/vehicles/' + data.id);
+        } else {
+          console.log(data);
+          setErrors(data.errors.map(function(e : any) {
+            return { field: e.field, error: 'null' };
+          }));
+        }
+      });
     });
   }
 

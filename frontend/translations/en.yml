@@ -21,7 +21,12 @@ company:
   name: Name
   vatNumber: VAT number
   phoneNumber: Phone number
-  address: Address
+  address: 
+    street: Street
+    houseNumber: House number
+    city: City
+    postalCode: Postal code
+    country: Country
 
 errors:
   null: is empty
@@ -59,3 +64,7 @@ subfleet:
   id: ID
   name: Name
   size: Size
+
+form:
+  create: Create
+  update: Update

@@ -78,7 +78,7 @@ class AddFleet extends React.Component<Fleet.Props, Fleet.New.State> {
   public onSubmit(e : any) : void {
     e.preventDefault();
 
-    createFleet(this.props.params.id, this.state.fleet)
+    createFleet(this.state.fleet)
     .then(function(response) {
       return response.json()
     })

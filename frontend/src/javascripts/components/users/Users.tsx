@@ -50,7 +50,7 @@ class Users extends React.Component<{}, Users.State> {
   fetchUsers() {
     fetchUsers()
       .then((data : Users.Data) => {
-        this.setState({ users: data.users })
+        this.setState({ users: data.data })
       });
   }
 
@@ -71,8 +71,7 @@ class Users extends React.Component<{}, Users.State> {
               <Card>
                 <div className='card-content'>
                   <Link to='/users/new' className='btn btn-default pull-right'>
-                    <span className='glyphicon glyphicon-plus' aria-hidden='true'></span>
-                    Add new user
+                    <span className='glyphicon glyphicon-plus' aria-hidden='true'></span> Add new user
                   </Link>
                   <Overview users={ this.state.users } />
                 </div>

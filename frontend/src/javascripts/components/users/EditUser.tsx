@@ -12,7 +12,7 @@ class EditUser extends React.Component<User.Props, User.UForm.State> {
   constructor() {
     super();
     this.state = {
-      errors: [ { field: 'first_name', error: 'null' }],
+      errors: [],
       user: {}
     };
     this.handleChange = this.handleChange.bind(this);
@@ -22,8 +22,6 @@ class EditUser extends React.Component<User.Props, User.UForm.State> {
   componentDidMount() {
     fetchUser(this.props.params.id)
       .then((data : any) => {
-        console.log('fetched');
-        console.log(data);
         this.setState({ user: data })
       });
   }
@@ -36,6 +34,8 @@ class EditUser extends React.Component<User.Props, User.UForm.State> {
 
   onSubmit(e : any) : void {
     e.preventDefault();
+    let setErrors = (e : Form.Error[]) => this.setState({ errors: e });
+
     fetch(USERS_URL + '/' + this.state.user.id, {
       method: 'PUT',
       headers: {
@@ -45,10 +45,15 @@ class EditUser extends React.Component<User.Props, User.UForm.State> {
       body: JSON.stringify(this.state.user)
     })
     .then(function(response) {
-      return response.json()
-    })
-    .then(() => {
-      browserHistory.push('/users');
+      return response.json().then(function(data) {
+        if (response.ok) {
+          browserHistory.push('/users/' + data.id);
+        } else {
+          setErrors(data.errors.map(function(e : any) {
+            return { field: e.field, error: 'null' };
+          }));
+        }
+      });
     });
   }
 
