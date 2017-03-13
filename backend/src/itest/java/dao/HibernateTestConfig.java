@@ -68,7 +68,7 @@ public class HibernateTestConfig {
     @Bean
     public DataSource getDataSource() {
         return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2)
-                .addScript("db/migration/V2__milestone1.sql").addScript("schema.sql").build();
+                .addScript("db/migration/V1__milestone1.sql").addScript("db/migration/V2_1__n-m_relations.sql").addScript("schema.sql").build();
 /*
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("org.h2.Driver");
