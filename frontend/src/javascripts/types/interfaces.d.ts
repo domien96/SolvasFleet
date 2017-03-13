@@ -24,12 +24,6 @@ interface CardProps {
   className?: string;
 }
 
-/* WrappedCol */
-
-interface WrappedColProps {
-  cols?: number;
-}
-
 /* App */
 
 interface AppProps {

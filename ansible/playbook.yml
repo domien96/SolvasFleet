@@ -5,8 +5,10 @@
       - role: nginx-conf
     #  - role: jenkins-conf
     #  - role: documentation
-    #      - role: sonarqube
-      - role: snapshots
+    #  - role: sonarqube
+    #  - role: snapshots
+    #  - role: frontend
+    #  - role: backend
   vars_files:
     - vars/passwords.yml
     - vars/common.yml

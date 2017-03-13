@@ -10,8 +10,14 @@ namespace Company {
   export type Field =
     'id' | 'name' | 'vatNumber' | 'phoneNumber' | 'address';
 
-  namespace New {
-    export interface Props { }
+  namespace CForm {
+    export interface Props {
+      onSubmit     : (e : any) => void;
+      handleChange : (field : Company.Field, e : any) => void;
+      errors       : Form.Error[];
+      hasError     : (field : Company.Field) => boolean;
+      company      : Company;
+    }
 
     export interface State {
       errors : Form.Error[];

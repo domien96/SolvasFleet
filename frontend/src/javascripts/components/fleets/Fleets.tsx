@@ -2,10 +2,11 @@ import React from 'react';
 import { browserHistory, Link } from'react-router';
 
 import Card       from '../app/Card.tsx';
-import { InfoTable, th } from '../tables/InfoTable.tsx';
+import InfoTable from '../tables/InfoTable.tsx';
 import SubFleets from '../subfleets/SubFleets.tsx'
 
 import fetchFleets from '../../actions/fetch_fleets.ts';
+import { th } from '../../utils/utils.ts';
 
 interface OverviewProps {
   clientId : number
@@ -20,7 +21,7 @@ class Overview extends React.Component<OverviewProps, {}> {
   }
 
   handleClick(fleetId : number) {
-    browserHistory.push('/clients/' + this.props.clientId + '/fleets/' + fleetId + '/subfleets');
+    browserHistory.push('/fleets/' + fleetId + '/subfleets');
   }
 
   render() {
@@ -58,7 +59,7 @@ class Fleets extends React.Component<Fleets.Props, Fleets.State> {
 
     let addFleetUrl = '/clients/'+ this.props.id +'/fleets/new';
     let fleetId = 0;
-    
+
     return (
       <div>
         <div className='wrapper'>

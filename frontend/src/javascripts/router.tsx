@@ -13,6 +13,7 @@ import NoUser   from './components/users/NoUser.tsx';
 
 import Clients   from './components/clients/Clients.tsx';
 import AddClient from './components/clients/AddClient.tsx';
+import EditClient from './components/clients/EditClient.tsx';
 import Client    from './components/clients/Client.tsx';
 
 import Vehicles   from './components/vehicles/Vehicles.tsx';
@@ -42,6 +43,7 @@ class SolvasRouter extends React.Component<{}, {}> {
           <Route path="/clients"     component={ Clients   } />
           <Route path="/clients/new" component={ AddClient } />
           <Route path="/clients/:id" component={ Client    } />
+          <Route path="/clients/:id/edit" component={ EditClient    } />
           <Route path="/clients/:id/fleets" component={ Fleets } />
 
           <Route path="/clients/:id/fleets/new" component={ AddFleet } />

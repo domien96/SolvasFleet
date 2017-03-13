@@ -1,14 +1,15 @@
 import React from 'react';
-import { browserHistory } from'react-router';
+import { browserHistory, Link } from'react-router';
 
-import fetchClient from '../../actions/fetch_company.ts';
+import fetchClient  from '../../actions/fetch_company.ts';
 import deleteClient from '../../actions/delete_company.ts';
-import Card       from '../app/Card.tsx';
-import Header     from '../app/Header.tsx';
-import { DetailTable, th } from '../tables/DetailTable.tsx';
-
+import Card         from '../app/Card.tsx';
+import Header       from '../app/Header.tsx';
+import DetailTable  from '../tables/DetailTable.tsx';
 
 import Fleets from '../fleets/Fleets.tsx'
+
+import { th } from '../../utils/utils.ts';
 
 class Client extends React.Component<Company.Props, Company.State> {
 
@@ -45,7 +46,7 @@ class Client extends React.Component<Company.Props, Company.State> {
     return (
       <div>
         <Header>
-          <h2>{ name }</h2>  
+          <h2>{ name }</h2>
         </Header>
         <div className='wrapper'>
         <div className='row'>
@@ -55,10 +56,9 @@ class Client extends React.Component<Company.Props, Company.State> {
                 <div className='col-sm-4'>
                   <div className='row actions'>
                     <div className='col-sm-6'>
-                      <button className='btn btn-default form-control'>
-                        <span className='glyphicon glyphicon-edit' />
-                        Edit
-                      </button>
+                      <Link to={ '/clients/' + id + '/edit' } className='btn btn-default form-control'>
+                        <span className='glyphicon glyphicon-edit' /> Edit
+                      </Link>
                     </div>
                     <div className='col-sm-6'>
                       <button onClick = { this.deleteClient } className='btn btn-danger form-control'>
@@ -77,7 +77,7 @@ class Client extends React.Component<Company.Props, Company.State> {
                 </div>
               </div>
             </Card>
-          </div>   
+          </div>
             <div>
               <Fleets id={ id } />
             </div>

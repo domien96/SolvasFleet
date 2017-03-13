@@ -1,10 +1,11 @@
 import React from 'react';
 import { browserHistory, Link } from'react-router';
 
-import Card       from '../app/Card.tsx';
-import { InfoTable, th } from '../tables/InfoTable.tsx';
+import Card      from '../app/Card.tsx';
+import InfoTable from '../tables/InfoTable.tsx';
 
 import fetchSubFleets from '../../actions/fetch_subfleets.ts';
+import { th } from '../../utils/utils.ts';
 
 interface OverviewProps {
   subfleets: SubFleet[];
@@ -18,7 +19,7 @@ class Overview extends React.Component<OverviewProps, {}> {
   }
 
   handleClick(id : number) {
-    browserHistory.push('subfleets/' + id + '/vehicles');
+    browserHistory.push('/subfleets/' + id + '/vehicles');
   }
 
   render() {
@@ -53,7 +54,7 @@ class SubFleets extends React.Component<SubFleets.Props, SubFleets.State> {
   }
 
   render() {
-    
+
     return (
       <div>
         <div className='col-xs-12 col-md-12'>

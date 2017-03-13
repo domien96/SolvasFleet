@@ -5,7 +5,8 @@ import { browserHistory } from 'react-router';
 import Header from '../app/Header.tsx';
 import UserForm from './UserForm.tsx';
 
-import fetchUser from '../../actions/fetch_user.ts';
+import fetchUser    from '../../actions/fetch_user.ts';
+import { hasError } from '../../utils/utils.ts';
 
 class EditUser extends React.Component<User.Props, User.UForm.State> {
   constructor() {
@@ -16,7 +17,6 @@ class EditUser extends React.Component<User.Props, User.UForm.State> {
     };
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit     = this.onSubmit.bind(this);
-    this.hasError     = this.hasError.bind(this);
   }
 
   componentDidMount() {
@@ -26,11 +26,6 @@ class EditUser extends React.Component<User.Props, User.UForm.State> {
         console.log(data);
         this.setState({ user: data })
       });
-  }
-
-  public hasError(k : string) : boolean {
-    const errors = this.state.errors.filter(function(el) {return el.field == k; });
-    return (errors.length != 0);
   }
 
   handleChange(field : User.Field, e : any) : any {
@@ -67,7 +62,7 @@ class EditUser extends React.Component<User.Props, User.UForm.State> {
           user={ this.state.user }
           onSubmit={ this.onSubmit }
           handleChange={ this.handleChange }
-          hasError={ this.hasError }
+          hasError={ hasError.bind(this) }
           errors={ this.state.errors }
           />
       </div>

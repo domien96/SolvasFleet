@@ -3,9 +3,10 @@ import { browserHistory, Link } from'react-router';
 
 import Card       from '../app/Card.tsx';
 import Header     from '../app/Header.tsx';
-import { InfoTable, th } from '../tables/InfoTable.tsx';
+import InfoTable from '../tables/InfoTable.tsx';
 
 import fetchVehicles from '../../actions/fetch_vehicles.ts';
+import { th } from '../../utils/utils.ts';
 
 interface OverviewProps {
   vehicles: Vehicle[];
@@ -24,13 +25,11 @@ class Overview extends React.Component<OverviewProps, {}> {
 
   render() {
     const tableHead = [
-      th('company', 'vehicle.company'),
-      th('leasingCompany', 'vehicle.leasingCompany'),
-      th('chassisNumber', 'vehicle.chassisNumber') ,
+      th('fleet', 'vehicle.fleet'),
+      th('vin', 'vehicle.vin') ,
       th('licensePlate', 'vehicle.licensePlate') ,
-      th('brand', 'vehicle.brand') ,
-      th('model', 'vehicle.model') 
-    ]
+      th('type', 'vehicle.type')
+    ];
 
     return (
       <InfoTable head={ tableHead } data={ this.props.vehicles } onClick={ this.handleClick } />
@@ -65,7 +64,7 @@ class Vehicles extends React.Component<{}, Vehicles.State> {
     return (
       <div>
         <Header>
-          <h2>Vehicles</h2>  
+          <h2>Vehicles</h2>
         </Header>
         <div className='wrapper'>
           <div className='row'>

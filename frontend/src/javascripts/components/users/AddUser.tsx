@@ -4,7 +4,8 @@ import { browserHistory } from 'react-router';
 import Header     from '../app/Header.tsx';
 import UserForm   from './UserForm.tsx';
 
-import createUser from '../../actions/create_user.ts';
+import createUser   from '../../actions/create_user.ts';
+import { hasError } from '../../utils/utils.ts';
 
 class AddUser extends React.Component<{}, User.UForm.State> {
 
@@ -16,7 +17,6 @@ class AddUser extends React.Component<{}, User.UForm.State> {
     };
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit     = this.onSubmit.bind(this);
-    this.hasError     = this.hasError.bind(this);
   }
 
   public handleChange(field : User.Field, e : any) : any {
@@ -37,11 +37,6 @@ class AddUser extends React.Component<{}, User.UForm.State> {
     });
   }
 
-  public hasError(k : string) : boolean {
-    const errors = this.state.errors.filter(function(el) {return el.field == k; });
-    return (errors.length != 0);
-  }
-
   render() {
     return (
       <div>
@@ -52,7 +47,7 @@ class AddUser extends React.Component<{}, User.UForm.State> {
           user={ this.state.user }
           onSubmit={ this.onSubmit }
           handleChange={ this.handleChange }
-          hasError={ this.hasError }
+          hasError={ hasError.bind(this) }
           errors={ this.state.errors }
           />
       </div>

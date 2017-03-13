@@ -1,8 +1,13 @@
 import React from 'react';
-import { browserHistory } from'react-router';
+import { browserHistory, Link } from'react-router';
 
 import fetchVehicle  from '../../actions/fetch_vehicle.ts';
 import deleteVehicle from '../../actions/delete_vehicle.ts';
+
+import Card       from '../app/Card.tsx';
+import DetailTable from '../tables/DetailTable.tsx';
+
+import { th } from '../../utils/utils.ts';
 
 class Vehicle extends React.Component<Vehicle.Props, Vehicle.State> {
 
@@ -39,36 +44,47 @@ class Vehicle extends React.Component<Vehicle.Props, Vehicle.State> {
   }
 
   render() {
-    var { license_plate, chassis_number, brand, model, type, kilometer_count, year, leasing_company, value, company } = this.state.vehicle;
+    var { licensePlate, vin, brand, model, type, mileage, year, leasingCompany, value, fleet } = this.state.vehicle;
+    var id = this.props.params.id;
+
+    const data = [
+      th('vehicle.licensePlate', licensePlate),
+      th('vehicle.vin', vin),
+      th('vehicle.brand', brand),
+      th('vehicle.model', model),
+      th('vehicle.type', type),
+      th('vehicle.mileage', mileage),
+      th('vehicle.year', year),
+      th('vehicle.value', value),
+      th('company.leasingCompany', leasingCompany),
+      th('company.fleet', fleet)
+    ];
 
     return (
-      <div className='card-content vehicle'>
-        <h2> Vehicle:  { chassis_number }</h2>
+    <div>
+      <div className='card-content user'>
+        <h2>{ vin } </h2>
         <div className='row actions'>
           <div className='col-sm-6'>
-            <button className='btn btn-default form-control'>
-              <span className='glyphicon glyphicon-edit' />
-              Edit
-            </button>
+            <Link to={ '/vehicles/' + id + '/edit' } className='btn btn-default form-control'>
+              <span className='glyphicon glyphicon-edit' /> Edit
+            </Link>
           </div>
           <div className='col-sm-6'>
             <button onClick = { this.deleteVehicle } className='btn btn-danger form-control'>
-              <span className='glyphicon glyphicon-remove' />
-              Delete
+              <span className='glyphicon glyphicon-remove' /> Delete
             </button>
           </div>
         </div>
-        <h5>Information</h5>
-        <div>license_plate: { license_plate }</div>
-        <div>company: { company }</div>
-        <div>leasing_company: { leasing_company }</div>
-        <div>brand: { brand }</div>
-        <div>model: { model }</div>
-        <div>type: { type }</div>
-        <div>kilometer_count: { kilometer_count }</div>
-        <div>year: { year }</div>
-        <div>value: { value }</div>
       </div>
+      <Card>
+        <div className='col-sm-12'>
+          <div className='card-content'>
+            <DetailTable data={ data }/>
+          </div>
+        </div>
+      </Card>
+    </div>
     );
   }
 }
