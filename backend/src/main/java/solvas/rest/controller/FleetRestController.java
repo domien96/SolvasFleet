@@ -40,8 +40,8 @@ public class FleetRestController extends AbstractRestController<Fleet, ApiFleet>
      * @return ResponseEntity
      */
     @RequestMapping(value = "/fleets", method = RequestMethod.GET)
-    public ResponseEntity<?> listAll(PaginationFilter pagination, FleetFilter filter) {
-        return super.listAll(pagination, filter);
+    public ResponseEntity<?> listAll(PaginationFilter pagination, BindingResult paginationResult, FleetFilter filter, BindingResult result) {
+        return super.listAll(pagination, paginationResult, filter, result);
     }
 
     @Override

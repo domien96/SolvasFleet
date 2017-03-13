@@ -1,12 +1,14 @@
 package solvas.rest.controller;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ClassUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import solvas.models.Model;
@@ -20,6 +22,7 @@ import solvas.rest.utils.JsonListWrapper;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.stream.Collectors;
 
 /**
  * Abstract REST controller.
@@ -57,7 +60,13 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      *
      * @return ResponseEntity
      */
-    protected ResponseEntity<?> listAll(Pageable pagination, Filter<T> filter) {
+    protected ResponseEntity<?> listAll(Pageable pagination, BindingResult paginationResult, Filter<T> filter, BindingResult filterResult) {
+
+        // If there are errors in the filtering, send bad request.
+        if (filterResult.hasErrors() || paginationResult.hasErrors()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
         Collection<E> collection = new HashSet<>();
         for (T item: dao.findAll(pagination, filter)){
             collection.add(mapper.convertToApiModel(item));
@@ -77,27 +86,56 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      */
 
     protected ResponseEntity<?> getById(int id) {
-        try {
-            return new ResponseEntity<>(mapper.convertToApiModel(dao.find(id)), HttpStatus.OK);
-        } catch (EntityNotFoundException unused) {
-            return notFound();
-        }
+        return new ResponseEntity<>(mapper.convertToApiModel(dao.find(id)), HttpStatus.OK);
     }
 
     /**
      * Handle cases where the path variable cannot be converted to the required type.
      *
      * @param ex The exception.
-     * @return The error entity, containing a message explaining the error.
+     * @return A 400 error.
      */
     @ExceptionHandler(TypeMismatchException.class)
     public ResponseEntity<?> handleTypeMismatchException(TypeMismatchException ex) {
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
 
-        String actualType = ClassUtils.getDescriptiveType(ex.getValue());
-        String requiredType = ex.getRequiredType().getTypeName();
-        String message = "Failed to convert %1s to %2s. Input was: %3s.";
+    /**
+     * Handle cases where the input json cannot be mapped. This means the JSON syntax should
+     * be valid, but our mapping does not match. This often means a certain key does not contain
+     * the right type.
+     *
+     * @param ex The exception.
+     *
+     * @return A 422 error with the fields that caused an error.
+     */
+    @ExceptionHandler(JsonMappingException.class)
+    public ResponseEntity<?> handleJsonMappingException(JsonMappingException ex) {
+        JsonListWrapper<String> wrapper = new JsonListWrapper<>(
+                ex.getPath().stream().map(JsonMappingException.Reference::getFieldName).collect(Collectors.toList()),
+                "errors"
+        );
+        return new ResponseEntity<>(wrapper, HttpStatus.UNPROCESSABLE_ENTITY);
+    }
 
-        return new ResponseEntity<>(String.format(message, actualType, requiredType, ex.getValue()), HttpStatus.BAD_REQUEST);
+    /**
+     * Handle cases where there are JSON syntax errors.
+     *
+     * @param ex The exception.
+     *
+     * @return A 400 error.
+     */
+    @ExceptionHandler(JsonParseException.class)
+    public ResponseEntity<?> handleJsonParseException(JsonParseException ex) {
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * @return ResponseEntity of a 404
+     */
+    @ExceptionHandler(EntityNotFoundException.class)
+    private ResponseEntity<?> notFound() {
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     /**
@@ -108,10 +146,10 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      * @return Response with the saved model, or 400.
      */
     protected ResponseEntity<?> post(E input, BindingResult binding) {
-            return save(input,binding,() -> {
-                T model = mapper.convertToModel(input);
-                return mapper.convertToApiModel(dao.create(model));
-            });
+        return save(input, binding, () -> {
+            T model = mapper.convertToModel(input);
+            return mapper.convertToApiModel(dao.create(model));
+        });
     }
 
     /**
@@ -121,12 +159,8 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      * @return ResponseEntity
      */
     protected ResponseEntity<?> deleteById(int id) {
-        try {
-            dao.destroy(dao.find(id));
-            return new ResponseEntity<>(HttpStatus.OK);
-        } catch (EntityNotFoundException unused) {
-            return notFound();
-        }
+        dao.destroy(dao.find(id));
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     /**
@@ -147,13 +181,6 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
     }
 
     /**
-     * @return ResponseEntity of a 404
-     */
-    private ResponseEntity<?> notFound() {
-        return new ResponseEntity<>("Could not find object.", HttpStatus.NOT_FOUND);
-    }
-
-    /**
      * @param input The input entity to save
      * @param binding BindingResult to use for validations
      * @param saveMethod The saveMethod (example: dao.update or dao.create)
@@ -162,18 +189,16 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
     private ResponseEntity<?> save(E input, BindingResult binding, SaveMethod<E> saveMethod) {
         validator.validate(input, binding);
         if (!binding.hasErrors()) {
-            try {
-                return new ResponseEntity<>(saveMethod.run(), HttpStatus.OK);
-            } catch (EntityNotFoundException unused) {
-                // Notify user the record wasn't found
-                // Shouldn't happen when creating a record
-                return notFound();
-            }
+            return new ResponseEntity<>(saveMethod.run(), HttpStatus.OK);
         } else {
             // Return validation errors to user
             return new ResponseEntity<Object>(
-                    new JsonListWrapper<>(binding.getFieldErrors(), "errors"),
-                    HttpStatus.BAD_REQUEST);
+                    new JsonListWrapper<>(
+                            binding.getFieldErrors().stream().map(FieldError::getField).collect(Collectors.toList()),
+                            "errors"
+                    ),
+                    HttpStatus.BAD_REQUEST
+            );
         }
     }
 

@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import solvas.models.Vehicle;
 import solvas.models.validators.VehicleValidator;
 import solvas.persistence.DaoContext;
-import solvas.persistence.vehicle.VehicleDao;
 import solvas.rest.api.mappers.VehicleAbstractMapper;
 import solvas.rest.api.models.ApiVehicle;
 import solvas.rest.query.PaginationFilter;
@@ -42,8 +41,8 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
      * @return ResponseEntity
      */
     @RequestMapping(value = "/vehicles", method = RequestMethod.GET)
-    public ResponseEntity<?> listAll(PaginationFilter pagination, VehicleFilter filter) {
-        return super.listAll(pagination, filter);
+    public ResponseEntity<?> listAll(PaginationFilter pagination, BindingResult paginationResult, VehicleFilter filter, BindingResult result) {
+        return super.listAll(pagination, paginationResult, filter, result);
     }
 
     @Override
