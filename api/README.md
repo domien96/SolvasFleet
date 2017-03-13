@@ -10,8 +10,7 @@ De specificatie staat in het bestand `volledig.yaml`, en volgt de [OpenAPI Speci
 Om de documentatie te lezen, wordt de best het HTML-bestand gelezen in de map generated. Als de documentatie
 onduidelijk zou zijn, contacteer de API-beheerder of lees de specificatie zelf.
 
-De voornaamste bestanden zijn `generated/generated-primary.html` en `generated/generated-examples.html`.
-Dat laatste bestand bevat ook voorbeelden van antwoorden.
+Een markdown-versie staat op de wiki: https://github.ugent.be/VakOverschrijdendProject/2016-2017-groep-06/wiki/API-specification
 
 
 ## Generator
