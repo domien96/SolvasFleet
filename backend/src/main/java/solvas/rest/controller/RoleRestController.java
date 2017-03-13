@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import solvas.models.Role;
 import solvas.models.validators.RoleValidator;
 import solvas.persistence.DaoContext;
-import solvas.persistence.role.RoleDao;
 import solvas.rest.api.mappers.RoleAbstractMapper;
 import solvas.rest.api.models.ApiRole;
 import solvas.rest.query.PaginationFilter;
@@ -43,8 +42,8 @@ public class RoleRestController extends AbstractRestController<Role,ApiRole> {
      * @return ResponseEntity
      */
     @RequestMapping(value = "/roles", method = RequestMethod.GET)
-    public ResponseEntity<?> listAll(PaginationFilter pagination, RoleFilter filter) {
-        return super.listAll(pagination, filter);
+    public ResponseEntity<?> listAll(PaginationFilter pagination, BindingResult paginationResult, RoleFilter filter, BindingResult result) {
+        return super.listAll(pagination, paginationResult, filter, result);
     }
 
 

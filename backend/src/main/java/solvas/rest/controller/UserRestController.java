@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import solvas.models.User;
 import solvas.models.validators.UserValidator;
 import solvas.persistence.DaoContext;
-import solvas.persistence.user.UserDao;
 import solvas.rest.api.mappers.UserAbstractMapper;
 import solvas.rest.api.models.ApiUser;
 import solvas.rest.query.PaginationFilter;
@@ -42,8 +41,8 @@ public class UserRestController extends AbstractRestController<User,ApiUser> {
      * @return ResponseEntity
      */
     @RequestMapping(value = "/users", method = RequestMethod.GET)
-    public ResponseEntity<?> listAll(PaginationFilter pagination, UserFilter filter) {
-        return super.listAll(pagination, filter);
+    public ResponseEntity<?> listAll(PaginationFilter pagination, BindingResult paginationResult, UserFilter filter, BindingResult result) {
+        return super.listAll(pagination, paginationResult, filter, result);
     }
 
     @Override

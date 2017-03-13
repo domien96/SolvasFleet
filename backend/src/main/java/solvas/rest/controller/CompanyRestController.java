@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import solvas.models.Company;
 import solvas.models.validators.CompanyValidator;
 import solvas.persistence.DaoContext;
-import solvas.persistence.company.CompanyDao;
 import solvas.rest.api.mappers.CompanyMapper;
 import solvas.rest.api.models.ApiCompany;
 import solvas.rest.query.CompanyFilter;
@@ -46,8 +45,8 @@ public class CompanyRestController extends AbstractRestController<Company,ApiCom
      * @return ResponseEntity
      */
     @RequestMapping(value = "/companies", method = RequestMethod.GET)
-    public ResponseEntity<?> listAll(PaginationFilter pagination, CompanyFilter filter) {
-        return super.listAll(pagination, filter);
+    public ResponseEntity<?> listAll(PaginationFilter pagination, BindingResult paginationResult, CompanyFilter filter, BindingResult result) {
+        return super.listAll(pagination, paginationResult, filter, result);
     }
 
     @Override

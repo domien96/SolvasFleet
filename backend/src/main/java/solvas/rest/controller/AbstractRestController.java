@@ -5,8 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ClassUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import solvas.models.Model;
@@ -20,6 +20,7 @@ import solvas.rest.utils.JsonListWrapper;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.stream.Collectors;
 
 /**
  * Abstract REST controller.
@@ -57,7 +58,13 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      *
      * @return ResponseEntity
      */
-    protected ResponseEntity<?> listAll(Pageable pagination, Filter<T> filter) {
+    protected ResponseEntity<?> listAll(Pageable pagination, BindingResult paginationResult, Filter<T> filter, BindingResult filterResult) {
+
+        // If there are errors in the filtering, send bad request.
+        if (filterResult.hasErrors() || paginationResult.hasErrors()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
         Collection<E> collection = new HashSet<>();
         for (T item: dao.findAll(pagination, filter)){
             collection.add(mapper.convertToApiModel(item));
@@ -77,11 +84,7 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      */
 
     protected ResponseEntity<?> getById(int id) {
-        try {
-            return new ResponseEntity<>(mapper.convertToApiModel(dao.find(id)), HttpStatus.OK);
-        } catch (EntityNotFoundException unused) {
-            return notFound();
-        }
+        return new ResponseEntity<>(mapper.convertToApiModel(dao.find(id)), HttpStatus.OK);
     }
 
     /**
@@ -92,12 +95,15 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      */
     @ExceptionHandler(TypeMismatchException.class)
     public ResponseEntity<?> handleTypeMismatchException(TypeMismatchException ex) {
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
 
-        String actualType = ClassUtils.getDescriptiveType(ex.getValue());
-        String requiredType = ex.getRequiredType().getTypeName();
-        String message = "Failed to convert %1s to %2s. Input was: %3s.";
-
-        return new ResponseEntity<>(String.format(message, actualType, requiredType, ex.getValue()), HttpStatus.BAD_REQUEST);
+    /**
+     * @return ResponseEntity of a 404
+     */
+    @ExceptionHandler(EntityNotFoundException.class)
+    private ResponseEntity<?> notFound() {
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     /**
@@ -108,10 +114,10 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      * @return Response with the saved model, or 400.
      */
     protected ResponseEntity<?> post(E input, BindingResult binding) {
-            return save(input,binding,() -> {
-                T model = mapper.convertToModel(input);
-                return mapper.convertToApiModel(dao.create(model));
-            });
+        return save(input, binding, () -> {
+            T model = mapper.convertToModel(input);
+            return mapper.convertToApiModel(dao.create(model));
+        });
     }
 
     /**
@@ -121,12 +127,8 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      * @return ResponseEntity
      */
     protected ResponseEntity<?> deleteById(int id) {
-        try {
-            dao.destroy(dao.find(id));
-            return new ResponseEntity<>(HttpStatus.OK);
-        } catch (EntityNotFoundException unused) {
-            return notFound();
-        }
+        dao.destroy(dao.find(id));
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     /**
@@ -147,13 +149,6 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
     }
 
     /**
-     * @return ResponseEntity of a 404
-     */
-    private ResponseEntity<?> notFound() {
-        return new ResponseEntity<>("Could not find object.", HttpStatus.NOT_FOUND);
-    }
-
-    /**
      * @param input The input entity to save
      * @param binding BindingResult to use for validations
      * @param saveMethod The saveMethod (example: dao.update or dao.create)
@@ -162,18 +157,16 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
     private ResponseEntity<?> save(E input, BindingResult binding, SaveMethod<E> saveMethod) {
         validator.validate(input, binding);
         if (!binding.hasErrors()) {
-            try {
-                return new ResponseEntity<>(saveMethod.run(), HttpStatus.OK);
-            } catch (EntityNotFoundException unused) {
-                // Notify user the record wasn't found
-                // Shouldn't happen when creating a record
-                return notFound();
-            }
+            return new ResponseEntity<>(saveMethod.run(), HttpStatus.OK);
         } else {
             // Return validation errors to user
             return new ResponseEntity<Object>(
-                    new JsonListWrapper<>(binding.getFieldErrors(), "errors"),
-                    HttpStatus.BAD_REQUEST);
+                    new JsonListWrapper<>(
+                            binding.getFieldErrors().stream().map(FieldError::getField).collect(Collectors.toList()),
+                            "errors"
+                    ),
+                    HttpStatus.BAD_REQUEST
+            );
         }
     }
 
