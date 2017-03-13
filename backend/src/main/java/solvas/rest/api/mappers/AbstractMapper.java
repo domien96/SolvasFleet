@@ -21,17 +21,25 @@ public abstract class AbstractMapper<T extends Model, E> {
      * TODO document
      * @param api
      * @return
+     * @throws FieldNotFoundException If the fields to be copied are misconfigured
      */
     public abstract T convertToModel(E api) throws EntityNotFoundException, FieldNotFoundException;
 
     /**
      * TODO document
      * @param model
-     * @return
+     * @throws FieldNotFoundException If the fields to be copied are misconfigured
      */
     public abstract E convertToApiModel(T model) throws FieldNotFoundException;
 
 
+    /**
+     * Copy attribute from source (if set), to target
+     * @param target Entity to copy to
+     * @param src Entity to copy from
+     * @param attributes attributes to copy
+     * @throws FieldNotFoundException If a field wasn't found or was inaccessible
+     */
 
     protected void copyAttributes(Object target, Object src, String ...attributes) throws FieldNotFoundException {
         for(String attribute: attributes) {
@@ -39,6 +47,13 @@ public abstract class AbstractMapper<T extends Model, E> {
         }
     }
 
+    /**
+     * Copy attribute from source (if set), to target
+     * @param target Entity to copy to
+     * @param source Entity to copy from
+     * @param name attribute to copy
+     * @throws FieldNotFoundException If field wasn't found or was inaccessible
+     */
     private void copyNotNull(Object target, Object source, String name) throws FieldNotFoundException {
         try {
             Field targetField = target.getClass().getDeclaredField(name);
