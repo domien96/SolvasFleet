@@ -8,6 +8,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -20,11 +21,10 @@ public class FleetFilter implements Filter<Fleet> {
 
     @Override
     public Collection<Predicate> asPredicates(CriteriaBuilder builder, Root<Fleet> root) {
-        Join<Fleet, Company> join = root.join("company");
-        return Collections.singleton(builder.equal(
-                join.get("id"),
-                company
-        ));
+        if (company>=1) {
+            return Collections.singleton(builder.equal(root.get("company"), company));
+        }
+        return new ArrayList<>();
     }
 
     public void setCompany(int company) {
