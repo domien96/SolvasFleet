@@ -12,6 +12,17 @@ import solvas.persistence.api.dao.*;
 @Service
 public class HibernateDaoContext implements DaoContext {
 
+    /**
+     * Create DaoContext with Dao's
+     * @param companyDao
+     * @param fleetDao
+     * @param fleetSubscriptionDao
+     * @param roleDao
+     * @param subFleetDao
+     * @param userDao
+     * @param vehicleDao
+     * @param vehicleTypeDao
+     */
     @Autowired
     public HibernateDaoContext(CompanyDao companyDao, FleetDao fleetDao, FleetSubscriptionDao fleetSubscriptionDao, RoleDao roleDao, SubFleetDao subFleetDao, UserDao userDao, VehicleDao vehicleDao, VehicleTypeDao vehicleTypeDao) {
         this.companyDao = companyDao;

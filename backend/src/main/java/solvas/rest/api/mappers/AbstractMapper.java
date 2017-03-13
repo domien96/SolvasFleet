@@ -14,7 +14,7 @@ public abstract class AbstractMapper<T extends Model,E> {
     protected final DaoContext daoContext;
 
     /**
-     * TODO document
+     * @param daoContext DaoContext 
      */
     public AbstractMapper(DaoContext daoContext) {
         this.daoContext = daoContext;
