@@ -28,7 +28,7 @@ import java.util.HashSet;
  */
 @Component
 @Transactional // TODO Replace by services
-public abstract class AbstractRestController<T extends Model, E> {
+public abstract class AbstractRestController<T extends Model, E extends ApiModel> {
 
     protected final Dao<T> dao;
     protected AbstractMapper<T,E> mapper;
@@ -137,7 +137,7 @@ public abstract class AbstractRestController<T extends Model, E> {
      */
     protected ResponseEntity<?> put(int id,E input,BindingResult binding) {
         return save(input, binding, () -> {
-            ((ApiModel) input).setId(id);
+            input.setId(id);
             T model = mapper.convertToModel(input);
 
             return mapper.convertToApiModel(dao
