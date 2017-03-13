@@ -97,8 +97,8 @@ class Submit extends React.Component<SubmitProps, {}> {
           <div className='card-title'>
             <h5>Actions</h5>
           </div>
-          <div className='card-content'>
-            <button type='submit' className='btn btn-default'>
+          <div className='card-content actions'>
+            <button type='submit' className='btn btn-success'>
               <T.text tag='span' text={ 'form.' + buttonMessage } /> user
             </button>
             <Link to='/users' className='btn btn-default'>Cancel</Link>
