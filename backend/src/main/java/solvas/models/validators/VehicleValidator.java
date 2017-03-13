@@ -10,7 +10,7 @@ import solvas.rest.api.models.ApiVehicle;
 @Component
 public class VehicleValidator extends AbstractValidator<ApiVehicle> {
     {
-        require("vin", "model", "type", "mileage", "year", "fleet");
+        require("vin", "model", "type", "mileage", "year", "fleet", "brand");
     }
     /**
      * Create a validator for Vehicles
