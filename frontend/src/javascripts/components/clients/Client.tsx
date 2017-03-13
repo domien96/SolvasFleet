@@ -74,6 +74,7 @@ class Client extends React.Component<Company.Props, Company.State> {
                     </div>
                   </div>
                 </div>
+                <div className='clearfix' />
               </div>
             </Card>
             <Card>
