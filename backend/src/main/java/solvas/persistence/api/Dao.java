@@ -1,4 +1,4 @@
-package solvas.persistence;
+package solvas.persistence.api;
 
 import solvas.models.Model;
 import solvas.rest.query.Filterable;

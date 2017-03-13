@@ -1,9 +1,10 @@
-package solvas.persistence.company;
+package solvas.persistence.hibernate.dao;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import solvas.models.Company;
-import solvas.persistence.HibernateDao;
+import solvas.persistence.hibernate.HibernateDao;
+import solvas.persistence.api.dao.CompanyDao;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;

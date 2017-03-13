@@ -4,10 +4,10 @@ import solvas.models.Fleet;
 import solvas.models.FleetSubscription;
 import solvas.models.SubFleet;
 import solvas.models.Vehicle;
-import solvas.persistence.company.CompanyDao;
-import solvas.persistence.fleet.FleetDao;
-import solvas.persistence.fleetSubscription.FleetSubscriptionDao;
-import solvas.persistence.subFleet.SubFleetDao;
+import solvas.persistence.api.dao.CompanyDao;
+import solvas.persistence.api.dao.FleetDao;
+import solvas.persistence.api.dao.FleetSubscriptionDao;
+import solvas.persistence.api.dao.SubFleetDao;
 
 import java.time.LocalDate;
 import java.util.Collection;

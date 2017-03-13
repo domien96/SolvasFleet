@@ -1,4 +1,4 @@
-package solvas.persistence;
+package solvas.persistence.hibernate;
 
 import org.hibernate.cfg.AvailableSettings;
 import org.springframework.beans.factory.BeanCreationException;

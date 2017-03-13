@@ -1,7 +1,7 @@
-package solvas.persistence.vehicle;
+package solvas.persistence.api.dao;
 
 import solvas.models.Vehicle;
-import solvas.persistence.Dao;
+import solvas.persistence.api.Dao;
 
 /**
  * DAO for a vehicle.

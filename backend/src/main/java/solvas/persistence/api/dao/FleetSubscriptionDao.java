@@ -1,7 +1,7 @@
-package solvas.persistence.fleetSubscription;
+package solvas.persistence.api.dao;
 
 import solvas.models.FleetSubscription;
-import solvas.persistence.Dao;
+import solvas.persistence.api.Dao;
 
 import java.util.Collection;
 

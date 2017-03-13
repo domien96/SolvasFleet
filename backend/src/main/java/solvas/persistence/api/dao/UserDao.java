@@ -1,7 +1,7 @@
-package solvas.persistence.user;
+package solvas.persistence.api.dao;
 
 import solvas.models.User;
-import solvas.persistence.Dao;
+import solvas.persistence.api.Dao;
 
 /**
  * DAO for a User.

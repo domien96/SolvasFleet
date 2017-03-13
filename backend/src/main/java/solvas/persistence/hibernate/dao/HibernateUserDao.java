@@ -1,9 +1,10 @@
-package solvas.persistence.user;
+package solvas.persistence.hibernate.dao;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import solvas.models.User;
-import solvas.persistence.HibernateDao;
+import solvas.persistence.hibernate.HibernateDao;
+import solvas.persistence.api.dao.UserDao;
 
 /**
  * Hibernate implementation for user.

@@ -1,15 +1,7 @@
 package solvas.rest.api.mappers;
 
 import solvas.models.Model;
-import solvas.persistence.DaoContext;
-import solvas.persistence.company.CompanyDao;
-import solvas.persistence.fleet.FleetDao;
-import solvas.persistence.fleetSubscription.FleetSubscriptionDao;
-import solvas.persistence.role.RoleDao;
-import solvas.persistence.subFleet.SubFleetDao;
-import solvas.persistence.user.UserDao;
-import solvas.persistence.vehicle.VehicleDao;
-import solvas.persistence.vehicleType.VehicleTypeDao;
+import solvas.persistence.api.DaoContext;
 
 /**
  * Class parameter T : class of the domain model class.

@@ -1,7 +1,7 @@
-package solvas.persistence.vehicleType;
+package solvas.persistence.api.dao;
 
 import solvas.models.VehicleType;
-import solvas.persistence.Dao;
+import solvas.persistence.api.Dao;
 
 import java.util.Collection;
 

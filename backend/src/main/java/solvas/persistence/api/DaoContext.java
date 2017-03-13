@@ -1,13 +1,13 @@
-package solvas.persistence;
+package solvas.persistence.api;
 
-import solvas.persistence.company.CompanyDao;
-import solvas.persistence.fleet.FleetDao;
-import solvas.persistence.fleetSubscription.FleetSubscriptionDao;
-import solvas.persistence.role.RoleDao;
-import solvas.persistence.subFleet.SubFleetDao;
-import solvas.persistence.user.UserDao;
-import solvas.persistence.vehicle.VehicleDao;
-import solvas.persistence.vehicleType.VehicleTypeDao;
+import solvas.persistence.api.dao.CompanyDao;
+import solvas.persistence.api.dao.FleetDao;
+import solvas.persistence.api.dao.FleetSubscriptionDao;
+import solvas.persistence.api.dao.RoleDao;
+import solvas.persistence.api.dao.SubFleetDao;
+import solvas.persistence.api.dao.UserDao;
+import solvas.persistence.api.dao.VehicleDao;
+import solvas.persistence.api.dao.VehicleTypeDao;
 
 /**
  * This class ressembles a context/environment wherein the DAO's operate.

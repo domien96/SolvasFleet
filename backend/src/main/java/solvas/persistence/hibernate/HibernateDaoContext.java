@@ -1,24 +1,16 @@
-package solvas.persistence;
+package solvas.persistence.hibernate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import solvas.models.Company;
-import solvas.persistence.company.CompanyDao;
-import solvas.persistence.company.HibernateCompanyDao;
-import solvas.persistence.fleet.FleetDao;
-import solvas.persistence.fleet.HibernateFleetDao;
-import solvas.persistence.fleetSubscription.FleetSubscriptionDao;
-import solvas.persistence.fleetSubscription.HibernateFleetSubscriptionDao;
-import solvas.persistence.role.HibernateRoleDao;
-import solvas.persistence.role.RoleDao;
-import solvas.persistence.subFleet.HibernateSubFleetDao;
-import solvas.persistence.subFleet.SubFleetDao;
-import solvas.persistence.user.HibernateUserDao;
-import solvas.persistence.user.UserDao;
-import solvas.persistence.vehicle.HibernateVehicleDao;
-import solvas.persistence.vehicle.VehicleDao;
-import solvas.persistence.vehicleType.HibernateVehicleTypeDao;
-import solvas.persistence.vehicleType.VehicleTypeDao;
+import solvas.persistence.api.DaoContext;
+import solvas.persistence.api.dao.CompanyDao;
+import solvas.persistence.api.dao.FleetDao;
+import solvas.persistence.api.dao.FleetSubscriptionDao;
+import solvas.persistence.api.dao.RoleDao;
+import solvas.persistence.api.dao.SubFleetDao;
+import solvas.persistence.api.dao.UserDao;
+import solvas.persistence.api.dao.VehicleDao;
+import solvas.persistence.api.dao.VehicleTypeDao;
 
 /**
  * Uses lazy creation.

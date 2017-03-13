@@ -1,7 +1,7 @@
 package solvas.rest.logic;
 
 import solvas.models.*;
-import solvas.persistence.fleetSubscription.FleetSubscriptionDao;
+import solvas.persistence.api.dao.FleetSubscriptionDao;
 
 import java.time.LocalDate;
 

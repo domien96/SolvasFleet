@@ -1,9 +1,10 @@
-package solvas.persistence.fleet;
+package solvas.persistence.hibernate.dao;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import solvas.models.Fleet;
-import solvas.persistence.HibernateDao;
+import solvas.models.SubFleet;
+import solvas.persistence.hibernate.HibernateDao;
+import solvas.persistence.api.dao.SubFleetDao;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -18,24 +19,24 @@ import java.util.Collection;
  */
 @Repository
 @Transactional
-public class HibernateFleetDao extends HibernateDao<Fleet> implements FleetDao {
+public class HibernateSubFleetDao extends HibernateDao<SubFleet> implements SubFleetDao {
 
     /**
      * Hibernate implementation for Company.
      */
-    public HibernateFleetDao() {
-        super(Fleet.class);
+    public HibernateSubFleetDao() {
+        super(SubFleet.class);
     }
 
     @Override
-    public Collection<Fleet> withCompanyId(int companyId) {
+    public Collection<SubFleet> withFleetId(int fleetId) {
             // Criteria builder
             CriteriaBuilder builder = getSession().getCriteriaBuilder();
             // Select from the company table
-            CriteriaQuery<Fleet> criteriaQuery = builder.createQuery(Fleet.class);
-            Root<Fleet> root = criteriaQuery.from(Fleet.class);
+            CriteriaQuery<SubFleet> criteriaQuery = builder.createQuery(SubFleet.class);
+            Root<SubFleet> root = criteriaQuery.from(SubFleet.class);
             // Actual criteria
-            Predicate predicate = builder.equal(root.get("company"), companyId);
+            Predicate predicate = builder.equal(root.get("fleet"), fleetId);
             // Prepare query
             criteriaQuery.select(root).where(predicate);
             // Do the query

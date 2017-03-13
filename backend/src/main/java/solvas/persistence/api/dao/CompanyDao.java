@@ -1,7 +1,7 @@
-package solvas.persistence.fleet;
+package solvas.persistence.api.dao;
 
-import solvas.models.Fleet;
-import solvas.persistence.Dao;
+import solvas.models.Company;
+import solvas.persistence.api.Dao;
 
 import java.util.Collection;
 
@@ -10,7 +10,7 @@ import java.util.Collection;
  *
  * @author Niko Strijbol
  */
-public interface FleetDao extends Dao<Fleet> {
+public interface CompanyDao extends Dao<Company> {
 
     /**
      * Find all companies with a certain name.
@@ -19,5 +19,5 @@ public interface FleetDao extends Dao<Fleet> {
      *
      * @return The companies.
      */
-    Collection<Fleet> withCompanyId(int companyId);
+    Collection<Company> withName(String name);
 }
