@@ -2,7 +2,7 @@
 
 ## Specificatie
 
-De specificatie staat in het bestand `volledig.yaml`, en volgt [The Open Specification API](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md)
+De specificatie staat in het bestand `volledig.yaml`, en volgt de [OpenAPI Specification](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md)
 (vroeger de Swagger Specification).
 
 ## Lezen
