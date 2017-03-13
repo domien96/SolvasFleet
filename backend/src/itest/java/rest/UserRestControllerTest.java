@@ -15,13 +15,19 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import solvas.models.User;
+import solvas.models.validators.UserValidator;
 import solvas.persistence.EntityNotFoundException;
 import solvas.persistence.user.UserDao;
+import solvas.rest.api.mappers.UserAbstractMapper;
+import solvas.rest.api.models.ApiUser;
 import solvas.rest.controller.UserRestController;
 
 import java.util.Collections;
 
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
+import static io.github.benas.randombeans.api.EnhancedRandom.randomCollectionOf;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.verify;
@@ -29,6 +35,7 @@ import static org.mockito.Mockito.when;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -39,14 +46,19 @@ public class UserRestControllerTest {
     @Mock
     private UserDao userDaoMock;
 
+    @Mock
+    private UserAbstractMapper userMapperMock;
+
+    @Mock
+    private UserValidator userValidatorMock;
+
     @InjectMocks
     private UserRestController controller;
     private MockMvc mockMvc;
 
     private ArgumentCaptor<User> captor = ArgumentCaptor.forClass(User.class);
-    private TestMatcher<User> matcher=new UserMatcher();
 
-    private User user;
+    private ApiUser user;
     private String json;
 
     /**
@@ -58,8 +70,10 @@ public class UserRestControllerTest {
     {
         MockitoAnnotations.initMocks(this);
         mockMvc=MockMvcBuilders.standaloneSetup(controller).build();
-        user=random(User.class);
-        json=new ObjectMapper().writeValueAsString(user);
+        user=random(ApiUser.class);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.findAndRegisterModules();
+        json=mapper.writeValueAsString(user);
     }
 
     /**
@@ -78,12 +92,12 @@ public class UserRestControllerTest {
      */
     @Test
     public void getUserByIdNoError() throws Exception {
-       when(userDaoMock.find(anyInt())).thenReturn(user);
+        when(userMapperMock.convertToApiModel(any())).thenReturn(user);
        ResultActions resultActions = mockMvc.perform(get("/users/23"))
                .andExpect(status().isOk())
                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
 
-       matcher.jsonMatcher(resultActions,user);
+       matchUserJson(resultActions,user);
     }
 
     /**
@@ -91,7 +105,8 @@ public class UserRestControllerTest {
      */
     @Test
     public void getUsersNoError() throws Exception {
-        when(userDaoMock.findAll()).thenReturn(Collections.singletonList(user));
+        when(userDaoMock.findAll(any(),any())).thenReturn(randomCollectionOf(10,User.class));
+        when(userMapperMock.convertToApiModel(any())).thenReturn(random(ApiUser.class));
         mockMvc.perform(get("/users"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
@@ -103,15 +118,13 @@ public class UserRestControllerTest {
      */
     @Test
     public void postUserNoError() throws Exception {
-        when(userDaoMock.save(any())).thenReturn(user);
-        ResultActions resultActions=mockMvc.perform(put("/users").contentType(MediaType.APPLICATION_JSON).content(json))
+        when(userMapperMock.convertToApiModel(any())).thenReturn(user);
+        ResultActions resultActions=mockMvc.perform(post("/users").contentType(MediaType.APPLICATION_JSON).content(json))
                 .andExpect(status().isOk());
 
-        matcher.jsonMatcher(resultActions,user);
+        matchUserJson(resultActions,user);
+        verify(userDaoMock,times(1)).create(captor.capture());
 
-        verify(userDaoMock,times(1)).save(captor.capture());
-
-        matcher.performAsserts(user,captor.getValue());
     }
 
     /**
@@ -130,15 +143,14 @@ public class UserRestControllerTest {
     @Test
     public void putUserNoError() throws Exception
     {
-        when(userDaoMock.save(any())).thenReturn(user);
+        when(userMapperMock.convertToApiModel(any())).thenReturn(user);
+        when(userMapperMock.convertToModel(any())).thenReturn(random(User.class));
         ResultActions resultActions=
-                mockMvc.perform(put("/users").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
+                mockMvc.perform(put("/users/10").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
                 .andExpect(status().isOk());
-
-        matcher.jsonMatcher(resultActions,user);
-
+        matchUserJson(resultActions,user);
         verify(userDaoMock,times(1)).save(captor.capture());
-        matcher.performAsserts(user,captor.getValue());
+
     }
 
     /**
@@ -147,31 +159,46 @@ public class UserRestControllerTest {
     @Test
     public void putUserNotFound() throws Exception
     {
+        when(userMapperMock.convertToApiModel(any())).thenReturn(user);
+        when(userMapperMock.convertToModel(any())).thenReturn(random(User.class));
         when(userDaoMock.save(any())).thenThrow(new EntityNotFoundException());
-        mockMvc.perform(put("/users").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
+        mockMvc.perform(put("/users/10").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
                 .andExpect(status().isNotFound());
     }
 
     /**
      * Test: the response of a destroy request for a user that exists
      */
-    @Ignore //on hold
     @Test
-    public void destroyUser_noError() throws Exception {
-        when(userDaoMock.destroy(any())).thenReturn(user);
-        mockMvc.perform(delete("/users").contentType(MediaType.APPLICATION_JSON).content(""))
+    public void destroyUserNoError() throws Exception {
+        mockMvc.perform(delete("/users/10").contentType(MediaType.APPLICATION_JSON).content(json))
                 .andExpect(status().isOk());
+        verify(userDaoMock,times(1)).destroy(captor.capture());
     }
 
     /**
      * Test: the response of a destroy request for a user that doesn't exist
      */
-    @Ignore //on hold
     @Test
-    public void destroyUser_notFound() throws Exception {
+    public void destroyUserNotFound() throws Exception {
         when(userDaoMock.destroy(any())).thenThrow(new EntityNotFoundException());
-        mockMvc.perform(delete("/users").contentType(MediaType.APPLICATION_JSON_UTF8))
+        mockMvc.perform(delete("/users/20").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
                 .andExpect(status().isNotFound());
+    }
+
+    /**
+     * Method that checks the result of the json string that is contained in the HTTP request
+     * @param res from MockMVC object
+     * @param user User object that should be equal to the object in json representation
+     * @throws Exception when mockMVC fails to perform the action or jsonPath fails to retrieve the attribute
+     */
+    public void matchUserJson(ResultActions res, ApiUser user) throws Exception {
+        res.andExpect(jsonPath("id").value(user.getId()))
+                .andExpect(jsonPath("firstName").value(user.getFirstName()))
+                .andExpect(jsonPath("lastName").value(user.getLastName()))
+                .andExpect(jsonPath("email").value(user.getEmail()))
+                .andExpect(jsonPath("url").value(user.getUrl()))
+                .andExpect(jsonPath("password").value(user.getPassword()));
     }
 
 
