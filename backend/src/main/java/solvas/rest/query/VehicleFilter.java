@@ -57,12 +57,12 @@ public class VehicleFilter implements Filter<Vehicle> {
 
             LocalDate now = LocalDate.now();
             // The start must be before today
-            Predicate start = builder.lessThan(subscriptionJoin.get("startDate"), now);
+            Predicate start = builder.lessThanOrEqualTo(subscriptionJoin.get("startDate"), now);
             // The end is not set or after today
             Expression<LocalDate> endDate = subscriptionJoin.get("endDate");
             Predicate end = builder.or(
                     builder.isNull(endDate),
-                    builder.greaterThan(endDate, now)
+                    builder.greaterThanOrEqualTo(endDate, now)
             );
 
             predicates.add(
