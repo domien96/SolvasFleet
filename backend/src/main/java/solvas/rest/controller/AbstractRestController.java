@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import solvas.models.Model;
 import solvas.persistence.Dao;
 import solvas.persistence.EntityNotFoundException;
-import solvas.rest.api.mappers.AbstractMapper;
 import solvas.persistence.Filter;
+import solvas.rest.api.mappers.AbstractMapper;
 import solvas.rest.api.models.ApiModel;
 import solvas.rest.query.Pageable;
 import solvas.rest.utils.JsonListWrapper;
@@ -25,6 +25,7 @@ import java.util.HashSet;
  * Abstract REST controller.
  *
  * @param <T> Type of the entity to work with.
+ * @param <E> The type of the API model
  */
 @Component
 @Transactional // TODO Replace by services

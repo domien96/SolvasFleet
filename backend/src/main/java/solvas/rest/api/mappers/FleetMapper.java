@@ -15,6 +15,11 @@ public class FleetMapper extends AbstractMapper<Fleet, ApiFleet> {
 
     private static final String ROOT = "/fleets/";
 
+    /**
+     * Map fleets.
+     *
+     * @param daoContext autowired
+     */
     @Autowired
     public FleetMapper(DaoContext daoContext) {
         super(daoContext);
