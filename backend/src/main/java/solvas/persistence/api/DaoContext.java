@@ -19,19 +19,51 @@ import solvas.persistence.api.dao.VehicleTypeDao;
  */
 public interface DaoContext {
 
+    /**
+     * Get companyDao fox this content
+     * @return A CompanyDao
+     */
     CompanyDao getCompanyDao();
 
+    /**
+     * Get fleetDao fox this content
+     * @return A fleetyDao
+     */
     FleetDao getFleetDao();
 
+    /**
+     * Get fleetSubscriptionDao fox this content
+     * @return A FleetSubscriptionDao
+     */
     FleetSubscriptionDao getFleetSubscriptionDao();
 
+    /**
+     * Get roleDao fox this content
+     * @return A RoleDao
+     */
     RoleDao getRoleDao();
 
+    /**
+     * Get subFleetDao fox this content
+     * @return A SubFleetDao
+     */
     SubFleetDao getSubFleetDao();
 
+    /**
+     * Get userDao fox this content
+     * @return A UserDao
+     */
     UserDao getUserDao();
 
+    /**
+     * Get vehicleDao fox this content
+     * @return A VehcielDao
+     */
     VehicleDao getVehicleDao();
 
+    /**
+     * Get vehicleTypeDao fox this content
+     * @return A VehicleTypeDao
+     */
     VehicleTypeDao getVehicleTypeDao();
 }
