@@ -14,14 +14,29 @@ import java.time.LocalDate;
 import java.util.Collection;
 
 /**
- * Created by steve on 11/03/2017.
+ * VehicleToFleet is a helper class part of the backend logic/service layer. This specific class helps when trying to
+ * retrieve the fleet in which a vehicle is a part of. Since our model(db) is different than the model of the Api,
+ * a conversion is required. A vehicle has no direct relation with a fleet, so one must be fetched. This class will
+ * fetch the route from a vehicle to a fleet, eventually returning the fleet.
  *
+ *
+ * Todo find a better way to model logic
+ *
+ * @author sjabasti
+ * @author nistrijb
  */
 public class VehicleToFleet {
 
+    /**
+     * This will fetch the fleet of a vehicle
+     * @param vehicle The vehicle of which the fleet has to be returned
+     * @param daoContext  a dao needed for this complex operation
+     * @return Fleet of which the vehicle is part of
+     * @throws InconsistentDbException any inconsistencies in the database will result in this error
+     * @throws NoActiveSubscriptionException Trying to get the fleet of a vehicle while there are no active subscriptions
+     */
     public Fleet run(Vehicle vehicle, DaoContext daoContext) throws InconsistentDbException, NoActiveSubscriptionException {
         FleetSubscriptionDao fleetSubscriptionDao = daoContext.getFleetSubscriptionDao();
-
         // We want all active subscriptions for this vehicle.
         Filter<FleetSubscription> filter = Filter.predicate((builder, root) -> {
             LocalDate now = LocalDate.now();
@@ -53,6 +68,10 @@ public class VehicleToFleet {
         return activeSubscriptions.iterator().next().getSubFleet().getFleet();
     }
 
+    /**
+     * NoActiveSubscriptionException is a exception on the logic/service layer and is part of the retrieval process
+     * of a fleet from a vehicle. It means that the vehicle is currently not register to a fleet.
+     */
     public class NoActiveSubscriptionException extends Exception{
 
     }
