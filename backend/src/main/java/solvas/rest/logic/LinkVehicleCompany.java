@@ -16,7 +16,7 @@ import java.util.Collection;
  * Created by steve on 12/03/2017.
  */
 public class LinkVehicleCompany {
-    public void run(int companyId, Vehicle vehicle, FleetSubscriptionDao fleetSubscriptionDao
+    public void run(int fleetId, Vehicle vehicle, FleetSubscriptionDao fleetSubscriptionDao
             , SubFleetDao subFleetDao, FleetDao fleetDao, CompanyDao companyDao) throws  InconsistentDbException {
         //Find active subscription
         FleetSubscription activeFleetSubscription=null;
@@ -33,30 +33,13 @@ public class LinkVehicleCompany {
             }
         }
         activeFleetSubscription = new FleetSubscription();
-        activeFleetSubscription.setEndDate(LocalDate.now().plusYears(10));
         activeFleetSubscription.setStartDate(LocalDate.now());
         activeFleetSubscription.setVehicle(vehicle);
 
-        //Search Fleet
-        Fleet fleet = null;
-        Collection<Fleet> fleetsWithCompanyId = fleetDao.withCompanyId(companyId);
-        for(Fleet fl: fleetsWithCompanyId){
-            if (fleet==null){
-                fleet=fl;
-            } else {
-                throw new InconsistentDbException();
-                //Fleets is not yet implemented in the api
-            }
-        }
-        if (fleet==null){
-            //Create new default fleet
-            fleet = new Fleet();
-            fleet.setId(0);
-            fleet.setCompany(companyDao.find(companyId));
-            fleet.setName("default");
-            fleet=fleetDao.save(fleet);
 
-        }
+        // If we cannot find a fleet, we cannot make a new one, and we'll just let this
+        // crash. We don't know the company, so we cannot create a fleet.
+        Fleet fleet = fleetDao.find(fleetId);
 
 
         //Find appropriate sub fleet

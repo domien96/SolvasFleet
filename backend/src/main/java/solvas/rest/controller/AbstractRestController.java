@@ -12,8 +12,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import solvas.models.Model;
 import solvas.persistence.Dao;
 import solvas.persistence.EntityNotFoundException;
+import solvas.persistence.Filter;
 import solvas.rest.api.mappers.AbstractMapper;
-import solvas.rest.query.Filterable;
+import solvas.rest.api.models.ApiModel;
 import solvas.rest.query.Pageable;
 import solvas.rest.utils.JsonListWrapper;
 
@@ -24,10 +25,11 @@ import java.util.HashSet;
  * Abstract REST controller.
  *
  * @param <T> Type of the entity to work with.
+ * @param <E> The type of the API model
  */
 @Component
-@Transactional // Replace by services
-public abstract class AbstractRestController<T extends Model, E> {
+@Transactional // TODO Replace by services
+public abstract class AbstractRestController<T extends Model, E extends ApiModel> {
 
     protected final Dao<T> dao;
     protected AbstractMapper<T,E> mapper;
@@ -51,19 +53,19 @@ public abstract class AbstractRestController<T extends Model, E> {
      * method will contain an object, according to the API spec.
      *
      * @param pagination The pagination information.
-     * @param filterable The filters.
+     * @param filter The filters.
      *
      * @return ResponseEntity
      */
-    protected ResponseEntity<?> listAll(Pageable pagination, Filterable<T> filterable) {
+    protected ResponseEntity<?> listAll(Pageable pagination, Filter<T> filter) {
         Collection<E> collection = new HashSet<>();
-        for (T item: dao.findAll(pagination, filterable)){
+        for (T item: dao.findAll(pagination, filter)){
             collection.add(mapper.convertToApiModel(item));
         }
         JsonListWrapper<E> wrapper = new JsonListWrapper<>(collection);
         wrapper.put("limit", pagination.getLimit());
         wrapper.put("offset", pagination.getLimit() * pagination.getPage());
-        wrapper.put("total", dao.count(filterable));
+        wrapper.put("total", dao.count(filter));
         return new ResponseEntity<>(wrapper, HttpStatus.OK);
     }
 
@@ -136,10 +138,11 @@ public abstract class AbstractRestController<T extends Model, E> {
      */
     protected ResponseEntity<?> put(int id,E input,BindingResult binding) {
         return save(input, binding, () -> {
+            input.setId(id);
             T model = mapper.convertToModel(input);
-            model.setId(id);
+
             return mapper.convertToApiModel(dao
-                    .save(model));
+                    .update(model));
         });
     }
 

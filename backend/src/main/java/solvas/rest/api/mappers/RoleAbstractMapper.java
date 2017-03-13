@@ -2,6 +2,7 @@ package solvas.rest.api.mappers;
 
 import org.springframework.stereotype.Component;
 import solvas.models.Role;
+import solvas.persistence.DaoContext;
 import solvas.persistence.company.CompanyDao;
 import solvas.persistence.fleet.FleetDao;
 import solvas.persistence.fleetSubscription.FleetSubscriptionDao;
@@ -18,20 +19,14 @@ import solvas.rest.api.models.ApiRole;
 @Component
 public class RoleAbstractMapper extends AbstractMapper<Role,ApiRole> {
 
+    private String rootPath="/roles/";
     /**
      * TODO document
-     * @param roleDao
-     * @param companyDao
-     * @param userDao
-     * @param vehicleDao
-     * @param vehicleTypeDao
-     * @param fleetSubscriptionDao
-     * @param fleetDao
-     * @param subFleetDao
+     *
+     * @param daoContext
      */
-    public RoleAbstractMapper(RoleDao roleDao, CompanyDao companyDao, UserDao userDao, VehicleDao vehicleDao
-            , VehicleTypeDao vehicleTypeDao, FleetSubscriptionDao fleetSubscriptionDao, FleetDao fleetDao, SubFleetDao subFleetDao) {
-        super(roleDao, companyDao, userDao, vehicleDao, vehicleTypeDao, fleetSubscriptionDao, fleetDao, subFleetDao);
+    public RoleAbstractMapper(DaoContext daoContext) {
+        super(daoContext);
     }
 
     @Override
@@ -40,7 +35,7 @@ public class RoleAbstractMapper extends AbstractMapper<Role,ApiRole> {
         role.setId(api.getId());
         if (role.getId()!=0) {
             //update
-            role = roleDao.find(role.getId());
+            role = daoContext.getRoleDao().find(role.getId());
             if (role==null){
                 role=new Role();
             }
@@ -48,8 +43,8 @@ public class RoleAbstractMapper extends AbstractMapper<Role,ApiRole> {
         role.setStartDate(api.getStartDate()==null ? role.getStartDate() : api.getStartDate());
         role.setFunction(api.getFunction()==null ? role.getFunction() : api.getFunction());
         role.setEndDate(api.getEndDate()==null ? role.getEndDate() : api.getEndDate());
-        role.setUser(api.getUser()==0 ? role.getUser() : userDao.find(api.getUser()));
-        role.setCompany(api.getCompany()==0 ? role.getCompany() : companyDao.find(api.getCompany()));
+        role.setUser(api.getUser()==0 ? role.getUser() : daoContext.getUserDao().find(api.getUser()));
+        role.setCompany(api.getCompany()==0 ? role.getCompany() : daoContext.getCompanyDao().find(api.getCompany()));
         //role permissions
         role.setUpdatedAt(null);
         role.setCreatedAt(role.getCreatedAt());
@@ -60,7 +55,7 @@ public class RoleAbstractMapper extends AbstractMapper<Role,ApiRole> {
     public ApiRole convertToApiModel(Role role) {
         ApiRole apiRole = new ApiRole();
         apiRole.setId(role.getId());
-        apiRole.setUrl(role.getUrl());
+        apiRole.setUrl(rootPath+apiRole.getId());
         apiRole.setCompany(role.getCompany().getId());
         apiRole.setUser(role.getUser().getId());
         apiRole.setFunction(role.getFunction());

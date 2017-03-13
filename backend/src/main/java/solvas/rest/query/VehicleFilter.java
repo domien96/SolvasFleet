@@ -1,12 +1,10 @@
 package solvas.rest.query;
 
-import solvas.models.Vehicle;
-import solvas.models.VehicleType;
+import solvas.models.*;
+import solvas.persistence.Filter;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -15,21 +13,22 @@ import java.util.List;
  * @author Niko Strijbol
  */
 @SuppressWarnings("unused")
-public class VehicleFilter implements Filterable<Vehicle> {
+public class VehicleFilter implements Filter<Vehicle> {
 
-    private String chassisNumber;
+    private String vin;
     private int leasingCompany = -1;
     private String licensePlate;
     private String type;
     private int year = -1;
+    private int fleet = -1;
 
     @Override
     public Collection<Predicate> asPredicates(CriteriaBuilder builder, Root<Vehicle> root) {
         List<Predicate> predicates = new ArrayList<>();
-        if (chassisNumber != null) {
+        if (vin != null) {
             predicates.add(builder.equal(
-                    builder.lower(root.get("chassisNumber")),
-                    chassisNumber.toLowerCase()
+                    builder.lower(root.get("vin")),
+                    vin.toLowerCase()
             ));
         }
         if (leasingCompany >= 0) {
@@ -51,12 +50,35 @@ public class VehicleFilter implements Filterable<Vehicle> {
                     type.toLowerCase()
             ));
         }
+        if (fleet >= 0) {
+            Join<Vehicle, FleetSubscription> subscriptionJoin = root.join("fleetSubscriptions");
+            Join<FleetSubscription, SubFleet> subFleetJoin = subscriptionJoin.join("subFleet");
+            Join<SubFleet, Fleet> fleetJoin = subFleetJoin.join("fleet");
+
+            LocalDate now = LocalDate.now();
+            // The start must be before today
+            Predicate start = builder.lessThanOrEqualTo(subscriptionJoin.get("startDate"), now);
+            // The end is not set or after today
+            Expression<LocalDate> endDate = subscriptionJoin.get("endDate");
+            Predicate end = builder.or(
+                    builder.isNull(endDate),
+                    builder.greaterThan(endDate, now)
+            );
+
+            predicates.add(
+                builder.and(
+                        builder.equal(fleetJoin.get("id"), fleet),
+                        start,
+                        end
+                )
+            );
+        }
 
         return predicates;
     }
 
-    public void setChassisNumber(String chassisNumber) {
-        this.chassisNumber = chassisNumber;
+    public void setVin(String vin) {
+        this.vin = vin;
     }
 
     public void setLeasingCompany(int leasingCompany) {
@@ -73,5 +95,9 @@ public class VehicleFilter implements Filterable<Vehicle> {
 
     public void setYear(int year) {
         this.year = year;
+    }
+
+    public void setFleet(int fleet) {
+        this.fleet = fleet;
     }
 }

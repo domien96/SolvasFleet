@@ -42,7 +42,7 @@ CREATE TRIGGER update_updated_at BEFORE UPDATE
   ON permissions FOR EACH ROW EXECUTE PROCEDURE  update_updated_at_column();
 
 CREATE TRIGGER update_updated_at BEFORE UPDATE
-  ON sub_fleets FOR EACH ROW EXECUTE PROCEDURE  update_updated_at_column();
+  ON subfleets FOR EACH ROW EXECUTE PROCEDURE  update_updated_at_column();
 
 CREATE TRIGGER update_updated_at BEFORE UPDATE
   ON fleet_subscriptions FOR EACH ROW EXECUTE PROCEDURE  update_updated_at_column();
@@ -71,7 +71,7 @@ CREATE TRIGGER update_created_at BEFORE INSERT
   ON permissions FOR EACH ROW EXECUTE PROCEDURE  update_created_at_column();
 
 CREATE TRIGGER update_created_at BEFORE INSERT
-  ON sub_fleets FOR EACH ROW EXECUTE PROCEDURE  update_created_at_column();
+  ON subfleets FOR EACH ROW EXECUTE PROCEDURE  update_created_at_column();
 
 CREATE TRIGGER update_created_at BEFORE INSERT
   ON fleet_subscriptions FOR EACH ROW EXECUTE PROCEDURE  update_created_at_column();

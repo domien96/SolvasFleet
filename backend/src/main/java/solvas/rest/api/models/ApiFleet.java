@@ -1,18 +1,18 @@
-package solvas.models;
+package solvas.rest.api.models;
 
 /**
- * Models a fleet
- * @author domien on 04/03/2017
+ * @author Niko Strijbol
  */
-public class Fleet extends Model {
-    private Company company;
+public class ApiFleet extends ApiModel {
+
+    private int company;
     private String name;
 
-    public Company getCompany() {
+    public int getCompany() {
         return company;
     }
 
-    public void setCompany(Company company) {
+    public void setCompany(int company) {
         this.company = company;
     }
 
@@ -23,5 +23,4 @@ public class Fleet extends Model {
     public void setName(String name) {
         this.name = name;
     }
-
 }

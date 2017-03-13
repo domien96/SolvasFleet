@@ -7,7 +7,7 @@ DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS vehicles CASCADE;
 DROP TABLE IF EXISTS fleets CASCADE;
 DROP TABLE IF EXISTS permissions CASCADE;
-DROP TABLE IF EXISTS vehicletype CASCADE;
+DROP TABLE IF EXISTS subfleets CASCADE;
 DROP TABLE IF EXISTS vehicle_types CASCADE;
 DROP TABLE IF EXISTS fleet_subscriptions CASCADE;
 
@@ -88,21 +88,21 @@ CREATE TABLE permissions (
   PRIMARY KEY (permission_id)
 );
 
-CREATE TABLE sub_fleets (
-  sub_fleet_id SERIAL NOT NULL,
+CREATE TABLE subfleets (
+  subfleet_id SERIAL NOT NULL,
   fleet_id INT NOT NULL REFERENCES fleets(fleet_id),
   vehicletype_id INT NOT NULL REFERENCES vehicle_types(vehicletype_id),
   updated_at TIMESTAMP NOT NULL,
   created_at TIMESTAMP NOT NULL,
-  PRIMARY KEY (sub_fleet_id)
+  PRIMARY KEY (subfleet_id)
 );
 
 CREATE TABLE fleet_subscriptions (
   fleet_subscription_id SERIAL NOT NULL,
   start_date DATE NOT NULL,
-  end_date DATE NOT NULL,
-  vehicle_id INT REFERENCES vehicles(vehicle_id), --should be  NOT NULL
-  sub_fleet_id INT NOT NULL REFERENCES sub_fleets(sub_fleet_id),
+  end_date DATE,
+  vehicle_id INT NOT NULL REFERENCES vehicles(vehicle_id),
+  subfleet_id INT NOT NULL REFERENCES subfleets(subfleet_id),
   updated_at TIMESTAMP NOT NULL,
   created_at TIMESTAMP NOT NULL,
   PRIMARY KEY (fleet_subscription_id)

@@ -12,13 +12,13 @@
          <generator class="identity"/>
       </id>
 
-       <property name="name" column="name" type="string"/>
+       <property name="name" column="name" type="string" not-null="true"/>
 
        <many-to-one name="company" column="company_id"
                     class="solvas.models.Company" not-null="true"/>
 
-      <property name="updatedAt" column="updated_at" type="java.time.LocalDateTime" generated="always"/>
-      <property name="createdAt" column="created_at" type="java.time.LocalDateTime" generated="insert"/>
+      <property name="updatedAt" column="updated_at" type="java.time.LocalDateTime" generated="always" not-null="true"/>
+      <property name="createdAt" column="created_at" type="java.time.LocalDateTime" generated="insert" not-null="true"/>
 
    </class>
 </hibernate-mapping>
