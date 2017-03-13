@@ -3,6 +3,7 @@ package solvas.rest.logic;
 import solvas.models.Fleet;
 import solvas.models.FleetSubscription;
 import solvas.models.Vehicle;
+import solvas.persistence.DaoContext;
 import solvas.persistence.Filter;
 import solvas.persistence.fleetSubscription.FleetSubscriptionDao;
 
@@ -29,13 +30,13 @@ public class VehicleToFleet {
     /**
      * This will fetch the fleet of a vehicle
      * @param vehicle The vehicle of which the fleet has to be returned
-     * @param fleetSubscriptionDao dao needed for this complex operation
+     * @param daoContext  a dao needed for this complex operation
      * @return Fleet of which the vehicle is part of
      * @throws InconsistentDbException any inconsistencies in the database will result in this error
      * @throws NoActiveSubscriptionException Trying to get the fleet of a vehicle while there are no active subscriptions
      */
-    public Fleet run(Vehicle vehicle, FleetSubscriptionDao fleetSubscriptionDao) throws InconsistentDbException, NoActiveSubscriptionException {
-
+    public Fleet run(Vehicle vehicle, DaoContext daoContext) throws InconsistentDbException, NoActiveSubscriptionException {
+        FleetSubscriptionDao fleetSubscriptionDao = daoContext.getFleetSubscriptionDao();
         // We want all active subscriptions for this vehicle.
         Filter<FleetSubscription> filter = Filter.predicate((builder, root) -> {
             LocalDate now = LocalDate.now();

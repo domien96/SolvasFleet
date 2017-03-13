@@ -22,7 +22,7 @@ namespace :git do
            MyGit.new.zip_in_release_path
          end
        end
-    end
+     end
   end
 end
 
@@ -32,4 +32,3 @@ class MyGit < Capistrano::SCM::Git
     git :archive, fetch(:branch), '--format zip' "> #{release_path}/snapshot.zip"
   end
 end
-

@@ -1,0 +1,55 @@
+---
+
+- name: create config dirs
+  file:
+    path: /srv/backend/{{ item }}
+    owner: backend
+    group: backend
+    state: directory
+  with_items:
+    - shared
+    - shared/build
+    - shared/build/libs
+
+- name: shared files
+  template:
+    src: "{{ item }}"
+    dest: /srv/backend/shared/{{ item }}
+    owner: backend
+    group: backend
+  with_items:
+    - build/libs/application.properties
+
+- name: Create solvasfleet postgresql user
+  postgresql_user:
+    name: solvasfleet
+    password: "{{ solvasfleet_db_password }}"
+  become: true
+  become_user: postgres
+
+- name: Create solvasfleet postgresql database
+  postgresql_db:
+    name: solvasfleet
+    owner: solvasfleet
+    encoding: UTF-8
+    lc_collate: en_US.UTF-8
+    lc_ctype: en_US.UTF-8
+    template: template0
+  become: true
+  become_user: postgres
+
+- name: Create solvasFleet systemd service
+  template:
+    src: solvasFleet.service
+    dest: /etc/systemd/system/solvasFleet.service
+
+- name: Enable solvasFleet systemd service
+  systemd:
+    name: solvasFleet
+    enabled: true
+
+- name: Allow backend user to restart solvasFleet service
+  lineinfile:
+    dest: /etc/sudoers
+    line: "%backend ALL= NOPASSWD: /bin/systemctl restart solvasFleet"
+    validate: visudo -cf %s

@@ -4,7 +4,7 @@ import solvas.models.Fleet;
 import solvas.models.FleetSubscription;
 import solvas.models.SubFleet;
 import solvas.models.Vehicle;
-import solvas.persistence.company.CompanyDao;
+import solvas.persistence.DaoContext;
 import solvas.persistence.fleet.FleetDao;
 import solvas.persistence.fleetSubscription.FleetSubscriptionDao;
 import solvas.persistence.subFleet.SubFleetDao;
@@ -30,16 +30,15 @@ public class LinkVehicleCompany {
      * This will create a link or correct a link between vehicles and fleets
      * @param fleetId destination fleet
      * @param vehicle start vehicle
-     * @param fleetSubscriptionDao dao needed for this complex operation
-     * @param subFleetDao dao needed for this complex operation
-     * @param fleetDao dao needed for this complex operation
-     * @param companyDao dao needed for this complex operation
+     * @param daoContext dao's needed for this complex operation
      * @throws InconsistentDbException any inconsistencies in the database will result in this error
      *
      * Todo milestone 2, refactor for updating
      */
-    public void run(int fleetId, Vehicle vehicle, FleetSubscriptionDao fleetSubscriptionDao
-            , SubFleetDao subFleetDao, FleetDao fleetDao, CompanyDao companyDao) throws  InconsistentDbException {
+    public void run(int fleetId, Vehicle vehicle, DaoContext daoContext) throws  InconsistentDbException {
+        FleetSubscriptionDao fleetSubscriptionDao = daoContext.getFleetSubscriptionDao();
+        SubFleetDao subFleetDao = daoContext.getSubFleetDao();
+        FleetDao fleetDao = daoContext.getFleetDao();
         //Find active subscription
         FleetSubscription activeFleetSubscription=null;
         for (FleetSubscription subs: fleetSubscriptionDao.withVehicleId(vehicle.getId())){

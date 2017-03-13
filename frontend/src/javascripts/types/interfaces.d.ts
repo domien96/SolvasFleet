@@ -5,6 +5,10 @@
 /// <reference path="companies.d.ts"/>
 /// <reference path="vehicle.d.ts"/>
 /// <reference path="vehicles.d.ts"/>
+/// <reference path="fleet.d.ts"/>
+/// <reference path="fleets.d.ts"/>
+/// <reference path="subfleet.d.ts"/>
+/// <reference path="subfleets.d.ts"/>
 /// <reference path="role.d.ts"/>
 /// <reference path="table.d.ts"/>
 
@@ -18,12 +22,6 @@ interface SidebarLinkProps {
 
 interface CardProps {
   className?: string;
-}
-
-/* WrappedCol */
-
-interface WrappedColProps {
-  cols?: number;
 }
 
 /* App */
