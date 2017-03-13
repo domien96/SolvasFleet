@@ -62,7 +62,7 @@ public class VehicleFilter implements Filter<Vehicle> {
             Expression<LocalDate> endDate = subscriptionJoin.get("endDate");
             Predicate end = builder.or(
                     builder.isNull(endDate),
-                    builder.greaterThanOrEqualTo(endDate, now)
+                    builder.greaterThan(endDate, now)
             );
 
             predicates.add(
