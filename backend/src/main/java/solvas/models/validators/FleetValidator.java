@@ -12,6 +12,9 @@ public class FleetValidator extends AbstractValidator<ApiFleet> {
         require("company");
     }
 
+    /**
+     * Standard constructor.
+     */
     public FleetValidator() {
         super(ApiFleet.class);
     }
