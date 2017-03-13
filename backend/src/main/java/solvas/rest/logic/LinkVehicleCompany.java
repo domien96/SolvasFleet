@@ -13,9 +13,31 @@ import java.time.LocalDate;
 import java.util.Collection;
 
 /**
- * Created by steve on 12/03/2017.
+ * LinkVehicleCompany is a helper class part of the backend logic/service layer. This specific class helps when
+ * inserting a vehicle. Since our model(db) is different than the model of the Api, a conversion is required.
+ * A vehicle has no direct relation with a fleet, so one must be build/found. This class will check/create a
+ * route from a vehicle to a fleet.
+ *
+ * Todo rename Company-> fleet
+ * Todo find a better way to model logic
+ *
+ *
+ * @author sjabasti
+ * @author nistrijb
  */
 public class LinkVehicleCompany {
+    /**
+     * This will create a link or correct a link between vehicles and fleets
+     * @param fleetId destination fleet
+     * @param vehicle start vehicle
+     * @param fleetSubscriptionDao dao needed for this complex operation
+     * @param subFleetDao dao needed for this complex operation
+     * @param fleetDao dao needed for this complex operation
+     * @param companyDao dao needed for this complex operation
+     * @throws InconsistentDbException any inconsistencies in the database will result in this error
+     *
+     * Todo milestone 2, refactor for updating
+     */
     public void run(int fleetId, Vehicle vehicle, FleetSubscriptionDao fleetSubscriptionDao
             , SubFleetDao subFleetDao, FleetDao fleetDao, CompanyDao companyDao) throws  InconsistentDbException {
         //Find active subscription
