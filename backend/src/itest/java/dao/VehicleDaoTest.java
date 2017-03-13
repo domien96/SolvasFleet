@@ -1,6 +1,5 @@
 package dao;
 
-import matchers.VehicleMatcher;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,6 +19,8 @@ import javax.transaction.Transactional;
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsEqual.equalTo;
 
 /**
  * Integration tests of VehicleDao
@@ -38,7 +39,6 @@ public class VehicleDaoTest {
     @Autowired
     private CompanyDao companyDao;
 
-    private VehicleMatcher matcher=new VehicleMatcher();
 
     /**
      * Test: adding a vehicle to the database
@@ -47,13 +47,11 @@ public class VehicleDaoTest {
     public void addVehicle()
     {
         Vehicle vehicle=random(Vehicle.class,"id");
-        vehicle.getCompany().setId(0);
         vehicle.getLeasingCompany().setId(0);
-        companyDao.save(vehicle.getCompany());
         companyDao.save(vehicle.getLeasingCompany());
         vehicleDao.save(vehicle);
         assertThat(vehicleDao.findAll(),hasSize(101));
-        matcher.performAsserts(vehicle,vehicleDao.find(vehicle.getId()));
+        assertVehicles(vehicle,vehicleDao.find(vehicle.getId()));
     }
 
     /**
@@ -93,5 +91,19 @@ public class VehicleDaoTest {
     public void findVehicles()
     {
 
+    }
+
+    private void assertVehicles(Vehicle expected, Vehicle actual)
+    {
+        assertThat(actual.getId(),is(equalTo(expected.getId())));
+        assertThat(actual.getUrl(),is(equalTo(expected.getUrl())));
+        assertThat(actual.getLicensePlate(),is(equalTo(expected.getLicensePlate())));
+        assertThat(actual.getValue(),is(equalTo(expected.getValue())));
+        assertThat(actual.getChassisNumber(),is(equalTo(expected.getChassisNumber())));
+        assertThat(actual.getKilometerCount(),is(equalTo(expected.getKilometerCount())));
+        assertThat(actual.getModel(),is(equalTo(expected.getModel())));
+        assertThat(actual.getYear(),is(equalTo(expected.getYear())));
+        assertThat(actual.getBrand(),is(equalTo(expected.getBrand())));
+        assertThat(actual.getType(),is(equalTo(expected.getType())));
     }
 }

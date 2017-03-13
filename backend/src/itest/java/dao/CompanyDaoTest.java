@@ -1,6 +1,6 @@
 package dao;
 
-import matchers.CompanyMatcher;
+import org.hamcrest.core.IsEqual;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,11 +15,9 @@ import solvas.persistence.HibernateConfig;
 import solvas.persistence.company.CompanyDao;
 
 import javax.transaction.Transactional;
-import java.util.Iterator;
 
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.core.Is.is;
@@ -36,7 +34,6 @@ public class CompanyDaoTest {
     @Autowired
     private CompanyDao companyDao;
     private Company company;
-    private CompanyMatcher matcher = new CompanyMatcher();
 
     @Before
     public void setUp()
@@ -52,7 +49,7 @@ public class CompanyDaoTest {
     {
         companyDao.save(company);
         assertThat(companyDao.findAll(),hasSize(101));
-        assertThat(company,is(equalTo(companyDao.find(company.getId()))));
+        assertCompanies(company,companyDao.find(company.getId()));
     }
 
     /**
@@ -75,11 +72,9 @@ public class CompanyDaoTest {
     @Test
     public void updateCompany()
     {
+        company.setId(30);
         companyDao.save(company);
-        Company update = random(Company.class);
-        update.setId(company.getId());
-        companyDao.save(update);
-        matcher.performAsserts(companyDao.find(company.getId()),update);
+        assertCompanies(companyDao.find(30),company);
     }
 
     /**
@@ -90,7 +85,7 @@ public class CompanyDaoTest {
     {
         companyDao.save(company);
         //Dao automatically changes the id of the object aswell
-        new CompanyMatcher().performAsserts(company,companyDao.find(company.getId()));
+        assertCompanies(company,companyDao.find(company.getId()));
     }
 
     /**
@@ -109,5 +104,18 @@ public class CompanyDaoTest {
     public void withName()
     {
         assertThat(companyDao.withName("Luctus Inc"),hasSize(1));
+    }
+
+    private void assertCompanies(Company actual,Company expected) {
+        assertThat(actual.getId(),is(IsEqual.equalTo(expected.getId())));
+        assertThat(actual.getName(),is(IsEqual.equalTo(expected.getName())));
+        assertThat(actual.getPhoneNumber(),is(IsEqual.equalTo(expected.getPhoneNumber())));
+        assertThat(actual.getAddressStreet(),is(IsEqual.equalTo(expected.getAddressStreet())));
+        assertThat(actual.getAddressPostalCode(),is(IsEqual.equalTo(expected.getAddressPostalCode())));
+        assertThat(actual.getAddressCity(),is(IsEqual.equalTo(expected.getAddressCity())));
+        assertThat(actual.getAddressCountry(),is(IsEqual.equalTo(expected.getAddressCountry())));
+        assertThat(actual.getAddressHouseNumber(),is(IsEqual.equalTo(expected.getAddressHouseNumber())));
+        assertThat(actual.getUrl(),is(IsEqual.equalTo(expected.getUrl())));
+        assertThat(actual.getVatNumber(),is(IsEqual.equalTo(expected.getVatNumber())));
     }
 }

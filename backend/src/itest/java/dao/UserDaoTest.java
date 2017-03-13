@@ -1,6 +1,5 @@
 package dao;
 
-import matchers.UserMatcher;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -16,11 +15,11 @@ import solvas.persistence.EntityNotFoundException;
 import solvas.persistence.HibernateConfig;
 import solvas.persistence.user.UserDao;
 
-import java.util.Iterator;
-
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsEqual.equalTo;
 
 /**
  * Integration tests of UserDao
@@ -33,7 +32,6 @@ public class UserDaoTest {
     @Autowired
     private UserDao userDao;
     private User user;
-    private UserMatcher matcher = new UserMatcher();
 
     @Before
     public void setUp() {
@@ -48,7 +46,7 @@ public class UserDaoTest {
     {
         userDao.save(user);
         assertThat(userDao.findAll(),hasSize(101));
-        matcher.performAsserts(user,userDao.find(user.getId()));
+        assertUsers(user,userDao.find(user.getId()));
     }
 
     /**
@@ -70,11 +68,11 @@ public class UserDaoTest {
     @Test
     public void updateUser()
     {
+        User old = userDao.find(30); //exists
+        user.setId(30);
         userDao.save(user);
-        User updated = random(User.class);
-        updated.setId(user.getId());
-        userDao.save(updated);
-        matcher.performAsserts(updated,userDao.find(user.getId()));
+        assertUsers(user,userDao.find(30));
+
     }
 
     /**
@@ -84,7 +82,7 @@ public class UserDaoTest {
     public void findUserById()
     {
         userDao.save(user);
-        matcher.performAsserts(user,userDao.find(user.getId()));
+        assertUsers(user,userDao.find(user.getId()));
     }
 
     /**
@@ -94,5 +92,14 @@ public class UserDaoTest {
     public void findUsers()
     {
         assertThat(userDao.findAll(),hasSize(100));
+    }
+
+    private void assertUsers(User expected, User actual)
+    {
+        assertThat(actual.getId(),is(equalTo(expected.getId())));
+        assertThat(actual.getFirstName(),is(equalTo(expected.getFirstName())));
+        assertThat(actual.getLastName(),is(equalTo(expected.getLastName())));
+        assertThat(actual.getEmail(),is(equalTo(expected.getEmail())));
+        assertThat(actual.getPassword(),is(equalTo(expected.getEmail())));
     }
 }
