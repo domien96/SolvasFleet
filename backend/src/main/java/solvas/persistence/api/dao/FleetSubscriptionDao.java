@@ -5,6 +5,9 @@ import solvas.persistence.api.Dao;
 
 import java.util.Collection;
 
+/**
+ * Dao for fleetSubscriptions
+ */
 public interface FleetSubscriptionDao extends Dao<FleetSubscription> {
     /**
      * Find fleetsubscriptions for a vehicle

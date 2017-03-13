@@ -5,8 +5,8 @@ import solvas.persistence.api.DaoContext;
 
 /**
  * Mapper between a Model in the persistence layer and it's representation in the REST API
- * Class parameter T : class of the domain model class.
- * Class parameter E : class of the api model class.
+ * @param <T> class of the domain model class.
+ * @param <E> class of the api model class.
  * Created by steve on 11/03/2017.
  */
 public abstract class AbstractMapper<T extends Model,E> {
