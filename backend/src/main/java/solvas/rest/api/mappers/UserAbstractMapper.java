@@ -1,6 +1,7 @@
 package solvas.rest.api.mappers;
 
 import org.springframework.stereotype.Component;
+import solvas.models.Company;
 import solvas.models.User;
 import solvas.persistence.DaoContext;
 import solvas.persistence.company.CompanyDao;
@@ -33,12 +34,20 @@ public class UserAbstractMapper extends AbstractMapper<User,ApiUser> {
     public User convertToModel(ApiUser apiUser) {
         User user = new User();
         user.setId(apiUser.getId());
+        if (user.getId()!=0) {
+            //update
+            user = daoContext.getUserDao().find(user.getId());
+            if (user==null){
+                user=new User();
+            }
+        }
+
         user.setFirstName(apiUser.getFirstName());
         user.setLastName(apiUser.getLastName());
         user.setEmail(apiUser.getEmail());
         user.setPassword(apiUser.getPassword());
         user.setUpdatedAt(apiUser.getUpdatedAt());
-        user.setCreatedAt(apiUser.getCreatedAt());
+        user.setCreatedAt(user.getCreatedAt());
         return user;
     }
 
