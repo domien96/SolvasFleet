@@ -14,7 +14,7 @@ class AddClient extends React.Component<{}, Company.CForm.State> {
   constructor() {
     super();
     this.state = {
-      errors: [ { field: 'name', error: 'null' }],
+      errors: [],
       company: {}
     };
     this.state.company.address = {};
@@ -35,13 +35,19 @@ class AddClient extends React.Component<{}, Company.CForm.State> {
 
   public onSubmit(e : any) : void {
     e.preventDefault();
+    let setErrors = (e : Form.Error[]) => this.setState({ errors: e });
 
     createCompany(this.state.company)
     .then(function(response) {
-      return response.json()
-    })
-    .then(() => {
-      browserHistory.push('/clients');
+      return response.json().then(function(data) {
+        if (response.ok) {
+          browserHistory.push('/clients/' + data.id);
+        } else {
+          setErrors(data.errors.map(function(e : any) {
+            return { field: e.field, error: 'null' };
+          }));
+        }
+      });
     });
   }
 

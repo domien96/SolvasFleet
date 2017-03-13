@@ -12,7 +12,7 @@ class EditClient extends React.Component<Company.Props, Company.CForm.State> {
   constructor() {
     super();
     this.state = {
-      errors: [ { field: 'name', error: 'null' }],
+      errors: [],
       company: {}
     };
     this.state.company.address = {};
@@ -23,20 +23,25 @@ class EditClient extends React.Component<Company.Props, Company.CForm.State> {
   componentDidMount() {
     fetchClient(this.props.params.id)
       .then((data : any) => {
-        console.log('fetched');
-        console.log(data);
         this.setState({ company: data })
       });
   }
 
-  handleChange(field : Company.Field, e : any) : any {
-    var company : Company = this.state.company;
-    company[field] = e.target.value;
-    this.setState({ company });
+  handleChange(field : Company.Field, isAddress : boolean, e : any) : any {
+    var newClient : Company = this.state.company;
+    if(isAddress){
+      newClient['address'][field] = e.target.value;
+    }
+    else{
+      newClient[field] = e.target.value;
+    }
+    this.setState({ company: newClient });
   }
 
   onSubmit(e : any) : void {
     e.preventDefault();
+    let setErrors = (e : Form.Error[]) => this.setState({ errors: e });
+
     fetch(COMPANIES_URL + '/' + this.state.company.id, {
       method: 'PUT',
       headers: {
@@ -46,10 +51,15 @@ class EditClient extends React.Component<Company.Props, Company.CForm.State> {
       body: JSON.stringify(this.state.company)
     })
     .then(function(response) {
-      return response.json()
-    })
-    .then(() => {
-      browserHistory.push('/clients');
+      return response.json().then(function(data) {
+        if (response.ok) {
+          browserHistory.push('/clients/' + data.id);
+        } else {
+          setErrors(data.errors.map(function(e : any) {
+            return { field: e.field, error: 'null' };
+          }));
+        }
+      });
     });
   }
 
