@@ -22,8 +22,6 @@ class EditUser extends React.Component<User.Props, User.UForm.State> {
   componentDidMount() {
     fetchUser(this.props.params.id)
       .then((data : any) => {
-        console.log('fetched');
-        console.log(data);
         this.setState({ user: data })
       });
   }

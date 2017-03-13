@@ -12,7 +12,7 @@ class AddUser extends React.Component<{}, User.UForm.State> {
   constructor() {
     super();
     this.state = {
-      errors: [ { field: 'first_name', error: 'null' }],
+      errors: [ { field: 'firstName', error: 'null' }],
       user: {}
     };
     this.handleChange = this.handleChange.bind(this);
