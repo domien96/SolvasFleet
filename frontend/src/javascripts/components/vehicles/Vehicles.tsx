@@ -1,13 +1,12 @@
 import React from 'react';
-import { browserHistory, Link } from'react-router';
-import { DropdownButton } from 'react-bootstrap';
+import { browserHistory, Link } from 'react-router';
+import { DropdownButton, MenuItem } from 'react-bootstrap';
 
 import Card       from '../app/Card.tsx';
 import Header     from '../app/Header.tsx';
 import InfoTable from '../tables/InfoTable.tsx';
 
 import fetchVehicles from '../../actions/fetch_vehicles.ts';
-import fetchVehiclesByType from '../../actions/fetch_vehicles_by_type.ts';
 import { th } from '../../utils/utils.ts';
 
 interface OverviewProps {
@@ -41,9 +40,14 @@ class Overview extends React.Component<OverviewProps, {}> {
 
 interface OptionsProps {
 	onSelect : (type : string) => void;
+	onChange : (fleet : number) => void;
 }
 
-class Options extends React.Component<OptionsProps, {}>{
+interface OptionsState {
+	fleetID : number;
+}
+
+class Options extends React.Component<OptionsProps, OptionsState>{
 
 	render(){
 		return(
@@ -59,7 +63,11 @@ class Options extends React.Component<OptionsProps, {}>{
 			        <MenuItem onSelect={ () => this.props.onSelect('truck') }>Truck</MenuItem>
 			      </DropdownButton>
 			    </div>
-
+			      <form>
+			        <label> Fleet ID:
+			          <input name='fleetID' type='number' value={ this.state.fleetID } onChange={ () => this.props.onChange(this.state.fleetID) } />
+			        </label>
+			      </form>
 			    <div>
 			    	Todo inputfield fleet
 			    </div>
@@ -80,7 +88,9 @@ class Vehicles extends React.Component<{}, Vehicles.State> {
 
   constructor(props : {}) {
     super(props);
-    this.state = { vehicles: [] };
+    this.state = { vehicles: [], type: '', fleet: null };
+    this.handleSelect = this.handleSelect.bind(this);
+    this.handleFleetChange = this.handleFleetChange.bind(this);
   }
 
   componentDidMount() {
@@ -88,22 +98,20 @@ class Vehicles extends React.Component<{}, Vehicles.State> {
   }
 
   fetchVehicles() {
-    fetchVehicles()
+    fetchVehicles(this.state.type, this.state.fleet)
       .then((data : Vehicles.Data) => {
         this.setState({ vehicles: data.data })
       });
   }
 
-  handleSelect(type : string){
-  	if(type == ''){
-  		this.fetchVehicles();
-  	}
-  	else{
-  		fetchVehiclesByType(type)
-  		  .then((data : Vehicles.Data) => {
-        this.setState({ vehicles: data.data })
-      });
-  	}
+  handleSelect(newType : string){
+  	this.setState({ type: newType })
+  	this.fetchVehicles();
+  }
+
+  handleFleetChange(newFleet : number){
+  	this.setState({ fleet: newFleet })
+  	this.fetchVehicles();
   }
 
   render() {
@@ -122,7 +130,7 @@ class Vehicles extends React.Component<{}, Vehicles.State> {
             <div className='col-xs-12 col-md-8'>
               <Card>
                 <div className='card-content'>
-                  <Options onSelect={ this.handleSelect }/>	
+                  <Options onSelect={ this.handleSelect } onChange={ this.handleFleetChange }/>	
                   <Overview vehicles={ this.state.vehicles } />
                 </div>
               </Card>
