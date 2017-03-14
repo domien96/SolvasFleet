@@ -6,7 +6,6 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
@@ -16,6 +15,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import solvas.models.Role;
 import solvas.models.validators.RoleValidator;
+import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.dao.RoleDao;
 import solvas.rest.api.mappers.RoleAbstractMapper;
@@ -33,15 +33,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * It checks HTTP responses and calls to the RoleDao
  */
 public class RoleRestControllerTest {
-    @InjectMocks
-    private RoleRestController roleRestController;
-
     @Mock
     private RoleDao roleDaoMock;
     @Mock
     private RoleAbstractMapper roleMapperMock;
     @Mock
     private RoleValidator roleValidatorMock;
+
+    @Mock
+    private DaoContext daoContextMock;
 
     private MockMvc mockMvc;
 
@@ -58,6 +58,9 @@ public class RoleRestControllerTest {
     @Before
     public void setUp() throws JsonProcessingException {
         MockitoAnnotations.initMocks(this);
+        when(daoContextMock.getRoleDao()).thenReturn(roleDaoMock);
+        RoleRestController roleRestController=new RoleRestController(daoContextMock,roleMapperMock,roleValidatorMock);
+
         mockMvc= MockMvcBuilders.standaloneSetup(roleRestController).build();
         apiRole=random(ApiRole.class);
         ObjectMapper mapper=new ObjectMapper();
@@ -117,7 +120,7 @@ public class RoleRestControllerTest {
 
 
         // Verificatie actie naar dao
-        verify(roleDaoMock,times(1)).save(captor.capture());
+        verify(roleDaoMock,times(1)).update(captor.capture());
     }
 
     /**

@@ -5,7 +5,6 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
@@ -14,6 +13,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import solvas.models.User;
 import solvas.models.validators.UserValidator;
+import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.dao.UserDao;
 import solvas.rest.api.mappers.UserAbstractMapper;
@@ -44,8 +44,9 @@ public class UserRestControllerTest {
     @Mock
     private UserValidator userValidatorMock;
 
-    @InjectMocks
-    private UserRestController controller;
+    @Mock
+    private DaoContext daoContextMock;
+
     private MockMvc mockMvc;
 
     private ArgumentCaptor<User> captor = ArgumentCaptor.forClass(User.class);
@@ -61,6 +62,8 @@ public class UserRestControllerTest {
     public void setUp() throws Exception
     {
         MockitoAnnotations.initMocks(this);
+        when(daoContextMock.getUserDao()).thenReturn(userDaoMock);
+        UserRestController controller=new UserRestController(daoContextMock,userMapperMock,userValidatorMock);
         mockMvc=MockMvcBuilders.standaloneSetup(controller).build();
         user=random(ApiUser.class);
         ObjectMapper mapper = new ObjectMapper();
@@ -141,7 +144,7 @@ public class UserRestControllerTest {
                 mockMvc.perform(put("/users/10").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
                 .andExpect(status().isOk());
         matchUserJson(resultActions,user);
-        verify(userDaoMock,times(1)).save(captor.capture());
+        verify(userDaoMock,times(1)).update(captor.capture());
 
     }
 

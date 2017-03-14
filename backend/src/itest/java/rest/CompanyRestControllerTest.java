@@ -6,7 +6,6 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
@@ -16,6 +15,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import solvas.models.Company;
 import solvas.models.validators.CompanyValidator;
+import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.dao.CompanyDao;
 import solvas.rest.api.mappers.CompanyMapper;
@@ -28,25 +28,24 @@ import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.*;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * Integration tests of the CompanyRestController
  * It checks HTTP responses and calls to the CompanyDao
  */
 public class CompanyRestControllerTest{
-    @InjectMocks
-    private CompanyRestController companyRestController;
-
-    @Mock
-    private CompanyDao companyDaoMock;
     @Mock
     private CompanyMapper companyMapper;
 
     @Mock
+    private DaoContext context;
+
+    @Mock
     private CompanyValidator companyValidator;
+
+    @Mock
+    private CompanyDao companyDaoMock;
 
     private MockMvc mockMvc;
 
@@ -63,13 +62,14 @@ public class CompanyRestControllerTest{
     @Before
     public void setUp() throws JsonProcessingException {
         MockitoAnnotations.initMocks(this);
+        when(context.getCompanyDao()).thenReturn(companyDaoMock);
+        CompanyRestController companyRestController=new CompanyRestController(context,companyMapper,companyValidator);
         mockMvc= MockMvcBuilders.standaloneSetup(companyRestController).build();
 
         apiCompany=random(ApiCompany.class);
         ObjectMapper mapper = new ObjectMapper();
         mapper.findAndRegisterModules();
         json=mapper.writeValueAsString(apiCompany);
-
         }
 
     /**
@@ -143,7 +143,7 @@ public class CompanyRestControllerTest{
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
         matchCompanyJson(resultActions,apiCompany);
-        verify(companyDaoMock,times(1)).save(captor.capture());
+        verify(companyDaoMock,times(1)).update(captor.capture());
      }
 
     /**

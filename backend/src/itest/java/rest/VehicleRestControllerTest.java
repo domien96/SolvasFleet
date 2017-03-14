@@ -6,7 +6,6 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
@@ -15,6 +14,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import solvas.models.Vehicle;
 import solvas.models.validators.VehicleValidator;
+import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.dao.VehicleDao;
 import solvas.rest.api.mappers.VehicleAbstractMapper;
@@ -45,8 +45,9 @@ public class VehicleRestControllerTest {
     @Mock
     private VehicleAbstractMapper vehicleAbstractMapperMock;
 
-    @InjectMocks
-    private VehicleRestController vehicleRestController;
+    @Mock
+    private DaoContext daoContextMock;
+
     private MockMvc mockMvc;
 
     private ArgumentCaptor<Vehicle> captor = ArgumentCaptor.forClass(Vehicle.class);
@@ -61,6 +62,8 @@ public class VehicleRestControllerTest {
     @Before
     public void setUp() throws JsonProcessingException {
         MockitoAnnotations.initMocks(this);
+        when(daoContextMock.getVehicleDao()).thenReturn(vehicleDaoMock);
+        VehicleRestController vehicleRestController=new VehicleRestController(daoContextMock,vehicleAbstractMapperMock,validatorMock);
         mockMvc= MockMvcBuilders.standaloneSetup(vehicleRestController).build();
 
         vehicle = random(ApiVehicle.class);
@@ -145,7 +148,7 @@ public class VehicleRestControllerTest {
                 .andExpect(status().isOk());
         matchVehicleJson(resultActions,vehicle);
 
-        verify(vehicleDaoMock,times(1)).save(captor.capture());
+        verify(vehicleDaoMock,times(1)).update(captor.capture());
     }
 
     @Test
