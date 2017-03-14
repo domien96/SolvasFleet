@@ -1,11 +1,13 @@
 import React from 'react';
 import { browserHistory, Link } from'react-router';
+import { DropdownButton } from 'react-bootstrap';
 
 import Card       from '../app/Card.tsx';
 import Header     from '../app/Header.tsx';
 import InfoTable from '../tables/InfoTable.tsx';
 
 import fetchVehicles from '../../actions/fetch_vehicles.ts';
+import fetchVehiclesByType from '../../actions/fetch_vehicles_by_type.ts';
 import { th } from '../../utils/utils.ts';
 
 interface OverviewProps {
@@ -37,6 +39,43 @@ class Overview extends React.Component<OverviewProps, {}> {
   }
 }
 
+interface OptionsProps {
+	onSelect : (type : string) => void;
+}
+
+class Options extends React.Component<OptionsProps, {}>{
+
+	render(){
+		return(
+		  	<div className='row actions'>
+	      	  <div className='col-md-2'>
+	      	  	<div>
+	      	      <DropdownButton className='btn btn-default' title="Vehicle type">
+	      	      	<MenuItem onSelect={ () => this.props.onSelect('') }>All vehicles</MenuItem>
+			        <MenuItem onSelect={ () => this.props.onSelect('personal car') }>Personal Car</MenuItem>
+			        <MenuItem onSelect={ () => this.props.onSelect('van') }>Van (light truck)</MenuItem>
+			        <MenuItem onSelect={ () => this.props.onSelect('semi-trailer') }>Semi-trailer</MenuItem>
+			        <MenuItem onSelect={ () => this.props.onSelect('trailer') }>Trailer</MenuItem>
+			        <MenuItem onSelect={ () => this.props.onSelect('truck') }>Truck</MenuItem>
+			      </DropdownButton>
+			    </div>
+
+			    <div>
+			    	Todo inputfield fleet
+			    </div>
+
+			    <div>
+	      	      <Link to='/vehicles/new' className='btn btn-default pull-right'>
+                    <span className='glyphicon glyphicon-plus' aria-hidden='true'></span> Add new vehicle
+                  </Link>
+                </div>
+
+		      </div>
+		    </div>
+	    );
+	}
+}
+
 class Vehicles extends React.Component<{}, Vehicles.State> {
 
   constructor(props : {}) {
@@ -55,6 +94,18 @@ class Vehicles extends React.Component<{}, Vehicles.State> {
       });
   }
 
+  handleSelect(type : string){
+  	if(type == ''){
+  		this.fetchVehicles();
+  	}
+  	else{
+  		fetchVehiclesByType(type)
+  		  .then((data : Vehicles.Data) => {
+        this.setState({ vehicles: data.data })
+      });
+  	}
+  }
+
   render() {
     const children = React.Children.map(this.props.children,
       (child : any) => React.cloneElement(child, {
@@ -71,9 +122,7 @@ class Vehicles extends React.Component<{}, Vehicles.State> {
             <div className='col-xs-12 col-md-8'>
               <Card>
                 <div className='card-content'>
-                  <Link to='/vehicles/new' className='btn btn-default pull-right'>
-                    <span className='glyphicon glyphicon-plus' aria-hidden='true'></span> Add new vehicle
-                  </Link>
+                  <Options onSelect={ this.handleSelect }/>	
                   <Overview vehicles={ this.state.vehicles } />
                 </div>
               </Card>
