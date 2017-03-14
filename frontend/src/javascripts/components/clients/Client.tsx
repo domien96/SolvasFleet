@@ -7,6 +7,7 @@ import deleteClient from '../../actions/delete_company.ts';
 import Card         from '../app/Card.tsx';
 import Header       from '../app/Header.tsx';
 import DetailTable  from '../tables/DetailTable.tsx';
+import FleetForm    from '../fleets/FleetForm.tsx';
 
 import { th } from '../../utils/utils.ts';
 
@@ -102,6 +103,9 @@ class Client extends React.Component<Company.Props, Company.State> {
                   <h2>Fleets</h2>
                 </div>
                 <div className='card-content fleets'>
+                  <div className='fleet-form-wrapper'>
+                    <FleetForm />
+                  </div>
                   { fleets }
                 </div>
               </Card>
