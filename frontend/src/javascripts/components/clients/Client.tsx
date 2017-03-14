@@ -11,6 +11,51 @@ import FleetForm    from '../fleets/FleetForm.tsx';
 
 import { th } from '../../utils/utils.ts';
 
+interface FleetsProps {
+  fleets : Fleet[];
+}
+interface FleetsState {
+  formVisible : boolean
+}
+class Fleets extends React.Component<FleetsProps, FleetsState> {
+  constructor(props : FleetsProps) {
+    super(props);
+    this.state = { formVisible: false };
+  }
+
+  onClick() {
+    this.setState({ formVisible: true })
+  }
+
+  render() {
+    let fleets = this.props.fleets.map((f, i) => {
+      return (
+        <Link to={ '/fleets/' + f.id } key={ i } className='fleet'>
+          <h3>{ f.name }</h3>
+          <div className='actions pull-right'>
+            <h3>
+              <span className='glyphicon glyphicon-menu-right' />
+            </h3>
+          </div>
+        </Link>
+      )
+    });
+
+    return (
+      <Card>
+        <div className='card-title'>
+          <h2>Fleets</h2>
+          <span onClick={ this.onClick.bind(this) }>Click me</span>
+        </div>
+        <div className='card-content fleets'>
+          <div className='fleet-form-wrapper'>
+            <FleetForm />
+          </div>
+          { fleets }
+        </div>
+      </Card>
+    )};
+}
 class Client extends React.Component<Company.Props, Company.State> {
 
   constructor() {
@@ -52,19 +97,6 @@ class Client extends React.Component<Company.Props, Company.State> {
       th('company.address.country', country)
     ];
 
-    let fleets = this.state.fleets.map((f, i) => {
-      return (
-        <Link to={ '/fleets/' + f.id } key={ i } className='fleet'>
-          <h3>{ f.name }</h3>
-          <div className='actions pull-right'>
-            <h3>
-              <span className='glyphicon glyphicon-menu-right' />
-            </h3>
-          </div>
-        </Link>
-      )
-    });
-
     return (
       <div>
         <Header>
@@ -98,17 +130,7 @@ class Client extends React.Component<Company.Props, Company.State> {
               </Card>
             </div>
             <div className='col-xs-12 col-md-6'>
-              <Card>
-                <div className='card-title'>
-                  <h2>Fleets</h2>
-                </div>
-                <div className='card-content fleets'>
-                  <div className='fleet-form-wrapper'>
-                    <FleetForm />
-                  </div>
-                  { fleets }
-                </div>
-              </Card>
+              <Fleets fleets={ this.state.fleets } />
             </div>
           </div>
         </div>
