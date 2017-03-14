@@ -25,6 +25,8 @@ gradle-app.setting
 *.iml
 /backend/out/
 .idea
+
+/api/generated/
 /backend/backend.iml
 
 # SonarQube
