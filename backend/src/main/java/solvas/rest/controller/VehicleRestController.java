@@ -6,7 +6,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import solvas.models.Vehicle;
 import solvas.models.validators.VehicleValidator;
-import solvas.persistence.vehicle.VehicleDao;
+import solvas.persistence.api.DaoContext;
 import solvas.rest.api.mappers.VehicleAbstractMapper;
 import solvas.rest.api.models.ApiVehicle;
 import solvas.rest.query.PaginationFilter;
@@ -22,13 +22,13 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
     /**
      * Rest controller for Vehicle
      *
-     * @param dao Autowired
+     * @param daoContext Autowired
      * @param mapper The mapper class for vehicles
      * @param validator Validator for vehicles
      */
     @Autowired
-    public VehicleRestController(VehicleDao dao, VehicleAbstractMapper mapper, VehicleValidator validator) {
-        super(dao,mapper,validator);
+    public VehicleRestController(DaoContext daoContext, VehicleAbstractMapper mapper, VehicleValidator validator) {
+        super(daoContext.getVehicleDao(),mapper,validator);
     }
 
     /**
@@ -36,13 +36,15 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
      * method will contain an object, according to the API spec.
      *
      * @param pagination The pagination information.
+     * @param paginationResult The validation results of the pagination object.
      * @param filter The filters.
+     * @param result The validation results of the filterResult
      *
      * @return ResponseEntity
      */
     @RequestMapping(value = "/vehicles", method = RequestMethod.GET)
-    public ResponseEntity<?> listAll(PaginationFilter pagination, VehicleFilter filter) {
-        return super.listAll(pagination, filter);
+    public ResponseEntity<?> listAll(PaginationFilter pagination, BindingResult paginationResult, VehicleFilter filter, BindingResult result) {
+        return super.listAll(pagination, paginationResult, filter, result);
     }
 
     @Override

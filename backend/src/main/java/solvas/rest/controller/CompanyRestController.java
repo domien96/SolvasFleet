@@ -6,7 +6,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import solvas.models.Company;
 import solvas.models.validators.CompanyValidator;
-import solvas.persistence.company.CompanyDao;
+import solvas.persistence.api.DaoContext;
 import solvas.rest.api.mappers.CompanyMapper;
 import solvas.rest.api.models.ApiCompany;
 import solvas.rest.query.CompanyFilter;
@@ -23,13 +23,13 @@ public class CompanyRestController extends AbstractRestController<Company,ApiCom
     /**
      * Rest controller for Company
      *
-     * @param dao Autowired
+     * @param daoContext Autowired
      * @param mapper The mapper class for companies
      * @param validator Validator for companies
      */
     @Autowired
-    public CompanyRestController(CompanyDao dao, CompanyMapper mapper, CompanyValidator validator) {
-        super(dao, mapper, validator);
+    public CompanyRestController(DaoContext daoContext, CompanyMapper mapper, CompanyValidator validator) {
+        super(daoContext.getCompanyDao(), mapper, validator);
     }
 
 
@@ -40,13 +40,15 @@ public class CompanyRestController extends AbstractRestController<Company,ApiCom
      * method will contain an object, according to the API spec.
      *
      * @param pagination The pagination information.
+     * @param paginationResult The validation results of the pagination object.
      * @param filter The filters.
+     * @param result The validation results of the filterResult
      *
      * @return ResponseEntity
      */
     @RequestMapping(value = "/companies", method = RequestMethod.GET)
-    public ResponseEntity<?> listAll(PaginationFilter pagination, CompanyFilter filter) {
-        return super.listAll(pagination, filter);
+    public ResponseEntity<?> listAll(PaginationFilter pagination, BindingResult paginationResult, CompanyFilter filter, BindingResult result) {
+        return super.listAll(pagination, paginationResult, filter, result);
     }
 
     @Override

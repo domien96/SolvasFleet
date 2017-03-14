@@ -6,7 +6,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import solvas.models.Role;
 import solvas.models.validators.RoleValidator;
-import solvas.persistence.role.RoleDao;
+import solvas.persistence.api.DaoContext;
 import solvas.rest.api.mappers.RoleAbstractMapper;
 import solvas.rest.api.models.ApiRole;
 import solvas.rest.query.PaginationFilter;
@@ -23,13 +23,13 @@ public class RoleRestController extends AbstractRestController<Role,ApiRole> {
     /**
      * Rest controller for Role
      *
-     * @param dao Autowired
+     * @param daoContext Autowired
      * @param mapper The mapper class for roles
      * @param validator Validator for roles
      */
     @Autowired
-    public RoleRestController(RoleDao dao, RoleAbstractMapper mapper, RoleValidator validator) {
-        super(dao,mapper,validator);
+    public RoleRestController(DaoContext daoContext, RoleAbstractMapper mapper, RoleValidator validator) {
+        super(daoContext.getRoleDao(),mapper,validator);
     }
 
     /**
@@ -37,13 +37,15 @@ public class RoleRestController extends AbstractRestController<Role,ApiRole> {
      * method will contain an object, according to the API spec.
      *
      * @param pagination The pagination information.
+     * @param paginationResult The validation results of the pagination object.
      * @param filter The filters.
+     * @param result The validation results of the filterResult
      *
      * @return ResponseEntity
      */
     @RequestMapping(value = "/roles", method = RequestMethod.GET)
-    public ResponseEntity<?> listAll(PaginationFilter pagination, RoleFilter filter) {
-        return super.listAll(pagination, filter);
+    public ResponseEntity<?> listAll(PaginationFilter pagination, BindingResult paginationResult, RoleFilter filter, BindingResult result) {
+        return super.listAll(pagination, paginationResult, filter, result);
     }
 
 

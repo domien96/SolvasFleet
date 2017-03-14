@@ -6,7 +6,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import solvas.models.User;
 import solvas.models.validators.UserValidator;
-import solvas.persistence.user.UserDao;
+import solvas.persistence.api.DaoContext;
 import solvas.rest.api.mappers.UserAbstractMapper;
 import solvas.rest.api.models.ApiUser;
 import solvas.rest.query.PaginationFilter;
@@ -22,13 +22,13 @@ public class UserRestController extends AbstractRestController<User,ApiUser> {
     /**
      * Rest controller for User
      *
-     * @param dao Autowired
+     * @param daoContext Autowired
      * @param mapper The mapper class for users
      * @param validator Validator for users
      */
     @Autowired
-    public UserRestController(UserDao dao, UserAbstractMapper mapper, UserValidator validator) {
-        super(dao,mapper,validator);
+    public UserRestController(DaoContext daoContext, UserAbstractMapper mapper, UserValidator validator) {
+        super(daoContext.getUserDao(),mapper,validator);
     }
 
     /**
@@ -36,13 +36,15 @@ public class UserRestController extends AbstractRestController<User,ApiUser> {
      * method will contain an object, according to the API spec.
      *
      * @param pagination The pagination information.
+     * @param paginationResult The validation results of the pagination object.
      * @param filter The filters.
+     * @param result The validation results of the filterResult
      *
      * @return ResponseEntity
      */
     @RequestMapping(value = "/users", method = RequestMethod.GET)
-    public ResponseEntity<?> listAll(PaginationFilter pagination, UserFilter filter) {
-        return super.listAll(pagination, filter);
+    public ResponseEntity<?> listAll(PaginationFilter pagination, BindingResult paginationResult, UserFilter filter, BindingResult result) {
+        return super.listAll(pagination, paginationResult, filter, result);
     }
 
     @Override
