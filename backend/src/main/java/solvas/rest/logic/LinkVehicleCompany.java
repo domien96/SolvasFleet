@@ -4,20 +4,41 @@ import solvas.models.Fleet;
 import solvas.models.FleetSubscription;
 import solvas.models.SubFleet;
 import solvas.models.Vehicle;
-import solvas.persistence.company.CompanyDao;
-import solvas.persistence.fleet.FleetDao;
-import solvas.persistence.fleetSubscription.FleetSubscriptionDao;
-import solvas.persistence.subFleet.SubFleetDao;
+import solvas.persistence.api.DaoContext;
+import solvas.persistence.api.dao.FleetDao;
+import solvas.persistence.api.dao.FleetSubscriptionDao;
+import solvas.persistence.api.dao.SubFleetDao;
 
 import java.time.LocalDate;
 import java.util.Collection;
 
 /**
- * Created by steve on 12/03/2017.
+ * LinkVehicleCompany is a helper class part of the backend logic/service layer. This specific class helps when
+ * inserting a vehicle. Since our model(db) is different than the model of the Api, a conversion is required.
+ * A vehicle has no direct relation with a fleet, so one must be build/found. This class will check/create a
+ * route from a vehicle to a fleet.
+ *
+ * Todo rename Company-> fleet
+ * Todo find a better way to model logic
+ *
+ *
+ * @author sjabasti
+ * @author nistrijb
  */
 public class LinkVehicleCompany {
-    public void run(int companyId, Vehicle vehicle, FleetSubscriptionDao fleetSubscriptionDao
-            , SubFleetDao subFleetDao, FleetDao fleetDao, CompanyDao companyDao) throws  InconsistentDbException {
+    /**
+     * This will create a link or correct a link between vehicles and fleets
+     * @param fleetId destination fleet
+     * @param vehicle start vehicle
+     * @param daoContext dao's needed for this complex operation
+     * @throws InconsistentDbException any inconsistencies in the database will result in this error
+     *
+     * Todo milestone 2, refactor for updating
+     */
+    public void run(int fleetId, Vehicle vehicle, DaoContext daoContext) throws  InconsistentDbException {
+        FleetSubscriptionDao fleetSubscriptionDao = daoContext.getFleetSubscriptionDao();
+        SubFleetDao subFleetDao = daoContext.getSubFleetDao();
+        FleetDao fleetDao = daoContext.getFleetDao();
         //Find active subscription
         FleetSubscription activeFleetSubscription=null;
         for (FleetSubscription subs: fleetSubscriptionDao.withVehicleId(vehicle.getId())){
@@ -33,30 +54,13 @@ public class LinkVehicleCompany {
             }
         }
         activeFleetSubscription = new FleetSubscription();
-        activeFleetSubscription.setEndDate(LocalDate.now().plusYears(10));
         activeFleetSubscription.setStartDate(LocalDate.now());
         activeFleetSubscription.setVehicle(vehicle);
 
-        //Search Fleet
-        Fleet fleet = null;
-        Collection<Fleet> fleetsWithCompanyId = fleetDao.withCompanyId(companyId);
-        for(Fleet fl: fleetsWithCompanyId){
-            if (fleet==null){
-                fleet=fl;
-            } else {
-                throw new InconsistentDbException();
-                //Fleets is not yet implemented in the api
-            }
-        }
-        if (fleet==null){
-            //Create new default fleet
-            fleet = new Fleet();
-            fleet.setId(0);
-            fleet.setCompany(companyDao.find(companyId));
-            fleet.setName("default");
-            fleet=fleetDao.save(fleet);
 
-        }
+        // If we cannot find a fleet, we cannot make a new one, and we'll just let this
+        // crash. We don't know the company, so we cannot create a fleet.
+        Fleet fleet = fleetDao.find(fleetId);
 
 
         //Find appropriate sub fleet
