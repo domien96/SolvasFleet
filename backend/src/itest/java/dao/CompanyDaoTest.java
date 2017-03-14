@@ -19,6 +19,7 @@ import javax.transaction.Transactional;
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.core.Is.is;
 
@@ -72,8 +73,10 @@ public class CompanyDaoTest {
     @Test
     public void updateCompany()
     {
+        Company old = companyDao.find(30);
         company.setId(30);
-        companyDao.save(company);
+        company.setRepresentatives(old.getRepresentatives());
+        companyDao.update(company);
         assertCompanies(companyDao.find(30),company);
     }
 

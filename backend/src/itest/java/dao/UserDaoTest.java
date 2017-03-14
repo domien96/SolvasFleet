@@ -52,14 +52,14 @@ public class UserDaoTest {
     /**
      * Test: deleting a user from the database
      */
-    @Ignore //Deleting a user requires deleting the role first?
+    @Ignore //Not sure yet whether we want to have this option. Maybe we should archive users instead
     @Test(expected = EntityNotFoundException.class)
     public void destroyUser()
     {
         User u=userDao.find(30); //anders exception
         userDao.destroy(u);
         assertThat(userDao.findAll(),hasSize(99));
-        userDao.find(user.getId());
+        userDao.find(30);
     }
 
     /**
@@ -70,7 +70,8 @@ public class UserDaoTest {
     {
         User old = userDao.find(30); //exists
         user.setId(30);
-        userDao.save(user);
+        user.setCompanies(old.getCompanies());
+        userDao.update(user);
         assertUsers(user,userDao.find(30));
 
     }
@@ -100,6 +101,6 @@ public class UserDaoTest {
         assertThat(actual.getFirstName(),is(equalTo(expected.getFirstName())));
         assertThat(actual.getLastName(),is(equalTo(expected.getLastName())));
         assertThat(actual.getEmail(),is(equalTo(expected.getEmail())));
-        assertThat(actual.getPassword(),is(equalTo(expected.getEmail())));
+        assertThat(actual.getPassword(),is(equalTo(expected.getPassword())));
     }
 }

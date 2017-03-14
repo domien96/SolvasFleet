@@ -1,6 +1,7 @@
 package dao;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,7 @@ import static org.hamcrest.core.IsEqual.equalTo;
 /**
  * Integration tests of RoleDao
  */
+@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles("test")
 @ContextConfiguration(classes = {HibernateConfig.class,HibernateTestConfig.class},loader = AnnotationConfigContextLoader.class)
@@ -46,7 +48,6 @@ public class RoleDaoTest {
     public void setUp()
     {
         role=random(Role.class,"id");
-        System.out.println("teeeeeeeeeeeeeeeeeeeeeeeee"+ role.getUpdatedAt());
         role.getCompany().setId(0);
         companyDao.save(role.getCompany());
         role.getUser().setId(0);
