@@ -5,7 +5,8 @@
   "main": "src/index.tsx",
   "scripts": {
     "dev": "webpack -d --watch",
-    "build": "webpack -p"
+    "build": "webpack -p",
+    "typings": "typings i"
   },
   "repository": {
     "type": "git",
