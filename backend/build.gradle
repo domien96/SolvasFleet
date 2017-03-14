@@ -12,6 +12,7 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
+apply plugin: 'jacoco'
  
 jar {
     baseName = 'SolvasFleet'
@@ -56,6 +57,7 @@ configurations {
     itestRuntime.extendsFrom testRuntime
 }
 
+
 sourceSets {
     itest {
         compileClasspath += main.output + test.output
@@ -70,4 +72,17 @@ sourceSets {
 task itest(type: Test) {
     testClassesDir = sourceSets.itest.output.classesDir
     classpath = sourceSets.itest.runtimeClasspath
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.destination "${buildDir}/jacocoHtml"
+    }
+}
+
+task jacocoReport(type: JacocoReport){
+    sourceSets sourceSets.main
+    executionData test, itest
 }
