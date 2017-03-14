@@ -119,8 +119,6 @@ public class HibernateConfig {
         properties.put(AvailableSettings.DIALECT, env.getRequiredProperty("hibernate.dialect"));
         properties.put(AvailableSettings.CURRENT_SESSION_CONTEXT_CLASS, env.getRequiredProperty("hibernate.current.session.context.class"));
         properties.put(AvailableSettings.STATEMENT_BATCH_SIZE, env.getRequiredProperty("hibernate.batch.size"));
-
-        properties.setProperty("hibernate.hbm2ddl.auto", "update");
         return properties;
     }
 
