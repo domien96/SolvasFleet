@@ -14,14 +14,11 @@ import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.dao.CompanyDao;
 import solvas.persistence.hibernate.HibernateConfig;
 
-
 import javax.transaction.Transactional;
 
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.core.Is.is;
 
 /**
