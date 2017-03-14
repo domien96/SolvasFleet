@@ -52,6 +52,10 @@ $fleet-height: 60px;
 
     & > .actions {
       width: 44px;
+
+      .glyphicon {
+        cursor: pointer;
+      }
     }
 
     input {
