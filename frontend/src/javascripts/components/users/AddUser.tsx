@@ -12,7 +12,7 @@ class AddUser extends React.Component<{}, User.UForm.State> {
   constructor() {
     super();
     this.state = {
-      errors: [ { field: 'first_name', error: 'null' }],
+      errors: [],
       user: {}
     };
     this.handleChange = this.handleChange.bind(this);
@@ -27,13 +27,19 @@ class AddUser extends React.Component<{}, User.UForm.State> {
 
   public onSubmit(e : any) : void {
     e.preventDefault();
+    let setErrors = (e : Form.Error[]) => this.setState({ errors: e });
 
     createUser(this.state.user)
     .then(function(response) {
-      return response.json()
-    })
-    .then(() => {
-      browserHistory.push('/users');
+      return response.json().then(function(data) {
+        if (response.ok) {
+          browserHistory.push('/users/' + data.id);
+        } else {
+          setErrors(data.errors.map(function(e : any) {
+            return { field: e.field, error: 'null' };
+          }));
+        }
+      });
     });
   }
 

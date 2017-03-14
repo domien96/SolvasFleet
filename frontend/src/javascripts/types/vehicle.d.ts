@@ -1,5 +1,5 @@
 namespace Vehicle {
-  export interface Props { 
+  export interface Props {
     [ params : string ] : { [ id : string ] : number };
     fetchVehicles : () => void;
   }
@@ -42,5 +42,5 @@ interface Vehicle {
   leasingCompany? : string;
   value?          : number;
   fleet?          : number
-  [key : string]  : string; 
+  [key : string]  : string;
 }

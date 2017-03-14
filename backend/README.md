@@ -70,7 +70,7 @@ De applicatie bestaat uit 3 pakketten:
 
 De persistentielaag slaat de modellen op in een PostgreSQL-databank. We gebruiken hiervoor Hibernate.
 De configuratie voor Hibernate is te vinden in het bestand `resources/hibernate.properties` en de klasse
-`solvas.persistence.HibernateConfig`.
+`solvas.persistence.hibernate.HibernateConfig`.
 
 De mapping van de modellen naar de databank gebeurt in `.hbm.xml`-bestanden, die te vinden zijn in de map 
 `resources/mappings`.

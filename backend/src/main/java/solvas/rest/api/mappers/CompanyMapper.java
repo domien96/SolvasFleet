@@ -2,37 +2,25 @@ package solvas.rest.api.mappers;
 
 import org.springframework.stereotype.Component;
 import solvas.models.Company;
-import solvas.persistence.company.CompanyDao;
-import solvas.persistence.fleet.FleetDao;
-import solvas.persistence.fleetSubscription.FleetSubscriptionDao;
-import solvas.persistence.role.RoleDao;
-import solvas.persistence.subFleet.SubFleetDao;
-import solvas.persistence.user.UserDao;
-import solvas.persistence.vehicle.VehicleDao;
-import solvas.persistence.vehicleType.VehicleTypeDao;
+import solvas.persistence.api.DaoContext;
 import solvas.rest.api.models.ApiAddress;
 import solvas.rest.api.models.ApiCompany;
 
 /**
- * Created by steve on 11/03/2017.
+ * Mapper between Company and ApiCompany
  */
 @Component
 public class CompanyMapper extends AbstractMapper<Company,ApiCompany> {
 
+    private String rootPath="/companies/";
+
     /**
-     * TODO document
-     * @param roleDao
-     * @param companyDao
-     * @param userDao
-     * @param vehicleDao
-     * @param vehicleTypeDao
-     * @param fleetSubscriptionDao
-     * @param fleetDao
-     * @param subFleetDao
+     * Create a mapper between Company and ApiCompany
+     *
+     * @param daoContext The context for Dao's
      */
-    public CompanyMapper(RoleDao roleDao, CompanyDao companyDao, UserDao userDao, VehicleDao vehicleDao
-            , VehicleTypeDao vehicleTypeDao, FleetSubscriptionDao fleetSubscriptionDao, FleetDao fleetDao, SubFleetDao subFleetDao) {
-        super(roleDao, companyDao, userDao, vehicleDao, vehicleTypeDao, fleetSubscriptionDao, fleetDao, subFleetDao);
+    public CompanyMapper(DaoContext daoContext) {
+        super(daoContext);
     }
 
     @Override
@@ -43,7 +31,7 @@ public class CompanyMapper extends AbstractMapper<Company,ApiCompany> {
 
         if (company.getId()!=0) {
             //update
-            company = companyDao.find(company.getId());
+            company = daoContext.getCompanyDao().find(company.getId());
             if (company==null){
                 company=new Company();
             }
@@ -68,8 +56,6 @@ public class CompanyMapper extends AbstractMapper<Company,ApiCompany> {
             company.setAddressPostalCode(company.getAddressPostalCode());
             company.setAddressCountry(company.getAddressCountry());
         }
-        company.setUpdatedAt(null);
-        company.setCreatedAt(company.getCreatedAt());
         return company;
     }
 
@@ -88,7 +74,7 @@ public class CompanyMapper extends AbstractMapper<Company,ApiCompany> {
         apiCompany.getAddress().setStreet(company.getAddressStreet());
         apiCompany.setCreatedAt(company.getCreatedAt());
         apiCompany.setUpdatedAt(company.getUpdatedAt());
-        apiCompany.setUrl(company.getUrl());
+        apiCompany.setUrl(rootPath+apiCompany.getId());
         return apiCompany;
     }
 }

@@ -1,6 +1,7 @@
 package solvas.rest.query;
 
 import solvas.models.User;
+import solvas.persistence.api.Filter;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;
@@ -14,7 +15,7 @@ import java.util.List;
  *
  * @author Niko Strijbol
  */
-public class UserFilter implements Filterable<User> {
+public class UserFilter implements Filter<User> {
 
     private String email;
     private String firstName;
