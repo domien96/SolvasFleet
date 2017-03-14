@@ -8,9 +8,9 @@ namespace Fleet {
   }
 
   export type Field =
-    'id' | 'name';
+    'id' | 'name' | 'company';
 
-  namespace New {
+  namespace Form {
     export interface Props { }
 
     export interface State {
@@ -18,12 +18,12 @@ namespace Fleet {
       fleet   : Fleet;
     }
   }
-
 }
 
 interface Fleet {
   id?         : number;
   name?       : string;
   size?       : number;
+  company?    : number;
 }
 

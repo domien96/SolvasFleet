@@ -2,6 +2,7 @@
 
 @import './cards.scss';
 @import './404.scss';
+@import './fleets.scss';
 @import './layout.scss';
 @import './nav.scss';
 @import './user.scss';
@@ -35,4 +36,16 @@ body {
 h1, h2, h3, h4, h5, h6, h7 {
   margin: 0;
   font-weight: 200;
+}
+
+/* ACTIONS */
+
+.actions {
+  .btn {
+    margin-right: 5px;
+
+    &:last-child {
+      margin-right: 0
+    }
+  }
 }

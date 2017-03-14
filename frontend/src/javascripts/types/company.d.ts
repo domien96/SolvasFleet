@@ -1,10 +1,11 @@
 namespace Company {
-  export interface Props { 
+  export interface Props {
     [ params : string ] : { [ id : string ] : number };
   }
 
   export interface State {
     company : Company;
+    fleets : Fleet[];
   }
 
   export type Field =
@@ -36,6 +37,6 @@ interface Company {
                           [ street : string ] : string,
                           [ postalCode : string ] : string,
                           [ houseNumber : string ] : string  }
-  [key : string]: string; 
+  [key : string]: string;
 }
 

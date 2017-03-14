@@ -1,0 +1,73 @@
+@import './variables.scss';
+
+$fleet-height: 60px;
+
+.card-content.fleets {
+  padding: 0;
+
+  .fleet, .fleet-form {
+    display: block;
+    width: 100%;
+    color: $body-color;
+    height: $fleet-height;
+    border-bottom: 1px solid $gray-lighter;
+    padding-left: 30px;
+
+    h3 {
+      display: inline-block;
+    }
+
+    .actions {
+      padding-right: 20px;
+      font-size: 120;
+      color: $gray-lighter;
+    }
+  }
+
+  .fleet {
+    padding-top: 15px;
+
+    &:hover {
+      background: lighten(#000, 97.5%);
+      cursor: pointer;
+    }
+
+    &:last-child {
+      border-bottom: 0;
+    }
+
+  }
+
+  .fleet-form {
+    display: table;
+    margin-bottom: 0;
+
+    & > h3, & > span, & > .actions {
+      display: table-cell;
+    }
+
+    & > h3 {
+      width: 1%;
+    }
+
+    & > .actions {
+      width: 44px;
+
+      .glyphicon {
+        cursor: pointer;
+      }
+    }
+
+    input {
+      height: $fleet-height;
+      width: 100%;
+      border: 0;
+      font-size: 24px;
+      font-weight: 200;
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+}
