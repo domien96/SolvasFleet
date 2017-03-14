@@ -5,7 +5,8 @@
   "main": "src/index.tsx",
   "scripts": {
     "dev": "webpack -d --watch",
-    "build": "webpack -p"
+    "build": "webpack -p",
+    "typings": "typings i"
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,7 @@
     "react-dom": "^15.4.2",
     "react-router": "^3.0.2",
     "typescript": "^2.2.1",
+    "typings": "^2.1.0",
     "webpack": "^2.2.1",
     "whatwg-fetch": "^2.0.3"
   },
