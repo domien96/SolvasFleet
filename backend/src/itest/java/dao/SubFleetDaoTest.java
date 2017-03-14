@@ -11,9 +11,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.transaction.annotation.Transactional;
 import solvas.models.SubFleet;
-import solvas.persistence.EntityNotFoundException;
-import solvas.persistence.HibernateConfig;
-import solvas.persistence.subFleet.SubFleetDao;
+import solvas.persistence.api.EntityNotFoundException;
+import solvas.persistence.api.dao.SubFleetDao;
+import solvas.persistence.hibernate.HibernateConfig;
 
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
 import static org.hamcrest.MatcherAssert.assertThat;

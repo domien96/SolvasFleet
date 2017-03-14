@@ -11,17 +11,16 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.transaction.annotation.Transactional;
 import solvas.models.Role;
-import solvas.persistence.EntityNotFoundException;
-import solvas.persistence.HibernateConfig;
-import solvas.persistence.company.CompanyDao;
-import solvas.persistence.role.RoleDao;
-import solvas.persistence.user.UserDao;
+import solvas.persistence.api.EntityNotFoundException;
+import solvas.persistence.api.dao.CompanyDao;
+import solvas.persistence.api.dao.RoleDao;
+import solvas.persistence.api.dao.UserDao;
+import solvas.persistence.hibernate.HibernateConfig;
 
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 
@@ -108,7 +107,6 @@ public class RoleDaoTest {
     private void assertRoles(Role expected, Role actual)
     {
         assertThat(actual.getId(),is(equalTo(expected.getId())));
-        assertThat(actual.getUrl(),is(equalTo(expected.getUrl())));
         assertThat(actual.getFunction(),is(equalTo(expected.getFunction())));
     }
 }

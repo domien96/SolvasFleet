@@ -15,8 +15,8 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import solvas.models.Vehicle;
 import solvas.models.validators.VehicleValidator;
-import solvas.persistence.EntityNotFoundException;
-import solvas.persistence.vehicle.VehicleDao;
+import solvas.persistence.api.EntityNotFoundException;
+import solvas.persistence.api.dao.VehicleDao;
 import solvas.rest.api.mappers.VehicleAbstractMapper;
 import solvas.rest.api.models.ApiVehicle;
 import solvas.rest.controller.VehicleRestController;
@@ -188,11 +188,10 @@ public class VehicleRestControllerTest {
                 .andExpect(jsonPath("url").value(vehicle.getUrl()))
                 .andExpect(jsonPath("licensePlate").value(vehicle.getLicensePlate()))
                 .andExpect(jsonPath("value").value(vehicle.getValue()))
-                .andExpect(jsonPath("chassisNumber").value(vehicle.getChassisNumber()))
+                //.andExpect(jsonPath("chassisNumber").value(vehicle.get()))
                 .andExpect(jsonPath("mileage").value(vehicle.getMileage()))
                 .andExpect(jsonPath("model").value(vehicle.getModel()))
                 .andExpect(jsonPath("brand").value(vehicle.getBrand()))
-                .andExpect(jsonPath("company").value(vehicle.getCompany()))
                 .andExpect(jsonPath("leasingCompany").value(vehicle.getLeasingCompany()))
                 .andExpect(jsonPath("type").value(vehicle.getType()))
                 .andExpect(jsonPath("year").value(vehicle.getYear()));

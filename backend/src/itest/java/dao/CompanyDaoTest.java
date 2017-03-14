@@ -10,9 +10,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import solvas.models.Company;
-import solvas.persistence.EntityNotFoundException;
-import solvas.persistence.HibernateConfig;
-import solvas.persistence.company.CompanyDao;
+import solvas.persistence.api.EntityNotFoundException;
+import solvas.persistence.api.dao.CompanyDao;
+import solvas.persistence.hibernate.HibernateConfig;
+
 
 import javax.transaction.Transactional;
 
@@ -48,7 +49,7 @@ public class CompanyDaoTest {
     @Test
     public void addCompany()
     {
-        companyDao.save(company);
+        companyDao.create(company);
         assertThat(companyDao.findAll(),hasSize(101));
         assertCompanies(company,companyDao.find(company.getId()));
     }
@@ -86,7 +87,7 @@ public class CompanyDaoTest {
     @Test
     public void findCompanyById()
     {
-        companyDao.save(company);
+        companyDao.create(company);
         //Dao automatically changes the id of the object aswell
         assertCompanies(company,companyDao.find(company.getId()));
     }
@@ -118,7 +119,6 @@ public class CompanyDaoTest {
         assertThat(actual.getAddressCity(),is(IsEqual.equalTo(expected.getAddressCity())));
         assertThat(actual.getAddressCountry(),is(IsEqual.equalTo(expected.getAddressCountry())));
         assertThat(actual.getAddressHouseNumber(),is(IsEqual.equalTo(expected.getAddressHouseNumber())));
-        assertThat(actual.getUrl(),is(IsEqual.equalTo(expected.getUrl())));
         assertThat(actual.getVatNumber(),is(IsEqual.equalTo(expected.getVatNumber())));
     }
 }

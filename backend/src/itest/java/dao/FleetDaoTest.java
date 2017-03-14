@@ -12,9 +12,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.transaction.annotation.Transactional;
 import solvas.models.Fleet;
-import solvas.persistence.EntityNotFoundException;
-import solvas.persistence.HibernateConfig;
-import solvas.persistence.fleet.FleetDao;
+import solvas.persistence.api.EntityNotFoundException;
+import solvas.persistence.api.dao.FleetDao;
+import solvas.persistence.hibernate.HibernateConfig;
 
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
 import static org.hamcrest.MatcherAssert.assertThat;

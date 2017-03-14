@@ -9,10 +9,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import solvas.models.Vehicle;
-import solvas.persistence.EntityNotFoundException;
-import solvas.persistence.HibernateConfig;
-import solvas.persistence.company.CompanyDao;
-import solvas.persistence.vehicle.VehicleDao;
+import solvas.persistence.api.EntityNotFoundException;
+import solvas.persistence.api.dao.CompanyDao;
+import solvas.persistence.api.dao.VehicleDao;
+import solvas.persistence.hibernate.HibernateConfig;
 
 import javax.transaction.Transactional;
 
@@ -104,7 +104,6 @@ public class VehicleDaoTest {
     private void assertVehicles(Vehicle expected, Vehicle actual)
     {
         assertThat(actual.getId(),is(equalTo(expected.getId())));
-        assertThat(actual.getUrl(),is(equalTo(expected.getUrl())));
         assertThat(actual.getLicensePlate(),is(equalTo(expected.getLicensePlate())));
         assertThat(actual.getValue(),is(equalTo(expected.getValue())));
         assertThat(actual.getChassisNumber(),is(equalTo(expected.getChassisNumber())));
