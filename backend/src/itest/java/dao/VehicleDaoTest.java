@@ -79,6 +79,7 @@ public class VehicleDaoTest {
         updated.setId(30);
         updated.setLeasingCompany(old.getLeasingCompany());
         updated.getType().setId(2);
+        updated.setFleetSubscriptions(old.getFleetSubscriptions());
         vehicleDao.update(updated);
         assertVehicles(updated,vehicleDao.find(30));
     }
