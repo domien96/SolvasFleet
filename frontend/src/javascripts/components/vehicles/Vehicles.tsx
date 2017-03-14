@@ -68,7 +68,8 @@ class Options extends React.Component<OptionsProps, OptionsState>{
 			        <MenuItem onSelect={ () => this.props.onSelect('truck') }>Truck</MenuItem>
 			      </DropdownButton>
 			    </div>
-			      
+			  </div>    
+			  <div className='col-md-7 col-md-offset-1'>
 			    <div>
 			    	<form>
 			        <label> Fleet ID:
@@ -76,13 +77,13 @@ class Options extends React.Component<OptionsProps, OptionsState>{
 			        </label>
 			      </form>
 			    </div>
-
+			  </div>
+	      	  <div className='col-md-2'>
 			    <div>
 	      	      <Link to='/vehicles/new' className='btn btn-default pull-right'>
                     <span className='glyphicon glyphicon-plus' aria-hidden='true'></span> Add new vehicle
                   </Link>
                 </div>
-
 		      </div>
 		    </div>
 	    );
