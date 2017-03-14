@@ -16,6 +16,7 @@ class Client extends React.Component<Company.Props, Company.State> {
   constructor() {
     super();
     this.state = { company : {} };
+    this.state.company.address = {};
     this.deleteClient = this.deleteClient.bind(this);
   }
 
@@ -34,13 +35,18 @@ class Client extends React.Component<Company.Props, Company.State> {
 
   render() {
     var { name, vatNumber, phoneNumber, address } = this.state.company;
+    var { street, houseNumber, city, postalCode, country } = address;
+
     var id = this.props.params.id;
-    console.log(id)
 
     const data = [
       th('company.vatNumber', vatNumber),
       th('company.phoneNumber', phoneNumber),
-      th('company.address', address)
+      th('company.address.street', street),
+      th('company.address.houseNumber', houseNumber),
+      th('company.address.postalCode', postalCode),
+      th('company.address.city', city),
+      th('company.address.country', country)
     ];
 
     return (

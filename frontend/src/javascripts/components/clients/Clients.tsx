@@ -30,7 +30,6 @@ class Overview extends React.Component<OverviewProps, {}> {
       th('name', 'company.name'),
       th('vatNumber', 'company.vatNumber'),
       th('phoneNumber', 'company.phoneNumber'),
-      th('address', 'company.address')
     ];
 
     return (
@@ -50,7 +49,7 @@ class Clients extends React.Component<{}, Companies.State> {
   componentDidMount() {
     fetchClients()
       .then((data : Companies.Data) => {
-        this.setState({ companies: data.companies })
+        this.setState({ companies: data.data })
       });
   }
 
