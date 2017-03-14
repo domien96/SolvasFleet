@@ -44,10 +44,15 @@ interface OptionsProps {
 }
 
 interface OptionsState {
-	fleetID : number;
+	fleetId : number;
 }
 
 class Options extends React.Component<OptionsProps, OptionsState>{
+
+	constructor(){
+		super();
+		this.state = { fleetId : null }
+	}
 
 	render(){
 		return(
@@ -63,13 +68,13 @@ class Options extends React.Component<OptionsProps, OptionsState>{
 			        <MenuItem onSelect={ () => this.props.onSelect('truck') }>Truck</MenuItem>
 			      </DropdownButton>
 			    </div>
-			      <form>
+			      
+			    <div>
+			    	<form>
 			        <label> Fleet ID:
-			          <input name='fleetID' type='number' value={ this.state.fleetID } onChange={ () => this.props.onChange(this.state.fleetID) } />
+			          <input name='fleetID' type='number' value={ this.state.fleetId } onChange={ () => this.props.onChange(this.state.fleetId) } />
 			        </label>
 			      </form>
-			    <div>
-			    	Todo inputfield fleet
 			    </div>
 
 			    <div>
