@@ -6,6 +6,7 @@ Make sure you have [https://nodejs.org/en/](NodeJS).
 Run the following command to install all modules.
 
 `npm install`
+`npm run typings`
 
 Om de site te builden in production gebruik je
 `npm run build`
