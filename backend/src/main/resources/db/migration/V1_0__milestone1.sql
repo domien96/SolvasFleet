@@ -53,7 +53,7 @@ CREATE TABLE vehicles (
   kilometer_count INT NOT NULL,
   year INT NOT NULL,
   leasing_company_id INT REFERENCES companies(company_id),
-  value INT NOT NULL,
+  value INT,
   brand VARCHAR(255) NOT NULL,
   vehicletype_id INT NOT NULL REFERENCES vehicle_types(vehicletype_id),
   updated_at TIMESTAMP NOT NULL,
@@ -63,9 +63,9 @@ CREATE TABLE vehicles (
 
 CREATE TABLE roles (
   role_id SERIAL NOT NULL,
-  function VARCHAR(255) NOT NULL,
-  company_id INT REFERENCES companies(company_id),
-  user_id INT REFERENCES users(user_id),
+  function VARCHAR(255) NOT NULL, --Todo change to function?
+  company_id INT NOT NULL REFERENCES companies(company_id),
+  user_id INT NOT NULL REFERENCES users(user_id), -- ToDo add endate, startDate
   updated_at TIMESTAMP NOT NULL,
   created_at TIMESTAMP NOT NULL,
   PRIMARY KEY (role_id)
