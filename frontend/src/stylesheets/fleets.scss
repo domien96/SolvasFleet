@@ -1,0 +1,34 @@
+@import './variables.scss';
+
+.card-content.fleets {
+  padding: 0;
+
+  .fleet {
+    display: block;
+    width: 100%;
+    color: $body-color;
+    padding-top: 15px;
+    padding-left: 30px;
+    height: 60px;
+    border-bottom: 1px solid $gray-lighter;
+
+    &:last-child {
+      border-bottom: 0;
+    }
+
+    &:hover {
+      background: lighten(#000, 97.5%);
+      cursor: pointer;
+    }
+
+    h3 {
+      display: inline-block;
+    }
+
+    .actions {
+      padding-right: 20px;
+      font-size: 120;
+      color: $gray-lighter;
+    }
+  }
+}

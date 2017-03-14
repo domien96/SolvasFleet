@@ -18,12 +18,12 @@ namespace Fleet {
       fleet   : Fleet;
     }
   }
-
 }
 
 interface Fleet {
   id?         : number;
   name?       : string;
   size?       : number;
+  company?    : number;
 }
 
