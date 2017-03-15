@@ -70,13 +70,13 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle,ApiVehicle> {
         if (api.getType() != null) {
             vehicle.setType(new VehicleTypeAbstractMapper(daoContext).convertToModel(api.getType()));
         }
+
         // Create a link between everything.
-        if (api.getFleet() != 0) {
+        if (api.getFleet() > -1) {
 
             LocalDate now = LocalDate.now();
-            Fleet fleet = daoContext.getFleetDao().find(api.getFleet());
 
-            // TODO: do this without saving car twice.
+            // TODO: do this without saving vehicle twice.
             daoContext.getVehicleDao().save(vehicle);
 
             // Get active subscriptions
@@ -84,17 +84,28 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle,ApiVehicle> {
             // If this is not a new vehicle, adjust the older stuff if needed.
             if (present.isPresent()) {
                 FleetSubscription subscription = present.get();
-                // This is a new subscription.
-                Fleet subscriptionFleet = subscription.getSubFleet().getFleet();
-                if (subscriptionFleet.getId() != fleet.getId()) {
+                // Remove the vehicle from the fleet if the ID is 0.
+                if (api.getFleet() == 0) {
                     subscription.setEndDate(now);
                     daoContext.getFleetSubscriptionDao().save(subscription);
-                    // Add a new fleet
-                    linkFleet(vehicle, fleet, now);
+                } else {
+                    Fleet fleet = daoContext.getFleetDao().find(api.getFleet());
+                    // This is a new subscription.
+                    Fleet subscriptionFleet = subscription.getSubFleet().getFleet();
+                    if (subscriptionFleet.getId() != fleet.getId()) {
+                        subscription.setEndDate(now);
+                        daoContext.getFleetSubscriptionDao().save(subscription);
+                        // Add a new fleet
+                        linkFleet(vehicle, fleet, now);
+                    }
                 }
             } else {
-                // If there is no existing subscription, simply add a new one.
-                linkFleet(vehicle, fleet, now);
+                // If the code is 0, there was no active subscription, so do nothing.
+                if (api.getFleet()  > 0) {
+                    // If there is no existing subscription, simply add a new one.
+                    Fleet fleet = daoContext.getFleetDao().find(api.getFleet());
+                    linkFleet(vehicle, fleet, now);
+                }
             }
         }
 
