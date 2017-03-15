@@ -3,13 +3,17 @@ package solvas.rest.api.mappers;
 
 import org.springframework.stereotype.Component;
 import solvas.models.Fleet;
+import solvas.models.FleetSubscription;
+import solvas.models.SubFleet;
 import solvas.models.Vehicle;
 import solvas.persistence.api.DaoContext;
-import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.api.models.ApiVehicle;
-import solvas.rest.logic.VehicleToFleet;
 import solvas.rest.logic.InconsistentDbException;
-import solvas.rest.logic.LinkVehicleCompany;
+import solvas.rest.logic.VehicleToFleet;
+
+import java.time.LocalDate;
+import java.util.Collection;
+import java.util.Optional;
 
 /**
  * Mapper between Vehicle and ApiVehicle
@@ -30,51 +34,74 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle,ApiVehicle> {
 
     @Override
     public Vehicle convertToModel(ApiVehicle api) {
-        Vehicle vehicle = new Vehicle();
-        vehicle.setId(api.getId());
 
-        if (vehicle.getId()!=0){
-
-            vehicle = daoContext.getVehicleDao().find(vehicle.getId());
-            if (vehicle==null){
-                vehicle= new Vehicle();
-            }
+        final Vehicle vehicle;
+        if (api.getId() == 0) {
+            vehicle = new Vehicle();
+        } else {
+            vehicle = daoContext.getVehicleDao().find(api.getId());
         }
 
-
-        vehicle.setLicensePlate(api.getLicensePlate()==null
-                ? vehicle.getLicensePlate() : api.getLicensePlate());
-        vehicle.setChassisNumber(api.getVin()==null
-                ? vehicle.getChassisNumber() : api.getVin());
-        vehicle.setModel(api.getModel()==null
-                ? vehicle.getModel() : api.getModel());
-        vehicle.setKilometerCount(api.getMileage()==0
-                ? vehicle.getKilometerCount() : api.getMileage());
+        vehicle.setId(api.getId());
 
 
-        vehicle.setYear(api.getYear()==0
-                ? vehicle.getYear() : api.getYear());
-        vehicle.setLeasingCompany(api.getLeasingCompany()==0
-                ? vehicle.getLeasingCompany() :daoContext.getCompanyDao().find(api.getLeasingCompany()));
-        vehicle.setValue(0);//api.getValue()
+        if (api.getLicensePlate() != null) {
+            vehicle.setLicensePlate(api.getLicensePlate());
+        }
+        if (api.getVin() != null) {
+            vehicle.setChassisNumber(api.getVin());
+        }
+        if (api.getModel() != null) {
+            vehicle.setModel(api.getModel());
+        }
+        if (api.getMileage() != 0) {
+            vehicle.setKilometerCount(api.getMileage());
+        }
+        if (api.getYear() != 0) {
+            vehicle.setYear(api.getYear());
+        }
+        if (api.getLeasingCompany() != 0) {
+            vehicle.setLeasingCompany(daoContext.getCompanyDao().find(api.getLeasingCompany()));
+        }
+        if (api.getValue() != 0) {
+            vehicle.setValue(api.getValue());
+        }
+        if (api.getBrand() != null) {
+            vehicle.setBrand(api.getBrand());
+        }
+        if (api.getType() != null) {
+            vehicle.setType(new VehicleTypeAbstractMapper(daoContext).convertToModel(api.getType()));
+        }
+        // Create a link between everything.
+        if (api.getFleet() != 0) {
 
-        vehicle.setBrand(api.getBrand()==null
-                ? vehicle.getBrand() : api.getBrand());
-        vehicle.setType(api.getType()==null ? vehicle.getType() :
-                new VehicleTypeAbstractMapper(daoContext).convertToModel(api.getType()));
-
-        //create link between company and vehicle
-        if (api.getFleet()!=0) {
-
-            vehicle = daoContext.getVehicleDao().save(vehicle);
+            LocalDate now = LocalDate.now();
             Fleet fleet = daoContext.getFleetDao().find(api.getFleet());
-            generateLinkVehicleCompany(fleet.getCompany().getId(),vehicle);
-            //TODO save vehicle first then save active subscription
+
+            // TODO: do this without saving car twice.
+            daoContext.getVehicleDao().save(vehicle);
+
+            // Get active subscriptions
+            Optional<FleetSubscription> present = daoContext.getFleetSubscriptionDao().activeForVehicle(vehicle);
+            // If this is not a new vehicle, adjust the older stuff if needed.
+            if (present.isPresent()) {
+                FleetSubscription subscription = present.get();
+                // This is a new subscription.
+                Fleet subscriptionFleet = subscription.getSubFleet().getFleet();
+                if (subscriptionFleet.getId() != fleet.getId()) {
+                    subscription.setEndDate(now);
+                    daoContext.getFleetSubscriptionDao().save(subscription);
+                    // Add a new fleet
+                    linkFleet(vehicle, fleet, now);
+                }
+            } else {
+                // If there is no existing subscription, simply add a new one.
+                linkFleet(vehicle, fleet, now);
+            }
         }
 
         return vehicle;
     }
-
 
     @Override
     public ApiVehicle convertToApiModel(Vehicle vehicle) {
@@ -97,20 +124,10 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle,ApiVehicle> {
         return api;
     }
 
-    private void generateLinkVehicleCompany(int fleetId, Vehicle v){
-        //TODO
-        //diference between company change detect it and handle it
-        try {
-            new LinkVehicleCompany().run(fleetId,v, daoContext);
-        } catch (InconsistentDbException | EntityNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-
     /**
      *
-     * @param vehicle
+     * @param vehicle The vehicle.
+     *
      * @return returns 0 if there are no active Subscriptions.
      */
     private int getApiFleet(Vehicle vehicle){
@@ -125,5 +142,36 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle,ApiVehicle> {
             fleetId=0;
         }
         return fleetId;
+    }
+
+    /**
+     * Ensure a link between a vehicle and a fleet.
+     *
+     * @param vehicle The vehicle.
+     * @param fleet The fleet.
+     * @param now The current date.
+     */
+    private void linkFleet(Vehicle vehicle, Fleet fleet, LocalDate now) {
+
+        // Check for subfleet
+        Collection<SubFleet> subFleets = daoContext.getSubFleetDao().withFleetId(fleet.getId());
+        // Filter if we already have a subtype or not.
+        Optional<SubFleet> maybeFleet = subFleets.stream()
+                .filter(s -> vehicle.getType().equals(s.getVehicleType().getName()))
+                .findFirst();
+
+        SubFleet subFleet = maybeFleet.orElseGet(() -> {
+            SubFleet newFleet = new SubFleet();
+            newFleet.setFleet(fleet);
+            newFleet.setVehicleType(vehicle.getType());
+            return daoContext.getSubFleetDao().save(newFleet);
+        });
+
+        FleetSubscription subscription = new FleetSubscription();
+        subscription.setStartDate(now);
+        subscription.setSubFleet(subFleet);
+        subscription.setVehicle(vehicle);
+
+        daoContext.getFleetSubscriptionDao().save(subscription);
     }
 }
