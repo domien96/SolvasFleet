@@ -79,9 +79,9 @@ class Options extends React.Component<OptionsProps, OptionsState>{
 	render(){
 		return(
 		  	<div className='row actions'>
+		  	<ButtonGroup justified>
 	      	  <div className='col-md-3'>
-	      	  	<div>
-	      	  	<ButtonGroup justified>
+	      	  	<div>	      	  	
 	      	      <DropdownButton className='btn btn-default' title={ this.state.title } id='vehicleTypeChoice' >
 	      	      	<MenuItem onSelect={ () => this.handleSelect('') }>{ T.translate('vehicle.options.allVehicles') }</MenuItem>
 			        <MenuItem onSelect={ () => this.handleSelect('personalCar') }>{ T.translate('vehicle.options.personalCar') }</MenuItem>
@@ -89,26 +89,27 @@ class Options extends React.Component<OptionsProps, OptionsState>{
 			        <MenuItem onSelect={ () => this.handleSelect('semiTrailer') }>{ T.translate('vehicle.options.semiTrailer') }</MenuItem>
 			        <MenuItem onSelect={ () => this.handleSelect('trailer') }>{ T.translate('vehicle.options.trailer') }</MenuItem>
 			        <MenuItem onSelect={ () => this.handleSelect('truck') }>{ T.translate('vehicle.options.truck') }</MenuItem>
-			      </DropdownButton>
-			      </ButtonGroup>
+			      </DropdownButton>			      
 			    </div>
 			  </div>    
-			  <div className='col-md-6'>
-			    <div>
-			    	<form>
-			        <label> Fleet ID:
-			          <input name='fleetID' type='number' value={ this.state.fleetId } onChange={ this.handleChange } />
+			  <div className='col-md-5'>
+			    <form>
+			      <span>
+			        <label className='col-md-7 lab-padding'> 
+			          <div>Fleet ID:</div>
 			        </label>
+		            <div className='input-padding align-left'><input className='col-md-4' type='number' value={ this.state.fleetId } onChange={ this.handleChange } /></div>
+		       	    </span>			        
 			      </form>
-			    </div>
 			  </div>
-	      	  <div className='col-md-2'>
+	      	  <div className='col-md-3'>
 			    <div>
-	      	      <Link to='/vehicles/new' className='btn btn-default pull-right'>
+	      	      <Link to='/vehicles/new' className='btn btn-default'>
                     <span className='glyphicon glyphicon-plus' aria-hidden='true'></span> Add new vehicle
                   </Link>
                 </div>
 		      </div>
+		      </ButtonGroup>
 		    </div>
 	    );
 	}
