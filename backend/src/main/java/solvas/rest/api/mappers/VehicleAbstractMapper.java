@@ -20,6 +20,7 @@ import java.util.Optional;
 @Component
 public class VehicleAbstractMapper extends AbstractMapper<Vehicle,ApiVehicle> {
 
+    private static final String FLEET_ATTRIBUTE = "fleet";
 
     private String rootPath="/vehicles/";
     /**
@@ -104,7 +105,7 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle,ApiVehicle> {
                             linkFleet(vehicle, fleet, now);
                         }
                     } catch (EntityNotFoundException e) {
-                        throw new DependantEntityNotFound("fleet", e);
+                        throw new DependantEntityNotFound(FLEET_ATTRIBUTE, e);
                     }
                 }
             } else {
@@ -115,7 +116,7 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle,ApiVehicle> {
                         Fleet fleet = daoContext.getFleetDao().find(api.getFleet());
                         linkFleet(vehicle, fleet, now);
                     } catch (EntityNotFoundException e) {
-                        throw new DependantEntityNotFound("fleet", e);
+                        throw new DependantEntityNotFound(FLEET_ATTRIBUTE, e);
                     }
                 }
             }
