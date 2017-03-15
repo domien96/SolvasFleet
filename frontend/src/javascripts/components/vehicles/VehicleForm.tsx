@@ -5,6 +5,9 @@ import { Link } from 'react-router';
 import Card       from '../app/Card.tsx';
 import Errors     from '../app/Errors.tsx';
 import FormField  from '../forms/FormField.tsx';
+import FormChoice from '../forms/FormChoice.tsx';
+
+import { th } from '../../utils/utils.ts';
 
 interface GeneralInfoProps {
   handleChange: (field : string, e : any) => void;
@@ -27,6 +30,13 @@ class GeneralInfo extends React.Component<GeneralInfoProps, {}> {
 
   render() {
     var { licensePlate, vin, fleet, leasingCompany, brand, model, type, mileage, year, value } = this.props.vehicle;
+    const choices = [
+      th('personalCar', 'vehicle.options.personalCar'),
+      th('van', 'vehicle.options.van'),
+      th('semiTrailer', 'vehicle.options.semiTrailer'),
+      th('trailer', 'vehicle.options.trailer'),
+      th('truck', 'vehicle.options.truck')
+    ];
     return (
       <div className='col-xs-12 col-md-7'>
         <Card>
@@ -40,7 +50,7 @@ class GeneralInfo extends React.Component<GeneralInfoProps, {}> {
             <FormField value={ leasingCompany }  placeholder='vehicle.leasingCompany'   type='text'     callback={ this.handleChange('leasingCompany') }  hasError={ this.props.hasError('leasingCompany')}  />
             <FormField value={ brand }           placeholder='vehicle.brand'            type='text'     callback={ this.handleChange('brand') }           hasError={ this.props.hasError('brand')}      />
             <FormField value={ model }           placeholder='vehicle.model'            type='text'     callback={ this.handleChange('model') }           hasError={ this.props.hasError('model')}   />
-            <FormField value={ type }            placeholder='vehicle.type'             type='text'     callback={ this.handleChange('type') }            hasError={ this.props.hasError('type')}  />
+            <FormChoice value={ type }           placeholder='vehicle.type'             choices={ choices } callback={ this.handleChange('type') } />
             <FormField value={ mileage }         placeholder='vehicle.mileage'          type='text'     callback={ this.handleChange('mileage') }         hasError={ this.props.hasError('mileage')}  />
             <FormField value={ year }            placeholder='vehicle.year'             type='number'   callback={ this.handleChange('year') }            hasError={ this.props.hasError('year')}      />
             <FormField value={ value }           placeholder='vehicle.value'            type='number'   callback={ this.handleChange('value') }           hasError={ this.props.hasError('value')}   />
