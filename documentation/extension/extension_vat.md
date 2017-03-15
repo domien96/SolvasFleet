@@ -3,7 +3,7 @@
 ## Beschrijving
 
 Een mogelijke uitbreiding die in dit stadium al toegevoegd kan worden is het
-controloren en/of opvragen van informatie uit externe databanken. Het voorbeeld
+controleren en/of opvragen van informatie uit externe databanken. Het voorbeeld
 dat hier besproken wordt, gebruikt de informatie voortvloeiend uit het BTW-
 nummer (uit bv. VIES).
 
@@ -25,12 +25,12 @@ gestuurd en wordt gevraagd om het nummer te verbeteren, of om eventueel toch
 door te gaan (hierbij is gedacht aan de mogelijkheid dat de exterene databank
 zelf verkeerd of onvolledig is).
 
-## Nieuwe klassen
+## Nieuwe klassen en bestanden
 
 Deze uitbreiding kan zowel in de frontend als backend geïmplementeerd worden.
 Er is gekozen om ze volledig op de frontend te implementeren, omdat de fronted
 sowieso toch aangepast moeten worden, en op deze manier niets aan de backend 
-moet veranderen.
+moet veranderen. Ook aan de API moet dan niets gewijzigd worden.
 
 Er is geen probleem met het toevoegen aan de frontend: deze controle maakt geen
 deel uit van het probleemdomein, noch van de API. Het is slechts een uitgebreid
@@ -56,3 +56,11 @@ Aan te passen klassen/bestanden:
   te gaan.
 - `src/javascripts/index.tsx`, waar de nieuwe pagina ook als route moet
   toegevoegd worden.
+  
+
+## Evaluatie
+
+In ons oordeel staat de uitbreiding wel tot de verhouding. Uiteindelijk is het niet 
+veel werk, maar kan wel een redelijke meerwaarde bieden aan de gebruikers: ze krijgen
+minder typwerk. Misschien zelfs belangrijker, het helpt ook om fouten in het 
+BTW-nummer (en de andere opgehaalde gegevens) te vermijden.
