@@ -77,10 +77,8 @@ class Client extends React.Component<Company.Props, Company.State> {
                 </div>
               </Card>
               <Card>
-                <div className='col-sm-6'>
-                  <div className='card-content'>
-                    <DetailTable data={ data }/>
-                  </div>
+                <div className='card-content'>
+                  <DetailTable data={ data }/>
                 </div>
               </Card>
             </div>
