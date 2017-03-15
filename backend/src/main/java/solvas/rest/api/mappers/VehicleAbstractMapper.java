@@ -7,6 +7,7 @@ import solvas.models.FleetSubscription;
 import solvas.models.SubFleet;
 import solvas.models.Vehicle;
 import solvas.persistence.api.DaoContext;
+import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.api.models.ApiVehicle;
 
 import java.time.LocalDate;
@@ -31,7 +32,7 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle,ApiVehicle> {
     }
 
     @Override
-    public Vehicle convertToModel(ApiVehicle api) {
+    public Vehicle convertToModel(ApiVehicle api) throws DependantEntityNotFound {
 
         final Vehicle vehicle;
         if (api.getId() == 0) {
@@ -79,6 +80,9 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle,ApiVehicle> {
             // TODO: do this without saving vehicle twice.
             daoContext.getVehicleDao().save(vehicle);
 
+            // TODO: split up the method below
+            // TODO: improve error handling
+
             // Get active subscriptions
             Optional<FleetSubscription> present = daoContext.getFleetSubscriptionDao().activeForVehicle(vehicle);
             // If this is not a new vehicle, adjust the older stuff if needed.
@@ -89,22 +93,30 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle,ApiVehicle> {
                     subscription.setEndDate(now);
                     daoContext.getFleetSubscriptionDao().save(subscription);
                 } else {
-                    Fleet fleet = daoContext.getFleetDao().find(api.getFleet());
-                    // This is a new subscription.
-                    Fleet subscriptionFleet = subscription.getSubFleet().getFleet();
-                    if (subscriptionFleet.getId() != fleet.getId()) {
-                        subscription.setEndDate(now);
-                        daoContext.getFleetSubscriptionDao().save(subscription);
-                        // Add a new fleet
-                        linkFleet(vehicle, fleet, now);
+                    try {
+                        Fleet fleet = daoContext.getFleetDao().find(api.getFleet());
+                        // This is a new subscription.
+                        Fleet subscriptionFleet = subscription.getSubFleet().getFleet();
+                        if (subscriptionFleet.getId() != fleet.getId()) {
+                            subscription.setEndDate(now);
+                            daoContext.getFleetSubscriptionDao().save(subscription);
+                            // Add a new fleet
+                            linkFleet(vehicle, fleet, now);
+                        }
+                    } catch (EntityNotFoundException e) {
+                        throw new DependantEntityNotFound("fleet", e);
                     }
                 }
             } else {
                 // If the code is 0, there was no active subscription, so do nothing.
                 if (api.getFleet()  > 0) {
-                    // If there is no existing subscription, simply add a new one.
-                    Fleet fleet = daoContext.getFleetDao().find(api.getFleet());
-                    linkFleet(vehicle, fleet, now);
+                    try {
+                        // If there is no existing subscription, simply add a new one.
+                        Fleet fleet = daoContext.getFleetDao().find(api.getFleet());
+                        linkFleet(vehicle, fleet, now);
+                    } catch (EntityNotFoundException e) {
+                        throw new DependantEntityNotFound("fleet", e);
+                    }
                 }
             }
         }
