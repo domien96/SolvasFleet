@@ -1,7 +1,7 @@
 # Testhandleiding
 
 ### Inleiding
-Voorlopig gaat deze handleiding enkel over het testen van de backend. De infrastructuur voor het testen van frontend ligt nog niet vast, grotendeels omdat er minder haast achter zit.
+Omdat we voor deze milestone eerst een goede testomgeving wouden opstellen voor de backend wordt de frontend nog niet getest. De infrastructuur bij het testen van de frontend krijgt een grotere focus bij de tweede milestone.
 
 De tests kunnen we in twee grote categoriën opdelen:
 1. Integration tests
@@ -38,7 +38,7 @@ Het verslag van de integration tests vinden we in `/backend/build/reports/tests/
 
 **Code Coverage**
 
-Natuurlijk is code coverage ook van belang. Het genereren van de code coverage **na** de tests doe je aan de hand van het volgend commando:
+Natuurlijk is code coverage ook van belang. Het genereren van de code coverage **na** de tests doen we aan de hand van het volgend commando:
  ```
  $ gradle jacocoReport
  ```
@@ -79,7 +79,7 @@ Default geven methodes van mocks die een object van een klasse teruggeven `null`
 ```java
 when(roleDaoMock.find(anyInt())).thenThrow(new EntityNotFoundException());
 ```
-Deze gaat dus ervoor zorgen dat de roleDao een EntityNotFoundException zal throwen bij oproep van eender welke id bij de `find(int id)` methode. Dit zou dus gebruikt kunnen worden om te testen dat de RestController een correcte HTTP response geeft als het component niet gevonden kan worden in de databank.
+Deze gaat dus ervoor zorgen dat de roleDao een EntityNotFoundException zal throwen bij oproep van eender welke id bij de `find(int id)` methode. Dit zou dus gebruikt kunnen worden om te testen dat de RestController een correcte HTTP response geeft als de entiteit niet gevonden kan worden in de databank.
 
 Meer info over Mockito kan je [hier](https://static.javadoc.io/org.mockito/mockito-core/2.7.17/org/mockito/Mockito.html) vinden.
 
@@ -148,5 +148,5 @@ De unit tests zijn een pak eenvoudiger. Ze hebben geen enkele opstelling nodig e
 We gebruiken bij de unit tests enorm veel gebruik van mockito, zodat we enkel afhankelijk zijn van de klasse die we testen.
 
 ### Workflow bij unit testing
-- Kijk naar het gewenst gedrag (in documentatie of op zicht)
+- Kijk naar het gewenst gedrag (in de documentatie)
 - Moduleer verschillende testen zodat bijna elke situatie getest wordt.
