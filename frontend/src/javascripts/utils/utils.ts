@@ -21,3 +21,10 @@ export function hasError(this: any, k : string) : boolean {
 export function th(key : string, label : string | number) : Table.Head.Data {
   return { key: key, label: (label || '').toString() };
 }
+
+export function group_by(xs : any[], key : string) {
+  return xs.reduce(function(rv, x) {
+    (rv[x[key]] = rv[x[key]] || []).push(x);
+    return rv;
+  }, {});
+};

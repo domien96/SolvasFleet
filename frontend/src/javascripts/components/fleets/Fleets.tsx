@@ -1,88 +1,83 @@
 import React from 'react';
 import { browserHistory, Link } from'react-router';
+import { Collapse } from 'react-bootstrap';
 
 import Card       from '../app/Card.tsx';
-import InfoTable from '../tables/InfoTable.tsx';
-import SubFleets from '../subfleets/SubFleets.tsx'
-
-import fetchFleetsByCompany from '../../actions/fetch_fleets_by_company.ts';
-import { th } from '../../utils/utils.ts';
-
-interface OverviewProps {
-  clientId : number
-  fleets: Fleet[];
-}
-
-class Overview extends React.Component<OverviewProps, {}> {
-
-  constructor() {
-    super();
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  handleClick(fleetId : number) {
-    browserHistory.push('/fleets/' + fleetId + '/subfleets');
-  }
-
-  render() {
-    const tableHead = [
-      th('id',   'fleet.id'),
-      th('name', 'fleet.name'),
-      th('size', 'fleet.size')
-    ];
-
-    return (
-      <InfoTable head={ tableHead } data={ this.props.fleets } onClick={ this.handleClick } />
-    );
-  }
-}
+import FleetForm    from '../fleets/FleetForm.tsx';
+import createFleet from '../../actions/create_fleet.ts';
 
 class Fleets extends React.Component<Fleets.Props, Fleets.State> {
-
-  constructor(props : {id : number}) {
+  constructor(props : Fleets.Props) {
     super(props);
-    this.state = { fleets: [] };
+    this.state = {
+      formVisible: false,
+      fleet: { company: this.props.company },
+      errors: []
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
-  componentDidMount() {
-    fetchFleetsByCompany(this.props.id)
-      .then((data : Fleets.Data) => {
-        this.setState({ fleets: data.fleets })
+  handleChange(field : Fleet.Field, e : any) : any {
+    var fleet : Fleet = this.state.fleet;
+    fleet[field] = e.target.value;
+    this.setState({ fleet });
+  }
+
+  onClick() {
+    this.setState({ formVisible: true })
+  }
+
+  onSubmit(e : any) {
+    e.preventDefault();
+    let setErrors = (e : Form.Error[]) => this.setState({ errors: e });
+
+    createFleet(this.state.fleet)
+    .then(function(response) {
+      return response.json().then(function(data) {
+        if (response.ok) {
+          browserHistory.push('/fleets/' + data.id);
+        } else {
+          setErrors(data.errors.map(function(e : any) {
+            return { field: e.field, error: 'null' };
+          }));
+        }
       });
+    });
   }
 
   render() {
-
-    let addFleetUrl = '/fleets/new';
-    let fleetId = 0;
+    let fleets = this.props.fleets.map((f, i) => {
+      return (
+        <Link to={ '/fleets/' + f.id } key={ i } className='fleet'>
+          <h3>{ f.name }</h3>
+          <div className='actions pull-right'>
+            <h3>
+              <span className='glyphicon glyphicon-menu-right' />
+            </h3>
+          </div>
+        </Link>
+      )
+    });
 
     return (
-      <div>
-        <div className='wrapper'>
-          <div className='row'>
-            <div className='col-xs-12 col-md-6'>
-              <Card>
-                <div className='card-title'>
-                  <h2>Fleets
-                    <Link to={ addFleetUrl } className='btn btn-default pull-right'>
-                      <span className='glyphicon glyphicon-plus' aria-hidden='true'></span>
-                      Add new fleet
-                    </Link>
-                  </h2>
-                </div>
-                <div className='card-content'>
-                  <Overview clientId={this.props.id} fleets={ this.state.fleets } />
-                </div>
-              </Card>
-            </div>
-            <div className='col-xs-12 col-md-6'>
-                <SubFleets id={ fleetId } />
-            </div>
-          </div>
+      <Card>
+        <div className='card-title'>
+          <h2>Fleets</h2>
+          <span className='click' onClick={ this.onClick.bind(this) }>Add a new fleet</span>
         </div>
-      </div>
-    );
-  }
+        <div className='card-content fleets'>
+          <div className='fleet-form-wrapper'>
+            <Collapse in={ this.state.formVisible }>
+              <div>
+                <FleetForm handleChange={ this.handleChange } onSubmit={ this.onSubmit } />
+              </div>
+            </Collapse>
+          </div>
+          { fleets }
+        </div>
+      </Card>
+    )};
 }
 
 export default Fleets;
