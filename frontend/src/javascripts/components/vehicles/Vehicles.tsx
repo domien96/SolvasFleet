@@ -51,7 +51,7 @@ class Options extends React.Component<OptionsProps, OptionsState>{
 
 	constructor(){
 		super();
-		this.state = { fleetId : null }
+		this.state = { fleetId : undefined }
 	}
 
 	render(){
@@ -59,7 +59,7 @@ class Options extends React.Component<OptionsProps, OptionsState>{
 		  	<div className='row actions'>
 	      	  <div className='col-md-2'>
 	      	  	<div>
-	      	      <DropdownButton className='btn btn-default' title="Vehicle type">
+	      	      <DropdownButton className='btn btn-default' title="Vehicle type" id='vehicleTypeChoice'>
 	      	      	<MenuItem onSelect={ () => this.props.onSelect('') }>All vehicles</MenuItem>
 			        <MenuItem onSelect={ () => this.props.onSelect('personal car') }>Personal Car</MenuItem>
 			        <MenuItem onSelect={ () => this.props.onSelect('van') }>Van (light truck)</MenuItem>
@@ -100,24 +100,26 @@ class Vehicles extends React.Component<{}, Vehicles.State> {
   }
 
   componentDidMount() {
-    this.fetchVehicles();
+    this.fetchVehicles(this.state.type, this.state.fleet);
   }
 
-  fetchVehicles() {
-    fetchVehicles(this.state.type, this.state.fleet)
+  fetchVehicles(type : string, fleet : number) {
+  	console.log(this.state)
+    fetchVehicles(type, fleet)
       .then((data : Vehicles.Data) => {
         this.setState({ vehicles: data.data })
       });
+    return true;  
   }
 
   handleSelect(newType : string){
   	this.setState({ type: newType })
-  	this.fetchVehicles();
+  	this.fetchVehicles(newType, this.state.fleet);
   }
 
   handleFleetChange(newFleet : number){
   	this.setState({ fleet: newFleet })
-  	this.fetchVehicles();
+  	this.fetchVehicles(this.state.type, newFleet);
   }
 
   render() {
@@ -133,7 +135,7 @@ class Vehicles extends React.Component<{}, Vehicles.State> {
         </Header>
         <div className='wrapper'>
           <div className='row'>
-            <div className='col-xs-12 col-md-8'>
+            <div className='col-xs-12 col-md-7'>
               <Card>
                 <div className='card-content'>
                   <Options onSelect={ this.handleSelect } onChange={ this.handleFleetChange }/>	
@@ -141,7 +143,7 @@ class Vehicles extends React.Component<{}, Vehicles.State> {
                 </div>
               </Card>
             </div>
-            <div className='col-xs-12 col-md-4'>
+            <div className='col-xs-12 col-md-5'>
               <Card>
                 { children }
               </Card>
