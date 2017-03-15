@@ -36,7 +36,7 @@ class AddUser extends React.Component<{}, User.UForm.State> {
           browserHistory.push('/users/' + data.id);
         } else {
           setErrors(data.errors.map(function(e : any) {
-            return { field: e.field, error: 'null' };
+            return { field: e, error: 'null' };
           }));
         }
       });

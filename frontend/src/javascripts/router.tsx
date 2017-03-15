@@ -51,7 +51,7 @@ class SolvasRouter extends React.Component<{}, {}> {
           <Route path="users/:id/edit" component={ EditUser } />
           <Route path="users"          component={ Users    } >
             <IndexRoute component={ NoUser } />
-            <Route path="users/:id" component={ User } />
+            <Route path=":id" component={ User } />
           </Route>
 
           <Route path="clients"                component={ Clients    } />
@@ -64,7 +64,7 @@ class SolvasRouter extends React.Component<{}, {}> {
           <Route path="vehicles/:id/edit" component={ EditVehicle } />
           <Route path="vehicles"          component={ Vehicles    }>
             <IndexRoute component={ NoVehicle } />
-            <Route path="vehicles/:id" component={ Vehicle } />
+            <Route path=":id" component={ Vehicle } />
           </Route>
 
           <Route path="fleets/:id" component={ Fleet } />
