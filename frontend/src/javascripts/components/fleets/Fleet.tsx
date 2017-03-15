@@ -109,8 +109,7 @@ class Fleet extends React.Component<Fleet.Props, Fleet.State> {
       .then((data : any) => {
         this.setState({ fleet: data });
       });
-    // fetchVehicles('', id.toString())
-    fetchVehicles('', "")
+    fetchVehicles('', id.toString())
       .then((data : any) => {
         this.setState({ vehicles: group_by(data.data, 'type') })
       });
