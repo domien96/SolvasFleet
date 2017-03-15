@@ -8,8 +8,6 @@ import solvas.models.SubFleet;
 import solvas.models.Vehicle;
 import solvas.persistence.api.DaoContext;
 import solvas.rest.api.models.ApiVehicle;
-import solvas.rest.logic.InconsistentDbException;
-import solvas.rest.logic.VehicleToFleet;
 
 import java.time.LocalDate;
 import java.util.Collection;
@@ -131,17 +129,10 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle,ApiVehicle> {
      * @return returns 0 if there are no active Subscriptions.
      */
     private int getApiFleet(Vehicle vehicle){
-        int fleetId;
-        try {
-            Fleet fleet = new VehicleToFleet().run(vehicle, daoContext);
-            fleetId =fleet.getId();
-        } catch (InconsistentDbException e) {
-            e.printStackTrace(); //Should not happen
-            fleetId=0;
-        } catch (VehicleToFleet.NoActiveSubscriptionException e) {
-            fleetId=0;
-        }
-        return fleetId;
+        return daoContext
+                .getFleetSubscriptionDao()
+                .activeForVehicle(vehicle)
+                .map(fleetSubscription -> fleetSubscription.getSubFleet().getFleet().getId()).orElse(0);
     }
 
     /**
