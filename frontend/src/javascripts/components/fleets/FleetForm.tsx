@@ -20,9 +20,9 @@ class FleetForm extends React.Component<any, any> {
   render() {
     return (
       <form method='post' onSubmit={ this.props.onSubmit } className='fleet-form'>
-        <h3>Name:</h3>
+        <h3><label htmlFor='name'>Name:</label></h3>
         <span>
-          <input type='text' onChange={ this.handleChange('name') }/>
+          <input type='text' id='name' onChange={ this.handleChange('name') }/>
         </span>
         <div className='actions pull-right'>
           <h3>

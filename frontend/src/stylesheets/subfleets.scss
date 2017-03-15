@@ -1,0 +1,34 @@
+@import './variables.scss';
+
+.subfleets {
+  .subfleet-wrapper {
+
+    &:last-child {
+      .subfleet {
+        border-bottom: 0;
+      }
+    }
+
+    .subfleet {
+      padding: 20px 0 20px 30px;
+      border-bottom: 1px solid $gray-lighter;
+
+      &:hover {
+        background: lighten(#000, 97.5%);
+      }
+    }
+  }
+
+  .vehicles {
+    display: table;
+
+    .vehicle {
+      border-left: 20px solid $gray-lighterer;
+      display: table-row;
+
+      & > span {
+        display: table-cell;
+      }
+    }
+  }
+}
