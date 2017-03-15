@@ -63,16 +63,19 @@ public class HibernateConfig {
                 .getResources("classpath:/mappings/*.hbm.xml");
     }
 
+
     /**
      * The session factory bean. Spring manages everything for us.
      *
      * @return The factory.
      */
     @Bean
-    @Profile("default")
+    @Profile("default,test")
     public LocalSessionFactoryBean sessionFactory() {
         return createSessionFactory(getHibernateProperties());
     }
+
+
 
     /**
      * The session factory bean. Spring manages everything for us.
@@ -94,7 +97,8 @@ public class HibernateConfig {
      *
      * @return The bean if successful, otherwise a {@link BeanCreationException} is thrown.
      */
-    private LocalSessionFactoryBean createSessionFactory(Properties hibernateProperties) {
+    @Bean
+    public LocalSessionFactoryBean createSessionFactory(Properties hibernateProperties) {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(getDataSource());
         sessionFactory.setHibernateProperties(hibernateProperties);
