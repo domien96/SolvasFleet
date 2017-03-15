@@ -37,9 +37,9 @@ vehicle:
   brand: Brand
   model: Model
   type: Type
-  mileage: Mileage (kilimeter count)
+  mileage: Mileage (kilometer count)
   year: Year of manufacture
-  leasingCompany: Leasing company
+  leasingCompany: Leasing company ID
   value: Estimated value
   fleet: Fleet ID
   options:
