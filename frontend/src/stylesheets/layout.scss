@@ -14,3 +14,15 @@
   border-bottom: 1px solid #e7eaec;
   border-top: 1px solid #e7eaec;
 }
+
+#logo {
+  background: $orange;
+  padding: 20px 0;
+  border-bottom: 5px solid $gray;
+
+  h1 {
+    font-weight: 400;
+    color: #fff;
+    text-align: center;
+  }
+}
