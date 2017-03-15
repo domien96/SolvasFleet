@@ -13,7 +13,7 @@ class Vehicle extends React.Component<Vehicle.Props, Vehicle.State> {
 
   constructor() {
     super();
-    this.state = { vehicle : {} };
+    this.state = { vehicle : { type: 'personalCar' } };
     this.deleteVehicle = this.deleteVehicle.bind(this);
   }
 
