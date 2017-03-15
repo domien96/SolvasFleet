@@ -4,7 +4,8 @@ namespace Fleet {
   }
 
   export interface State {
-    fleet : Fleet;
+    fleet    : Fleet;
+    vehicles : any;
   }
 
   export type Field =

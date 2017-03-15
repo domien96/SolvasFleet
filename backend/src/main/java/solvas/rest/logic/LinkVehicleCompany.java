@@ -43,7 +43,7 @@ public class LinkVehicleCompany {
         FleetSubscription activeFleetSubscription=null;
         for (FleetSubscription subs: fleetSubscriptionDao.withVehicleId(vehicle.getId())){
             if (subs.getStartDate().isBefore(LocalDate.now())
-                    && subs.getEndDate().isAfter(LocalDate.now())){
+                && (subs.getEndDate() == null || subs.getEndDate().isAfter(LocalDate.now()))){
                 subs.setEndDate(LocalDate.now());
                 fleetSubscriptionDao.save(subs);
                 if (activeFleetSubscription!=null){

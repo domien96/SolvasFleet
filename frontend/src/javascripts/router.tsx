@@ -22,7 +22,8 @@ import NoVehicle   from './components/vehicles/NoVehicle.tsx';
 import AddVehicle  from './components/vehicles/AddVehicle.tsx';
 import EditVehicle from './components/vehicles/EditVehicle.tsx';
 
-import Fleets   from './components/fleets/Fleets.tsx';
+import Fleets from './components/fleets/Fleets.tsx';
+import Fleet  from './components/fleets/Fleet.tsx';
 
 import NoMatch   from './components/NoMatch.tsx';
 
@@ -52,6 +53,8 @@ class SolvasRouter extends React.Component<{}, {}> {
             <IndexRoute component={ NoVehicle } />
             <Route path="/vehicles/:id" component={ Vehicle } />
           </Route>
+
+          <Route path="/fleets/:id" component={ Fleet } />
 
           <Route path="*" component={ NoMatch } />
         </Route>
