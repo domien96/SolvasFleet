@@ -61,17 +61,27 @@ class GeneralInfo extends React.Component<GeneralInfoProps, {}> {
   }
 }
 
-class Submit extends React.Component<{}, {}> {
+interface SubmitProps {
+  persisted : boolean
+}
+class Submit extends React.Component<SubmitProps, {}> {
   render() {
+    var buttonMessage;
+    if (this.props.persisted) {
+      buttonMessage = "update";
+    } else {
+      buttonMessage = "create";
+    }
+
     return (
       <div className='col-xs-12'>
         <Card>
           <div className='card-title'>
             <h5>Actions</h5>
           </div>
-          <div className='card-content'>
-            <button type='submit' className='btn btn-default'>
-              <T.text tag='span' text='addVehicle.submit' />
+          <div className='card-content actions'>
+            <button type='submit' className='btn btn-success'>
+              <T.text tag='span' text={ 'form.' + buttonMessage } /> vehicle
             </button>
             <Link to='/vehicles' className='btn btn-default'>Cancel</Link>
           </div>
@@ -91,7 +101,7 @@ class VehicleForm extends React.Component<Vehicle.VForm.Props, any> {
             <GeneralInfo vehicle={ this.props.vehicle } handleChange={ this.props.handleChange } hasError={ this.props.hasError }/>
             <div className='col-xs-12 col-md-5'>
               <div className='row'>
-                <Submit />
+                <Submit persisted={ this.props.vehicle.id != null } />
               </div>
             </div>
           </div>
