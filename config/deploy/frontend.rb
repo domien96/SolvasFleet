@@ -12,7 +12,7 @@ set :repo_tree, 'frontend'
 
 after 'deploy:updated', 'npm:build'
 
-set :linked_files, %w(webpack.config.js src/javascripts/constants/constants.ts)
+set :linked_files, %w(webpack.config.js)
 set :linked_dirs, %w(node_modules)
 
 
@@ -29,6 +29,7 @@ namespace :npm do
     on roles(:all) do
       within release_path do
         execute :npm, :run, :build
+        execute :npm, :run, :typings
       end
     end
   end
