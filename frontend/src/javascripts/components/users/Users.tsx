@@ -25,7 +25,7 @@ class Overview extends React.Component<OverviewProps, {}> {
 
   render() {
     const tableHead = [
-      th('id',         'user.id'),
+      th('id',        'user.id'),
       th('firstName', 'user.firstName'),
       th('lastName',  'user.lastName')
     ];

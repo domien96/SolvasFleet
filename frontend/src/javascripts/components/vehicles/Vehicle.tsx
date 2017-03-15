@@ -13,7 +13,7 @@ class Vehicle extends React.Component<Vehicle.Props, Vehicle.State> {
 
   constructor() {
     super();
-    this.state = { vehicle : {} };
+    this.state = { vehicle : { type: 'personalCar' } };
     this.deleteVehicle = this.deleteVehicle.bind(this);
   }
 
@@ -48,16 +48,16 @@ class Vehicle extends React.Component<Vehicle.Props, Vehicle.State> {
     var id = this.props.params.id;
 
     const data = [
-      th('vehicle.licensePlate', licensePlate),
+      th('vehicle.fleet', fleet),
       th('vehicle.vin', vin),
+      th('vehicle.licensePlate', licensePlate),
       th('vehicle.brand', brand),
       th('vehicle.model', model),
       th('vehicle.type', type),
       th('vehicle.mileage', mileage),
       th('vehicle.year', year),
       th('vehicle.value', value),
-      th('company.leasingCompany', leasingCompany),
-      th('company.fleet', fleet)
+      th('vehicle.leasingCompany', leasingCompany),
     ];
 
     return (

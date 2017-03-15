@@ -8,6 +8,8 @@
 /backend/build/
 /frontend/build/
 
+/frontend/typings
+
 # Ignore Gradle GUI config
 gradle-app.setting
 

@@ -3,6 +3,8 @@ namespace Vehicles {
 
   export interface State {
     vehicles : Vehicle[];
+    type : string;
+    fleet : string;
   }
 
   export interface Data {
