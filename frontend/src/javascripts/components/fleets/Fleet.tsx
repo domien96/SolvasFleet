@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 
 import Header from '../app/Header.tsx';
 import Card   from '../app/Card.tsx';
@@ -13,14 +14,23 @@ interface vehicleProps {
 }
 class VehicleRow extends React.Component<vehicleProps, {}> {
   render () {
-    var { vin, brand, model, mileage } = this.props.vehicle;
+    var { id, vin, brand, model, mileage } = this.props.vehicle;
 
     return (
-      <div className='vehicle'>
-        <span>Chassis Nummer: { vin }</span>
-        <span>Model: { brand } { model }</span>
-        <span>Mileage: { mileage }</span>
-      </div>
+      <Link to={ 'vehicles/' + id } className='vehicle'>
+        <div>
+          <span>Chassis Nummer:</span>
+          <span>{ vin }</span>
+        </div>
+        <div>
+          <span>Model:</span>
+          <span>{ brand } { model }</span>
+        </div>
+        <div>
+          <span>Mileage:</span>
+          <span>{ mileage }</span>
+        </div>
+      </Link>
     );
   }
 }
@@ -34,8 +44,9 @@ interface vehiclesState {
 class Vehicles extends React.Component<vehiclesProps, vehiclesState> {
   constructor(props : vehiclesProps) {
     super(props);
-    this.state = { type: 'Personenwagen' };
+    this.state = { type: null };
     this.subfleetVehicles = this.subfleetVehicles.bind(this);
+    this.onClick = this.onClick.bind(this);
   }
 
   subfleetVehicles(key : string) : React.ReactElement<any> {
@@ -54,11 +65,20 @@ class Vehicles extends React.Component<vehiclesProps, vehiclesState> {
     )
   }
 
+  onClick(newType : string) : void {
+    var { type } = this.state;
+    if (newType == type) {
+      this.setState({ type: null });
+    } else {
+      this.setState({ type: newType });
+    }
+  }
+
   render() {
     const vehicles = Object.keys(this.props.vehicles).map((k, i) => {
       return (
         <div key={ i} className='subfleet-wrapper'>
-          <div className='subfleet click' onClick={ () => this.setState({ type: k })}>
+          <div className='subfleet click' onClick={ () => this.onClick(k) }>
             <h3>{ k } ({ this.props.vehicles[k].length })</h3>
           </div>
           { this.subfleetVehicles(k) }
@@ -89,7 +109,8 @@ class Fleet extends React.Component<Fleet.Props, Fleet.State> {
       .then((data : any) => {
         this.setState({ fleet: data });
       });
-    fetchVehicles('', id.toString())
+    // fetchVehicles('', id.toString())
+    fetchVehicles('', "")
       .then((data : any) => {
         this.setState({ vehicles: group_by(data.data, 'type') })
       });
