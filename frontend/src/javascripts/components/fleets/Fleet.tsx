@@ -17,7 +17,7 @@ class VehicleRow extends React.Component<vehicleProps, {}> {
     var { id, vin, brand, model, mileage } = this.props.vehicle;
 
     return (
-      <Link to={ 'vehicles/' + id } className='vehicle'>
+      <Link to={ '/vehicles/' + id } className='vehicle'>
         <div>
           <span>Chassis Nummer:</span>
           <span>{ vin }</span>
