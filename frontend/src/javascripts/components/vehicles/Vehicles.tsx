@@ -41,16 +41,17 @@ class Overview extends React.Component<OverviewProps, {}> {
 }
 
 interface OptionsProps {
-	onSelect : (type : string) => void;
-	onChange : (fleet : string) => void;
+  onSelect : (type : string) => void;
+  onChange : (fleet : string) => void;
 }
 
 interface OptionsState {
-	fleetId : string;
-	title: string;
+  fleetId : string;
+  title: string;
 }
 
 class Options extends React.Component<OptionsProps, OptionsState>{
+
 
 	constructor(){
 		super();
@@ -66,12 +67,10 @@ class Options extends React.Component<OptionsProps, OptionsState>{
 
 	handleSelect(type : string){	
 		if(type == ''){
-			let x : string = T.translate('vehicle.options.allVehicles');
-			this.setState( {title : x} );
+			this.setState( {title : 'All vehicles'} );
 		}
 		else{
-			let x : string = T.translate('vehicle.options.' + type);
-			this.setState( {title: x} );
+			this.setState( {title: type} );
 		}
 		this.props.onSelect(type);
 	}
@@ -113,6 +112,7 @@ class Options extends React.Component<OptionsProps, OptionsState>{
 		    </div>
 	    );
 	}
+
 }
 
 class Vehicles extends React.Component<{}, Vehicles.State> {
@@ -130,22 +130,22 @@ class Vehicles extends React.Component<{}, Vehicles.State> {
   }
 
   fetchVehicles(type : string, fleet : string) {
-  	console.log(this.state)
+    console.log(this.state)
     fetchVehicles(type, fleet)
       .then((data : Vehicles.Data) => {
         this.setState({ vehicles: data.data })
       });
-    return true;  
+    return true;
   }
 
   handleSelect(newType : string){
-  	this.setState({ type: newType })
-  	this.fetchVehicles(newType, this.state.fleet);
+    this.setState({ type: newType })
+    this.fetchVehicles(newType, this.state.fleet);
   }
 
   handleFleetChange(newFleet : string){
-  	this.setState({ fleet: newFleet })
-  	this.fetchVehicles(this.state.type, newFleet);
+    this.setState({ fleet: newFleet })
+    this.fetchVehicles(this.state.type, newFleet);
   }
 
   render() {
@@ -164,7 +164,7 @@ class Vehicles extends React.Component<{}, Vehicles.State> {
             <div className='col-xs-12 col-md-7'>
               <Card>
                 <div className='card-content'>
-                  <Options onSelect={ this.handleSelect } onChange={ this.handleFleetChange }/>	
+                  <Options onSelect={ this.handleSelect } onChange={ this.handleFleetChange }/>
                   <Overview vehicles={ this.state.vehicles } />
                 </div>
               </Card>
