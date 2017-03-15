@@ -42,6 +42,13 @@ vehicle:
   leasingCompany: Leasing company
   value: Estimated value
   fleet: Fleet ID
+  options:
+    allVehicles: All vehicles
+    personalCar: Personal car
+    van: Van
+    semiTrailer: Semi-trailer
+    trailer: Trailer
+    truck: Truck
 
 user:
   id: ID

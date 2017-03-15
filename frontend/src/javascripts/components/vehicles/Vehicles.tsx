@@ -1,6 +1,6 @@
 import React from 'react';
 import { browserHistory, Link } from 'react-router';
-import { DropdownButton, MenuItem } from 'react-bootstrap';
+import { ButtonGroup, DropdownButton, MenuItem } from 'react-bootstrap';
 
 import Card       from '../app/Card.tsx';
 import Header     from '../app/Header.tsx';
@@ -8,6 +8,8 @@ import InfoTable from '../tables/InfoTable.tsx';
 
 import fetchVehicles from '../../actions/fetch_vehicles.ts';
 import { th } from '../../utils/utils.ts';
+
+import T     from 'i18n-react';
 
 interface OverviewProps {
   vehicles: Vehicle[];
@@ -45,14 +47,16 @@ interface OptionsProps {
 
 interface OptionsState {
 	fleetId : string;
+	title: string;
 }
 
 class Options extends React.Component<OptionsProps, OptionsState>{
 
 	constructor(){
 		super();
-		this.state = { fleetId : '' }
+		this.state = { fleetId : '', title: 'All vehicles' }
 		this.handleChange = this.handleChange.bind(this);
+		this.handleSelect = this.handleSelect.bind(this);
 	}
 
 	handleChange(event : any){
@@ -60,22 +64,36 @@ class Options extends React.Component<OptionsProps, OptionsState>{
 		this.props.onChange(event.target.value);
 	}
 
+	handleSelect(type : string){	
+		if(type == ''){
+			let x : string = T.translate('vehicle.options.allVehicles');
+			this.setState( {title : x} );
+		}
+		else{
+			let x : string = T.translate('vehicle.options.' + type);
+			this.setState( {title: x} );
+		}
+		this.props.onSelect(type);
+	}
+
 	render(){
 		return(
 		  	<div className='row actions'>
-	      	  <div className='col-md-2'>
+	      	  <div className='col-md-3'>
 	      	  	<div>
-	      	      <DropdownButton className='btn btn-default' title="Vehicle type" id='vehicleTypeChoice'>
-	      	      	<MenuItem onSelect={ () => this.props.onSelect('') }>All vehicles</MenuItem>
-			        <MenuItem onSelect={ () => this.props.onSelect('personal car') }>Personal Car</MenuItem>
-			        <MenuItem onSelect={ () => this.props.onSelect('van') }>Van (light truck)</MenuItem>
-			        <MenuItem onSelect={ () => this.props.onSelect('semi-trailer') }>Semi-trailer</MenuItem>
-			        <MenuItem onSelect={ () => this.props.onSelect('trailer') }>Trailer</MenuItem>
-			        <MenuItem onSelect={ () => this.props.onSelect('truck') }>Truck</MenuItem>
+	      	  	<ButtonGroup justified>
+	      	      <DropdownButton className='btn btn-default' title={ this.state.title } id='vehicleTypeChoice' >
+	      	      	<MenuItem onSelect={ () => this.handleSelect('') }>{ T.translate('vehicle.options.allVehicles') }</MenuItem>
+			        <MenuItem onSelect={ () => this.handleSelect('personalCar') }>{ T.translate('vehicle.options.personalCar') }</MenuItem>
+			        <MenuItem onSelect={ () => this.handleSelect('van') }>{ T.translate('vehicle.options.van') }</MenuItem>
+			        <MenuItem onSelect={ () => this.handleSelect('semiTrailer') }>{ T.translate('vehicle.options.semiTrailer') }</MenuItem>
+			        <MenuItem onSelect={ () => this.handleSelect('trailer') }>{ T.translate('vehicle.options.trailer') }</MenuItem>
+			        <MenuItem onSelect={ () => this.handleSelect('truck') }>{ T.translate('vehicle.options.truck') }</MenuItem>
 			      </DropdownButton>
+			      </ButtonGroup>
 			    </div>
 			  </div>    
-			  <div className='col-md-7 col-md-offset-1'>
+			  <div className='col-md-6'>
 			    <div>
 			    	<form>
 			        <label> Fleet ID:
@@ -106,7 +124,8 @@ class Vehicles extends React.Component<{}, Vehicles.State> {
   }
 
   componentDidMount() {
-    this.fetchVehicles(this.state.type, this.state.fleet);
+    var { type, fleet } = this.state;
+    this.fetchVehicles(type, fleet);
   }
 
   fetchVehicles(type : string, fleet : string) {
