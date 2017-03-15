@@ -7,8 +7,8 @@ export default class FormChoice extends React.Component<Form.Choice.Props, {}> {
   render() {
     const label = T.translate(this.props.placeholder);
 
-    const choices = this.props.choices.map((c : Table.Head.Data) => (
-      <option id={c.key}>{ T.translate(c.label) }</option>
+    const choices = this.props.choices.map((c : Table.Head.Data, i : number) => (
+      <option key={i} value={c.key}>{ T.translate(c.label) }</option>
       ));
 
     return (
