@@ -3,7 +3,6 @@ import { browserHistory, Link } from'react-router';
 
 import fetchUser   from '../../actions/fetch_user.ts';
 import deleteUser  from '../../actions/delete_user.ts';
-import Card        from '../app/Card.tsx';
 import DetailTable from '../tables/DetailTable.tsx';
 
 import { th } from '../../utils/utils.ts';
@@ -69,13 +68,9 @@ class User extends React.Component<User.Props, User.State> {
             </div>
           </div>
         </div>
-        <Card>
-          <div className='col-sm-12'>
-            <div className='card-content'>
-              <DetailTable data={ data }/>
-            </div>
-          </div>
-        </Card>
+        <div className='card-content'>
+          <DetailTable data={ data }/>
+        </div>
       </div>
     );
   }
