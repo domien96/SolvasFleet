@@ -25,6 +25,8 @@ import java.util.Optional;
 @Transactional
 public class HibernateFleetSubscriptionDao extends HibernateDao<FleetSubscription> implements FleetSubscriptionDao {
 
+    private static final String VEHICLE_ATTRIBUTE = "vehicle";
+
     /**
      * Hibernate implementation for Company.
      */
@@ -35,7 +37,7 @@ public class HibernateFleetSubscriptionDao extends HibernateDao<FleetSubscriptio
     @Override
     public Collection<FleetSubscription> withVehicleId(int vehicleId) {
         return findAll(Filter.predicate((builder, root) -> {
-            Join<FleetSubscription, Vehicle> join = root.join("vehicle");
+            Join<FleetSubscription, Vehicle> join = root.join(VEHICLE_ATTRIBUTE);
             return builder.equal(
                     join.get("id"),
                     vehicleId
@@ -64,7 +66,7 @@ public class HibernateFleetSubscriptionDao extends HibernateDao<FleetSubscriptio
             Expression<LocalDate> endDate = root.get("endDate");
 
             return builder.and(
-                    builder.equal(root.get("vehicle"), vehicle),
+                    builder.equal(root.get(VEHICLE_ATTRIBUTE), vehicle),
                     start,
                     builder.or(
                             builder.isNull(endDate),
