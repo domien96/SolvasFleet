@@ -20,7 +20,7 @@ class Overview extends React.Component<OverviewProps, {}> {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  handleClick(id : number) {
+  handleClick(id : string) {
     browserHistory.push('/vehicles/' + id);
   }
 
@@ -40,18 +40,24 @@ class Overview extends React.Component<OverviewProps, {}> {
 
 interface OptionsProps {
 	onSelect : (type : string) => void;
-	onChange : (fleet : number) => void;
+	onChange : (fleet : string) => void;
 }
 
 interface OptionsState {
-	fleetId : number;
+	fleetId : string;
 }
 
 class Options extends React.Component<OptionsProps, OptionsState>{
 
 	constructor(){
 		super();
-		this.state = { fleetId : undefined }
+		this.state = { fleetId : '' }
+		this.handleChange = this.handleChange.bind(this);
+	}
+
+	handleChange(event : any){
+		this.setState( {fleetId : event.target.value} )
+		this.props.onChange(event.target.value);
 	}
 
 	render(){
@@ -73,7 +79,7 @@ class Options extends React.Component<OptionsProps, OptionsState>{
 			    <div>
 			    	<form>
 			        <label> Fleet ID:
-			          <input name='fleetID' type='number' value={ this.state.fleetId } onChange={ () => this.props.onChange(this.state.fleetId) } />
+			          <input name='fleetID' type='number' value={ this.state.fleetId } onChange={ this.handleChange } />
 			        </label>
 			      </form>
 			    </div>
@@ -94,7 +100,7 @@ class Vehicles extends React.Component<{}, Vehicles.State> {
 
   constructor(props : {}) {
     super(props);
-    this.state = { vehicles: [], type: '', fleet: null };
+    this.state = { vehicles: [], type: '', fleet: '' };
     this.handleSelect = this.handleSelect.bind(this);
     this.handleFleetChange = this.handleFleetChange.bind(this);
   }
@@ -103,7 +109,7 @@ class Vehicles extends React.Component<{}, Vehicles.State> {
     this.fetchVehicles(this.state.type, this.state.fleet);
   }
 
-  fetchVehicles(type : string, fleet : number) {
+  fetchVehicles(type : string, fleet : string) {
   	console.log(this.state)
     fetchVehicles(type, fleet)
       .then((data : Vehicles.Data) => {
@@ -117,7 +123,7 @@ class Vehicles extends React.Component<{}, Vehicles.State> {
   	this.fetchVehicles(newType, this.state.fleet);
   }
 
-  handleFleetChange(newFleet : number){
+  handleFleetChange(newFleet : string){
   	this.setState({ fleet: newFleet })
   	this.fetchVehicles(this.state.type, newFleet);
   }
