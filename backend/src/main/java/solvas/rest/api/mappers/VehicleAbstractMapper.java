@@ -171,7 +171,7 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle,ApiVehicle> {
         Collection<SubFleet> subFleets = daoContext.getSubFleetDao().withFleetId(fleet.getId());
         // Filter if we already have a subtype or not.
         Optional<SubFleet> maybeFleet = subFleets.stream()
-                .filter(s -> vehicle.getType().equals(s.getVehicleType().getName()))
+                .filter(s -> vehicle.getType().getName().equals(s.getVehicleType().getName()))
                 .findFirst();
 
         SubFleet subFleet = maybeFleet.orElseGet(() -> {
