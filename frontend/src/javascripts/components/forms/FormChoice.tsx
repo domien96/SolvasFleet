@@ -14,7 +14,7 @@ export default class FormChoice extends React.Component<Form.Choice.Props, {}> {
     return (
       <div className={ 'form-group' }>
         <label>{ label }:
-        <select className='btn btn-default' placeholder={ this.props.value } onChange={ this.props.callback }>
+        <select className='btn btn-default' value={ this.props.value } onChange={ this.props.callback }>
         { choices }
         </select>
         </label>
