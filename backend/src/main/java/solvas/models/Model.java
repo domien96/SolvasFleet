@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 
 /**
  * Abstract model. Contains some common attributes and metadata for the models.
+ * Instance of subclasses represent models in the persistence layèr.
  *
  * @author David
  * @author Steven
