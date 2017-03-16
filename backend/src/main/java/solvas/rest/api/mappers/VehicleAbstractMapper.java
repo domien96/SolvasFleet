@@ -57,7 +57,6 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle,ApiVehicle> {
                 ? vehicle.getYear() : api.getYear());
         vehicle.setLeasingCompany(api.getLeasingCompany()==0
                 ? vehicle.getLeasingCompany() :daoContext.getCompanyDao().find(api.getLeasingCompany()));
-        vehicle.setValue(0);//api.getValue()
 
         vehicle.setBrand(api.getBrand()==null
                 ? vehicle.getBrand() : api.getBrand());
