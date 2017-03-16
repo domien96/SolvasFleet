@@ -1,10 +1,13 @@
 namespace Fleets {
   export interface Props {
-   id : number ;
+    fleets : Fleet[];
+    company : number;
   }
 
   export interface State {
-    fleets : Fleet[];
+    formVisible : boolean;
+    fleet : Fleet;
+    errors : Form.Error[];
   }
 
   export interface Data {

@@ -14,7 +14,7 @@ class AddVehicle extends React.Component<{}, Vehicle.VForm.State> {
     super();
     this.state = {
       errors: [],
-      vehicle: {}
+      vehicle: { type: 'personalCar' }
     };
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit     = this.onSubmit.bind(this);
@@ -33,12 +33,12 @@ class AddVehicle extends React.Component<{}, Vehicle.VForm.State> {
     createVehicle(this.state.vehicle)
     .then(function(response) {
       return response.json().then(function(data) {
+        console.log(data);
         if (response.ok) {
           browserHistory.push('/vehicles/' + data.id);
         } else {
-          console.log(data);
           setErrors(data.errors.map(function(e : any) {
-            return { field: e.field, error: 'null' };
+            return { field: e, error: 'null' };
           }));
         }
       });

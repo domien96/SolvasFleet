@@ -7,6 +7,10 @@ export function pluck(object : any, keys : string[]) : any {
 }
 
 export function humanize(s : string) : string {
+  if (s == null || s == undefined) {
+    return '';
+  }
+
   return s.replace(/_/g, ' ')
     .replace(/(\w+)/g, function(match) {
       return match.charAt(0).toUpperCase() + match.slice(1);
@@ -21,3 +25,10 @@ export function hasError(this: any, k : string) : boolean {
 export function th(key : string, label : string | number) : Table.Head.Data {
   return { key: key, label: (label || '').toString() };
 }
+
+export function group_by(xs : any[], key : string) {
+  return xs.reduce(function(rv, x) {
+    (rv[x[key]] = rv[x[key]] || []).push(x);
+    return rv;
+  }, {});
+};

@@ -1,4 +1,5 @@
 /// <reference path="./types/interfaces.d.ts"/>
+/// <reference path="../../typings/index.d.ts"/>
 require('../stylesheets/index.scss');
 
 import React      from 'react';

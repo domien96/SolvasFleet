@@ -70,7 +70,7 @@ public class HibernateConfig {
      * @return The factory.
      */
     @Bean
-    @Profile("default,test")
+    @Profile({"default","test"})
     public LocalSessionFactoryBean sessionFactory() {
         return createSessionFactory(getHibernateProperties());
     }
@@ -97,8 +97,7 @@ public class HibernateConfig {
      *
      * @return The bean if successful, otherwise a {@link BeanCreationException} is thrown.
      */
-    @Bean
-    public LocalSessionFactoryBean createSessionFactory(Properties hibernateProperties) {
+    private LocalSessionFactoryBean createSessionFactory(Properties hibernateProperties) {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(getDataSource());
         sessionFactory.setHibernateProperties(hibernateProperties);
