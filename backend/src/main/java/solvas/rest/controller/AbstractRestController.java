@@ -16,11 +16,13 @@ import solvas.persistence.api.Dao;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.Filter;
 import solvas.rest.api.mappers.AbstractMapper;
+import solvas.rest.api.mappers.DependantEntityNotFound;
 import solvas.rest.api.models.ApiModel;
 import solvas.rest.query.Pageable;
 import solvas.rest.utils.JsonListWrapper;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.stream.Collectors;
 
@@ -117,6 +119,26 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
                 ex.getPath().stream().map(JsonMappingException.Reference::getFieldName).collect(Collectors.toList()),
                 JsonListWrapper.ERROR_KEY
         );
+        return new ResponseEntity<>(wrapper, HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
+    /**
+     * Handle cases where a dependant entity was not found, e.g. a vehicle with a non-existent
+     * fleet.
+     *
+     * TODO: see if this could be done by validation.
+     *
+     * @param e The exception.
+     *
+     * @return 422 with the field.
+     */
+    @ExceptionHandler(DependantEntityNotFound.class)
+    public ResponseEntity<?> handleDependantNotFound(DependantEntityNotFound e) {
+        JsonListWrapper<String> wrapper = new JsonListWrapper<>(
+                Collections.singleton(e.getField()),
+                JsonListWrapper.ERROR_KEY
+        );
+
         return new ResponseEntity<>(wrapper, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
