@@ -18,11 +18,12 @@ import java.util.Optional;
  * Mapper between Vehicle and ApiVehicle
  */
 @Component
-public class VehicleAbstractMapper extends AbstractMapper<Vehicle,ApiVehicle> {
+public class VehicleAbstractMapper extends AbstractMapper<Vehicle, ApiVehicle> {
 
     private static final String FLEET_ATTRIBUTE = "fleet";
 
-    private String rootPath="/vehicles/";
+    private String rootPath = "/vehicles/";
+
     /**
      * TODO document
      *
@@ -94,35 +95,44 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle,ApiVehicle> {
                     subscription.setEndDate(now);
                     daoContext.getFleetSubscriptionDao().save(subscription);
                 } else {
-                    try {
-                        Fleet fleet = daoContext.getFleetDao().find(api.getFleet());
-                        // This is a new subscription.
-                        Fleet subscriptionFleet = subscription.getSubFleet().getFleet();
-                        if (subscriptionFleet.getId() != fleet.getId()) {
-                            subscription.setEndDate(now);
-                            daoContext.getFleetSubscriptionDao().save(subscription);
-                            // Add a new fleet
-                            linkFleet(vehicle, fleet, now);
-                        }
-                    } catch (EntityNotFoundException e) {
-                        throw new DependantEntityNotFound(FLEET_ATTRIBUTE, e);
-                    }
+                    createSubscription(api, subscription, vehicle, now);
                 }
-            } else {
+            } else if (api.getFleet() > 0) {
                 // If the code is 0, there was no active subscription, so do nothing.
-                if (api.getFleet()  > 0) {
-                    try {
-                        // If there is no existing subscription, simply add a new one.
-                        Fleet fleet = daoContext.getFleetDao().find(api.getFleet());
-                        linkFleet(vehicle, fleet, now);
-                    } catch (EntityNotFoundException e) {
-                        throw new DependantEntityNotFound(FLEET_ATTRIBUTE, e);
-                    }
+                try {
+                    // If there is no existing subscription, simply add a new one.
+                    Fleet fleet = daoContext.getFleetDao().find(api.getFleet());
+                    linkFleet(vehicle, fleet, now);
+                } catch (EntityNotFoundException e) {
+                    throw new DependantEntityNotFound(FLEET_ATTRIBUTE, e);
                 }
             }
         }
 
         return vehicle;
+    }
+
+    /**
+     * Subscribe a Vehicle to a fleet
+     * @param api The ApiVehicle corresponding to Vehicle
+     * @param subscription The subscription model
+     * @param vehicle The Vehicle to subscribe
+     * @param date The time subscription ends
+     */
+    private void createSubscription(ApiVehicle api, FleetSubscription subscription, Vehicle vehicle, LocalDate date) {
+        try {
+            Fleet fleet = daoContext.getFleetDao().find(api.getFleet());
+            // This is a new subscription.
+            Fleet subscriptionFleet = subscription.getSubFleet().getFleet();
+            if (subscriptionFleet.getId() != fleet.getId()) {
+                subscription.setEndDate(date);
+                daoContext.getFleetSubscriptionDao().save(subscription);
+                // Add a new fleet
+                linkFleet(vehicle, fleet, date);
+            }
+        } catch (EntityNotFoundException e) {
+            throw new DependantEntityNotFound(FLEET_ATTRIBUTE, e);
+        }
     }
 
     @Override
@@ -135,24 +145,22 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle,ApiVehicle> {
         api.setModel(vehicle.getModel());
         api.setMileage(vehicle.getKilometerCount());
         api.setYear(vehicle.getYear());
-        api.setLeasingCompany(vehicle.getLeasingCompany()==null ? 0 :vehicle.getLeasingCompany().getId());
+        api.setLeasingCompany(vehicle.getLeasingCompany() == null ? 0 : vehicle.getLeasingCompany().getId());
         api.setValue(0);//api.getValue()
         api.setBrand(vehicle.getBrand());
         api.setFleet(getApiFleet(vehicle));
         api.setType(vehicle.getType().getName());
         api.setUpdatedAt(vehicle.getUpdatedAt());
         api.setCreatedAt(vehicle.getCreatedAt());
-        api.setUrl(rootPath+api.getId());
+        api.setUrl(rootPath + api.getId());
         return api;
     }
 
     /**
-     *
      * @param vehicle The vehicle.
-     *
      * @return returns 0 if there are no active Subscriptions.
      */
-    private int getApiFleet(Vehicle vehicle){
+    private int getApiFleet(Vehicle vehicle) {
         return daoContext
                 .getFleetSubscriptionDao()
                 .activeForVehicle(vehicle)
@@ -163,8 +171,8 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle,ApiVehicle> {
      * Ensure a link between a vehicle and a fleet.
      *
      * @param vehicle The vehicle.
-     * @param fleet The fleet.
-     * @param now The current date.
+     * @param fleet   The fleet.
+     * @param now     The current date.
      */
     private void linkFleet(Vehicle vehicle, Fleet fleet, LocalDate now) {
 
