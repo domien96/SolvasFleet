@@ -1,6 +1,7 @@
 package mappers;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -15,6 +16,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.when;
 
+@Ignore //milestone 2
 public class RoleMapperTest {
 
     private RoleAbstractMapper mapper;
@@ -33,6 +35,9 @@ public class RoleMapperTest {
         when(context.getRoleDao()).thenReturn(roleDaoMock);
     }
 
+    /**
+     * Test the conversion Role->ApiRole
+     */
     @Test
     public void convertToApiRole()
     {

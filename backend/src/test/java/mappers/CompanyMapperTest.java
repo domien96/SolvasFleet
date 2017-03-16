@@ -16,6 +16,9 @@ import static org.hamcrest.core.Is.is;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.when;
 
+/**
+ * Tests to check correct mapping of a company
+ */
 public class CompanyMapperTest {
     @Mock
     private DaoContext context;
@@ -34,8 +37,11 @@ public class CompanyMapperTest {
         mapper=new CompanyMapper(context);
     }
 
+    /**
+     * Test the conversion ApiCompany->Company
+     */
     @Test
-    public void convertToModel()
+    public void convertToCompany()
     {
         ApiCompany apiCompany = random(ApiCompany.class);
         Company random = random(Company.class);
@@ -54,8 +60,11 @@ public class CompanyMapperTest {
         assertThat(converted.getVatNumber(),is(apiCompany.getVatNumber()));
     }
 
+    /**
+     * Test the conversion Company->ApiCompany
+     */
     @Test
-    public void convertToApiModel()
+    public void convertToApiCompany()
     {
         Company company = random(Company.class);
         ApiCompany converted = mapper.convertToApiModel(company);

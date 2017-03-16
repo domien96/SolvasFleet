@@ -15,6 +15,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.when;
 
+/**
+ * Tests to check correct mapping of a User
+ */
 public class UserMapperTest {
     @Mock
     private DaoContext daoContext;
@@ -32,6 +35,9 @@ public class UserMapperTest {
         mapper=new UserAbstractMapper(daoContext);
     }
 
+    /**
+     * Test the conversion User->ApiUser
+     */
     @Test
     public void convertToApiUser()
     {
@@ -47,6 +53,9 @@ public class UserMapperTest {
         assertThat(converted.getCreatedAt(),is(user.getCreatedAt()));
     }
 
+    /**
+     * Test the conversion ApiUser->User
+     */
     @Test
     public void convertToUser() {
         ApiUser user = random(ApiUser.class);

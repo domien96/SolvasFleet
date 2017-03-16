@@ -20,7 +20,7 @@ import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.when;
 
 /**
- * Tests to check correct mapping of the vehicle types
+ * Tests to check correct mapping of a Vehicle
  */
 public class VehicleMapperTest {
     private VehicleAbstractMapper mapper;
@@ -55,6 +55,9 @@ public class VehicleMapperTest {
         when(context.getFleetSubscriptionDao()).thenReturn(fleetSubscriptionDao);
     }
 
+    /**
+     * Test the conversion ApiVehicle->Vehicle
+     */
     @Test
     public void convertToVehicle()
     {
@@ -76,6 +79,9 @@ public class VehicleMapperTest {
 
     }
 
+    /**
+     * Test the conversion Vehicle->ApiVehicle
+     */
     @Test
     public void convertToApiVehicle()
     {

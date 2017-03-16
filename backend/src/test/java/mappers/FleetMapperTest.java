@@ -17,7 +17,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
 /**
- * Tests to check correct mapping of the a fleet
+ * Tests to check correct mapping of a fleet
  */
 public class FleetMapperTest {
 
@@ -34,8 +34,11 @@ public class FleetMapperTest {
         mapper=new FleetMapper(daoContext);
     }
 
+    /**
+     * Test the conversion Fleet->ApiFleet
+     */
     @Test
-    public void convertToApiVehicle()
+    public void convertToApiFleet()
     {
         Fleet fleet = random(Fleet.class);
         ApiFleet converted = mapper.convertToApiModel(fleet);
@@ -47,9 +50,12 @@ public class FleetMapperTest {
         assertThat(converted.getCreatedAt(),is(fleet.getCreatedAt()));
     }
 
+    /**
+     * Test the conversion ApiFleet->Fleet
+     */
     @Ignore
     @Test
-    public void convertToVehicle()
+    public void convertToFleet()
     {
 
     }
