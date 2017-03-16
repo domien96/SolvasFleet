@@ -50,17 +50,27 @@ class GeneralInfo extends React.Component<GeneralInfoProps, {}> {
   }
 }
 
-class Submit extends React.Component<{}, {}> {
+interface SubmitProps {
+  persisted : boolean
+}
+class Submit extends React.Component<SubmitProps, {}> {
   render() {
+    var buttonMessage;
+    if (this.props.persisted) {
+      buttonMessage = "update";
+    } else {
+      buttonMessage = "create";
+    }
+
     return (
       <div className='col-xs-12'>
         <Card>
           <div className='card-title'>
             <h5>Actions</h5>
           </div>
-          <div className='card-content'>
-            <button type='submit' className='btn btn-default'>
-              <T.text tag='span' text='addClient.submit' />
+          <div className='card-content actions'>
+            <button type='submit' className='btn btn-success'>
+              <T.text tag='span' text={ 'form.' + buttonMessage } /> client
             </button>
             <Link to='/clients' className='btn btn-default'>Cancel</Link>
           </div>
@@ -80,7 +90,7 @@ class ClientForm extends React.Component<Company.CForm.Props, any> {
             <GeneralInfo company={ this.props.company } handleChange={ this.props.handleChange } hasError={ this.props.hasError }/>
             <div className='col-xs-12 col-md-5'>
               <div className='row'>
-                <Submit />
+                <Submit persisted={ this.props.company.id != null } />
               </div>
             </div>
           </div>

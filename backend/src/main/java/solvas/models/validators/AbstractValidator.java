@@ -28,7 +28,7 @@ public abstract class AbstractValidator<T extends ApiModel> implements Validator
 
 
     @Override
-    public final void validate(Object target, Errors errors) {
+    public void validate(Object target, Errors errors) {
         T model = (T) target;
         validations.forEach(validation -> validation.run(model, errors));
     }

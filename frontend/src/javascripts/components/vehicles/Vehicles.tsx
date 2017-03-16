@@ -130,7 +130,6 @@ class Vehicles extends React.Component<{}, Vehicles.State> {
   }
 
   fetchVehicles(type : string, fleet : string) {
-    console.log(this.state)
     fetchVehicles(type, fleet)
       .then((data : Vehicles.Data) => {
         this.setState({ vehicles: data.data })

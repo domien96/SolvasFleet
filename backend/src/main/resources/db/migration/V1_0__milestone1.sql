@@ -23,8 +23,8 @@ CREATE TABLE companies (
   address_house_number VARCHAR(255) NOT NULL,
   address_postalCode VARCHAR(255) NOT NULL,
   address_street VARCHAR(255) NOT NULL,
-  updated_at TIMESTAMP NOT NULL,
-  created_at TIMESTAMP NOT NULL,
+  updated_at TIMESTAMP,
+  created_at TIMESTAMP,
   PRIMARY KEY (company_id)
 );
 
@@ -34,8 +34,8 @@ CREATE TABLE users (
   last_name VARCHAR(255) NOT NULL,
   email VARCHAR(255) NOT NULL,
   password VARCHAR(255) NOT NULL,
-  updated_at TIMESTAMP NOT NULL,
-  created_at TIMESTAMP NOT NULL,
+  updated_at TIMESTAMP,
+  created_at TIMESTAMP,
   PRIMARY KEY (user_id)
 );
 
@@ -56,8 +56,8 @@ CREATE TABLE vehicles (
   value INT,
   brand VARCHAR(255) NOT NULL,
   vehicletype_id INT NOT NULL REFERENCES vehicle_types(vehicletype_id),
-  updated_at TIMESTAMP NOT NULL,
-  created_at TIMESTAMP NOT NULL,
+  updated_at TIMESTAMP,
+  created_at TIMESTAMP,
   PRIMARY KEY (vehicle_id)
 );
 
@@ -66,8 +66,8 @@ CREATE TABLE roles (
   function VARCHAR(255) NOT NULL, --Todo change to function?
   company_id INT NOT NULL REFERENCES companies(company_id),
   user_id INT NOT NULL REFERENCES users(user_id), -- ToDo add endate, startDate
-  updated_at TIMESTAMP NOT NULL,
-  created_at TIMESTAMP NOT NULL,
+  updated_at TIMESTAMP,
+  created_at TIMESTAMP,
   PRIMARY KEY (role_id)
 );
 
@@ -75,16 +75,16 @@ CREATE TABLE fleets (
   fleet_id SERIAL NOT NULL,
   company_id INT NOT NULL REFERENCES companies(company_id),
   name VARCHAR(255),
-  updated_at TIMESTAMP NOT NULL,
-  created_at TIMESTAMP NOT NULL,
+  updated_at TIMESTAMP,
+  created_at TIMESTAMP,
   PRIMARY KEY (fleet_id)
 );
 
 CREATE TABLE permissions (
   permission_id SERIAL NOT NULL,
   name VARCHAR(255) NOT NULL,
-  updated_at TIMESTAMP NOT NULL,
-  created_at TIMESTAMP NOT NULL,
+  updated_at TIMESTAMP,
+  created_at TIMESTAMP,
   PRIMARY KEY (permission_id)
 );
 
@@ -92,8 +92,8 @@ CREATE TABLE subfleets (
   subfleet_id SERIAL NOT NULL,
   fleet_id INT NOT NULL REFERENCES fleets(fleet_id),
   vehicletype_id INT NOT NULL REFERENCES vehicle_types(vehicletype_id),
-  updated_at TIMESTAMP NOT NULL,
-  created_at TIMESTAMP NOT NULL,
+  updated_at TIMESTAMP,
+  created_at TIMESTAMP,
   PRIMARY KEY (subfleet_id)
 );
 
@@ -103,8 +103,8 @@ CREATE TABLE fleet_subscriptions (
   end_date DATE,
   vehicle_id INT NOT NULL REFERENCES vehicles(vehicle_id),
   subfleet_id INT NOT NULL REFERENCES subfleets(subfleet_id),
-  updated_at TIMESTAMP NOT NULL,
-  created_at TIMESTAMP NOT NULL,
+  updated_at TIMESTAMP,
+  created_at TIMESTAMP,
   PRIMARY KEY (fleet_subscription_id)
 );
 

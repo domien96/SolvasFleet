@@ -63,16 +63,19 @@ public class HibernateConfig {
                 .getResources("classpath:/mappings/*.hbm.xml");
     }
 
+
     /**
      * The session factory bean. Spring manages everything for us.
      *
      * @return The factory.
      */
     @Bean
-    @Profile("default")
+    @Profile({"default","test"})
     public LocalSessionFactoryBean sessionFactory() {
         return createSessionFactory(getHibernateProperties());
     }
+
+
 
     /**
      * The session factory bean. Spring manages everything for us.

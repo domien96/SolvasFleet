@@ -1,6 +1,6 @@
 swagger: '2.0'
 info:
-  version: 0.1.1
+  version: 0.1.2
   title: Solvas Fleet API - Milestone 1
   description: |
     The API definitions for the first Milestone.
@@ -20,11 +20,11 @@ paths:
     get:
       produces:
         - application/json
-      summary: | 
+      summary: |
         Get a list of Company objects.
       description: |
-        Get a list of `Company` objects, eventually filtered by the query 
-        parameters. When combining parameters, the conditions are joined by 
+        Get a list of `Company` objects, eventually filtered by the query
+        parameters. When combining parameters, the conditions are joined by
         AND. This means the resulting objects must satisfy all filters. All the string filter operations are case insensitive.
       parameters:
         - in: query
@@ -150,6 +150,12 @@ paths:
       description: |
         Attributes described as 'server-generated' will be ignored by the server. Non-required attributes that are
         not present will not be updated.
+      parameters:
+        - in: body
+          name: Company
+          required: true
+          schema:
+            $ref: '#/definitions/Company'
       responses:
         '200':
           description: OK
@@ -176,8 +182,8 @@ paths:
     get:
       summary: Get a list of Vehicle objects
       description: |
-        Get a list of `Vehicle` objects, eventually filtered by the query 
-        parameters. When combining parameters, the conditions are joined by 
+        Get a list of `Vehicle` objects, eventually filtered by the query
+        parameters. When combining parameters, the conditions are joined by
         AND. This means the resulting objects must satisfy all filters. All the string filter operations are case insensitive.
       produces:
       - application/json
@@ -187,7 +193,7 @@ paths:
           type: string
           description: Filter by license plate.
         - in: query
-          name: vin 
+          name: vin
           type: string
           description: Filter by chassis number.
         - in: query
@@ -264,7 +270,7 @@ paths:
         - application/json
       consumes:
         - application/json
-      summary: Add a new `Vehicle` to the list of vehicles 
+      summary: Add a new `Vehicle` to the list of vehicles
       description: |
         Attributes described as 'server-generated' will be ignored by the server. Non-required attributes that are
         not present will be filled in by the server, using default values.
@@ -301,7 +307,7 @@ paths:
       responses:
         '200':
           description: OK
-          schema: 
+          schema:
             $ref: '#/definitions/Vehicle'
         '404':
           $ref: '#/responses/NotFound'
@@ -349,8 +355,8 @@ paths:
     get:
       summary: Get a list of Fleet objects
       description: |
-        Get a list of `Fleet` objects, eventually filtered by the query 
-        parameters. When combining parameters, the conditions are joined by 
+        Get a list of `Fleet` objects, eventually filtered by the query
+        parameters. When combining parameters, the conditions are joined by
         AND. This means the resulting objects must satisfy all filters. All the string filter operations are case insensitive.
       produces:
       - application/json
@@ -417,7 +423,7 @@ paths:
         - application/json
       consumes:
         - application/json
-      summary: Add a new `Fleet` to the list of fleets 
+      summary: Add a new `Fleet` to the list of fleets
       description: |
         Attributes described as 'server-generated' will be ignored by the server. Non-required attributes that are
         not present will be filled in by the server, using default values.
@@ -454,7 +460,7 @@ paths:
       responses:
         '200':
           description: OK
-          schema: 
+          schema:
             $ref: '#/definitions/Fleet'
         '404':
           $ref: '#/responses/NotFound'
@@ -469,11 +475,11 @@ paths:
         not present will not be updated.
       parameters:
       - in: body
-        name: Vehicle
-        description: Vehicle to add
+        name: Fleet
+        description: The fleet to update
         required: true
         schema:
-          $ref: '#/definitions/Vehicle'
+          $ref: '#/definitions/Fleet'
       responses:
         '200':
           description: OK
@@ -504,8 +510,8 @@ paths:
         - application/json
       summary: Get a list of Roles.
       description: |
-        Get a list of `Role` objects, eventually filtered by the query 
-        parameters. When combining parameters, the conditions are joined by 
+        Get a list of `Role` objects, eventually filtered by the query
+        parameters. When combining parameters, the conditions are joined by
         AND. This means the resulting objects must satisfy all filters.
         All the string filter operations are case insensitive.
       parameters:
@@ -618,7 +624,7 @@ paths:
       responses:
         '200':
           description: OK
-          schema: 
+          schema:
             $ref: '#/definitions/Role'
         '404':
           $ref: '#/responses/NotFound'
@@ -666,8 +672,8 @@ paths:
         - application/json
       summary: Get a list of User objects
       description: |
-        Get a list of `User` objects, eventually filtered by the query 
-        parameters. When combining parameters, the conditions are joined by 
+        Get a list of `User` objects, eventually filtered by the query
+        parameters. When combining parameters, the conditions are joined by
         AND. This means the resulting objects must satisfy all filters. All the string filter operations are case insensitive.
       parameters:
         - in: query
@@ -769,7 +775,7 @@ paths:
     parameters:
      -  name: id
         in: path
-        description: ID of User 
+        description: ID of User
         required: true
         type: integer
     get:
@@ -779,7 +785,7 @@ paths:
       responses:
         '200':
           description: OK
-          schema: 
+          schema:
             $ref: '#/definitions/User'
         '404':
           $ref: '#/responses/NotFound'
@@ -823,14 +829,14 @@ paths:
           $ref: '#/responses/NotFound'
         '409':
           $ref: '#/responses/Conflict'
-          
+
 responses:
   Malformed:
     description: The JSON is malformed. This is a syntax error.
   WrongQuery:
     description: A query parameter has a wrong type.
   WrongContent:
-    description: | 
+    description: |
       The JSON is has correct syntax, but an attribute was missing or one of the
       attributes has incorrect content. All attributes with errors or missing ones
       should be reported back in the error object.
@@ -854,7 +860,7 @@ responses:
   NotFound:
     description: |
       The resource with the given ID was not found.
-      
+
 definitions:
   Company:
     type: object
