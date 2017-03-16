@@ -14,7 +14,8 @@ export default class FormField extends React.Component<Form.Field.Props, {}> {
           type={ this.props.type}
           placeholder={ label }
           className='form-control'
-          onChange= { this.props.callback } />
+          onChange= { this.props.callback }
+          value={ this.props.value || '' }/>
       </div>
     )
   }

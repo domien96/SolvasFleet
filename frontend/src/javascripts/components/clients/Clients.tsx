@@ -3,10 +3,10 @@ import { browserHistory, Link } from'react-router';
 
 import Card       from '../app/Card.tsx';
 import Header     from '../app/Header.tsx';
-
-import { InfoTable, th }  from '../tables/InfoTable.tsx';
+import InfoTable  from '../tables/InfoTable.tsx';
 
 import fetchClients from '../../actions/fetch_companies.ts';
+import { th } from '../../utils/utils.ts';
 
 
 interface OverviewProps {
@@ -28,9 +28,8 @@ class Overview extends React.Component<OverviewProps, {}> {
     const tableHead = [
       th('id', 'company.id'),
       th('name', 'company.name'),
-      th('vat_number', 'company.vat_number'),
-      th('phone_number', 'company.phone_number'),
-      th('address', 'company.address')
+      th('vatNumber', 'company.vatNumber'),
+      th('phoneNumber', 'company.phoneNumber'),
     ];
 
     return (
@@ -50,7 +49,7 @@ class Clients extends React.Component<{}, Companies.State> {
   componentDidMount() {
     fetchClients()
       .then((data : Companies.Data) => {
-        this.setState({ companies: data.companies })
+        this.setState({ companies: data.data })
       });
   }
 

@@ -1,93 +1,54 @@
 import React from 'react';
-import T from 'i18n-react';
-import { browserHistory, Link } from 'react-router';
+import { browserHistory } from 'react-router';
 
-import Card       from '../app/Card.tsx';
-import FormField  from '../forms/FormField.tsx';
 import Header     from '../app/Header.tsx';
-import Errors     from '../app/Errors.tsx';
+import ClientForm from './ClientForm.tsx'
+
 
 import createCompany from '../../actions/create_company.ts';
+import { hasError }  from '../../utils/utils.ts';
 
-interface GeneralInfoProps {
-  handleChange: (field : string, e : any) => void;
-  hasError: (e : any) => boolean;
-}
 
-class GeneralInfo extends React.Component<GeneralInfoProps, {}> {
-  render() {
-    return (
-      <div className='col-xs-12 col-md-7'>
-        <Card>
-          <div className='card-title'>
-            <h5>General info</h5>
-          </div>
-          <div className='card-content'>
-            <FormField placeholder='company.name' type='text'     callback={ this.props.handleChange.bind(this, 'name') } hasError={ this.props.hasError('name')} />
-            <FormField placeholder='company.vat_number'  type='text'     callback={ this.props.handleChange.bind(this, 'vat_number')  } hasError={ this.props.hasError('vat_number')}  />
-            <FormField placeholder='company.phone_number'      type='tel'    callback={ this.props.handleChange.bind(this, 'phone_number')      } hasError={ this.props.hasError('phone_number')}      />
-            <FormField placeholder='company.address'   type='text' callback={ this.props.handleChange.bind(this, 'address')   } hasError={ this.props.hasError('address')}   />
-          </div>
-        </Card>
-      </div>
-    );
-  }
-}
-
-class Submit extends React.Component<{}, {}> {
-  render() {
-    return (
-      <div className='col-xs-12'>
-        <Card>
-          <div className='card-title'>
-            <h5>Actions</h5>
-          </div>
-          <div className='card-content'>
-            <button type='submit' className='btn btn-default'>
-              <T.text tag='span' text='addClient.submit' />
-            </button>
-            <Link to='/clients' className='btn btn-default'>Cancel</Link>
-          </div>
-        </Card>
-      </div>
-    );
-  }
-}
-
-class AddClient extends React.Component<Company.Props, Company.New.State> {
+class AddClient extends React.Component<{}, Company.CForm.State> {
 
   constructor() {
     super();
     this.state = {
-      errors: [ { field: 'name', error: 'null' }],
+      errors: [],
       company: {}
     };
+    this.state.company.address = {};
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit     = this.onSubmit.bind(this);
-    this.hasError     = this.hasError.bind(this);
   }
 
-  public handleChange(field : Company.Field, e : any) : void {
+  public handleChange(field : Company.Field, isAddress : boolean, e : any) : void {
     var newClient : Company = this.state.company;
-    newClient[field] = e.target.value;
+    if(isAddress){
+      newClient['address'][field] = e.target.value;
+    }
+    else{
+      newClient[field] = e.target.value;
+    }
     this.setState({ company: newClient });
   }
 
   public onSubmit(e : any) : void {
     e.preventDefault();
+    let setErrors = (e : Form.Error[]) => this.setState({ errors: e });
 
     createCompany(this.state.company)
     .then(function(response) {
-      return response.json()
-    })
-    .then(() => {
-      browserHistory.push('/clients');
+      return response.json().then(function(data) {
+        if (response.ok) {
+          browserHistory.push('/clients/' + data.id);
+        } else {
+          setErrors(data.errors.map(function(e : any) {
+            return { field: e, error: 'null' };
+          }));
+        }
+      });
     });
-  }
-
-  public hasError(k : string) : boolean {
-    const errors = this.state.errors.filter(function(el) {return el.field == k; });
-    return (errors.length != 0);
   }
 
   render() {
@@ -96,17 +57,13 @@ class AddClient extends React.Component<Company.Props, Company.New.State> {
         <Header>
           <h2>Add A New Client</h2>
         </Header>
-        <form method='post' onSubmit={ this.onSubmit } >
-          <div className='wrapper'>
-            <div className='row'>
-              <Errors errors={ this.state.errors } />
-              <GeneralInfo handleChange={ this.handleChange } hasError={ this.hasError.bind(this) }/>
-              <div className='col-xs-12 col-md-5'>
-                  <Submit />
-              </div>
-            </div>
-          </div>
-        </form>
+        <ClientForm
+          company={ this.state.company }
+          onSubmit={ this.onSubmit }
+          handleChange={ this.handleChange }
+          hasError={ hasError.bind(this) }
+          errors={ this.state.errors }
+          />
       </div>
     );
   }

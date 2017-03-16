@@ -1,9 +1,11 @@
+@import './variables.scss';
+
 .card {
   background-color: #fff;
   margin-bottom: 25px;
 
   .card-title {
-    border-top: 2px solid #e7eaec;
+    border-top: 2px solid $gray-lighter;
     padding: 15px 15px 7px;
 
     h5 {
@@ -12,7 +14,11 @@
   }
 
   .card-content {
-    border-top: 1px solid #e7eaec;
+    border-top: 1px solid $gray-lighter;
     padding: 20px;
+
+    &.not-padded {
+      padding: 0;
+    }
   }
 }

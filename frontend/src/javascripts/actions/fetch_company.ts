@@ -1,6 +1,6 @@
 import fetchJSON from './fetch_json.ts';
-import { COMPANIES_URL } from '../constants/constants.ts';
+import { COMPANY_URL } from '../constants/constants.ts';
 
 export default function(id : number) {
-  	return fetchJSON(COMPANIES_URL + '/' + id);
+  	return fetchJSON(COMPANY_URL(id));
 }

@@ -12,7 +12,7 @@ set :repo_tree, 'frontend'
 
 after 'deploy:updated', 'npm:build'
 
-set :linked_files, %w(webpack.config.js src/javascripts/constants/constants.ts)
+set :linked_files, %w(webpack.config.js)
 set :linked_dirs, %w(node_modules)
 
 

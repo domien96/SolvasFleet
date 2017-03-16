@@ -1,5 +1,7 @@
 package solvas.models;
 
+
+//TODO change discription to allow {Id,createdat, .} gets changed by deserializer.
 import java.time.LocalDateTime;
 
 /**
@@ -29,12 +31,12 @@ public abstract class Model {
 
     /**
      * Set this model's identifier. This value must be unique. The persistence layer may impose additional
-     * requirements on this attribute; such as a prohibition to manually change it.
+     * requirements on this attribute; such as a prohibition to manually change it. Id gets changed by deserializer.
      *
      * @param id The unique identifier for this model.
      */
     @SuppressWarnings("unused")
-    protected void setId(int id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -58,7 +60,7 @@ public abstract class Model {
      * @param createdAt The date and time at which this model was last updated.
      */
     @SuppressWarnings("unused")
-    private void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -85,7 +87,7 @@ public abstract class Model {
      * @param updatedAt The time at which this model was last updated.
      */
     @SuppressWarnings("unused")
-    protected void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
 }

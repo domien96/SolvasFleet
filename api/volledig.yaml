@@ -1,0 +1,1090 @@
+swagger: '2.0'
+info:
+  version: 0.1.2
+  title: Solvas Fleet API - Milestone 1
+  description: |
+    The API definitions for the first Milestone.
+
+    Some attributes in the models are server-generated attributes. To keep the API shorter, we don't use different
+    models for the different operations. Attributes are divided in two main categories:
+
+    1. Required attributes. These must be present at all times.
+    2. Non-required attributes. There are three categories:
+      1. Server-generated attributes. These are read-only from the server to the client. If the client
+         send them to the server, they will be ignored.
+      2. Client-generated attributes. These are read-only from the client to the server. This means that the
+         client can send them to the server, but the server will never send them to the client.
+      3. Normal data-attributes. These are standard attributes representing optional data.
+paths:
+  /companies:
+    get:
+      produces:
+        - application/json
+      summary: |
+        Get a list of Company objects.
+      description: |
+        Get a list of `Company` objects, eventually filtered by the query
+        parameters. When combining parameters, the conditions are joined by
+        AND. This means the resulting objects must satisfy all filters. All the string filter operations are case insensitive.
+      parameters:
+        - in: query
+          name: nameContains
+          type: string
+          description: Filter objects whose name attribute contains nameContains.
+        - in: query
+          name: country
+          type: string
+          description: Filter by country.
+        - in: query
+          name: city
+          type: string
+          description: Filter by city.
+        - in: query
+          name: postalCode
+          type: string
+          description: Filter by postal code.
+        - in: query
+          name: page
+          type: integer
+          description: The page to query.
+          default: 0
+        - in: query
+          name: limit
+          type: integer
+          description: The number of elements in a page.
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+            required: [data, total, offset, limit]
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/Company'
+              total:
+                description: Total number of items.
+                example: 50
+                type: integer
+              offset:
+                description: |
+                  The number of items before this page (exclusive). This means
+                  that when offset = 20, this page will contains items 20 to
+                  20 + limit. For limit = 10, it will be 20 - 29 (including 29).
+                example: 20
+                type: integer
+              limit:
+                description: The maximum number of items on a page.
+                example: 10
+                type: integer
+              previous:
+                description: Link to the previous page, if applicable.
+                example: /companies&page=1
+                type: string
+              next:
+                description: Link to the next page, if applicable.
+                type: string
+                example: /companies&page=20
+              first:
+                description: Link to the first page, if applicable.
+                type: string
+                example: /companies&page=0
+              last:
+                description: Link to the last page, if applicable.
+                type: string
+                example: /companies&page=100
+        '400':
+           $ref: '#/responses/WrongQuery'
+    post:
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      summary: Add a new Company to the list of companies.
+      description: |
+        Attributes described as 'server-generated' will be ignored by the server. Non-required attributes that are
+        not present will be filled in by the server, using default values.
+      parameters:
+        - in: body
+          name: Company
+          required: true
+          schema:
+            $ref: '#/definitions/Company'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Company'
+        '400':
+          $ref: '#/responses/Malformed'
+        '422':
+          $ref: '#/responses/WrongContent'
+        '415':
+          $ref: '#/responses/WrongType'
+  '/companies/{id}':
+    parameters:
+        - in: path
+          name: id
+          description: ID of Company
+          required: true
+          type: integer
+          format: int64
+    get:
+      produces:
+        - application/json
+      summary: Find Company by ID.
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Company'
+        '404':
+          $ref: '#/responses/NotFound'
+    put:
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      summary: Update the `Company` with the given ID.
+      description: |
+        Attributes described as 'server-generated' will be ignored by the server. Non-required attributes that are
+        not present will not be updated.
+      parameters:
+        - in: body
+          name: Company
+          required: true
+          schema:
+            $ref: '#/definitions/Company'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Company'
+        '400':
+          $ref: '#/responses/Malformed'
+        '404':
+          $ref: '#/responses/NotFound'
+        '422':
+          $ref: '#/responses/WrongContent'
+        '415':
+          $ref: '#/responses/WrongType'
+    delete:
+      summary: Archive the Company with the given ID
+      responses:
+        '204':
+          description: Company archived successfully.
+        '404':
+          $ref: '#/responses/NotFound'
+        '409':
+          $ref: '#/responses/Conflict'
+  /vehicles:
+    get:
+      summary: Get a list of Vehicle objects
+      description: |
+        Get a list of `Vehicle` objects, eventually filtered by the query
+        parameters. When combining parameters, the conditions are joined by
+        AND. This means the resulting objects must satisfy all filters. All the string filter operations are case insensitive.
+      produces:
+      - application/json
+      parameters:
+        - in: query
+          name: licensePlate
+          type: string
+          description: Filter by license plate.
+        - in: query
+          name: vin
+          type: string
+          description: Filter by chassis number.
+        - in: query
+          name: leasingCompany
+          type: integer
+          description: Filter by leasingCompany.
+        - in: query
+          name: year
+          type: integer
+          description: Filter by build year.
+        - in: query
+          name: fleet
+          type: integer
+          description: Filter by fleet.
+        - in: query
+          name: type
+          type: string
+          description: Filter by vehicle type.
+        - in: query
+          name: page
+          type: integer
+          description: The page to query.
+          default: 0
+        - in: query
+          name: limit
+          type: integer
+          description: The number of elements in a page.
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            required: [data, total, offset, limit]
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/Vehicle'
+              total:
+                description: Total number of items.
+                example: 50
+                type: integer
+              offset:
+                description: |
+                  The number of items before this page (exclusive). This means
+                  that when offset = 20, this page will contains items 20 to
+                  20 + limit. For limit = 10, it will be 20 - 29 (including 29).
+                example: 20
+                type: integer
+              limit:
+                description: The maximum number of items on a page.
+                example: 10
+                type: integer
+              previous:
+                description: Link to the previous page, if applicable.
+                example: /vehicles&page=1
+                type: string
+              next:
+                description: Link to the next page, if applicable.
+                type: string
+                example: /vehicles&page=20
+              first:
+                description: Link to the first page, if applicable.
+                type: string
+                example: /vehicles&page=0
+              last:
+                description: Link to the last page, if applicable.
+                type: string
+                example: /vehicles&page=100
+        '400':
+          $ref: '#/responses/WrongQuery'
+    post:
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      summary: Add a new `Vehicle` to the list of vehicles
+      description: |
+        Attributes described as 'server-generated' will be ignored by the server. Non-required attributes that are
+        not present will be filled in by the server, using default values.
+      parameters:
+      - in: body
+        name: Vehicle
+        description: Vehicle item to add
+        schema:
+          $ref: '#/definitions/Vehicle'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Vehicle'
+        '400':
+          $ref: '#/responses/Malformed'
+        '409':
+          $ref: '#/responses/Conflict'
+        '422':
+          $ref: '#/responses/WrongContent'
+        '415':
+          $ref: '#/responses/WrongType'
+  /vehicles/{id}:
+    parameters:
+        - name: id
+          in: path
+          description: ID of Vehicle
+          required: true
+          type: integer
+    get:
+      produces:
+        - application/json
+      summary: Find Company by ID.
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Vehicle'
+        '404':
+          $ref: '#/responses/NotFound'
+    put:
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      summary: Update the Vehicle with the given ID
+      description: |
+        Attributes described as 'server-generated' will be ignored by the server. Non-required attributes that are
+        not present will not be updated.
+      parameters:
+      - in: body
+        name: Vehicle
+        description: Vehicle to add
+        required: true
+        schema:
+          $ref: '#/definitions/Vehicle'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Vehicle'
+        '400':
+          $ref: '#/responses/Malformed'
+        '404':
+          $ref: '#/responses/NotFound'
+        '409':
+          $ref: '#/responses/Conflict'
+        '422':
+          $ref: '#/responses/WrongContent'
+        '415':
+          $ref: '#/responses/WrongType'
+    delete:
+      summary: Archive the Vehicle with the given ID.
+      responses:
+        '204':
+          description: Vehicle archived successfully
+        '404':
+          $ref: '#/responses/NotFound'
+        '409':
+          $ref: '#/responses/Conflict'
+  /fleets:
+    get:
+      summary: Get a list of Fleet objects
+      description: |
+        Get a list of `Fleet` objects, eventually filtered by the query
+        parameters. When combining parameters, the conditions are joined by
+        AND. This means the resulting objects must satisfy all filters. All the string filter operations are case insensitive.
+      produces:
+      - application/json
+      parameters:
+        - in: query
+          name: company
+          type: integer
+          description: Filter by Company.
+        - in: query
+          name: page
+          type: integer
+          description: The page to query.
+          default: 0
+        - in: query
+          name: limit
+          type: integer
+          description: The number of elements in a page.
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            required: [data, total, offset, limit]
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/Fleet'
+              total:
+                description: Total number of items.
+                example: 50
+                type: integer
+              offset:
+                description: |
+                  The number of items before this page (exclusive). This means
+                  that when offset = 20, this page will contains items 20 to
+                  20 + limit. For limit = 10, it will be 20 - 29 (including 29).
+                example: 20
+                type: integer
+              limit:
+                description: The maximum number of items on a page.
+                example: 10
+                type: integer
+              previous:
+                description: Link to the previous page, if applicable.
+                example: /fleet&page=1
+                type: string
+              next:
+                description: Link to the next page, if applicable.
+                type: string
+                example: /fleet&page=20
+              first:
+                description: Link to the first page, if applicable.
+                type: string
+                example: /fleet&page=0
+              last:
+                description: Link to the last page, if applicable.
+                type: string
+                example: /fleet&page=100
+        '400':
+          $ref: '#/responses/WrongQuery'
+    post:
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      summary: Add a new `Fleet` to the list of fleets
+      description: |
+        Attributes described as 'server-generated' will be ignored by the server. Non-required attributes that are
+        not present will be filled in by the server, using default values.
+      parameters:
+      - in: body
+        name: Fleet
+        description: Fleet item to add
+        schema:
+          $ref: '#/definitions/Fleet'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Fleet'
+        '400':
+          $ref: '#/responses/Malformed'
+        '409':
+          $ref: '#/responses/Conflict'
+        '422':
+          $ref: '#/responses/WrongContent'
+        '415':
+          $ref: '#/responses/WrongType'
+  /fleets/{id}:
+    parameters:
+        - name: id
+          in: path
+          description: ID of Fleet
+          required: true
+          type: integer
+    get:
+      produces:
+        - application/json
+      summary: Find Fleet by ID.
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Fleet'
+        '404':
+          $ref: '#/responses/NotFound'
+    put:
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      summary: Update the Fleet with the given ID
+      description: |
+        Attributes described as 'server-generated' will be ignored by the server. Non-required attributes that are
+        not present will not be updated.
+      parameters:
+      - in: body
+        name: Fleet
+        description: The fleet to update
+        required: true
+        schema:
+          $ref: '#/definitions/Fleet'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Fleet'
+        '400':
+          $ref: '#/responses/Malformed'
+        '404':
+          $ref: '#/responses/NotFound'
+        '409':
+          $ref: '#/responses/Conflict'
+        '422':
+          $ref: '#/responses/WrongContent'
+        '415':
+          $ref: '#/responses/WrongType'
+    delete:
+      summary: Archive the Fleet with the given ID.
+      responses:
+        '204':
+          description: Fleet archived successfully
+        '404':
+          $ref: '#/responses/NotFound'
+        '409':
+          $ref: '#/responses/Conflict'
+  /roles:
+    get:
+      produces:
+        - application/json
+      summary: Get a list of Roles.
+      description: |
+        Get a list of `Role` objects, eventually filtered by the query
+        parameters. When combining parameters, the conditions are joined by
+        AND. This means the resulting objects must satisfy all filters.
+        All the string filter operations are case insensitive.
+      parameters:
+        - in: query
+          name: company
+          description: Filter by company
+          type: integer
+        - in: query
+          name: user
+          description: Filter by user
+          type: integer
+        - in: query
+          name: active
+          description: |
+            Filter roles that are active. If true or empty, only active roles will be returned.
+            If false, all roles will returned (equivalent to not using the filter).
+          allowEmptyValue: true
+          type: boolean
+        - in: query
+          name: page
+          type: integer
+          description: The page to query.
+          default: 0
+        - in: query
+          name: limit
+          type: integer
+          description: The number of elements in a page.
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+            required: [data, total, offset, limit]
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/Role'
+              total:
+                description: Total number of items.
+                example: 50
+                type: integer
+              offset:
+                description: |
+                  The number of items before this page (exclusive). This means
+                  that when offset = 20, this page will contains items 20 to
+                  20 + limit. For limit = 10, it will be 20 - 29 (including 29).
+                example: 20
+                type: integer
+              limit:
+                description: The maximum number of items on a page.
+                example: 10
+                type: integer
+              previous:
+                description: Link to the previous page, if applicable.
+                example: /roles&page=1
+                type: string
+              next:
+                description: Link to the next page, if applicable.
+                type: string
+                example: /roles&page=20
+              first:
+                description: Link to the first page, if applicable.
+                type: string
+                example: /roles&page=0
+              last:
+                description: Link to the last page, if applicable.
+                type: string
+                example: /roles&page=100
+        '400':
+          $ref: '#/responses/WrongQuery'
+    post:
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      summary: Add a new `Role` object.
+      description: |
+        Attributes described as 'server-generated' will be ignored by the server. Non-required attributes that are
+        not present will be filled in by the server, using default values.
+      parameters:
+        - in: body
+          name: data
+          description: The data to save
+          required: true
+          schema:
+            $ref: "#/definitions/Role"
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Role'
+        '400':
+          $ref: '#/responses/Malformed'
+        '422':
+          $ref: '#/responses/WrongContent'
+        '415':
+          $ref: '#/responses/WrongType'
+  /roles/{id}:
+    parameters:
+        - in: path
+          name: id
+          description: ID of Role
+          required: true
+          type: integer
+    get:
+      produces:
+        - application/json
+      description: Find Role by ID
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Role'
+        '404':
+          $ref: '#/responses/NotFound'
+    put:
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      summary: Update a `Role` object.
+      description: |
+        Attributes described as 'server-generated' will be ignored by the server. Non-required attributes that are
+        not present will not be updated.
+      parameters:
+        - in: body
+          name: data
+          description: Role to be updated
+          required: true
+          schema:
+            $ref: "#/definitions/Role"
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: "#/definitions/Role"
+        '400':
+          $ref: '#/responses/Malformed'
+        '404':
+          $ref: '#/responses/NotFound'
+        '422':
+          $ref: '#/responses/WrongContent'
+        '415':
+          $ref: '#/responses/WrongType'
+    delete:
+      summary: Archive the Role with the given ID.
+      responses:
+        '204':
+          description: Role archived successfully
+        '404':
+          $ref: '#/responses/NotFound'
+        '409':
+          $ref: '#/responses/Conflict'
+  /users:
+    get:
+      produces:
+        - application/json
+      summary: Get a list of User objects
+      description: |
+        Get a list of `User` objects, eventually filtered by the query
+        parameters. When combining parameters, the conditions are joined by
+        AND. This means the resulting objects must satisfy all filters. All the string filter operations are case insensitive.
+      parameters:
+        - in: query
+          name: email
+          type: string
+          format: email
+          description: Filter by email.
+        - in: query
+          name: firstName
+          type: string
+          description: Filter by first name.
+        - in: query
+          name: lastName
+          type: string
+          description: Filter by last name.
+        - in: query
+          type: integer
+          name: page
+          description: The page to query.
+          default: 0
+        - in: query
+          name: limit
+          type: integer
+          description: The number of elements in a page.
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            required: [data, total, offset, limit]
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/User'
+              total:
+                description: Total number of items.
+                example: 50
+                type: integer
+              offset:
+                description: |
+                  The number of items before this page (exclusive). This means
+                  that when offset = 20, this page will contains items 20 to
+                  20 + limit. For limit = 10, it will be 20 - 29 (including 29).
+                example: 20
+                type: integer
+              limit:
+                description: The maximum number of items on a page.
+                example: 10
+                type: integer
+              previous:
+                description: Link to the previous page, if applicable.
+                example: /users&page=1
+                type: string
+              next:
+                description: Link to the next page, if applicable.
+                type: string
+                example: /users&page=20
+              first:
+                description: Link to the first page, if applicable.
+                type: string
+                example: /users&page=0
+              last:
+                description: Link to the last page, if applicable.
+                type: string
+                example: /users&page=100
+        '400':
+          $ref: '#/responses/WrongQuery'
+    post:
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      summary: Add a new `User` to the list of users
+      description: |
+        Attributes described as 'server-generated' will be ignored by the server. Non-required attributes that are
+        not present will be filled in by the server, using default values.
+      parameters:
+        - in: body
+          name: User
+          description: User to add
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/User'
+        '400':
+          $ref: '#/responses/Malformed'
+        '409':
+          $ref: '#/responses/Conflict'
+        '422':
+          $ref: '#/responses/WrongContent'
+        '415':
+          $ref: '#/responses/WrongType'
+  /users/{id}:
+    parameters:
+     -  name: id
+        in: path
+        description: ID of User
+        required: true
+        type: integer
+    get:
+      produces:
+        - application/json
+      summary: Find User by ID
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/User'
+        '404':
+          $ref: '#/responses/NotFound'
+    put:
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      summary: Update the ´User` with the given ID
+      description: |
+        Attributes described as 'server-generated' will be ignored by the server. Non-required attributes that are
+        not present will not be updated.
+      parameters:
+        - in: body
+          name: User
+          description: User to add
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/User'
+        '400':
+          $ref: '#/responses/Malformed'
+        '404':
+          $ref: '#/responses/NotFound'
+        '409':
+          $ref: '#/responses/Conflict'
+        '422':
+          $ref: '#/responses/WrongContent'
+        '415':
+          $ref: '#/responses/WrongType'
+    delete:
+      description: Archive the User with the given ID.
+      responses:
+        '204':
+          description: Role archived successfully
+        '404':
+          $ref: '#/responses/NotFound'
+        '409':
+          $ref: '#/responses/Conflict'
+
+responses:
+  Malformed:
+    description: The JSON is malformed. This is a syntax error.
+  WrongQuery:
+    description: A query parameter has a wrong type.
+  WrongContent:
+    description: |
+      The JSON is has correct syntax, but an attribute was missing or one of the
+      attributes has incorrect content. All attributes with errors or missing ones
+      should be reported back in the error object.
+    schema:
+      $ref: '#/definitions/Error'
+  Conflict:
+    description: |
+      There was a conflict while updating or saving the model. This is not the
+      same as a `422` code. This response indicates the request has a correct
+      syntax and the content is correctly formed, but it still could not be saved.
+      An example might be trying to add a vehicle with a chassis number that already
+      exists in the database. The error response contains all fields (or the field) that
+      triggered the error. Continuing the vehicle example, it would contain the field
+      `vin`.
+      Another example might be trying to delete a company that is still used.
+    schema:
+          $ref: '#/definitions/Error'
+  WrongType:
+    description: |
+      The `Content-Type` header is not set to `application/json`.
+  NotFound:
+    description: |
+      The resource with the given ID was not found.
+
+definitions:
+  Company:
+    type: object
+    required: [name, vatNumber, phoneNumber, address]
+    properties:
+      id:
+        description: This is a server-generated value.
+        type: integer
+      name:
+        type: string
+      vatNumber:
+        type: string
+        example: "BE123456789B01"
+      phoneNumber:
+        type: string
+        format: phone
+        example: "+32 56 33 66 00"
+      address:
+        $ref: '#/definitions/Address'
+      createdAt:
+        description: This is a server-generated value.
+        type: string
+        format: date-time
+        example: 2016-08-29T09:12:33.001Z
+      lastUpdated:
+        description: This is a server-generated value.
+        type: string
+        format: date-time
+        example: 2016-08-29T09:12:33.001Z
+      lastUpdatedBy:
+        description: This is a server-generated value.
+        type: integer
+      url:
+        description: This is a server-generated value.
+        type: string
+  Address:
+    type: object
+    required: [country, city, street, houseNumber, postalCode]
+    properties:
+      country:
+        type: string
+        example: "België"
+      city:
+        type: string
+        example: "Gent"
+      street:
+        type: string
+        example: "Jozef Plateaustraat"
+      houseNumber:
+        type: string
+        example: "52B"
+      postalCode:
+        type: string
+        example: "9000"
+  Vehicle:
+    type: object
+    required: [vin, brand, model, type, mileage, year]
+    properties:
+      id:
+        description: This is a server-generated value.
+        type: integer
+        example: 25
+      licensePlate:
+        description: A null value indicates that the vehicle does not have a license plate.
+        type: string
+        example: 1-ABC-456
+      vin:
+        type: string
+        example: LJCPCBLCX11000237
+      brand:
+        type: string
+        example: Volkswagen
+      model:
+        type: string
+        example: Golf 7
+      type:
+        type: string
+        example: Persoonswagen
+      mileage:
+        type: integer
+        example: 132000
+      year:
+        type: integer
+        example: 2012
+      value:
+        type: number
+        example: 1553.63
+      leasingCompany:
+        type: integer
+        description: A null value indicates that the vehicle does not belong to a leasing company.
+      fleet:
+        type: integer
+        description: A null value indicates that the vehicle does not belong to a fleet.
+      createdAt:
+        description: This is a server-generated value.
+        type: string
+        format: date-time
+        example: 2016-08-29T09:12:33.001Z
+      updatedAt:
+        description: This is a server-generated value.
+        type: string
+        format: date-time
+        example: 2016-08-29T09:12:33.001Z
+      lastUpdatedBy:
+        description: This is a server-generated value.
+        type: integer
+      url:
+        description: This is a server-generated value.
+        type: string
+        format: url
+        example: /vehicles/1
+  Role:
+    type: object
+    required: [company, function, user, startDate]
+    properties:
+      id:
+        description: This is a server-generated value.
+        type: integer
+      company:
+        type: integer
+      function:
+        type: string
+      user:
+        type: integer
+      startDate:
+        type: string
+        format: date-time
+        example: 2016-08-29T09:12:33.001Z
+      endDate:
+        type: string
+        format: date-time
+        description: A null value indicates that there is no end on this role.
+        example: 2016-08-29T09:12:33.001Z
+      createdAt:
+        description: This is a server-generated value.
+        type: string
+        format: date-time
+        example: 2016-08-29T09:12:33.001Z
+      updatedAt:
+        description: This is a server-generated value.
+        type: string
+        format: date-time
+        example: 2016-08-29T09:12:33.001Z
+      lastUpdatedBy:
+        description: This is a server-generated value.
+        type: integer
+      url:
+        description: This is a server-generated value.
+        type: string
+  User:
+    type: object
+    required: [firstName, lastName, email, password]
+    properties:
+      id:
+        description: This is a server-generated value.
+        type: integer
+        example: 12345
+      firstName:
+        type: string
+        example: "Jan"
+      lastName:
+        type: string
+        example: "Janssens"
+      email:
+        type: string
+        format: email
+        example: "user@ugent.be"
+      password:
+        type: string
+        description: This attribute is client-generated, and will never be returned by the server.
+        format: password
+        example: "******"
+      createdAt:
+        description: This is a server-generated value.
+        type: string
+        format: date-time
+        example: 2016-08-29T09:12:33.001Z
+      updatedAt:
+        description: This is a server-generated value.
+        type: string
+        format: date-time
+        example: 2016-08-29T09:12:33.001Z
+      lastUpdatedBy:
+        description: This is a server-generated value.
+        type: integer
+      url:
+        description: This is a server-generated value.
+        type: string
+        example: "/users/"
+  Fleet:
+    type: object
+    required: [company]
+    properties:
+      id:
+        description: This is a server-generated value.
+        type: integer
+      company:
+        type: integer
+      name:
+        type: string
+      createdAt:
+        description: This is a server-generated value.
+        type: string
+        format: date-time
+        example: 2016-08-29T09:12:33.001Z
+      updatedAt:
+        description: This is a server-generated value.
+        type: string
+        format: date-time
+        example: 2016-08-29T09:12:33.001Z
+      lastUpdatedBy:
+        description: This is a server-generated value.
+        type: integer
+      url:
+        description: This is a server-generated value.
+        type: string
+        example: "/users/"
+  Error:
+    type: object
+    properties:
+      errors:
+        type: array
+        items:
+          type: string
+        description: |
+          Contains a list of attributes that have an error. This can range from being required to
+          having a conflict.

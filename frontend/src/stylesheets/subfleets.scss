@@ -1,0 +1,44 @@
+@import './variables.scss';
+
+.subfleets {
+  .subfleet-wrapper {
+
+    &:last-child {
+      .subfleet {
+        border-bottom: 0;
+      }
+    }
+
+    .subfleet {
+      padding: 20px 0 20px 30px;
+      border-bottom: 1px solid $gray-lighter;
+
+      &:hover {
+        background: lighten(#000, 97.5%);
+      }
+    }
+  }
+
+  .vehicles {
+    display: table;
+    border-left: 14px solid $gray-lighterer;
+    width: 100%;
+
+    .vehicle {
+      display: table-row;
+      height: 40px;
+
+      &:hover {
+        background: lighten(#000, 97.5%);
+      }
+
+      & > div {
+        display: table-cell;
+        padding: 10px;
+        font-size: 20px;
+        font-weight: 100;
+        border-bottom: 1px solid $gray-lighter;
+      }
+    }
+  }
+}

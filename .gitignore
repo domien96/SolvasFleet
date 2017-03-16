@@ -8,6 +8,8 @@
 /backend/build/
 /frontend/build/
 
+/frontend/typings
+
 # Ignore Gradle GUI config
 gradle-app.setting
 
@@ -25,6 +27,8 @@ gradle-app.setting
 *.iml
 /backend/out/
 .idea
+
+/api/generated/
 /backend/backend.iml
 
 # SonarQube

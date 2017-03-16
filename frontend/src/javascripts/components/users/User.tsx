@@ -1,8 +1,11 @@
 import React from 'react';
-import { browserHistory } from'react-router';
+import { browserHistory, Link } from'react-router';
 
-import fetchUser  from '../../actions/fetch_user.ts';
-import deleteUser from '../../actions/delete_user.ts';
+import fetchUser   from '../../actions/fetch_user.ts';
+import deleteUser  from '../../actions/delete_user.ts';
+import DetailTable from '../tables/DetailTable.tsx';
+
+import { th } from '../../utils/utils.ts';
 
 class User extends React.Component<User.Props, User.State> {
 
@@ -39,28 +42,35 @@ class User extends React.Component<User.Props, User.State> {
   }
 
   render() {
-    var { first_name, last_name, email, password } = this.state.user;
+    var { id, firstName, lastName, email, password } = this.state.user;
+
+    const data = [
+      th('user.firstName', firstName),
+      th('user.lastName', lastName),
+      th('user.email', email),
+      th('user.password', password)
+    ];
 
     return (
-      <div className='card-content user'>
-        <h2>{ first_name } { last_name }</h2>
-        <div className='row actions'>
-          <div className='col-sm-6'>
-            <button className='btn btn-default form-control'>
-              <span className='glyphicon glyphicon-edit' />
-              Edit
-            </button>
-          </div>
-          <div className='col-sm-6'>
-            <button onClick = { this.deleteUser } className='btn btn-danger form-control'>
-              <span className='glyphicon glyphicon-remove' />
-              Delete
-            </button>
+      <div>
+        <div className='card-content user'>
+          <h2>{ firstName } { lastName }</h2>
+          <div className='row actions'>
+            <div className='col-sm-6'>
+              <Link to={ '/users/' + id + '/edit' } className='btn btn-default form-control'>
+                <span className='glyphicon glyphicon-edit' /> Edit
+              </Link>
+            </div>
+            <div className='col-sm-6'>
+              <button onClick = { this.deleteUser } className='btn btn-danger form-control'>
+                <span className='glyphicon glyphicon-remove' /> Delete
+              </button>
+            </div>
           </div>
         </div>
-        <h5>Information</h5>
-        <div>email: { email }</div>
-        <div>password: { password }</div>
+        <div className='card-content'>
+          <DetailTable data={ data }/>
+        </div>
       </div>
     );
   }

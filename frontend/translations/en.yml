@@ -19,33 +19,59 @@ addRole:
 company:
   id: ID
   name: Name
-  vat_number: VAT number
-  phone_number: Phone number
-  address: Address
+  vatNumber: VAT number
+  phoneNumber: Phone number
+  address: 
+    street: Street
+    houseNumber: House number
+    city: City
+    postalCode: Postal code
+    country: Country
 
 errors:
   null: is empty
 
 vehicle:
-  license_plate: License plate
-  chassis_number: Vehicle Identification Number 
+  licensePlate: License plate
+  vin: Vehicle Identification Number 
   brand: Brand
   model: Model
   type: Type
-  kilometer_count: Kilometer count
+  mileage: Mileage (kilimeter count)
   year: Year of manufacture
-  leasing_company: Leasing company
+  leasingCompany: Leasing company
   value: Estimated value
-  company: Company
+  fleet: Fleet ID
+  options:
+    allVehicles: All vehicles
+    personalCar: Personal car
+    van: Van
+    semiTrailer: Semi-trailer
+    trailer: Trailer
+    truck: Truck
 
 user:
   id: ID
   email: Email
   password: Password
   address: Address
-  first_name: First name
-  last_name: Last name
+  firstName: First name
+  lastName: Last name
 
 role:
   permission: Function in company
   permissionShort: Function
+
+fleet:
+  id: ID
+  name: Name
+  size: Size
+
+subfleet:
+  id: ID
+  name: Name
+  size: Size
+
+form:
+  create: Create
+  update: Update
