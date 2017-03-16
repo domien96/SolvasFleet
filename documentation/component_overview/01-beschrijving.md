@@ -37,4 +37,4 @@ De DAO's (van deze context) zelf maken momenteel gebruik van Hibernate die diens
 Merk op dat men hier niet gebonden is aan Hibernate.
 
 * Postgres databank driver *
-We gebruiken als opslag van de data een postgres databank zoals gesuggesteerd in de opgave.
+We gebruiken als opslag van de data een postgres databank zoals gesuggereerd in de opgave.
