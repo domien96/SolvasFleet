@@ -1,5 +1,5 @@
 ---
-title: Solvas Fleet - Use Cases
+title: Solvas Fleet - Component Overview
 author: 
   - Steven Bastiaens
   - Benjamin Cousaert
