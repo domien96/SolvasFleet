@@ -13,7 +13,8 @@ Het antwoord van de backend wordt vervolgens vertaald en weergegeven op het sche
 *NGINX & Rest Controllers*
 Deze componenten ontvangen de HTTP verzoeken die in het normale geval van de Web UI afkomstig zijn.
 NGINX is degene die werkelijk de HTTP verzoeken zelf ontvangt en vervolgens doorgeeft in een formaat dat de restcontrollers aanvaarden.
-De restcontrollers ontvangen de verzoeken in het formaat dat ze geëist hebben. Deze verzoeken vervolgens worden vertaald naar verzoeken (lees: methodeoproepen) voor de domeinlaag/servicelaag. De antwoordberichten volgen de omgekeerde richting.
+De restcontrollers ontvangen de verzoeken in het formaat dat ze geëist hebben. Deze verzoeken worden vervolgens
+ vertaald naar verzoeken (lees: methodeoproepen) voor de domeinlaag/servicelaag. De antwoordberichten volgen de omgekeerde richting.
 
 ## Domeinlaag/servicelaag
 
