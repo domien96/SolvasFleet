@@ -1,40 +1,36 @@
-import React      from 'react';
-//import classNames from 'classnames';
+import React from 'react';
+import T     from 'i18n-react';
 
+class InfoTable extends React.Component<Table.Info.Props, {}> {
 
-export default class InfoTable extends React.Component<InfoTableProps, {}> {
-  
-  
   public getRows() : any {
-    const head = this.props.head;
-    const data = this.props.data;
+    var { head, data } = this.props;
 
-    return data.map((item : any) => {
-      const cells = head.map((headData : any) => {
+    return data.map((item : any, i : number) => {
+      const cells = head.map((headData : Table.Head.Data, j : number) => {
         return (
-          <td> {item[headData.key]} </td>
+          <td key={ j }>{ item[headData.key] }</td>
         );
       });
       return (
-        <tr key={item.id} className='table-row'> {cells} </tr>
+        <tr key={ i } onClick={ () => this.props.onClick(item.id) } className='table-row'>{cells}</tr>
       );
     });
   }
 
   render() {
-
-    const tableHead = this.props.head.map((headData : any) => 
+    const tableHead = this.props.head.map((headData : Table.Head.Data) =>
     (
-      <th key={headData.key} scope='row' className='table-row' >{headData.label}</th>
+      <th key={ headData.key } scope='row' className='table-row' >{ T.translate(headData.label) }</th>
     ));
 
     const tableRows = this.getRows();
 
     return (
       <div className='table-wrap'>
-      <table className='table table-striped'>
+      <table className='table table-striped table-hover'>
         <thead className='thead-default'>
-          {tableHead}
+          <tr>{tableHead}</tr>
         </thead>
         <tbody>
           {tableRows}
@@ -44,3 +40,5 @@ export default class InfoTable extends React.Component<InfoTableProps, {}> {
     );
   }
 }
+
+export default InfoTable;

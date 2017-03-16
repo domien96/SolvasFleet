@@ -1,0 +1,34 @@
+.fof {
+  color: rgb(151, 151, 151);
+  min-height: 100%;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  justify-content: center;
+
+  & > div {
+
+  }
+
+  h2 {
+    margin-bottom: 15px;
+    font-size: 40px;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    padding: 0 0 15px 0;
+    display: inline-block;
+    font-size: 80px;
+    border: solid #CCCCCC;
+    border-width: 1px 0;
+    text-transform: lowercase;
+    font-weight: 400;
+  }
+
+  p {
+    margin: 15px 0 0 0;
+    font-size: 16px;
+  }
+}

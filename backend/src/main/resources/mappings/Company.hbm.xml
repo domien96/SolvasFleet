@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="solvas.models.Company" table="companies">
+        <meta attribute="class-description">
+            This class contains the company detail.
+        </meta>
+        <id name="id" type="int" column="company_id">
+            <generator class="identity"/>
+        </id>
+        <property name="name" column="name" type="string" not-null="true"/>
+        <property name="vatNumber" column="vat" type="string" not-null="true"/>
+        <property name="phoneNumber" column="phone" type="string" not-null="true"/>
+
+        <property name="addressCity" column="address_city" type="string" not-null="true"/>
+        <property name="addressCountry" column="address_country" type="string" not-null="true"/>
+        <property name="addressHouseNumber" column="address_house_number" type="string" not-null="true"/>
+        <property name="addressPostalCode" column="address_postalCode" type="string" not-null="true"/>
+        <property name="addressStreet" column="address_street" type="string" not-null="true"/>
+
+        <set name="representatives" table="company_users">
+            <key column="company_id"/>
+            <many-to-many column="user_id" class="solvas.models.User" />
+        </set>
+        <property name="updatedAt" column="updated_at" type="java.time.LocalDateTime" generated="always" insert="false" not-null="true"/>
+        <property name="createdAt" column="created_at" type="java.time.LocalDateTime" generated="insert" insert="false" not-null="true"/>
+
+    </class>
+</hibernate-mapping>

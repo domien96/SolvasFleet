@@ -17,4 +17,4 @@
   template:
     src: etc/nginx/sites-enabled/website.conf
     dest: /etc/nginx/sites-enabled/website.conf
-  notify: reload nginx
+  notify: nginx reload
