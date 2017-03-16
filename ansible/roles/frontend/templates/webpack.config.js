@@ -13,8 +13,7 @@ var config = {
   },
   output: {
     path: BUILD_DIR,
-    filename: '/bundle.js',
-    publicPath: '/app'
+    filename: '/bundle.js'
   },
   module: {
     loaders : [
@@ -44,11 +43,10 @@ var config = {
       allChunks: true
     }),
     new webpack.DefinePlugin({
-      ENVIRONMENT:  JSON.stringify('development'),
-      BASE_API_URL: JSON.stringify('http://localhost:8000')
+      ENVIRONMENT:  JSON.stringify('production'),
+      BASE_API_URL: JSON.stringify('https://vopro6.ugent.be/app')
     })
   ]
 };
 
 module.exports = config;
-

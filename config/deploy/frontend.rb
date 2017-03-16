@@ -28,6 +28,7 @@ namespace :npm do
   task build: :'npm:install' do
     on roles(:all) do
       within release_path do
+        execute :npm, :run, :typings
         execute :npm, :run, :build
       end
     end
