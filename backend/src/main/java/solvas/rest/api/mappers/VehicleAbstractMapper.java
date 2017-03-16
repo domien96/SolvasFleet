@@ -45,7 +45,6 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle, ApiVehicle> {
 
         vehicle.setId(api.getId());
 
-
         if (api.getLicensePlate() != null) {
             vehicle.setLicensePlate(api.getLicensePlate());
         }
@@ -146,7 +145,7 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle, ApiVehicle> {
         api.setMileage(vehicle.getKilometerCount());
         api.setYear(vehicle.getYear());
         api.setLeasingCompany(vehicle.getLeasingCompany() == null ? 0 : vehicle.getLeasingCompany().getId());
-        api.setValue(0);//api.getValue()
+        api.setValue(vehicle.getValue());//api.getValue()
         api.setBrand(vehicle.getBrand());
         api.setFleet(getApiFleet(vehicle));
         api.setType(vehicle.getType().getName());
