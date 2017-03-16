@@ -33,7 +33,7 @@ In dit scherm worden alle klanten opgelijst. Bij het klikken op een klant wordt 
 
 ![klant weergeven](link naar screenshot)
 
-Deze pagina toont alle gegevens van de geselecteerde klant. Hier vindt u ook de opties om de gegevens van de klant te wijzigen, via de 'Edit' knop. Ook is het hier mogelijk om de klant te verwijderen, dit gebeurt via de 'Delete' knop. Op de pagina van de klant worden ook de vloten van de klant opgelijst. Bij het klikken op een vloot, worden de voertuigen van deze vloot weergegeven.
+Deze pagina toont alle gegevens van de geselecteerde klant. Hier vindt u ook de opties om de gegevens van de klant te wijzigen, via de 'Edit' knop. Ook is het hier mogelijk om de klant te verwijderen, dit gebeurt via de 'Delete' knop. Op de pagina van de klant worden ook de vloten van de klant opgelijst. Bij het klikken op een vloot, worden de voertuigen van deze vloot weergegeven per type.
 
 ### Klant toevoegen
 
@@ -53,7 +53,7 @@ Op dit scherm wordt een formulier weergegeven waar de gekende gegevens van de ge
 
 ![vloot toevoegen](link naar screenshot)
 
-Om een vloot toe te voegen klikt u op 'Add new fleet', rechtsboven de tabel van vloten, op de pagina van de klant waar de vloot toegevoegd moet worden. Hierna wordt een formulier getoond, waar u een naam kunt geven aan de vloot. Later is het mogelijk om voertuigen toe te kennen aan deze vloot.
+Om een vloot toe te voegen klikt u op 'Add a new fleet', bovenaan de tabel van vloten, op de pagina van de klant waar de vloot toegevoegd moet worden. Er opent een invoerveld waar u de naam van de vloot kan opgeven. Door op 'enter' te drukken, bevestigt u de naam van de vloot. U wordt nu doorgestuurd naar de pagina van de vloot, waar momenteel nog geen voertuigen aan toegevoegd zijn. 
 
 ## Voertuigen
 
