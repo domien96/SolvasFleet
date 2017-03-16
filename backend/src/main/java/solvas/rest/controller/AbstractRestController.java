@@ -21,9 +21,7 @@ import solvas.rest.api.models.ApiModel;
 import solvas.rest.query.Pageable;
 import solvas.rest.utils.JsonListWrapper;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -75,6 +73,8 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
         for (T item: dao.findAll(pagination, filter)){
             collection.add(mapper.convertToApiModel(item));
         }
+        ArrayList<E> sortedList = new ArrayList<>(collection);
+        sortedList.sort(Comparator.comparingInt(Model::getId));
         JsonListWrapper<E> wrapper = new JsonListWrapper<>(collection);
         wrapper.put("limit", pagination.getLimit());
         wrapper.put("offset", pagination.getLimit() * pagination.getPage());
