@@ -8,7 +8,7 @@ Deze zou dan later ook kunnen dienen als authenticatie-alternatief.
 
 Het proces om een gebruiker toe te voegen ziet er dan als volgt uit:
 
-1. Een medewerker laat het systeem weten dat hij een gebruiker met eID toevoegen.
+1. Een medewerker laat het systeem weten dat hij een gebruiker met eID wil toevoegen.
 2. Een medewerker leest een eID in die hij van de gebruiker krijgt, en vult eventuele
     ontbrekende velden in.
 3. De gebruiker kan nu inloggen met zijn eID.
