@@ -16,6 +16,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.when;
 
+/**
+ * Tests of the RoleMapper
+ */
 @Ignore //milestone 2
 public class RoleMapperTest {
 
@@ -27,6 +30,9 @@ public class RoleMapperTest {
     @Mock
     private RoleDao roleDaoMock;
 
+    /**
+     * Setting up the tests of RoleMapper
+     */
     @Before
     public void setUp()
     {

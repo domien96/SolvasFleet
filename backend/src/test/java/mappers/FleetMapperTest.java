@@ -27,6 +27,9 @@ public class FleetMapperTest {
     private FleetMapper mapper;
 
 
+    /**
+     * Setting up the tests of FleetMapper
+     */
     @Before
     public void setUp()
     {

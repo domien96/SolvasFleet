@@ -27,6 +27,9 @@ public class UserMapperTest {
 
     private UserAbstractMapper mapper;
 
+    /**
+     * Setting up the tests of UserMapper
+     */
     @Before
     public void setUp()
     {

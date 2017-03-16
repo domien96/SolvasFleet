@@ -43,6 +43,9 @@ public class VehicleMapperTest {
     @Mock
     private FleetSubscriptionDao fleetSubscriptionDao;
 
+    /**
+     * Setting up the tests of VehicleMapper
+     */
     @Before
     public void setUp()
     {

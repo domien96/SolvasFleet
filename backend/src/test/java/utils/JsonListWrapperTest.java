@@ -13,7 +13,6 @@ import static org.junit.Assert.assertEquals;
  * Unit testing the JsonListWrapper
  */
 public class JsonListWrapperTest {
-    private JsonListWrapper<Object> listWrapper;
 
     /**
      * Testing the default nokey constructor, this wraps the list under key: 'data'
