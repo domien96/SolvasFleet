@@ -12,7 +12,7 @@ public class ApiVehicle extends ApiModel{
     private int year;
     private int leasingCompany;
     private int value=0;
-    private int fleet;
+    private int fleet = -1; //Use -1 as default value because 0 is removing it.
     private String brand;
 
     public String getLicensePlate() {

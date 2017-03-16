@@ -33,7 +33,6 @@ public class VehicleTypeAbstractMapper extends AbstractMapper<VehicleType,String
         } else {
             return types.iterator().next();
         }
-
     }
 
     @Override
