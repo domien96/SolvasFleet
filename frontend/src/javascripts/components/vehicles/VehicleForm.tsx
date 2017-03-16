@@ -51,7 +51,7 @@ class GeneralInfo extends React.Component<GeneralInfoProps, {}> {
             <FormField value={ brand }           placeholder='vehicle.brand'            type='text'     callback={ this.handleChange('brand') }           hasError={ this.props.hasError('brand')}      />
             <FormField value={ model }           placeholder='vehicle.model'            type='text'     callback={ this.handleChange('model') }           hasError={ this.props.hasError('model')}   />
             <FormChoice value={ type }           placeholder='vehicle.type'             choices={ choices } callback={ this.handleChange('type') } />
-            <FormField value={ mileage }         placeholder='vehicle.mileage'          type='text'     callback={ this.handleChange('mileage') }         hasError={ this.props.hasError('mileage')}  />
+            <FormField value={ mileage }         placeholder='vehicle.mileage'          type='number'     callback={ this.handleChange('mileage') }         hasError={ this.props.hasError('mileage')}  />
             <FormField value={ year }            placeholder='vehicle.year'             type='number'   callback={ this.handleChange('year') }            hasError={ this.props.hasError('year')}      />
             <FormField value={ value }           placeholder='vehicle.value'            type='number'   callback={ this.handleChange('value') }           hasError={ this.props.hasError('value')}   />
           </div>
