@@ -5,15 +5,15 @@ De communicatie gebeurt in principe enkel tussen de componenten die boven of ond
 ## Presentatielaag
 
 *Web UI*
-Deze ontvangt de acties van de gebruiker en vertaalt deze naar HTTP requests naar de back-end.
+Deze ontvangt de acties van de gebruiker en vertaalt deze naar HTTP requests naar de backend.
 Het antwoord van de backend wordt vervolgens vertaald en weergegeven op het scherm.
 
 ## Web laag
 
 *NGINX & Rest Controllers*
 Deze componenten ontvangen de HTTP verzoeken die in het normale geval van de Web UI afkomstig zijn.
-NGINX is degene die werkelijk de HTTP verzoeken zelf bevat en vervolgens doorgeeft in een formaat dat de restcontrollers aanvaarden.
-De restcontrollers ontvangen de verzoeken in het formaat die ze geëist hebben en worden vertaald naar verzoeken (lees: methodeoproepen) voor de domeinlaag/servicelaag.
+NGINX is degene die werkelijk de HTTP verzoeken zelf ontvangt en vervolgens doorgeeft in een formaat dat de restcontrollers aanvaarden.
+De restcontrollers ontvangen de verzoeken in het formaat dat ze geëist hebben en worden vertaald naar verzoeken (lees: methodeoproepen) voor de domeinlaag/servicelaag. De antwoordberichten volgen de omgekeerde richting.
 
 ## Domeinlaag/servicelaag
 
@@ -28,7 +28,7 @@ De servicelaag is met andere woorden ingebed in de weblaag.
 Het aanspreekpunt voor deze service wordt gerealiseerd met DAO's.
 Deze bevatten de methoden om data op te halen uit de persistente opslag.
 Elke DAO-klasse is verantwoordelijk voor 1 model.
-We bundelen deze DAO's ssamen in een DAOContext om de schaalbaarheid te bevorderen.
+We bundelen deze DAO's samen in een DAOContext om de schaalbaarheid te bevorderen.
 Voor iedere mogelijke opslagbron is er 1 Daocontext vereist.
 
 Momenteel hebben we 1 opslagbron en dus 1 opslagcontext, namelijk de Postgres databank.
