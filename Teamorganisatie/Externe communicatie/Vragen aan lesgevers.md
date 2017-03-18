@@ -15,8 +15,3 @@ Lijst met vragen die jullie wensen te stellen:
 
 -
 ...
-
-
-# Mededelingen
-
-De wekelijkse snapshots zijn de vinden op https://vopro6.ugent.be/snapshot/. De meest recente onder current, en een volledige lijst onder releases.
