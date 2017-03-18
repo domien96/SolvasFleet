@@ -1,5 +1,5 @@
 # 2016-2017-groep-06
-## Handig om te weten
+## Waar vindt ik wat?
 * Alle informatie omtrent het teamverband en teamorganisatie vindt u onder [/Teamorganisatie](https://github.ugent.be/VakOverschrijdendProject/2016-2017-groep-06/tree/master/Teamorganisatie).
 * De teamcommunicatie vindt hoofdzakelijk plaats in onze slackroom. De belangrijkste besprekingen en hun beslissingen uit deze slackroom vindt u onder [Teamorganisatie/besprekingen](https://github.ugent.be/VakOverschrijdendProject/2016-2017-groep-06/tree/master/Teamorganisatie/Besprekingen).
 * De meest recente informatie over de api vindt u in [/api onder de branch "api"](https://github.ugent.be/VakOverschrijdendProject/2016-2017-groep-06/tree/api/api).
