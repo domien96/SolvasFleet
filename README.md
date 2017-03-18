@@ -6,7 +6,7 @@
 Enkel de api specificatie vindt u echter op de wiki en niet op de api-branch.
 * De wekelijkse snapshots zijn te vinden [hier](https://vopro6.ugent.be/snapshot). De meest recente onder current, en een volledige lijst onder releases.
 * U kan volgende login gebruiken voor [onze website](https://vopro6.ugent.be): vopro6:YF9sxqdM
-* De *wekelijkse snapshots* zijn te vinden op https://vopro6.ugent.be/snapshot/. De meest recente onder current, en een volledige lijst onder releases.
+* De **wekelijkse snapshots** zijn te vinden op https://vopro6.ugent.be/snapshot/. De meest recente onder current, en een volledige lijst onder releases.
 
 Bij vragen of onduidelijkheden kunt u steeds terecht bij domien.vansteendam@ugent.be
 
