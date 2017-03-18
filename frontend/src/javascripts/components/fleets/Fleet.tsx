@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 import Checkbox from '../app/CheckBox.tsx';
 import Header from '../app/Header.tsx';
 import Card   from '../app/Card.tsx';
+import NestedCheckbox from '../app/NestedCheckbox.tsx';
 
 import fetchFleet    from '../../actions/fetch_fleet.ts';
 import fetchVehicles from '../../actions/fetch_vehicles.ts';
@@ -12,17 +13,25 @@ import { group_by } from '../../utils/utils.ts';
 
 interface vehicleProps {
   vehicle : Vehicle;
-  checked : boolean;
-  onChange : (k : string, id : number) => void;
 }
 class VehicleRow extends React.Component<vehicleProps, {}> {
+  static contextTypes = {
+    childIsChecked:    React.PropTypes.func,
+    childHandleChange: React.PropTypes.func
+  }
+
   render () {
-    var { id, vin, brand, model, mileage, type } = this.props.vehicle;
+    var { id, vin, brand, model, mileage } = this.props.vehicle;
 
     return (
       <div className='tr'>
         <div className='td'>
-          <input type='checkbox' className='checkbox' checked={ this.props.checked } onChange={ () => this.props.onChange(type, id) } />
+          <input
+            type='checkbox'
+            className='checkbox'
+            checked={ this.context.childIsChecked(id) }
+            onChange={ () => this.context.childHandleChange(id) }
+            />
         </div>
         <Link to={ 'vehicles/' + id } className='td'>
           <span>Chassis Nummer:</span>
@@ -49,21 +58,15 @@ interface vehiclesState {
   mappings : any;
 }
 class Vehicles extends React.Component<vehiclesProps, vehiclesState> {
+  static contextTypes = {
+    isChecked:       React.PropTypes.func,
+    isIndeterminate: React.PropTypes.func,
+    handleChange:    React.PropTypes.func
+  }
+
   constructor(props : vehiclesProps) {
     super(props);
     this.state = { type: null, mappings: [] };
-    this.subfleetVehicles = this.subfleetVehicles.bind(this);
-    this.onClick = this.onClick.bind(this);
-  }
-
-  componentWillReceiveProps(props : vehiclesProps) {
-    let m : any = {};
-    Object.keys(props.vehicles).map((v) => {
-      m[v] = props.vehicles[v].map((v : Vehicle) => {
-        return { id: v.id, checked: false }
-      });
-    });
-    this.setState({ mappings: m });
   }
 
   subfleetVehicles(key : string) : React.ReactElement<any> {
@@ -72,7 +75,7 @@ class Vehicles extends React.Component<vehiclesProps, vehiclesState> {
     }
 
     const vehicles = this.props.vehicles[key].map((v : Vehicle, i : number) => {
-      return (<VehicleRow key={ i } vehicle={ v } checked={ this.state.mappings[key].find((f : any) => { return f.id == v.id }).checked } onChange={ this.onChangeChild.bind(this) } />);
+      return (<VehicleRow key={ i } vehicle={ v } />);
     });
 
     return (
@@ -91,61 +94,24 @@ class Vehicles extends React.Component<vehiclesProps, vehiclesState> {
     }
   }
 
-  isChecked(k : string) {
-    let b = this.state.mappings[k].map((o : any) => o.checked);
-    for (var bb of b) {
-      if (!bb) { return false; }
-    }
-    return true;
-  }
-
-  isIndeterminate(k : string) {
-    let b = this.state.mappings[k].map((o : any) => o.checked);
-    let checked = false;
-    let unchecked = false;
-    for (var bb of b) {
-      if (bb) { checked = true; } else { unchecked = true; }
-    }
-    return checked && unchecked;
-  }
-
-  onChange(k : string) {
-    if (this.isChecked(k)) {
-      let m = this.state.mappings;
-      m[k] = m[k].map(({ id } : any) => { return { id, checked: false }});
-      this.setState({ mappings: m });
-    } else {
-      let m = this.state.mappings;
-      m[k] = m[k].map(({ id } : any) => { return { id, checked: true }});
-      this.setState({ mappings: m });
-    }
-  }
-
-  onChangeChild(k : string, idd : number) {
-    let m = this.state.mappings;
-    m[k] = m[k].map(({ id, checked } : any) => {
-      if (id == idd) {
-        return { id: id, checked: !checked };
-      } else {
-        return { id, checked };
-      }
-    });
-    this.setState({ mappings: m });
-  }
-
   render() {
     const vehicles = Object.keys(this.props.vehicles).map((k, i) => {
       return (
         <div key={ i} className='subfleet-wrapper'>
           <div className='table'>
             <div className='subfleet-row tr'>
-              <Checkbox className='checkbox td' checked={ this.isChecked.bind(this)(k) } indeterminate={ this.isIndeterminate.bind(this)(k) } onChange={ () => this.onChange(k) } />
-              <h3 className='td' onClick={ () => this.onClick(k) }>
+              <Checkbox
+                className='checkbox td'
+                checked={ this.context.isChecked(k) }
+                indeterminate={ this.context.isIndeterminate(k) }
+                onChange={ () => this.context.handleChange(k) }
+                />
+              <h3 className='td' onClick={ () => this.onClick.bind(this)(k) }>
                 { k } ({ this.props.vehicles[k].length })
               </h3>
             </div>
           </div>
-          { this.subfleetVehicles(k) }
+          { this.subfleetVehicles.bind(this)(k) }
         </div>
       );
     });
@@ -164,7 +130,7 @@ class Fleet extends React.Component<Fleet.Props, Fleet.State> {
     super(props);
     this.state = {
       fleet: {},
-      vehicles: {}
+      vehicles: []
     }
   }
 
@@ -176,11 +142,13 @@ class Fleet extends React.Component<Fleet.Props, Fleet.State> {
       });
     fetchVehicles('', id.toString())
       .then((data : any) => {
-        this.setState({ vehicles: group_by(data.data, 'type') })
+        this.setState({ vehicles: data.data })
       });
   }
 
   render () {
+    let nodes = this.state.vehicles.map(({ id, type }) => { return { id, group: type } });
+
     return (
       <div>
         <Header>
@@ -192,7 +160,9 @@ class Fleet extends React.Component<Fleet.Props, Fleet.State> {
               <h5>Vehicles</h5>
             </div>
             <div className='card-content not-padded'>
-              <Vehicles vehicles={ this.state.vehicles } />
+              <NestedCheckbox values={ nodes }>
+                <Vehicles vehicles={ group_by(this.state.vehicles, 'type') } />
+              </NestedCheckbox>
             </div>
           </Card>
         </div>
