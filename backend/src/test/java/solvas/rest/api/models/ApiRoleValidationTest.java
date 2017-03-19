@@ -27,6 +27,7 @@ import static org.junit.Assert.assertTrue;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class)
 @Configuration
+@SuppressWarnings("squid:S1192")
 public class ApiRoleValidationTest {
 
     @Configuration
