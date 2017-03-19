@@ -11,6 +11,9 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
  */
 public class ValidatorConfiguration {
 
+    /**
+     * @return The validator factory.
+     */
     static LocalValidatorFactoryBean createFactory() {
         LocalValidatorFactoryBean factoryBean = new LocalValidatorFactoryBean();
         factoryBean.setProviderClass(HibernateValidator.class);
@@ -18,6 +21,9 @@ public class ValidatorConfiguration {
         return factoryBean;
     }
 
+    /**
+     * @return The validator factory.
+     */
     @Bean
     public LocalValidatorFactoryBean validator() {
         return createFactory();

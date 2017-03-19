@@ -28,6 +28,10 @@ public class ApiFleetValidationTest {
 
     @Configuration
     static class ContextConfiguration extends ValidatorConfiguration {
+
+        /**
+         * @return Mock company DAO.
+         */
         @Bean
         public CompanyDao dao() {
             return TestUtils.mockedCompanyDao();
@@ -37,6 +41,9 @@ public class ApiFleetValidationTest {
     @Autowired
     private Validator validator;
 
+    /**
+     * Test valid instance.
+     */
     @Test
     public void testValid() {
         ApiFleet fleet = random(ApiFleet.class);
@@ -44,6 +51,9 @@ public class ApiFleetValidationTest {
         assertEquals(0, validator.validate(fleet).size());
     }
 
+    /**
+     * Test non-existing company.
+     */
     @Test
     public void testInvalidCompany() {
         final String company = "company";
@@ -54,6 +64,9 @@ public class ApiFleetValidationTest {
         assertEquals(company, v.iterator().next().getPropertyPath().iterator().next().getName());
     }
 
+    /**
+     * Test null and empty values.
+     */
     @Test
     public void testNoneAndEmpty() {
         ApiFleet fleet = new ApiFleet();

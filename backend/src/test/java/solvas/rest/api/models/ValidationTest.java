@@ -13,6 +13,9 @@ public class ValidationTest {
 
     protected Validator validator;
 
+    /**
+     * Initiate the validator.
+     */
     @Before
     public void setUp() {
         validator = ValidatorConfiguration.createFactory().getValidator();
