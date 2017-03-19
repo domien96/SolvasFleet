@@ -5,16 +5,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import solvas.models.User;
-import solvas.persistence.api.EntityNotFoundException;
+import solvas.TestUtils;
 import solvas.persistence.api.dao.UserDao;
 
 import javax.validation.ConstraintValidatorContext;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Mockito.when;
 
 /**
  * @author Niko Strijbol
@@ -22,7 +19,6 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class UserExistsValidatorTest {
 
-    @Mock
     private UserDao dao;
 
     @Mock
@@ -31,19 +27,9 @@ public class UserExistsValidatorTest {
     @Mock
     private UserExists annotation;
 
-    private static int validUserId = 500;
-
     @Before
     public void setUp() throws Exception {
-        User user = new User();
-        user.setId(validUserId);
-        when(dao.find(anyInt())).then(invocation -> {
-            if ((int) invocation.getArguments()[0] == validUserId) {
-                return user;
-            } else {
-                throw new EntityNotFoundException();
-            }
-        });
+        dao = TestUtils.mockedUserDao();
     }
 
     /**
@@ -53,7 +39,7 @@ public class UserExistsValidatorTest {
     public void testIsValid() {
         UserExistsValidator validator = new UserExistsValidator(dao);
         validator.initialize(annotation);
-        assertTrue(validator.isValid(validUserId, context));
+        assertTrue(validator.isValid(TestUtils.VALID_USER, context));
         assertFalse(validator.isValid(0, context));
         assertFalse(validator.isValid(86565, context));
         assertFalse(validator.isValid(-1, context));
