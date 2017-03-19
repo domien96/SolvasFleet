@@ -14,10 +14,12 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  * @author Niko Strijbol
  */
+
 @Target({FIELD, METHOD, PARAMETER, ANNOTATION_TYPE})
 @Retention(RUNTIME)
 @Constraint(validatedBy = CompanyExistsValidator.class)
 @Documented
+@SuppressWarnings({"unused", "squid:UndocumentedApi"})
 public @interface CompanyExists {
 
     String message() default "Non-existing company.";
@@ -25,6 +27,4 @@ public @interface CompanyExists {
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default { };
-
-
 }

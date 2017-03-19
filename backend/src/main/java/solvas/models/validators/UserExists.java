@@ -18,6 +18,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 @Constraint(validatedBy = UserExistsValidator.class)
 @Documented
+@SuppressWarnings({"unused", "squid:UndocumentedApi"})
 public @interface UserExists {
 
     String message() default "Non-existing user.";
@@ -25,6 +26,4 @@ public @interface UserExists {
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default { };
-
-
 }
