@@ -36,10 +36,10 @@ public class StartBeforeEndValidator implements ConstraintValidator<StartBeforeE
             return true;
         } else {
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate("Invalid range.")
+            context.buildConstraintViolationWithTemplate(StartBeforeEnd.MESSAGE)
                     .addPropertyNode(startDate)
                     .addConstraintViolation();
-            context.buildConstraintViolationWithTemplate("Invalid range.")
+            context.buildConstraintViolationWithTemplate(StartBeforeEnd.MESSAGE)
                     .addPropertyNode(endDate)
                     .addConstraintViolation();
             return false;

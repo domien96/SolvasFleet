@@ -13,15 +13,15 @@ import static org.junit.Assert.assertEquals;
  *
  * @author Niko Strijbol
  */
-@SuppressWarnings("squid:UndocumentedApi")
+@SuppressWarnings({"squid:UndocumentedApi", "squid:S109"})
 public class ApiVehicleValidationTest extends ValidationTest {
 
-    private static final String validVin = "JM3KE4CY5F0442856";
+    private static final String VALID_VIN = "JM3KE4CY5F0442856";
 
     @Test
     public void testValid() {
         ApiVehicle vehicle = random(ApiVehicle.class);
-        vehicle.setVin(validVin);
+        vehicle.setVin(VALID_VIN);
         vehicle.setYear(2014);
         vehicle.setMileage(2000);
         vehicle.setValue(10);
@@ -59,7 +59,7 @@ public class ApiVehicleValidationTest extends ValidationTest {
         vehicle.setYear(1500);
         vehicle.setMileage(-50);
         vehicle.setValue(-99693);
-        vehicle.setVin(validVin);
+        vehicle.setVin(VALID_VIN);
 
         assertEquals(3, validator.validate(vehicle).size());
     }
@@ -73,7 +73,7 @@ public class ApiVehicleValidationTest extends ValidationTest {
 
         assertEquals(4, validator.validate(vehicle).size());
 
-        vehicle.setVin(validVin);
+        vehicle.setVin(VALID_VIN);
         vehicle.setBrand("");
         vehicle.setModel("");
         vehicle.setType("");

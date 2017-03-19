@@ -29,7 +29,7 @@ import static org.junit.Assert.assertTrue;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class)
 @Configuration
-@SuppressWarnings("squid:UndocumentedApi")
+@SuppressWarnings({"squid:UndocumentedApi", "squid:S109"})
 public class ApiRoleValidationTest {
 
     private static final String START_DATE_FIELD = "startDate";

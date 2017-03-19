@@ -18,6 +18,11 @@ public class UserExistsValidator implements ConstraintValidator<UserExists, Inte
 
     private final UserDao userDao;
 
+    /**
+     * Constructor.
+     *
+     * @param userDao The user dao to use.
+     */
     @Autowired
     public UserExistsValidator(UserDao userDao) {
         this.userDao = userDao;

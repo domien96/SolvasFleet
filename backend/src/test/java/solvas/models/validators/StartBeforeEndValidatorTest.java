@@ -20,7 +20,7 @@ import static org.mockito.Mockito.when;
  * @author Niko Strijbol
  */
 @RunWith(MockitoJUnitRunner.class)
-@SuppressWarnings("squid:UndocumentedApi")
+@SuppressWarnings({"squid:UndocumentedApi", "squid:S109"})
 public class StartBeforeEndValidatorTest {
 
     @Mock

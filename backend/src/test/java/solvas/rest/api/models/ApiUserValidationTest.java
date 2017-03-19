@@ -13,7 +13,7 @@ import static org.junit.Assert.assertEquals;
  *
  * @author Niko Strijbol
  */
-@SuppressWarnings("squid:UndocumentedApi")
+@SuppressWarnings({"squid:UndocumentedApi", "squid:S109"})
 public class ApiUserValidationTest extends ValidationTest {
 
     @Test

@@ -22,7 +22,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @SuppressWarnings({"unused", "squid:UndocumentedApi"})
 public @interface StartBeforeEnd {
 
-    String message() default "End date must be after or equal to start date (or null).";
+    String MESSAGE = "End date must be after or equal to start date (or null).";
+
+    String message() default MESSAGE;
 
     Class<?>[] groups() default {};
 

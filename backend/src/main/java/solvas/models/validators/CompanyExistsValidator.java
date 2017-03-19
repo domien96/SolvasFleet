@@ -18,6 +18,11 @@ public class CompanyExistsValidator implements ConstraintValidator<CompanyExists
 
     private final CompanyDao companyDao;
 
+    /**
+     * Constructor.
+     *
+     * @param companyDao The dao to use.
+     */
     @Autowired
     public CompanyExistsValidator(CompanyDao companyDao) {
         this.companyDao = companyDao;

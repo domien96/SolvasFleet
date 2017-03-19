@@ -15,6 +15,9 @@ import javax.validation.ConstraintValidatorContext;
  */
 public class VinValidator implements ConstraintValidator<Vin, String> {
 
+    private static final int VIN_LENGTH = 17;
+    private static final int CHECK_DIGIT_POSITION = 8;
+
     @Override
     public void initialize(Vin constraintAnnotation) {}
 
@@ -28,7 +31,7 @@ public class VinValidator implements ConstraintValidator<Vin, String> {
         String processed = value.replaceAll("-", "")
                 .replaceAll("\\s+", "")
                 .toUpperCase();
-        return processed.length() == 17 && getCheckDigit(processed) == processed.charAt(8);
+        return processed.length() == VIN_LENGTH && getCheckDigit(processed) == processed.charAt(CHECK_DIGIT_POSITION);
     }
 
     /**

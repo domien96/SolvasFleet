@@ -17,7 +17,7 @@ import static org.junit.Assert.assertTrue;
  * @author Niko Strijbol
  */
 @RunWith(MockitoJUnitRunner.class)
-@SuppressWarnings("squid:UndocumentedApi")
+@SuppressWarnings({"squid:UndocumentedApi", "squid:S109"})
 public class UserExistsValidatorTest {
 
     private UserDao dao;
