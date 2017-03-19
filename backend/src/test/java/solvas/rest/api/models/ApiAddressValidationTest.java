@@ -9,24 +9,21 @@ import static io.github.benas.randombeans.api.EnhancedRandom.random;
 import static org.junit.Assert.assertEquals;
 
 /**
+ * Test that {@link ApiAddress}'s validations work as expected.
+ *
  * @author Niko Strijbol
  */
+@SuppressWarnings("squid:UndocumentedApi")
 public class ApiAddressValidationTest extends ValidationTest {
 
     private static final String CITY_FIELD = "city";
 
-    /**
-     * Test valid instance.
-     */
     @Test
     public void testValid() {
         ApiAddress apiAddress = random(ApiAddress.class);
         assertEquals(0, validator.validate(apiAddress).size());
     }
 
-    /**
-     * Test instance with missing field.
-     */
     @Test
     public void testMissing() {
         ApiAddress apiAddress = random(ApiAddress.class, CITY_FIELD);
@@ -35,18 +32,12 @@ public class ApiAddressValidationTest extends ValidationTest {
         assertEquals(CITY_FIELD, v.iterator().next().getPropertyPath().iterator().next().getName());
     }
 
-    /**
-     * Test instance with multiple missing fields.
-     */
     @Test
     public void testMultiple() {
         ApiAddress apiAddress = random(ApiAddress.class, CITY_FIELD, "street", "postalCode");
         assertEquals(3, validator.validate(apiAddress).size());
     }
 
-    /**
-     * Test for empty fields.
-     */
     @Test
     public void testEmpty() {
         ApiAddress apiAddress = random(ApiAddress.class, CITY_FIELD);
@@ -56,9 +47,6 @@ public class ApiAddressValidationTest extends ValidationTest {
         assertEquals(CITY_FIELD, v.iterator().next().getPropertyPath().iterator().next().getName());
     }
 
-    /**
-     * Test instance with everything null.
-     */
     @Test
     public void testNone() {
         ApiAddress apiAddress = new ApiAddress();

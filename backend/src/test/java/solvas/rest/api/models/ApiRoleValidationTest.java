@@ -22,30 +22,28 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
+ * Test that {@link ApiRole}'s validations work.
+ *
  * @author Niko Strijbol
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class)
 @Configuration
+@SuppressWarnings("squid:UndocumentedApi")
 public class ApiRoleValidationTest {
 
     private static final String START_DATE_FIELD = "startDate";
     private static final String END_DATE_FIELD = "endDate";
 
     @Configuration
+    @SuppressWarnings("squid:UndocumentedApi")
     static class ContextConfiguration extends ValidatorConfiguration {
 
-        /**
-         * @return Mock company DAO.
-         */
         @Bean
         public CompanyDao companyDao() {
             return TestUtils.mockedCompanyDao();
         }
 
-        /**
-         * @return Mock user DAO
-         */
         @Bean
         public UserDao userDao() {
             return TestUtils.mockedUserDao();
@@ -55,9 +53,6 @@ public class ApiRoleValidationTest {
     @Autowired
     private Validator validator;
 
-    /**
-     * Test a valid instance.
-     */
     @Test
     public void testValid() {
         ApiRole role = new ApiRole();
@@ -68,9 +63,6 @@ public class ApiRoleValidationTest {
         assertEquals(0, validator.validate(role).size());
     }
 
-    /**
-     * Test instance with empty or null as function.
-     */
     @Test
     public void testEmptyAndNoFunction() {
         final String function = "function";
@@ -88,9 +80,6 @@ public class ApiRoleValidationTest {
         assertEquals(function, v.iterator().next().getPropertyPath().iterator().next().getName());
     }
 
-    /**
-     * Test instance without start date.
-     */
     @Test
     public void testNullStartDate() {
         ApiRole role = new ApiRole();
@@ -102,9 +91,6 @@ public class ApiRoleValidationTest {
         assertEquals(START_DATE_FIELD, v.iterator().next().getPropertyPath().iterator().next().getName());
     }
 
-    /**
-     * Test company and user existence.
-     */
     @Test
     public void testCompanyAndUser() {
         ApiRole role = new ApiRole();
@@ -119,9 +105,6 @@ public class ApiRoleValidationTest {
         assertEquals("company", v.iterator().next().getPropertyPath().iterator().next().getName());
     }
 
-    /**
-     * Test dates.
-     */
     @Test
     public void testDates() {
         ApiRole role = new ApiRole();

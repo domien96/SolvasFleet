@@ -9,13 +9,13 @@ import static io.github.benas.randombeans.api.EnhancedRandom.random;
 import static org.junit.Assert.assertEquals;
 
 /**
+ * Test that {@link ApiCompany}'s validations work.
+ *
  * @author Niko Strijbol
  */
+@SuppressWarnings("squid:UndocumentedApi")
 public class ApiCompanyValidationTest extends ValidationTest {
 
-    /**
-     * Test valid instance.
-     */
     @Test
     public void testValid() {
         ApiCompany company = random(ApiCompany.class);
@@ -23,9 +23,6 @@ public class ApiCompanyValidationTest extends ValidationTest {
         assertEquals(0, validator.validate(company).size());
     }
 
-    /**
-     * Test with invalid address.
-     */
     @Test
     public void testInvalidAddress() {
         ApiCompany company = random(ApiCompany.class);
@@ -38,9 +35,6 @@ public class ApiCompanyValidationTest extends ValidationTest {
         assertEquals(5, validator.validate(company).size());
     }
 
-    /**
-     * Test with invalid phones.
-     */
     @Test
     public void testInvalidPhone() {
         final String phoneNumber = "phoneNumber";
@@ -51,18 +45,12 @@ public class ApiCompanyValidationTest extends ValidationTest {
         assertEquals(phoneNumber, v.iterator().next().getPropertyPath().iterator().next().getName());
     }
 
-    /**
-     * Test everything null.
-     */
     @Test
     public void testNone() {
         ApiCompany company = new ApiCompany();
         assertEquals(4, validator.validate(company).size());
     }
 
-    /**
-     * Test empty fields (empty = "")
-     */
     @Test
     public void testEmpty() {
         ApiCompany company = random(ApiCompany.class);

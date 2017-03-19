@@ -9,15 +9,15 @@ import static io.github.benas.randombeans.api.EnhancedRandom.random;
 import static org.junit.Assert.assertEquals;
 
 /**
+ * Test that {@link ApiVehicle}'s validation works.
+ *
  * @author Niko Strijbol
  */
+@SuppressWarnings("squid:UndocumentedApi")
 public class ApiVehicleValidationTest extends ValidationTest {
 
     private static final String validVin = "JM3KE4CY5F0442856";
 
-    /**
-     * Test valid instance.
-     */
     @Test
     public void testValid() {
         ApiVehicle vehicle = random(ApiVehicle.class);
@@ -29,9 +29,6 @@ public class ApiVehicleValidationTest extends ValidationTest {
         assertEquals(0, validator.validate(vehicle).size());
     }
 
-    /**
-     * Test VIN.
-     */
     @Test
     public void testVin() {
         String vinField = "vin";
@@ -56,9 +53,6 @@ public class ApiVehicleValidationTest extends ValidationTest {
         assertEquals(vinField, v.iterator().next().getPropertyPath().iterator().next().getName());
     }
 
-    /**
-     * Test numerical fields.
-     */
     @Test
     public void testNumbers() {
         ApiVehicle vehicle = random(ApiVehicle.class);
@@ -70,9 +64,6 @@ public class ApiVehicleValidationTest extends ValidationTest {
         assertEquals(3, validator.validate(vehicle).size());
     }
 
-    /**
-     * Test nulls and empty values (only for String fields obviously).
-     */
     @Test
     public void testEmptyAndNull() {
         ApiVehicle vehicle = new ApiVehicle();

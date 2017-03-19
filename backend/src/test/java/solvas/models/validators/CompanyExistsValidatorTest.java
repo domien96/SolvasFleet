@@ -17,6 +17,7 @@ import static org.junit.Assert.assertTrue;
  * @author Niko Strijbol
  */
 @RunWith(MockitoJUnitRunner.class)
+@SuppressWarnings("squid:UndocumentedApi")
 public class CompanyExistsValidatorTest {
 
     private CompanyDao dao;
@@ -32,9 +33,6 @@ public class CompanyExistsValidatorTest {
         dao = TestUtils.mockedCompanyDao();
     }
 
-    /**
-     * Test the isValid method.
-     */
     @Test
     public void testIsValid() {
         CompanyExistsValidator validator = new CompanyExistsValidator(dao);

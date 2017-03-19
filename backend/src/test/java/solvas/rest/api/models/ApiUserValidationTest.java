@@ -9,13 +9,13 @@ import static io.github.benas.randombeans.api.EnhancedRandom.random;
 import static org.junit.Assert.assertEquals;
 
 /**
+ * Test that {@link ApiUser}'s validations work.
+ *
  * @author Niko Strijbol
  */
+@SuppressWarnings("squid:UndocumentedApi")
 public class ApiUserValidationTest extends ValidationTest {
 
-    /**
-     * Test valid instance.
-     */
     @Test
     public void testValid() {
         ApiUser user = random(ApiUser.class);
@@ -23,9 +23,6 @@ public class ApiUserValidationTest extends ValidationTest {
         assertEquals(0, validator.validate(user).size());
     }
 
-    /**
-     * Test values for the email.
-     */
     @Test
     public void testEmail() {
         String emailField = "email";
@@ -41,9 +38,6 @@ public class ApiUserValidationTest extends ValidationTest {
         assertEquals(emailField, v.iterator().next().getPropertyPath().iterator().next().getName());
     }
 
-    /**
-     * Test nulls and empty values.
-     */
     @Test
     public void testNullsAndEmpty() {
         ApiUser user = new ApiUser();
