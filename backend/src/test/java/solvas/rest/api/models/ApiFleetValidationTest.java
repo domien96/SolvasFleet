@@ -23,7 +23,6 @@ import static org.junit.Assert.assertEquals;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class)
-@Configuration
 @SuppressWarnings({"squid:UndocumentedApi", "squid:S109"})
 public class ApiFleetValidationTest {
 

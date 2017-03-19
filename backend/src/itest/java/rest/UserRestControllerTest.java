@@ -63,6 +63,7 @@ public class UserRestControllerTest {
         UserRestController controller=new UserRestController(daoContextMock,userMapperMock);
         mockMvc=MockMvcBuilders.standaloneSetup(controller).build();
         user=random(ApiUser.class);
+        user.setEmail("test@example.be");
         ObjectMapper mapper = new ObjectMapper();
         mapper.findAndRegisterModules();
         json=mapper.writeValueAsString(user);

@@ -65,6 +65,7 @@ public class CompanyRestControllerTest{
         mockMvc= MockMvcBuilders.standaloneSetup(companyRestController).build();
 
         apiCompany=random(ApiCompany.class);
+        apiCompany.setPhoneNumber("+32 56 22 56 99");
         ObjectMapper mapper = new ObjectMapper();
         mapper.findAndRegisterModules();
         json=mapper.writeValueAsString(apiCompany);

@@ -28,7 +28,6 @@ import static org.junit.Assert.assertTrue;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class)
-@Configuration
 @SuppressWarnings({"squid:UndocumentedApi", "squid:S109"})
 public class ApiRoleValidationTest {
 
