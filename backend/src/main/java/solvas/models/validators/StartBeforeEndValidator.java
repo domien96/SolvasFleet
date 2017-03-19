@@ -32,7 +32,7 @@ public class StartBeforeEndValidator implements ConstraintValidator<StartBeforeE
         LocalDateTime start = (LocalDateTime) wrapper.getPropertyValue(startDate);
         LocalDateTime end = (LocalDateTime) wrapper.getPropertyValue(endDate);
 
-        if (start == null || end == null || end.isEqual(start) || end.isAfter(end)) {
+        if (start == null || end == null || end.isEqual(start) || end.isAfter(start)) {
             return true;
         } else {
             context.disableDefaultConstraintViolation();

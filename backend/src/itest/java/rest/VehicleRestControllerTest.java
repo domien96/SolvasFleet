@@ -13,7 +13,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import solvas.models.Vehicle;
-import solvas.models.validators.VehicleValidator;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.dao.VehicleDao;
@@ -40,9 +39,6 @@ public class VehicleRestControllerTest {
     private VehicleDao vehicleDaoMock;
 
     @Mock
-    private VehicleValidator validatorMock;
-
-    @Mock
     private VehicleAbstractMapper vehicleAbstractMapperMock;
 
     @Mock
@@ -63,7 +59,7 @@ public class VehicleRestControllerTest {
     public void setUp() throws JsonProcessingException {
         MockitoAnnotations.initMocks(this);
         when(daoContextMock.getVehicleDao()).thenReturn(vehicleDaoMock);
-        VehicleRestController vehicleRestController=new VehicleRestController(daoContextMock,vehicleAbstractMapperMock,validatorMock);
+        VehicleRestController vehicleRestController=new VehicleRestController(daoContextMock,vehicleAbstractMapperMock);
         mockMvc= MockMvcBuilders.standaloneSetup(vehicleRestController).build();
 
         vehicle = random(ApiVehicle.class);

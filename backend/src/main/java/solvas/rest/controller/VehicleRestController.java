@@ -5,7 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import solvas.models.Vehicle;
-import solvas.models.validators.VehicleValidator;
 import solvas.persistence.api.DaoContext;
 import solvas.rest.api.mappers.VehicleAbstractMapper;
 import solvas.rest.api.models.ApiVehicle;
@@ -27,8 +26,8 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
      * @param validator Validator for vehicles
      */
     @Autowired
-    public VehicleRestController(DaoContext daoContext, VehicleAbstractMapper mapper, VehicleValidator validator) {
-        super(daoContext.getVehicleDao(),mapper,validator);
+    public VehicleRestController(DaoContext daoContext, VehicleAbstractMapper mapper) {
+        super(daoContext.getVehicleDao(),mapper, null);
     }
 
     /**
