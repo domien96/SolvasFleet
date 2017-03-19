@@ -35,17 +35,17 @@ import java.util.stream.Collectors;
 public abstract class AbstractRestController<T extends Model, E extends ApiModel> {
 
     protected final Dao<T> dao;
-    protected AbstractMapper<T,E> mapper;
+    protected AbstractMapper<T, E> mapper;
     protected final Validator validator;
 
     /**
      * Default constructor.
      *
-     * @param dao The dao to work with.
-     * @param mapper The mapper class for objects of domain model class T and API-model class E.
+     * @param dao       The dao to work with.
+     * @param mapper    The mapper class for objects of domain model class T and API-model class E.
      * @param validator The validator to use when creating/updating entities
      */
-    protected AbstractRestController(Dao<T> dao, AbstractMapper<T,E> mapper, Validator validator) {
+    protected AbstractRestController(Dao<T> dao, AbstractMapper<T, E> mapper, Validator validator) {
         this.dao = dao;
         this.mapper = mapper;
         this.validator = validator;
@@ -55,11 +55,10 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      * Query all models, accounting for pagination settings and respect the filters. The return value of this
      * method will contain an object, according to the API spec.
      *
-     * @param pagination The pagination information.
+     * @param pagination       The pagination information.
      * @param paginationResult The validation results of the pagination object.
-     * @param filter The filters.
-     * @param filterResult The validation results of the filterResult
-     *
+     * @param filter           The filters.
+     * @param filterResult     The validation results of the filterResult
      * @return ResponseEntity
      */
     protected ResponseEntity<?> listAll(Pageable pagination, BindingResult paginationResult, Filter<T> filter, BindingResult filterResult) {
@@ -70,7 +69,7 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
         }
 
         Collection<E> collection = new HashSet<>();
-        for (T item: dao.findAll(pagination, filter)){
+        for (T item : dao.findAll(pagination, filter)) {
             collection.add(mapper.convertToApiModel(item));
         }
         ArrayList<E> sortedList = new ArrayList<>(collection);
@@ -110,7 +109,6 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      * the right type.
      *
      * @param ex The exception.
-     *
      * @return A 422 error with the fields that caused an error.
      */
     @ExceptionHandler(JsonMappingException.class)
@@ -125,11 +123,10 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
     /**
      * Handle cases where a dependant entity was not found, e.g. a vehicle with a non-existent
      * fleet.
-     *
+     * <p>
      * TODO: see if this could be done by validation.
      *
      * @param e The exception.
-     *
      * @return 422 with the field.
      */
     @ExceptionHandler(DependantEntityNotFound.class)
@@ -139,14 +136,13 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
                 JsonListWrapper.ERROR_KEY
         );
 
-        return new ResponseEntity<>(wrapper, HttpStatus.UNPROCESSABLE_ENTITY);
+        return new ResponseEntity<>(wrapper, HttpStatus.CONFLICT);
     }
 
     /**
      * Handle cases where there are JSON syntax errors.
      *
      * @param ex The exception.
-     *
      * @return A 400 error.
      */
     @ExceptionHandler(JsonParseException.class)
@@ -165,15 +161,19 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
     /**
      * Save a new model in the database.
      *
-     * @param input The model to save.
+     * @param input   The model to save.
      * @param binding The binding to use to validate
      * @return Response with the saved model, or 400.
      */
     protected ResponseEntity<?> post(E input, BindingResult binding) {
-        return save(input, binding, () -> {
-            T model = mapper.convertToModel(input);
-            return mapper.convertToApiModel(dao.create(model));
-        });
+        try {
+            return save(input, binding, () -> {
+                T model = mapper.convertToModel(input);
+                return mapper.convertToApiModel(dao.create(model));
+            });
+        } catch (DependantEntityNotFound e) {
+            return handleDependantNotFound(e);
+        }
     }
 
     /**
@@ -190,23 +190,27 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
     /**
      * Updates a model in db
      *
-     * @param input model to be updated
+     * @param input   model to be updated
      * @param binding The binding to use to validate
      * @return ResponseEntity
      */
-    protected ResponseEntity<?> put(int id,E input,BindingResult binding) {
-        return save(input, binding, () -> {
-            input.setId(id);
-            T model = mapper.convertToModel(input);
+    protected ResponseEntity<?> put(int id, E input, BindingResult binding) {
+        try {
+            return save(input, binding, () -> {
+                input.setId(id);
+                T model = mapper.convertToModel(input);
 
-            return mapper.convertToApiModel(dao
-                    .update(model));
-        });
+                return mapper.convertToApiModel(dao
+                        .update(model));
+            });
+        } catch (DependantEntityNotFound e) {
+            return handleDependantNotFound(e);
+        }
     }
 
     /**
-     * @param input The input entity to save
-     * @param binding BindingResult to use for validations
+     * @param input      The input entity to save
+     * @param binding    BindingResult to use for validations
      * @param saveMethod The saveMethod (example: dao.update or dao.create)
      * @return ResponseEntity to return to user
      */
@@ -228,11 +232,13 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
 
     /**
      * Specify how to save an entity
+     *
      * @param <T> Type of the entity to save
      */
     protected interface SaveMethod<T> {
         /**
          * Method to run to save an entity
+         *
          * @return the saved entity
          */
         T run();

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import solvas.models.Company;
 import solvas.models.Fleet;
 import solvas.persistence.api.DaoContext;
+import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.api.models.ApiFleet;
 
 /**
@@ -38,9 +39,11 @@ public class FleetMapper extends AbstractMapper<Fleet, ApiFleet> {
         if (api.getName() != null) {
             fleet.setName(api.getName());
         }
-        if (api.getCompany() != 0) {
+        try {
             Company company = daoContext.getCompanyDao().find(api.getCompany());
             fleet.setCompany(company);
+        } catch (EntityNotFoundException e) {
+            throw new DependantEntityNotFound("Could not find company.", e);
         }
 
         return fleet;
