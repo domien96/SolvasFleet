@@ -13,37 +13,52 @@ import static org.junit.Assert.assertEquals;
  */
 public class ApiAddressValidationTest extends ValidationTest {
 
+    private static final String CITY_FIELD = "city";
+
+    /**
+     * Test valid instance.
+     */
     @Test
     public void testValid() {
         ApiAddress apiAddress = random(ApiAddress.class);
         assertEquals(0, validator.validate(apiAddress).size());
     }
 
+    /**
+     * Test instance with missing field.
+     */
     @Test
     public void testMissing() {
-        final String missingField = "city";
-        ApiAddress apiAddress = random(ApiAddress.class, missingField);
+        ApiAddress apiAddress = random(ApiAddress.class, CITY_FIELD);
         Set<ConstraintViolation<ApiAddress>> v = validator.validate(apiAddress);
         assertEquals(1, v.size());
-        assertEquals(missingField, v.iterator().next().getPropertyPath().iterator().next().getName());
+        assertEquals(CITY_FIELD, v.iterator().next().getPropertyPath().iterator().next().getName());
     }
 
+    /**
+     * Test instance with multiple missing fields.
+     */
     @Test
     public void testMultiple() {
-        ApiAddress apiAddress = random(ApiAddress.class, "city", "street", "postalCode");
+        ApiAddress apiAddress = random(ApiAddress.class, CITY_FIELD, "street", "postalCode");
         assertEquals(3, validator.validate(apiAddress).size());
     }
 
+    /**
+     * Test for empty fields.
+     */
     @Test
     public void testEmpty() {
-        final String missingField = "city";
-        ApiAddress apiAddress = random(ApiAddress.class, missingField);
+        ApiAddress apiAddress = random(ApiAddress.class, CITY_FIELD);
         apiAddress.setCity("");
         Set<ConstraintViolation<ApiAddress>> v = validator.validate(apiAddress);
         assertEquals(1, v.size());
-        assertEquals(missingField, v.iterator().next().getPropertyPath().iterator().next().getName());
+        assertEquals(CITY_FIELD, v.iterator().next().getPropertyPath().iterator().next().getName());
     }
 
+    /**
+     * Test instance with everything null.
+     */
     @Test
     public void testNone() {
         ApiAddress apiAddress = new ApiAddress();
