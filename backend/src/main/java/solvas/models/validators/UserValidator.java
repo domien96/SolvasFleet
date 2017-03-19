@@ -10,7 +10,7 @@ import solvas.rest.api.models.ApiUser;
 @Component
 public class UserValidator extends AbstractValidator<ApiUser> {
     {
-        require("firstName", "lastName", "email");
+        require("firstName", "lastName", "email","password");
     }
 
     /**
