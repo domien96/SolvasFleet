@@ -14,7 +14,6 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import solvas.models.Company;
-import solvas.models.validators.CompanyValidator;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.dao.CompanyDao;
@@ -25,7 +24,8 @@ import solvas.rest.controller.CompanyRestController;
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -40,9 +40,6 @@ public class CompanyRestControllerTest{
 
     @Mock
     private DaoContext context;
-
-    @Mock
-    private CompanyValidator companyValidator;
 
     @Mock
     private CompanyDao companyDaoMock;
@@ -63,7 +60,7 @@ public class CompanyRestControllerTest{
     public void setUp() throws JsonProcessingException {
         MockitoAnnotations.initMocks(this);
         when(context.getCompanyDao()).thenReturn(companyDaoMock);
-        CompanyRestController companyRestController=new CompanyRestController(context,companyMapper,companyValidator);
+        CompanyRestController companyRestController=new CompanyRestController(context,companyMapper);
         mockMvc= MockMvcBuilders.standaloneSetup(companyRestController).build();
 
         apiCompany=random(ApiCompany.class);
@@ -113,7 +110,6 @@ public class CompanyRestControllerTest{
     @Test
     public void postCompanyNoError() throws Exception {
         when(companyMapper.convertToApiModel(any())).thenReturn(apiCompany);
-        doNothing().when(companyValidator).validate(any(),any());
         ResultActions resultActions=
                 mockMvc.perform(post("/companies").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
                         .andExpect(status().isOk());

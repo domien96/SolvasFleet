@@ -5,12 +5,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import solvas.models.Role;
-import solvas.models.validators.RoleValidator;
 import solvas.persistence.api.DaoContext;
 import solvas.rest.api.mappers.RoleAbstractMapper;
 import solvas.rest.api.models.ApiRole;
 import solvas.rest.query.PaginationFilter;
 import solvas.rest.query.RoleFilter;
+
+import javax.validation.Valid;
 
 
 /**
@@ -28,8 +29,8 @@ public class RoleRestController extends AbstractRestController<Role,ApiRole> {
      * @param validator Validator for roles
      */
     @Autowired
-    public RoleRestController(DaoContext daoContext, RoleAbstractMapper mapper, RoleValidator validator) {
-        super(daoContext.getRoleDao(),mapper,validator);
+    public RoleRestController(DaoContext daoContext, RoleAbstractMapper mapper) {
+        super(daoContext.getRoleDao(),mapper, null);
     }
 
     /**
@@ -57,7 +58,7 @@ public class RoleRestController extends AbstractRestController<Role,ApiRole> {
 
     @Override
     @RequestMapping(value = "/roles", method = RequestMethod.POST)
-    public ResponseEntity<?> post(@RequestBody ApiRole input,BindingResult result) {
+    public ResponseEntity<?> post(@Valid @RequestBody ApiRole input, BindingResult result) {
         return super.post(input,result);
     }
 

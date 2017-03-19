@@ -14,7 +14,6 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import solvas.models.Role;
-import solvas.models.validators.RoleValidator;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.dao.RoleDao;
@@ -37,8 +36,6 @@ public class RoleRestControllerTest {
     private RoleDao roleDaoMock;
     @Mock
     private RoleAbstractMapper roleMapperMock;
-    @Mock
-    private RoleValidator roleValidatorMock;
 
     @Mock
     private DaoContext daoContextMock;
@@ -59,7 +56,7 @@ public class RoleRestControllerTest {
     public void setUp() throws JsonProcessingException {
         MockitoAnnotations.initMocks(this);
         when(daoContextMock.getRoleDao()).thenReturn(roleDaoMock);
-        RoleRestController roleRestController=new RoleRestController(daoContextMock,roleMapperMock,roleValidatorMock);
+        RoleRestController roleRestController=new RoleRestController(daoContextMock,roleMapperMock);
 
         mockMvc= MockMvcBuilders.standaloneSetup(roleRestController).build();
         apiRole=random(ApiRole.class);

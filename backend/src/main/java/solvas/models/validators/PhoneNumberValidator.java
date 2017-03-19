@@ -11,8 +11,6 @@ import javax.validation.ConstraintValidatorContext;
  * Validator to validate phone numbers. This validation uses Google's libphone validation library to validate the
  * phone numbers correctly for lots of countries.
  *
- * It is the validator for {@link PhoneNumber}.
- *
  * @see <a href="https://github.com/googlei18n/libphonenumber">libphone library</a>
  *
  * @author Niko Strijbol
