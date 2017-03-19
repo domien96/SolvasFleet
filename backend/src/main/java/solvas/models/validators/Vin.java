@@ -18,7 +18,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 @Constraint(validatedBy = VinValidator.class)
 @Documented
-@SuppressWarnings({"unused", "squid:UndocumentedApi"})
 public @interface Vin {
 
     String message() default "Invalid VIN.";

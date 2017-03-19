@@ -19,7 +19,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 @Constraint(validatedBy = StartBeforeEndValidator.class)
 @Documented
-@SuppressWarnings({"unused", "squid:UndocumentedApi"})
 public @interface StartBeforeEnd {
 
     String MESSAGE = "End date must be after or equal to start date (or null).";

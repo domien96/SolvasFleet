@@ -18,7 +18,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 @Constraint(validatedBy = PhoneNumberValidator.class)
 @Documented
-@SuppressWarnings({"unused", "squid:UndocumentedApi"})
 public @interface PhoneNumber {
 
     String message() default "Invalid phone number.";

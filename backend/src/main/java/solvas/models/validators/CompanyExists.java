@@ -19,7 +19,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 @Constraint(validatedBy = CompanyExistsValidator.class)
 @Documented
-@SuppressWarnings({"unused", "squid:UndocumentedApi"})
 public @interface CompanyExists {
 
     String message() default "Non-existing company.";
