@@ -211,7 +211,9 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      * @return ResponseEntity to return to user
      */
     private ResponseEntity<?> save(E input, BindingResult binding, SaveMethod<E> saveMethod) {
-        validator.validate(input, binding);
+        if (validator != null) {
+            validator.validate(input, binding);
+        }
         if (!binding.hasErrors()) {
             return new ResponseEntity<>(saveMethod.run(), HttpStatus.OK);
         } else {
