@@ -12,7 +12,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import solvas.models.User;
-import solvas.models.validators.UserValidator;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.dao.UserDao;
@@ -42,9 +41,6 @@ public class UserRestControllerTest {
     private UserAbstractMapper userMapperMock;
 
     @Mock
-    private UserValidator userValidatorMock;
-
-    @Mock
     private DaoContext daoContextMock;
 
     private MockMvc mockMvc;
@@ -63,7 +59,7 @@ public class UserRestControllerTest {
     {
         MockitoAnnotations.initMocks(this);
         when(daoContextMock.getUserDao()).thenReturn(userDaoMock);
-        UserRestController controller=new UserRestController(daoContextMock,userMapperMock,userValidatorMock);
+        UserRestController controller=new UserRestController(daoContextMock,userMapperMock);
         mockMvc=MockMvcBuilders.standaloneSetup(controller).build();
         user=random(ApiUser.class);
         ObjectMapper mapper = new ObjectMapper();

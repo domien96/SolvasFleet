@@ -1,12 +1,20 @@
 package solvas.rest.api.models;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
  * Created by steve on 11/03/2017.
  */
 public class ApiUser extends ApiModel {
+
+    @Email
     private String email;
+    @NotBlank
     private String firstName;
+    @NotBlank
     private String lastName;
+    @NotBlank
     private String password;
 
     public String getEmail() {

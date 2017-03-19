@@ -1,6 +1,6 @@
 package solvas.rest.api.models;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.NotBlank;
 import solvas.models.validators.CompanyExists;
 import solvas.models.validators.StartBeforeEnd;
 import solvas.models.validators.UserExists;
@@ -22,7 +22,7 @@ public class ApiRole extends ApiModel {
 
     private LocalDateTime endDate;
 
-    @NotEmpty
+    @NotBlank
     private String function;
 
     @UserExists
