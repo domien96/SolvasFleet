@@ -29,7 +29,7 @@ public class CompanyRestController extends AbstractRestController<Company,ApiCom
      */
     @Autowired
     public CompanyRestController(DaoContext daoContext, CompanyMapper mapper) {
-        super(daoContext.getCompanyDao(), mapper, null);
+        super(daoContext.getCompanyDao(), mapper);
     }
 
 

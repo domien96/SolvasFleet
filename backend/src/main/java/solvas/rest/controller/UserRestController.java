@@ -25,11 +25,10 @@ public class UserRestController extends AbstractRestController<User,ApiUser> {
      *
      * @param daoContext Autowired
      * @param mapper The mapper class for users
-     * @param validator Validator for users
      */
     @Autowired
     public UserRestController(DaoContext daoContext, UserAbstractMapper mapper) {
-        super(daoContext.getUserDao(),mapper,null);
+        super(daoContext.getUserDao(),mapper);
     }
 
     /**

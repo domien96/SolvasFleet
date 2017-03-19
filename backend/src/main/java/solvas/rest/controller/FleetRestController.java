@@ -27,7 +27,7 @@ public class FleetRestController extends AbstractRestController<Fleet, ApiFleet>
      */
     @Autowired
     public FleetRestController(FleetDao dao, FleetMapper mapper) {
-        super(dao, mapper, null);
+        super(dao, mapper);
     }
 
     /**

@@ -26,11 +26,10 @@ public class RoleRestController extends AbstractRestController<Role,ApiRole> {
      *
      * @param daoContext Autowired
      * @param mapper The mapper class for roles
-     * @param validator Validator for roles
      */
     @Autowired
     public RoleRestController(DaoContext daoContext, RoleAbstractMapper mapper) {
-        super(daoContext.getRoleDao(),mapper, null);
+        super(daoContext.getRoleDao(),mapper);
     }
 
     /**

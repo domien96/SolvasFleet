@@ -23,11 +23,10 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
      *
      * @param daoContext Autowired
      * @param mapper The mapper class for vehicles
-     * @param validator Validator for vehicles
      */
     @Autowired
     public VehicleRestController(DaoContext daoContext, VehicleAbstractMapper mapper) {
-        super(daoContext.getVehicleDao(),mapper, null);
+        super(daoContext.getVehicleDao(),mapper);
     }
 
     /**
