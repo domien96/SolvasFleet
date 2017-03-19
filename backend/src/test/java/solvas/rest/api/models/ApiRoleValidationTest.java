@@ -27,8 +27,10 @@ import static org.junit.Assert.assertTrue;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class)
 @Configuration
-@SuppressWarnings("squid:S1192")
 public class ApiRoleValidationTest {
+
+    private static final String START_DATE_FIELD = "startDate";
+    private static final String END_DATE_FIELD = "endDate";
 
     @Configuration
     static class ContextConfiguration extends ValidatorConfiguration {
@@ -83,7 +85,7 @@ public class ApiRoleValidationTest {
         role.setFunction("random");
         Set<ConstraintViolation<ApiRole>> v = validator.validate(role);
         assertEquals(1, v.size());
-        assertEquals("startDate", v.iterator().next().getPropertyPath().iterator().next().getName());
+        assertEquals(START_DATE_FIELD, v.iterator().next().getPropertyPath().iterator().next().getName());
     }
 
     @Test
@@ -102,8 +104,6 @@ public class ApiRoleValidationTest {
 
     @Test
     public void testDates() {
-        final String startField = "startDate";
-        final String endField = "endDate";
         ApiRole role = new ApiRole();
         role.setCompany(TestUtils.VALID_COMPANY);
         role.setUser(TestUtils.VALID_USER);
@@ -122,8 +122,8 @@ public class ApiRoleValidationTest {
         assertEquals(2, validator.validate(role).size());
 
         for (ConstraintViolation<ApiRole> next: v){
-            assertTrue(next.getPropertyPath().iterator().next().getName().equals(startField) ||
-                    next.getPropertyPath().iterator().next().getName().equals(endField)
+            assertTrue(next.getPropertyPath().iterator().next().getName().equals(START_DATE_FIELD) ||
+                    next.getPropertyPath().iterator().next().getName().equals(END_DATE_FIELD)
             );
         }
     }
