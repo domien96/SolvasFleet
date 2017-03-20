@@ -6,6 +6,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import solvas.models.Role;
 import solvas.persistence.api.DaoContext;
+import solvas.persistence.api.dao.RoleDao;
 import solvas.rest.api.mappers.RoleAbstractMapper;
 import solvas.rest.api.models.ApiRole;
 import solvas.rest.query.PaginationFilter;
@@ -27,9 +28,20 @@ public class RoleRestController extends AbstractRestController<Role,ApiRole> {
      * @param daoContext Autowired
      * @param mapper The mapper class for roles
      */
-    @Autowired
+    //@Autowired
     public RoleRestController(DaoContext daoContext, RoleAbstractMapper mapper) {
         super(daoContext.getRoleDao(),mapper);
+    }
+
+    /**
+     * Rest controller for Role
+     *
+     * @param daoContext Autowired
+     * @param mapper The mapper class for roles
+     */
+    @Autowired
+    public RoleRestController(RoleDao roleDao, RoleAbstractMapper mapper) {
+        super(roleDao,mapper);
     }
 
     /**

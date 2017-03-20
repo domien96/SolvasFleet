@@ -71,7 +71,7 @@ public class CompanyRestController extends AbstractRestController<Company,ApiCom
 
     @Override
     @RequestMapping(value = "/companies/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> put(@PathVariable int id, @RequestBody ApiCompany input,BindingResult result) {
+    public ResponseEntity<?> put(@PathVariable int id, @Valid @RequestBody ApiCompany input,BindingResult result) {
         return super.put(id, input,result);
     }
 }

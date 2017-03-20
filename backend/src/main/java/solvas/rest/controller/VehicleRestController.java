@@ -11,6 +11,8 @@ import solvas.rest.api.models.ApiVehicle;
 import solvas.rest.query.PaginationFilter;
 import solvas.rest.query.VehicleFilter;
 
+import javax.validation.Valid;
+
 /**
  * Rest controller for Vehicle
  * Visit @ /vehicles
@@ -53,7 +55,7 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
 
     @Override
     @RequestMapping(value = "/vehicles", method = RequestMethod.POST)
-    public ResponseEntity<?> post(@RequestBody ApiVehicle input,BindingResult result) {
+    public ResponseEntity<?> post(@Valid @RequestBody ApiVehicle input,BindingResult result) {
         return super.post(input,result);
     }
 
@@ -66,7 +68,7 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
     @Override
 
     @RequestMapping(value = "/vehicles/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> put(@PathVariable int id, @RequestBody ApiVehicle input,BindingResult result) {
+    public ResponseEntity<?> put(@PathVariable int id, @Valid @RequestBody ApiVehicle input, BindingResult result) {
         return super.put(id, input,result);
     }
 }

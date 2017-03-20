@@ -66,7 +66,7 @@ public class FleetRestController extends AbstractRestController<Fleet, ApiFleet>
 
     @Override
     @RequestMapping(value = "/fleets/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> put(@PathVariable int id, @RequestBody ApiFleet input,BindingResult result) {
+    public ResponseEntity<?> put(@PathVariable int id, @Valid @RequestBody ApiFleet input,BindingResult result) {
         return super.put(id, input,result);
     }
 }
