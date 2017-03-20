@@ -44,10 +44,8 @@ Natuurlijk is code coverage ook van belang. Het genereren van de code coverage *
  ```
 
 Het verslag van de Code Coverage vinden we in
+
 `/backend/build/reports/jacoco/jacocoReport/html/index.html`
-
-
-TODO: een hoofdpagina instellen voor de tests gemakkelijk te bekijken
 
 ### Mockito
 
@@ -77,7 +75,8 @@ Nu is het ook belangrijk dat we de mocks kunnen invoeren in de klasse die we wil
 Default geven methodes van mocks die een object van een klasse teruggeven `null` terug. Boolean methodes false en int methodes 0. Meestal is dit niet het gewenste gedrag. Gelukkig is het via mockito mogelijk om methodes aan te passen. Een voorbeeld hiervan vind je in de volgende code:
 
 ```java
-when(roleDaoMock.find(anyInt())).thenThrow(new EntityNotFoundException());
+when(roleDaoMock.find(anyInt()))
+ .thenThrow(new EntityNotFoundException());
 ```
 Deze gaat dus ervoor zorgen dat de roleDao een EntityNotFoundException zal throwen bij oproep van eender welke id bij de `find(int id)` methode. Dit zou dus gebruikt kunnen worden om te testen dat de RestController een correcte HTTP response geeft als de entiteit niet gevonden kan worden in de databank.
 
@@ -93,8 +92,10 @@ We kunnen een object van de klasse MockMvc creëren door aan een constructor de 
 ```java
 @Before
     public void setUp() throws JsonProcessingException {
-        RoleRestController roleRestController=new RoleRestController(daoContextMock,roleMapperMock,roleValidatorMock);
-        mockMvc= MockMvcBuilders.standaloneSetup(roleRestController).build();
+        RoleRestController roleRestController=
+        new RoleRestController(daoContext,roleMapper,roleValidator);
+        mockMvc=
+         MockMvcBuilders.standaloneSetup(roleRestController).build();
       }
 ```
 
@@ -103,8 +104,8 @@ en kijken of er aan bepaalde verwachtingen voldaan wordt.
 
 ```java
 mockMvc.perform(get("/roles/1"))
-        .andExpect(status().isOk())
-        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
+  .andExpect(status().isOk())
+  .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
 ```
 
 In het bovenstaand voorbeeld wordt er dus gekeken of er bij een get request op een role met id 1 een HTTP 200 status wordt teruggegeven en er wordt ook gecontroleerd dat het contenttype in JSON UTF8 staat.
@@ -127,7 +128,9 @@ Elke testklasse van de DAO laag moet starten met volgende annotaties:
 ```java
 @RunWith(SpringJUnit4ClassRunner.class) 1
 @ActiveProfiles("test") 2
-@ContextConfiguration(classes = {HibernateConfig.class,HibernateTestConfig.class},loader = AnnotationConfigContextLoader.class) 3
+@ContextConfiguration(
+classes = {HibernateConfig.class,HibernateTestConfig.class},
+loader = AnnotationConfigContextLoader.class) 3
 @Transactional
 ```
 1.  zorgt ervoor dat de de configuraties worden uitgevoerd (zie 3).

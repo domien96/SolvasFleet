@@ -41,3 +41,5 @@ backend/web/WEB-INF/applicationContext.xml
 backend/web/WEB-INF/dispatcher-servlet.xml
 backend/web/WEB-INF/web.xml
 backend/web/index.jsp
+*.bak_000f
+*.vux
