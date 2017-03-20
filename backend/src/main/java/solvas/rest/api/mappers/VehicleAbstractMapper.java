@@ -118,7 +118,7 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle, ApiVehicle> {
      * @param vehicle The Vehicle to subscribe
      * @param date The time subscription ends
      */
-    private void createSubscription(ApiVehicle api, FleetSubscription subscription, Vehicle vehicle, LocalDate date) {
+    private void createSubscription(ApiVehicle api, FleetSubscription subscription, Vehicle vehicle, LocalDate date) throws DependantEntityNotFound {
         try {
             Fleet fleet = daoContext.getFleetDao().find(api.getFleet());
             // This is a new subscription.

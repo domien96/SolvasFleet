@@ -214,7 +214,7 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      * @param saveMethod The saveMethod (example: dao.update or dao.create)
      * @return ResponseEntity to return to user
      */
-    private ResponseEntity<?> save(E input, BindingResult binding, SaveMethod<E> saveMethod) {
+    private ResponseEntity<?> save(E input, BindingResult binding, SaveMethod<E> saveMethod) throws DependantEntityNotFound {
         validator.validate(input, binding);
         if (!binding.hasErrors()) {
             return new ResponseEntity<>(saveMethod.run(), HttpStatus.OK);
@@ -241,6 +241,6 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
          *
          * @return the saved entity
          */
-        T run();
+        T run() throws DependantEntityNotFound;
     }
 }

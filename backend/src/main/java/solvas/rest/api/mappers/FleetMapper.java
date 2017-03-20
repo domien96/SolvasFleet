@@ -27,7 +27,7 @@ public class FleetMapper extends AbstractMapper<Fleet, ApiFleet> {
     }
 
     @Override
-    public Fleet convertToModel(ApiFleet api) {
+    public Fleet convertToModel(ApiFleet api) throws DependantEntityNotFound {
 
         Fleet fleet;
         if (api.getId() == 0) {
