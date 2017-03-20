@@ -28,7 +28,7 @@ public abstract class AbstractMapper<T extends Model, E> {
 
     /**
      * @param daoContext DaoContext
-     * @parem sharedAttributes Varargs of attributes that can safely be copied when mapping in both ways
+     * @param sharedAttributes Varargs of attributes that can safely be copied when mapping in both ways
      */
     public AbstractMapper(DaoContext daoContext, String ...sharedAttributes) {
         this.daoContext = daoContext;
