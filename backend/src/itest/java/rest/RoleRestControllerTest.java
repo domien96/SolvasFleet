@@ -2,19 +2,24 @@ package rest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.validation.Validator;
+import solvas.TestUtils;
 import solvas.models.Role;
-import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.dao.RoleDao;
 import solvas.rest.api.mappers.RoleAbstractMapper;
@@ -31,15 +36,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Integration tests of the RoleRestController
  * It checks HTTP responses and calls to the RoleDao
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = MockConfig.class)
 @SuppressWarnings("squid:S1192")
 public class RoleRestControllerTest {
-    @Mock
+
+    @Autowired
     private RoleDao roleDaoMock;
-    @Mock
+
+    @Autowired
     private RoleAbstractMapper roleMapperMock;
 
-    @Mock
-    private DaoContext daoContextMock;
+    @Autowired
+    private Validator validator;
 
     private MockMvc mockMvc;
 
@@ -56,14 +65,17 @@ public class RoleRestControllerTest {
     @Before
     public void setUp() throws JsonProcessingException {
         MockitoAnnotations.initMocks(this);
-        when(daoContextMock.getRoleDao()).thenReturn(roleDaoMock);
-        RoleRestController roleRestController=new RoleRestController(daoContextMock,roleMapperMock);
+        RoleRestController roleRestController=new RoleRestController(roleDaoMock, roleMapperMock);
 
-        mockMvc= MockMvcBuilders.standaloneSetup(roleRestController).build();
+        mockMvc= MockMvcBuilders.standaloneSetup(roleRestController).setValidator(validator).build();
         apiRole=random(ApiRole.class);
-        ObjectMapper mapper=new ObjectMapper();
-        mapper.findAndRegisterModules(); //Include module to convert LocaleDateTime objects
-        json=mapper.writeValueAsString(apiRole);
+        apiRole.setUser(TestUtils.VALID_USER);
+        apiRole.setCompany(TestUtils.VALID_COMPANY);
+        apiRole.setEndDate(null);
+        ObjectMapper objectMapper = new ObjectMapper()
+                .findAndRegisterModules()
+                .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        json = objectMapper.writeValueAsString(apiRole);
     }
 
     /**
