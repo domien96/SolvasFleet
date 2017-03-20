@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import solvas.models.Company;
 import solvas.models.Fleet;
 import solvas.persistence.api.DaoContext;
+import solvas.rest.api.mappers.exceptions.FieldNotFoundException;
 import solvas.rest.api.models.ApiFleet;
 
 /**
@@ -26,7 +27,7 @@ public class FleetMapper extends AbstractMapper<Fleet, ApiFleet> {
     }
 
     @Override
-    public Fleet convertToModel(ApiFleet api) {
+    public Fleet convertToModel(ApiFleet api) throws FieldNotFoundException {
 
         Fleet fleet;
         if (api.getId() == 0) {
@@ -35,9 +36,8 @@ public class FleetMapper extends AbstractMapper<Fleet, ApiFleet> {
             fleet = daoContext.getFleetDao().find(api.getId());
         }
 
-        if (api.getName() != null) {
-            fleet.setName(api.getName());
-        }
+        copyAttributes(fleet, api, "name");
+
         if (api.getCompany() != 0) {
             Company company = daoContext.getCompanyDao().find(api.getCompany());
             fleet.setCompany(company);
@@ -47,13 +47,12 @@ public class FleetMapper extends AbstractMapper<Fleet, ApiFleet> {
     }
 
     @Override
-    public ApiFleet convertToApiModel(Fleet model) {
+    public ApiFleet convertToApiModel(Fleet model) throws FieldNotFoundException {
         ApiFleet fleet = new ApiFleet();
         fleet.setId(model.getId());
+        copyAttributes(fleet, model, "name", "createdAt", "updatedAt", "id");
+
         fleet.setCompany(model.getCompany() == null ? 0 : model.getCompany().getId());
-        fleet.setName(model.getName());
-        fleet.setCreatedAt(model.getCreatedAt());
-        fleet.setUpdatedAt(model.getUpdatedAt());
         fleet.setLastUpdatedBy(0);
         fleet.setUrl(ROOT + model.getId());
         return fleet;

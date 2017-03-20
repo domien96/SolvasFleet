@@ -3,6 +3,7 @@ package solvas.rest.api.mappers;
 import org.springframework.stereotype.Component;
 import solvas.models.User;
 import solvas.persistence.api.DaoContext;
+import solvas.rest.api.mappers.exceptions.FieldNotFoundException;
 import solvas.rest.api.models.ApiUser;
 
 /**
@@ -22,34 +23,23 @@ public class UserAbstractMapper extends AbstractMapper<User,ApiUser> {
     }
 
     @Override
-    public User convertToModel(ApiUser apiUser) {
+    public User convertToModel(ApiUser apiUser) throws FieldNotFoundException {
         User user = new User();
         user.setId(apiUser.getId());
         if (user.getId()!=0) {
             //update
             user = daoContext.getUserDao().find(user.getId());
-            if (user==null){
-                user=new User();
-            }
         }
 
-        user.setFirstName(apiUser.getFirstName());
-        user.setLastName(apiUser.getLastName());
-        user.setEmail(apiUser.getEmail());
-        user.setPassword(apiUser.getPassword());
+        copyAttributes(user, apiUser, "firstName", "lastName", "email", "password");
         return user;
     }
 
     @Override
-    public ApiUser convertToApiModel(User user) {
+    public ApiUser convertToApiModel(User user) throws FieldNotFoundException {
         ApiUser apiUser = new ApiUser();
-        apiUser.setId(user.getId());
-        apiUser.setFirstName(user.getFirstName());
-        apiUser.setLastName(user.getLastName());
-        apiUser.setEmail(user.getEmail());
-        apiUser.setPassword(user.getPassword());
-        apiUser.setUpdatedAt(user.getUpdatedAt());
-        apiUser.setCreatedAt(user.getCreatedAt());
+        copyAttributes(user, apiUser, "firstName", "lastName", "email", "password", "id", "createdAt", "updatedAt");
+
         apiUser.setUrl(rootPath+apiUser.getId());
         return apiUser;
     }

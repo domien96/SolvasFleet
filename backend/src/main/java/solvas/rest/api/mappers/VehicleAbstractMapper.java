@@ -8,6 +8,8 @@ import solvas.models.SubFleet;
 import solvas.models.Vehicle;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
+import solvas.rest.api.mappers.exceptions.DependantEntityNotFound;
+import solvas.rest.api.mappers.exceptions.FieldNotFoundException;
 import solvas.rest.api.models.ApiVehicle;
 
 import java.time.LocalDate;
@@ -34,7 +36,7 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle, ApiVehicle> {
     }
 
     @Override
-    public Vehicle convertToModel(ApiVehicle api) throws DependantEntityNotFound {
+    public Vehicle convertToModel(ApiVehicle api) throws DependantEntityNotFound, FieldNotFoundException {
 
         final Vehicle vehicle;
         if (api.getId() == 0) {
@@ -43,32 +45,14 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle, ApiVehicle> {
             vehicle = daoContext.getVehicleDao().find(api.getId());
         }
 
-        vehicle.setId(api.getId());
+        copyAttributes(vehicle, api, "id", "vin", "licensePlate", "chassisNumber", "model", "year", "value", "brand");
+        vehicle.setKilometerCount(api.getMileage());
 
-        if (api.getLicensePlate() != null) {
-            vehicle.setLicensePlate(api.getLicensePlate());
-        }
-        if (api.getVin() != null) {
-            vehicle.setChassisNumber(api.getVin());
-        }
-        if (api.getModel() != null) {
-            vehicle.setModel(api.getModel());
-        }
-        if (api.getMileage() != 0) {
-            vehicle.setKilometerCount(api.getMileage());
-        }
-        if (api.getYear() != 0) {
-            vehicle.setYear(api.getYear());
-        }
+
         if (api.getLeasingCompany() != 0) {
             vehicle.setLeasingCompany(daoContext.getCompanyDao().find(api.getLeasingCompany()));
         }
-        if (api.getValue() != 0) {
-            vehicle.setValue(api.getValue());
-        }
-        if (api.getBrand() != null) {
-            vehicle.setBrand(api.getBrand());
-        }
+
         if (api.getType() != null) {
             vehicle.setType(new VehicleTypeAbstractMapper(daoContext).convertToModel(api.getType()));
         }
@@ -113,10 +97,11 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle, ApiVehicle> {
 
     /**
      * Subscribe a Vehicle to a fleet
-     * @param api The ApiVehicle corresponding to Vehicle
+     *
+     * @param api          The ApiVehicle corresponding to Vehicle
      * @param subscription The subscription model
-     * @param vehicle The Vehicle to subscribe
-     * @param date The time subscription ends
+     * @param vehicle      The Vehicle to subscribe
+     * @param date         The time subscription ends
      */
     private void createSubscription(ApiVehicle api, FleetSubscription subscription, Vehicle vehicle, LocalDate date) {
         try {
@@ -135,22 +120,17 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle, ApiVehicle> {
     }
 
     @Override
-    public ApiVehicle convertToApiModel(Vehicle vehicle) {
+    public ApiVehicle convertToApiModel(Vehicle vehicle) throws FieldNotFoundException {
         ApiVehicle api = new ApiVehicle();
-        api.setId(vehicle.getId());
-        api.setId(vehicle.getId());
-        api.setLicensePlate(vehicle.getLicensePlate());
-        api.setVin(vehicle.getChassisNumber());
-        api.setModel(vehicle.getModel());
+        copyAttributes( api, vehicle,"id", "vin", "licensePlate", "chassisNumber", "model", "year", "value", "brand", "createdAt", "updatedAt");
+
+
         api.setMileage(vehicle.getKilometerCount());
-        api.setYear(vehicle.getYear());
         api.setLeasingCompany(vehicle.getLeasingCompany() == null ? 0 : vehicle.getLeasingCompany().getId());
-        api.setValue(vehicle.getValue());//api.getValue()
-        api.setBrand(vehicle.getBrand());
+
         api.setFleet(getApiFleet(vehicle));
         api.setType(vehicle.getType().getName());
-        api.setUpdatedAt(vehicle.getUpdatedAt());
-        api.setCreatedAt(vehicle.getCreatedAt());
+
         api.setUrl(rootPath + api.getId());
         return api;
     }
