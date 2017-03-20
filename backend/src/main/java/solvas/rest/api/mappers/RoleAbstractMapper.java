@@ -3,6 +3,7 @@ package solvas.rest.api.mappers;
 import org.springframework.stereotype.Component;
 import solvas.models.Role;
 import solvas.persistence.api.DaoContext;
+import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.api.models.ApiRole;
 
 /**
@@ -22,15 +23,12 @@ public class RoleAbstractMapper extends AbstractMapper<Role,ApiRole> {
     }
 
     @Override
-    public Role convertToModel(ApiRole api) {
+    public Role convertToModel(ApiRole api) throws EntityNotFoundException {
         Role role = new Role();
         role.setId(api.getId());
         if (role.getId()!=0) {
             //update
             role = daoContext.getRoleDao().find(role.getId());
-            if (role==null){
-                role=new Role();
-            }
         }
         role.setStartDate(api.getStartDate()==null ? role.getStartDate() : api.getStartDate());
         role.setFunction(api.getFunction()==null ? role.getFunction() : api.getFunction());

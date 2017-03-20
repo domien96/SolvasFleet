@@ -2,6 +2,7 @@ package solvas.rest.api.mappers;
 
 import solvas.models.Model;
 import solvas.persistence.api.DaoContext;
+import solvas.persistence.api.EntityNotFoundException;
 
 /**
  * Mapper between a Model in the persistence layer and it's representation in the REST API
@@ -26,7 +27,7 @@ public abstract class AbstractMapper<T extends Model,E> {
      * @param api An model according to the REST api
      * @return A Model in the persistence layer
      */
-    public abstract T convertToModel(E api) throws DependantEntityNotFound;
+    public abstract T convertToModel(E api) throws DependantEntityNotFound, EntityNotFoundException;
 
     /**
      * Convert a Model in the persistence layer to an ApiModel
