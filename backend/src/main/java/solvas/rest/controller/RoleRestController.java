@@ -36,7 +36,7 @@ public class RoleRestController extends AbstractRestController<Role,ApiRole> {
     /**
      * Rest controller for Role
      *
-     * @param daoContext Autowired
+     * @param roleDao Autowired
      * @param mapper The mapper class for roles
      */
     @Autowired
