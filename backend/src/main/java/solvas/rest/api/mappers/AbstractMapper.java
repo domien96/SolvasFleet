@@ -15,6 +15,7 @@ import java.lang.reflect.Field;
  *            Created by steve on 11/03/2017.
  */
 public abstract class AbstractMapper<T extends Model, E> {
+    private final String[] sharedAttributes;
 
     protected final DaoContext daoContext;
 
@@ -22,7 +23,15 @@ public abstract class AbstractMapper<T extends Model, E> {
      * @param daoContext DaoContext
      */
     public AbstractMapper(DaoContext daoContext) {
+        this(daoContext, new String[0]);
+    }
+
+    /**
+     * @param daoContext DaoContext
+     */
+    public AbstractMapper(DaoContext daoContext, String ...sharedAttributes) {
         this.daoContext = daoContext;
+        this.sharedAttributes = sharedAttributes;
     }
 
 
@@ -78,4 +87,14 @@ public abstract class AbstractMapper<T extends Model, E> {
         }
     }
 
+
+    /**
+     * Copy attributes that were marked as shared in the constructor
+     * @param target The entity to copy to
+     * @param source The entity to copy from
+     * @throws FieldNotFoundException
+     */
+    protected void copySharedAttributes(Object target, Object source) throws FieldNotFoundException {
+        copyAttributes(target, source, sharedAttributes);
+    }
 }

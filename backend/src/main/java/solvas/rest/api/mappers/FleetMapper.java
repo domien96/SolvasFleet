@@ -23,7 +23,7 @@ public class FleetMapper extends AbstractMapper<Fleet, ApiFleet> {
      */
     @Autowired
     public FleetMapper(DaoContext daoContext) {
-        super(daoContext);
+        super(daoContext, "name");
     }
 
     @Override
@@ -36,7 +36,7 @@ public class FleetMapper extends AbstractMapper<Fleet, ApiFleet> {
             fleet = daoContext.getFleetDao().find(api.getId());
         }
 
-        copyAttributes(fleet, api, "name");
+        copyAttributes(fleet, api);
 
         if (api.getCompany() != 0) {
             Company company = daoContext.getCompanyDao().find(api.getCompany());
@@ -49,8 +49,9 @@ public class FleetMapper extends AbstractMapper<Fleet, ApiFleet> {
     @Override
     public ApiFleet convertToApiModel(Fleet model) throws FieldNotFoundException {
         ApiFleet fleet = new ApiFleet();
-        fleet.setId(model.getId());
-        copyAttributes(fleet, model, "name", "createdAt", "updatedAt", "id");
+
+        copySharedAttributes(fleet, model);
+        copyAttributes(fleet, model,  "createdAt", "updatedAt", "id");
 
         fleet.setCompany(model.getCompany() == null ? 0 : model.getCompany().getId());
         fleet.setLastUpdatedBy(0);

@@ -21,8 +21,12 @@ public class CompanyMapper extends AbstractMapper<Company,ApiCompany> {
      * @param daoContext The context for Dao's
      */
     public CompanyMapper(DaoContext daoContext) {
-        super(daoContext);
+        super(daoContext, "name", "vatNumber", "phoneNumber");
     }
+
+    private String[] sharedFields = new String[] {
+
+    };
 
     @Override
     public Company convertToModel(ApiCompany apiCompany) throws FieldNotFoundException {
@@ -35,7 +39,7 @@ public class CompanyMapper extends AbstractMapper<Company,ApiCompany> {
             company = daoContext.getCompanyDao().find(company.getId());
         }
 
-        copyAttributes(company, apiCompany, "name", "vatNumber", "phoneNumber");
+        copySharedAttributes(company, apiCompany);
 
         if (apiCompany.getAddress()!=null) {
             company.setAddressCity(apiCompany.getAddress().getCity());
@@ -57,7 +61,8 @@ public class CompanyMapper extends AbstractMapper<Company,ApiCompany> {
     public ApiCompany convertToApiModel(Company company) throws FieldNotFoundException {
         ApiCompany apiCompany = new ApiCompany();
 
-        copyAttributes(apiCompany, company, "id", "name", "vatNumber", "phoneNumber", "createdAt", "updatedAt");
+        copyAttributes(apiCompany, company, "id", "createdAt", "updatedAt");
+        copySharedAttributes(apiCompany, company);
 
         apiCompany.setAddress(new ApiAddress());
         apiCompany.getAddress().setCity(company.getAddressCity());
@@ -69,4 +74,6 @@ public class CompanyMapper extends AbstractMapper<Company,ApiCompany> {
         apiCompany.setUrl(rootPath+apiCompany.getId());
         return apiCompany;
     }
+
+
 }

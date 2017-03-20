@@ -19,7 +19,7 @@ public class UserAbstractMapper extends AbstractMapper<User,ApiUser> {
      * @param daoContext The DAO context
      */
     public UserAbstractMapper(DaoContext daoContext) {
-        super(daoContext);
+        super(daoContext, "firstName", "lastName", "email", "password");
     }
 
     @Override
@@ -31,14 +31,15 @@ public class UserAbstractMapper extends AbstractMapper<User,ApiUser> {
             user = daoContext.getUserDao().find(user.getId());
         }
 
-        copyAttributes(user, apiUser, "firstName", "lastName", "email", "password");
+        copySharedAttributes(user, apiUser);
         return user;
     }
 
     @Override
     public ApiUser convertToApiModel(User user) throws FieldNotFoundException {
         ApiUser apiUser = new ApiUser();
-        copyAttributes(user, apiUser, "firstName", "lastName", "email", "password", "id", "createdAt", "updatedAt");
+        copyAttributes(user, apiUser, "id", "createdAt", "updatedAt");
+        copySharedAttributes(apiUser, user);
 
         apiUser.setUrl(rootPath+apiUser.getId());
         return apiUser;

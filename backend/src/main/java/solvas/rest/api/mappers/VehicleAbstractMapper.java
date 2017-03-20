@@ -32,7 +32,7 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle, ApiVehicle> {
      * @param daoContext
      */
     public VehicleAbstractMapper(DaoContext daoContext) {
-        super(daoContext);
+        super(daoContext, "id", "vin", "licensePlate", "chassisNumber", "model", "year", "value", "brand");
     }
 
     @Override
@@ -45,7 +45,8 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle, ApiVehicle> {
             vehicle = daoContext.getVehicleDao().find(api.getId());
         }
 
-        copyAttributes(vehicle, api, "id", "vin", "licensePlate", "chassisNumber", "model", "year", "value", "brand");
+        copySharedAttributes(vehicle, api);
+
         vehicle.setKilometerCount(api.getMileage());
 
 
@@ -122,7 +123,8 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle, ApiVehicle> {
     @Override
     public ApiVehicle convertToApiModel(Vehicle vehicle) throws FieldNotFoundException {
         ApiVehicle api = new ApiVehicle();
-        copyAttributes( api, vehicle,"id", "vin", "licensePlate", "chassisNumber", "model", "year", "value", "brand", "createdAt", "updatedAt");
+        copyAttributes( api, vehicle,"createdAt", "updatedAt");
+        copySharedAttributes(api, vehicle);
 
 
         api.setMileage(vehicle.getKilometerCount());

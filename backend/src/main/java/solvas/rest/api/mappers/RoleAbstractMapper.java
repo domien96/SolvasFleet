@@ -19,7 +19,7 @@ public class RoleAbstractMapper extends AbstractMapper<Role,ApiRole> {
      * @param daoContext
      */
     public RoleAbstractMapper(DaoContext daoContext) {
-        super(daoContext);
+        super(daoContext, "startDate", "function", "endDate");
     }
 
     @Override
@@ -31,7 +31,7 @@ public class RoleAbstractMapper extends AbstractMapper<Role,ApiRole> {
             role = daoContext.getRoleDao().find(role.getId());
         }
 
-        copyAttributes(role, api, "startDate", "function", "endDate");
+        copySharedAttributes(role, api);
         role.setUser(api.getUser()==0 ? role.getUser() : daoContext.getUserDao().find(api.getUser()));
         role.setCompany(api.getCompany()==0 ? role.getCompany() : daoContext.getCompanyDao().find(api.getCompany()));
         //role permissions
@@ -41,7 +41,8 @@ public class RoleAbstractMapper extends AbstractMapper<Role,ApiRole> {
     @Override
     public ApiRole convertToApiModel(Role role) throws FieldNotFoundException {
         ApiRole apiRole = new ApiRole();
-        copyAttributes(apiRole, role, "id", "startDate", "function", "endDate");
+        copyAttributes(apiRole, role, "id");
+        copySharedAttributes(apiRole, role);
         apiRole.setUrl(rootPath+apiRole.getId());
         apiRole.setCompany(role.getCompany().getId());
         apiRole.setUser(role.getUser().getId());
