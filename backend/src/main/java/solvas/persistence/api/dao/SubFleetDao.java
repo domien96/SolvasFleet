@@ -1,5 +1,6 @@
 package solvas.persistence.api.dao;
 
+import solvas.models.Fleet;
 import solvas.models.SubFleet;
 import solvas.persistence.api.Dao;
 
@@ -13,8 +14,8 @@ public interface SubFleetDao extends Dao<SubFleet> {
 
     /**
      * TODO document
-     * @param fleetId
+     * @param fleet
      * @return
      */
-    Collection<SubFleet> withFleetId(int fleetId);
+    Collection<SubFleet> findByFleet(Fleet fleet);
 }

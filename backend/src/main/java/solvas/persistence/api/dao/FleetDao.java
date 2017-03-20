@@ -3,8 +3,6 @@ package solvas.persistence.api.dao;
 import solvas.models.Fleet;
 import solvas.persistence.api.Dao;
 
-import java.util.Collection;
-
 /**
  * DAO for a company.
  *
@@ -19,5 +17,5 @@ public interface FleetDao extends Dao<Fleet> {
      *
      * @return The companies.
      */
-    Collection<Fleet> withCompanyId(int companyId);
+   // Collection<Fleet> findByCompanyId(int companyId);
 }

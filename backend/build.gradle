@@ -28,6 +28,8 @@ dependencies {
     // The Spring Boot Gradle plugin automatically manages versions for select dependencies.
     // See http://docs.spring.io/spring-boot/docs/current/reference/html/appendix-dependency-versions.html
     compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+    //compile 'org.springframework.data:spring-data-jpa'
     compile 'org.springframework:spring-orm'
     compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 

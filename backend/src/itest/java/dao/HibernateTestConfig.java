@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import solvas.persistence.api.dao.*;
-import solvas.persistence.hibernate.dao.*;
 
 import javax.sql.DataSource;
 
@@ -25,35 +24,35 @@ public class HibernateTestConfig {
     @Bean
     public CompanyDao companyDao()
     {
-        return new HibernateCompanyDao();
+        return null;
     }
 
     @Bean
     public RoleDao roleDao()
     {
-        return new HibernateRoleDao();
+        return null;
     }
 
     @Bean
     public UserDao userDao()
     {
-        return new HibernateUserDao();
+        return null;
     }
 
     @Bean
     public VehicleDao vehicleDao()
     {
-        return new HibernateVehicleDao();
+        return null;
     }
 
     @Bean
-    public FleetDao fleetDao() { return new HibernateFleetDao();}
+    public FleetDao fleetDao() { return null;}
 
     @Bean
-    public SubFleetDao subFleetDao() { return new HibernateSubFleetDao(); }
+    public SubFleetDao subFleetDao() { return null; }
 
     @Bean
-    public FleetSubscriptionDao fleetSubscriptionDao() { return new HibernateFleetSubscriptionDao(); }
+    public FleetSubscriptionDao fleetSubscriptionDao() { return null; }
 
 }
 

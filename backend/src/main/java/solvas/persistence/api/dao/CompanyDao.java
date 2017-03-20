@@ -19,5 +19,5 @@ public interface CompanyDao extends Dao<Company> {
      *
      * @return The companies.
      */
-    Collection<Company> withName(String name);
+    Collection<Company> findByName(String name);
 }

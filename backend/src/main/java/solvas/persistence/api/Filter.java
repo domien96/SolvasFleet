@@ -1,5 +1,7 @@
 package solvas.persistence.api;
 
+import org.springframework.data.jpa.domain.Specification;
+
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
@@ -73,5 +75,17 @@ public interface Filter<T> {
             existing.add(predicate.apply(builder, root));
             return existing;
         };
+    }
+
+    /**
+     * Convert it to a {@link Specification}.
+     *
+     * @return
+     */
+    default Specification<T> toSpecification() {
+        return (root, query, cb) -> Filter.this.asPredicates(cb, root)
+                .stream()
+                .reduce(cb::and)
+                .orElseGet(() -> cb.isTrue(cb.literal(true)));
     }
 }

@@ -21,5 +21,5 @@ public interface VehicleTypeDao extends Dao<VehicleType> {
      *
      * @return Should be a collection with one type.
      */
-    Collection<VehicleType> withType(String type);
+    Collection<VehicleType> findByName(String type);
 }

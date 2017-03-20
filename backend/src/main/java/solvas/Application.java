@@ -4,11 +4,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
+import org.springframework.data.web.config.SpringDataWebConfiguration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -18,7 +19,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  * The SolvasFleet application bootstrap
  */
 @Configuration
-@EnableAutoConfiguration(exclude = {HibernateJpaAutoConfiguration.class})
+@EnableAutoConfiguration
 @ComponentScan(value = {"solvas"})
 public class Application {
 
@@ -57,6 +58,18 @@ public class Application {
                 registry.addMapping("/**")
                         .allowedMethods("*")
                         .allowedOrigins("*");
+            }
+        };
+    }
+
+    @Bean
+    public SpringDataWebConfiguration dataWebConfiguration() {
+        return new SpringDataWebConfiguration() {
+            @Override
+            public PageableHandlerMethodArgumentResolver pageableResolver() {
+                PageableHandlerMethodArgumentResolver resolver = super.pageableResolver();
+                resolver.setSizeParameterName("limit");
+                return resolver;
             }
         };
     }
