@@ -7,16 +7,12 @@ import java.util.Collection;
 
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
 import static io.github.benas.randombeans.api.EnhancedRandom.randomCollectionOf;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertEquals;
 
 /**
  * Unit testing the JsonListWrapper
  */
 public class JsonListWrapperTest {
-    private JsonListWrapper<Object> listWrapper;
 
     /**
      * Testing the default nokey constructor, this wraps the list under key: 'data'
