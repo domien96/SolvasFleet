@@ -15,7 +15,7 @@ public class RoleAbstractMapper extends AbstractMapper<Role,ApiRole> {
     /**
      * Create a mapper between Role and ApiRole
      *
-     * @param daoContext
+     * @param daoContext The DaoContext this mapper should work with
      */
     public RoleAbstractMapper(DaoContext daoContext) {
         super(daoContext);

@@ -8,7 +8,8 @@
     #  - role: sonarqube
     #  - role: snapshots
     #  - role: frontend
-      - role: backend
+    #  - role: backend
+      - role: backup-client
   vars_files:
     - vars/passwords.yml
     - vars/common.yml
