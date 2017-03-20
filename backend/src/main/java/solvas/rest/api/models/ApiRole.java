@@ -1,9 +1,7 @@
 package solvas.rest.api.models;
 
 import org.hibernate.validator.constraints.NotBlank;
-import solvas.models.validators.CompanyExists;
 import solvas.models.validators.StartBeforeEnd;
-import solvas.models.validators.UserExists;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -14,7 +12,6 @@ import java.time.LocalDateTime;
 @StartBeforeEnd
 public class ApiRole extends ApiModel {
 
-    @CompanyExists
     private int company;
 
     @NotNull
@@ -25,7 +22,6 @@ public class ApiRole extends ApiModel {
     @NotBlank
     private String function;
 
-    @UserExists
     private int user;
 
     public int getCompany() {

@@ -1,4 +1,4 @@
-package rest.api.models;
+package solvas.models;
 
 import org.junit.Test;
 import solvas.rest.api.models.ApiUser;

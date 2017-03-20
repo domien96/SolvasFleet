@@ -1,14 +1,12 @@
 package solvas.rest.api.models;
 
 import org.hibernate.validator.constraints.NotEmpty;
-import solvas.models.validators.CompanyExists;
 
 /**
  * @author Niko Strijbol
  */
 public class ApiFleet extends ApiModel {
 
-    @CompanyExists
     private int company;
 
     @NotEmpty

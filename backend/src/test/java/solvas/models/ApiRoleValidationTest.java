@@ -1,20 +1,9 @@
-package rest.api.models;
+package solvas.models;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.AnnotationConfigContextLoader;
-import solvas.TestUtils;
-import solvas.persistence.api.dao.CompanyDao;
-import solvas.persistence.api.dao.UserDao;
 import solvas.rest.api.models.ApiRole;
 
 import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Set;
@@ -27,38 +16,16 @@ import static org.junit.Assert.assertTrue;
  *
  * @author Niko Strijbol
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(loader = AnnotationConfigContextLoader.class)
 @SuppressWarnings({"squid:UndocumentedApi", "squid:S109"})
-public class ApiRoleValidationTest {
+public class ApiRoleValidationTest extends ValidationTest {
 
     private static final String START_DATE_FIELD = "startDate";
     private static final String END_DATE_FIELD = "endDate";
-
-    @Configuration
-    @SuppressWarnings("squid:UndocumentedApi")
-    static class ContextConfiguration extends ValidatorConfiguration {
-
-        @Bean
-        public CompanyDao companyDao() {
-            return TestUtils.mockedCompanyDao();
-        }
-
-        @Bean
-        public UserDao userDao() {
-            return TestUtils.mockedUserDao();
-        }
-    }
-
-    @Autowired
-    private Validator validator;
 
     @Test
     public void testValid() {
         ApiRole role = new ApiRole();
         role.setFunction("TEST");
-        role.setCompany(TestUtils.VALID_COMPANY);
-        role.setUser(TestUtils.VALID_USER);
         role.setStartDate(LocalDateTime.now());
         assertEquals(0, validator.validate(role).size());
     }
@@ -67,8 +34,6 @@ public class ApiRoleValidationTest {
     public void testEmptyAndNoFunction() {
         final String function = "function";
         ApiRole role = new ApiRole();
-        role.setCompany(TestUtils.VALID_COMPANY);
-        role.setUser(TestUtils.VALID_USER);
         role.setStartDate(LocalDateTime.now());
         role.setFunction("");
         Set<ConstraintViolation<ApiRole>> v = validator.validate(role);
@@ -83,8 +48,6 @@ public class ApiRoleValidationTest {
     @Test
     public void testNullStartDate() {
         ApiRole role = new ApiRole();
-        role.setCompany(TestUtils.VALID_COMPANY);
-        role.setUser(TestUtils.VALID_USER);
         role.setFunction("random");
         Set<ConstraintViolation<ApiRole>> v = validator.validate(role);
         assertEquals(1, v.size());
@@ -92,24 +55,8 @@ public class ApiRoleValidationTest {
     }
 
     @Test
-    public void testCompanyAndUser() {
-        ApiRole role = new ApiRole();
-        role.setStartDate(LocalDateTime.now());
-        role.setFunction("admin");
-
-        Set<ConstraintViolation<ApiRole>> v = validator.validate(role);
-        assertEquals(2, v.size());
-
-        role.setUser(TestUtils.VALID_USER);
-        v = validator.validate(role);
-        assertEquals("company", v.iterator().next().getPropertyPath().iterator().next().getName());
-    }
-
-    @Test
     public void testDates() {
         ApiRole role = new ApiRole();
-        role.setCompany(TestUtils.VALID_COMPANY);
-        role.setUser(TestUtils.VALID_USER);
         role.setFunction("user");
         LocalDateTime now = LocalDateTime.now();
         role.setStartDate(now);

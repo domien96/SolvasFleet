@@ -1,4 +1,4 @@
-package rest.api.models;
+package solvas.models;
 
 import org.hibernate.validator.HibernateValidator;
 import org.springframework.context.annotation.Bean;
