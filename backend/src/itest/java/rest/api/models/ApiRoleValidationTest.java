@@ -1,4 +1,4 @@
-package solvas.rest.api.models;
+package rest.api.models;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,6 +11,7 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import solvas.TestUtils;
 import solvas.persistence.api.dao.CompanyDao;
 import solvas.persistence.api.dao.UserDao;
+import solvas.rest.api.models.ApiRole;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;

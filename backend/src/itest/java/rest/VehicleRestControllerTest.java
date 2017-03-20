@@ -2,6 +2,7 @@ package rest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -64,8 +65,12 @@ public class VehicleRestControllerTest {
         mockMvc= MockMvcBuilders.standaloneSetup(vehicleRestController).build();
 
         vehicle = random(ApiVehicle.class);
+        vehicle.setVin("WDBRN40J75A645754");
+        vehicle.setYear(2017);
+        vehicle.setMileage(10);
+        vehicle.setValue(6565);
         ObjectMapper mapper = new ObjectMapper();
-        mapper.findAndRegisterModules();
+        mapper.findAndRegisterModules().configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);;
         json=mapper.writeValueAsString(vehicle);
     }
 

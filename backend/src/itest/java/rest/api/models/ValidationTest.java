@@ -1,4 +1,4 @@
-package solvas.rest.api.models;
+package rest.api.models;
 
 import org.junit.Before;
 

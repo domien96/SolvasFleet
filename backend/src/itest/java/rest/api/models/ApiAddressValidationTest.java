@@ -1,6 +1,7 @@
-package solvas.rest.api.models;
+package rest.api.models;
 
 import org.junit.Test;
+import solvas.rest.api.models.ApiAddress;
 
 import javax.validation.ConstraintViolation;
 import java.util.Set;

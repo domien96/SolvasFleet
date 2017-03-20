@@ -55,6 +55,7 @@ public class RoleRestControllerTest {
     private ArgumentCaptor<Role> captor = ArgumentCaptor.forClass(Role.class);
 
     private ApiRole apiRole;
+    private Role role;
     private String json;
 
 
@@ -65,7 +66,7 @@ public class RoleRestControllerTest {
     @Before
     public void setUp() throws JsonProcessingException {
         MockitoAnnotations.initMocks(this);
-        RoleRestController roleRestController=new RoleRestController(roleDaoMock, roleMapperMock);
+        RoleRestController roleRestController = new RoleRestController(roleDaoMock, roleMapperMock);
 
         mockMvc= MockMvcBuilders.standaloneSetup(roleRestController).setValidator(validator).build();
         apiRole=random(ApiRole.class);
