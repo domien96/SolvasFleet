@@ -2,6 +2,7 @@ package solvas.models;
 
 /**
  * Models a fleet
+ * A fleet is a group of vehicles.
  * @author domien on 04/03/2017
  */
 public class Fleet extends Model {

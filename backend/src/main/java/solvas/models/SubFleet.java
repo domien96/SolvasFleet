@@ -1,7 +1,7 @@
 package solvas.models;
 
 /**
- * Created by steve on 11/03/2017.
+ * Models a group of vehicles belonger to a larger group (a fleet)
  */
 public class SubFleet extends Model {
     private Fleet fleet;
