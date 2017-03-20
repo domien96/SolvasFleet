@@ -20,9 +20,18 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Documented
 public @interface Vin {
 
+    /**
+     * @return The message for when the validation fails.
+     */
     String message() default "Invalid VIN.";
 
+    /**
+     * @return Optional validation group.
+     */
     Class<?>[] groups() default {};
 
+    /**
+     * @return Optional payload.
+     */
     Class<? extends Payload>[] payload() default { };
 }

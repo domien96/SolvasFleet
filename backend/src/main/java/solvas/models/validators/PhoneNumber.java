@@ -20,10 +20,19 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Documented
 public @interface PhoneNumber {
 
+    /**
+     * @return The message for when the validation fails.
+     */
     String message() default "Invalid phone number.";
 
+    /**
+     * @return Optional validation group.
+     */
     Class<?>[] groups() default {};
 
+    /**
+     * @return Optional payload.
+     */
     Class<? extends Payload>[] payload() default { };
 
     /**

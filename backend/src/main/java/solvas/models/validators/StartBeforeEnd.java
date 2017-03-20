@@ -23,10 +23,19 @@ public @interface StartBeforeEnd {
 
     String MESSAGE = "End date must be after or equal to start date (or null).";
 
+    /**
+     * @return The message for when the validation fails.
+     */
     String message() default MESSAGE;
 
+    /**
+     * @return Optional validation group.
+     */
     Class<?>[] groups() default {};
 
+    /**
+     * @return Optional payload.
+     */
     Class<? extends Payload>[] payload() default { };
 
     /**
