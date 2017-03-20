@@ -24,10 +24,6 @@ public class CompanyMapper extends AbstractMapper<Company,ApiCompany> {
         super(daoContext, "name", "vatNumber", "phoneNumber");
     }
 
-    private String[] sharedFields = new String[] {
-
-    };
-
     @Override
     public Company convertToModel(ApiCompany apiCompany) throws FieldNotFoundException {
         Company company = new Company();
