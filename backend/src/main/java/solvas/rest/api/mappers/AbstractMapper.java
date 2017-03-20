@@ -42,7 +42,7 @@ public abstract class AbstractMapper<T extends Model, E> {
      * @param api An model according to the REST api
      * @return A Model in the persistence layer
      */
-    public abstract T convertToModel(E api) throws DependantEntityNotFound, FieldNotFoundException;
+    public abstract T convertToModel(E api) throws DependantEntityNotFound;
 
     /**
      * Convert a Model in the persistence layer to an ApiModel
@@ -50,7 +50,7 @@ public abstract class AbstractMapper<T extends Model, E> {
      * @param model A Model in the persistence layer
      * @return An model according to the REST api
      */
-    public abstract E convertToApiModel(T model) throws FieldNotFoundException;
+    public abstract E convertToApiModel(T model);
 
 
     /**
@@ -62,7 +62,7 @@ public abstract class AbstractMapper<T extends Model, E> {
      * @throws FieldNotFoundException If a field wasn't found or was inaccessible
      */
 
-    protected void copyAttributes(Object target, Object src, String... attributes) throws FieldNotFoundException {
+    protected void copyAttributes(Object target, Object src, String... attributes) {
         for (String attribute : attributes) {
             copyNotNull(target, src, attribute);
         }
@@ -76,7 +76,7 @@ public abstract class AbstractMapper<T extends Model, E> {
      * @param name   attribute to copy
      * @throws FieldNotFoundException If field wasn't found or was inaccessible
      */
-    private void copyNotNull(Object target, Object source, String name) throws FieldNotFoundException {
+    private void copyNotNull(Object target, Object source, String name) {
         try {
             Field targetField = target.getClass().getDeclaredField(name);
             Field sourceField = source.getClass().getDeclaredField(name);
@@ -95,7 +95,7 @@ public abstract class AbstractMapper<T extends Model, E> {
      * @param source The entity to copy from
      * @throws FieldNotFoundException
      */
-    protected void copySharedAttributes(Object target, Object source) throws FieldNotFoundException {
+    protected void copySharedAttributes(Object target, Object source) {
         copyAttributes(target, source, sharedAttributes);
     }
 }

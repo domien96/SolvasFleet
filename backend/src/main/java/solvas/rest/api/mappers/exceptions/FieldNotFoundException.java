@@ -5,7 +5,7 @@ package solvas.rest.api.mappers.exceptions;
  *
  * Exception thrown when trying to copy a nonexistent field between the ApiModel and Persistence Model
  */
-public class FieldNotFoundException extends Exception {
+public class FieldNotFoundException extends RuntimeException {
 
     /**
      * Create exception from nested exception
