@@ -1,33 +1,33 @@
-package dao;
+package solvas.persitence.api.dao;
 
-import org.springframework.boot.autoconfigure.flyway.FlywayMigrationStrategy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 import javax.sql.DataSource;
 
 /**
- * Config for testing
+ * Beans for use during testing.
+ *
+ * @author Karel Vandenbussche
+ * @author Niko Strijbol
  */
 @Configuration
-public class HibernateTestConfig {
+public class TestConfig {
 
+    /**
+     * Since triggers don't work in the in-memory database, make a custom data source, containing
+     * only the migrations, not the triggers.
+     *
+     * @return The bean.
+     */
     @Bean
-    @Profile("test")
     public DataSource getDataSource() {
         return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2)
                 .addScript("db/migration/V1_0__milestone1.sql")
                 .addScript("db/migration/V1_1__n-m_relations.sql")
                 .addScript("schema.sql")
                 .build();
-    }
-
-    @Bean
-    @Profile("test")
-    public FlywayMigrationStrategy cleanMigrateStrategy() {
-        return flyway -> {};
     }
 }

@@ -3,10 +3,8 @@ package solvas;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.data.web.config.SpringDataWebConfiguration;
@@ -18,9 +16,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 /**
  * The SolvasFleet application bootstrap
  */
-@Configuration
-@EnableAutoConfiguration
-@ComponentScan(value = {"solvas"})
+//@Configuration
+//@EnableAutoConfiguration
+//@ComponentScan(value = {"solvas"})
+@SpringBootApplication
 public class Application {
 
     /**

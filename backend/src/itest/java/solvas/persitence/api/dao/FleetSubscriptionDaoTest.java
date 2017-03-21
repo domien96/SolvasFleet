@@ -1,4 +1,4 @@
-package dao;
+package solvas.persitence.api.dao;
 
 
 import org.junit.Ignore;
@@ -28,7 +28,7 @@ import static solvas.rest.utils.IteratorUtils.toList;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles("test")
-@ContextConfiguration(classes = {Application.class, HibernateTestConfig.class})
+@ContextConfiguration(classes = {Application.class, TestConfig.class})
 @Transactional
 public class FleetSubscriptionDaoTest {
 
