@@ -8,14 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.transaction.annotation.Transactional;
+import solvas.Application;
 import solvas.models.Role;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.dao.CompanyDao;
 import solvas.persistence.api.dao.RoleDao;
 import solvas.persistence.api.dao.UserDao;
-import solvas.persistence.hibernate.HibernateConfig;
 
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -31,7 +30,7 @@ import static solvas.rest.utils.IteratorUtils.toList;
 @Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles("test")
-@ContextConfiguration(classes = {HibernateConfig.class,HibernateTestConfig.class},loader = AnnotationConfigContextLoader.class)
+@ContextConfiguration(classes = {Application.class, HibernateTestConfig.class})
 @Transactional
 public class RoleDaoTest {
 

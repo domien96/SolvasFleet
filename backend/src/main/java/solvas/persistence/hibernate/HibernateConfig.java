@@ -34,7 +34,7 @@ import java.util.stream.Collectors;
  */
 @Configuration
 @EnableTransactionManagement
-@PropertySource(value = {"hibernate.properties"})
+@PropertySource(value = {"classpath:hibernate.properties"})
 public class HibernateConfig {
 
     private final Environment env;
@@ -53,6 +53,7 @@ public class HibernateConfig {
     }
 
     @Bean
+    @Profile({"default", "debug", "clean"})
     public DataSource getDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(env.getProperty("datasource.driver"));

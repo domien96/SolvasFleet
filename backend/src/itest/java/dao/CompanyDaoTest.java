@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import solvas.Application;
 import solvas.models.Company;
 import solvas.persistence.api.EntityNotFoundException;
@@ -27,9 +26,10 @@ import static solvas.rest.utils.IteratorUtils.toList;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles("test")
-@ContextConfiguration(classes = {Application.class,HibernateTestConfig.class},loader = AnnotationConfigContextLoader.class)
+@ContextConfiguration(classes = {Application.class, HibernateTestConfig.class})
 @Transactional
 public class CompanyDaoTest {
+
 
     @Autowired
     private CompanyDao companyDao;
