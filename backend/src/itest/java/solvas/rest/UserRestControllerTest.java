@@ -1,4 +1,4 @@
-package rest;
+package solvas.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
