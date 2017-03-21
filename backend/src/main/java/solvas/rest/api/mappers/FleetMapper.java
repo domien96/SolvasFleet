@@ -5,7 +5,9 @@ import org.springframework.stereotype.Component;
 import solvas.models.Company;
 import solvas.models.Fleet;
 import solvas.persistence.api.DaoContext;
+import solvas.rest.api.mappers.exceptions.DependantEntityNotFound;
 import solvas.rest.api.mappers.exceptions.FieldNotFoundException;
+import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.api.models.ApiFleet;
 
 /**
@@ -36,11 +38,13 @@ public class FleetMapper extends AbstractMapper<Fleet, ApiFleet> {
             fleet = daoContext.getFleetDao().find(api.getId());
         }
 
-        copyAttributes(fleet, api);
+        copySharedAttributes(fleet, api);
 
-        if (api.getCompany() != 0) {
+        try {
             Company company = daoContext.getCompanyDao().find(api.getCompany());
             fleet.setCompany(company);
+        } catch (EntityNotFoundException e) {
+            throw new DependantEntityNotFound("Could not find company.", e);
         }
 
         return fleet;
@@ -51,7 +55,7 @@ public class FleetMapper extends AbstractMapper<Fleet, ApiFleet> {
         ApiFleet fleet = new ApiFleet();
 
         copySharedAttributes(fleet, model);
-        copyAttributes(fleet, model,  "createdAt", "updatedAt", "id");
+        copyAttributes(fleet, model, "createdAt", "updatedAt", "id");
 
         fleet.setCompany(model.getCompany() == null ? 0 : model.getCompany().getId());
         fleet.setLastUpdatedBy(0);

@@ -8,8 +8,8 @@ import solvas.rest.api.mappers.exceptions.FieldNotFoundException;
 import java.lang.reflect.Field;
 
 /**
- * Mapper between a Model in the persistence layer and it's representation in the REST API
- *
+ * Mapper between a Model in the domain layer and it's representation in the REST API
+ * This class is needed because the API isn't a perfect match with our domain layer
  * @param <T> class of the domain model class.
  * @param <E> class of the api model class.
  *            Created by steve on 11/03/2017.
@@ -93,7 +93,6 @@ public abstract class AbstractMapper<T extends Model, E> {
      * Copy attributes that were marked as shared in the constructor
      * @param target The entity to copy to
      * @param source The entity to copy from
-     * @throws FieldNotFoundException
      */
     protected void copySharedAttributes(Object target, Object source) {
         copyAttributes(target, source, sharedAttributes);

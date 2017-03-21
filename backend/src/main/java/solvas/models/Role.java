@@ -5,6 +5,7 @@ import java.util.Set;
 
 /**
  * Models a role
+ * Users can have different roles, and each role comes with it's own permissions
  * @author steve on 04/03/2017.
  */
 public class Role extends Model {

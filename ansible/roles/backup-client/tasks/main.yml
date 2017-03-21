@@ -1,0 +1,27 @@
+---
+# See http://dev.kprod.net/?q=linux-backup-rsnapshot-no-root
+- name: Create backup user
+  user:
+    name: backups
+    shell: /bin/bash
+
+- name: Allow SSH access for backups
+  authorized_key:
+    user: backups
+    key: "{{ lookup('file', 'backup_id_rsa.pub') }}"
+
+- name: Create rsync wrapper
+  copy:
+    src: rsync-wrapper.sh
+    dest: /home/backups/rsync-wrapper.sh
+    owner: backups
+    group: backups
+    mode: 0500
+
+# Very dangerous to edit suoders file without validation. Be VERY
+# careful!
+- name: Allow rsync wrapper to be run as root
+  lineinfile:
+    line: "backups ALL=NOPASSWD: /usr/bin/rsync"
+    dest: /etc/sudoers
+    validate: visudo -cf %s
