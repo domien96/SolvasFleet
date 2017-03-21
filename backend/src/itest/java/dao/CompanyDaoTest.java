@@ -9,10 +9,10 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
+import solvas.Application;
 import solvas.models.Company;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.dao.CompanyDao;
-import solvas.persistence.hibernate.HibernateConfig;
 
 import javax.transaction.Transactional;
 
@@ -20,13 +20,14 @@ import static io.github.benas.randombeans.api.EnhancedRandom.random;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.core.Is.is;
+import static solvas.rest.utils.IteratorUtils.toList;
 
 /**
  * Integration tests of CompanyDAO
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles("test")
-@ContextConfiguration(classes = {HibernateConfig.class,HibernateTestConfig.class},loader = AnnotationConfigContextLoader.class)
+@ContextConfiguration(classes = {Application.class,HibernateTestConfig.class},loader = AnnotationConfigContextLoader.class)
 @Transactional
 public class CompanyDaoTest {
 
@@ -46,8 +47,8 @@ public class CompanyDaoTest {
     @Test
     public void addCompany()
     {
-        companyDao.create(company);
-        assertThat(companyDao.findAll(),hasSize(101));
+        companyDao.save(company);
+        assertThat(toList(companyDao.findAll()),hasSize(101));
         assertCompanies(company,companyDao.find(company.getId()));
     }
 
@@ -59,9 +60,9 @@ public class CompanyDaoTest {
     public void destroyCompany()
     {
         companyDao.save(company);
-        assertThat(companyDao.findAll(),hasSize(101));
+        assertThat(toList(companyDao.findAll()),hasSize(101));
         companyDao.destroy(company);
-        assertThat(companyDao.findAll(),hasSize(100));
+        assertThat(toList(companyDao.findAll()),hasSize(100));
         companyDao.find(company.getId());
     }
 
@@ -74,7 +75,7 @@ public class CompanyDaoTest {
         Company old = companyDao.find(30);
         company.setId(30);
         company.setRepresentatives(old.getRepresentatives());
-        companyDao.update(company);
+        companyDao.save(company);
         assertCompanies(companyDao.find(30),company);
     }
 
@@ -84,7 +85,7 @@ public class CompanyDaoTest {
     @Test
     public void findCompanyById()
     {
-        companyDao.create(company);
+        companyDao.save(company);
         //Dao automatically changes the id of the object aswell
         assertCompanies(company,companyDao.find(company.getId()));
     }
@@ -96,7 +97,7 @@ public class CompanyDaoTest {
     public void findCompanies()
     {
 
-        assertThat(companyDao.findAll(),hasSize(100));
+        assertThat(toList(companyDao.findAll()),hasSize(100));
     }
 
     /**
@@ -104,7 +105,7 @@ public class CompanyDaoTest {
      */
     public void withName()
     {
-        assertThat(companyDao.withName("Luctus Inc"),hasSize(1));
+        assertThat(companyDao.findByName("Luctus Inc"),hasSize(1));
     }
 
     private void assertCompanies(Company actual,Company expected) {

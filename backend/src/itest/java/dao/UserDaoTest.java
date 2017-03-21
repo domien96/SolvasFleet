@@ -20,6 +20,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
+import static solvas.rest.utils.IteratorUtils.toList;
 
 /**
  * Integration tests of UserDao
@@ -45,7 +46,7 @@ public class UserDaoTest {
     public void addUser()
     {
         userDao.save(user);
-        assertThat(userDao.findAll(),hasSize(101));
+        assertThat(toList(userDao.findAll()),hasSize(101));
         assertUsers(user,userDao.find(user.getId()));
     }
 
@@ -58,7 +59,7 @@ public class UserDaoTest {
     {
         User u=userDao.find(30); //anders exception
         userDao.destroy(u);
-        assertThat(userDao.findAll(),hasSize(99));
+        assertThat(toList(userDao.findAll()),hasSize(99));
         userDao.find(30);
     }
 
@@ -71,7 +72,7 @@ public class UserDaoTest {
         User old = userDao.find(30); //exists
         user.setId(30);
         user.setCompanies(old.getCompanies());
-        userDao.update(user);
+        userDao.save(user);
         assertUsers(user,userDao.find(30));
 
     }
@@ -92,7 +93,7 @@ public class UserDaoTest {
     @Test
     public void findUsers()
     {
-        assertThat(userDao.findAll(),hasSize(100));
+        assertThat(toList(userDao.findAll()),hasSize(100));
     }
 
     private void assertUsers(User expected, User actual)

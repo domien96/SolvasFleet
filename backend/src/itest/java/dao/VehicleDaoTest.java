@@ -22,6 +22,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
+import static solvas.rest.utils.IteratorUtils.toList;
 
 /**
  * Integration tests of VehicleDao
@@ -49,9 +50,9 @@ public class VehicleDaoTest {
         Vehicle vehicle=random(Vehicle.class,"id");
         vehicle.getLeasingCompany().setId(0);
         vehicle.getType().setId(3); //Only 5 types in db
-        companyDao.create(vehicle.getLeasingCompany());
-        vehicleDao.create(vehicle);
-        assertThat(vehicleDao.findAll(),hasSize(101));
+        companyDao.save(vehicle.getLeasingCompany());
+        vehicleDao.save(vehicle);
+        assertThat(toList(vehicleDao.findAll()),hasSize(101));
         assertVehicles(vehicle,vehicleDao.find(vehicle.getId()));
     }
 
@@ -64,7 +65,7 @@ public class VehicleDaoTest {
     {
         Vehicle v= vehicleDao.find(30);
         vehicleDao.destroy(v);
-        assertThat(vehicleDao.findAll(),hasSize(99));
+        assertThat(toList(vehicleDao.findAll()),hasSize(99));
         vehicleDao.find(30);
     }
 
@@ -80,7 +81,7 @@ public class VehicleDaoTest {
         updated.setLeasingCompany(old.getLeasingCompany());
         updated.getType().setId(2);
         updated.setFleetSubscriptions(old.getFleetSubscriptions());
-        vehicleDao.update(updated);
+        vehicleDao.save(updated);
         assertVehicles(updated,vehicleDao.find(30));
     }
 
@@ -99,7 +100,7 @@ public class VehicleDaoTest {
     @Test
     public void findVehicles()
     {
-        assertThat(vehicleDao.findAll(),hasSize(100));
+        assertThat(toList(vehicleDao.findAll()),hasSize(100));
     }
 
     private void assertVehicles(Vehicle expected, Vehicle actual)

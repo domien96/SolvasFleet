@@ -23,4 +23,16 @@ public interface Dao<T extends Model> extends PagingAndSortingRepository<T, Inte
         }
         return data;
     }
+
+    default T destroy(T entity) {
+        T data = find(entity.getId());
+        delete(data);
+        return data;
+    }
+
+    default T destroy(int id) {
+        T data = find(id);
+        delete(id);
+        return data;
+    }
 }

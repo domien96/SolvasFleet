@@ -22,6 +22,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
+import static solvas.rest.utils.IteratorUtils.toList;
 
 /**
  * Integration tests of FleetDao
@@ -53,8 +54,8 @@ public class FleetDaoTest {
     {
         Fleet newFleet = random(Fleet.class);
         newFleet.getCompany().setId(23);
-        fleetDao.create(newFleet);
-        assertThat(fleetDao.findAll(),hasSize(101));
+        fleetDao.save(newFleet);
+        assertThat(toList(fleetDao.findAll()),hasSize(101));
         assertFleets(newFleet,fleetDao.find(newFleet.getId()));
     }
 
@@ -67,7 +68,7 @@ public class FleetDaoTest {
     {
         fleet=fleetDao.find(4);
         fleetDao.destroy(fleet);
-        assertThat(fleetDao.findAll(),hasSize(99));
+        assertThat(toList(fleetDao.findAll()),hasSize(99));
         fleetDao.find(fleet.getId());
     }
 
@@ -81,7 +82,7 @@ public class FleetDaoTest {
         Fleet updated = random(Fleet.class);
         updated.setId(9);
         updated.getCompany().setId(old.getCompany().getId());
-        fleetDao.update(updated);
+        fleetDao.save(updated);
         assertFleets(updated,fleetDao.find(9));
     }
 
@@ -100,7 +101,7 @@ public class FleetDaoTest {
     @Test
     public void findFleets()
     {
-        assertThat(fleetDao.findAll(),hasSize(100));
+        assertThat(toList(fleetDao.findAll()),hasSize(100));
     }
 
     private void assertFleets(Fleet expected, Fleet actual)

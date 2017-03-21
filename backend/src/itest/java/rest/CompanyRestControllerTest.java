@@ -116,7 +116,7 @@ public class CompanyRestControllerTest{
                 mockMvc.perform(post("/companies").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
                         .andExpect(status().isOk());
         matchCompanyJson(resultActions,apiCompany);
-        verify(companyDaoMock,times(1)).create(captor.capture());
+        verify(companyDaoMock,times(1)).save(captor.capture());
     }
 
     /**
@@ -141,7 +141,7 @@ public class CompanyRestControllerTest{
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
         matchCompanyJson(resultActions,apiCompany);
-        verify(companyDaoMock,times(1)).update(captor.capture());
+        verify(companyDaoMock,times(1)).save(captor.capture());
      }
 
     /**
@@ -150,7 +150,7 @@ public class CompanyRestControllerTest{
     @Ignore//behavior not as expected
     @Test
     public void putCompanyNotFound() throws Exception {
-        when(companyDaoMock.save(any())).thenThrow(new EntityNotFoundException());
+        when(companyDaoMock.save(any(Company.class))).thenThrow(new EntityNotFoundException());
         when(companyMapper.convertToModel(any())).thenReturn(random(Company.class));
         mockMvc.perform(put("/companies/10").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
                 .andExpect(status().isNotFound());

@@ -97,7 +97,7 @@ public class RoleRestControllerTest {
     @Test
     public void getRolesNoError() throws Exception {
         when(roleMapperMock.convertToApiModel(any())).thenReturn(random(ApiRole.class));
-        when(roleDaoMock.findAll(any(),any())).thenReturn(randomCollectionOf(10,Role.class));//Voorlopig nodig zodat er 10 aanwezig zijn
+        when(roleDaoMock.findAll()).thenReturn(randomCollectionOf(10,Role.class));//Voorlopig nodig zodat er 10 aanwezig zijn
         mockMvc.perform(get("/roles"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
@@ -119,7 +119,7 @@ public class RoleRestControllerTest {
 
 
         // Verificatie actie naar dao
-        verify(roleDaoMock,times(1)).update(captor.capture());
+        verify(roleDaoMock,times(1)).save(captor.capture());
     }
 
     /**
@@ -128,7 +128,7 @@ public class RoleRestControllerTest {
     @Ignore //behavior is not as expected
     @Test
     public void putRoleNotFound() throws Exception {
-        when(roleDaoMock.save(any())).thenThrow(new EntityNotFoundException());
+        when(roleDaoMock.save(any(Role.class))).thenThrow(new EntityNotFoundException());
         when(roleMapperMock.convertToModel(any())).thenReturn(random(Role.class));
         when(roleMapperMock.convertToApiModel(any())).thenReturn(apiRole);
         mockMvc.perform(put("/roles/11").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
@@ -148,7 +148,7 @@ public class RoleRestControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
         matchRoleJson(resultActions,apiRole);
 
-        verify(roleDaoMock,times(1)).create(captor.capture());
+        verify(roleDaoMock,times(1)).save(captor.capture());
     }
 
 

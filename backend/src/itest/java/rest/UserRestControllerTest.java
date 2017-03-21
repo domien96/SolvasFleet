@@ -98,7 +98,7 @@ public class UserRestControllerTest {
      */
     @Test
     public void getUsersNoError() throws Exception {
-        when(userDaoMock.findAll(any(),any())).thenReturn(randomCollectionOf(10,User.class));
+        when(userDaoMock.findAll()).thenReturn(randomCollectionOf(10,User.class));
         when(userMapperMock.convertToApiModel(any())).thenReturn(random(ApiUser.class));
         mockMvc.perform(get("/users"))
                 .andExpect(status().isOk())
@@ -116,7 +116,7 @@ public class UserRestControllerTest {
                 .andExpect(status().isOk());
 
         matchUserJson(resultActions,user);
-        verify(userDaoMock,times(1)).create(captor.capture());
+        verify(userDaoMock,times(1)).save(captor.capture());
 
     }
 
@@ -142,7 +142,7 @@ public class UserRestControllerTest {
                 mockMvc.perform(put("/users/10").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
                 .andExpect(status().isOk());
         matchUserJson(resultActions,user);
-        verify(userDaoMock,times(1)).update(captor.capture());
+        verify(userDaoMock,times(1)).save(captor.capture());
 
     }
 
@@ -155,7 +155,7 @@ public class UserRestControllerTest {
     {
         when(userMapperMock.convertToApiModel(any())).thenReturn(user);
         when(userMapperMock.convertToModel(any())).thenReturn(random(User.class));
-        when(userDaoMock.save(any())).thenThrow(new EntityNotFoundException());
+        when(userDaoMock.save(any(User.class))).thenThrow(new EntityNotFoundException());
         mockMvc.perform(put("/users/10").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
                 .andExpect(status().isNotFound());
     }

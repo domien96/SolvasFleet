@@ -21,6 +21,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
+import static solvas.rest.utils.IteratorUtils.toList;
 
 /**
  * Integration tests of SubFleetDao
@@ -45,8 +46,8 @@ public class SubFleetDaoTest {
         SubFleet newSubFleet = random(SubFleet.class);
         newSubFleet.getFleet().setId(10);
         newSubFleet.getVehicleType().setId(2);
-        subFleetDao.create(newSubFleet);
-        assertThat(subFleetDao.findAll(),hasSize(101));
+        subFleetDao.save(newSubFleet);
+        assertThat(toList(subFleetDao.findAll()),hasSize(101));
         assertSubFleets(newSubFleet,subFleetDao.find(newSubFleet.getId()));
     }
 
@@ -71,7 +72,7 @@ public class SubFleetDaoTest {
         updated.setId(44);
         updated.getFleet().setId(old.getFleet().getId());
         updated.getVehicleType().setId(old.getVehicleType().getId());
-        subFleetDao.update(updated);
+        subFleetDao.save(updated);
         assertSubFleets(updated,subFleetDao.find(44));
     }
 
@@ -90,7 +91,7 @@ public class SubFleetDaoTest {
     @Test
     public void findFleets()
     {
-        assertThat(subFleetDao.findAll(),hasSize(100));
+        assertThat(toList(subFleetDao.findAll()),hasSize(100));
     }
 
     private void assertSubFleets(SubFleet expected, SubFleet actual)

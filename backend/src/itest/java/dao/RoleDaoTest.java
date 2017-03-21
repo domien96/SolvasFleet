@@ -23,6 +23,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
+import static solvas.rest.utils.IteratorUtils.toList;
 
 /**
  * Integration tests of RoleDao
@@ -60,7 +61,7 @@ public class RoleDaoTest {
     public void addRole()
     {
         roleDao.save(role);
-        assertThat(roleDao.findAll(),hasSize(101));
+        assertThat(toList(roleDao.findAll()),hasSize(101));
         assertRoles(role,roleDao.find(role.getId()));
     }
 
@@ -71,7 +72,7 @@ public class RoleDaoTest {
     public void destroyRole()
     {
         roleDao.destroy(role);
-        assertThat(roleDao.findAll(),hasSize(99));
+        assertThat(toList(roleDao.findAll()),hasSize(99));
         roleDao.find(role.getId());
     }
 
@@ -101,7 +102,7 @@ public class RoleDaoTest {
     @Test
     public void findRoles()
     {
-        assertThat(roleDao.findAll(),hasSize(100));
+        assertThat(toList(roleDao.findAll()),hasSize(100));
     }
 
     private void assertRoles(Role expected, Role actual)

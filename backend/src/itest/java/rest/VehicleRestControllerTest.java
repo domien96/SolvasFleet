@@ -127,7 +127,7 @@ public class VehicleRestControllerTest {
 
         matchVehicleJson(resultActions,vehicle);
 
-        verify(vehicleDaoMock,times(1)).create(captor.capture());
+        verify(vehicleDaoMock,times(1)).save(captor.capture());
     //    matcher.performAsserts(vehicle,captor.getValue());
     }
 
@@ -150,7 +150,7 @@ public class VehicleRestControllerTest {
                 .andExpect(status().isOk());
         matchVehicleJson(resultActions,vehicle);
 
-        verify(vehicleDaoMock,times(1)).update(captor.capture());
+        verify(vehicleDaoMock,times(1)).save(captor.capture());
     }
 
     @Ignore
@@ -158,7 +158,7 @@ public class VehicleRestControllerTest {
     public void putVehicleNotFound() throws Exception {
         when(vehicleAbstractMapperMock.convertToApiModel(any())).thenReturn(vehicle);
         when(vehicleAbstractMapperMock.convertToModel(any())).thenReturn(random(Vehicle.class));
-        when(vehicleDaoMock.save(any())).thenThrow(new EntityNotFoundException());
+        when(vehicleDaoMock.save(any(Vehicle.class))).thenThrow(new EntityNotFoundException());
         mockMvc.perform(put("/vehicles/10").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
                 .andExpect(status().isNotFound());
     }

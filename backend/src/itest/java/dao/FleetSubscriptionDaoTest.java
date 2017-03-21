@@ -21,6 +21,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
+import static solvas.rest.utils.IteratorUtils.toList;
 
 /**
  * Integration tests of FleetSubscriptionDao
@@ -44,8 +45,8 @@ public class FleetSubscriptionDaoTest {
         FleetSubscription newSub = random(FleetSubscription.class,"id");
         newSub.getVehicle().setId(45);
         newSub.getSubFleet().setId(88);
-        fleetSubscriptionDao.create(newSub);
-        assertThat(fleetSubscriptionDao.findAll(),hasSize(101));
+        fleetSubscriptionDao.save(newSub);
+        assertThat(toList(fleetSubscriptionDao.findAll()),hasSize(101));
         assertFleetSubscriptions(newSub,fleetSubscriptionDao.find(newSub.getId()));
     }
 
@@ -68,7 +69,7 @@ public class FleetSubscriptionDaoTest {
         FleetSubscription newSub = random(FleetSubscription.class,"id");
         FleetSubscription old = fleetSubscriptionDao.find(11);
         newSub.setId(11);
-        fleetSubscriptionDao.update(newSub);
+        fleetSubscriptionDao.save(newSub);
         assertFleetSubscriptions(newSub,fleetSubscriptionDao.find(11));
     }
 
@@ -87,7 +88,7 @@ public class FleetSubscriptionDaoTest {
     @Test
     public void findFleetSubscriptions()
     {
-        assertThat(fleetSubscriptionDao.findAll(),hasSize(100));
+        assertThat(toList(fleetSubscriptionDao.findAll()),hasSize(100));
     }
 
     private void assertFleetSubscriptions(FleetSubscription expected, FleetSubscription actual)

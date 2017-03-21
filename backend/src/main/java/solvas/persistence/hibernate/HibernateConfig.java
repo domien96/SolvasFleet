@@ -103,7 +103,7 @@ public class HibernateConfig {
         for (int i = 0; i < resources.length; i++) {
             paths[i] = resources[i].getFile().getName();
         }
-        String[] pr = Arrays.stream(paths).map(p -> "classpath:/mappings/" + p).toArray(String[]::new);
+        String[] pr = Arrays.stream(paths).map(p -> "/mappings/" + p).toArray(String[]::new);
         entityManager.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         entityManager.setMappingResources(pr);
         entityManager.afterPropertiesSet();
