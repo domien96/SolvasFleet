@@ -17,7 +17,7 @@ public class ApiUser extends ApiModel {
     private String firstName;
     @NotBlank
     private String lastName;
-    @NotBlank
+
     private String password;
 
     public String getEmail() {
