@@ -1,15 +1,17 @@
 package solvas.persistence.api.dao;
 
+import org.springframework.stereotype.Repository;
 import solvas.models.Company;
 import solvas.persistence.api.Dao;
 
 import java.util.Collection;
 
 /**
- * DAO for a company.
+ * DAO for companies.
  *
  * @author Niko Strijbol
  */
+@Repository
 public interface CompanyDao extends Dao<Company> {
 
     /**

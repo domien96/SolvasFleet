@@ -6,9 +6,11 @@ import solvas.models.Vehicle;
 import java.util.Optional;
 
 /**
+ * Custom methods for {@link FleetSubscriptionDao}.
+ *
  * @author Niko Strijbol
  */
-public interface CustomFleetSubscription {
+public interface FleetSubscriptionDaoCustom {
 
     /**
      * Get the active subscription for a vehicle.
@@ -18,5 +20,4 @@ public interface CustomFleetSubscription {
      * @return The optional subscription.
      */
     Optional<FleetSubscription> activeForVehicle(Vehicle vehicle);
-
 }

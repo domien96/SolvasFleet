@@ -1,4 +1,4 @@
-package solvas.persitence.api.dao;
+package solvas.persistence.api.dao;
 
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +20,9 @@ import solvas.persistence.hibernate.HibernateConfig;
 @ContextConfiguration(classes = {Application.class, HibernateConfig.class, TestConfig.class})
 @DataJpaTest(excludeAutoConfiguration = {FlywayAutoConfiguration.class})
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.AUTO_CONFIGURED)
-public class DaoTest {
+public abstract class DaoTest {
 
     @Autowired
-    protected TestEntityManager manager;
+    TestEntityManager manager;
 
 }
