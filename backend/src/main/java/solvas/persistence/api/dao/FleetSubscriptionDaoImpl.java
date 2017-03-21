@@ -1,10 +1,10 @@
 package solvas.persistence.api.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 import solvas.models.FleetSubscription;
 import solvas.models.Vehicle;
-import solvas.persistence.api.Filter;
 
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
@@ -31,24 +31,24 @@ public class FleetSubscriptionDaoImpl implements FleetSubscriptionDaoCustom {
 
     @Override
     public Optional<FleetSubscription> activeForVehicle(Vehicle vehicle) {
-        Filter<FleetSubscription> filter = Filter.predicate((builder, root) -> {
+        Specification<FleetSubscription> filter = (root, query, cb) -> {
             LocalDate now = LocalDate.now();
             // The start must be before today
-            Predicate start = builder.lessThanOrEqualTo(root.get("startDate"), now);
+            Predicate start = cb.lessThanOrEqualTo(root.get("startDate"), now);
             // The end is not set or after today
             Expression<LocalDate> endDate = root.get("endDate");
 
-            return builder.and(
-                    builder.equal(root.get(VEHICLE_ATTRIBUTE), vehicle),
+            return cb.and(
+                    cb.equal(root.get(VEHICLE_ATTRIBUTE), vehicle),
                     start,
-                    builder.or(
-                            builder.isNull(endDate),
-                            builder.greaterThan(endDate, now)
+                    cb.or(
+                            cb.isNull(endDate),
+                            cb.greaterThan(endDate, now)
                     ));
-        });
+        };
 
         // TODO normally you cannot have multiple of these.
-        Collection<FleetSubscription> results = dao.findAll(filter.toSpecification());
+        Collection<FleetSubscription> results = dao.findAll(filter);
         if (results.size() >= 1) {
             return Optional.ofNullable(results.iterator().next());
         } else {

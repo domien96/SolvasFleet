@@ -64,13 +64,13 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        Page<E> page = dao.findAll(filter.toSpecification(), pagination)
+        Page<E> page = dao.findAll(filter, pagination)
                 .map(source -> mapper.convertToApiModel(source));
 
         JsonListWrapper<E> wrapper = new JsonListWrapper<>(page.getContent());
         wrapper.put("limit", pagination.getPageSize());
         wrapper.put("offset", pagination.getOffset());
-        wrapper.put("total", dao.count(filter.toSpecification()));
+        wrapper.put("total", dao.count(filter));
         return new ResponseEntity<>(wrapper, HttpStatus.OK);
     }
 
