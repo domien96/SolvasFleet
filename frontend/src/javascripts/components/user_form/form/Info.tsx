@@ -1,34 +1,12 @@
 import React from 'react';
 
+import FormField from './UFormField.tsx';
 import Card from '../../app/Card.tsx';
-import FormField from '../../forms/FormField.tsx';
 
-interface Props {
+export interface Props {
   handleChange : (field : string, e : any) => void;
   hasError : (s : string) => boolean;
   user : MUser;
-}
-
-interface FieldProps extends Props {
-  field : User.Field;
-  type : string;
-}
-
-const UFormField : React.StatelessComponent<FieldProps>  = props => {
-  const handleChange = (field : User.Field) => {
-    return (e : any) => props.handleChange(field, e);
-  }
-
-  var { field, type } = props;
-
-  return (
-    <FormField
-      value={ props.user[field] }
-      placeholder={ `user.${field}` }
-      type={ type }
-      callback={ handleChange(field) }
-      hasError={ props.hasError(field)} />
-  )
 }
 
 const Info : React.StatelessComponent<Props> = (props) => {
@@ -39,10 +17,10 @@ const Info : React.StatelessComponent<Props> = (props) => {
           <h5>General info</h5>
         </div>
         <div className='card-content'>
-          <UFormField field='firstName' type='text' { ...props } />
-          <UFormField field='lastName' type='text' { ...props } />
-          <UFormField field='email' type='email' { ...props } />
-          <UFormField field='password' type='password' { ...props } />
+          <FormField field='firstName' type='text' { ...props } />
+          <FormField field='lastName' type='text' { ...props } />
+          <FormField field='email' type='email' { ...props } />
+          <FormField field='password' type='password' { ...props } />
         </div>
       </Card>
     </div>
