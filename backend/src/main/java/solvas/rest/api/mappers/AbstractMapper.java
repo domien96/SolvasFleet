@@ -4,7 +4,8 @@ import solvas.models.Model;
 import solvas.persistence.api.DaoContext;
 
 /**
- * Mapper between a Model in the persistence layer and it's representation in the REST API
+ * Mapper between a Model in the domain layer and it's representation in the REST API
+ * This class is needed because the API isn't a perfect match with our domain layer
  * @param <T> class of the domain model class.
  * @param <E> class of the api model class.
  * Created by steve on 11/03/2017.

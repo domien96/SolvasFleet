@@ -5,7 +5,7 @@ package solvas.models;
 import java.time.LocalDate;
 
 /**
- * Models a subFleet subsrciption
+ * Models subscription of a vehicle to a (sub)fleet
  * @author domien on 4/03/2017.
  */
 public class FleetSubscription extends Model {
