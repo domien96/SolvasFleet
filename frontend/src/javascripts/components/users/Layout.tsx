@@ -30,9 +30,7 @@ const Layout : React.StatelessComponent<Props> = props => {
             <MainCard users={ props.users } onUserSelect={ props.onUserSelect } />
           </div>
           <div className='col-xs-12 col-md-5'>
-            <Card>
-              { props.children }
-            </Card>
+            { props.children }
           </div>
         </div>
       </div>

@@ -4,8 +4,8 @@ import { th }    from '../../utils/utils.ts';
 import InfoTable from '../tables/InfoTable.tsx';
 
 export interface Props {
-  users: User[];
-  onUserSelect: (id : number) => void;
+  users : User[];
+  onUserSelect : (id : number) => void;
 }
 
 const Overview : React.StatelessComponent<Props> = props => {

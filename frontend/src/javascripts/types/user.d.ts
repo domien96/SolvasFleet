@@ -34,3 +34,11 @@ interface User {
   email?      : string;
   password?   : string;
 }
+
+interface MUser {
+  id?         : number;
+  firstName? : string;
+  lastName?  : string;
+  email?      : string;
+  password?   : string;
+}
