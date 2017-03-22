@@ -75,3 +75,4 @@ subfleet:
 form:
   create: Create
   update: Update
+  submit: Submit
