@@ -16,7 +16,7 @@ import solvas.models.validators.UserValidator;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.dao.UserDao;
-import solvas.rest.api.mappers.UserAbstractMapper;
+import solvas.rest.api.mappers.UserMapper;
 import solvas.rest.api.models.ApiUser;
 import solvas.rest.controller.UserRestController;
 
@@ -39,7 +39,7 @@ public class UserRestControllerTest {
     private UserDao userDaoMock;
 
     @Mock
-    private UserAbstractMapper userMapperMock;
+    private UserMapper userMapperMock;
 
     @Mock
     private UserValidator userValidatorMock;

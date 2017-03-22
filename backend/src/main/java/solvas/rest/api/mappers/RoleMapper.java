@@ -9,7 +9,7 @@ import solvas.rest.api.models.ApiRole;
  * Mapper between Role and ApiRole
  */
 @Component
-public class RoleAbstractMapper extends AbstractMapper<Role,ApiRole> {
+public class RoleMapper extends AbstractMapper<Role,ApiRole> {
 
     private String rootPath="/roles/";
     /**
@@ -17,7 +17,7 @@ public class RoleAbstractMapper extends AbstractMapper<Role,ApiRole> {
      *
      * @param daoContext The DaoContext this mapper should work with
      */
-    public RoleAbstractMapper(DaoContext daoContext) {
+    public RoleMapper(DaoContext daoContext) {
         super(daoContext);
     }
 

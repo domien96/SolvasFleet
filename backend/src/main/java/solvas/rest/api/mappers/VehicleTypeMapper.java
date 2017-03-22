@@ -10,14 +10,14 @@ import java.util.Collection;
  * Mapper between VehicleType and it's String representation
  */
 @Component
-public class VehicleTypeAbstractMapper extends AbstractMapper<VehicleType,String> {
+public class VehicleTypeMapper extends AbstractMapper<VehicleType,String> {
 
     /**
      * TODO document
      *
      * @param daoContext
      */
-    public VehicleTypeAbstractMapper(DaoContext daoContext) {
+    public VehicleTypeMapper(DaoContext daoContext) {
         super(daoContext);
     }
 

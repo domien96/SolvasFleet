@@ -7,7 +7,7 @@ import org.mockito.MockitoAnnotations;
 import solvas.models.User;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.dao.UserDao;
-import solvas.rest.api.mappers.UserAbstractMapper;
+import solvas.rest.api.mappers.UserMapper;
 import solvas.rest.api.models.ApiUser;
 
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
@@ -25,7 +25,7 @@ public class UserMapperTest {
     @Mock
     private UserDao userDaoMock;
 
-    private UserAbstractMapper mapper;
+    private UserMapper mapper;
 
     /**
      * Setting up the tests of UserMapper
@@ -35,7 +35,7 @@ public class UserMapperTest {
     {
         MockitoAnnotations.initMocks(this);
         when(daoContext.getUserDao()).thenReturn(userDaoMock);
-        mapper=new UserAbstractMapper(daoContext);
+        mapper=new UserMapper(daoContext);
     }
 
     /**

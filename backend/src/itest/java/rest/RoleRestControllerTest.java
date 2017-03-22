@@ -18,7 +18,7 @@ import solvas.models.validators.RoleValidator;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.dao.RoleDao;
-import solvas.rest.api.mappers.RoleAbstractMapper;
+import solvas.rest.api.mappers.RoleMapper;
 import solvas.rest.api.models.ApiRole;
 import solvas.rest.controller.RoleRestController;
 
@@ -36,7 +36,7 @@ public class RoleRestControllerTest {
     @Mock
     private RoleDao roleDaoMock;
     @Mock
-    private RoleAbstractMapper roleMapperMock;
+    private RoleMapper roleMapperMock;
     @Mock
     private RoleValidator roleValidatorMock;
 

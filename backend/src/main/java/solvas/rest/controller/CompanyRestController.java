@@ -7,10 +7,12 @@ import org.springframework.web.bind.annotation.*;
 import solvas.models.Company;
 import solvas.models.validators.CompanyValidator;
 import solvas.persistence.api.DaoContext;
+import solvas.persistence.hibernate.dao.HibernateCompanyDao;
 import solvas.rest.api.mappers.CompanyMapper;
 import solvas.rest.api.models.ApiCompany;
 import solvas.rest.query.CompanyFilter;
 import solvas.rest.query.PaginationFilter;
+import solvas.rest.service.CompanyService;
 
 
 /**
@@ -23,13 +25,12 @@ public class CompanyRestController extends AbstractRestController<Company,ApiCom
     /**
      * Rest controller for Company
      *
-     * @param daoContext Autowired
-     * @param mapper The mapper class for companies
+     * @param service service class for companies
      * @param validator Validator for companies
      */
     @Autowired
-    public CompanyRestController(DaoContext daoContext, CompanyMapper mapper, CompanyValidator validator) {
-        super(daoContext.getCompanyDao(), mapper, validator);
+    public CompanyRestController(CompanyMapper mapper,CompanyValidator validator) {
+        super(validator,new CompanyService(new HibernateCompanyDao(),mapper));
     }
 
 

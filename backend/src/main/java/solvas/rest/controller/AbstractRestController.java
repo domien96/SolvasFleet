@@ -19,6 +19,7 @@ import solvas.rest.api.mappers.AbstractMapper;
 import solvas.rest.api.mappers.DependantEntityNotFound;
 import solvas.rest.api.models.ApiModel;
 import solvas.rest.query.Pageable;
+import solvas.rest.service.AbstractService;
 import solvas.rest.utils.JsonListWrapper;
 
 import java.util.*;
@@ -34,21 +35,19 @@ import java.util.stream.Collectors;
 @Transactional // TODO Replace by services
 public abstract class AbstractRestController<T extends Model, E extends ApiModel> {
 
-    protected final Dao<T> dao;
-    protected AbstractMapper<T, E> mapper;
     protected final Validator validator;
+    private AbstractService<T,E> service;
 
     /**
      * Default constructor.
      *
-     * @param dao       The dao to work with.
-     * @param mapper    The mapper class for objects of domain model class T and API-model class E.
+     *
+     * @param service service class for entities
      * @param validator The validator to use when creating/updating entities
      */
-    protected AbstractRestController(Dao<T> dao, AbstractMapper<T, E> mapper, Validator validator) {
-        this.dao = dao;
-        this.mapper = mapper;
+    protected AbstractRestController(Validator validator,AbstractService<T,E> service) {
         this.validator = validator;
+        this.service=service;
     }
 
     /**
@@ -68,17 +67,11 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        Collection<E> collection = new HashSet<>();
-        for (T item : dao.findAll(pagination, filter)) {
-            collection.add(mapper.convertToApiModel(item));
-        }
-        ArrayList<E> sortedList = new ArrayList<>(collection);
-        sortedList.sort(Comparator.comparingInt(Model::getId));
-        JsonListWrapper<E> wrapper = new JsonListWrapper<>(collection);
-        wrapper.put("limit", pagination.getLimit());
-        wrapper.put("offset", pagination.getLimit() * pagination.getPage());
-        wrapper.put("total", dao.count(filter));
-        return new ResponseEntity<>(wrapper, HttpStatus.OK);
+        //Collection<E> collection = service.findAll(pagination,filter);
+        //ArrayList<E> sortedList = new ArrayList<>(collection);
+        //sortedList.sort(Comparator.comparingInt(Model::getId));
+
+        return new ResponseEntity<>(service.findAndWrap(pagination,filter), HttpStatus.OK);
     }
 
     /**
@@ -89,7 +82,7 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      */
 
     protected ResponseEntity<?> getById(int id) {
-        return new ResponseEntity<>(mapper.convertToApiModel(dao.find(id)), HttpStatus.OK);
+        return new ResponseEntity<>(service.getById(id), HttpStatus.OK);
     }
 
     /**
@@ -167,10 +160,7 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      */
     protected ResponseEntity<?> post(E input, BindingResult binding) {
         try {
-            return save(input, binding, () -> {
-                T model = mapper.convertToModel(input);
-                return mapper.convertToApiModel(dao.create(model));
-            });
+            return save(input, binding, () -> service.create(input));
         } catch (DependantEntityNotFound e) {
             return handleDependantNotFound(e);
         }
@@ -183,7 +173,7 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      * @return ResponseEntity
      */
     protected ResponseEntity<?> deleteById(int id) {
-        dao.destroy(dao.find(id));
+        service.destroy(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -196,13 +186,7 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      */
     protected ResponseEntity<?> put(int id, E input, BindingResult binding) {
         try {
-            return save(input, binding, () -> {
-                input.setId(id);
-                T model = mapper.convertToModel(input);
-
-                return mapper.convertToApiModel(dao
-                        .update(model));
-            });
+            return save(input, binding, () -> service.update(id,input));
         } catch (DependantEntityNotFound e) {
             return handleDependantNotFound(e);
         }

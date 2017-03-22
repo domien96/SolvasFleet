@@ -9,7 +9,7 @@ import solvas.rest.api.models.ApiUser;
  * Mapper between User and ApiUser
  */
 @Component
-public class UserAbstractMapper extends AbstractMapper<User,ApiUser> {
+public class UserMapper extends AbstractMapper<User,ApiUser> {
 
     private String rootPath="/users/";
     /**
@@ -17,7 +17,7 @@ public class UserAbstractMapper extends AbstractMapper<User,ApiUser> {
      *
      * @param daoContext The DAO context
      */
-    public UserAbstractMapper(DaoContext daoContext) {
+    public UserMapper(DaoContext daoContext) {
         super(daoContext);
     }
 

@@ -17,7 +17,7 @@ import solvas.models.validators.VehicleValidator;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.dao.VehicleDao;
-import solvas.rest.api.mappers.VehicleAbstractMapper;
+import solvas.rest.api.mappers.VehicleMapper;
 import solvas.rest.api.models.ApiVehicle;
 import solvas.rest.controller.VehicleRestController;
 
@@ -43,7 +43,7 @@ public class VehicleRestControllerTest {
     private VehicleValidator validatorMock;
 
     @Mock
-    private VehicleAbstractMapper vehicleAbstractMapperMock;
+    private VehicleMapper vehicleMapperMock;
 
     @Mock
     private DaoContext daoContextMock;
@@ -63,7 +63,7 @@ public class VehicleRestControllerTest {
     public void setUp() throws JsonProcessingException {
         MockitoAnnotations.initMocks(this);
         when(daoContextMock.getVehicleDao()).thenReturn(vehicleDaoMock);
-        VehicleRestController vehicleRestController=new VehicleRestController(daoContextMock,vehicleAbstractMapperMock,validatorMock);
+        VehicleRestController vehicleRestController=new VehicleRestController(daoContextMock, vehicleMapperMock,validatorMock);
         mockMvc= MockMvcBuilders.standaloneSetup(vehicleRestController).build();
 
         vehicle = random(ApiVehicle.class);
@@ -78,7 +78,7 @@ public class VehicleRestControllerTest {
     @Test
     public void getVehicleByIdNoError() throws Exception
     {
-        when(vehicleAbstractMapperMock.convertToApiModel(any())).thenReturn(vehicle);
+        when(vehicleMapperMock.convertToApiModel(any())).thenReturn(vehicle);
         ResultActions resultActions=
                 mockMvc.perform(get("/vehicles/33"))
                 .andExpect(status().isOk())
@@ -93,7 +93,7 @@ public class VehicleRestControllerTest {
     @Test
     public void getVehicleByIdNotFound() throws Exception
     {
-        when(vehicleAbstractMapperMock.convertToApiModel(any())).thenReturn(vehicle);
+        when(vehicleMapperMock.convertToApiModel(any())).thenReturn(vehicle);
         when(vehicleDaoMock.find(anyInt())).thenThrow(new EntityNotFoundException());
         mockMvc.perform(get("/vehicles/1"))
                 .andExpect(status().isNotFound());
@@ -106,7 +106,7 @@ public class VehicleRestControllerTest {
     public void getVehiclesNoError() throws Exception
     {
         when(vehicleDaoMock.findAll()).thenReturn(randomCollectionOf(10,Vehicle.class));
-        when(vehicleAbstractMapperMock.convertToApiModel(any())).thenReturn(random(ApiVehicle.class));
+        when(vehicleMapperMock.convertToApiModel(any())).thenReturn(random(ApiVehicle.class));
         mockMvc.perform(get("/vehicles"))
                 .andExpect(status().isOk());
     }
@@ -116,8 +116,8 @@ public class VehicleRestControllerTest {
      */
     @Test
     public void postVehicleNoError() throws Exception {
-        when(vehicleAbstractMapperMock.convertToApiModel(any())).thenReturn(vehicle);
-        when(vehicleAbstractMapperMock.convertToModel(any())).thenReturn(random(Vehicle.class));
+        when(vehicleMapperMock.convertToApiModel(any())).thenReturn(vehicle);
+        when(vehicleMapperMock.convertToModel(any())).thenReturn(random(Vehicle.class));
 
         ResultActions resultActions=
                 mockMvc.perform(post("/vehicles").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
@@ -141,8 +141,8 @@ public class VehicleRestControllerTest {
 
     @Test
     public void putVehicleNoError() throws Exception {
-        when(vehicleAbstractMapperMock.convertToApiModel(any())).thenReturn(vehicle);
-        when(vehicleAbstractMapperMock.convertToModel(any())).thenReturn(random(Vehicle.class));
+        when(vehicleMapperMock.convertToApiModel(any())).thenReturn(vehicle);
+        when(vehicleMapperMock.convertToModel(any())).thenReturn(random(Vehicle.class));
         ResultActions resultActions=
                 mockMvc.perform(put("/vehicles/9").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
                 .andExpect(status().isOk());
@@ -154,8 +154,8 @@ public class VehicleRestControllerTest {
     @Ignore
     @Test
     public void putVehicleNotFound() throws Exception {
-        when(vehicleAbstractMapperMock.convertToApiModel(any())).thenReturn(vehicle);
-        when(vehicleAbstractMapperMock.convertToModel(any())).thenReturn(random(Vehicle.class));
+        when(vehicleMapperMock.convertToApiModel(any())).thenReturn(vehicle);
+        when(vehicleMapperMock.convertToModel(any())).thenReturn(random(Vehicle.class));
         when(vehicleDaoMock.save(any())).thenThrow(new EntityNotFoundException());
         mockMvc.perform(put("/vehicles/10").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
                 .andExpect(status().isNotFound());

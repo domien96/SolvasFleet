@@ -7,10 +7,12 @@ import org.springframework.web.bind.annotation.*;
 import solvas.models.Fleet;
 import solvas.models.validators.FleetValidator;
 import solvas.persistence.api.dao.FleetDao;
+import solvas.persistence.hibernate.dao.HibernateFleetDao;
 import solvas.rest.api.mappers.FleetMapper;
 import solvas.rest.api.models.ApiFleet;
 import solvas.rest.query.FleetFilter;
 import solvas.rest.query.PaginationFilter;
+import solvas.rest.service.FleetService;
 
 /**
  * @author Niko Strijbol
@@ -21,13 +23,12 @@ public class FleetRestController extends AbstractRestController<Fleet, ApiFleet>
     /**
      * Default constructor.
      *
-     * @param dao       The dao to work with.
-     * @param mapper    The mapper class for objects of domain model class T and API-model class E.
+     * @param service service class for fleets
      * @param validator The validator to use when creating/updating entities
      */
     @Autowired
-    public FleetRestController(FleetDao dao, FleetMapper mapper, FleetValidator validator) {
-        super(dao, mapper, validator);
+    public FleetRestController(FleetMapper mapper, FleetValidator validator) {
+        super(validator,new FleetService(new HibernateFleetDao(),mapper));
     }
 
     /**

@@ -7,7 +7,7 @@ import org.mockito.MockitoAnnotations;
 import solvas.models.Vehicle;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.dao.*;
-import solvas.rest.api.mappers.VehicleAbstractMapper;
+import solvas.rest.api.mappers.VehicleMapper;
 import solvas.rest.api.models.ApiVehicle;
 
 import java.util.Optional;
@@ -23,7 +23,7 @@ import static org.mockito.Mockito.when;
  * Tests to check correct mapping of a Vehicle
  */
 public class VehicleMapperTest {
-    private VehicleAbstractMapper mapper;
+    private VehicleMapper mapper;
 
     @Mock
     private DaoContext context;
@@ -50,7 +50,7 @@ public class VehicleMapperTest {
     public void setUp()
     {
         MockitoAnnotations.initMocks(this);
-        mapper=new VehicleAbstractMapper(context);
+        mapper=new VehicleMapper(context);
         when(context.getVehicleDao()).thenReturn(vehicleDao);
         when(context.getCompanyDao()).thenReturn(companyDao);
         when(context.getVehicleTypeDao()).thenReturn(vehicleTypeDao);

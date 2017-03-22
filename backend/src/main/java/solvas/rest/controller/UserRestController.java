@@ -7,10 +7,12 @@ import org.springframework.web.bind.annotation.*;
 import solvas.models.User;
 import solvas.models.validators.UserValidator;
 import solvas.persistence.api.DaoContext;
-import solvas.rest.api.mappers.UserAbstractMapper;
+import solvas.persistence.hibernate.dao.HibernateUserDao;
+import solvas.rest.api.mappers.UserMapper;
 import solvas.rest.api.models.ApiUser;
 import solvas.rest.query.PaginationFilter;
 import solvas.rest.query.UserFilter;
+import solvas.rest.service.UserService;
 
 /**
  * Rest controller for User
@@ -22,13 +24,12 @@ public class UserRestController extends AbstractRestController<User,ApiUser> {
     /**
      * Rest controller for User
      *
-     * @param daoContext Autowired
-     * @param mapper The mapper class for users
+     * @param service service class for users
      * @param validator Validator for users
      */
     @Autowired
-    public UserRestController(DaoContext daoContext, UserAbstractMapper mapper, UserValidator validator) {
-        super(daoContext.getUserDao(),mapper,validator);
+    public UserRestController(UserMapper mapper, UserValidator validator) {
+        super(validator,new UserService(new HibernateUserDao(),mapper));
     }
 
     /**

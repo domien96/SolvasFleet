@@ -18,7 +18,7 @@ import java.util.Optional;
  * Mapper between Vehicle and ApiVehicle
  */
 @Component
-public class VehicleAbstractMapper extends AbstractMapper<Vehicle, ApiVehicle> {
+public class VehicleMapper extends AbstractMapper<Vehicle, ApiVehicle> {
 
     private static final String FLEET_ATTRIBUTE = "fleet";
 
@@ -29,7 +29,7 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle, ApiVehicle> {
      *
      * @param daoContext
      */
-    public VehicleAbstractMapper(DaoContext daoContext) {
+    public VehicleMapper(DaoContext daoContext) {
         super(daoContext);
     }
 
@@ -70,7 +70,7 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle, ApiVehicle> {
             vehicle.setBrand(api.getBrand());
         }
         if (api.getType() != null) {
-            vehicle.setType(new VehicleTypeAbstractMapper(daoContext).convertToModel(api.getType()));
+            vehicle.setType(new VehicleTypeMapper(daoContext).convertToModel(api.getType()));
         }
 
         // Create a link between everything.
