@@ -28,6 +28,7 @@ dependencies {
     // The Spring Boot Gradle plugin automatically manages versions for select dependencies.
     // See http://docs.spring.io/spring-boot/docs/current/reference/html/appendix-dependency-versions.html
     compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework.boot:spring-boot-starter-security'
     compile 'org.springframework:spring-orm'
     compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 
@@ -45,6 +46,13 @@ dependencies {
 
 
     testCompile "junit:junit"
+
+    compile 'org.springframework.security:spring-security-web:4.2.2.RELEASE'
+    compile 'org.springframework.security:spring-security-jwt'
+
+    compile 'org.apache.commons:commons-lang3:3.3.2'
+    compile 'joda-time:joda-time'
+    compile 'io.jsonwebtoken:jjwt:0.7.0'
 }
 
 task javadocs(type: Javadoc) {

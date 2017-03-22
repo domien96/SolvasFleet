@@ -9,4 +9,11 @@ import solvas.persistence.api.Dao;
  */
 public interface UserDao extends Dao<User> {
 
+    /**
+     * Find a User by username
+     * @param username Username to search for
+     * @return The User with this username
+     */
+    User getByUsername(String username);
+
 }

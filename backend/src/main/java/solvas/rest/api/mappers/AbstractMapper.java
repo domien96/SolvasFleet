@@ -35,6 +35,4 @@ public abstract class AbstractMapper<T extends Model,E> {
      * @return An model according to the REST api
      */
     public abstract E convertToApiModel(T model);
-
-
 }
