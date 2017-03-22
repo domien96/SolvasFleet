@@ -11,12 +11,18 @@ import static org.junit.Assert.assertEquals;
  */
 public class ApiFleetValidationTest extends ValidationTest {
 
+    /**
+     * Test a valid instance.
+     */
     @Test
     public void testValid() {
         ApiFleet fleet = random(ApiFleet.class);
         assertEquals(0, validator.validate(fleet).size());
     }
 
+    /**
+     * First test an instance without any fields set, then test the instance if the fields are empty.
+     */
     @Test
     public void testNoneAndEmpty() {
         ApiFleet fleet = new ApiFleet();

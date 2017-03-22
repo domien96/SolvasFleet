@@ -17,6 +17,9 @@ import static org.junit.Assert.assertEquals;
  */
 public class ApiCompanyValidationTest extends ValidationTest {
 
+    /**
+     * Test a valid instance.
+     */
     @Test
     public void testValid() {
         ApiCompany company = random(ApiCompany.class);
@@ -24,6 +27,9 @@ public class ApiCompanyValidationTest extends ValidationTest {
         assertEquals(0, validator.validate(company).size());
     }
 
+    /**
+     * Test a company that has an invalid address.
+     */
     @Test
     public void testInvalidAddress() {
         ApiCompany company = random(ApiCompany.class);
@@ -36,6 +42,10 @@ public class ApiCompanyValidationTest extends ValidationTest {
         assertEquals(5, validator.validate(company).size());
     }
 
+    /**
+     * Test a company with an invalid phone number. This test is to check if the phone is being validated; not to check
+     * if the actual validation works (that is handled by a framework).
+     */
     @Test
     public void testInvalidPhone() {
         final String phoneNumber = "phoneNumber";
@@ -46,12 +56,18 @@ public class ApiCompanyValidationTest extends ValidationTest {
         assertEquals(phoneNumber, v.iterator().next().getPropertyPath().iterator().next().getName());
     }
 
+    /**
+     * Test an instance without any fields set.
+     */
     @Test
     public void testNone() {
         ApiCompany company = new ApiCompany();
         assertEquals(4, validator.validate(company).size());
     }
 
+    /**
+     * Test an instance with some empty fields.
+     */
     @Test
     public void testEmpty() {
         ApiCompany company = random(ApiCompany.class);

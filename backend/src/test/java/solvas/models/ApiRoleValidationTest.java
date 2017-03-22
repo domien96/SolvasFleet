@@ -21,6 +21,9 @@ public class ApiRoleValidationTest extends ValidationTest {
     private static final String START_DATE_FIELD = "startDate";
     private static final String END_DATE_FIELD = "endDate";
 
+    /**
+     * Test a valid instance.
+     */
     @Test
     public void testValid() {
         ApiRole role = new ApiRole();
@@ -29,6 +32,9 @@ public class ApiRoleValidationTest extends ValidationTest {
         assertEquals(0, validator.validate(role).size());
     }
 
+    /**
+     * Test a role that is empty and has no function (= empty).
+     */
     @Test
     public void testEmptyAndNoFunction() {
         final String function = "function";
@@ -44,6 +50,9 @@ public class ApiRoleValidationTest extends ValidationTest {
         assertEquals(function, v.iterator().next().getPropertyPath().iterator().next().getName());
     }
 
+    /**
+     * Test an instance without a start date.
+     */
     @Test
     public void testNullStartDate() {
         ApiRole role = new ApiRole();
@@ -53,6 +62,9 @@ public class ApiRoleValidationTest extends ValidationTest {
         assertEquals(START_DATE_FIELD, v.iterator().next().getPropertyPath().iterator().next().getName());
     }
 
+    /**
+     * Test date logic, like that the end date must be equal to or after the start date.
+     */
     @Test
     public void testDates() {
         ApiRole role = new ApiRole();

@@ -16,6 +16,9 @@ import static org.junit.Assert.assertEquals;
  */
 public class ApiUserValidationTest extends ValidationTest {
 
+    /**
+     * Test a valid instance.
+     */
     @Test
     public void testValid() {
         ApiUser user = random(ApiUser.class);
@@ -23,6 +26,9 @@ public class ApiUserValidationTest extends ValidationTest {
         assertEquals(0, validator.validate(user).size());
     }
 
+    /**
+     * Test if the email is validated.
+     */
     @Test
     public void testEmail() {
         String emailField = "email";
@@ -38,13 +44,16 @@ public class ApiUserValidationTest extends ValidationTest {
         assertEquals(emailField, v.iterator().next().getPropertyPath().iterator().next().getName());
     }
 
+    /**
+     * Test a user without any fields set and test a user with empty fields.
+     */
     @Test
     public void testNullsAndEmpty() {
         ApiUser user = new ApiUser();
-        assertEquals(4, validator.validate(user).size());
+        assertEquals(3, validator.validate(user).size());
         user.setFirstName("");
         user.setLastName("");
         user.setPassword("");
-        assertEquals(4, validator.validate(user).size());
+        assertEquals(3, validator.validate(user).size());
     }
 }

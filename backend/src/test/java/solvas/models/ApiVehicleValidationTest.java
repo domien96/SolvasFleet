@@ -17,7 +17,11 @@ import static org.junit.Assert.assertEquals;
 public class ApiVehicleValidationTest extends ValidationTest {
 
     private static final String VALID_VIN = "JM3KE4CY5F0442856";
+    private static final String INVALID_VIN = "JM3KE4CY65655F0442856";
 
+    /**
+     * Test a valid instance.
+     */
     @Test
     public void testValid() {
         ApiVehicle vehicle = random(ApiVehicle.class);
@@ -29,6 +33,9 @@ public class ApiVehicleValidationTest extends ValidationTest {
         assertEquals(0, validator.validate(vehicle).size());
     }
 
+    /**
+     * Test that the vin number is being validated.
+     */
     @Test
     public void testVin() {
         String vinField = "vin";
@@ -36,7 +43,7 @@ public class ApiVehicleValidationTest extends ValidationTest {
         vehicle.setYear(2014);
         vehicle.setMileage(2000);
         vehicle.setValue(10);
-        vehicle.setVin("JM3KE4CY65655F0442856");
+        vehicle.setVin(INVALID_VIN);
 
         Set<ConstraintViolation<ApiVehicle>> v = validator.validate(vehicle);
         assertEquals(1, v.size());
@@ -53,6 +60,9 @@ public class ApiVehicleValidationTest extends ValidationTest {
         assertEquals(vinField, v.iterator().next().getPropertyPath().iterator().next().getName());
     }
 
+    /**
+     * Test the numerical fields.
+     */
     @Test
     public void testNumbers() {
         ApiVehicle vehicle = random(ApiVehicle.class);
@@ -64,6 +74,9 @@ public class ApiVehicleValidationTest extends ValidationTest {
         assertEquals(3, validator.validate(vehicle).size());
     }
 
+    /**
+     * Test empty and null fields.
+     */
     @Test
     public void testEmptyAndNull() {
         ApiVehicle vehicle = new ApiVehicle();

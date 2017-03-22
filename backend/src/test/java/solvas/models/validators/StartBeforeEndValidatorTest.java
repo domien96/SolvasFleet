@@ -30,8 +30,11 @@ public class StartBeforeEndValidatorTest {
 
     private StartBeforeEndValidator validator;
 
+    /**
+     * Set up the test.
+     */
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         when(annotation.endDate()).thenReturn("endDate");
         when(annotation.startDate()).thenReturn("startDate");
 
@@ -76,6 +79,9 @@ public class StartBeforeEndValidatorTest {
         validator.isValid(new Object(), context);
     }
 
+    /**
+     * Test class with beans for the start and end date.
+     */
     private class Date {
         private LocalDateTime startDate;
         private LocalDateTime endDate;
