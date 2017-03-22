@@ -12,17 +12,15 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import solvas.models.Model;
-import solvas.persistence.api.Dao;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.Filter;
-import solvas.rest.api.mappers.AbstractMapper;
 import solvas.rest.api.mappers.DependantEntityNotFound;
 import solvas.rest.api.models.ApiModel;
 import solvas.rest.query.Pageable;
 import solvas.rest.service.AbstractService;
 import solvas.rest.utils.JsonListWrapper;
 
-import java.util.*;
+import java.util.Collections;
 import java.util.stream.Collectors;
 
 /**

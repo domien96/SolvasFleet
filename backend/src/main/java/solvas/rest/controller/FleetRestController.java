@@ -6,9 +6,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import solvas.models.Fleet;
 import solvas.models.validators.FleetValidator;
-import solvas.persistence.api.dao.FleetDao;
-import solvas.persistence.hibernate.dao.HibernateFleetDao;
-import solvas.rest.api.mappers.FleetMapper;
 import solvas.rest.api.models.ApiFleet;
 import solvas.rest.query.FleetFilter;
 import solvas.rest.query.PaginationFilter;
@@ -27,8 +24,8 @@ public class FleetRestController extends AbstractRestController<Fleet, ApiFleet>
      * @param validator The validator to use when creating/updating entities
      */
     @Autowired
-    public FleetRestController(FleetMapper mapper, FleetValidator validator) {
-        super(validator,new FleetService(new HibernateFleetDao(),mapper));
+    public FleetRestController(FleetService service,FleetValidator validator) {
+        super(validator,service);
     }
 
     /**
