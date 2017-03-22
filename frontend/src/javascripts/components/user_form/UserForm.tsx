@@ -5,43 +5,7 @@ import { Link } from 'react-router';
 import Card       from '../app/Card.tsx';
 import Errors     from '../app/Errors.tsx';
 import Info from './form/Info.tsx';
-
-class Permissions extends React.Component<{}, {}> {
-  render() {
-    return (
-      <div className='col-xs-12'>
-        <Card>
-          <div className='card-title'>
-            <h5>
-              Permissions
-              <small> (Not implemented yet)</small>
-            </h5>
-          </div>
-          <div className='card-content'>
-            <div className='checkbox'>
-              <label>
-                <input type="checkbox" value='' />
-                Premies aanmaken
-              </label>
-            </div>
-            <div className='checkbox'>
-              <label>
-                <input type="checkbox" value='' />
-                Premies wijzigen
-              </label>
-            </div>
-            <div className='checkbox'>
-              <label>
-                <input type="checkbox" value='' />
-                Premies verwijderen
-              </label>
-            </div>
-          </div>
-        </Card>
-      </div>
-    );
-  }
-}
+import Permissions from './form/Permissions.tsx';
 
 interface SubmitProps {
   persisted : boolean
