@@ -17,8 +17,8 @@ import java.util.HashSet;
 public abstract class AbstractService<T extends Model,E extends ApiModel> {
 
 
-    protected Dao<T> modelDao;
-    protected AbstractMapper<T,E> mapper;
+    private Dao<T> modelDao;
+    private AbstractMapper<T,E> mapper;
 
     public AbstractService(Dao<T> modelDao,AbstractMapper<T,E> mapper)
     {
