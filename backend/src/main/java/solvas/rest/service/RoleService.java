@@ -24,18 +24,4 @@ public class RoleService extends AbstractService<Role,ApiRole>{
     public RoleService(DaoContext context, RoleMapper mapper) {
         super(context.getRoleDao(), mapper);
     }
-
-    @Override
-    public ApiRole update(int id,ApiRole input)
-    {
-        input.setId(id);
-        Role role=mapper.convertToModel(input,modelDao.find(id));
-        try {
-            role.setCompany(context.getCompanyDao().find(input.getCompany()));
-            role.setUser(context.getUserDao().find(input.getUser()));
-        } catch (EntityNotFoundException e) {
-            throw new DependantEntityNotFound("Could not find company/user.", e);
-        }
-        return mapper.convertToApiModel(modelDao.update(role));
-    }
 }

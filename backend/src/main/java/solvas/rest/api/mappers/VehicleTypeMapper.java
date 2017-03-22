@@ -22,7 +22,7 @@ public class VehicleTypeMapper extends AbstractMapper<VehicleType,String> {
     }
 
     @Override
-    public VehicleType convertToModel(String api,VehicleType typez) {
+    public VehicleType convertToModel(String api) {
         Collection <VehicleType> types = daoContext.getVehicleTypeDao().withType(api);
         VehicleType type;
         if (types.size()==0){
@@ -35,10 +35,6 @@ public class VehicleTypeMapper extends AbstractMapper<VehicleType,String> {
         }
     }
 
-    @Override
-    public VehicleType convertToEmptyModel(String api) throws DependantEntityNotFound {
-        return convertToModel(api,new VehicleType());
-    }
 
     @Override
     public String convertToApiModel(VehicleType model) {

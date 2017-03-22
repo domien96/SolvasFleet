@@ -3,6 +3,7 @@ package solvas.rest.api.mappers;
 import org.springframework.stereotype.Component;
 import solvas.models.Role;
 import solvas.persistence.api.DaoContext;
+import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.api.models.ApiRole;
 
 /**
@@ -22,18 +23,22 @@ public class RoleMapper extends AbstractMapper<Role,ApiRole> {
     }
 
     @Override
-    public Role convertToModel(ApiRole api, Role role) {
+    public Role convertToModel(ApiRole api) {
+        Role role = api.getId()==0?new Role():daoContext.getRoleDao().find(api.getId());
+
+        try {
+            role.setCompany(daoContext.getCompanyDao().find(api.getId()));
+        }
+        catch(EntityNotFoundException e)
+        {
+            throw new DependantEntityNotFound("company not found",e);
+        }
 
         role.setStartDate(api.getStartDate());
         role.setFunction(api.getFunction());
         role.setEndDate(api.getEndDate());
         //role permissions
         return role;
-    }
-
-    @Override
-    public Role convertToEmptyModel(ApiRole api) throws DependantEntityNotFound {
-        return convertToModel(api,new Role());
     }
 
     @Override

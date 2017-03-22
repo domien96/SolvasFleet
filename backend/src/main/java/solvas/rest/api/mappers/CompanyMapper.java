@@ -24,7 +24,9 @@ public class CompanyMapper extends AbstractMapper<Company,ApiCompany> {
     }
 
     @Override
-    public Company convertToModel(ApiCompany apiCompany, Company company) {
+    public Company convertToModel(ApiCompany apiCompany) {
+        Company company = apiCompany.getId()==0? new Company():daoContext.getCompanyDao().find(apiCompany.getId());
+
         company.setName(apiCompany.getName());
         company.setVatNumber(apiCompany.getVatNumber());
         company.setPhoneNumber(apiCompany.getPhoneNumber());
@@ -34,11 +36,6 @@ public class CompanyMapper extends AbstractMapper<Company,ApiCompany> {
         company.setAddressPostalCode(apiCompany.getAddress().getPostalCode());
         company.setAddressStreet(apiCompany.getAddress().getStreet());
         return company;
-    }
-
-    @Override
-    public Company convertToEmptyModel(ApiCompany api) throws DependantEntityNotFound {
-        return convertToModel(api,new Company());
     }
 
     @Override

@@ -28,14 +28,18 @@ public class FleetMapper extends AbstractMapper<Fleet, ApiFleet> {
     }
 
     @Override
-    public Fleet convertToModel(ApiFleet api, Fleet fleet) {
-        fleet.setName(api.getName());
-        return fleet;
-    }
+    public Fleet convertToModel(ApiFleet api) {
+        Fleet fleet = api.getId()==0?new Fleet():daoContext.getFleetDao().find(api.getId());
 
-    @Override
-    public Fleet convertToEmptyModel(ApiFleet api) throws DependantEntityNotFound {
-        return convertToModel(api,new Fleet());
+        fleet.setName(api.getName());
+        try {
+            fleet.setCompany(daoContext.getCompanyDao().find(api.getCompany()));
+        }
+        catch (EntityNotFoundException e)
+        {
+            throw new DependantEntityNotFound("can't find company",e);
+        }
+        return fleet;
     }
 
     @Override
