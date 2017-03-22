@@ -34,44 +34,18 @@ public class VehicleMapper extends AbstractMapper<Vehicle, ApiVehicle> {
     }
 
     @Override
-    public Vehicle convertToModel(ApiVehicle api) throws DependantEntityNotFound {
-
-        final Vehicle vehicle;
-        if (api.getId() == 0) {
-            vehicle = new Vehicle();
-        } else {
-            vehicle = daoContext.getVehicleDao().find(api.getId());
-        }
-
+    public Vehicle convertToModel(ApiVehicle api, Vehicle vehicle) throws DependantEntityNotFound {
         vehicle.setId(api.getId());
 
-        if (api.getLicensePlate() != null) {
             vehicle.setLicensePlate(api.getLicensePlate());
-        }
-        if (api.getVin() != null) {
             vehicle.setChassisNumber(api.getVin());
-        }
-        if (api.getModel() != null) {
             vehicle.setModel(api.getModel());
-        }
-        if (api.getMileage() != 0) {
             vehicle.setKilometerCount(api.getMileage());
-        }
-        if (api.getYear() != 0) {
             vehicle.setYear(api.getYear());
-        }
-        if (api.getLeasingCompany() != 0) {
             vehicle.setLeasingCompany(daoContext.getCompanyDao().find(api.getLeasingCompany()));
-        }
-        if (api.getValue() != 0) {
             vehicle.setValue(api.getValue());
-        }
-        if (api.getBrand() != null) {
             vehicle.setBrand(api.getBrand());
-        }
-        if (api.getType() != null) {
-            vehicle.setType(new VehicleTypeMapper(daoContext).convertToModel(api.getType()));
-        }
+            vehicle.setType(new VehicleTypeMapper(daoContext).convertToEmptyModel(api.getType()));
 
         // Create a link between everything.
         if (api.getFleet() > -1) {
@@ -109,6 +83,11 @@ public class VehicleMapper extends AbstractMapper<Vehicle, ApiVehicle> {
         }
 
         return vehicle;
+    }
+
+    @Override
+    public Vehicle convertToEmptyModel(ApiVehicle api) throws DependantEntityNotFound {
+        return convertToModel(api,new Vehicle());
     }
 
     /**

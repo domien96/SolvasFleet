@@ -22,17 +22,7 @@ public class UserMapper extends AbstractMapper<User,ApiUser> {
     }
 
     @Override
-    public User convertToModel(ApiUser apiUser) {
-        User user = new User();
-        user.setId(apiUser.getId());
-        if (user.getId()!=0) {
-            //update
-            user = daoContext.getUserDao().find(user.getId());
-            if (user==null){
-                user=new User();
-            }
-        }
-
+    public User convertToModel(ApiUser apiUser,User user) {
         user.setFirstName(apiUser.getFirstName());
         user.setLastName(apiUser.getLastName());
         user.setEmail(apiUser.getEmail());
@@ -40,6 +30,11 @@ public class UserMapper extends AbstractMapper<User,ApiUser> {
             user.setPassword(apiUser.getPassword());
         }
         return user;
+    }
+
+    @Override
+    public User convertToEmptyModel(ApiUser api) throws DependantEntityNotFound {
+        return convertToModel(api,new User());
     }
 
     @Override

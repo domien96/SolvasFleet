@@ -6,6 +6,7 @@ import solvas.models.Company;
 import solvas.models.Fleet;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
+import solvas.rest.api.models.ApiCompany;
 import solvas.rest.api.models.ApiFleet;
 
 /**
@@ -27,26 +28,14 @@ public class FleetMapper extends AbstractMapper<Fleet, ApiFleet> {
     }
 
     @Override
-    public Fleet convertToModel(ApiFleet api) {
-
-        Fleet fleet;
-        if (api.getId() == 0) {
-            fleet = new Fleet();
-        } else {
-            fleet = daoContext.getFleetDao().find(api.getId());
-        }
-
-        if (api.getName() != null) {
-            fleet.setName(api.getName());
-        }
-        try {
-            Company company = daoContext.getCompanyDao().find(api.getCompany());
-            fleet.setCompany(company);
-        } catch (EntityNotFoundException e) {
-            throw new DependantEntityNotFound("Could not find company.", e);
-        }
-
+    public Fleet convertToModel(ApiFleet api, Fleet fleet) {
+        fleet.setName(api.getName());
         return fleet;
+    }
+
+    @Override
+    public Fleet convertToEmptyModel(ApiFleet api) throws DependantEntityNotFound {
+        return convertToModel(api,new Fleet());
     }
 
     @Override

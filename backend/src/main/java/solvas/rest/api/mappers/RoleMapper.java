@@ -22,23 +22,18 @@ public class RoleMapper extends AbstractMapper<Role,ApiRole> {
     }
 
     @Override
-    public Role convertToModel(ApiRole api) {
-        Role role = new Role();
-        role.setId(api.getId());
-        if (role.getId()!=0) {
-            //update
-            role = daoContext.getRoleDao().find(role.getId());
-            if (role==null){
-                role=new Role();
-            }
-        }
-        role.setStartDate(api.getStartDate()==null ? role.getStartDate() : api.getStartDate());
-        role.setFunction(api.getFunction()==null ? role.getFunction() : api.getFunction());
-        role.setEndDate(api.getEndDate()==null ? role.getEndDate() : api.getEndDate());
-        role.setUser(api.getUser()==0 ? role.getUser() : daoContext.getUserDao().find(api.getUser()));
-        role.setCompany(api.getCompany()==0 ? role.getCompany() : daoContext.getCompanyDao().find(api.getCompany()));
+    public Role convertToModel(ApiRole api, Role role) {
+
+        role.setStartDate(api.getStartDate());
+        role.setFunction(api.getFunction());
+        role.setEndDate(api.getEndDate());
         //role permissions
         return role;
+    }
+
+    @Override
+    public Role convertToEmptyModel(ApiRole api) throws DependantEntityNotFound {
+        return convertToModel(api,new Role());
     }
 
     @Override

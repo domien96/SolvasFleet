@@ -24,39 +24,21 @@ public class CompanyMapper extends AbstractMapper<Company,ApiCompany> {
     }
 
     @Override
-    public Company convertToModel(ApiCompany apiCompany) {
-        Company company = new Company();
-        company.setId(apiCompany.getId());
-
-
-        if (company.getId()!=0) {
-            //update
-            company = daoContext.getCompanyDao().find(company.getId());
-            if (company==null){
-                company=new Company();
-            }
-        }
-
-        company.setName(apiCompany.getName()==null
-                ? company.getName() : apiCompany.getName());
-        company.setVatNumber(apiCompany.getVatNumber()==null
-                ? company.getVatNumber() : apiCompany.getVatNumber());
-        company.setPhoneNumber(apiCompany.getPhoneNumber()==null
-                ? company.getPhoneNumber() : apiCompany.getPhoneNumber());
-        if (apiCompany.getAddress()!=null) {
-            company.setAddressCity(apiCompany.getAddress().getCity());
-            company.setAddressCountry(apiCompany.getAddress().getCountry());
-            company.setAddressHouseNumber(apiCompany.getAddress().getHouseNumber());
-            company.setAddressPostalCode(apiCompany.getAddress().getPostalCode());
-            company.setAddressStreet(apiCompany.getAddress().getStreet());
-        } else {
-            company.setAddressStreet(company.getAddressStreet());
-            company.setAddressCity(company.getAddressCity());
-            company.setAddressHouseNumber(company.getAddressHouseNumber());
-            company.setAddressPostalCode(company.getAddressPostalCode());
-            company.setAddressCountry(company.getAddressCountry());
-        }
+    public Company convertToModel(ApiCompany apiCompany, Company company) {
+        company.setName(apiCompany.getName());
+        company.setVatNumber(apiCompany.getVatNumber());
+        company.setPhoneNumber(apiCompany.getPhoneNumber());
+        company.setAddressCity(apiCompany.getAddress().getCity());
+        company.setAddressCountry(apiCompany.getAddress().getCountry());
+        company.setAddressHouseNumber(apiCompany.getAddress().getHouseNumber());
+        company.setAddressPostalCode(apiCompany.getAddress().getPostalCode());
+        company.setAddressStreet(apiCompany.getAddress().getStreet());
         return company;
+    }
+
+    @Override
+    public Company convertToEmptyModel(ApiCompany api) throws DependantEntityNotFound {
+        return convertToModel(api,new Company());
     }
 
     @Override

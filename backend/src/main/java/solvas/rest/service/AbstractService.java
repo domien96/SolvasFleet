@@ -17,8 +17,8 @@ import java.util.HashSet;
 public abstract class AbstractService<T extends Model,E extends ApiModel> {
 
 
-    private Dao<T> modelDao;
-    private AbstractMapper<T,E> mapper;
+    protected Dao<T> modelDao;
+    protected AbstractMapper<T,E> mapper;
 
     public AbstractService(Dao<T> modelDao,AbstractMapper<T,E> mapper)
     {
@@ -53,7 +53,7 @@ public abstract class AbstractService<T extends Model,E extends ApiModel> {
 
     public E create(E input)
     {
-        T model = mapper.convertToModel(input);
+        T model = mapper.convertToEmptyModel(input);
         return mapper.convertToApiModel(modelDao.create(model));
     }
 
@@ -65,6 +65,6 @@ public abstract class AbstractService<T extends Model,E extends ApiModel> {
     public E update(int id,E input)
     {
         input.setId(id);
-        return mapper.convertToApiModel(modelDao.update(mapper.convertToModel(input)));
+        return mapper.convertToApiModel(modelDao.update(mapper.convertToModel(input,modelDao.find(id))));
     }
 }

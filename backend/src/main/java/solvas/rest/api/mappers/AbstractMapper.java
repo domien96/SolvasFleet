@@ -24,10 +24,18 @@ public abstract class AbstractMapper<T extends Model,E> {
 
     /**
      * Convert an ApiModel to a Model in the persistence layer
-     * @param api An model according to the REST api
+     * @param api A model according to the REST api
+     * @param baseModel The base model you want to start with (when working with a model captured from the database)
      * @return A Model in the persistence layer
      */
-    public abstract T convertToModel(E api) throws DependantEntityNotFound;
+    public abstract T convertToModel(E api, T baseModel) throws DependantEntityNotFound;
+
+    /**
+     * Convert an ApiModel to a Model in the persistence layer
+     * @param api A model according to the REST api
+     * @return A Model in the persistence layer
+     */
+    public abstract T convertToEmptyModel(E api) throws DependantEntityNotFound;
 
     /**
      * Convert a Model in the persistence layer to an ApiModel
