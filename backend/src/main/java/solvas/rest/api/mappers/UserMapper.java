@@ -24,6 +24,8 @@ public class UserMapper extends AbstractMapper<User,ApiUser> {
     @Override
     public User convertToModel(ApiUser apiUser) {
         User user = apiUser.getId()==0?new User():daoContext.getUserDao().find(apiUser.getId());
+        if(user==null)
+            user=new User();
         user.setFirstName(apiUser.getFirstName());
         user.setLastName(apiUser.getLastName());
         user.setEmail(apiUser.getEmail());
