@@ -33,7 +33,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Integration tests of the UserRestController
  * It checks HTTP responses and calls to the VehicleDao
  */
-@SuppressWarnings("squid:S1192")
 public class UserRestControllerTest {
     @Mock
     private UserDao userDaoMock;

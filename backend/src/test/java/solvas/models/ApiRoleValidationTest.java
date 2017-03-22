@@ -16,7 +16,6 @@ import static org.junit.Assert.assertTrue;
  *
  * @author Niko Strijbol
  */
-@SuppressWarnings({"squid:UndocumentedApi", "squid:S109"})
 public class ApiRoleValidationTest extends ValidationTest {
 
     private static final String START_DATE_FIELD = "startDate";
