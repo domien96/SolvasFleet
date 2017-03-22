@@ -3,11 +3,15 @@ namespace Vehicles {
 
   export interface State {
     vehicles : Vehicle[];
-    type : string;
-    fleet : string;
+    filter: VehicleFilter;
   }
 
   export interface Data {
     [ vehicles : string ] : any;
   }
+}
+
+interface VehicleFilter{
+	fleet : string;
+	type : string;
 }
