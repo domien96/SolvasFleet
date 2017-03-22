@@ -53,7 +53,7 @@ public abstract class AbstractService<T extends Model,E extends ApiModel> {
 
     public E create(E input)
     {
-        T model = mapper.convertToEmptyModel(input);
+        T model = mapper.convertToModel(input);
         return mapper.convertToApiModel(modelDao.create(model));
     }
 
@@ -65,6 +65,6 @@ public abstract class AbstractService<T extends Model,E extends ApiModel> {
     public E update(int id,E input)
     {
         input.setId(id);
-        return mapper.convertToApiModel(modelDao.update(mapper.convertToModel(input,modelDao.find(id))));
+        return mapper.convertToApiModel(modelDao.update(mapper.convertToModel(input)));
     }
 }
