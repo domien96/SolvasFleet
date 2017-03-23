@@ -9,6 +9,7 @@ function request (
 ) {
   let headers : any = {
     'Content-Type': 'application/json',
+    'Accept': 'application/json',
     method
   }
 

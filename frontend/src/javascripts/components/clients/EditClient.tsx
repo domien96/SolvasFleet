@@ -1,11 +1,10 @@
 import React from 'react';
-import { CLIENTS_URL } from '../../constants/constants.ts';
 import { browserHistory } from 'react-router';
 
 import Header from '../app/Header.tsx';
 import ClientForm from './ClientForm.tsx';
 
-import { fetchClient }    from '../../actions/client_actions.ts';
+import { fetchClient, putClient }    from '../../actions/client_actions.ts';
 import { hasError } from '../../utils/utils.ts';
 
 class EditClient extends React.Component<Company.Props, Company.CForm.State> {
@@ -40,26 +39,14 @@ class EditClient extends React.Component<Company.Props, Company.CForm.State> {
   onSubmit(e : any) : void {
     e.preventDefault();
     let setErrors = (e : Form.Error[]) => this.setState({ errors: e });
+    let success = () => browserHistory.push(`/clients/${this.state.company.id}`);
+    let fail = (data : any) => {
+      setErrors(data.errors.map(function(e : any) {
+        return { field: e.field, error: 'null' };
+      }));
+    }
 
-    fetch(CLIENTS_URL + '/' + this.state.company.id, {
-      method: 'PUT',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(this.state.company)
-    })
-    .then(function(response) {
-      return response.json().then(function(data) {
-        if (response.ok) {
-          browserHistory.push('/clients/' + data.id);
-        } else {
-          setErrors(data.errors.map(function(e : any) {
-            return { field: e.field, error: 'null' };
-          }));
-        }
-      });
-    });
+    putClient(this.state.company.id, success, fail);
   }
 
   render() {
