@@ -170,7 +170,7 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      * @return Response with the saved model, or 400.
      * @throws EntityNotFoundException Should never be thrown, because we're creating a new record. If this happens, a bug is found.
      */
-    protected ResponseEntity<?> post(E input, BindingResult binding) throws EntityNotFoundException {
+    protected ResponseEntity<?> post(E input, BindingResult binding) {
         try {
             return save(input, binding, () -> {
                 T model = mapper.convertToModel(input);
@@ -178,6 +178,8 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
             });
         } catch (DependantEntityNotFound e) {
             return handleDependantNotFound(e);
+        } catch (EntityNotFoundException e) {
+            return notFound();
         }
     }
 
