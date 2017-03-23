@@ -3,7 +3,7 @@ import { browserHistory } from'react-router';
 
 import Layout from './Layout.tsx';
 
-import fetchUsers from '../../actions/fetch_users.ts';
+import { fetchUsers } from '../../actions/user_actions.ts';
 
 class Users extends React.Component<{}, Users.State> {
 
@@ -17,10 +17,9 @@ class Users extends React.Component<{}, Users.State> {
   }
 
   fetchUsers() {
-    fetchUsers()
-      .then((data : Users.Data) => {
-        this.setState({ users: data.data })
-      });
+    fetchUsers((data : Users.Data) => {
+      this.setState({ users: data.data })
+    });
   }
 
   handleClick(id : number) {

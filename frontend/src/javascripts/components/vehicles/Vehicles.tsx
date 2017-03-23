@@ -6,7 +6,7 @@ import Card       from '../app/Card.tsx';
 import Header     from '../app/Header.tsx';
 import InfoTable from '../tables/InfoTable.tsx';
 
-import fetchVehicles from '../../actions/fetch_vehicles.ts';
+import { fetchVehicles } from '../../actions/vehicle_actions.ts';
 import { th } from '../../utils/utils.ts';
 
 import T     from 'i18n-react';
@@ -65,7 +65,7 @@ class Options extends React.Component<OptionsProps, OptionsState>{
 		this.props.onChange(event.target.value);
 	}
 
-	handleSelect(type : string){	
+	handleSelect(type : string){
 		if(type == ''){
 			this.setState( {title : 'All vehicles'} );
 		}
@@ -80,7 +80,7 @@ class Options extends React.Component<OptionsProps, OptionsState>{
 		  	<div className='row actions'>
 		  	<ButtonGroup justified>
 	      	  <div className='col-md-3'>
-	      	  	<div>	      	  	
+	      	  	<div>
 	      	      <DropdownButton className='btn btn-default' title={ this.state.title } id='vehicleTypeChoice' >
 	      	      	<MenuItem onSelect={ () => this.handleSelect('') }>{ T.translate('vehicle.options.allVehicles') }</MenuItem>
 			        <MenuItem onSelect={ () => this.handleSelect('personalCar') }>{ T.translate('vehicle.options.personalCar') }</MenuItem>
@@ -88,17 +88,17 @@ class Options extends React.Component<OptionsProps, OptionsState>{
 			        <MenuItem onSelect={ () => this.handleSelect('semiTrailer') }>{ T.translate('vehicle.options.semiTrailer') }</MenuItem>
 			        <MenuItem onSelect={ () => this.handleSelect('trailer') }>{ T.translate('vehicle.options.trailer') }</MenuItem>
 			        <MenuItem onSelect={ () => this.handleSelect('truck') }>{ T.translate('vehicle.options.truck') }</MenuItem>
-			      </DropdownButton>			      
+			      </DropdownButton>
 			    </div>
-			  </div>    
+			  </div>
 			  <div className='col-md-5'>
 			    <form>
 			      <span>
-			        <label className='col-md-7 lab-padding'> 
+			        <label className='col-md-7 lab-padding'>
 			          <div>Fleet ID:</div>
 			        </label>
 		            <div className='input-padding align-left'><input className='col-md-4' type='number' value={ this.state.fleetId } onChange={ this.handleChange } /></div>
-		       	    </span>			        
+		       	    </span>
 			      </form>
 			  </div>
 	      	  <div className='col-md-3'>
@@ -130,11 +130,7 @@ class Vehicles extends React.Component<{}, Vehicles.State> {
   }
 
   fetchVehicles(type : string, fleet : string) {
-    fetchVehicles(type, fleet)
-      .then((data : Vehicles.Data) => {
-        this.setState({ vehicles: data.data })
-      });
-    return true;
+    fetchVehicles((data) => this.setState({ vehicles: data.data }), undefined, { type, fleet })
   }
 
   handleSelect(newType : string){

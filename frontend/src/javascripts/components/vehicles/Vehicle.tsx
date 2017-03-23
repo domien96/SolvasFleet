@@ -1,8 +1,7 @@
 import React from 'react';
 import { browserHistory, Link } from'react-router';
 
-import fetchVehicle  from '../../actions/fetch_vehicle.ts';
-import deleteVehicle from '../../actions/delete_vehicle.ts';
+import { fetchVehicle, deleteVehicle }  from '../../actions/vehicle_actions.ts';
 
 import DetailTable from '../tables/DetailTable.tsx';
 
@@ -17,10 +16,9 @@ class Vehicle extends React.Component<Vehicle.Props, Vehicle.State> {
   }
 
   fetchVehicle(id : number) {
-    fetchVehicle(id)
-      .then((data : any) => {
-        this.setState({ vehicle: data })
-      });
+    fetchVehicle(id, ((data : any) => {
+      this.setState({ vehicle: data })
+    }));
   }
 
   componentDidMount() {
@@ -35,10 +33,7 @@ class Vehicle extends React.Component<Vehicle.Props, Vehicle.State> {
 
   deleteVehicle(){
     var reloadVehicles = this.props.fetchVehicles;
-    deleteVehicle(this.props.params.id)
-    .then(function(this: any) {
-      reloadVehicles();
-    });
+    deleteVehicle(this.props.params.id, reloadVehicles);
     browserHistory.push('/vehicles');
   }
 

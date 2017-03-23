@@ -5,7 +5,7 @@ import { browserHistory } from 'react-router';
 import Header from '../app/Header.tsx';
 import VehicleForm from './VehicleForm.tsx';
 
-import fetchVehicle    from '../../actions/fetch_vehicle.ts';
+import { fetchVehicle } from '../../actions/vehicle_actions.ts';
 import { hasError } from '../../utils/utils.ts';
 
 class EditVehicle extends React.Component<Vehicle.Props, Vehicle.VForm.State> {
@@ -20,10 +20,7 @@ class EditVehicle extends React.Component<Vehicle.Props, Vehicle.VForm.State> {
   }
 
   componentDidMount() {
-    fetchVehicle(this.props.params.id)
-      .then((data : any) => {
-        this.setState({ vehicle: data })
-      });
+    fetchVehicle(this.props.params.id, (data : any) => this.setState({ vehicle: data }));
   }
 
   handleChange(field : Vehicle.Field, e : any) : any {

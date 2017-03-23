@@ -2,7 +2,7 @@ namespace Companies {
   export interface Props { }
 
   export interface State {
-    companies : Company[];
+    clients : Company[];
   }
 
   export interface Data {

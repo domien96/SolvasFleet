@@ -1,11 +1,11 @@
 import React from 'react';
-import { COMPANIES_URL } from '../../constants/constants.ts';
+import { CLIENTS_URL } from '../../constants/constants.ts';
 import { browserHistory } from 'react-router';
 
 import Header from '../app/Header.tsx';
 import ClientForm from './ClientForm.tsx';
 
-import fetchClient    from '../../actions/fetch_company.ts';
+import { fetchClient }    from '../../actions/client_actions.ts';
 import { hasError } from '../../utils/utils.ts';
 
 class EditClient extends React.Component<Company.Props, Company.CForm.State> {
@@ -21,10 +21,9 @@ class EditClient extends React.Component<Company.Props, Company.CForm.State> {
   }
 
   componentDidMount() {
-    fetchClient(this.props.params.id)
-      .then((data : any) => {
-        this.setState({ company: data })
-      });
+    fetchClient(this.props.params.id, (data : any) => {
+      this.setState({ company: data })
+    });
   }
 
   handleChange(field : Company.Field, isAddress : boolean, e : any) : any {
@@ -42,7 +41,7 @@ class EditClient extends React.Component<Company.Props, Company.CForm.State> {
     e.preventDefault();
     let setErrors = (e : Form.Error[]) => this.setState({ errors: e });
 
-    fetch(COMPANIES_URL + '/' + this.state.company.id, {
+    fetch(CLIENTS_URL + '/' + this.state.company.id, {
       method: 'PUT',
       headers: {
         'Accept': 'application/json',
