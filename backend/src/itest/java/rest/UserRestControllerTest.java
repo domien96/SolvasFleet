@@ -1,29 +1,25 @@
 package rest;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import solvas.models.User;
 import solvas.models.validators.UserValidator;
-import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
-import solvas.persistence.api.dao.UserDao;
-import solvas.rest.api.mappers.UserMapper;
 import solvas.rest.api.models.ApiUser;
+import solvas.rest.controller.AbstractRestController;
 import solvas.rest.controller.UserRestController;
+import solvas.rest.service.UserService;
+import solvas.rest.utils.JsonListWrapper;
 
-import static io.github.benas.randombeans.api.EnhancedRandom.random;
-import static io.github.benas.randombeans.api.EnhancedRandom.randomCollectionOf;
+import static io.github.benas.randombeans.api.EnhancedRandom.randomSetOf;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
@@ -34,25 +30,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Integration tests of the UserRestController
  * It checks HTTP responses and calls to the VehicleDao
  */
-public class UserRestControllerTest {
+@RunWith(MockitoJUnitRunner.class)
+public class UserRestControllerTest extends AbstractRestControllerTest<ApiUser>{
     @Mock
-    private UserDao userDaoMock;
-
-    @Mock
-    private UserMapper userMapperMock;
+    private UserValidator userValidator;
 
     @Mock
-    private UserValidator userValidatorMock;
+    private UserService userService;
 
-    @Mock
-    private DaoContext daoContextMock;
+    public UserRestControllerTest() {
+        super(ApiUser.class);
+    }
 
-    private MockMvc mockMvc;
-
-    private ArgumentCaptor<User> captor = ArgumentCaptor.forClass(User.class);
-
-    private ApiUser user;
-    private String json;
 
     /**
      * Setup of mockMVC
@@ -61,14 +50,6 @@ public class UserRestControllerTest {
     @Before
     public void setUp() throws Exception
     {
-        MockitoAnnotations.initMocks(this);
-        when(daoContextMock.getUserDao()).thenReturn(userDaoMock);
-        UserRestController controller=new UserRestController(daoContextMock,userMapperMock,userValidatorMock);
-        mockMvc=MockMvcBuilders.standaloneSetup(controller).build();
-        user=random(ApiUser.class);
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.findAndRegisterModules();
-        json=mapper.writeValueAsString(user);
     }
 
     /**
@@ -76,10 +57,10 @@ public class UserRestControllerTest {
      */
     @Test
     public void getUserByIdNotFound() throws Exception {
-        when(userDaoMock.find(anyInt())).thenThrow(new EntityNotFoundException());
-        mockMvc.perform(get("/users/{id}",10))
+        when(userService.getById(anyInt())).thenThrow(new EntityNotFoundException());
+        getMockMvc()
+                .perform(get(TestFixtures.userIdUrl))
                 .andExpect(status().isNotFound());
-
     }
 
     /**
@@ -87,12 +68,13 @@ public class UserRestControllerTest {
      */
     @Test
     public void getUserByIdNoError() throws Exception {
-        when(userMapperMock.convertToApiModel(any())).thenReturn(user);
-       ResultActions resultActions = mockMvc.perform(get("/users/23"))
+        when(userService.getById(anyInt())).thenReturn(getTestModel());
+        ResultActions resultActions = getMockMvc()
+               .perform(get(TestFixtures.userIdUrl))
                .andExpect(status().isOk())
                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
 
-       matchUserJson(resultActions,user);
+        matchUserJson(resultActions,getTestModel());
     }
 
     /**
@@ -100,9 +82,9 @@ public class UserRestControllerTest {
      */
     @Test
     public void getUsersNoError() throws Exception {
-        when(userDaoMock.findAll(any(),any())).thenReturn(randomCollectionOf(10,User.class));
-        when(userMapperMock.convertToApiModel(any())).thenReturn(random(ApiUser.class));
-        mockMvc.perform(get("/users"))
+        when(userService.findAndWrap(any(),any())).thenReturn(new JsonListWrapper<>(randomSetOf(10,ApiUser.class)));
+        getMockMvc()
+                .perform(get(TestFixtures.userBaseUrl))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
     }
@@ -113,13 +95,12 @@ public class UserRestControllerTest {
      */
     @Test
     public void postUserNoError() throws Exception {
-        when(userMapperMock.convertToApiModel(any())).thenReturn(user);
-        ResultActions resultActions=mockMvc.perform(post("/users").contentType(MediaType.APPLICATION_JSON).content(json))
+        when(userService.create(any())).thenReturn(getTestModel());
+        ResultActions resultActions=getMockMvc()
+                .perform(post(TestFixtures.userBaseUrl).contentType(MediaType.APPLICATION_JSON).content(getTestJson()))
                 .andExpect(status().isOk());
 
-        matchUserJson(resultActions,user);
-        verify(userDaoMock,times(1)).create(captor.capture());
-
+        matchUserJson(resultActions,getTestModel());
     }
 
     /**
@@ -138,14 +119,11 @@ public class UserRestControllerTest {
     @Test
     public void putUserNoError() throws Exception
     {
-        when(userMapperMock.convertToApiModel(any())).thenReturn(user);
-        when(userMapperMock.convertToModel(any())).thenReturn(random(User.class));
-        ResultActions resultActions=
-                mockMvc.perform(put("/users/10").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
+        when(userService.update(anyInt(),any())).thenReturn(getTestModel());
+        ResultActions resultActions=getMockMvc()
+                .perform(put(TestFixtures.userIdUrl).contentType(MediaType.APPLICATION_JSON_UTF8).content(getTestJson()))
                 .andExpect(status().isOk());
-        matchUserJson(resultActions,user);
-        verify(userDaoMock,times(1)).update(captor.capture());
-
+        matchUserJson(resultActions,getTestModel());
     }
 
     /**
@@ -155,11 +133,7 @@ public class UserRestControllerTest {
     @Test
     public void putUserNotFound() throws Exception
     {
-        when(userMapperMock.convertToApiModel(any())).thenReturn(user);
-        when(userMapperMock.convertToModel(any())).thenReturn(random(User.class));
-        when(userDaoMock.save(any())).thenThrow(new EntityNotFoundException());
-        mockMvc.perform(put("/users/10").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
-                .andExpect(status().isNotFound());
+
     }
 
     /**
@@ -167,9 +141,10 @@ public class UserRestControllerTest {
      */
     @Test
     public void destroyUserNoError() throws Exception {
-        mockMvc.perform(delete("/users/10").contentType(MediaType.APPLICATION_JSON).content(json))
+        getMockMvc()
+                .perform(delete(TestFixtures.userIdUrl).contentType(MediaType.APPLICATION_JSON).content(getTestJson()))
                 .andExpect(status().isOk());
-        verify(userDaoMock,times(1)).destroy(captor.capture());
+        verify(userService,times(1)).destroy(anyInt());
     }
 
     /**
@@ -177,8 +152,9 @@ public class UserRestControllerTest {
      */
     @Test
     public void destroyUserNotFound() throws Exception {
-        when(userDaoMock.destroy(any())).thenThrow(new EntityNotFoundException());
-        mockMvc.perform(delete("/users/20").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
+        doThrow(new EntityNotFoundException()).when(userService).destroy(anyInt());
+        getMockMvc()
+                .perform(delete(TestFixtures.userIdUrl).contentType(MediaType.APPLICATION_JSON_UTF8).content(getTestJson()))
                 .andExpect(status().isNotFound());
     }
 
@@ -198,4 +174,8 @@ public class UserRestControllerTest {
     }
 
 
+    @Override
+    AbstractRestController getController() {
+        return new UserRestController(userService, userValidator);
+    }
 }

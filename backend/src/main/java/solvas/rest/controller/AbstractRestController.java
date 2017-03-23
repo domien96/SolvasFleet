@@ -207,6 +207,7 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
                             binding.getFieldErrors().stream().map(FieldError::getField).collect(Collectors.toList()),
                             JsonListWrapper.ERROR_KEY
                     ),
+
                     HttpStatus.BAD_REQUEST
             );
         }
