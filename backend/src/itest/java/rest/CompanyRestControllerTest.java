@@ -42,15 +42,6 @@ public class CompanyRestControllerTest extends AbstractRestControllerTest<ApiCom
         super(ApiCompany.class);
     }
 
-
-    /**
-     * Setup of mockMVC
-     * currently provides one random company object and its json representation
-     */
-    @Before
-    public void setUp() throws JsonProcessingException {
-        }
-
     /**
      * Test: the response of a get request for a company that exists on the db
      */
@@ -100,16 +91,6 @@ public class CompanyRestControllerTest extends AbstractRestControllerTest<ApiCom
     }
 
     /**
-     * Test: the response of a post request for a role that exists on the db (error)
-     */
-    @Ignore
-    @Test
-    public void postCompanyAlreadyExists()
-    {
-        //todo, ?http response?
-    }
-
-    /**
      * Test: the response of a put request for a role that exists on the db
      */
     @Test
@@ -125,7 +106,6 @@ public class CompanyRestControllerTest extends AbstractRestControllerTest<ApiCom
     /**
      * Test: the response of a post request for a role that doesn't exist on the db (error)
      */
-    @Ignore//behavior not as expected
     @Test
     public void putCompanyNotFound() throws Exception {
         when(service.update(anyInt(),any())).thenThrow(new EntityNotFoundException());
@@ -152,6 +132,10 @@ public class CompanyRestControllerTest extends AbstractRestControllerTest<ApiCom
                 .andExpect(status().isNotFound());
     }
 
+
+    /**
+     * Method to check if json has the correct attributes
+     */
     private void matchCompanyJson(ResultActions resultActions, ApiCompany source) throws Exception {
         resultActions.andExpect(jsonPath("id").value(source.getId()))
                 .andExpect(jsonPath("name").value(source.getName()))
@@ -166,6 +150,10 @@ public class CompanyRestControllerTest extends AbstractRestControllerTest<ApiCom
 
     }
 
+
+    /**
+     * @return the company rest controller
+     */
     @Override
     AbstractRestController getController() {
         return new CompanyRestController(service,companyValidator);

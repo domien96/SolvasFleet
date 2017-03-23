@@ -42,16 +42,6 @@ public class UserRestControllerTest extends AbstractRestControllerTest<ApiUser>{
         super(ApiUser.class);
     }
 
-
-    /**
-     * Setup of mockMVC
-     * currently provides one random user object and its json representation
-     */
-    @Before
-    public void setUp() throws Exception
-    {
-    }
-
     /**
      * Test: the response of a get request for a user that doesn't exist on the db
      */
@@ -104,16 +94,6 @@ public class UserRestControllerTest extends AbstractRestControllerTest<ApiUser>{
     }
 
     /**
-     * Test: the response of a post request for a user that already exists  (error)
-     */
-    @Ignore
-    @Test
-    public void postUserAlreadyExists() throws Exception {
-        //todo
-    }
-
-
-    /**
      * Test: the response of a put request for a user that exists
      */
     @Test
@@ -129,10 +109,12 @@ public class UserRestControllerTest extends AbstractRestControllerTest<ApiUser>{
     /**
      * Test: the response of a put request for a user that doesn't exist
      */
-    @Ignore //behavior is not as expected
     @Test
     public void putUserNotFound() throws Exception
     {
+        when(userService.update(anyInt(),any())).thenThrow(new EntityNotFoundException());
+        getMockMvc().perform(put(TestFixtures.userIdUrl).contentType(MediaType.APPLICATION_JSON_UTF8).content(getTestJson()))
+                .andExpect(status().isNotFound());
 
     }
 
@@ -158,11 +140,9 @@ public class UserRestControllerTest extends AbstractRestControllerTest<ApiUser>{
                 .andExpect(status().isNotFound());
     }
 
+
     /**
-     * Method that checks the result of the json string that is contained in the HTTP request
-     * @param res from MockMVC object
-     * @param user User object that should be equal to the object in json representation
-     * @throws Exception when mockMVC fails to perform the action or jsonPath fails to retrieve the attribute
+     * Method to check if json has the correct attributes
      */
     public void matchUserJson(ResultActions res, ApiUser user) throws Exception {
         res.andExpect(jsonPath("id").value(user.getId()))
@@ -174,6 +154,9 @@ public class UserRestControllerTest extends AbstractRestControllerTest<ApiUser>{
     }
 
 
+    /**
+     * @return the user rest controller
+     */
     @Override
     AbstractRestController getController() {
         return new UserRestController(userService, userValidator);

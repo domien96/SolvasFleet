@@ -5,20 +5,28 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import solvas.rest.api.models.ApiModel;
 import solvas.rest.controller.AbstractRestController;
 
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
 
-public abstract class AbstractRestControllerTest<T> {
+/**
+ * Abstract class of the restcontrollers
+ * @param <T> The apimodel
+ */
+public abstract class AbstractRestControllerTest<T extends ApiModel> {
      abstract AbstractRestController getController();
      private T apiModel;
-     private String apiJson="";
+     private String apiJson;
      private Class<? extends T> clazz;
-     public AbstractRestControllerTest(Class<?extends T> clazz)
+      AbstractRestControllerTest(Class<?extends T> clazz)
      {
          this.clazz=clazz;
      }
 
+    /**
+     * Create a random model and its json representation
+     */
      @Before
      public void config() throws JsonProcessingException {
          apiModel=random(clazz);
@@ -27,17 +35,27 @@ public abstract class AbstractRestControllerTest<T> {
          apiJson=mapper.writeValueAsString(apiModel);
      }
 
+    /**
+     * Provides the Rest MVC mock
+     * @return Rest MockMVC
+     */
     MockMvc getMockMvc()
     {
         return MockMvcBuilders.standaloneSetup(getController()).build();
     }
 
-    public T getTestModel()
+    /**
+     * Provides a random test model
+     */
+     T getTestModel()
     {
         return apiModel;
     }
 
-    public String getTestJson()
+    /**
+     * Provides the json representation of the random test model
+     */
+     String getTestJson()
     {
         return apiJson;
     }

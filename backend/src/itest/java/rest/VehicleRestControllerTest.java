@@ -42,15 +42,6 @@ public class VehicleRestControllerTest extends AbstractRestControllerTest<ApiVeh
         super(ApiVehicle.class);
     }
 
-
-    /**
-     * Setup of mockMVC
-     * currently provides one random vehicle object and its json representation
-     */
-    @Before
-    public void setUp() throws JsonProcessingException {
-    }
-
     /**
      * Test: the response of a get request for a user that doesn't exist on the db
      */
@@ -103,15 +94,6 @@ public class VehicleRestControllerTest extends AbstractRestControllerTest<ApiVeh
         matchVehicleJson(resultActions,getTestModel());
     }
 
-    /**
-     * Test: the response of a post request for a vehicle that already exists  (error)
-     */
-    @Ignore //case bespreken wanneer een vehicle al bestaat
-    @Test
-    public void postVehicleAlreadyExists() throws Exception {
-
-    }
-
     @Test
     public void putVehicleNoError() throws Exception {
         when(vehicleService.update(anyInt(),any())).thenReturn(getTestModel());
@@ -121,7 +103,6 @@ public class VehicleRestControllerTest extends AbstractRestControllerTest<ApiVeh
         matchVehicleJson(resultActions,getTestModel());
     }
 
-    @Ignore
     @Test
     public void putVehicleNotFound() throws Exception {
         when(vehicleService.update(anyInt(),any())).thenThrow(new EntityNotFoundException());
@@ -150,11 +131,9 @@ public class VehicleRestControllerTest extends AbstractRestControllerTest<ApiVeh
 
 
 
+
     /**
-     * Method that checks the result of the json string that is contained in the HTTP request
-     * @param res from MockMVC object
-     * @param vehicle vehicle object that should be equal to the object in json representation
-     * @throws Exception when mockMVC fails to perform the action or jsonPath fails to retrieve the attribute
+     * Method to check if json has the correct attributes
      */
     public void matchVehicleJson(ResultActions res, ApiVehicle vehicle) throws Exception {
 
@@ -162,7 +141,6 @@ public class VehicleRestControllerTest extends AbstractRestControllerTest<ApiVeh
                 .andExpect(jsonPath("url").value(vehicle.getUrl()))
                 .andExpect(jsonPath("licensePlate").value(vehicle.getLicensePlate()))
                 .andExpect(jsonPath("value").value(vehicle.getValue()))
-                //.andExpect(jsonPath("chassisNumber").value(vehicle.get()))
                 .andExpect(jsonPath("mileage").value(vehicle.getMileage()))
                 .andExpect(jsonPath("model").value(vehicle.getModel()))
                 .andExpect(jsonPath("brand").value(vehicle.getBrand()))
@@ -172,6 +150,9 @@ public class VehicleRestControllerTest extends AbstractRestControllerTest<ApiVeh
 
     }
 
+    /**
+     * @return the vehicle rest controller
+     */
     @Override
     AbstractRestController getController() {
         return new VehicleRestController(vehicleService, vehicleValidator);

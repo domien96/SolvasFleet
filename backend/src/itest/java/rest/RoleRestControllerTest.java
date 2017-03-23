@@ -2,7 +2,6 @@ package rest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -29,6 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @RunWith(MockitoJUnitRunner.class)
 public class RoleRestControllerTest extends AbstractRestControllerTest<ApiRole> {
+
     @Mock
     private RoleService roleService;
     @Mock
@@ -37,15 +37,6 @@ public class RoleRestControllerTest extends AbstractRestControllerTest<ApiRole> 
     public RoleRestControllerTest() {
         super(ApiRole.class);
     }
-
-
-    /**
-     * Setup of mockMVC
-     * currently provides one random role object and its json representation
-     */
-    @Before
-    public void setUp() throws JsonProcessingException {
-         }
 
     /**
      * Test: the response of a get request for a user that exists on the db
@@ -102,9 +93,11 @@ public class RoleRestControllerTest extends AbstractRestControllerTest<ApiRole> 
     /**
      * Test: the response of a put request for role that doesn't exists on the db
      */
-    @Ignore //behavior is not as expected
     @Test
     public void putRoleNotFound() throws Exception {
+        when(roleService.update(anyInt(),any())).thenThrow(new EntityNotFoundException());
+        getMockMvc().perform(put(TestFixtures.roleIdUrl).contentType(MediaType.APPLICATION_JSON_UTF8).content(getTestJson()))
+                .andExpect(status().isNotFound());
     }
 
     /**
@@ -120,14 +113,6 @@ public class RoleRestControllerTest extends AbstractRestControllerTest<ApiRole> 
         matchRoleJson(resultActions,getTestModel());
     }
 
-
-    /**
-     * Test: the response of a post request for a role that exists on the db (error)
-     */
-    @Ignore
-    @Test //todo
-    public void postRoleAlreadyExists() throws Exception {
-    }
 
     /**
      * Test: the response of a destroy request for a user that exists
@@ -151,7 +136,10 @@ public class RoleRestControllerTest extends AbstractRestControllerTest<ApiRole> 
                 .andExpect(status().isNotFound());
     }
 
-    public void matchRoleJson(ResultActions res,ApiRole role) throws Exception {
+    /**
+     * Method to check if json has the correct attributes
+     */
+    private void matchRoleJson(ResultActions res,ApiRole role) throws Exception {
         res.andExpect(jsonPath("id").value(role.getId()))
                 .andExpect(jsonPath("function").value(role.getFunction()))
                 .andExpect(jsonPath("url").value(role.getUrl()))
@@ -161,6 +149,10 @@ public class RoleRestControllerTest extends AbstractRestControllerTest<ApiRole> 
                 .andExpect(jsonPath("user").value(role.getUser()));
     }
 
+
+    /**
+     * @return the role rest controller
+     */
     @Override
     AbstractRestController getController() {
         return new RoleRestController(roleService, roleValidator);
