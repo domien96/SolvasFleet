@@ -11,28 +11,32 @@
   height: 100%;
 }
 
-.nav li {
-  &.active {
-    border-left: 4px solid $orange;
-    background: $gray-darkest;
+.nav {
+  margin-top: 25px;
+
+  li {
+    &.active {
+      border-left: 4px solid $orange;
+      background: $gray-darkest;
+
+      a {
+        color: #fff;
+      }
+    }
 
     a {
-      color: #fff;
-    }
-  }
+      color: #a7b1c2;
+      font-weight: 600;
+      padding: 14px 20px 14px 25px;
 
-  a {
-    color: #a7b1c2;
-    font-weight: 600;
-    padding: 14px 20px 14px 25px;
+      &:hover {
+        background-color: $gray-darker;
+        color: white;
+      }
 
-    &:hover {
-      background-color: $gray-darker;
-      color: white;
-    }
-
-    &:focus {
-      background-color: transparent !important;
+      &:focus {
+        background-color: transparent !important;
+      }
     }
   }
 }

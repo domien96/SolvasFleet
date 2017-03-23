@@ -34,7 +34,9 @@ public class UserAbstractMapper extends AbstractMapper<User,ApiUser> {
         user.setFirstName(apiUser.getFirstName());
         user.setLastName(apiUser.getLastName());
         user.setEmail(apiUser.getEmail());
-        user.setPassword(apiUser.getPassword());
+        if(apiUser.getPassword() != null && apiUser.getPassword().length() > 0) {
+            user.setPassword(apiUser.getPassword());
+        }
         return user;
     }
 

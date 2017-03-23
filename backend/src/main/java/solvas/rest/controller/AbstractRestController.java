@@ -25,7 +25,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * Abstract REST controller.
+ * Abstract REST controller. Controllers handle incoming requests.
  *
  * @param <T> Type of the entity to work with.
  * @param <E> The type of the API model
