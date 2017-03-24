@@ -4,6 +4,7 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.NotNull;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Created by steve on 11/03/2017.
@@ -17,7 +18,7 @@ public class ApiUser extends ApiModel {
     private String firstName;
     @NotBlank
     private String lastName;
-
+    @JsonIgnore
     private String password;
 
     public String getEmail() {
