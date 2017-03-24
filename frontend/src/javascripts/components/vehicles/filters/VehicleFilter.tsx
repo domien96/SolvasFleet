@@ -34,11 +34,12 @@ class VehicleFilter extends React.Component<FilterProps, FilterState>{
 		var newFilter = this.state.filter;
 		if(type == 'allVehicles'){
 			newFilter.type = '';
-			this.setState( {filter: newFilter, typeDisplay: 'All vehicles'} );
+			let typeTranslation = T.translate('vehicle.options.allVehicles').toString();
+			this.setState( {filter: newFilter, typeDisplay: typeTranslation} );
 		}
 		else{
 			newFilter.type = type;
-			let typeTranslation = T.translate(type).toString();
+			let typeTranslation = T.translate('vehicle.options.'+type).toString();
 			this.setState( {filter: newFilter, typeDisplay: typeTranslation} );
 		}
 		this.props.onFilter( newFilter );
