@@ -12,6 +12,6 @@ namespace Vehicles {
 }
 
 interface VehicleFilter{
-	fleet : string;
-	type : string;
+	[fleet:string] : string;
+	[type:string] : string;
 }

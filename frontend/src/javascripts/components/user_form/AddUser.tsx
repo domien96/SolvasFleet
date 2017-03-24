@@ -4,7 +4,7 @@ import { browserHistory } from 'react-router';
 import Header     from '../app/Header.tsx';
 import UserForm   from './UserForm.tsx';
 
-import createUser   from '../../actions/create_user.ts';
+import { postUser } from '../../actions/user_actions.ts';
 import { hasError } from '../../utils/utils.ts';
 
 class AddUser extends React.Component<{}, User.UForm.State> {
@@ -28,19 +28,14 @@ class AddUser extends React.Component<{}, User.UForm.State> {
   public onSubmit(e : any) : void {
     e.preventDefault();
     let setErrors = (e : Form.Error[]) => this.setState({ errors: e });
+    let success = (data : any) => browserHistory.push('/users/' + data.id);
+    let fail = (data : any) => {
+      setErrors(data.errors.map(function(e : any) {
+        return { field: e, error: 'null' };
+      }));
+    }
 
-    createUser(this.state.user)
-    .then(function(response) {
-      return response.json().then(function(data) {
-        if (response.ok) {
-          browserHistory.push('/users/' + data.id);
-        } else {
-          setErrors(data.errors.map(function(e : any) {
-            return { field: e, error: 'null' };
-          }));
-        }
-      });
-    });
+    postUser(this.state.user, success, fail);
   }
 
   render() {

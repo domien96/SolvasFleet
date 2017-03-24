@@ -1,9 +1,7 @@
 import React from 'react';
 import { browserHistory } from'react-router';
-
 import Layout     from './Layout.tsx'
-
-import fetchVehicles from '../../actions/fetch_vehicles.ts';
+import { fetchVehicles } from '../../actions/vehicle_actions.ts';
 
 class Vehicles extends React.Component<{}, Vehicles.State> {
 
@@ -18,7 +16,13 @@ class Vehicles extends React.Component<{}, Vehicles.State> {
   }
 
   fetchVehicles(filter : VehicleFilter) {
-    //TODO
+    let query = filter;
+    for (var key in query){
+      if (query[key] == null || query[key] == undefined || query[key] == ''){
+        delete query[key];
+      }
+    }
+    fetchVehicles((data) => this.setState({ vehicles: data.data }), undefined, query)
   }
 
   handleFilter(newFilter: VehicleFilter){

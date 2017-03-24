@@ -13,7 +13,6 @@ interface Props {
 }
 
 const FilterLayout :  React.StatelessComponent<Props> = props => {
-
   return (
     <Card>
       <div className='row actions card-content'>
@@ -33,11 +32,11 @@ const FilterLayout :  React.StatelessComponent<Props> = props => {
           <div className='col-md-5'>
             <form>
               <span>
-                <label className='col-md-7 lab-padding'> 
+                <label > 
                   <div>Fleet ID:</div>
                 </label>
-                <div className='input-padding align-left'>
-                  <input className='col-md-4' type='number' value={ props.filter.fleet } onChange={ props.onFilterFleet } />
+                <div className='input-padding align-right'>
+                  <input type='number' value={ props.filter.fleet } onChange={ props.onFilterFleet } />
                 </div>
               </span>             
             </form>

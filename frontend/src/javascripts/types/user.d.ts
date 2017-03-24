@@ -12,13 +12,6 @@ namespace User {
     'id' | 'firstName' | 'lastName' | 'email' | 'password';
 
   namespace UForm {
-    export interface Props {
-      onSubmit     : (e : any) => void;
-      handleChange : (field : User.Field, e : any) => void;
-      errors       : Form.Error[];
-      hasError     : (field : User.Field) => boolean;
-      user         : User;
-    }
 
     export interface State {
       errors : Form.Error[];

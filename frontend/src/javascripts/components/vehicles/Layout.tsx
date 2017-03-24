@@ -6,13 +6,18 @@ import Card      from '../app/Card.tsx';
 import Filter    from './Filter.tsx'
 import { Link }  from 'react-router';
 
-export interface Props {
+interface CardProps {
+  vehicles: Vehicle[];
+  onVehicleSelect : (id : number) => void;
+}
+
+interface LayoutProps {
   vehicles: Vehicle[];
   onVehicleSelect : (id : number) => void;
   onFilter : (filter : VehicleFilter) => void;
 }
 
-const MainCard : React.StatelessComponent<Props> = props => {
+const MainCard : React.StatelessComponent<CardProps> = props => {
   return (
     <Card>
       <div className='card-content'>
@@ -25,7 +30,7 @@ const MainCard : React.StatelessComponent<Props> = props => {
   );
 }
 
-const Layout : React.StatelessComponent<Props> = props => {
+const Layout : React.StatelessComponent<LayoutProps> = props => {
   return (
     <div>
       <Header>

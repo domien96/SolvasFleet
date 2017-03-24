@@ -2,8 +2,7 @@ import React from 'react';
 import { browserHistory } from'react-router';
 
 import UserCard from './UserCard.tsx';
-import fetchUser from '../../actions/fetch_user.ts';
-import deleteUser from '../../actions/delete_user.ts';
+import { fetchUser, deleteUser } from '../../actions/user_actions.ts';
 
 interface Props {
   params : { id : number };
@@ -23,10 +22,9 @@ class User extends React.Component<Props, State> {
   }
 
   fetchUser(id : number) {
-    fetchUser(id)
-      .then((data : any) => {
-        this.setState({ user: data })
-      });
+    fetchUser(id, ((data) => {
+      this.setState({ user: data })
+    }));
   }
 
   componentDidMount() {
@@ -41,8 +39,7 @@ class User extends React.Component<Props, State> {
 
   deleteUser(){
     var reloadUsers = this.props.fetchUsers;
-    deleteUser(this.props.params.id)
-    .then(() => reloadUsers());
+    deleteUser(this.props.params.id, () => reloadUsers());
     browserHistory.push('/users');
   }
 
