@@ -17,8 +17,10 @@ const VehicleFilterLayout :  React.StatelessComponent<FilterProps> = props => {
   var typeTruck : Choice = {name:T.translate('vehicle.options.truck'), eventKey:'truck', callback:onFilterType};
   
   var types : Choice[] = [typeAllVehicles, typePersonalCar, typeVan, typeSemiTrailer, typeTrailer, typeTruck];
-  
+
   //TODO: this gives a type error:
+  //error TS2322: Type '{ title: string; choices: Choice[]; }' is not assignable to type 'Selection'.
+  //Property 'anchorNode' is missing in type '{ title: string; choices: Choice[]; }'
   var typeSelection : Selection = { title:typeDisplay, choices:types };
 
   //Different input fields for properties of a vehicle

@@ -31,15 +31,15 @@ interface Props {
 
 const Filter : React.StatelessComponent<Props> = props => {
 
-	const dropdowns = props.selections.map((selection : Selection, i : number) => {
-		const choices = selection.choices.map((choice : Choice, j : number) => {
+	const dropdowns = props.selections.map((selection : Selection) => {
+		const choices = selection.choices.map((choice : Choice) => {
 				return(
-					<MenuItem key={ j } eventKey={ choice.eventKey } onSelect={ choice.callback }>{ choice.name }</MenuItem>
+					<MenuItem key={ choice.eventKey } eventKey={ choice.eventKey } onSelect={ choice.callback }>{ choice.name }</MenuItem>
 				);
 			}
 		);
 		return(
-			<DropdownButton id={ i } key={ i } className='btn btn-default' title={ selection.title }>{ choices }</DropdownButton>
+			<DropdownButton id={ selection.title } key={ selection.title } className='btn btn-default' title={ selection.title }>{ choices }</DropdownButton>
 		);
 	}
 	);
@@ -47,9 +47,9 @@ const Filter : React.StatelessComponent<Props> = props => {
 	const inputfields = props.inputfields.map((inputfield : Inputfield, i : number) => {
 		var { name, value, type, callback} = inputfield;
 		return(
-			<div>
+			<div key={ i }>
 				<label>{ name }</label>
-				<input key={ i } type={ type } placeholder={ name } className='form-control' onChange={ callback } value={ value } />
+				<input type={ type } placeholder={ name } className='form-control' onChange={ callback } value={ value } />
 			</div>
 		);
 	}
