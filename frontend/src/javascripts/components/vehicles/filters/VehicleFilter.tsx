@@ -29,7 +29,7 @@ class VehicleFilter extends React.Component<FilterProps, FilterState>{
 		this.props.onFilter( newFilter );
 	}
 
-	handleFilterType(event : any){	
+	handleFilterType(event : string){	
 		var type = event;
 		var newFilter = this.state.filter;
 		if(type == 'allVehicles'){
