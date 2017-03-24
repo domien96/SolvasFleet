@@ -3,6 +3,7 @@ package solvas.rest.api.mappers;
 import org.springframework.stereotype.Component;
 import solvas.models.Company;
 import solvas.persistence.api.DaoContext;
+import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.api.models.ApiAddress;
 import solvas.rest.api.models.ApiCompany;
 
@@ -24,7 +25,7 @@ public class CompanyMapper extends AbstractMapper<Company,ApiCompany> {
     }
 
     @Override
-    public Company convertToModel(ApiCompany apiCompany) {
+    public Company convertToModel(ApiCompany apiCompany) throws EntityNotFoundException {
         Company company = new Company();
         company.setId(apiCompany.getId());
 
@@ -32,9 +33,6 @@ public class CompanyMapper extends AbstractMapper<Company,ApiCompany> {
         if (company.getId()!=0) {
             //update
             company = daoContext.getCompanyDao().find(company.getId());
-            if (company==null){
-                company=new Company();
-            }
         }
 
         company.setName(apiCompany.getName()==null
