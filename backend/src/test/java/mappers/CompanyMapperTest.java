@@ -6,6 +6,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import solvas.models.Company;
 import solvas.persistence.api.DaoContext;
+import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.dao.CompanyDao;
 import solvas.rest.api.mappers.CompanyMapper;
 import solvas.rest.api.models.ApiCompany;
@@ -41,7 +42,7 @@ public class CompanyMapperTest {
      * Test the conversion ApiCompany->Company
      */
     @Test
-    public void convertToCompany()
+    public void convertToCompany() throws EntityNotFoundException
     {
         ApiCompany apiCompany = random(ApiCompany.class);
         Company random = random(Company.class);
