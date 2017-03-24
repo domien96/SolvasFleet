@@ -29,7 +29,7 @@ public class VehicleTypeAbstractMapper extends AbstractMapper<VehicleType,String
             type = new VehicleType();
             type.setId(0);
             type.setName(api);
-            return daoContext.getVehicleTypeDao().save(type);
+            return daoContext.getVehicleTypeDao().create(type);
         } else {
             return types.iterator().next();
         }

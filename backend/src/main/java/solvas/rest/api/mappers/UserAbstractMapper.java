@@ -3,6 +3,7 @@ package solvas.rest.api.mappers;
 import org.springframework.stereotype.Component;
 import solvas.models.User;
 import solvas.persistence.api.DaoContext;
+import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.api.models.ApiUser;
 
 /**
@@ -22,21 +23,20 @@ public class UserAbstractMapper extends AbstractMapper<User,ApiUser> {
     }
 
     @Override
-    public User convertToModel(ApiUser apiUser) {
+    public User convertToModel(ApiUser apiUser) throws EntityNotFoundException {
         User user = new User();
         user.setId(apiUser.getId());
         if (user.getId()!=0) {
             //update
             user = daoContext.getUserDao().find(user.getId());
-            if (user==null){
-                user=new User();
-            }
         }
 
         user.setFirstName(apiUser.getFirstName());
         user.setLastName(apiUser.getLastName());
         user.setEmail(apiUser.getEmail());
-        user.setPassword(apiUser.getPassword());
+        if(apiUser.getPassword() != null && apiUser.getPassword().length() > 0) {
+            user.setPassword(apiUser.getPassword());
+        }
         return user;
     }
 

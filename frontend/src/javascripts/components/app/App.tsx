@@ -26,7 +26,7 @@ class Sidebar extends React.Component<{}, {}> {
       <nav className='navbar-default navbar-side'>
         <div id='logo'>
           <Link to='/'>
-            <h1>SolvasFleet</h1>
+            <h2>SolvasFleet</h2>
           </Link>
         </div>
         <ul className='nav'>

@@ -49,7 +49,7 @@ public abstract class HibernateDao<T extends Model> implements Dao<T> {
     }
 
     @Override
-    public T update(T model) {
+    public T update(T model) throws EntityNotFoundException {
         Session s = getSession();
         find(model.getId()); // Make sure entity exists
         s.update(s.merge(model));
@@ -66,7 +66,7 @@ public abstract class HibernateDao<T extends Model> implements Dao<T> {
     }
 
     @Override
-    public T find(int id) {
+    public T find(int id) throws EntityNotFoundException {
         T result = getSession().get(clazz, id);
         if(result == null) {
             throw new EntityNotFoundException();
