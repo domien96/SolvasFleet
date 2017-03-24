@@ -1,25 +1,25 @@
 import React from 'react';
 import T     from 'i18n-react';
 
-
-import FilterLayout from './FilterLayout.tsx'
+import VehicleFilterLayout from './VehicleFilterLayout.tsx'
 
 interface FilterProps {
-  onFilter : (filter : VehicleFilter) => void;
+  onFilter : (filter : VehicleFilterData) => void;
 }
 
 interface FilterState {
-  filter : VehicleFilter;
+  filter : VehicleFilterData;
   typeDisplay: string;
 }
 
-class Filter extends React.Component<FilterProps, FilterState>{
+class VehicleFilter extends React.Component<FilterProps, FilterState>{
 
 	constructor(){
 		super();
 		this.state = { filter: {fleet : '', type : ''}, typeDisplay: 'All vehicles' }
 		this.handleFilterFleet = this.handleFilterFleet.bind(this);
 		this.handleFilterType = this.handleFilterType.bind(this);
+		this.handleReset = this.handleReset.bind(this);
 	}
 
 	handleFilterFleet(event : any){
@@ -29,9 +29,10 @@ class Filter extends React.Component<FilterProps, FilterState>{
 		this.props.onFilter( newFilter );
 	}
 
-	handleFilterType(type : string){	
+	handleFilterType(event : any){	
+		var type = event;
 		var newFilter = this.state.filter;
-		if(type == ''){
+		if(type == 'allVehicles'){
 			newFilter.type = '';
 			this.setState( {filter: newFilter, typeDisplay: 'All vehicles'} );
 		}
@@ -43,11 +44,17 @@ class Filter extends React.Component<FilterProps, FilterState>{
 		this.props.onFilter( newFilter );
 	}
 
+	handleReset(){
+		var newFilter : VehicleFilterData = {fleet : '', type : ''};
+		this.setState( {filter: newFilter, typeDisplay: 'All vehicles'} );
+		this.props.onFilter(newFilter);
+	}
+
 	render(){
 		return(
-			<FilterLayout filter={ this.state.filter } typeDisplay={ this.state.typeDisplay } onFilterType={ this.handleFilterType } onFilterFleet={ this.handleFilterFleet } />
+			<VehicleFilterLayout filter={ this.state.filter } typeDisplay={ this.state.typeDisplay } onFilterType={ this.handleFilterType } onFilterFleet={ this.handleFilterFleet } onReset={ this.handleReset }/>
 		);
 	}
 }
 
-export default Filter;
+export default VehicleFilter;

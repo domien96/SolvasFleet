@@ -15,7 +15,7 @@ class Vehicles extends React.Component<{}, Vehicles.State> {
     this.fetchVehicles(this.state.filter);
   }
 
-  fetchVehicles(filter : VehicleFilter) {
+  fetchVehicles(filter : VehicleFilterData) {
     let query = filter;
     for (var key in query){
       if (query[key] == null || query[key] == undefined || query[key] == ''){
@@ -25,7 +25,7 @@ class Vehicles extends React.Component<{}, Vehicles.State> {
     fetchVehicles((data) => this.setState({ vehicles: data.data }), undefined, query)
   }
 
-  handleFilter(newFilter: VehicleFilter){
+  handleFilter(newFilter: VehicleFilterData){
     this.setState({ filter: newFilter });
     this.fetchVehicles(newFilter);
   }

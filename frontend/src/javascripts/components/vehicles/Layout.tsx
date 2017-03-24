@@ -3,7 +3,7 @@ import React from 'react';
 import Overview  from './Overview.tsx';
 import Header    from '../app/Header.tsx';
 import Card      from '../app/Card.tsx';
-import Filter    from './Filter.tsx'
+import VehicleFilter    from './filters/VehicleFilter.tsx'
 import { Link }  from 'react-router';
 
 interface CardProps {
@@ -14,7 +14,7 @@ interface CardProps {
 interface LayoutProps {
   vehicles: Vehicle[];
   onVehicleSelect : (id : number) => void;
-  onFilter : (filter : VehicleFilter) => void;
+  onFilter : (filter : VehicleFilterData) => void;
 }
 
 const MainCard : React.StatelessComponent<CardProps> = props => {
@@ -39,7 +39,7 @@ const Layout : React.StatelessComponent<LayoutProps> = props => {
       <div className='wrapper'>
         <div className='row'>
           <div className='col-xs-12 col-md-7'>
-            <Filter onFilter = { props.onFilter } />
+            <VehicleFilter onFilter = { props.onFilter } />
             <MainCard vehicles={ props.vehicles } onVehicleSelect={ props.onVehicleSelect } />
           </div>
           <div className='col-xs-12 col-md-5'>
