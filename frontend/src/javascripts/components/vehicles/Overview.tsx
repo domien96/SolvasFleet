@@ -3,7 +3,7 @@ import React from 'react';
 import { th }    from '../../utils/utils.ts';
 import InfoTable from '../tables/InfoTable.tsx';
 
-export interface Props {
+interface Props {
   vehicles: Vehicle[];
   onVehicleSelect : (id : number) => void;
 }

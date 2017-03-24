@@ -1,11 +1,16 @@
 import React from 'react';
 
-import Overview, { Props } from './Overview.tsx';
+import Overview  from './Overview.tsx';
 import Header    from '../app/Header.tsx';
 import Card      from '../app/Card.tsx';
 import Filter    from './Filter.tsx'
-import { Link } from 'react-router';
+import { Link }  from 'react-router';
 
+export interface Props {
+  vehicles: Vehicle[];
+  onVehicleSelect : (id : number) => void;
+  onFilter : (filter : VehicleFilter) => void;
+}
 
 const MainCard : React.StatelessComponent<Props> = props => {
   return (

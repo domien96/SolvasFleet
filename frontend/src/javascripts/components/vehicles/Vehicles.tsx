@@ -17,26 +17,13 @@ class Vehicles extends React.Component<{}, Vehicles.State> {
     this.fetchVehicles(this.state.filter);
   }
 
-  fetchVehicles(filter : Filter) {
-    var args = [];
-
-    for (var key in filter){
-      if(filter[key] != ''){
-        args.add(''+key+'='+filter[key]+'');
-      }
-    }
-
-    fetchVehicles(args)
-      .then((data : Vehicles.Data) => {
-        this.setState({ vehicles: data.data })
-      });
-
-    return true;
+  fetchVehicles(filter : VehicleFilter) {
+    //TODO
   }
 
-  handleFilter(newFilter: Filter){
+  handleFilter(newFilter: VehicleFilter){
     this.setState({ filter: newFilter });
-    this.fetchVehicles(filter);
+    this.fetchVehicles(newFilter);
   }
 
   handleClick(id : number) {
