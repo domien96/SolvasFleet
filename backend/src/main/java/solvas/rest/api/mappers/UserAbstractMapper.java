@@ -13,7 +13,7 @@ import solvas.rest.api.models.ApiUser;
 @Component
 public class UserAbstractMapper extends AbstractMapper<User,ApiUser> {
 
-    private String rootPath="/users/";
+    private final String rootPath="/users/";
     /**
      * Create UserMapper
      *
