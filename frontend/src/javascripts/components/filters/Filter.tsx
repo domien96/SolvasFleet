@@ -3,7 +3,7 @@ import Card      from '../app/Card.tsx';
 import { ButtonGroup, DropdownButton, MenuItem } from 'react-bootstrap';
 
 /*
-	A re-usable component for implementing filters
+	A re-usable component for showing filters with multiple filter criteria
 
 	@param selections is a list of Selection objects
 

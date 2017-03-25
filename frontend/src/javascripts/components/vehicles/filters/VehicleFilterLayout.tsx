@@ -33,11 +33,11 @@ const VehicleFilterLayout :  React.StatelessComponent<Props> = props => {
   var typeSelection : Selectionfield = { name:'Vehicle type', title:typeDisplay, choices:types };
 
   //Different input fields for properties of a vehicle
-  var fleetInput : Inputfield = {name:'Fleet ID', value:fleet, type:'number', callback:onFilterFleet};
-  var leasingCompanyInput : Inputfield = {name:'Leasing company ID', value:leasingCompany, type:'number', callback:onFilterLeasingCompany};
-  var licensePlateInput : Inputfield = {name:'License plate', value:licensePlate, type:'text', callback:onFilterLicensePlate};
-  var vinInput : Inputfield = {name:'Vehicle Identification Number', value:vin, type:'text', callback:onFilterVin};
-  var yearInput : Inputfield = {name:'Year', value:year, type:'number', callback:onFilterYear};
+  var fleetInput :          Inputfield = {name:T.translate('vehicle.fleet'),          value:fleet,          type:'number',  callback:onFilterFleet};
+  var leasingCompanyInput : Inputfield = {name:T.translate('vehicle.leasingCompany'), value:leasingCompany, type:'number',  callback:onFilterLeasingCompany};
+  var licensePlateInput :   Inputfield = {name:T.translate('vehicle.licensePlate'),   value:licensePlate,   type:'text',    callback:onFilterLicensePlate};
+  var vinInput :            Inputfield = {name:T.translate('vehicle.vin'),            value:vin,            type:'text',    callback:onFilterVin};
+  var yearInput :           Inputfield = {name:T.translate('vehicle.year'),           value:year,           type:'number',  callback:onFilterYear};
 
   var selections : Selectionfield[] = [typeSelection];
   var inputfields : Inputfield[] = [fleetInput, leasingCompanyInput, licensePlateInput, vinInput, yearInput];
