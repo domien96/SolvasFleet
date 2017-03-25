@@ -1,6 +1,6 @@
 # API
 
-De HTML van de laatste, oficieel gepubliceerde, API: https://github.ugent.be/pages/VakOverschrijdendProject/2016-2017-rest-api/
+De HTML van de laatste, officieel gepubliceerde, API: https://github.ugent.be/pages/VakOverschrijdendProject/2016-2017-rest-api/
 
 ## Specificatie
 
