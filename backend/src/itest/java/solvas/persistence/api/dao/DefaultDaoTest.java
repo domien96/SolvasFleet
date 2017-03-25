@@ -16,7 +16,7 @@ import static org.hamcrest.beans.SamePropertyValuesAs.samePropertyValuesAs;
 public class DefaultDaoTest extends DaoTest {
 
     @Autowired
-    public VehicleDao vehicleDao;
+    private VehicleDao vehicleDao;
 
     /**
      * Test that finding a valid entity does not throw an exception.
