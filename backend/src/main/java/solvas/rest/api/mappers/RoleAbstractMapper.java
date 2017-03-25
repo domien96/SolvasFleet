@@ -14,7 +14,7 @@ import solvas.rest.api.models.ApiRole;
 @Component
 public class RoleAbstractMapper extends AbstractMapper<Role,ApiRole> {
 
-    private String rootPath="/roles/";
+    private String ROOTPATH ="/roles/";
     /**
      * Create a mapper between Role and ApiRole
      *
@@ -51,7 +51,7 @@ public class RoleAbstractMapper extends AbstractMapper<Role,ApiRole> {
         apiRole.setStartDate(role.getStartDate());
         apiRole.setEndDate(role.getEndDate());
         UriComponentsBuilder bldr = ServletUriComponentsBuilder.fromCurrentRequest();
-        apiRole.setUrl(bldr.path(rootPath+"{id}").buildAndExpand(role.getId()).toUriString());
+        apiRole.setUrl(bldr.path(ROOTPATH +"{id}").buildAndExpand(role.getId()).toUriString());
         return apiRole;
     }
 }

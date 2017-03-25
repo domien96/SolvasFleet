@@ -14,7 +14,7 @@ import solvas.rest.api.models.ApiUser;
 @Component
 public class UserAbstractMapper extends AbstractMapper<User,ApiUser> {
 
-    private String rootPath="/users/";
+    private String ROOTPATH ="/users/";
     /**
      * Create UserMapper
      *
@@ -53,7 +53,7 @@ public class UserAbstractMapper extends AbstractMapper<User,ApiUser> {
         apiUser.setUpdatedAt(user.getUpdatedAt());
         apiUser.setCreatedAt(user.getCreatedAt());
         UriComponentsBuilder bldr = ServletUriComponentsBuilder.fromCurrentRequest();
-        apiUser.setUrl(bldr.path(rootPath+"{id}").buildAndExpand(user.getId()).toUriString());
+        apiUser.setUrl(bldr.path(ROOTPATH +"{id}").buildAndExpand(user.getId()).toUriString());
         return apiUser;
     }
 }

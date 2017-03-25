@@ -24,7 +24,7 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle, ApiVehicle> {
 
     private static final String FLEET_ATTRIBUTE = "fleet";
 
-    private String rootPath = "/vehicles/";
+    private String ROOTPATH = "/vehicles/";
 
     /**
      * TODO document
@@ -154,7 +154,7 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle, ApiVehicle> {
         api.setUpdatedAt(vehicle.getUpdatedAt());
         api.setCreatedAt(vehicle.getCreatedAt());
         UriComponentsBuilder bldr = ServletUriComponentsBuilder.fromCurrentRequest();
-        api.setUrl(bldr.path(rootPath+"{id}").buildAndExpand(vehicle.getId()).toUriString());
+        api.setUrl(bldr.path(ROOTPATH +"{id}").buildAndExpand(vehicle.getId()).toUriString());
         return api;
     }
 

@@ -16,7 +16,7 @@ import solvas.rest.api.models.ApiFleet;
 @Component
 public class FleetMapper extends AbstractMapper<Fleet, ApiFleet> {
 
-    private static final String rootPath = "/fleets/";
+    private static final String ROOTPATH = "/fleets/";
 
     /**
      * Map fleets.
@@ -60,7 +60,7 @@ public class FleetMapper extends AbstractMapper<Fleet, ApiFleet> {
         fleet.setUpdatedAt(model.getUpdatedAt());
         fleet.setLastUpdatedBy(0);
         UriComponentsBuilder bldr = ServletUriComponentsBuilder.fromCurrentRequest();
-        fleet.setUrl(bldr.path(rootPath+"{id}").buildAndExpand(model.getId()).toUriString());
+        fleet.setUrl(bldr.path(ROOTPATH +"{id}").buildAndExpand(model.getId()).toUriString());
         return fleet;
     }
 }

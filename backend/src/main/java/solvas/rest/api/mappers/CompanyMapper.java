@@ -15,7 +15,7 @@ import solvas.rest.api.models.ApiCompany;
 @Component
 public class CompanyMapper extends AbstractMapper<Company,ApiCompany> {
 
-    private String rootPath="/companies/";
+    private String ROOTPATH ="/companies/";
 
     /**
      * Create a mapper between Company and ApiCompany
@@ -75,7 +75,7 @@ public class CompanyMapper extends AbstractMapper<Company,ApiCompany> {
         apiCompany.setCreatedAt(company.getCreatedAt());
         apiCompany.setUpdatedAt(company.getUpdatedAt());
         UriComponentsBuilder bldr = ServletUriComponentsBuilder.fromCurrentRequest();
-        apiCompany.setUrl(bldr.path(rootPath+"{id}").buildAndExpand(company.getId()).toUriString());
+        apiCompany.setUrl(bldr.path(ROOTPATH +"{id}").buildAndExpand(company.getId()).toUriString());
         return apiCompany;
     }
 }
