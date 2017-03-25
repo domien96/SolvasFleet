@@ -32,14 +32,19 @@ public class ApiCompanyValidationTest extends ValidationTest {
      */
     @Test
     public void testInvalidAddress() {
+
         ApiCompany company = random(ApiCompany.class);
         company.setPhoneNumber("+32 56 22 56 22");
         company.setAddress(null);
         assertEquals(1, validator.validate(company).size());
 
         ApiAddress emptyAddress = new ApiAddress();
+
+        // Get how many errors the address produces
+        int addressErrors = validator.validate(emptyAddress).size();
+
         company.setAddress(emptyAddress);
-        assertEquals(5, validator.validate(company).size());
+        assertEquals(addressErrors, validator.validate(company).size());
     }
 
     /**
@@ -53,6 +58,8 @@ public class ApiCompanyValidationTest extends ValidationTest {
         company.setPhoneNumber("TESTTESTTESTTEST");
         Set<ConstraintViolation<ApiCompany>> v = validator.validate(company);
         assertEquals(1, v.size());
+        // There is one constraint violation. This will access it using the iterator, and get the name of the field
+        // that caused the violation. (see the documentation of ConstraintViolation)
         assertEquals(phoneNumber, v.iterator().next().getPropertyPath().iterator().next().getName());
     }
 

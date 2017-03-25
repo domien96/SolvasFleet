@@ -50,12 +50,12 @@ public class ApiVehicleValidationTest extends ValidationTest {
         assertEquals(vinField, v.iterator().next().getPropertyPath().iterator().next().getName());
 
         vehicle.setVin("");
-        validator.validate(vehicle);
+        v = validator.validate(vehicle);
         assertEquals(1, v.size());
         assertEquals(vinField, v.iterator().next().getPropertyPath().iterator().next().getName());
 
         vehicle.setVin(null);
-        validator.validate(vehicle);
+        v = validator.validate(vehicle);
         assertEquals(1, v.size());
         assertEquals(vinField, v.iterator().next().getPropertyPath().iterator().next().getName());
     }
