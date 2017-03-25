@@ -2,6 +2,8 @@ package solvas.rest.api.mappers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriComponentsBuilder;
 import solvas.models.Company;
 import solvas.models.Fleet;
 import solvas.persistence.api.DaoContext;
@@ -14,7 +16,7 @@ import solvas.rest.api.models.ApiFleet;
 @Component
 public class FleetMapper extends AbstractMapper<Fleet, ApiFleet> {
 
-    private static final String ROOT = "/fleets/";
+    private static final String rootPath = "/fleets/";
 
     /**
      * Map fleets.
@@ -57,7 +59,8 @@ public class FleetMapper extends AbstractMapper<Fleet, ApiFleet> {
         fleet.setCreatedAt(model.getCreatedAt());
         fleet.setUpdatedAt(model.getUpdatedAt());
         fleet.setLastUpdatedBy(0);
-        fleet.setUrl(ROOT + model.getId());
+        UriComponentsBuilder bldr = ServletUriComponentsBuilder.fromCurrentRequest();
+        fleet.setUrl(bldr.path(rootPath+"{id}").buildAndExpand(model.getId()).toUriString());
         return fleet;
     }
 }

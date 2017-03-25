@@ -1,5 +1,6 @@
 package solvas.rest.api.mappers;
 
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import solvas.models.Model;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
@@ -11,7 +12,7 @@ import solvas.persistence.api.EntityNotFoundException;
  * @param <E> class of the api model class.
  * Created by steve on 11/03/2017.
  */
-public abstract class AbstractMapper<T extends Model,E> {
+public abstract class AbstractMapper<T extends Model,E> extends ServletUriComponentsBuilder {
 
     protected final DaoContext daoContext;
 
@@ -21,7 +22,6 @@ public abstract class AbstractMapper<T extends Model,E> {
     public AbstractMapper(DaoContext daoContext) {
         this.daoContext = daoContext;
     }
-
 
     /**
      * Convert an ApiModel to a Model in the persistence layer

@@ -1,6 +1,8 @@
 package solvas.rest.api.mappers;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriComponentsBuilder;
 import solvas.models.User;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
@@ -50,7 +52,8 @@ public class UserAbstractMapper extends AbstractMapper<User,ApiUser> {
         apiUser.setPassword(user.getPassword());
         apiUser.setUpdatedAt(user.getUpdatedAt());
         apiUser.setCreatedAt(user.getCreatedAt());
-        apiUser.setUrl(rootPath+apiUser.getId());
+        UriComponentsBuilder bldr = ServletUriComponentsBuilder.fromCurrentRequest();
+        apiUser.setUrl(bldr.path(rootPath+"{id}").buildAndExpand(user.getId()).toUriString());
         return apiUser;
     }
 }

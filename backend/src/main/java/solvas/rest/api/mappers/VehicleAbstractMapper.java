@@ -2,6 +2,8 @@ package solvas.rest.api.mappers;
 
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriComponentsBuilder;
 import solvas.models.Fleet;
 import solvas.models.FleetSubscription;
 import solvas.models.SubFleet;
@@ -151,7 +153,8 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle, ApiVehicle> {
         api.setType(vehicle.getType().getName());
         api.setUpdatedAt(vehicle.getUpdatedAt());
         api.setCreatedAt(vehicle.getCreatedAt());
-        api.setUrl(rootPath + api.getId());
+        UriComponentsBuilder bldr = ServletUriComponentsBuilder.fromCurrentRequest();
+        api.setUrl(bldr.path(rootPath+"{id}").buildAndExpand(vehicle.getId()).toUriString());
         return api;
     }
 

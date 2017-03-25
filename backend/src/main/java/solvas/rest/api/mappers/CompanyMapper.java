@@ -1,6 +1,8 @@
 package solvas.rest.api.mappers;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriComponentsBuilder;
 import solvas.models.Company;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
@@ -72,7 +74,8 @@ public class CompanyMapper extends AbstractMapper<Company,ApiCompany> {
         apiCompany.getAddress().setStreet(company.getAddressStreet());
         apiCompany.setCreatedAt(company.getCreatedAt());
         apiCompany.setUpdatedAt(company.getUpdatedAt());
-        apiCompany.setUrl(rootPath+apiCompany.getId());
+        UriComponentsBuilder bldr = ServletUriComponentsBuilder.fromCurrentRequest();
+        apiCompany.setUrl(bldr.path(rootPath+"{id}").buildAndExpand(company.getId()).toUriString());
         return apiCompany;
     }
 }
