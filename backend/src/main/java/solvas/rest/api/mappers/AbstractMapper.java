@@ -1,12 +1,8 @@
 package solvas.rest.api.mappers;
 
-import org.springframework.beans.factory.annotation.Value;
 import solvas.models.Model;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
-
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 /**
  * Mapper between a Model in the domain layer and it's representation in the REST API
@@ -17,28 +13,13 @@ import java.net.UnknownHostException;
  */
 public abstract class AbstractMapper<T extends Model,E> {
 
-    /**
-     * Contains protocol, authentication and domain
-     */
-    protected final String urlroot;
-
     protected final DaoContext daoContext;
 
     /**
      * @param daoContext DaoContext 
      */
-    public AbstractMapper(DaoContext daoContext) throws UnknownHostException {
+    public AbstractMapper(DaoContext daoContext) {
         this.daoContext = daoContext;
-         urlroot = InetAddress.getLocalHost().getHostName(); // TODO FIX
-    }
-
-    /**
-     * @param daoContext DaoContext
-     * @param urlroot The root of the url. e.g. http://localhost:8080/
-     */
-    public AbstractMapper(DaoContext daoContext, String urlroot) {
-        this.daoContext = daoContext;
-        this.urlroot = urlroot;
     }
 
 

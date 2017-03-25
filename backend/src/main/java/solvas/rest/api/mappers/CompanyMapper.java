@@ -1,14 +1,11 @@
 package solvas.rest.api.mappers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import solvas.models.Company;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.api.models.ApiAddress;
 import solvas.rest.api.models.ApiCompany;
-
-import java.net.UnknownHostException;
 
 /**
  * Mapper between Company and ApiCompany
@@ -23,13 +20,8 @@ public class CompanyMapper extends AbstractMapper<Company,ApiCompany> {
      *
      * @param daoContext The context for Dao's
      */
-    @Autowired
-    public CompanyMapper(DaoContext daoContext) throws UnknownHostException {
+    public CompanyMapper(DaoContext daoContext) {
         super(daoContext);
-    }
-
-    public CompanyMapper(DaoContext daoContext,String urlroot) {
-        super(daoContext,urlroot);
     }
 
     @Override

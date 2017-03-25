@@ -1,11 +1,9 @@
 package solvas.rest.api.mappers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import solvas.models.VehicleType;
 import solvas.persistence.api.DaoContext;
 
-import java.net.UnknownHostException;
 import java.util.Collection;
 
 /**
@@ -19,13 +17,8 @@ public class VehicleTypeAbstractMapper extends AbstractMapper<VehicleType,String
      *
      * @param daoContext
      */
-    @Autowired
-    public VehicleTypeAbstractMapper(DaoContext daoContext) throws UnknownHostException {
+    public VehicleTypeAbstractMapper(DaoContext daoContext) {
         super(daoContext);
-    }
-
-    public VehicleTypeAbstractMapper(DaoContext daoContext,String urlroot) {
-        super(daoContext,urlroot);
     }
 
     @Override
