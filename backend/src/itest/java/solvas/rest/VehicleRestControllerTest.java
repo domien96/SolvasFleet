@@ -6,15 +6,18 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import solvas.models.Vehicle;
-import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.dao.VehicleDao;
 import solvas.rest.api.mappers.VehicleAbstractMapper;
@@ -22,7 +25,6 @@ import solvas.rest.api.models.ApiVehicle;
 import solvas.rest.controller.VehicleRestController;
 
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
-import static io.github.benas.randombeans.api.EnhancedRandom.randomCollectionOf;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.verify;
@@ -35,16 +37,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Integration tests of the VehicleRestController
  * It checks HTTP responses and calls to the VehicleDao
  */
+@RunWith(SpringRunner.class)
+@WebMvcTest(VehicleRestController.class)
 public class VehicleRestControllerTest {
-    @Mock
+    @MockBean
     private VehicleDao vehicleDaoMock;
 
-    @Mock
+    @MockBean
     private VehicleAbstractMapper vehicleAbstractMapperMock;
 
-    @Mock
-    private DaoContext daoContextMock;
-
+    @Autowired
     private MockMvc mockMvc;
 
     private ArgumentCaptor<Vehicle> captor = ArgumentCaptor.forClass(Vehicle.class);
@@ -58,11 +60,6 @@ public class VehicleRestControllerTest {
      */
     @Before
     public void setUp() throws JsonProcessingException {
-        MockitoAnnotations.initMocks(this);
-        when(daoContextMock.getVehicleDao()).thenReturn(vehicleDaoMock);
-        VehicleRestController vehicleRestController=new VehicleRestController(daoContextMock,vehicleAbstractMapperMock);
-        mockMvc= MockMvcBuilders.standaloneSetup(vehicleRestController).build();
-
         vehicle = random(ApiVehicle.class);
         vehicle.setVin("WDBRN40J75A645754");
         vehicle.setYear(2017);
@@ -106,7 +103,11 @@ public class VehicleRestControllerTest {
     @Test
     public void getVehiclesNoError() throws Exception
     {
-        when(vehicleDaoMock.findAll()).thenReturn(randomCollectionOf(10,Vehicle.class));
+        // Empty page
+        Page<Vehicle> emptyPage = new PageBuilder<Vehicle>()
+                .totalElements(0)
+                .build();
+        when(vehicleDaoMock.findAll(any(), any(Pageable.class))).thenReturn(emptyPage);
         when(vehicleAbstractMapperMock.convertToApiModel(any())).thenReturn(random(ApiVehicle.class));
         mockMvc.perform(get("/vehicles"))
                 .andExpect(status().isOk());
@@ -149,7 +150,7 @@ public class VehicleRestControllerTest {
                 .andExpect(status().isOk());
         matchVehicleJson(resultActions,vehicle);
 
-        verify(vehicleDaoMock,times(1)).save(captor.capture());
+        verify(vehicleDaoMock,times(1)).update(captor.capture());
     }
 
     @Ignore
@@ -166,14 +167,14 @@ public class VehicleRestControllerTest {
     public void destroyVehicleNoError() throws Exception
     {
         when(vehicleDaoMock.destroy(any())).thenReturn(random(Vehicle.class));
-        ResultActions res =mockMvc.perform(delete("/vehicles/10").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
-                .andExpect(status().isOk());
-        verify(vehicleDaoMock,times(1)).destroy(captor.capture());
+        mockMvc.perform(delete("/vehicles/10").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
+                .andExpect(status().isNoContent());
+        verify(vehicleDaoMock,times(1)).destroy(anyInt());
     }
 
     @Test
     public void destroyVehicleNotFound() throws Exception {
-        when(vehicleDaoMock.destroy(any())).thenThrow(new EntityNotFoundException());
+        when(vehicleDaoMock.destroy(anyInt())).thenThrow(new EntityNotFoundException());
         mockMvc.perform(delete("/vehicles/10").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
                 .andExpect(status().isNotFound());
     }

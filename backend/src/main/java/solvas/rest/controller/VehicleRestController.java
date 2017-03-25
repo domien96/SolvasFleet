@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import solvas.models.Vehicle;
-import solvas.persistence.api.DaoContext;
+import solvas.persistence.api.dao.VehicleDao;
 import solvas.rest.api.mappers.VehicleAbstractMapper;
 import solvas.rest.api.models.ApiVehicle;
 import solvas.rest.query.VehicleFilter;
@@ -23,12 +23,12 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
     /**
      * Rest controller for Vehicle
      *
-     * @param daoContext Autowired
+     * @param vehicleDao Autowired
      * @param mapper The mapper class for vehicles
      */
     @Autowired
-    public VehicleRestController(DaoContext daoContext, VehicleAbstractMapper mapper) {
-        super(daoContext.getVehicleDao(),mapper);
+    public VehicleRestController(VehicleDao vehicleDao, VehicleAbstractMapper mapper) {
+        super(vehicleDao,mapper);
     }
 
     /**

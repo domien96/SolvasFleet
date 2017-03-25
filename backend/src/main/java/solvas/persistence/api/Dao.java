@@ -24,6 +24,11 @@ public interface Dao<T extends Model> extends PagingAndSortingRepository<T, Inte
         return data;
     }
 
+    default T update(T entity) throws EntityNotFoundException {
+        find(entity.getId());
+        return save(entity);
+    }
+
     default T destroy(T entity) throws EntityNotFoundException {
         T data = find(entity.getId());
         delete(data);

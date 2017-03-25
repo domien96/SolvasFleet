@@ -4,15 +4,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import solvas.models.User;
-import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.dao.UserDao;
 import solvas.rest.api.mappers.UserAbstractMapper;
@@ -20,7 +23,6 @@ import solvas.rest.api.models.ApiUser;
 import solvas.rest.controller.UserRestController;
 
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
-import static io.github.benas.randombeans.api.EnhancedRandom.randomCollectionOf;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.verify;
@@ -33,16 +35,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Integration tests of the UserRestController
  * It checks HTTP responses and calls to the VehicleDao
  */
+@RunWith(SpringRunner.class)
+@WebMvcTest(UserRestController.class)
 public class UserRestControllerTest {
-    @Mock
+    @MockBean
     private UserDao userDaoMock;
 
-    @Mock
+    @MockBean
     private UserAbstractMapper userMapperMock;
 
-    @Mock
-    private DaoContext daoContextMock;
-
+    @Autowired
     private MockMvc mockMvc;
 
     private ArgumentCaptor<User> captor = ArgumentCaptor.forClass(User.class);
@@ -55,12 +57,7 @@ public class UserRestControllerTest {
      * currently provides one random user object and its json representation
      */
     @Before
-    public void setUp() throws Exception
-    {
-        MockitoAnnotations.initMocks(this);
-        when(daoContextMock.getUserDao()).thenReturn(userDaoMock);
-        UserRestController controller=new UserRestController(daoContextMock,userMapperMock);
-        mockMvc=MockMvcBuilders.standaloneSetup(controller).build();
+    public void setUp() throws Exception {
         user=random(ApiUser.class);
         user.setEmail("test@example.be");
         ObjectMapper mapper = new ObjectMapper();
@@ -97,7 +94,13 @@ public class UserRestControllerTest {
      */
     @Test
     public void getUsersNoError() throws Exception {
-        when(userDaoMock.findAll()).thenReturn(randomCollectionOf(10,User.class));
+
+        // Empty page
+        Page<User> emptyPage = new PageBuilder<User>()
+                .totalElements(0)
+                .build();
+
+        when(userDaoMock.findAll(any(), any(Pageable.class))).thenReturn(emptyPage);
         when(userMapperMock.convertToApiModel(any())).thenReturn(random(ApiUser.class));
         mockMvc.perform(get("/users"))
                 .andExpect(status().isOk())
@@ -141,7 +144,7 @@ public class UserRestControllerTest {
                 mockMvc.perform(put("/users/10").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
                 .andExpect(status().isOk());
         matchUserJson(resultActions,user);
-        verify(userDaoMock,times(1)).save(captor.capture());
+        verify(userDaoMock,times(1)).update(captor.capture());
 
     }
 
@@ -165,8 +168,8 @@ public class UserRestControllerTest {
     @Test
     public void destroyUserNoError() throws Exception {
         mockMvc.perform(delete("/users/10").contentType(MediaType.APPLICATION_JSON).content(json))
-                .andExpect(status().isOk());
-        verify(userDaoMock,times(1)).destroy(captor.capture());
+                .andExpect(status().isNoContent());
+        verify(userDaoMock,times(1)).destroy(anyInt());
     }
 
     /**
@@ -174,7 +177,7 @@ public class UserRestControllerTest {
      */
     @Test
     public void destroyUserNotFound() throws Exception {
-        when(userDaoMock.destroy(any())).thenThrow(new EntityNotFoundException());
+        when(userDaoMock.destroy(anyInt())).thenThrow(new EntityNotFoundException());
         mockMvc.perform(delete("/users/20").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
                 .andExpect(status().isNotFound());
     }
@@ -190,8 +193,7 @@ public class UserRestControllerTest {
                 .andExpect(jsonPath("firstName").value(user.getFirstName()))
                 .andExpect(jsonPath("lastName").value(user.getLastName()))
                 .andExpect(jsonPath("email").value(user.getEmail()))
-                .andExpect(jsonPath("url").value(user.getUrl()))
-                .andExpect(jsonPath("password").value(user.getPassword()));
+                .andExpect(jsonPath("url").value(user.getUrl()));
     }
 
 

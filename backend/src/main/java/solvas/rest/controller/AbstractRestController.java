@@ -67,11 +67,7 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
         Page<E> page = dao.findAll(filter, pagination)
                 .map(source -> mapper.convertToApiModel(source));
 
-        JsonListWrapper<E> wrapper = new JsonListWrapper<>(page.getContent());
-        wrapper.put("limit", pagination.getPageSize());
-        wrapper.put("offset", pagination.getOffset());
-        wrapper.put("total", dao.count(filter));
-        return new ResponseEntity<>(wrapper, HttpStatus.OK);
+        return new ResponseEntity<>(JsonListWrapper.forPageable(page), HttpStatus.OK);
     }
 
     /**
@@ -185,7 +181,7 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
     protected ResponseEntity<?> deleteById(int id) {
         try {
             dao.destroy(id);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (EntityNotFoundException e) {
             return notFound();
         }
@@ -202,10 +198,8 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
         try {
             return save(input, binding, () -> {
                 input.setId(id);
-                T model = mapper.convertToModel(input);
-
-                return mapper.convertToApiModel(dao
-                        .save(model));
+                T model = dao.update(mapper.convertToModel(input));
+                return mapper.convertToApiModel(model);
             });
         } catch (DependantEntityNotFound e) {
             return handleDependantNotFound(e);

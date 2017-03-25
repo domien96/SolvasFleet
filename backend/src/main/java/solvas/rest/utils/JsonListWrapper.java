@@ -1,5 +1,8 @@
 package solvas.rest.utils;
 
+import org.springframework.data.domain.Page;
+import solvas.models.Model;
+
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -37,5 +40,21 @@ public class JsonListWrapper<T> extends HashMap<String, Object> {
      */
     public JsonListWrapper(Collection<T> items, String key) {
         put(key, items);
+    }
+
+    /**
+     * Create a wrapper for a paged result.
+     *
+     * @param page The page.
+     * @param <E> The element type.
+     *
+     * @return The wrapper.
+     */
+    public static <E extends Model> JsonListWrapper<E> forPageable(Page<E> page) {
+        JsonListWrapper<E> wrapper = new JsonListWrapper<>(page.getContent());
+        wrapper.put("limit", page.getSize());
+        wrapper.put("offset", page.getNumber() * page.getSize());
+        wrapper.put("total", page.getTotalElements());
+        return wrapper;
     }
 }

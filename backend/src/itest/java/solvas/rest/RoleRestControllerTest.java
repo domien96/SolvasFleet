@@ -5,24 +5,28 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import solvas.models.Role;
-import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.dao.RoleDao;
 import solvas.rest.api.mappers.RoleAbstractMapper;
 import solvas.rest.api.models.ApiRole;
 import solvas.rest.controller.RoleRestController;
 
+import java.time.LocalDateTime;
+
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
-import static io.github.benas.randombeans.api.EnhancedRandom.randomCollectionOf;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -31,16 +35,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Integration tests of the RoleRestController
  * It checks HTTP responses and calls to the RoleDao
  */
+@RunWith(SpringRunner.class)
+@WebMvcTest(RoleRestController.class)
 public class RoleRestControllerTest {
 
-    @Mock
+    @MockBean
     private RoleDao roleDaoMock;
-    @Mock
+
+    @MockBean
     private RoleAbstractMapper roleMapperMock;
 
-    @Mock
-    private DaoContext daoContextMock;
-
+    @Autowired
     private MockMvc mockMvc;
 
     private ArgumentCaptor<Role> captor = ArgumentCaptor.forClass(Role.class);
@@ -55,12 +60,9 @@ public class RoleRestControllerTest {
      */
     @Before
     public void setUp() throws JsonProcessingException {
-        MockitoAnnotations.initMocks(this);
-        when(daoContextMock.getRoleDao()).thenReturn(roleDaoMock);
-        RoleRestController roleRestController=new RoleRestController(daoContextMock,roleMapperMock);
-
-        mockMvc= MockMvcBuilders.standaloneSetup(roleRestController).build();
         apiRole=random(ApiRole.class);
+        apiRole.setStartDate(LocalDateTime.now());
+        apiRole.setEndDate(null);
         ObjectMapper mapper=new ObjectMapper();
         mapper.findAndRegisterModules(); //Include module to convert LocaleDateTime objects
         json=mapper.writeValueAsString(apiRole);
@@ -95,8 +97,15 @@ public class RoleRestControllerTest {
      */
     @Test
     public void getRolesNoError() throws Exception {
+
+        // Empty page
+        Page<Role> emptyPage = new PageBuilder<Role>()
+                .totalElements(0)
+                .build();
+
+        when(roleDaoMock.findAll(any(), any(Pageable.class))).thenReturn(emptyPage);
         when(roleMapperMock.convertToApiModel(any())).thenReturn(random(ApiRole.class));
-        when(roleDaoMock.findAll()).thenReturn(randomCollectionOf(10,Role.class));//Voorlopig nodig zodat er 10 aanwezig zijn
+
         mockMvc.perform(get("/roles"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
@@ -118,7 +127,7 @@ public class RoleRestControllerTest {
 
 
         // Verificatie actie naar dao
-        verify(roleDaoMock,times(1)).save(captor.capture());
+        verify(roleDaoMock,times(1)).update(captor.capture());
     }
 
     /**
@@ -165,8 +174,8 @@ public class RoleRestControllerTest {
     @Test
     public void destroyUser_noError() throws Exception {
         mockMvc.perform(delete("/roles/10").contentType(MediaType.APPLICATION_JSON).content(json))
-                .andExpect(status().isOk());
-        verify(roleDaoMock,times(1)).destroy(any());
+                .andExpect(status().isNoContent());
+        verify(roleDaoMock,times(1)).destroy(anyInt());
     }
 
     /**
@@ -174,7 +183,7 @@ public class RoleRestControllerTest {
      */
     @Test
     public void destroyUser_notFound() throws Exception {
-        when(roleDaoMock.destroy(any())).thenThrow(new EntityNotFoundException());
+        when(roleDaoMock.destroy(anyInt())).thenThrow(new EntityNotFoundException());
         mockMvc.perform(delete("/roles/10").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
                 .andExpect(status().isNotFound());
     }

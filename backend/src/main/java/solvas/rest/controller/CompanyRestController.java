@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import solvas.models.Company;
-import solvas.persistence.api.DaoContext;
+import solvas.persistence.api.dao.CompanyDao;
 import solvas.rest.api.mappers.CompanyMapper;
 import solvas.rest.api.models.ApiCompany;
 import solvas.rest.query.CompanyFilter;
@@ -24,14 +24,13 @@ public class CompanyRestController extends AbstractRestController<Company,ApiCom
     /**
      * Rest controller for Company
      *
-     * @param daoContext Autowired
+     * @param dao Autowired
      * @param mapper The mapper class for companies
      */
     @Autowired
-    public CompanyRestController(DaoContext daoContext, CompanyMapper mapper) {
-        super(daoContext.getCompanyDao(), mapper);
+    public CompanyRestController(CompanyDao dao, CompanyMapper mapper) {
+        super(dao, mapper);
     }
-
 
     /**
      * Query all models, accounting for pagination settings and respect the filters. The return value of this

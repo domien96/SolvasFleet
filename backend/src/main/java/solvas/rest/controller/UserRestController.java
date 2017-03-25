@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import solvas.models.User;
-import solvas.persistence.api.DaoContext;
+import solvas.persistence.api.dao.UserDao;
 import solvas.rest.api.mappers.UserAbstractMapper;
 import solvas.rest.api.models.ApiUser;
 import solvas.rest.query.UserFilter;
@@ -23,12 +23,12 @@ public class UserRestController extends AbstractRestController<User,ApiUser> {
     /**
      * Rest controller for User
      *
-     * @param daoContext Autowired
+     * @param dao Autowired
      * @param mapper The mapper class for users
      */
     @Autowired
-    public UserRestController(DaoContext daoContext, UserAbstractMapper mapper) {
-        super(daoContext.getUserDao(),mapper);
+    public UserRestController(UserDao dao, UserAbstractMapper mapper) {
+        super(dao,mapper);
     }
 
     /**
