@@ -1,10 +1,13 @@
 package solvas.rest.api.mappers;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriComponentsBuilder;
 import solvas.models.User;
 import solvas.persistence.api.DaoContext;
 import solvas.rest.api.mappers.exceptions.FieldNotFoundException;
 import solvas.persistence.api.EntityNotFoundException;
+import solvas.rest.SimpleUrlBuilder;
 import solvas.rest.api.models.ApiUser;
 
 /**
@@ -13,7 +16,7 @@ import solvas.rest.api.models.ApiUser;
 @Component
 public class UserAbstractMapper extends AbstractMapper<User,ApiUser> {
 
-    private String rootPath="/users/";
+    private static final String ROOTPATH ="/users/";
     /**
      * Create UserMapper
      *
@@ -44,7 +47,7 @@ public class UserAbstractMapper extends AbstractMapper<User,ApiUser> {
         copyAttributes(apiUser,user, "id","createdAt", "updatedAt");
         copySharedAttributes(apiUser, user);
 
-        apiUser.setUrl(rootPath+apiUser.getId());
+        apiUser.setUrl(SimpleUrlBuilder.buildUrl(ROOTPATH + "{id}", user.getId()));
         return apiUser;
     }
 }

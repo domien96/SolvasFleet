@@ -1,10 +1,13 @@
 package solvas.rest.api.mappers;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriComponentsBuilder;
 import solvas.models.Role;
 import solvas.persistence.api.DaoContext;
 import solvas.rest.api.mappers.exceptions.FieldNotFoundException;
 import solvas.persistence.api.EntityNotFoundException;
+import solvas.rest.SimpleUrlBuilder;
 import solvas.rest.api.models.ApiRole;
 
 /**
@@ -13,7 +16,7 @@ import solvas.rest.api.models.ApiRole;
 @Component
 public class RoleAbstractMapper extends AbstractMapper<Role,ApiRole> {
 
-    private String rootPath="/roles/";
+    private static final String ROOTPATH ="/roles/";
     /**
      * Create a mapper between Role and ApiRole
      *
@@ -45,9 +48,9 @@ public class RoleAbstractMapper extends AbstractMapper<Role,ApiRole> {
         ApiRole apiRole = new ApiRole();
         copyAttributes(apiRole, role, "id");
         copySharedAttributes(apiRole, role);
-        apiRole.setUrl(rootPath+apiRole.getId());
         apiRole.setCompany(role.getCompany().getId());
         apiRole.setUser(role.getUser().getId());
+        apiRole.setUrl(SimpleUrlBuilder.buildUrl(ROOTPATH + "{id}", role.getId()));
         return apiRole;
     }
 }

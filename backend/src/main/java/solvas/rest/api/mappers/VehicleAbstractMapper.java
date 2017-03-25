@@ -2,12 +2,15 @@ package solvas.rest.api.mappers;
 
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriComponentsBuilder;
 import solvas.models.Fleet;
 import solvas.models.FleetSubscription;
 import solvas.models.SubFleet;
 import solvas.models.Vehicle;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
+import solvas.rest.SimpleUrlBuilder;
 import solvas.rest.api.mappers.exceptions.DependantEntityNotFound;
 import solvas.rest.api.mappers.exceptions.FieldNotFoundException;
 import solvas.rest.api.models.ApiVehicle;
@@ -24,7 +27,7 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle, ApiVehicle> {
 
     private static final String FLEET_ATTRIBUTE = "fleet";
 
-    private String rootPath = "/vehicles/";
+    private static final String ROOTPATH = "/vehicles/";
 
     /**
      * TODO document
@@ -133,8 +136,7 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle, ApiVehicle> {
 
         api.setFleet(getApiFleet(vehicle));
         api.setType(vehicle.getType().getName());
-
-        api.setUrl(rootPath + api.getId());
+        api.setUrl(SimpleUrlBuilder.buildUrl(ROOTPATH + "{id}", vehicle.getId()));
         return api;
     }
 
