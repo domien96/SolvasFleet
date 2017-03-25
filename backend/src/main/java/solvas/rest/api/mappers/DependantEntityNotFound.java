@@ -4,7 +4,7 @@ package solvas.rest.api.mappers;
  * Thrown when a dependency could not be found by the code.
  * @author Niko Strijbol
  */
-public class DependantEntityNotFound extends RuntimeException {
+public class DependantEntityNotFound extends Exception {
 
     private final String field;
 
