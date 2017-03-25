@@ -15,7 +15,7 @@ import solvas.rest.api.models.ApiRole;
 @Component
 public class RoleAbstractMapper extends AbstractMapper<Role,ApiRole> {
 
-    private final String ROOTPATH ="/roles/";
+    private static final String ROOTPATH ="/roles/";
     /**
      * Create a mapper between Role and ApiRole
      *
