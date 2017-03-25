@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import solvas.models.Model;
 import solvas.persistence.api.Dao;
@@ -36,19 +35,16 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
 
     protected final Dao<T> dao;
     protected AbstractMapper<T, E> mapper;
-    protected final Validator validator;
 
     /**
      * Default constructor.
      *
      * @param dao       The dao to work with.
      * @param mapper    The mapper class for objects of domain model class T and API-model class E.
-     * @param validator The validator to use when creating/updating entities
      */
-    protected AbstractRestController(Dao<T> dao, AbstractMapper<T, E> mapper, Validator validator) {
+    protected AbstractRestController(Dao<T> dao, AbstractMapper<T, E> mapper) {
         this.dao = dao;
         this.mapper = mapper;
-        this.validator = validator;
     }
 
     /**
@@ -227,8 +223,7 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      * @param saveMethod The saveMethod (example: dao.update or dao.create)
      * @return ResponseEntity to return to user
      */
-    private ResponseEntity<?> save(E input, BindingResult binding, SaveMethod<E> saveMethod) throws DependantEntityNotFound,EntityNotFoundException {
-        validator.validate(input, binding);
+    private ResponseEntity<?> save(E input, BindingResult binding, SaveMethod<E> saveMethod) throws DependantEntityNotFound, EntityNotFoundException {
         if (!binding.hasErrors()) {
             return new ResponseEntity<>(saveMethod.run(), HttpStatus.OK);
         } else {

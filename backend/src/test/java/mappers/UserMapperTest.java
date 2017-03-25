@@ -14,7 +14,6 @@ import solvas.rest.api.models.ApiUser;
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.when;
 
 /**
@@ -64,9 +63,7 @@ public class UserMapperTest {
     @Test
     public void convertToUser() throws EntityNotFoundException {
         ApiUser user = random(ApiUser.class);
-        User random = random(User.class);
-        when(userDaoMock.find(anyInt())).thenReturn(random);
-
+        user.setId(0);
         User converted = mapper.convertToModel(user);
         assertThat(converted.getLastName(), is(user.getLastName()));
         assertThat(converted.getFirstName(), is(user.getFirstName()));
