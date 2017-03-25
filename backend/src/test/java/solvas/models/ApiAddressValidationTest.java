@@ -14,17 +14,22 @@ import static org.junit.Assert.assertEquals;
  *
  * @author Niko Strijbol
  */
-@SuppressWarnings({"squid:UndocumentedApi", "squid:S109"})
 public class ApiAddressValidationTest extends ValidationTest {
 
     private static final String CITY_FIELD = "city";
 
+    /**
+     * Test a valid instance.
+     */
     @Test
     public void testValid() {
         ApiAddress apiAddress = random(ApiAddress.class);
         assertEquals(0, validator.validate(apiAddress).size());
     }
 
+    /**
+     * Test an instance with a missing field.
+     */
     @Test
     public void testMissing() {
         ApiAddress apiAddress = random(ApiAddress.class, CITY_FIELD);
@@ -33,12 +38,18 @@ public class ApiAddressValidationTest extends ValidationTest {
         assertEquals(CITY_FIELD, v.iterator().next().getPropertyPath().iterator().next().getName());
     }
 
+    /**
+     * Test an instance with multiple missing fields.
+     */
     @Test
     public void testMultiple() {
         ApiAddress apiAddress = random(ApiAddress.class, CITY_FIELD, "street", "postalCode");
         assertEquals(3, validator.validate(apiAddress).size());
     }
 
+    /**
+     * Test an instance with an empty field.
+     */
     @Test
     public void testEmpty() {
         ApiAddress apiAddress = random(ApiAddress.class, CITY_FIELD);
@@ -48,6 +59,9 @@ public class ApiAddressValidationTest extends ValidationTest {
         assertEquals(CITY_FIELD, v.iterator().next().getPropertyPath().iterator().next().getName());
     }
 
+    /**
+     * Test an instance without any fields set.
+     */
     @Test
     public void testNone() {
         ApiAddress apiAddress = new ApiAddress();

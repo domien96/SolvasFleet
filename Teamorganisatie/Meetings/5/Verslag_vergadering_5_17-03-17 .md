@@ -1,4 +1,4 @@
-#07/03/17 - Vergadering 5
+#17/03/17 - Vergadering 5
 ###Presentatie en nabespreking Milestone 1
 Aanwezigen: Bastiaens Steven (sjabasti), Cousaert Benjamin (becousae), Mak Nils (nnmak), Strijbol Niko (nistrijb), Van Steendam Domien (dvsteend), VandenBussche Karel (klivdnbu)  
 

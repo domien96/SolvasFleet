@@ -82,7 +82,11 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      */
 
     protected ResponseEntity<?> getById(int id) {
-        return new ResponseEntity<>(mapper.convertToApiModel(dao.find(id)), HttpStatus.OK);
+        try {
+            return new ResponseEntity<>(mapper.convertToApiModel(dao.find(id)), HttpStatus.OK);
+        } catch (EntityNotFoundException e) {
+            return notFound();
+        }
     }
 
     /**
@@ -157,6 +161,7 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      * @param input   The model to save.
      * @param binding The binding to use to validate
      * @return Response with the saved model, or 400.
+     * @throws EntityNotFoundException Should never be thrown, because we're creating a new record. If this happens, a bug is found.
      */
     protected ResponseEntity<?> post(E input, BindingResult binding) {
         try {
@@ -166,6 +171,8 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
             });
         } catch (DependantEntityNotFound e) {
             return handleDependantNotFound(e);
+        } catch (EntityNotFoundException e) {
+            return notFound();
         }
     }
 
@@ -176,8 +183,12 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      * @return ResponseEntity
      */
     protected ResponseEntity<?> deleteById(int id) {
-        dao.destroy(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        try {
+            dao.destroy(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (EntityNotFoundException e) {
+            return notFound();
+        }
     }
 
     /**
@@ -198,6 +209,8 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
             });
         } catch (DependantEntityNotFound e) {
             return handleDependantNotFound(e);
+        } catch (EntityNotFoundException e) {
+            return notFound();
         }
     }
 
@@ -207,7 +220,7 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      * @param saveMethod The saveMethod (example: dao.update or dao.create)
      * @return ResponseEntity to return to user
      */
-    private ResponseEntity<?> save(E input, BindingResult binding, SaveMethod<E> saveMethod) {
+    private ResponseEntity<?> save(E input, BindingResult binding, SaveMethod<E> saveMethod) throws DependantEntityNotFound, EntityNotFoundException {
         if (!binding.hasErrors()) {
             return new ResponseEntity<>(saveMethod.run(), HttpStatus.OK);
         } else {
@@ -227,12 +240,13 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      *
      * @param <T> Type of the entity to save
      */
+    @FunctionalInterface
     protected interface SaveMethod<T> {
         /**
          * Method to run to save an entity
          *
          * @return the saved entity
          */
-        T run();
+        T run() throws DependantEntityNotFound,EntityNotFoundException;
     }
 }

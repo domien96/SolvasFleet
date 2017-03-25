@@ -27,7 +27,7 @@ public class VehicleFilter implements Filter<Vehicle> {
         List<Predicate> predicates = new ArrayList<>();
         if (vin != null) {
             predicates.add(builder.equal(
-                    builder.lower(root.get("vin")),
+                    builder.lower(root.get("chassisNumber")),
                     vin.toLowerCase()
             ));
         }

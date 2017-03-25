@@ -31,7 +31,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Integration tests of the RoleRestController
  * It checks HTTP responses and calls to the RoleDao
  */
-@SuppressWarnings("squid:S1192")
 public class RoleRestControllerTest {
 
     @Mock

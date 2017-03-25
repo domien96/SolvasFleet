@@ -34,7 +34,7 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle, ApiVehicle> {
     }
 
     @Override
-    public Vehicle convertToModel(ApiVehicle api) throws DependantEntityNotFound {
+    public Vehicle convertToModel(ApiVehicle api) throws DependantEntityNotFound, EntityNotFoundException {
 
         final Vehicle vehicle;
         if (api.getId() == 0) {
@@ -118,7 +118,7 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle, ApiVehicle> {
      * @param vehicle The Vehicle to subscribe
      * @param date The time subscription ends
      */
-    private void createSubscription(ApiVehicle api, FleetSubscription subscription, Vehicle vehicle, LocalDate date) {
+    private void createSubscription(ApiVehicle api, FleetSubscription subscription, Vehicle vehicle, LocalDate date) throws DependantEntityNotFound {
         try {
             Fleet fleet = daoContext.getFleetDao().find(api.getFleet());
             // This is a new subscription.
@@ -173,7 +173,7 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle, ApiVehicle> {
      * @param fleet   The fleet.
      * @param now     The current date.
      */
-    private void linkFleet(Vehicle vehicle, Fleet fleet, LocalDate now) {
+    private void linkFleet(Vehicle vehicle, Fleet fleet, LocalDate now) throws EntityNotFoundException {
 
         // Check for subfleet
         Collection<SubFleet> subFleets = daoContext.getSubFleetDao().findByFleet(fleet);
@@ -186,7 +186,7 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle, ApiVehicle> {
             SubFleet newFleet = new SubFleet();
             newFleet.setFleet(fleet);
             newFleet.setVehicleType(vehicle.getType());
-            return daoContext.getSubFleetDao().save(newFleet);
+            return daoContext.getSubFleetDao().create(newFleet);
         });
 
         FleetSubscription subscription = new FleetSubscription();

@@ -1,6 +1,8 @@
 package solvas.models;
 
+import org.hibernate.validator.HibernateValidator;
 import org.junit.Before;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import javax.validation.Validator;
 
@@ -18,6 +20,9 @@ public class ValidationTest {
      */
     @Before
     public void setUp() {
-        validator = ValidatorConfiguration.createFactory().getValidator();
+        LocalValidatorFactoryBean factoryBean = new LocalValidatorFactoryBean();
+        factoryBean.setProviderClass(HibernateValidator.class);
+        factoryBean.afterPropertiesSet();
+        validator = factoryBean.getValidator();
     }
 }

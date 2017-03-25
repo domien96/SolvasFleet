@@ -16,7 +16,7 @@ import solvas.models.Model;
 @NoRepositoryBean
 public interface Dao<T extends Model> extends PagingAndSortingRepository<T, Integer>, JpaSpecificationExecutor<T> {
 
-    default T find(int id) {
+    default T find(int id) throws EntityNotFoundException {
         T data = findOne(id);
         if (data == null) {
             throw new EntityNotFoundException();
@@ -24,13 +24,13 @@ public interface Dao<T extends Model> extends PagingAndSortingRepository<T, Inte
         return data;
     }
 
-    default T destroy(T entity) {
+    default T destroy(T entity) throws EntityNotFoundException {
         T data = find(entity.getId());
         delete(data);
         return data;
     }
 
-    default T destroy(int id) {
+    default T destroy(int id) throws EntityNotFoundException {
         T data = find(id);
         delete(id);
         return data;

@@ -34,7 +34,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Integration tests of the CompanyRestController
  * It checks HTTP responses and calls to the CompanyDao
  */
-@SuppressWarnings("squid:S1192")
 public class CompanyRestControllerTest{
     @Mock
     private CompanyMapper companyMapper;
