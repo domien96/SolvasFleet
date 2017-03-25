@@ -186,7 +186,7 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle, ApiVehicle> {
             SubFleet newFleet = new SubFleet();
             newFleet.setFleet(fleet);
             newFleet.setVehicleType(vehicle.getType());
-            return daoContext.getSubFleetDao().create(newFleet);
+            return daoContext.getSubFleetDao().save(newFleet);
         });
 
         FleetSubscription subscription = new FleetSubscription();
