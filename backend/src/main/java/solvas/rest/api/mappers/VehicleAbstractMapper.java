@@ -24,7 +24,7 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle, ApiVehicle> {
 
     private static final String FLEET_ATTRIBUTE = "fleet";
 
-    private final String rootPath = "/vehicles/";
+    private String rootPath = "/vehicles/";
 
     /**
      * TODO document
