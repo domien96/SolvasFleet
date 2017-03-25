@@ -16,9 +16,13 @@ class VehicleFilter extends React.Component<FilterProps, FilterState>{
 
 	constructor(){
 		super();
-		this.state = { filter: {fleet : '', type : ''}, typeDisplay: 'All vehicles' }
+		this.state = { filter: {fleet : '', type : '', leasingCompany: '', licensePlate: '', vin: '', year: ''}, typeDisplay: 'All vehicles' }
 		this.handleFilterFleet = this.handleFilterFleet.bind(this);
 		this.handleFilterType = this.handleFilterType.bind(this);
+		this.handleFilterLeasingCompany = this.handleFilterLeasingCompany.bind(this);
+		this.handleFilterLicensePlate = this.handleFilterLicensePlate.bind(this);
+		this.handleFilterVin = this.handleFilterVin.bind(this);
+		this.handleFilterYear = this.handleFilterYear.bind(this);
 		this.handleReset = this.handleReset.bind(this);
 	}
 
@@ -45,15 +49,52 @@ class VehicleFilter extends React.Component<FilterProps, FilterState>{
 		this.props.onFilter( newFilter );
 	}
 
+	handleFilterLeasingCompany(event : any){
+		var newFilter = this.state.filter;
+		newFilter.leasingCompany = event.target.value;
+		this.setState( {filter: newFilter} )
+		this.props.onFilter( newFilter );
+	}
+
+	handleFilterLicensePlate(event : any){
+		var newFilter = this.state.filter;
+		newFilter.licensePlate = event.target.value;
+		this.setState( {filter: newFilter} )
+		this.props.onFilter( newFilter );
+	}
+
+	handleFilterVin(event : any){
+		var newFilter = this.state.filter;
+		newFilter.vin = event.target.value;
+		this.setState( {filter: newFilter} )
+		this.props.onFilter( newFilter );
+	}
+
+	handleFilterYear(event : any){
+		var newFilter = this.state.filter;
+		newFilter.year = event.target.value;
+		this.setState( {filter: newFilter} )
+		this.props.onFilter( newFilter );
+	}
+
 	handleReset(){
-		var newFilter : VehicleFilterData = {fleet : '', type : ''};
+		var newFilter : VehicleFilterData = {fleet : '', type : '', leasingCompany: '', licensePlate: '', vin: '', year: ''};
 		this.setState( {filter: newFilter, typeDisplay: 'All vehicles'} );
 		this.props.onFilter(newFilter);
 	}
 
 	render(){
 		return(
-			<VehicleFilterLayout filter={ this.state.filter } typeDisplay={ this.state.typeDisplay } onFilterType={ this.handleFilterType } onFilterFleet={ this.handleFilterFleet } onReset={ this.handleReset }/>
+			<VehicleFilterLayout 
+				filter={ this.state.filter } 
+				typeDisplay={ this.state.typeDisplay } 
+				onFilterType={ this.handleFilterType } 
+				onFilterFleet={ this.handleFilterFleet } 
+				onFilterLeasingCompany={ this.handleFilterLeasingCompany } 
+				onFilterLicensePlate={ this.handleFilterLicensePlate } 
+				onFilterVin={ this.handleFilterVin } 
+				onFilterYear={ this.handleFilterYear } 
+				onReset={ this.handleReset }/>
 		);
 	}
 }

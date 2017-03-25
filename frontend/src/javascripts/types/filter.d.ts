@@ -5,7 +5,8 @@ interface Choice {
   callback : (value : string) => void;
 }
 
-interface Selection {
+interface Selectionfield {
+  name: string;
   title: string;
   choices : Choice[];
 }

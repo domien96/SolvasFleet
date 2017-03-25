@@ -24,14 +24,14 @@ import { ButtonGroup, DropdownButton, MenuItem } from 'react-bootstrap';
 	@param callback The function that gets called when the inputvalue changes
 */
 interface Props {
-  selections : Selection[];
+  selections : Selectionfield[];
   inputfields : Inputfield[];
   onReset : () => void;
 }
 
 const Filter : React.StatelessComponent<Props> = props => {
 
-	const dropdowns = props.selections.map((selection : Selection) => {
+	const dropdowns = props.selections.map((selection : Selectionfield) => {
 		const choices = selection.choices.map((choice : Choice) => {
 				return(
 					<MenuItem key={ choice.eventKey } eventKey={ choice.eventKey } onSelect={ choice.callback }>{ choice.name }</MenuItem>
@@ -39,7 +39,16 @@ const Filter : React.StatelessComponent<Props> = props => {
 			}
 		);
 		return(
-			<DropdownButton id={ selection.title } key={ selection.title } className='btn btn-default' title={ selection.title }>{ choices }</DropdownButton>
+			<div key={ selection.name }>
+				<div className='col-sm-12'>
+					<label>{ selection.name }</label>
+				</div>
+				<div className='col-sm-12'>
+					<ButtonGroup justified>
+						<DropdownButton id={ selection.title } key={ selection.title } className='btn btn-default' title={ selection.title }>{ choices }</DropdownButton>
+					</ButtonGroup>
+				</div>
+			</div>
 		);
 	}
 	);
@@ -59,20 +68,26 @@ const Filter : React.StatelessComponent<Props> = props => {
 		<div>
 		<Card>
 				<div className='card-title'>
+					<div className='col-sm-6'>
 					<h3>Filter</h3>
+					</div>
+					<div className='col-sm-6'>
+						<button className='btn btn-default pull-right' onClick={ props.onReset }>Reset filters</button>
+      		</div>
+      		<div className="clearfix" />
 				</div>
       <div className='card-content'>
-        <ButtonGroup justified>
-        	<div>
-        		{ dropdowns }
-        	</div>
-        	<div>
+        <div className='col-sm-6'>
+          <div>
         		{ inputfields }
         	</div>
-        	<div>
-        	  <button className='btn btn-default' onClick={ props.onReset }>Reset filters</button>
-        	</div>
-        </ButtonGroup>
+	      </div>
+	      <div className='col-sm-6'>
+	       	<div>
+	        	{ dropdowns }
+	        </div>
+        </div>	
+      	<div className="clearfix" />
       </div>
     </Card>
     </div>

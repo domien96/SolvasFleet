@@ -7,7 +7,7 @@ class Vehicles extends React.Component<{}, Vehicles.State> {
 
   constructor(props : {}) {
     super(props);
-    this.state = { vehicles: [], filter : {fleet : '', type : ''} };
+    this.state = { vehicles: [], filter : {fleet : '', type : '', leasingCompany: '', licensePlate: '', vin: '', year: ''} };
     this.handleFilter = this.handleFilter.bind(this);
   }
 

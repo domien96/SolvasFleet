@@ -8,12 +8,16 @@ interface Props {
   typeDisplay: string
   onFilterType : (type : string) => void;
   onFilterFleet : (fleet : any) => void;
+  onFilterLeasingCompany : (company : string | number) => void;
+  onFilterLicensePlate : (license : string) => void;
+  onFilterVin : (vin : string) => void;
+  onFilterYear : (year : string | number) => void;
   onReset: () => void;
 }
 
 const VehicleFilterLayout :  React.StatelessComponent<Props> = props => {
-  var { filter, typeDisplay, onFilterType, onFilterFleet } = props;
-  var { fleet } = filter;
+  var { filter, typeDisplay, onFilterType, onFilterFleet, onFilterLeasingCompany, onFilterLicensePlate, onFilterVin, onFilterYear } = props;
+  var { fleet, leasingCompany, licensePlate, vin, year } = filter;
 
   //Different choices for each type of vehicle
   var typeAllVehicles : Choice = {name:T.translate('vehicle.options.allVehicles'),  eventKey:'allVehicles',   callback:onFilterType};
@@ -25,16 +29,17 @@ const VehicleFilterLayout :  React.StatelessComponent<Props> = props => {
   
   var types : Choice[] = [typeAllVehicles, typePersonalCar, typeVan, typeSemiTrailer, typeTrailer, typeTruck];
 
-  //TODO: this gives a type error:
-  //error TS2322: Type '{ title: string; choices: Choice[]; }' is not assignable to type 'Selection'.
-  //Property 'anchorNode' is missing in type '{ title: string; choices: Choice[]; }'
-  var typeSelection : Selection = { title:typeDisplay, choices:types };
+  var typeSelection : Selectionfield = { name:'Vehicle type', title:typeDisplay, choices:types };
 
   //Different input fields for properties of a vehicle
-  var fleetInput : Inputfield = {name:'fleetId', value:fleet, type:'number', callback:onFilterFleet};
+  var fleetInput : Inputfield = {name:'Fleet ID', value:fleet, type:'number', callback:onFilterFleet};
+  var leasingCompanyInput : Inputfield = {name:'Leasing company ID', value:leasingCompany, type:'number', callback:onFilterLeasingCompany};
+  var licensePlateInput : Inputfield = {name:'License plate', value:licensePlate, type:'text', callback:onFilterLicensePlate};
+  var vinInput : Inputfield = {name:'Vehicle Identification Number', value:vin, type:'text', callback:onFilterVin};
+  var yearInput : Inputfield = {name:'Year', value:year, type:'number', callback:onFilterYear};
 
-  var selections : Selection[] = [typeSelection];
-  var inputfields : Inputfield[] = [fleetInput];
+  var selections : Selectionfield[] = [typeSelection];
+  var inputfields : Inputfield[] = [fleetInput, leasingCompanyInput, licensePlateInput, vinInput, yearInput];
 
   return(
     <Filter selections={ selections } inputfields={ inputfields } onReset={ props.onReset }/>
