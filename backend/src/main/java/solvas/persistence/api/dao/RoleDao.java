@@ -1,12 +1,16 @@
 package solvas.persistence.api.dao;
 
+import org.springframework.stereotype.Repository;
 import solvas.models.Role;
 import solvas.persistence.api.Dao;
 
 /**
- * DAO for a role.
- * Created by steve on 04/03/2017.
+ * DAO for roles.
+ *
+ * @author Steven Bastiaens
+ * @author Niko Strijbol
  */
+@Repository
 public interface RoleDao extends Dao<Role> {
 
 }

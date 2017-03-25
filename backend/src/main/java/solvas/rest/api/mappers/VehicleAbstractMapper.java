@@ -159,7 +159,7 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle, ApiVehicle> {
     private void linkFleet(Vehicle vehicle, Fleet fleet, LocalDate now) throws EntityNotFoundException {
 
         // Check for subfleet
-        Collection<SubFleet> subFleets = daoContext.getSubFleetDao().withFleetId(fleet.getId());
+        Collection<SubFleet> subFleets = daoContext.getSubFleetDao().findByFleet(fleet);
         // Filter if we already have a subtype or not.
         Optional<SubFleet> maybeFleet = subFleets.stream()
                 .filter(s -> vehicle.getType().getName().equals(s.getVehicleType().getName()))
@@ -169,7 +169,7 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle, ApiVehicle> {
             SubFleet newFleet = new SubFleet();
             newFleet.setFleet(fleet);
             newFleet.setVehicleType(vehicle.getType());
-            return daoContext.getSubFleetDao().create(newFleet);
+            return daoContext.getSubFleetDao().save(newFleet);
         });
 
         FleetSubscription subscription = new FleetSubscription();

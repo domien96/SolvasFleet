@@ -3,6 +3,8 @@ package solvas.rest.controller;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import org.springframework.beans.TypeMismatchException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -17,7 +19,6 @@ import solvas.persistence.api.Filter;
 import solvas.rest.api.mappers.AbstractMapper;
 import solvas.rest.api.mappers.exceptions.DependantEntityNotFound;
 import solvas.rest.api.models.ApiModel;
-import solvas.rest.query.Pageable;
 import solvas.rest.utils.JsonListWrapper;
 
 import java.util.*;
@@ -52,27 +53,23 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      * method will contain an object, according to the API spec.
      *
      * @param pagination       The pagination information.
-     * @param paginationResult The validation results of the pagination object.
      * @param filter           The filters.
      * @param filterResult     The validation results of the filterResult
      * @return ResponseEntity
      */
-    protected ResponseEntity<?> listAll(Pageable pagination, BindingResult paginationResult, Filter<T> filter, BindingResult filterResult) {
+    protected ResponseEntity<?> listAll(Pageable pagination, Filter<T> filter, BindingResult filterResult) {
 
         // If there are errors in the filtering, send bad request.
-        if (filterResult.hasErrors() || paginationResult.hasErrors()) {
+        if (filterResult.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        Collection<E> collection = new HashSet<>();
-        for (T item : dao.findAll(pagination, filter)) {
-            collection.add(mapper.convertToApiModel(item));
-        }
-        ArrayList<E> sortedList = new ArrayList<>(collection);
-        sortedList.sort(Comparator.comparingInt(Model::getId));
-        JsonListWrapper<E> wrapper = new JsonListWrapper<>(collection);
-        wrapper.put("limit", pagination.getLimit());
-        wrapper.put("offset", pagination.getLimit() * pagination.getPage());
+        Page<E> page = dao.findAll(filter, pagination)
+                .map(source -> mapper.convertToApiModel(source));
+
+        JsonListWrapper<E> wrapper = new JsonListWrapper<>(page.getContent());
+        wrapper.put("limit", pagination.getPageSize());
+        wrapper.put("offset", pagination.getOffset());
         wrapper.put("total", dao.count(filter));
         return new ResponseEntity<>(wrapper, HttpStatus.OK);
     }
@@ -170,7 +167,7 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
         try {
             return save(input, binding, () -> {
                 T model = mapper.convertToModel(input);
-                return mapper.convertToApiModel(dao.create(model));
+                return mapper.convertToApiModel(dao.save(model));
             });
         } catch (DependantEntityNotFound e) {
             return handleDependantNotFound(e);
@@ -187,11 +184,11 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      */
     protected ResponseEntity<?> deleteById(int id) {
         try {
-            dao.destroy(dao.find(id));
+            dao.destroy(id);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             return notFound();
         }
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     /**
@@ -208,7 +205,7 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
                 T model = mapper.convertToModel(input);
 
                 return mapper.convertToApiModel(dao
-                        .update(model));
+                        .save(model));
             });
         } catch (DependantEntityNotFound e) {
             return handleDependantNotFound(e);

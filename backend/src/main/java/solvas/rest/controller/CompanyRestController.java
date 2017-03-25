@@ -1,6 +1,7 @@
 package solvas.rest.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +10,6 @@ import solvas.persistence.api.DaoContext;
 import solvas.rest.api.mappers.CompanyMapper;
 import solvas.rest.api.models.ApiCompany;
 import solvas.rest.query.CompanyFilter;
-import solvas.rest.query.PaginationFilter;
 
 import javax.validation.Valid;
 
@@ -33,22 +33,19 @@ public class CompanyRestController extends AbstractRestController<Company,ApiCom
     }
 
 
-
-
     /**
      * Query all models, accounting for pagination settings and respect the filters. The return value of this
      * method will contain an object, according to the API spec.
      *
      * @param pagination The pagination information.
-     * @param paginationResult The validation results of the pagination object.
      * @param filter The filters.
      * @param result The validation results of the filterResult
      *
      * @return ResponseEntity
      */
     @RequestMapping(value = "/companies", method = RequestMethod.GET)
-    public ResponseEntity<?> listAll(PaginationFilter pagination, BindingResult paginationResult, CompanyFilter filter, BindingResult result) {
-        return super.listAll(pagination, paginationResult, filter, result);
+    public ResponseEntity<?> listAll(Pageable pagination, CompanyFilter filter, BindingResult result) {
+        return super.listAll(pagination, filter, result);
     }
 
     @Override
