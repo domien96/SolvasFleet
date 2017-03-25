@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 import solvas.models.User;
 import solvas.persistence.api.DaoContext;
 import solvas.rest.api.mappers.exceptions.FieldNotFoundException;
+import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.api.models.ApiUser;
 
 /**
@@ -23,22 +24,24 @@ public class UserAbstractMapper extends AbstractMapper<User,ApiUser> {
     }
 
     @Override
-    public User convertToModel(ApiUser apiUser) throws FieldNotFoundException {
+    public User convertToModel(ApiUser apiUser) throws FieldNotFoundException ,EntityNotFoundException {
+
         User user = new User();
         user.setId(apiUser.getId());
         if (user.getId()!=0) {
             //update
             user = daoContext.getUserDao().find(user.getId());
         }
-
         copySharedAttributes(user, apiUser);
+
+
         return user;
     }
 
     @Override
     public ApiUser convertToApiModel(User user) throws FieldNotFoundException {
         ApiUser apiUser = new ApiUser();
-        copyAttributes(user, apiUser, "id", "createdAt", "updatedAt");
+        copyAttributes(apiUser,user, "id","createdAt", "updatedAt");
         copySharedAttributes(apiUser, user);
 
         apiUser.setUrl(rootPath+apiUser.getId());

@@ -6,6 +6,7 @@ import solvas.rest.api.mappers.exceptions.DependantEntityNotFound;
 import solvas.rest.api.mappers.exceptions.FieldNotFoundException;
 
 import java.lang.reflect.Field;
+import solvas.persistence.api.EntityNotFoundException;
 
 /**
  * Mapper between a Model in the domain layer and it's representation in the REST API
@@ -42,7 +43,7 @@ public abstract class AbstractMapper<T extends Model, E> {
      * @param api An model according to the REST api
      * @return A Model in the persistence layer
      */
-    public abstract T convertToModel(E api) throws DependantEntityNotFound;
+    public abstract T convertToModel(E api) throws DependantEntityNotFound, EntityNotFoundException;
 
     /**
      * Convert a Model in the persistence layer to an ApiModel
@@ -68,6 +69,25 @@ public abstract class AbstractMapper<T extends Model, E> {
         }
     }
 
+
+    /**
+     * Searches a field of a class, if it is not found, it will search in its supperclasses
+     * @param clazz base class of which the field must be searched
+     * @param name attribute to copy
+     * @return Field with name
+     * @throws FieldNotFoundException If field wasn't found
+     */
+    private Field findFieldInSupper(Class<?> clazz, String name) {
+        Class<?> current = clazz;
+        do {
+            try {
+                return current.getDeclaredField(name);
+            } catch (NoSuchFieldException ignored) {}
+        } while((current = current.getSuperclass()) != null);
+        throw new FieldNotFoundException("Field "+name+"not found");
+    }
+
+
     /**
      * Copy attribute from source (if set), to target
      *
@@ -77,14 +97,19 @@ public abstract class AbstractMapper<T extends Model, E> {
      * @throws FieldNotFoundException If field wasn't found or was inaccessible
      */
     private void copyNotNull(Object target, Object source, String name) {
+        Field targetField = findFieldInSupper(target.getClass(),name);
+        Field sourceField = findFieldInSupper(source.getClass(),name);
         try {
-            Field targetField = target.getClass().getDeclaredField(name);
-            Field sourceField = source.getClass().getDeclaredField(name);
+            targetField.setAccessible(true);
+            sourceField.setAccessible(true);
             if (sourceField.get(source) != null) {
                 targetField.set(target, sourceField.get(source));
             }
-        } catch (NoSuchFieldException | IllegalAccessException e) {
+        } catch (IllegalAccessException e) {
             throw new FieldNotFoundException(e);
+        } finally {
+            targetField.setAccessible(false);
+            sourceField.setAccessible(false);
         }
     }
 

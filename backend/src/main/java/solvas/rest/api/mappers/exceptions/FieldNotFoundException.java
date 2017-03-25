@@ -14,4 +14,6 @@ public class FieldNotFoundException extends RuntimeException {
     public FieldNotFoundException(Exception e) {
         super(e);
     }
+
+    public FieldNotFoundException(String s) {super(s);}
 }

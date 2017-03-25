@@ -1,11 +1,15 @@
 package solvas.rest.api.models;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 /**
  * @author Niko Strijbol
  */
 public class ApiFleet extends ApiModel {
 
     private int company;
+
+    @NotEmpty
     private String name;
 
     public int getCompany() {

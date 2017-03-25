@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 import solvas.models.Role;
 import solvas.persistence.api.DaoContext;
 import solvas.rest.api.mappers.exceptions.FieldNotFoundException;
+import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.api.models.ApiRole;
 
 /**
@@ -23,7 +24,8 @@ public class RoleAbstractMapper extends AbstractMapper<Role,ApiRole> {
     }
 
     @Override
-    public Role convertToModel(ApiRole api) throws FieldNotFoundException {
+    public Role convertToModel(ApiRole api) throws FieldNotFoundException,EntityNotFoundException {
+
         Role role = new Role();
         role.setId(api.getId());
         if (role.getId()!=0) {

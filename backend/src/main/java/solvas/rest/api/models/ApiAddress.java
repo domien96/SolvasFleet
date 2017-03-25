@@ -1,13 +1,27 @@
 package solvas.rest.api.models;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
- * Created by steve on 11/03/2017.
+ * An address. Because of the difficulties involved in validating addresses, most attributes are only
+ * validated on existence, not on valid content.
+ *
+ * TODO: evaluate http://i18napis.appspot.com/address, as it contains a lot of data.
+ *
+ * @author Steven Bastiaens
+ * @author Niko Strijbol
  */
 public class ApiAddress {
+
+    @NotBlank
     private String city;
+    @NotBlank
     private String country;
+    @NotBlank
     private String houseNumber;
+    @NotBlank
     private String postalCode;
+    @NotBlank
     private String street;
 
     public ApiAddress() {

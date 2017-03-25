@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import solvas.models.Model;
 import solvas.persistence.api.Dao;
@@ -36,19 +35,16 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
 
     protected final Dao<T> dao;
     protected AbstractMapper<T, E> mapper;
-    protected final Validator validator;
 
     /**
      * Default constructor.
      *
      * @param dao       The dao to work with.
      * @param mapper    The mapper class for objects of domain model class T and API-model class E.
-     * @param validator The validator to use when creating/updating entities
      */
-    protected AbstractRestController(Dao<T> dao, AbstractMapper<T, E> mapper, Validator validator) {
+    protected AbstractRestController(Dao<T> dao, AbstractMapper<T, E> mapper) {
         this.dao = dao;
         this.mapper = mapper;
-        this.validator = validator;
     }
 
     /**
@@ -89,7 +85,11 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      */
 
     protected ResponseEntity<?> getById(int id) {
-        return new ResponseEntity<>(mapper.convertToApiModel(dao.find(id)), HttpStatus.OK);
+        try {
+            return new ResponseEntity<>(mapper.convertToApiModel(dao.find(id)), HttpStatus.OK);
+        } catch (EntityNotFoundException e) {
+            return notFound();
+        }
     }
 
     /**
@@ -164,6 +164,7 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      * @param input   The model to save.
      * @param binding The binding to use to validate
      * @return Response with the saved model, or 400.
+     * @throws EntityNotFoundException Should never be thrown, because we're creating a new record. If this happens, a bug is found.
      */
     protected ResponseEntity<?> post(E input, BindingResult binding) {
         try {
@@ -173,6 +174,8 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
             });
         } catch (DependantEntityNotFound e) {
             return handleDependantNotFound(e);
+        } catch (EntityNotFoundException e) {
+            return notFound();
         }
     }
 
@@ -183,7 +186,11 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      * @return ResponseEntity
      */
     protected ResponseEntity<?> deleteById(int id) {
-        dao.destroy(dao.find(id));
+        try {
+            dao.destroy(dao.find(id));
+        } catch (EntityNotFoundException e) {
+            return notFound();
+        }
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -205,6 +212,8 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
             });
         } catch (DependantEntityNotFound e) {
             return handleDependantNotFound(e);
+        } catch (EntityNotFoundException e) {
+            return notFound();
         }
     }
 
@@ -214,8 +223,7 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      * @param saveMethod The saveMethod (example: dao.update or dao.create)
      * @return ResponseEntity to return to user
      */
-    private ResponseEntity<?> save(E input, BindingResult binding, SaveMethod<E> saveMethod) {
-        validator.validate(input, binding);
+    private ResponseEntity<?> save(E input, BindingResult binding, SaveMethod<E> saveMethod) throws DependantEntityNotFound, EntityNotFoundException {
         if (!binding.hasErrors()) {
             return new ResponseEntity<>(saveMethod.run(), HttpStatus.OK);
         } else {
@@ -235,12 +243,13 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      *
      * @param <T> Type of the entity to save
      */
+    @FunctionalInterface
     protected interface SaveMethod<T> {
         /**
          * Method to run to save an entity
          *
          * @return the saved entity
          */
-        T run();
+        T run() throws DependantEntityNotFound,EntityNotFoundException;
     }
 }

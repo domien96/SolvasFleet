@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 import solvas.models.Company;
 import solvas.persistence.api.DaoContext;
 import solvas.rest.api.mappers.exceptions.FieldNotFoundException;
+import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.api.models.ApiAddress;
 import solvas.rest.api.models.ApiCompany;
 
@@ -25,7 +26,7 @@ public class CompanyMapper extends AbstractMapper<Company,ApiCompany> {
     }
 
     @Override
-    public Company convertToModel(ApiCompany apiCompany) throws FieldNotFoundException {
+    public Company convertToModel(ApiCompany apiCompany) throws FieldNotFoundException, EntityNotFoundException {
         Company company = new Company();
         company.setId(apiCompany.getId());
 
