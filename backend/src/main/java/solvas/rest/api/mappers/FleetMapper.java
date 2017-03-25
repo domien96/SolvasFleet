@@ -8,6 +8,7 @@ import solvas.models.Company;
 import solvas.models.Fleet;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
+import solvas.rest.SimpleUrlBuilder;
 import solvas.rest.api.models.ApiFleet;
 
 /**
@@ -59,8 +60,7 @@ public class FleetMapper extends AbstractMapper<Fleet, ApiFleet> {
         fleet.setCreatedAt(model.getCreatedAt());
         fleet.setUpdatedAt(model.getUpdatedAt());
         fleet.setLastUpdatedBy(0);
-        UriComponentsBuilder bldr = ServletUriComponentsBuilder.fromCurrentRequest();
-        fleet.setUrl(bldr.path(ROOTPATH +"{id}").buildAndExpand(model.getId()).toUriString());
+        fleet.setUrl(SimpleUrlBuilder.buildUrl(ROOTPATH + "{id}", model.getId()));
         return fleet;
     }
 }

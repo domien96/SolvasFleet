@@ -6,6 +6,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import solvas.models.Role;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
+import solvas.rest.SimpleUrlBuilder;
 import solvas.rest.api.models.ApiRole;
 
 /**
@@ -50,8 +51,7 @@ public class RoleAbstractMapper extends AbstractMapper<Role,ApiRole> {
         apiRole.setFunction(role.getFunction());
         apiRole.setStartDate(role.getStartDate());
         apiRole.setEndDate(role.getEndDate());
-        UriComponentsBuilder bldr = ServletUriComponentsBuilder.fromCurrentRequest();
-        apiRole.setUrl(bldr.path(ROOTPATH +"{id}").buildAndExpand(role.getId()).toUriString());
+        apiRole.setUrl(SimpleUrlBuilder.buildUrl(ROOTPATH + "{id}", role.getId()));
         return apiRole;
     }
 }

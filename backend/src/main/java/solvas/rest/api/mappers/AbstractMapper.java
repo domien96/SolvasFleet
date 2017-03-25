@@ -12,7 +12,7 @@ import solvas.persistence.api.EntityNotFoundException;
  * @param <E> class of the api model class.
  * Created by steve on 11/03/2017.
  */
-public abstract class AbstractMapper<T extends Model,E> extends ServletUriComponentsBuilder {
+public abstract class AbstractMapper<T extends Model,E> {
 
     protected final DaoContext daoContext;
 

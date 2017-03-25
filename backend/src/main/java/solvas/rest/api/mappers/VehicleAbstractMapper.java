@@ -10,6 +10,7 @@ import solvas.models.SubFleet;
 import solvas.models.Vehicle;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
+import solvas.rest.SimpleUrlBuilder;
 import solvas.rest.api.models.ApiVehicle;
 
 import java.time.LocalDate;
@@ -153,8 +154,7 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle, ApiVehicle> {
         api.setType(vehicle.getType().getName());
         api.setUpdatedAt(vehicle.getUpdatedAt());
         api.setCreatedAt(vehicle.getCreatedAt());
-        UriComponentsBuilder bldr = ServletUriComponentsBuilder.fromCurrentRequest();
-        api.setUrl(bldr.path(ROOTPATH +"{id}").buildAndExpand(vehicle.getId()).toUriString());
+        api.setUrl(SimpleUrlBuilder.buildUrl(ROOTPATH + "{id}", vehicle.getId()));
         return api;
     }
 
