@@ -16,13 +16,13 @@ import static org.hamcrest.beans.SamePropertyValuesAs.samePropertyValuesAs;
 public class DefaultDaoTest extends DaoTest {
 
     @Autowired
-    public VehicleDao vehicleDao;
+    private VehicleDao vehicleDao;
 
     /**
      * Test that finding a valid entity does not throw an exception.
      */
     @Test
-    public void testNoException() {
+    public void testNoException() throws EntityNotFoundException {
         // Test using vehicles.
         Vehicle vehicle = manager.find(Vehicle.class, 1);
         Vehicle vehicle1 = vehicleDao.find(1);
