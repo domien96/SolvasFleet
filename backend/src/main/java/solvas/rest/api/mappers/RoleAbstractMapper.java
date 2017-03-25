@@ -1,10 +1,13 @@
 package solvas.rest.api.mappers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import solvas.models.Role;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.api.models.ApiRole;
+
+import java.net.UnknownHostException;
 
 /**
  * Mapper between Role and ApiRole
@@ -18,8 +21,13 @@ public class RoleAbstractMapper extends AbstractMapper<Role,ApiRole> {
      *
      * @param daoContext The DaoContext this mapper should work with
      */
-    public RoleAbstractMapper(DaoContext daoContext) {
+    @Autowired
+    public RoleAbstractMapper(DaoContext daoContext) throws UnknownHostException {
         super(daoContext);
+    }
+
+    public RoleAbstractMapper(DaoContext daoContext,String urlroot) {
+        super(daoContext,urlroot);
     }
 
     @Override

@@ -1,10 +1,13 @@
 package solvas.rest.api.mappers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import solvas.models.User;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.api.models.ApiUser;
+
+import java.net.UnknownHostException;
 
 /**
  * Mapper between User and ApiUser
@@ -18,8 +21,13 @@ public class UserAbstractMapper extends AbstractMapper<User,ApiUser> {
      *
      * @param daoContext The DAO context
      */
-    public UserAbstractMapper(DaoContext daoContext) {
+    @Autowired
+    public UserAbstractMapper(DaoContext daoContext) throws UnknownHostException {
         super(daoContext);
+    }
+
+    public UserAbstractMapper(DaoContext daoContext,String urlroot) {
+        super(daoContext,urlroot);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package solvas.rest.api.mappers;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import solvas.models.Fleet;
 import solvas.models.FleetSubscription;
@@ -10,6 +11,7 @@ import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.api.models.ApiVehicle;
 
+import java.net.UnknownHostException;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Optional;
@@ -29,8 +31,13 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle, ApiVehicle> {
      *
      * @param daoContext
      */
-    public VehicleAbstractMapper(DaoContext daoContext) {
+    @Autowired
+    public VehicleAbstractMapper(DaoContext daoContext) throws UnknownHostException {
         super(daoContext);
+    }
+
+    public VehicleAbstractMapper(DaoContext daoContext,String urlroot) {
+        super(daoContext,urlroot);
     }
 
     @Override
@@ -70,7 +77,7 @@ public class VehicleAbstractMapper extends AbstractMapper<Vehicle, ApiVehicle> {
             vehicle.setBrand(api.getBrand());
         }
         if (api.getType() != null) {
-            vehicle.setType(new VehicleTypeAbstractMapper(daoContext).convertToModel(api.getType()));
+            vehicle.setType(new VehicleTypeAbstractMapper(daoContext,this.urlroot).convertToModel(api.getType()));
         }
 
         // Create a link between everything.

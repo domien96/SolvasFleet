@@ -8,6 +8,8 @@ import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.api.models.ApiFleet;
 
+import java.net.UnknownHostException;
+
 /**
  * @author Niko Strijbol
  */
@@ -22,8 +24,12 @@ public class FleetMapper extends AbstractMapper<Fleet, ApiFleet> {
      * @param daoContext autowired
      */
     @Autowired
-    public FleetMapper(DaoContext daoContext) {
+    public FleetMapper(DaoContext daoContext) throws UnknownHostException {
         super(daoContext);
+    }
+
+    public FleetMapper(DaoContext daoContext,String urlroot) {
+        super(daoContext,urlroot);
     }
 
     @Override
