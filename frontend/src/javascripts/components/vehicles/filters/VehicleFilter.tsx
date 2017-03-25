@@ -2,6 +2,7 @@ import React from 'react';
 import T     from 'i18n-react';
 
 import VehicleFilterLayout from './VehicleFilterLayout.tsx'
+import HiddenFilter from '../../filters/HiddenFilter.tsx'
 
 interface FilterProps {
   onFilter : (filter : VehicleFilterData) => void;
@@ -10,13 +11,14 @@ interface FilterProps {
 interface FilterState {
   filter : VehicleFilterData;
   typeDisplay: string;
+  hidden: boolean;
 }
 
 class VehicleFilter extends React.Component<FilterProps, FilterState>{
 
 	constructor(){
 		super();
-		this.state = { filter: {fleet : '', type : '', leasingCompany: '', licensePlate: '', vin: '', year: ''}, typeDisplay: 'All vehicles' }
+		this.state = { filter: {fleet : '', type : '', leasingCompany: '', licensePlate: '', vin: '', year: ''}, typeDisplay: 'All vehicles', hidden:false };
 		this.handleFilterFleet = this.handleFilterFleet.bind(this);
 		this.handleFilterType = this.handleFilterType.bind(this);
 		this.handleFilterLeasingCompany = this.handleFilterLeasingCompany.bind(this);
@@ -24,6 +26,8 @@ class VehicleFilter extends React.Component<FilterProps, FilterState>{
 		this.handleFilterVin = this.handleFilterVin.bind(this);
 		this.handleFilterYear = this.handleFilterYear.bind(this);
 		this.handleReset = this.handleReset.bind(this);
+		this.handleHide = this.handleHide.bind(this);
+		this.handleShow = this.handleShow.bind(this);
 	}
 
 	handleFilterFleet(event : any){
@@ -83,19 +87,37 @@ class VehicleFilter extends React.Component<FilterProps, FilterState>{
 		this.props.onFilter(newFilter);
 	}
 
+	handleHide(){
+		this.setState({ hidden: true });
+	}
+
+	handleShow(){
+		this.setState({ hidden: false });
+	}
+
 	render(){
-		return(
-			<VehicleFilterLayout 
-				filter={ this.state.filter } 
-				typeDisplay={ this.state.typeDisplay } 
-				onFilterType={ this.handleFilterType } 
-				onFilterFleet={ this.handleFilterFleet } 
-				onFilterLeasingCompany={ this.handleFilterLeasingCompany } 
-				onFilterLicensePlate={ this.handleFilterLicensePlate } 
-				onFilterVin={ this.handleFilterVin } 
-				onFilterYear={ this.handleFilterYear } 
-				onReset={ this.handleReset }/>
-		);
+
+		if(this.state.hidden){
+			return(
+				<HiddenFilter onReset={ this.handleReset } onShow={ this.handleShow }/>
+			);
+		}
+		else{
+			return(
+				<VehicleFilterLayout 
+					filter={ this.state.filter } 
+					typeDisplay={ this.state.typeDisplay } 
+					onFilterType={ this.handleFilterType } 
+					onFilterFleet={ this.handleFilterFleet } 
+					onFilterLeasingCompany={ this.handleFilterLeasingCompany } 
+					onFilterLicensePlate={ this.handleFilterLicensePlate } 
+					onFilterVin={ this.handleFilterVin } 
+					onFilterYear={ this.handleFilterYear } 
+					onReset={ this.handleReset }
+					onHide={ this.handleHide }
+				/>
+			);
+		}
 	}
 }
 

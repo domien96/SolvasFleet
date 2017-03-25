@@ -7,7 +7,8 @@ import { ButtonGroup, DropdownButton, MenuItem } from 'react-bootstrap';
 
 	@param selections is a list of Selection objects
 
-	Selection is an object with 2 variables: 
+	Selection is an object with 3 variables: 
+	@param name The name of the property that has choices
 	@param title The current selected value of the possible choices
 	@param choices A map of choices
 
@@ -22,11 +23,14 @@ import { ButtonGroup, DropdownButton, MenuItem } from 'react-bootstrap';
 	@param value The current entered value in the inputfield
 	@param type The type of data required in the inputfield
 	@param callback The function that gets called when the inputvalue changes
+
+	@param onReset A function that clears all input fields and sets the selections to their default choice
 */
 interface Props {
   selections : Selectionfield[];
   inputfields : Inputfield[];
   onReset : () => void;
+  onHide : () => void;
 }
 
 const Filter : React.StatelessComponent<Props> = props => {
@@ -73,6 +77,7 @@ const Filter : React.StatelessComponent<Props> = props => {
 					</div>
 					<div className='col-sm-6'>
 						<button className='btn btn-default pull-right' onClick={ props.onReset }>Reset filters</button>
+						<button className='btn btn-default pull-right' onClick={ props.onHide }>Hide</button>
       		</div>
       		<div className="clearfix" />
 				</div>

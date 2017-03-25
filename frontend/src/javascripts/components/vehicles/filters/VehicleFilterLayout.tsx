@@ -13,6 +13,7 @@ interface Props {
   onFilterVin : (vin : string) => void;
   onFilterYear : (year : string | number) => void;
   onReset: () => void;
+  onHide: () => void;
 }
 
 const VehicleFilterLayout :  React.StatelessComponent<Props> = props => {
@@ -42,7 +43,7 @@ const VehicleFilterLayout :  React.StatelessComponent<Props> = props => {
   var inputfields : Inputfield[] = [fleetInput, leasingCompanyInput, licensePlateInput, vinInput, yearInput];
 
   return(
-    <Filter selections={ selections } inputfields={ inputfields } onReset={ props.onReset }/>
+    <Filter selections={ selections } inputfields={ inputfields } onReset={ props.onReset } onHide={ props.onHide }/>
   );
 }
 
