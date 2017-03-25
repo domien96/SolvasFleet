@@ -42,8 +42,7 @@ public class CompanyMapperTest {
      * Test the conversion ApiCompany->Company
      */
     @Test
-    public void convertToCompany() throws EntityNotFoundException
-    {
+    public void convertToCompany() throws EntityNotFoundException {
         ApiCompany apiCompany = random(ApiCompany.class);
         Company random = random(Company.class);
         random.setId(apiCompany.getId());
