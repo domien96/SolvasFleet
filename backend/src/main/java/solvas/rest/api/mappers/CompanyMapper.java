@@ -16,7 +16,7 @@ import solvas.rest.api.models.ApiCompany;
 @Component
 public class CompanyMapper extends AbstractMapper<Company,ApiCompany> {
 
-    private String ROOTPATH ="/companies/";
+    private final String ROOTPATH ="/companies/";
 
     /**
      * Create a mapper between Company and ApiCompany
