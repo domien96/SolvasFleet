@@ -50,7 +50,8 @@ public class ApiUserValidationTest extends ValidationTest {
     @Test
     public void testNullsAndEmpty() {
         ApiUser user = new ApiUser();
-        assertEquals(3, validator.validate(user).size());
+        validator.validate(user);
+        assertEquals(4, validator.validate(user).size()); //4 erros Password not null, lastname,email,firstname
         user.setFirstName("");
         user.setLastName("");
         user.setPassword("");

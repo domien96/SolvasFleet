@@ -1,4 +1,4 @@
-package solvas.rest.api.mappers;
+package solvas.rest.api.mappers.exceptions;
 
 /**
  * Thrown when a dependency could not be found by the code.

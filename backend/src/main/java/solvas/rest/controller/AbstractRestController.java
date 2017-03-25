@@ -15,7 +15,7 @@ import solvas.persistence.api.Dao;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.Filter;
 import solvas.rest.api.mappers.AbstractMapper;
-import solvas.rest.api.mappers.DependantEntityNotFound;
+import solvas.rest.api.mappers.exceptions.DependantEntityNotFound;
 import solvas.rest.api.models.ApiModel;
 import solvas.rest.query.Pageable;
 import solvas.rest.utils.JsonListWrapper;

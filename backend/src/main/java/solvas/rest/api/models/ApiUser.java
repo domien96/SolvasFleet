@@ -3,12 +3,14 @@ package solvas.rest.api.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
+import solvas.models.validators.Password;
 
 import javax.validation.constraints.NotNull;
 
 /**
- * Created by steve on 11/03/2017.
+ * @author Steven Bastiaens
  */
+@Password
 public class ApiUser extends ApiModel {
 
     @Email
@@ -20,6 +22,7 @@ public class ApiUser extends ApiModel {
     private String lastName;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+
     private String password;
 
     public String getEmail() {

@@ -5,6 +5,8 @@ import org.springframework.stereotype.Component;
 import solvas.models.Company;
 import solvas.models.Fleet;
 import solvas.persistence.api.DaoContext;
+import solvas.rest.api.mappers.exceptions.DependantEntityNotFound;
+import solvas.rest.api.mappers.exceptions.FieldNotFoundException;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.api.models.ApiFleet;
 
@@ -23,11 +25,12 @@ public class FleetMapper extends AbstractMapper<Fleet, ApiFleet> {
      */
     @Autowired
     public FleetMapper(DaoContext daoContext) {
-        super(daoContext);
+        super(daoContext, "name");
     }
 
     @Override
-    public Fleet convertToModel(ApiFleet api) throws DependantEntityNotFound,EntityNotFoundException {
+    public Fleet convertToModel(ApiFleet api) throws DependantEntityNotFound
+                ,EntityNotFoundException,FieldNotFoundException {
         Fleet fleet;
         if (api.getId() == 0) {
             fleet = new Fleet();
@@ -35,9 +38,8 @@ public class FleetMapper extends AbstractMapper<Fleet, ApiFleet> {
             fleet = daoContext.getFleetDao().find(api.getId());
         }
 
-        if (api.getName() != null) {
-            fleet.setName(api.getName());
-        }
+        copySharedAttributes(fleet, api);
+
         try {
             Company company = daoContext.getCompanyDao().find(api.getCompany());
             fleet.setCompany(company);
@@ -49,13 +51,13 @@ public class FleetMapper extends AbstractMapper<Fleet, ApiFleet> {
     }
 
     @Override
-    public ApiFleet convertToApiModel(Fleet model) {
+    public ApiFleet convertToApiModel(Fleet model) throws FieldNotFoundException {
         ApiFleet fleet = new ApiFleet();
-        fleet.setId(model.getId());
+
+        copySharedAttributes(fleet, model);
+        copyAttributes(fleet, model, "createdAt", "updatedAt", "id");
+
         fleet.setCompany(model.getCompany() == null ? 0 : model.getCompany().getId());
-        fleet.setName(model.getName());
-        fleet.setCreatedAt(model.getCreatedAt());
-        fleet.setUpdatedAt(model.getUpdatedAt());
         fleet.setLastUpdatedBy(0);
         fleet.setUrl(ROOT + model.getId());
         return fleet;
