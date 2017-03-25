@@ -44,8 +44,7 @@ public class CompanyDaoTest {
      * Test: adding a company to the database
      */
     @Test
-    public void addCompany()
-    {
+    public void addCompany() throws EntityNotFoundException {
         companyDao.create(company);
         assertThat(companyDao.findAll(),hasSize(101));
         assertCompanies(company,companyDao.find(company.getId()));
@@ -56,8 +55,7 @@ public class CompanyDaoTest {
      */
 
     @Test(expected = EntityNotFoundException.class)
-    public void destroyCompany()
-    {
+    public void destroyCompany() throws EntityNotFoundException {
         companyDao.save(company);
         assertThat(companyDao.findAll(),hasSize(101));
         companyDao.destroy(company);
@@ -69,8 +67,7 @@ public class CompanyDaoTest {
      * Test: updating a company on the database
      */
     @Test
-    public void updateCompany()
-    {
+    public void updateCompany() throws EntityNotFoundException {
         Company old = companyDao.find(30);
         company.setId(30);
         company.setRepresentatives(old.getRepresentatives());
@@ -82,8 +79,7 @@ public class CompanyDaoTest {
      * Test: finding a company on the database
      */
     @Test
-    public void findCompanyById()
-    {
+    public void findCompanyById() throws EntityNotFoundException {
         companyDao.create(company);
         //Dao automatically changes the id of the object aswell
         assertCompanies(company,companyDao.find(company.getId()));

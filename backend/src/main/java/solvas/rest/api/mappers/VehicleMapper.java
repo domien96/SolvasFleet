@@ -8,6 +8,8 @@ import solvas.models.SubFleet;
 import solvas.models.Vehicle;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
+import solvas.rest.api.mappers.exceptions.DependantEntityNotFound;
+import solvas.rest.api.mappers.exceptions.FieldNotFoundException;
 import solvas.rest.api.models.ApiVehicle;
 
 import java.time.LocalDate;
@@ -25,26 +27,27 @@ public class VehicleMapper extends AbstractMapper<Vehicle, ApiVehicle> {
     private String rootPath = "/vehicles/";
 
     /**
-     * TODO document
+     * Maps a apiVehicle on our own vehicles
      *
-     * @param daoContext
+     * @param daoContext context for connecting entity's
      */
     public VehicleMapper(DaoContext daoContext) {
-        super(daoContext);
+        super(daoContext, "id", "licensePlate", "model", "year", "value", "brand");
     }
 
-    @Override
-    public Vehicle convertToModel(ApiVehicle api) throws DependantEntityNotFound {
-        Vehicle vehicle=api.getId()==0?new Vehicle():daoContext.getVehicleDao().find(api.getId());
 
-        vehicle.setLicensePlate(api.getLicensePlate());
+    @Override
+    public Vehicle convertToModel(ApiVehicle api) throws DependantEntityNotFound,
+            FieldNotFoundException, EntityNotFoundException {
+        final Vehicle vehicle=api.getId()==0 ? new Vehicle() : daoContext.getVehicleDao().find(api.getId());
+        copySharedAttributes(vehicle, api);
+        vehicle.setKilometerCount(api.getMileage()); //Todo replace kilometerCount to mileage so it is a shared Attribute
         vehicle.setChassisNumber(api.getVin());
-        vehicle.setModel(api.getModel());
-        vehicle.setKilometerCount(api.getMileage());
-        vehicle.setYear(api.getYear());
-        vehicle.setLeasingCompany(daoContext.getCompanyDao().find(api.getLeasingCompany()));
-        vehicle.setValue(api.getValue());
-        vehicle.setBrand(api.getBrand());
+
+        if (api.getLeasingCompany() != 0) {
+            vehicle.setLeasingCompany(daoContext.getCompanyDao().find(api.getLeasingCompany()));
+        }
+
         vehicle.setType(new VehicleTypeMapper(daoContext).convertToModel(api.getType()));
 
         // Create a link between everything.
@@ -87,12 +90,13 @@ public class VehicleMapper extends AbstractMapper<Vehicle, ApiVehicle> {
 
     /**
      * Subscribe a Vehicle to a fleet
-     * @param api The ApiVehicle corresponding to Vehicle
+     *
+     * @param api          The ApiVehicle corresponding to Vehicle
      * @param subscription The subscription model
-     * @param vehicle The Vehicle to subscribe
-     * @param date The time subscription ends
+     * @param vehicle      The Vehicle to subscribe
+     * @param date         The time subscription ends
      */
-    private void createSubscription(ApiVehicle api, FleetSubscription subscription, Vehicle vehicle, LocalDate date) {
+    private void createSubscription(ApiVehicle api, FleetSubscription subscription, Vehicle vehicle, LocalDate date) throws DependantEntityNotFound {
         try {
             Fleet fleet = daoContext.getFleetDao().find(api.getFleet());
             // This is a new subscription.
@@ -109,22 +113,19 @@ public class VehicleMapper extends AbstractMapper<Vehicle, ApiVehicle> {
     }
 
     @Override
-    public ApiVehicle convertToApiModel(Vehicle vehicle) {
+    public ApiVehicle convertToApiModel(Vehicle vehicle) throws FieldNotFoundException {
         ApiVehicle api = new ApiVehicle();
-        api.setId(vehicle.getId());
-        api.setId(vehicle.getId());
-        api.setLicensePlate(vehicle.getLicensePlate());
-        api.setVin(vehicle.getChassisNumber());
-        api.setModel(vehicle.getModel());
+        copyAttributes( api, vehicle,"createdAt", "updatedAt");
+        copySharedAttributes(api, vehicle);
+
+
         api.setMileage(vehicle.getKilometerCount());
-        api.setYear(vehicle.getYear());
+        api.setVin(vehicle.getChassisNumber());
         api.setLeasingCompany(vehicle.getLeasingCompany() == null ? 0 : vehicle.getLeasingCompany().getId());
-        api.setValue(vehicle.getValue());//api.getValue()
-        api.setBrand(vehicle.getBrand());
+
         api.setFleet(getApiFleet(vehicle));
         api.setType(vehicle.getType().getName());
-        api.setUpdatedAt(vehicle.getUpdatedAt());
-        api.setCreatedAt(vehicle.getCreatedAt());
+
         api.setUrl(rootPath + api.getId());
         return api;
     }
@@ -147,7 +148,7 @@ public class VehicleMapper extends AbstractMapper<Vehicle, ApiVehicle> {
      * @param fleet   The fleet.
      * @param now     The current date.
      */
-    private void linkFleet(Vehicle vehicle, Fleet fleet, LocalDate now) {
+    private void linkFleet(Vehicle vehicle, Fleet fleet, LocalDate now) throws EntityNotFoundException {
 
         // Check for subfleet
         Collection<SubFleet> subFleets = daoContext.getSubFleetDao().withFleetId(fleet.getId());
@@ -160,7 +161,7 @@ public class VehicleMapper extends AbstractMapper<Vehicle, ApiVehicle> {
             SubFleet newFleet = new SubFleet();
             newFleet.setFleet(fleet);
             newFleet.setVehicleType(vehicle.getType());
-            return daoContext.getSubFleetDao().save(newFleet);
+            return daoContext.getSubFleetDao().create(newFleet);
         });
 
         FleetSubscription subscription = new FleetSubscription();

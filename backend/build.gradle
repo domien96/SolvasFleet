@@ -31,6 +31,10 @@ dependencies {
     compile 'org.springframework:spring-orm'
     compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 
+    // Validations
+    compile 'org.hibernate:hibernate-validator:5.4.0.Final'
+    compile 'com.googlecode.libphonenumber:libphonenumber:8.3.3'
+
     // We want newer versions of these, so we add the version.
     compile 'org.flywaydb:flyway-core:4.1.1'
     compile 'org.hibernate:hibernate-core:5.2.8.Final'

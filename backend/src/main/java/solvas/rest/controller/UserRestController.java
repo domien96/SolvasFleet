@@ -5,11 +5,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import solvas.models.User;
-import solvas.models.validators.UserValidator;
+import solvas.persistence.api.DaoContext;
 import solvas.rest.api.models.ApiUser;
 import solvas.rest.query.PaginationFilter;
 import solvas.rest.query.UserFilter;
 import solvas.rest.service.UserService;
+
+import javax.validation.Valid;
 
 /**
  * Rest controller for User
@@ -22,11 +24,10 @@ public class UserRestController extends AbstractRestController<User,ApiUser> {
      * Rest controller for User
      *
      * @param service service class for users
-     * @param validator Validator for users
      */
     @Autowired
-    public UserRestController(UserService service, UserValidator validator) {
-        super(validator,service);
+    public UserRestController(UserService service) {
+        super( service);
     }
 
     /**
@@ -53,7 +54,7 @@ public class UserRestController extends AbstractRestController<User,ApiUser> {
 
     @Override
     @RequestMapping(value = "/users", method = RequestMethod.POST)
-    public ResponseEntity<?> post(@RequestBody ApiUser input,BindingResult result) {
+    public ResponseEntity<?> post(@RequestBody @Valid ApiUser input, BindingResult result) {
         return super.post(input,result);
     }
 
@@ -65,7 +66,7 @@ public class UserRestController extends AbstractRestController<User,ApiUser> {
 
     @Override
     @RequestMapping(value = "/users/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> put(@PathVariable int id, @RequestBody ApiUser input,BindingResult result) {
+    public ResponseEntity<?> put(@PathVariable int id, @Valid @RequestBody ApiUser input,BindingResult result) {
         return super.put(id, input,result);
     }
 }

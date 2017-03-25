@@ -6,8 +6,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import solvas.models.Vehicle;
 import solvas.persistence.api.DaoContext;
+import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.dao.*;
 import solvas.rest.api.mappers.VehicleMapper;
+import solvas.rest.api.mappers.exceptions.DependantEntityNotFound;
 import solvas.rest.api.models.ApiVehicle;
 
 import java.util.Optional;
@@ -62,8 +64,7 @@ public class VehicleMapperTest {
      * Test the conversion ApiVehicle->Vehicle
      */
     @Test
-    public void convertToVehicle()
-    {
+    public void convertToVehicle() throws EntityNotFoundException, DependantEntityNotFound {
         ApiVehicle apiVehicle = random(ApiVehicle.class);
         Vehicle random = random(Vehicle.class);
         random.setId(apiVehicle.getId());

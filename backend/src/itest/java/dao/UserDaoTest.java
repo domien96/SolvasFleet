@@ -42,8 +42,7 @@ public class UserDaoTest {
      * Test: adding a user to the database
      */
     @Test
-    public void addUser()
-    {
+    public void addUser() throws EntityNotFoundException {
         userDao.save(user);
         assertThat(userDao.findAll(),hasSize(101));
         assertUsers(user,userDao.find(user.getId()));
@@ -54,8 +53,7 @@ public class UserDaoTest {
      */
     @Ignore //Not sure yet whether we want to have this option. Maybe we should archive users instead
     @Test(expected = EntityNotFoundException.class)
-    public void destroyUser()
-    {
+    public void destroyUser() throws EntityNotFoundException {
         User u=userDao.find(30); //anders exception
         userDao.destroy(u);
         assertThat(userDao.findAll(),hasSize(99));
@@ -66,8 +64,7 @@ public class UserDaoTest {
      * Test: updating a user on the database
      */
     @Test
-    public void updateUser()
-    {
+    public void updateUser() throws EntityNotFoundException {
         User old = userDao.find(30); //exists
         user.setId(30);
         user.setCompanies(old.getCompanies());
@@ -80,8 +77,7 @@ public class UserDaoTest {
      * Test: finding a specific user on the database
      */
     @Test
-    public void findUserById()
-    {
+    public void findUserById() throws EntityNotFoundException {
         userDao.save(user);
         assertUsers(user,userDao.find(user.getId()));
     }

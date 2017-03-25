@@ -2,8 +2,10 @@ package solvas.rest.service;
 
 import solvas.models.Model;
 import solvas.persistence.api.Dao;
+import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.Filter;
 import solvas.rest.api.mappers.AbstractMapper;
+import solvas.rest.api.mappers.exceptions.DependantEntityNotFound;
 import solvas.rest.api.models.ApiModel;
 import solvas.rest.query.Pageable;
 import solvas.rest.utils.JsonListWrapper;
@@ -26,8 +28,7 @@ public abstract class AbstractService<T extends Model,E extends ApiModel> {
         this.mapper=mapper;
     }
 
-    public E getById(int id)
-    {
+    public E getById(int id) throws EntityNotFoundException {
         T model = modelDao.find(id);
         return mapper.convertToApiModel(model);
     }
@@ -51,19 +52,16 @@ public abstract class AbstractService<T extends Model,E extends ApiModel> {
         return wrapper;
     }
 
-    public E create(E input)
-    {
+    public E create(E input) throws DependantEntityNotFound, EntityNotFoundException {
         T model = mapper.convertToModel(input);
         return mapper.convertToApiModel(modelDao.create(model));
     }
 
-    public void destroy(int id)
-    {
+    public void destroy(int id) throws EntityNotFoundException {
         modelDao.destroy(modelDao.find(id));
     }
 
-    public E update(int id,E input)
-    {
+    public E update(int id,E input) throws DependantEntityNotFound, EntityNotFoundException {
         input.setId(id);
         return mapper.convertToApiModel(modelDao.update(mapper.convertToModel(input)));
     }

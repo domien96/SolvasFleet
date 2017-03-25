@@ -39,8 +39,7 @@ public class FleetSubscriptionDaoTest {
      * Test: adding a FleetSubscription to the database
      */
     @Test
-    public void addFleetSubscription()
-    {
+    public void addFleetSubscription() throws EntityNotFoundException {
         FleetSubscription newSub = random(FleetSubscription.class,"id");
         newSub.getVehicle().setId(45);
         newSub.getSubFleet().setId(88);
@@ -63,8 +62,7 @@ public class FleetSubscriptionDaoTest {
      * Test: update a FleetSubscription on the database
      */
     @Test
-    public void updateFleetSubscription()
-    {
+    public void updateFleetSubscription() throws EntityNotFoundException {
         FleetSubscription newSub = random(FleetSubscription.class,"id");
         FleetSubscription old = fleetSubscriptionDao.find(11);
         newSub.setId(11);
@@ -76,8 +74,7 @@ public class FleetSubscriptionDaoTest {
      * Test: find a specific FleetSubscription
      */
     @Test
-    public void findFleetSubscriptionById()
-    {
+    public void findFleetSubscriptionById() throws EntityNotFoundException {
         assertThat(fleetSubscriptionDao.find(10),notNullValue());
     }
 

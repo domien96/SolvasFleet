@@ -6,6 +6,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import solvas.models.User;
 import solvas.persistence.api.DaoContext;
+import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.dao.UserDao;
 import solvas.rest.api.mappers.UserMapper;
 import solvas.rest.api.models.ApiUser;
@@ -60,8 +61,9 @@ public class UserMapperTest {
      * Test the conversion ApiUser->User
      */
     @Test
-    public void convertToUser() {
+    public void convertToUser() throws EntityNotFoundException {
         ApiUser user = random(ApiUser.class);
+        user.setId(0);
         User converted = mapper.convertToModel(user);
         assertThat(converted.getLastName(), is(user.getLastName()));
         assertThat(converted.getFirstName(), is(user.getFirstName()));

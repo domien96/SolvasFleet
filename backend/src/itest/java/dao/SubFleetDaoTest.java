@@ -40,8 +40,7 @@ public class SubFleetDaoTest {
      * Test: adding a subfleet to the database
      */
     @Test
-    public void addSubFleet()
-    {
+    public void addSubFleet() throws EntityNotFoundException {
         SubFleet newSubFleet = random(SubFleet.class);
         newSubFleet.getFleet().setId(10);
         newSubFleet.getVehicleType().setId(2);
@@ -64,8 +63,7 @@ public class SubFleetDaoTest {
      * Test: update a subfleet on the database
      */
     @Test
-    public void updateSubFleet()
-    {
+    public void updateSubFleet() throws EntityNotFoundException {
         SubFleet old = subFleetDao.find(44);
         SubFleet updated = random(SubFleet.class);
         updated.setId(44);
@@ -79,8 +77,7 @@ public class SubFleetDaoTest {
      * Test: find a specific subfleet
      */
     @Test
-    public void findFleetById()
-    {
+    public void findFleetById() throws EntityNotFoundException {
         assertThat(subFleetDao.find(10),notNullValue());
     }
 

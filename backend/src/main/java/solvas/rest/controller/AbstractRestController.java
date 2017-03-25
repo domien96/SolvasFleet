@@ -9,12 +9,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import solvas.models.Model;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.Filter;
-import solvas.rest.api.mappers.DependantEntityNotFound;
+import solvas.rest.api.mappers.exceptions.DependantEntityNotFound;
 import solvas.rest.api.models.ApiModel;
 import solvas.rest.query.Pageable;
 import solvas.rest.service.AbstractService;
@@ -22,6 +21,8 @@ import solvas.rest.utils.JsonListWrapper;
 
 import java.util.Collections;
 import java.util.stream.Collectors;
+
+import static org.postgresql.hostchooser.HostRequirement.master;
 
 /**
  * Abstract REST controller. Controllers handle incoming requests.
@@ -33,18 +34,14 @@ import java.util.stream.Collectors;
 @Transactional // TODO Replace by services
 public abstract class AbstractRestController<T extends Model, E extends ApiModel> {
 
-    protected final Validator validator;
     private AbstractService<T,E> service;
 
     /**
      * Default constructor.
      *
-     *
      * @param service service class for entities
-     * @param validator The validator to use when creating/updating entities
      */
-    protected AbstractRestController(Validator validator,AbstractService<T,E> service) {
-        this.validator = validator;
+    protected AbstractRestController(AbstractService<T,E> service) {
         this.service=service;
     }
 
@@ -64,11 +61,6 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
         if (filterResult.hasErrors() || paginationResult.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
-        //Collection<E> collection = service.findAll(pagination,filter);
-        //ArrayList<E> sortedList = new ArrayList<>(collection);
-        //sortedList.sort(Comparator.comparingInt(Model::getId));
-
         return new ResponseEntity<>(service.findAndWrap(pagination,filter), HttpStatus.OK);
     }
 
@@ -80,7 +72,11 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      */
 
     protected ResponseEntity<?> getById(int id) {
-        return new ResponseEntity<>(service.getById(id), HttpStatus.OK);
+        try {
+            return new ResponseEntity<>(service.getById(id), HttpStatus.OK);
+        } catch (EntityNotFoundException e) {
+            return notFound();
+        }
     }
 
     /**
@@ -155,12 +151,15 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      * @param input   The model to save.
      * @param binding The binding to use to validate
      * @return Response with the saved model, or 400.
+     * @throws EntityNotFoundException Should never be thrown, because we're creating a new record. If this happens, a bug is found.
      */
-    protected ResponseEntity<?> post(E input, BindingResult binding) {
+    protected ResponseEntity<?> post(E input, BindingResult binding)  {
         try {
             return save(input, binding, () -> service.create(input));
         } catch (DependantEntityNotFound e) {
             return handleDependantNotFound(e);
+        } catch (EntityNotFoundException e) {
+            return notFound();
         }
     }
 
@@ -171,7 +170,11 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      * @return ResponseEntity
      */
     protected ResponseEntity<?> deleteById(int id) {
-        service.destroy(id);
+        try {
+            service.destroy(id);
+        } catch (EntityNotFoundException e) {
+            return notFound();
+        }
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -187,6 +190,8 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
             return save(input, binding, () -> service.update(id,input));
         } catch (DependantEntityNotFound e) {
             return handleDependantNotFound(e);
+        } catch (EntityNotFoundException e) {
+            return notFound();
         }
     }
 
@@ -196,8 +201,7 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      * @param saveMethod The saveMethod (example: dao.update or dao.create)
      * @return ResponseEntity to return to user
      */
-    private ResponseEntity<?> save(E input, BindingResult binding, SaveMethod<E> saveMethod) {
-        validator.validate(input, binding);
+    private ResponseEntity<?> save(E input, BindingResult binding, SaveMethod<E> saveMethod) throws DependantEntityNotFound, EntityNotFoundException {
         if (!binding.hasErrors()) {
             return new ResponseEntity<>(saveMethod.run(), HttpStatus.OK);
         } else {
@@ -218,12 +222,13 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      *
      * @param <T> Type of the entity to save
      */
+    @FunctionalInterface
     protected interface SaveMethod<T> {
         /**
          * Method to run to save an entity
          *
          * @return the saved entity
          */
-        T run();
+        T run() throws DependantEntityNotFound,EntityNotFoundException;
     }
 }

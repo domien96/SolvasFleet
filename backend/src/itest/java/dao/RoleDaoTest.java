@@ -44,8 +44,7 @@ public class RoleDaoTest {
     private Role role;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() throws EntityNotFoundException {
         role=random(Role.class,"id");
         role.getCompany().setId(0);
         companyDao.save(role.getCompany());
@@ -57,8 +56,7 @@ public class RoleDaoTest {
      * Test: adding a role to the database
      */
     @Test
-    public void addRole()
-    {
+    public void addRole() throws EntityNotFoundException {
         roleDao.save(role);
         assertThat(roleDao.findAll(),hasSize(101));
         assertRoles(role,roleDao.find(role.getId()));
@@ -68,8 +66,7 @@ public class RoleDaoTest {
      * Test: delete a role on the database
      */
     @Test(expected = EntityNotFoundException.class)
-    public void destroyRole()
-    {
+    public void destroyRole() throws EntityNotFoundException {
         roleDao.destroy(role);
         assertThat(roleDao.findAll(),hasSize(99));
         roleDao.find(role.getId());
@@ -79,8 +76,7 @@ public class RoleDaoTest {
      * Test: update a role on the database
      */
     @Test
-    public void updateRole()
-    {
+    public void updateRole() throws EntityNotFoundException {
         role.setId(10);
         roleDao.save(role);
         assertRoles(role,roleDao.find(role.getId()));
@@ -90,8 +86,7 @@ public class RoleDaoTest {
      * Test: find a specific role
      */
     @Test
-    public void findRoleById()
-    {
+    public void findRoleById() throws EntityNotFoundException {
         assertThat(roleDao.find(10),notNullValue());
     }
 

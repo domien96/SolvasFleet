@@ -1,15 +1,11 @@
 package rest;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
-import solvas.models.validators.VehicleValidator;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.api.models.ApiVehicle;
 import solvas.rest.controller.AbstractRestController;
@@ -35,8 +31,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class VehicleRestControllerTest extends AbstractRestControllerTest<ApiVehicle>{
     @Mock
     private VehicleService vehicleService;
-    @Mock
-    private VehicleValidator vehicleValidator;
 
     public VehicleRestControllerTest() {
         super(ApiVehicle.class);
@@ -155,6 +149,6 @@ public class VehicleRestControllerTest extends AbstractRestControllerTest<ApiVeh
      */
     @Override
     AbstractRestController getController() {
-        return new VehicleRestController(vehicleService, vehicleValidator);
+        return new VehicleRestController(vehicleService);
     }
 }

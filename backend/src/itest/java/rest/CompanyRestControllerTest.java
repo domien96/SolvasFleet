@@ -1,8 +1,5 @@
 package rest;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -10,7 +7,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-import solvas.models.validators.CompanyValidator;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.api.models.ApiCompany;
 import solvas.rest.controller.AbstractRestController;
@@ -22,6 +18,7 @@ import static io.github.benas.randombeans.api.EnhancedRandom.randomSetOf;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -32,8 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(MockitoJUnitRunner.class)
 public class CompanyRestControllerTest extends AbstractRestControllerTest<ApiCompany>{
 
-    @Mock
-    private CompanyValidator companyValidator;
+
     @Mock
     private CompanyService service;
 
@@ -41,6 +37,7 @@ public class CompanyRestControllerTest extends AbstractRestControllerTest<ApiCom
     public CompanyRestControllerTest() {
         super(ApiCompany.class);
     }
+
 
     /**
      * Test: the response of a get request for a company that exists on the db
@@ -83,7 +80,6 @@ public class CompanyRestControllerTest extends AbstractRestControllerTest<ApiCom
     @Test
     public void postCompanyNoError() throws Exception {
         when(service.create(any())).thenReturn(getTestModel());
-        doNothing().when(companyValidator).validate(any(),any());
         ResultActions resultActions=
                 getMockMvc().perform(post(TestFixtures.companyBaseUrl).contentType(MediaType.APPLICATION_JSON_UTF8).content(getTestJson()))
                         .andExpect(status().isOk());
@@ -156,6 +152,6 @@ public class CompanyRestControllerTest extends AbstractRestControllerTest<ApiCom
      */
     @Override
     AbstractRestController getController() {
-        return new CompanyRestController(service,companyValidator);
+        return new CompanyRestController(service);
     }
 }

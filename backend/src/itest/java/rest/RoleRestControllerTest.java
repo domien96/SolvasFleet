@@ -1,7 +1,5 @@
 package rest;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -9,7 +7,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-import solvas.models.validators.RoleValidator;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.api.models.ApiRole;
 import solvas.rest.controller.AbstractRestController;
@@ -31,8 +28,6 @@ public class RoleRestControllerTest extends AbstractRestControllerTest<ApiRole> 
 
     @Mock
     private RoleService roleService;
-    @Mock
-    private RoleValidator roleValidator;
 
     public RoleRestControllerTest() {
         super(ApiRole.class);
@@ -155,6 +150,6 @@ public class RoleRestControllerTest extends AbstractRestControllerTest<ApiRole> 
      */
     @Override
     AbstractRestController getController() {
-        return new RoleRestController(roleService, roleValidator);
+        return new RoleRestController(roleService);
     }
 }

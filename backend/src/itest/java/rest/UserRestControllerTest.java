@@ -1,14 +1,11 @@
 package rest;
 
-import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
-import solvas.models.validators.UserValidator;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.api.models.ApiUser;
 import solvas.rest.controller.AbstractRestController;
@@ -32,9 +29,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @RunWith(MockitoJUnitRunner.class)
 public class UserRestControllerTest extends AbstractRestControllerTest<ApiUser>{
-    @Mock
-    private UserValidator userValidator;
-
     @Mock
     private UserService userService;
 
@@ -159,6 +153,6 @@ public class UserRestControllerTest extends AbstractRestControllerTest<ApiUser>{
      */
     @Override
     AbstractRestController getController() {
-        return new UserRestController(userService, userValidator);
+        return new UserRestController(userService);
     }
 }

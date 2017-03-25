@@ -44,8 +44,7 @@ public class VehicleDaoTest {
      * Test: adding a vehicle to the database
      */
     @Test
-    public void addVehicle()
-    {
+    public void addVehicle() throws EntityNotFoundException {
         Vehicle vehicle=random(Vehicle.class,"id");
         vehicle.getLeasingCompany().setId(0);
         vehicle.getType().setId(3); //Only 5 types in db
@@ -60,8 +59,7 @@ public class VehicleDaoTest {
      */
     @Ignore //Destroying wont work when fleet_subscriptions reference a vehicle
     @Test(expected = EntityNotFoundException.class)
-    public void destroyVehicle()
-    {
+    public void destroyVehicle() throws EntityNotFoundException {
         Vehicle v= vehicleDao.find(30);
         vehicleDao.destroy(v);
         assertThat(vehicleDao.findAll(),hasSize(99));
@@ -72,8 +70,7 @@ public class VehicleDaoTest {
      * Test: updating a vehicle on the database
      */
     @Test
-    public void updateVehicle()
-    {
+    public void updateVehicle() throws EntityNotFoundException {
         Vehicle old = vehicleDao.find(30);
         Vehicle updated = random(Vehicle.class);
         updated.setId(30);
@@ -88,8 +85,7 @@ public class VehicleDaoTest {
      * Test: getting a specific vehicle from the database
      */
     @Test
-    public void findVehicleById()
-    {
+    public void findVehicleById() throws EntityNotFoundException {
         assertThat(vehicleDao.find(20),notNullValue());
     }
 

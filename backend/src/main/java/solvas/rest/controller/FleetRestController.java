@@ -5,11 +5,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import solvas.models.Fleet;
-import solvas.models.validators.FleetValidator;
 import solvas.rest.api.models.ApiFleet;
 import solvas.rest.query.FleetFilter;
 import solvas.rest.query.PaginationFilter;
 import solvas.rest.service.FleetService;
+
+import javax.validation.Valid;
 
 /**
  * @author Niko Strijbol
@@ -21,11 +22,10 @@ public class FleetRestController extends AbstractRestController<Fleet, ApiFleet>
      * Default constructor.
      *
      * @param service service class for fleets
-     * @param validator The validator to use when creating/updating entities
      */
     @Autowired
-    public FleetRestController(FleetService service,FleetValidator validator) {
-        super(validator,service);
+    public FleetRestController(FleetService service) {
+        super(service);
     }
 
     /**
@@ -52,7 +52,7 @@ public class FleetRestController extends AbstractRestController<Fleet, ApiFleet>
 
     @Override
     @RequestMapping(value = "/fleets", method = RequestMethod.POST)
-    public ResponseEntity<?> post(@RequestBody ApiFleet input, BindingResult result) {
+    public ResponseEntity<?> post(@Valid @RequestBody ApiFleet input, BindingResult result) {
         return super.post(input,result);
     }
 
@@ -64,7 +64,7 @@ public class FleetRestController extends AbstractRestController<Fleet, ApiFleet>
 
     @Override
     @RequestMapping(value = "/fleets/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> put(@PathVariable int id, @RequestBody ApiFleet input,BindingResult result) {
+    public ResponseEntity<?> put(@PathVariable int id, @Valid @RequestBody ApiFleet input,BindingResult result) {
         return super.put(id, input,result);
     }
 }

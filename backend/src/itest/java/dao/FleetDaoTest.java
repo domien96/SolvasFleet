@@ -49,8 +49,7 @@ public class FleetDaoTest {
      * Test: adding a fleet to the database
      */
     @Test
-    public void addFleet()
-    {
+    public void addFleet() throws EntityNotFoundException {
         Fleet newFleet = random(Fleet.class);
         newFleet.getCompany().setId(23);
         fleetDao.create(newFleet);
@@ -63,8 +62,7 @@ public class FleetDaoTest {
      */
     @Ignore //can't destroy: subfleet reference fleet
     @Test(expected = EntityNotFoundException.class)
-    public void destroyFleet()
-    {
+    public void destroyFleet() throws EntityNotFoundException {
         fleet=fleetDao.find(4);
         fleetDao.destroy(fleet);
         assertThat(fleetDao.findAll(),hasSize(99));
@@ -75,8 +73,7 @@ public class FleetDaoTest {
      * Test: update a fleet on the database
      */
     @Test
-    public void updateFleet()
-    {
+    public void updateFleet() throws EntityNotFoundException {
         Fleet old = fleetDao.find(9);
         Fleet updated = random(Fleet.class);
         updated.setId(9);
@@ -89,8 +86,7 @@ public class FleetDaoTest {
      * Test: find a specific role
      */
     @Test
-    public void findFleetById()
-    {
+    public void findFleetById() throws EntityNotFoundException {
         assertThat(fleetDao.find(10),notNullValue());
     }
 

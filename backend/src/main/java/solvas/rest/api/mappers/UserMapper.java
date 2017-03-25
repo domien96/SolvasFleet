@@ -3,6 +3,8 @@ package solvas.rest.api.mappers;
 import org.springframework.stereotype.Component;
 import solvas.models.User;
 import solvas.persistence.api.DaoContext;
+import solvas.rest.api.mappers.exceptions.FieldNotFoundException;
+import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.api.models.ApiUser;
 
 /**
@@ -18,33 +20,21 @@ public class UserMapper extends AbstractMapper<User,ApiUser> {
      * @param daoContext The DAO context
      */
     public UserMapper(DaoContext daoContext) {
-        super(daoContext);
+        super(daoContext, "firstName", "lastName", "email", "password");
     }
 
     @Override
-    public User convertToModel(ApiUser apiUser) {
-        User user = apiUser.getId()==0?new User():daoContext.getUserDao().find(apiUser.getId());
-        if(user==null)
-            user=new User();
-        user.setFirstName(apiUser.getFirstName());
-        user.setLastName(apiUser.getLastName());
-        user.setEmail(apiUser.getEmail());
-        if(apiUser.getPassword() != null && apiUser.getPassword().length() > 0) {
-            user.setPassword(apiUser.getPassword());
-        }
+    public User convertToModel(ApiUser apiUser) throws FieldNotFoundException ,EntityNotFoundException {
+        User user = apiUser.getId()==0 ? new User() : daoContext.getUserDao().find(apiUser.getId());
+        copySharedAttributes(user, apiUser);
         return user;
     }
 
     @Override
-    public ApiUser convertToApiModel(User user) {
+    public ApiUser convertToApiModel(User user) throws FieldNotFoundException {
         ApiUser apiUser = new ApiUser();
-        apiUser.setId(user.getId());
-        apiUser.setFirstName(user.getFirstName());
-        apiUser.setLastName(user.getLastName());
-        apiUser.setEmail(user.getEmail());
-        apiUser.setPassword(user.getPassword());
-        apiUser.setUpdatedAt(user.getUpdatedAt());
-        apiUser.setCreatedAt(user.getCreatedAt());
+        copyAttributes(apiUser,user, "id","createdAt", "updatedAt");
+        copySharedAttributes(apiUser, user);
         apiUser.setUrl(rootPath+apiUser.getId());
         return apiUser;
     }
