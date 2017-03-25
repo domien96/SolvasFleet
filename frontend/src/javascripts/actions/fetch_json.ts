@@ -7,17 +7,20 @@ function request (
   success? : callback,
   fail? : callback
 ) {
+
   let headers : any = {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
-    method
   }
 
   if (body) {
-    headers[body] = JSON.stringify(body);
-  }
-
-  fetch(url, headers) .then((r) => {
+    fetch(url, 
+      {
+        method: method,
+        headers, 
+        body: JSON.stringify(body)
+      }
+       ).then((r) => {
     r.json().then((data) => {
       if (r.ok) {
         if (success) { success(data); }
@@ -26,6 +29,23 @@ function request (
       }
     });
   });
+  }
+  else{
+    fetch(url, 
+      {
+        method: method,
+        headers  
+      }
+        ) .then((r) => {
+      r.json().then((data) => {
+        if (r.ok) {
+          if (success) { success(data); }
+        } else {
+          if (fail) { fail(data); }
+        }
+      });
+    });
+  }
 }
 
 export function GET(url : string, success? : callback, fail? : callback) {
