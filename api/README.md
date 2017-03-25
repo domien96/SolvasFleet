@@ -1,17 +1,16 @@
 # API
 
+De HTML van de laatste, officieel gepubliceerde, API: https://github.ugent.be/pages/VakOverschrijdendProject/2016-2017-rest-api/
+
 ## Specificatie
 
 De specificatie staat in het bestand `volledig.yaml`, en volgt de [OpenAPI Specification](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md)
-(vroeger de Swagger Specification).
+(vroeger de Swagger Specification). Dit wordt af en toe gesynchroniseerd met specificatie uit de API-repository.
 
 ## Lezen
 
 Om de documentatie te lezen, wordt de best het HTML-bestand gelezen in de map generated. Als de documentatie
 onduidelijk zou zijn, contacteer de API-beheerder of lees de specificatie zelf.
-
-Een markdown-versie staat op de wiki: https://github.ugent.be/VakOverschrijdendProject/2016-2017-groep-06/wiki/API-specification
-
 
 ## Generator
 

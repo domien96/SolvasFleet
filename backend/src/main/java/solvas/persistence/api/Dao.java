@@ -1,103 +1,38 @@
 package solvas.persistence.api;
 
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.repository.NoRepositoryBean;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import solvas.models.Model;
-import solvas.rest.query.Pageable;
-
-import java.util.Collection;
 
 /**
- * Generic DAO for basic operations.
+ * Interface to simplify repository creations.
+ *
+ * @param <T> The model for this DAO.
  *
  * @author Niko Strijbol
  * @author david
- * @param <T> Model of Dao
  */
-public interface Dao<T extends Model> {
+@NoRepositoryBean
+public interface Dao<T extends Model> extends PagingAndSortingRepository<T, Integer>, JpaSpecificationExecutor<T> {
 
-    /**
-     * Save or update a model.
-     * When the id of the model is set, the record with the same id will be updated in the database.
-     * Otherwise a new record will be created, and the returned Model will have it's id set.
-     *
-     * TODO: investigate why we don't use the update/create methods directly
-     *
-     * @param model The model to save.
-     * @exception EntityNotFoundException when trying to update a non-existent record
-     * @return The model.
-     */
-    default T save(T model) throws EntityNotFoundException {
-        if(model.getId() != 0) { // Update entity with this id
-            return update(model);
-        } else { // New entity
-            return create(model);
+    default T find(int id) throws EntityNotFoundException {
+        T data = findOne(id);
+        if (data == null) {
+            throw new EntityNotFoundException();
         }
+        return data;
     }
 
-    /**
-     * Create a model
-     * @param model The model to create
-     * @return The model with the id set
-     */
-    T create(T model);
+    default T destroy(T entity) throws EntityNotFoundException {
+        T data = find(entity.getId());
+        delete(data);
+        return data;
+    }
 
-    /**
-     * Update model, identified by id
-     * @param model The model to update
-     * @exception EntityNotFoundException when trying to update a non-existent record
-     * @return The model
-     */
-    T update(T model) throws EntityNotFoundException;
-
-    /**
-     * Destroy a model.
-     *
-     * @param model The model to destroy.
-
-     * @return The model.
-     */
-    T destroy(T model);
-
-    /**
-     * Find a model by id.
-     *
-     * @param id The ID of the model.
-     * @exception EntityNotFoundException no entity is associated with this id
-     * @return The model.
-     */
-    T find(int id) throws EntityNotFoundException;
-
-    /**
-     * Find all objects of a certain type.
-     *
-     * @return A collection containing all objects.
-     */
-    Collection<T> findAll();
-
-    /**
-     * Find all objects, filtered by the given filter.
-     *
-     * @param pageable Pagination information.
-     * @param filters The filter.
-     *
-     * @return The filtered items.
-     */
-    Collection<T> findAll(Pageable pageable, Filter<T> filters);
-
-    /**
-     * Find all objects, filtered by the given filter.
-     *
-     * @param filters The filter.
-     *
-     * @return The filtered items.
-     */
-    Collection<T> findAll(Filter<T> filters);
-
-    /**
-     * Count the total number of items managed by this dao, respecting the given filter.
-     *
-     * @param filters The filters to use.
-     *
-     * @return The number of items.
-     */
-    long count(Filter<T> filters);
+    default T destroy(int id) throws EntityNotFoundException {
+        T data = find(id);
+        delete(id);
+        return data;
+    }
 }

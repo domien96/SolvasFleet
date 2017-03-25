@@ -5,6 +5,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
 import solvas.models.User;
 import solvas.persistence.api.DaoContext;
+import solvas.rest.api.mappers.exceptions.FieldNotFoundException;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.SimpleUrlBuilder;
 import solvas.rest.api.models.ApiUser;
@@ -22,37 +23,30 @@ public class UserAbstractMapper extends AbstractMapper<User,ApiUser> {
      * @param daoContext The DAO context
      */
     public UserAbstractMapper(DaoContext daoContext) {
-        super(daoContext);
+        super(daoContext, "firstName", "lastName", "email", "password");
     }
 
     @Override
-    public User convertToModel(ApiUser apiUser) throws EntityNotFoundException {
+    public User convertToModel(ApiUser apiUser) throws FieldNotFoundException ,EntityNotFoundException {
+
         User user = new User();
         user.setId(apiUser.getId());
         if (user.getId()!=0) {
             //update
             user = daoContext.getUserDao().find(user.getId());
         }
+        copySharedAttributes(user, apiUser);
 
-        user.setFirstName(apiUser.getFirstName());
-        user.setLastName(apiUser.getLastName());
-        user.setEmail(apiUser.getEmail());
-        if(apiUser.getPassword() != null && apiUser.getPassword().length() > 0) {
-            user.setPassword(apiUser.getPassword());
-        }
+
         return user;
     }
 
     @Override
-    public ApiUser convertToApiModel(User user) {
+    public ApiUser convertToApiModel(User user) throws FieldNotFoundException {
         ApiUser apiUser = new ApiUser();
-        apiUser.setId(user.getId());
-        apiUser.setFirstName(user.getFirstName());
-        apiUser.setLastName(user.getLastName());
-        apiUser.setEmail(user.getEmail());
-        apiUser.setPassword(user.getPassword());
-        apiUser.setUpdatedAt(user.getUpdatedAt());
-        apiUser.setCreatedAt(user.getCreatedAt());
+        copyAttributes(apiUser,user, "id","createdAt", "updatedAt");
+        copySharedAttributes(apiUser, user);
+
         apiUser.setUrl(SimpleUrlBuilder.buildUrl(ROOTPATH + "{id}", user.getId()));
         return apiUser;
     }
