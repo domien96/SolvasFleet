@@ -11,22 +11,3 @@
 /// <reference path="subfleets.d.ts"/>
 /// <reference path="role.d.ts"/>
 /// <reference path="table.d.ts"/>
-
-/* Sidebar */
-
-interface SidebarLinkProps {
-  path: string;
-}
-
-/* Card */
-
-interface CardProps {
-  className?: string;
-}
-
-/* App */
-
-interface AppProps {
-  location: any;
-}
-

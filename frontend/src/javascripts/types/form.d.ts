@@ -22,10 +22,4 @@ namespace Form {
     field : string;
     error : string;
   }
-
-  namespace Errors {
-    export interface Props {
-      errors : Form.Error[];
-    }
-  }
 }
