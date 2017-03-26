@@ -4,7 +4,7 @@ import { Collapse } from 'react-bootstrap';
 
 import Card       from '../app/Card.tsx';
 import FleetForm    from '../fleets/FleetForm.tsx';
-import createFleet from '../../actions/create_fleet.ts';
+import { postFleet } from '../../actions/fleet_actions.ts';
 
 class Fleets extends React.Component<Fleets.Props, Fleets.State> {
   constructor(props : Fleets.Props) {
@@ -31,19 +31,14 @@ class Fleets extends React.Component<Fleets.Props, Fleets.State> {
   onSubmit(e : any) {
     e.preventDefault();
     let setErrors = (e : Form.Error[]) => this.setState({ errors: e });
+    let success = (data : any) => browserHistory.push('/fleets/' + data.id);
+    let fail = (data : any) => {
+      setErrors(data.errors.map(function(e : any) {
+        return { field: e.field, error: 'null' };
+      }));
+    }
 
-    createFleet(this.state.fleet)
-    .then(function(response) {
-      return response.json().then(function(data) {
-        if (response.ok) {
-          browserHistory.push('/fleets/' + data.id);
-        } else {
-          setErrors(data.errors.map(function(e : any) {
-            return { field: e.field, error: 'null' };
-          }));
-        }
-      });
-    });
+    postFleet(this.state.fleet, success, fail);
   }
 
   render() {

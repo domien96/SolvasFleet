@@ -7,10 +7,10 @@ import App       from './components/app/App.tsx';
 import Home      from './components/Home.tsx';
 
 import Users    from './components/users/Users.tsx';
-import AddUser  from './components/users/AddUser.tsx';
-import EditUser from './components/users/EditUser.tsx';
-import User     from './components/users/User.tsx';
-import NoUser   from './components/users/NoUser.tsx';
+import AddUser  from './components/user_form/AddUser.tsx';
+import EditUser from './components/user_form/EditUser.tsx';
+import User     from './components/user/User.tsx';
+import NoUser   from './components/user/NoUser.tsx';
 
 import Clients    from './components/clients/Clients.tsx';
 import AddClient  from './components/clients/AddClient.tsx';

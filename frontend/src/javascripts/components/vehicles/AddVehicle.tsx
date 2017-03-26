@@ -4,7 +4,7 @@ import { browserHistory } from 'react-router';
 import Header     from '../app/Header.tsx';
 import VehicleForm from './VehicleForm.tsx'
 
-import createVehicle from '../../actions/create_vehicle.ts';
+import { postVehicle } from '../../actions/vehicle_actions.ts';
 import { hasError }  from '../../utils/utils.ts';
 
 
@@ -30,19 +30,14 @@ class AddVehicle extends React.Component<{}, Vehicle.VForm.State> {
     e.preventDefault();
     let setErrors = (e : Form.Error[]) => this.setState({ errors: e });
 
-    createVehicle(this.state.vehicle)
-    .then(function(response) {
-      return response.json().then(function(data) {
-        console.log(data);
-        if (response.ok) {
-          browserHistory.push('/vehicles/' + data.id);
-        } else {
-          setErrors(data.errors.map(function(e : any) {
-            return { field: e, error: 'null' };
-          }));
-        }
-      });
-    });
+    let success = (data : any) => browserHistory.push('/vehicles/' + data.id);
+    let fail = (data : any) => {
+      setErrors(data.errors.map(function(e : any) {
+        return { field: e, error: 'null' };
+      }));
+    }
+
+    postVehicle(this.state.vehicle, success, fail);
   }
 
   render() {

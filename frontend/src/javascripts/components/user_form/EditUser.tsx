@@ -1,14 +1,13 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
 
-import Header     from '../app/Header.tsx';
-import UserForm   from './UserForm.tsx';
+import Header from '../app/Header.tsx';
+import UserForm from './UserForm.tsx';
 
-import createUser   from '../../actions/create_user.ts';
+import { fetchUser, putUser } from '../../actions/user_actions.ts';
 import { hasError } from '../../utils/utils.ts';
 
-class AddUser extends React.Component<{}, User.UForm.State> {
-
+class EditUser extends React.Component<User.Props, User.UForm.State> {
   constructor() {
     super();
     this.state = {
@@ -19,35 +18,34 @@ class AddUser extends React.Component<{}, User.UForm.State> {
     this.onSubmit     = this.onSubmit.bind(this);
   }
 
-  public handleChange(field : User.Field, e : any) : any {
+  componentDidMount() {
+    fetchUser(this.props.params.id, (data : any) => this.setState({ user: data }));
+  }
+
+  handleChange(field : User.Field, e : any) : any {
     var user : User = this.state.user;
     user[field] = e.target.value;
     this.setState({ user });
   }
 
-  public onSubmit(e : any) : void {
+  onSubmit(e : any) : void {
     e.preventDefault();
     let setErrors = (e : Form.Error[]) => this.setState({ errors: e });
+    let success = () => browserHistory.push('/users/' + this.state.user.id);
+    let fail = (data : any) => {
+      setErrors(data.errors.map(function(e : any) {
+        return { field: e, error: 'null' };
+      }));
+    }
 
-    createUser(this.state.user)
-    .then(function(response) {
-      return response.json().then(function(data) {
-        if (response.ok) {
-          browserHistory.push('/users/' + data.id);
-        } else {
-          setErrors(data.errors.map(function(e : any) {
-            return { field: e, error: 'null' };
-          }));
-        }
-      });
-    });
+    putUser(this.state.user.id, this.state.user, success, fail);
   }
 
   render() {
     return (
       <div>
         <Header>
-          <h2>Add A New User</h2>
+          <h2>Edit User</h2>
         </Header>
         <UserForm
           user={ this.state.user }
@@ -57,8 +55,8 @@ class AddUser extends React.Component<{}, User.UForm.State> {
           errors={ this.state.errors }
           />
       </div>
-    );
+    )
   }
 }
 
-export default AddUser;
+export default EditUser;

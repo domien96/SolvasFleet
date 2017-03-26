@@ -2,57 +2,50 @@ import React from 'react';
 import { browserHistory } from 'react-router';
 
 import Header     from '../app/Header.tsx';
-import ClientForm from './ClientForm.tsx'
+import UserForm   from './UserForm.tsx';
 
-import { postClient } from '../../actions/client_actions.ts';
-import { hasError }  from '../../utils/utils.ts';
+import { postUser } from '../../actions/user_actions.ts';
+import { hasError } from '../../utils/utils.ts';
 
-
-class AddClient extends React.Component<{}, Company.CForm.State> {
+class AddUser extends React.Component<{}, User.UForm.State> {
 
   constructor() {
     super();
     this.state = {
       errors: [],
-      company: {}
+      user: {}
     };
-    this.state.company.address = {};
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit     = this.onSubmit.bind(this);
   }
 
-  public handleChange(field : Company.Field, isAddress : boolean, e : any) : void {
-    var newClient : Company = this.state.company;
-    if(isAddress){
-      newClient['address'][field] = e.target.value;
-    }
-    else{
-      newClient[field] = e.target.value;
-    }
-    this.setState({ company: newClient });
+  public handleChange(field : User.Field, e : any) : any {
+    var user : User = this.state.user;
+    user[field] = e.target.value;
+    this.setState({ user });
   }
 
   public onSubmit(e : any) : void {
     e.preventDefault();
     let setErrors = (e : Form.Error[]) => this.setState({ errors: e });
-    let success = (data : any) => browserHistory.push('/clients/' + data.id);
+    let success = (data : any) => browserHistory.push('/users/' + data.id);
     let fail = (data : any) => {
       setErrors(data.errors.map(function(e : any) {
         return { field: e, error: 'null' };
       }));
     }
 
-    postClient(this.state.company, success, fail);
+    postUser(this.state.user, success, fail);
   }
 
   render() {
     return (
       <div>
         <Header>
-          <h2>Add A New Client</h2>
+          <h2>Add A New User</h2>
         </Header>
-        <ClientForm
-          company={ this.state.company }
+        <UserForm
+          user={ this.state.user }
           onSubmit={ this.onSubmit }
           handleChange={ this.handleChange }
           hasError={ hasError.bind(this) }
@@ -63,4 +56,4 @@ class AddClient extends React.Component<{}, Company.CForm.State> {
   }
 }
 
-export default AddClient;
+export default AddUser;
