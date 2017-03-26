@@ -1,5 +1,8 @@
 package solvas.rest.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import solvas.models.Model;
 import solvas.persistence.api.Dao;
 import solvas.persistence.api.EntityNotFoundException;
@@ -7,8 +10,6 @@ import solvas.persistence.api.Filter;
 import solvas.rest.api.mappers.AbstractMapper;
 import solvas.rest.api.mappers.exceptions.DependantEntityNotFound;
 import solvas.rest.api.models.ApiModel;
-import solvas.rest.query.Pageable;
-import solvas.rest.utils.JsonListWrapper;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -19,7 +20,7 @@ import java.util.HashSet;
 public abstract class AbstractService<T extends Model,E extends ApiModel> {
 
 
-    protected Dao<T> modelDao;
+    private Dao<T> modelDao;
     protected AbstractMapper<T,E> mapper;
 
     public AbstractService(Dao<T> modelDao,AbstractMapper<T,E> mapper)
@@ -33,28 +34,19 @@ public abstract class AbstractService<T extends Model,E extends ApiModel> {
         return mapper.convertToApiModel(model);
     }
 
-    public Collection<E> findAll(Pageable pageable, Filter<T> filters)
+    public Page<E> findAll(Pageable pagination, Filter<T> filters)
     {
-        Collection<E> collection = new HashSet<>();
-        for (T item : modelDao.findAll(pageable, filters)) {
-            collection.add(mapper.convertToApiModel(item));
-        }
-        return collection;
+        return modelDao.findAll(filters,pagination).map(s -> mapper.convertToApiModel(s));
     }
 
-    public JsonListWrapper<E> findAndWrap(Pageable pageable, Filter<T> filters)
+    public long count(Specification<T> spec)
     {
-        Collection<E> collection=findAll(pageable, filters);
-        JsonListWrapper<E> wrapper = new JsonListWrapper<>(collection);
-        wrapper.put("limit", pageable.getLimit());
-        wrapper.put("offset", pageable.getLimit() * pageable.getPage());
-        wrapper.put("total", modelDao.count(filters));
-        return wrapper;
+        return modelDao.count(spec);
     }
 
     public E create(E input) throws DependantEntityNotFound, EntityNotFoundException {
         T model = mapper.convertToModel(input);
-        return mapper.convertToApiModel(modelDao.create(model));
+        return mapper.convertToApiModel(modelDao.save(model));
     }
 
     public void destroy(int id) throws EntityNotFoundException {
@@ -63,6 +55,6 @@ public abstract class AbstractService<T extends Model,E extends ApiModel> {
 
     public E update(int id,E input) throws DependantEntityNotFound, EntityNotFoundException {
         input.setId(id);
-        return mapper.convertToApiModel(modelDao.update(mapper.convertToModel(input)));
+        return mapper.convertToApiModel(modelDao.save(mapper.convertToModel(input)));
     }
 }

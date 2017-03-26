@@ -1,10 +1,13 @@
 package solvas.rest.api.mappers;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriComponentsBuilder;
 import solvas.models.Company;
 import solvas.persistence.api.DaoContext;
 import solvas.rest.api.mappers.exceptions.FieldNotFoundException;
 import solvas.persistence.api.EntityNotFoundException;
+import solvas.rest.SimpleUrlBuilder;
 import solvas.rest.api.models.ApiAddress;
 import solvas.rest.api.models.ApiCompany;
 
@@ -14,7 +17,7 @@ import solvas.rest.api.models.ApiCompany;
 @Component
 public class CompanyMapper extends AbstractMapper<Company,ApiCompany> {
 
-    private String rootPath="/companies/";
+    private static final String ROOTPATH ="/companies/";
 
     /**
      * Create a mapper between Company and ApiCompany
@@ -52,8 +55,7 @@ public class CompanyMapper extends AbstractMapper<Company,ApiCompany> {
         apiCompany.getAddress().setHouseNumber(company.getAddressHouseNumber());
         apiCompany.getAddress().setPostalCode(company.getAddressPostalCode());
         apiCompany.getAddress().setStreet(company.getAddressStreet());
-
-        apiCompany.setUrl(rootPath+apiCompany.getId());
+        apiCompany.setUrl(SimpleUrlBuilder.buildUrl(ROOTPATH + "{id}", company.getId()));
         return apiCompany;
     }
 

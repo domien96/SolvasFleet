@@ -1,12 +1,12 @@
 package solvas.rest.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import solvas.models.Vehicle;
 import solvas.rest.api.models.ApiVehicle;
-import solvas.rest.query.PaginationFilter;
 import solvas.rest.query.VehicleFilter;
 import solvas.rest.service.VehicleService;
 
@@ -34,15 +34,14 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
      * method will contain an object, according to the API spec.
      *
      * @param pagination The pagination information.
-     * @param paginationResult The validation results of the pagination object.
      * @param filter The filters.
      * @param result The validation results of the filterResult
      *
      * @return ResponseEntity
      */
     @RequestMapping(value = "/vehicles", method = RequestMethod.GET)
-    public ResponseEntity<?> listAll(PaginationFilter pagination, BindingResult paginationResult, VehicleFilter filter, BindingResult result) {
-        return super.listAll(pagination, paginationResult, filter, result);
+    public ResponseEntity<?> listAll(Pageable pagination, VehicleFilter filter, BindingResult result) {
+        return super.listAll(pagination, filter, result);
     }
 
     @Override

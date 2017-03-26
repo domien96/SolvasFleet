@@ -1,5 +1,6 @@
 package solvas.rest.api.mappers;
 
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import solvas.models.Model;
 import solvas.persistence.api.DaoContext;
 import solvas.rest.api.mappers.exceptions.DependantEntityNotFound;
@@ -35,7 +36,6 @@ public abstract class AbstractMapper<T extends Model, E> {
         this.daoContext = daoContext;
         this.sharedAttributes = sharedAttributes;
     }
-
 
     /**
      * Convert an ApiModel to a Model in the persistence layer

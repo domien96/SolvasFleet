@@ -2,13 +2,15 @@ package solvas.rest.api.mappers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriComponentsBuilder;
 import solvas.models.Company;
 import solvas.models.Fleet;
 import solvas.persistence.api.DaoContext;
 import solvas.rest.api.mappers.exceptions.DependantEntityNotFound;
 import solvas.rest.api.mappers.exceptions.FieldNotFoundException;
 import solvas.persistence.api.EntityNotFoundException;
-import solvas.rest.api.models.ApiCompany;
+import solvas.rest.SimpleUrlBuilder;
 import solvas.rest.api.models.ApiFleet;
 
 /**
@@ -17,7 +19,7 @@ import solvas.rest.api.models.ApiFleet;
 @Component
 public class FleetMapper extends AbstractMapper<Fleet, ApiFleet> {
 
-    private static final String ROOT = "/fleets/";
+    private static final String ROOTPATH = "/fleets/";
 
     /**
      * Map fleets.
@@ -53,7 +55,7 @@ public class FleetMapper extends AbstractMapper<Fleet, ApiFleet> {
 
         fleet.setCompany(model.getCompany() == null ? 0 : model.getCompany().getId());
         fleet.setLastUpdatedBy(0);
-        fleet.setUrl(ROOT + model.getId());
+        fleet.setUrl(SimpleUrlBuilder.buildUrl(ROOTPATH + "{id}", model.getId()));
         return fleet;
     }
 }

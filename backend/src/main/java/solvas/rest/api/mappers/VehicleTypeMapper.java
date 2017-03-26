@@ -23,13 +23,13 @@ public class VehicleTypeMapper extends AbstractMapper<VehicleType,String> {
 
     @Override
     public VehicleType convertToModel(String api) {
-        Collection <VehicleType> types = daoContext.getVehicleTypeDao().withType(api);
+        Collection <VehicleType> types = daoContext.getVehicleTypeDao().findByName(api);
         VehicleType type;
         if (types.size()==0){
             type = new VehicleType();
             type.setId(0);
             type.setName(api);
-            return daoContext.getVehicleTypeDao().create(type);
+            return daoContext.getVehicleTypeDao().save(type);
         } else {
             return types.iterator().next();
         }

@@ -13,9 +13,6 @@ import solvas.rest.api.models.ApiRole;
 @Service
 public class RoleService extends AbstractService<Role,ApiRole>{
     @Autowired
-    private DaoContext context;
-
-    @Autowired
     public RoleService(DaoContext context, RoleMapper mapper) {
         super(context.getRoleDao(), mapper);
     }

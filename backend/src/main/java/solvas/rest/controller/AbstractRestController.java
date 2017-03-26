@@ -3,6 +3,8 @@ package solvas.rest.controller;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import org.springframework.beans.TypeMismatchException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -15,7 +17,6 @@ import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.Filter;
 import solvas.rest.api.mappers.exceptions.DependantEntityNotFound;
 import solvas.rest.api.models.ApiModel;
-import solvas.rest.query.Pageable;
 import solvas.rest.service.AbstractService;
 import solvas.rest.utils.JsonListWrapper;
 
@@ -50,18 +51,23 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      * method will contain an object, according to the API spec.
      *
      * @param pagination       The pagination information.
-     * @param paginationResult The validation results of the pagination object.
      * @param filter           The filters.
      * @param filterResult     The validation results of the filterResult
      * @return ResponseEntity
      */
-    protected ResponseEntity<?> listAll(Pageable pagination, BindingResult paginationResult, Filter<T> filter, BindingResult filterResult) {
+    protected ResponseEntity<?> listAll(Pageable pagination, Filter<T> filter, BindingResult filterResult) {
 
         // If there are errors in the filtering, send bad request.
-        if (filterResult.hasErrors() || paginationResult.hasErrors()) {
+        if (filterResult.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(service.findAndWrap(pagination,filter), HttpStatus.OK);
+
+        Page<E> page = service.findAll( pagination,filter);
+        JsonListWrapper<E> wrapper = new JsonListWrapper<>(page.getContent());
+        wrapper.put("limit", pagination.getPageSize());
+        wrapper.put("offset", pagination.getOffset());
+        wrapper.put("total", service.count(filter));
+        return new ResponseEntity<>(wrapper, HttpStatus.OK);
     }
 
     /**
@@ -172,10 +178,10 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
     protected ResponseEntity<?> deleteById(int id) {
         try {
             service.destroy(id);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             return notFound();
         }
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     /**
