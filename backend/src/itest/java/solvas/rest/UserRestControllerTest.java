@@ -1,30 +1,17 @@
 package solvas.rest;
 
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import solvas.models.User;
-import solvas.persistence.api.EntityNotFoundException;
-import solvas.rest.api.models.ApiModel;
 import solvas.rest.api.models.ApiUser;
 import solvas.rest.controller.AbstractRestController;
 import solvas.rest.controller.UserRestController;
 import solvas.rest.service.AbstractService;
 import solvas.rest.service.UserService;
-import solvas.rest.utils.JsonListWrapper;
 
-import static io.github.benas.randombeans.api.EnhancedRandom.randomSetOf;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.mockito.internal.verification.VerificationModeFactory.times;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 /**
  * Integration tests of the UserRestController

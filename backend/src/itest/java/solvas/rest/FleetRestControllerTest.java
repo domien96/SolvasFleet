@@ -10,7 +10,6 @@ import solvas.rest.controller.AbstractRestController;
 import solvas.rest.controller.FleetRestController;
 import solvas.rest.service.AbstractService;
 import solvas.rest.service.FleetService;
-import solvas.rest.service.RoleService;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 

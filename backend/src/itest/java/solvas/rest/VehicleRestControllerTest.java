@@ -1,30 +1,17 @@
 package solvas.rest;
 
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import solvas.models.Vehicle;
-import solvas.persistence.api.EntityNotFoundException;
-import solvas.rest.api.models.ApiCompany;
 import solvas.rest.api.models.ApiVehicle;
 import solvas.rest.controller.AbstractRestController;
 import solvas.rest.controller.VehicleRestController;
 import solvas.rest.service.AbstractService;
 import solvas.rest.service.VehicleService;
-import solvas.rest.utils.JsonListWrapper;
 
-import static io.github.benas.randombeans.api.EnhancedRandom.randomSetOf;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.mockito.internal.verification.VerificationModeFactory.times;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 /**
  * Integration tests of the VehicleRestController

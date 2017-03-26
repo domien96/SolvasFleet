@@ -1,25 +1,17 @@
 package solvas.rest;
 
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import solvas.models.Role;
-import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.api.models.ApiRole;
 import solvas.rest.controller.AbstractRestController;
 import solvas.rest.controller.RoleRestController;
 import solvas.rest.service.AbstractService;
 import solvas.rest.service.RoleService;
-import solvas.rest.utils.JsonListWrapper;
 
-import static io.github.benas.randombeans.api.EnhancedRandom.randomCollectionOf;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 /**
  * Integration tests of the RoleRestController
