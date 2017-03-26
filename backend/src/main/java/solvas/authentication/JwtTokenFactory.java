@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import solvas.authentication.cas.userdetails.UserContext;
 import solvas.authentication.token.AccessJwtToken;
 import solvas.authentication.token.JwtToken;
 import solvas.authentication.token.Scopes;

@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import solvas.authentication.cas.userdetails.UserContext;
 import solvas.authentication.token.AccessJwtToken;
 import solvas.authentication.token.JwtToken;
 import solvas.models.User;

@@ -1,6 +1,7 @@
 buildscript {
     repositories {
         maven { url "http://repo.spring.io/libs-snapshot" }
+        mavenCentral()
         mavenLocal()
     }
     dependencies {
@@ -49,6 +50,12 @@ dependencies {
 
     compile 'org.springframework.security:spring-security-web:4.2.2.RELEASE'
     compile 'org.springframework.security:spring-security-jwt'
+    compile 'org.springframework.security:spring-security-cas'
+
+
+    compile 'org.jasig.cas.client:cas-client-core'
+    compile 'org.jasig.cas.client:cas-client-support-saml:3.4.1'
+
 
     compile 'org.apache.commons:commons-lang3:3.3.2'
     compile 'joda-time:joda-time'

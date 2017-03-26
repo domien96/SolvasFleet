@@ -5,6 +5,7 @@ import java.util.Collection;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 
+import solvas.authentication.cas.userdetails.UserContext;
 import solvas.authentication.token.RawAccessJwtToken;
 import solvas.models.User;
 

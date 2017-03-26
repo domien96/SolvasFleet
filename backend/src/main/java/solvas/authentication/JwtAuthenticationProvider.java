@@ -9,6 +9,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
+import solvas.authentication.cas.userdetails.UserContext;
 import solvas.authentication.token.RawAccessJwtToken;
 
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());*/
 
-        UserContext context = UserContext.create(subject, authorities);
+        UserContext context = new UserContext(subject, authorities);
 
         return new JwtAuthenticationToken(context, authorities);
     }
