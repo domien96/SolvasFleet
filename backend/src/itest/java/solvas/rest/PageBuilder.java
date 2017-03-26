@@ -21,7 +21,8 @@ public class PageBuilder<T> {
     private Pageable pageRequest;
     private int totalElements;
 
-    public PageBuilder() {}
+    public PageBuilder() {
+    }
 
     /**
      * Set the elements.
