@@ -2,6 +2,7 @@ package solvas.authentication.jwt.token;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
+import solvas.authentication.exceptions.InvalidJwt;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,16 +24,16 @@ public class RefreshToken implements JwtToken {
      * 
      * @return
      */
-    public static Optional<RefreshToken> create(RawAccessJwtToken token, String signingKey) {
+    public static RefreshToken create(RawAccessJwtToken token, String signingKey) throws InvalidJwt {
         Jws<Claims> claims = token.parseClaims(signingKey);
 
         List<String> scopes = claims.getBody().get("scopes", List.class);
         if (scopes == null || scopes.isEmpty() 
                 || scopes.stream().noneMatch(scope -> Scopes.REFRESH_TOKEN.authority().equals(scope))) {
-            return Optional.empty();
+           throw new InvalidJwt(token);
         }
 
-        return Optional.of(new RefreshToken(claims));
+        return new RefreshToken(claims);
     }
 
     @Override

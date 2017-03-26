@@ -7,7 +7,7 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.security.cas.ServiceProperties;
 import org.springframework.security.cas.authentication.CasAuthenticationProvider;
 import org.springframework.security.cas.web.CasAuthenticationEntryPoint;
-import solvas.authentication.cas.userdetails.SolvasUserDetailsService;
+import solvas.authentication.user.SolvasUserDetailsService;
 
 @Configuration
 public class CasConfig {

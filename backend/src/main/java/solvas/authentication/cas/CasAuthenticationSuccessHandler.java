@@ -9,7 +9,7 @@ import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import solvas.authentication.jwt.JwtTokenFactory;
-import solvas.authentication.UserContext;
+import solvas.authentication.user.UserContext;
 import solvas.authentication.jwt.token.JwtToken;
 
 import javax.servlet.ServletException;

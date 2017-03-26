@@ -1,4 +1,4 @@
-package solvas.authentication;
+package solvas.authentication.user;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
