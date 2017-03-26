@@ -59,7 +59,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         CasAuthenticationFilter filter = new CasAuthenticationFilter();
         filter.setAuthenticationSuccessHandler(ajaxAwareAuthenticationSuccessHandler);
         filter.setAuthenticationManager(this.authenticationManager);
-        filter.setFilterProcessesUrl("/auth/login");
+        filter.setFilterProcessesUrl(FORM_BASED_LOGIN_ENTRY_POINT);
         return filter;
     }
 

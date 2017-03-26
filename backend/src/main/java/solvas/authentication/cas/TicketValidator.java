@@ -97,6 +97,7 @@ public final class TicketValidator extends AbstractUrlBasedTicketValidator {
         super(casServerUrlPrefix);
         try {
             SAML_REQUEST_TEMPLATE =IOUtils.readString(
+                    // TODO: find a way to make this file an override of /META-INF/cas/samlRequestTemplate.xml
                     resourceLoader.getResource("classpath:/cas/samlRequestTemplate.xml")
                             .getURL()
                             .openStream()
@@ -203,8 +204,6 @@ public final class TicketValidator extends AbstractUrlBasedTicketValidator {
                 generateId(),
                 SamlUtils.formatForUtcTime(new Date()),
                 ticket);
-        System.out.println(request);
-        System.out.println(validationUrl);
         HttpURLConnection conn = null;
         try {
             conn = this.getURLConnectionFactory().buildHttpURLConnection(validationUrl.openConnection());

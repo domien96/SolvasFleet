@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class RefreshToken implements JwtToken {
+    // TODO: enable refresh tokens
+
     private Jws<Claims> claims;
 
     private RefreshToken(Jws<Claims> claims) {
@@ -18,9 +20,6 @@ public class RefreshToken implements JwtToken {
      * 
      * @param token
      * @param signingKey
-     *
-     * @throws BadCredentialsException
-     * @throws JwtExpiredTokenException
      * 
      * @return
      */

@@ -26,6 +26,7 @@ public class HibernateUserDao extends HibernateDao<User> implements UserDao {
 
     @Override
     public User getByUsername(String username) {
+        // TODO Do this properly
         User user = new User();
         user.setEmail("svlada@gmail.com");
         user.setPassword((new BCryptPasswordEncoder().encode("test1234")));
