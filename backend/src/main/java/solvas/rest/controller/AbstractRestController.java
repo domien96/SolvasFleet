@@ -184,7 +184,8 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      */
     protected ResponseEntity<?> deleteById(int id) {
         try {
-            dao.destroy(id);
+            //dao.destroy(id);
+            dao.archive(id);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             return notFound();

@@ -13,6 +13,7 @@
       </id>
 
        <property name="name" column="name" type="string"/>
+      <property name="archived" column="archived" type="boolean" not-null="true"/>
 
        <many-to-one name="company" column="company_id"
                     class="solvas.models.Company" not-null="true"/>
