@@ -32,13 +32,12 @@ const DeleteLink = ({ handleDelete } : { handleDelete : () => void }) => {
 }
 
 const UserCard : React.StatelessComponent<Props> = props => {
-  var { id, firstName, lastName, email, password } = props.user;
+  var { id, firstName, lastName, email } = props.user;
 
   const data = [
     th('user.firstName', firstName),
     th('user.lastName',  lastName),
-    th('user.email',     email),
-    th('user.password',  password)
+    th('user.email',     email)
   ];
 
   return (

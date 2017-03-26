@@ -1,3 +1,15 @@
+table{
+	table-layout: fixed;
+}
+
+td.first-column{
+	width: 45%;
+}
+
+td.second-column{
+	width: 55%;
+}
+
 .table-row{
 	text-align: center;
 }

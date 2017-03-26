@@ -18,10 +18,10 @@ import EditClient from './components/clients/EditClient.tsx';
 import Client     from './components/clients/Client.tsx';
 
 import Vehicles    from './components/vehicles/Vehicles.tsx';
-import Vehicle     from './components/vehicles/Vehicle.tsx';
-import NoVehicle   from './components/vehicles/NoVehicle.tsx';
-import AddVehicle  from './components/vehicles/AddVehicle.tsx';
-import EditVehicle from './components/vehicles/EditVehicle.tsx';
+import Vehicle     from './components/vehicle/Vehicle.tsx';
+import NoVehicle   from './components/vehicle/NoVehicle.tsx';
+import AddVehicle  from './components/vehicle_form/AddVehicle.tsx';
+import EditVehicle from './components/vehicle_form/EditVehicle.tsx';
 
 import Fleets from './components/fleets/Fleets.tsx';
 import Fleet  from './components/fleets/Fleet.tsx';

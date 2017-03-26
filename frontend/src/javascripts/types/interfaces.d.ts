@@ -11,6 +11,7 @@
 /// <reference path="subfleets.d.ts"/>
 /// <reference path="role.d.ts"/>
 /// <reference path="table.d.ts"/>
+/// <reference path="filter.d.ts"/>
 
 /* Sidebar */
 

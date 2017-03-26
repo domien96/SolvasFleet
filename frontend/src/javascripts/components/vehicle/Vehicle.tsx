@@ -4,6 +4,7 @@ import { browserHistory, Link } from'react-router';
 import { fetchVehicle, deleteVehicle }  from '../../actions/vehicle_actions.ts';
 
 import DetailTable from '../tables/DetailTable.tsx';
+import Card      from '../app/Card.tsx';
 
 import { th } from '../../utils/utils.ts';
 
@@ -55,27 +56,28 @@ class Vehicle extends React.Component<Vehicle.Props, Vehicle.State> {
     ];
 
     return (
-    <div>
-      <div className='card-content user'>
-        <h2>{ vin } </h2>
-        <div className='row actions'>
-          <div className='col-sm-6'>
-            <Link to={ '/vehicles/' + id + '/edit' } className='btn btn-default form-control'>
-              <span className='glyphicon glyphicon-edit' /> Edit
-            </Link>
-          </div>
-          <div className='col-sm-6'>
-            <button onClick = { this.deleteVehicle } className='btn btn-danger form-control'>
-              <span className='glyphicon glyphicon-remove' /> Delete
-            </button>
+    <Card>  
+      <div>
+        <div className='card-content user'>
+          <h2>{ vin } </h2>
+          <div className='row actions'>
+            <div className='col-sm-6'>
+              <Link to={ '/vehicles/' + id + '/edit' } className='btn btn-default form-control'>
+                <span className='glyphicon glyphicon-edit' /> Edit
+              </Link>
+            </div>
+            <div className='col-sm-6'>
+              <button onClick = { this.deleteVehicle } className='btn btn-danger form-control'>
+                <span className='glyphicon glyphicon-remove' /> Delete
+              </button>
+            </div>
           </div>
         </div>
+        <div className='card-content'>
+          <DetailTable data={ data }/>
+        </div>
       </div>
-      <div className='card-content'>
-        <DetailTable data={ data }/>
-      </div>
-
-    </div>
+    </Card>
     );
   }
 }
