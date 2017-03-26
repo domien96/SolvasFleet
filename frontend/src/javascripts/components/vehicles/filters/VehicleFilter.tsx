@@ -5,6 +5,7 @@ import VehicleFilterLayout from './VehicleFilterLayout.tsx'
 import HiddenFilter from '../../filters/HiddenFilter.tsx'
 
 interface FilterProps {
+  vehicles : Vehicle[];
   onFilter : (filter : VehicleFilterData) => void;
 }
 
@@ -12,13 +13,14 @@ interface FilterState {
   filter : VehicleFilterData;
   typeDisplay: string;
   hidden: boolean;
+  licensePlateData: string[];
 }
 
 class VehicleFilter extends React.Component<FilterProps, FilterState>{
 
 	constructor(){
 		super();
-		this.state = { filter: {fleet : '', type : '', leasingCompany: '', licensePlate: '', vin: '', year: ''}, typeDisplay: 'All vehicles', hidden:false };
+		this.state = { filter: {fleet : '', type : '', leasingCompany: '', licensePlate: '', vin: '', year: ''}, typeDisplay: 'All vehicles', hidden:false, licensePlateData:['1-TES-700'] };
 		this.handleFilterFleet = this.handleFilterFleet.bind(this);
 		this.handleFilterType = this.handleFilterType.bind(this);
 		this.handleFilterLeasingCompany = this.handleFilterLeasingCompany.bind(this);
@@ -28,6 +30,7 @@ class VehicleFilter extends React.Component<FilterProps, FilterState>{
 		this.handleReset = this.handleReset.bind(this);
 		this.handleHide = this.handleHide.bind(this);
 		this.handleShow = this.handleShow.bind(this);
+		this.setLicensePlates = this.setLicensePlates.bind(this);
 	}
 
 	handleFilterFleet(event : any){
@@ -60,9 +63,9 @@ class VehicleFilter extends React.Component<FilterProps, FilterState>{
 		this.props.onFilter( newFilter );
 	}
 
-	handleFilterLicensePlate(event : any){
+	handleFilterLicensePlate(selected : string[]){
 		var newFilter = this.state.filter;
-		newFilter.licensePlate = event.target.value;
+		newFilter.licensePlate = selected[0];
 		this.setState( {filter: newFilter} )
 		this.props.onFilter( newFilter );
 	}
@@ -95,7 +98,17 @@ class VehicleFilter extends React.Component<FilterProps, FilterState>{
 		this.setState({ hidden: false });
 	}
 
+	setLicensePlates(){
+		console.log(this.props.vehicles);
+		var newLicensePlateData = this.props.vehicles.map((vehicle) =>{
+			return vehicle.licensePlate;
+		});
+		this.setState( {licensePlateData: newLicensePlateData} );
+	}
+
 	render(){
+
+		var { filter, typeDisplay, licensePlateData } = this.state;
 
 		if(this.state.hidden){
 			return(
@@ -105,8 +118,9 @@ class VehicleFilter extends React.Component<FilterProps, FilterState>{
 		else{
 			return(
 				<VehicleFilterLayout 
-					filter={ this.state.filter } 
-					typeDisplay={ this.state.typeDisplay } 
+					filter={ filter } 
+					typeDisplay={ typeDisplay } 
+					licensePlateData={ licensePlateData }
 					onFilterType={ this.handleFilterType } 
 					onFilterFleet={ this.handleFilterFleet } 
 					onFilterLeasingCompany={ this.handleFilterLeasingCompany } 

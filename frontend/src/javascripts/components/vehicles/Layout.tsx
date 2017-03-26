@@ -39,7 +39,7 @@ const Layout : React.StatelessComponent<LayoutProps> = props => {
       <div className='wrapper'>
         <div className='row'>
           <div className='col-xs-12 col-md-7'>
-            <VehicleFilter onFilter = { props.onFilter } />
+            <VehicleFilter onFilter = { props.onFilter } vehicles={ props.vehicles }/>
             <MainCard vehicles={ props.vehicles } onVehicleSelect={ props.onVehicleSelect } />
           </div>
           <div className='col-xs-12 col-md-5'>

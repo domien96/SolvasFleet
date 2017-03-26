@@ -17,3 +17,10 @@ interface Inputfield {
   type: string;
   callback: (value : any) => void;
 }
+
+interface Typeaheadfield {
+  name: any;
+  data: string[];
+  selected: string[];
+  callback: (value : any) => void;
+}
