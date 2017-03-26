@@ -1,4 +1,4 @@
-package solvas.authentication;
+package solvas.authentication.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
@@ -8,17 +8,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import solvas.authentication.cas.userdetails.UserContext;
-import solvas.authentication.token.AccessJwtToken;
-import solvas.authentication.token.JwtToken;
-import solvas.authentication.token.Scopes;
-import solvas.models.User;
+import solvas.authentication.UserContext;
+import solvas.authentication.jwt.token.AccessJwtToken;
+import solvas.authentication.jwt.token.JwtToken;
+import solvas.authentication.jwt.token.Scopes;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
 import java.util.UUID;
 
 @Component

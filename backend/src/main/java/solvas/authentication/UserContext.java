@@ -1,14 +1,10 @@
-package solvas.authentication.cas.userdetails;
+package solvas.authentication;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.HashSet;
 
-/**
- * Created by david on 25/03/17.
- */
 public class UserContext implements UserDetails {
     private final String username;
     private final Collection<? extends GrantedAuthority> authorities;

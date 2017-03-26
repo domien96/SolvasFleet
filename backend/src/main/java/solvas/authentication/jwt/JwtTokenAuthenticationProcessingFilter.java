@@ -1,4 +1,4 @@
-package solvas.authentication;
+package solvas.authentication.jwt;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -8,7 +8,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.util.matcher.RequestMatcher;
-import solvas.authentication.token.RawAccessJwtToken;
+import solvas.authentication.WebSecurityConfig;
+import solvas.authentication.jwt.token.RawAccessJwtToken;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;

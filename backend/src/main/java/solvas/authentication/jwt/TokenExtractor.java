@@ -1,4 +1,4 @@
-package solvas.authentication;
+package solvas.authentication.jwt;
 
 /**
  * Created by David Vandorpe.

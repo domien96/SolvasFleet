@@ -1,9 +1,7 @@
 package solvas.authentication.exceptions;
 
-import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.security.core.AuthenticationException;
-import solvas.authentication.token.JwtToken;
-import solvas.authentication.token.RawAccessJwtToken;
+import solvas.authentication.jwt.token.JwtToken;
 
 /**
  * Created by David Vandorpe.

@@ -3,6 +3,7 @@ package solvas.authentication.cas.userdetails;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import solvas.authentication.UserContext;
 
 import java.util.HashSet;
 

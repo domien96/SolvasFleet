@@ -1,4 +1,4 @@
-package solvas.authentication.token;
+package solvas.authentication.jwt.token;
 
 import io.jsonwebtoken.*;
 import org.springframework.security.authentication.BadCredentialsException;

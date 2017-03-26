@@ -1,13 +1,12 @@
-package solvas.authentication;
+package solvas.authentication.jwt;
 
 import java.util.Collection;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 
-import solvas.authentication.cas.userdetails.UserContext;
-import solvas.authentication.token.RawAccessJwtToken;
-import solvas.models.User;
+import solvas.authentication.UserContext;
+import solvas.authentication.jwt.token.RawAccessJwtToken;
 
 /**
  * An {@link org.springframework.security.core.Authentication} implementation

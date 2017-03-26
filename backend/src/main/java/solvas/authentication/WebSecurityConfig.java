@@ -1,8 +1,6 @@
 package solvas.authentication;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.jasig.cas.client.validation.Saml11TicketValidationFilter;
-import org.jasig.cas.client.validation.Saml11TicketValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,10 +12,13 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import solvas.authentication.cas.CasAuthenticationSuccessHandler;
+import solvas.authentication.jwt.JwtAuthenticationProvider;
+import solvas.authentication.jwt.JwtTokenAuthenticationProcessingFilter;
+import solvas.authentication.jwt.TokenExtractor;
 
 import java.util.Arrays;
 import java.util.List;
@@ -51,7 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private ObjectMapper objectMapper;
 
     @Autowired
-    public AjaxAwareAuthenticationSuccessHandler ajaxAwareAuthenticationSuccessHandler;
+    public CasAuthenticationSuccessHandler ajaxAwareAuthenticationSuccessHandler;
 
 
     protected CasAuthenticationFilter buildCasAuthenticationFilter() throws Exception {
