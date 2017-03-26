@@ -72,16 +72,14 @@ class Options extends React.Component<OptionsProps, OptionsState>{
     this.props.onChange(event.target.value);
   }
 
-  constructor(){
-    super();
-    this.state = { fleetId : '', title: 'All vehicles' }
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSelect = this.handleSelect.bind(this);
-  }
-
-  handleChange(event : any){
-    this.setState( {fleetId : event.target.value} )
-    this.props.onChange(event.target.value);
+  handleSelect(type : string){
+    if(type == ''){
+      this.setState( {title : 'All vehicles'} );
+    }
+    else{
+      this.setState( {title: type} );
+    }
+    this.props.onSelect(type);
   }
 
   render(){
