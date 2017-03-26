@@ -1,16 +1,17 @@
 package solvas.rest.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import solvas.models.Vehicle;
-import solvas.models.validators.VehicleValidator;
 import solvas.persistence.api.DaoContext;
 import solvas.rest.api.mappers.VehicleAbstractMapper;
 import solvas.rest.api.models.ApiVehicle;
-import solvas.rest.query.PaginationFilter;
 import solvas.rest.query.VehicleFilter;
+
+import javax.validation.Valid;
 
 /**
  * Rest controller for Vehicle
@@ -24,11 +25,10 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
      *
      * @param daoContext Autowired
      * @param mapper The mapper class for vehicles
-     * @param validator Validator for vehicles
      */
     @Autowired
-    public VehicleRestController(DaoContext daoContext, VehicleAbstractMapper mapper, VehicleValidator validator) {
-        super(daoContext.getVehicleDao(),mapper,validator);
+    public VehicleRestController(DaoContext daoContext, VehicleAbstractMapper mapper) {
+        super(daoContext.getVehicleDao(),mapper);
     }
 
     /**
@@ -36,15 +36,14 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
      * method will contain an object, according to the API spec.
      *
      * @param pagination The pagination information.
-     * @param paginationResult The validation results of the pagination object.
      * @param filter The filters.
      * @param result The validation results of the filterResult
      *
      * @return ResponseEntity
      */
     @RequestMapping(value = "/vehicles", method = RequestMethod.GET)
-    public ResponseEntity<?> listAll(PaginationFilter pagination, BindingResult paginationResult, VehicleFilter filter, BindingResult result) {
-        return super.listAll(pagination, paginationResult, filter, result);
+    public ResponseEntity<?> listAll(Pageable pagination, VehicleFilter filter, BindingResult result) {
+        return super.listAll(pagination, filter, result);
     }
 
     @Override
@@ -55,7 +54,7 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
 
     @Override
     @RequestMapping(value = "/vehicles", method = RequestMethod.POST)
-    public ResponseEntity<?> post(@RequestBody ApiVehicle input,BindingResult result) {
+    public ResponseEntity<?> post(@Valid @RequestBody ApiVehicle input,BindingResult result) {
         return super.post(input,result);
     }
 
@@ -68,7 +67,7 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
     @Override
 
     @RequestMapping(value = "/vehicles/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> put(@PathVariable int id, @RequestBody ApiVehicle input,BindingResult result) {
+    public ResponseEntity<?> put(@PathVariable int id, @Valid @RequestBody ApiVehicle input, BindingResult result) {
         return super.put(id, input,result);
     }
 }

@@ -2,7 +2,7 @@
 ## Waar vind ik wat?
 * Alle informatie omtrent het teamverband en teamorganisatie vindt u onder [/Teamorganisatie](https://github.ugent.be/VakOverschrijdendProject/2016-2017-groep-06/tree/master/Teamorganisatie). Hier staan onder andere de slack besprekingen, vragen naar en antwoord van klant/lesgevers, feedback, meetingverslagen en rollenverdeling.
 * De teamcommunicatie vindt hoofdzakelijk plaats in onze slackroom. De belangrijkste besprekingen en hun beslissingen uit deze slackroom vindt u onder [Teamorganisatie/besprekingen](https://github.ugent.be/VakOverschrijdendProject/2016-2017-groep-06/tree/master/Teamorganisatie/Besprekingen).
-* De meest recente informatie over de api vindt u in [/api onder de branch "api"](https://github.ugent.be/VakOverschrijdendProject/2016-2017-groep-06/tree/api/api).
+* De meest recente informatie over de api vindt u in [/api](https://github.ugent.be/VakOverschrijdendProject/2016-2017-groep-06/tree/master/api).
 Enkel de api specificatie vindt u echter op de wiki en niet op de api-branch.
 * De wekelijkse snapshots zijn te vinden [hier](https://vopro6.ugent.be/snapshot). De meest recente onder current, en een volledige lijst onder releases.
 * U kan volgende login gebruiken voor [onze website](https://vopro6.ugent.be): vopro6:YF9sxqdM
