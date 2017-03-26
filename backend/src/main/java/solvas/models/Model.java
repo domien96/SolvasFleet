@@ -15,9 +15,9 @@ import java.time.LocalDateTime;
  */
 public abstract class Model {
 
-    private int id;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    protected int id;
+    protected LocalDateTime createdAt;
+    protected LocalDateTime updatedAt;
 
     /**
      * Get the unique identifier for this model. When making a new model, obtaining a an identifier should be
