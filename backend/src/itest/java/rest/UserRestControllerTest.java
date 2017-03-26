@@ -7,6 +7,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import solvas.persistence.api.EntityNotFoundException;
+import solvas.rest.api.models.ApiModel;
 import solvas.rest.api.models.ApiUser;
 import solvas.rest.controller.AbstractRestController;
 import solvas.rest.controller.UserRestController;
@@ -143,8 +144,7 @@ public class UserRestControllerTest extends AbstractRestControllerTest<ApiUser>{
                 .andExpect(jsonPath("firstName").value(user.getFirstName()))
                 .andExpect(jsonPath("lastName").value(user.getLastName()))
                 .andExpect(jsonPath("email").value(user.getEmail()))
-                .andExpect(jsonPath("url").value(user.getUrl()))
-                .andExpect(jsonPath("password").value(user.getPassword()));
+                .andExpect(jsonPath("url").value(user.getUrl()));
     }
 
 
@@ -154,5 +154,13 @@ public class UserRestControllerTest extends AbstractRestControllerTest<ApiUser>{
     @Override
     AbstractRestController getController() {
         return new UserRestController(userService);
+    }
+
+    @Override
+    ApiUser getTestModel()
+    {
+        ApiUser apiUser=super.getTestModel();
+        apiUser.setEmail("valid@email.com");
+        return apiUser;
     }
 }

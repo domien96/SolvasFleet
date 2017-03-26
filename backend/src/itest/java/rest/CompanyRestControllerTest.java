@@ -154,4 +154,12 @@ public class CompanyRestControllerTest extends AbstractRestControllerTest<ApiCom
     AbstractRestController getController() {
         return new CompanyRestController(service);
     }
+
+    @Override
+    ApiCompany getTestModel()
+    {
+        ApiCompany company = super.getTestModel();
+        company.setPhoneNumber("093999084");
+        return company;
+    }
 }

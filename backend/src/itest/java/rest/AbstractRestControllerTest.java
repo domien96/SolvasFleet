@@ -17,7 +17,6 @@ import static io.github.benas.randombeans.api.EnhancedRandom.random;
 public abstract class AbstractRestControllerTest<T extends ApiModel> {
      abstract AbstractRestController getController();
      private T apiModel;
-     private String apiJson;
      private Class<? extends T> clazz;
       AbstractRestControllerTest(Class<?extends T> clazz)
      {
@@ -30,9 +29,6 @@ public abstract class AbstractRestControllerTest<T extends ApiModel> {
      @Before
      public void config() throws JsonProcessingException {
          apiModel=random(clazz);
-         ObjectMapper mapper=new ObjectMapper();
-         mapper.findAndRegisterModules();
-         apiJson=mapper.writeValueAsString(apiModel);
      }
 
     /**
@@ -55,8 +51,9 @@ public abstract class AbstractRestControllerTest<T extends ApiModel> {
     /**
      * Provides the json representation of the random test model
      */
-     String getTestJson()
-    {
-        return apiJson;
+     String getTestJson() throws JsonProcessingException {
+        ObjectMapper mapper=new ObjectMapper();
+        mapper.findAndRegisterModules();
+        return mapper.writeValueAsString(getTestModel());
     }
 }

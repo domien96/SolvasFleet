@@ -7,6 +7,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import solvas.persistence.api.EntityNotFoundException;
+import solvas.rest.api.models.ApiCompany;
 import solvas.rest.api.models.ApiVehicle;
 import solvas.rest.controller.AbstractRestController;
 import solvas.rest.controller.VehicleRestController;
@@ -150,5 +151,16 @@ public class VehicleRestControllerTest extends AbstractRestControllerTest<ApiVeh
     @Override
     AbstractRestController getController() {
         return new VehicleRestController(vehicleService);
+    }
+
+    @Override
+    ApiVehicle getTestModel()
+    {
+        ApiVehicle vehicle = super.getTestModel();
+        vehicle.setValue(1500);
+        vehicle.setYear(1990);
+        vehicle.setMileage(10000);
+        vehicle.setVin("5NPEB4AC8EH893920");
+        return vehicle;
     }
 }
