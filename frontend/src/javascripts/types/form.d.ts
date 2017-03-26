@@ -1,14 +1,4 @@
 namespace Form {
-  namespace Field {
-    export interface Props {
-      placeholder : string;
-      type        : string;
-      hasError    : boolean;
-      callback    : (e : any) => void;
-      value       : any;
-    }
-  }
-
   namespace Choice {
     export interface Props {
       placeholder : string;
