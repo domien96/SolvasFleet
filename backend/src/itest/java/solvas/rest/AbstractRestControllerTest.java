@@ -73,12 +73,24 @@ public abstract class AbstractRestControllerTest<T extends Model,E extends ApiMo
         return mapper.writeValueAsString(getTestModel());
     }
 
+    /**
+     * Get the specific 'mocked' service
+     */
     protected abstract AbstractService<T,E> getService();
 
+    /**
+     * Get the base url (eg /companies)
+     */
     protected abstract String getBaseUrl();
 
+    /**
+     * Get the url for a specified id (eg /companies/13)
+     */
     public abstract String getIdUrl();
 
+    /**
+     * Match jsonmodel with apimodel (todo: simplify?)
+     */
     public abstract void matchJsonModel(ResultActions res, E model) throws Exception;
 
 
