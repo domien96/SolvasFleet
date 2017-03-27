@@ -1,6 +1,7 @@
 import React from 'react';
 import Card      from '../app/Card.tsx';
 import { ButtonGroup, DropdownButton, MenuItem } from 'react-bootstrap';
+import { Typeahead } from 'react-bootstrap-typeahead';
 
 /*
 	A re-usable component for showing filters with multiple filter criteria
@@ -24,11 +25,14 @@ import { ButtonGroup, DropdownButton, MenuItem } from 'react-bootstrap';
 	@param type The type of data required in the inputfield
 	@param callback The function that gets called when the inputvalue changes
 
+	@param typeaheadfields is a list of Typeaheadfield objects, a field featuring typeahead lookup for filtering
+
 	@param onReset A function that clears all input fields and sets the selections to their default choice
 */
 interface Props {
   selections : Selectionfield[];
   inputfields : Inputfield[];
+  typeaheadfields : Typeaheadfield[];
   onReset : () => void;
   onHide : () => void;
 }
@@ -44,14 +48,10 @@ const Filter : React.StatelessComponent<Props> = props => {
 		);
 		return(
 			<div key={ selection.name }>
-				<div className='col-sm-12'>
-					<label>{ selection.name }</label>
-				</div>
-				<div className='col-sm-12'>
-					<ButtonGroup justified>
+				<label>{ selection.name }</label>
+				<ButtonGroup justified>
 						<DropdownButton id={ selection.title } key={ selection.title } className='btn btn-default' title={ selection.title }>{ choices }</DropdownButton>
-					</ButtonGroup>
-				</div>
+				</ButtonGroup>
 			</div>
 		);
 	}
@@ -64,6 +64,17 @@ const Filter : React.StatelessComponent<Props> = props => {
 				<label>{ name }</label>
 				<input type={ type } placeholder={ name } className='form-control' onChange={ callback } value={ value } />
 			</div>
+		);
+	}
+	);
+
+	const typeaheadfields = props.typeaheadfields.map((typeaheadfield : Typeaheadfield, i : number) => {
+		var { name, data, selected, callback } = typeaheadfield;
+		return(
+			<div key={ i }>
+				<label>{ name }</label>
+				<Typeahead onChange={ callback } options={ data } selected={ selected }/>
+			</div>	
 		);
 	}
 	);
@@ -84,13 +95,16 @@ const Filter : React.StatelessComponent<Props> = props => {
       <div className='card-content'>
         <div className='col-sm-6'>
           <div>
-        		{ inputfields }
+        		{ typeaheadfields }
         	</div>
 	      </div>
 	      <div className='col-sm-6'>
 	       	<div>
 	        	{ dropdowns }
 	        </div>
+	        <div>
+        		{ inputfields }
+        	</div>
         </div>	
       	<div className="clearfix" />
       </div>
