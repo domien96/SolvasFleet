@@ -31,7 +31,7 @@ class EditUser extends React.Component<User.Props, User.UForm.State> {
   onSubmit(e : any) : void {
     e.preventDefault();
     let setErrors = (e : Form.Error[]) => this.setState({ errors: e });
-    let success = () => browserHistory.push('/users/' + this.state.user.id);
+    let success = () => browserHistory.push(`/users/${this.state.user.id}`);
     let fail = (data : any) => {
       setErrors(data.errors.map(function(e : any) {
         return { field: e, error: 'null' };

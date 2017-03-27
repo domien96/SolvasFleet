@@ -28,7 +28,7 @@ class AddUser extends React.Component<{}, User.UForm.State> {
   public onSubmit(e : any) : void {
     e.preventDefault();
     let setErrors = (e : Form.Error[]) => this.setState({ errors: e });
-    let success = (data : any) => browserHistory.push('/users/' + data.id);
+    let success = (data : any) => browserHistory.push(`/users/${data.id}`);
     let fail = (data : any) => {
       setErrors(data.errors.map(function(e : any) {
         return { field: e, error: 'null' };

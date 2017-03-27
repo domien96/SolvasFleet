@@ -7,16 +7,14 @@ import ClientForm from './ClientForm.tsx'
 import { postClient } from '../../actions/client_actions.ts';
 import { hasError }  from '../../utils/utils.ts';
 
-
 class AddClient extends React.Component<{}, Company.CForm.State> {
 
   constructor() {
     super();
     this.state = {
       errors: [],
-      company: {}
+      company: { address: {} }
     };
-    this.state.company.address = {};
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit     = this.onSubmit.bind(this);
   }
@@ -35,7 +33,7 @@ class AddClient extends React.Component<{}, Company.CForm.State> {
   public onSubmit(e : any) : void {
     e.preventDefault();
     let setErrors = (e : Form.Error[]) => this.setState({ errors: e });
-    let success = (data : any) => browserHistory.push('/clients/' + data.id);
+    let success = (data : any) => browserHistory.push(`/clients/${data.id}`);
     let fail = (data : any) => {
       setErrors(data.errors.map(function(e : any) {
         return { field: e, error: 'null' };
