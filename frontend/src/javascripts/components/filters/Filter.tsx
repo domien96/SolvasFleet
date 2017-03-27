@@ -48,14 +48,10 @@ const Filter : React.StatelessComponent<Props> = props => {
 		);
 		return(
 			<div key={ selection.name }>
-				<div className='col-sm-12'>
-					<label>{ selection.name }</label>
-				</div>
-				<div className='col-sm-12'>
-					<ButtonGroup justified>
+				<label>{ selection.name }</label>
+				<ButtonGroup justified>
 						<DropdownButton id={ selection.title } key={ selection.title } className='btn btn-default' title={ selection.title }>{ choices }</DropdownButton>
-					</ButtonGroup>
-				</div>
+				</ButtonGroup>
 			</div>
 		);
 	}
