@@ -7,8 +7,8 @@ class DetailTable extends React.Component<Table.Detail.Props, {}> {
     const tableRows = this.props.data.map((c : Table.Head.Data, i : number) =>
       (
         <tr key={ i } className='table-row-left'>
-          <td className='col-md-6'>{ T.translate(c.key) }</td>
-          <td className='col-md-6'>{ c.label }</td>
+          <td className='first-column'>{ T.translate(c.key) }</td>
+          <td className='second-column'>{ c.label }</td>
         </tr>
       ));
 
@@ -17,7 +17,7 @@ class DetailTable extends React.Component<Table.Detail.Props, {}> {
         <div>
           <h3>Information</h3>
         </div>
-        <div className='table-wrap'>
+        <div className='table-wrap table-responsive'>
           <table className='table'>
             <tbody>
               { tableRows }

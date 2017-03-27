@@ -32,7 +32,7 @@ class AddVehicle extends React.Component<{}, Vehicle.VForm.State> {
 
     let success = (data : any) => browserHistory.push('/vehicles/' + data.id);
     let fail = (data : any) => {
-      setErrors(data.errors.map(function(e : any) {
+      setErrors(data.errors.map((e : any) => {
         return { field: e, error: 'null' };
       }));
     }

@@ -7,17 +7,22 @@ function request (
   success? : callback,
   fail? : callback
 ) {
+
   let headers : any = {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
-    method
+  }
+
+  let params : any = {
+    method: method,
+    headers: headers 
   }
 
   if (body) {
-    headers[body] = JSON.stringify(body);
+    params['body'] = JSON.stringify(body);
   }
 
-  fetch(url, headers) .then((r) => {
+  fetch(url, params).then((r) => {
     r.json().then((data) => {
       if (r.ok) {
         if (success) { success(data); }
@@ -27,6 +32,7 @@ function request (
     });
   });
 }
+
 
 export function GET(url : string, success? : callback, fail? : callback) {
   request(url, 'GET', undefined, success, fail);
