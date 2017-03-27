@@ -31,8 +31,7 @@ import static org.postgresql.hostchooser.HostRequirement.master;
  * @param <T> Type of the entity to work with.
  * @param <E> The type of the API model
  */
-@Component
-@Transactional // TODO Replace by services
+@Component // TODO Replace by services
 public abstract class AbstractRestController<T extends Model, E extends ApiModel> {
 
     private AbstractService<T,E> service;

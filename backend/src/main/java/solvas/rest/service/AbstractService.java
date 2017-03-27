@@ -3,6 +3,7 @@ package solvas.rest.service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.transaction.annotation.Transactional;
 import solvas.models.Model;
 import solvas.persistence.api.Dao;
 import solvas.persistence.api.EntityNotFoundException;
@@ -16,6 +17,7 @@ import solvas.rest.api.models.ApiModel;
  * @param <T> The class of the Model
  * @param <E> The class of the ApiModel
  */
+@Transactional
 public abstract class AbstractService<T extends Model,E extends ApiModel> {
 
 
