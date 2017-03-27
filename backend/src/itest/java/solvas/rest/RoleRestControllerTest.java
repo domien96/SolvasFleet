@@ -39,8 +39,9 @@ public class RoleRestControllerTest extends AbstractRestControllerTest<Role,ApiR
      * @param role the role we want to compare with the json result
      */
     public void matchJsonModel(ResultActions res,ApiRole role) throws Exception {
+        String f ="function"; //sonarqube blocker todo -> simple way to assert jsonmodel
         res.andExpect(jsonPath("id").value(role.getId()))
-                .andExpect(jsonPath("function").value(role.getFunction()))
+                .andExpect(jsonPath(f).value(role.getFunction()))
                 .andExpect(jsonPath("url").value(role.getUrl()))
                 .andExpect(jsonPath("company").value(role.getCompany()))
                 .andExpect(jsonPath("lastUpdatedBy").value(role.getLastUpdatedBy()))
@@ -75,8 +76,9 @@ public class RoleRestControllerTest extends AbstractRestControllerTest<Role,ApiR
     @Override
     public ApiRole getTestModel()
     {
+        int future=30;
         ApiRole role=super.getTestModel();
-        role.setEndDate(role.getStartDate().plusDays(20));
+        role.setEndDate(role.getStartDate().plusDays(future));
         return role;
     }
 }

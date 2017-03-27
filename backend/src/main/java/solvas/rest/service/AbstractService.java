@@ -12,7 +12,9 @@ import solvas.rest.api.mappers.exceptions.DependantEntityNotFound;
 import solvas.rest.api.models.ApiModel;
 
 /**
- * Abstract Service
+ * Abstract Service class
+ * @param <T> The class of the Model
+ * @param <E> The class of the ApiModel
  */
 public abstract class AbstractService<T extends Model,E extends ApiModel> {
 
@@ -45,7 +47,8 @@ public abstract class AbstractService<T extends Model,E extends ApiModel> {
     /**
      * Finding all the models
      * @param pagination the pagination, provided by frontend
-     * @param filters the filters, provided by frontend
+     * @param filters the filters, provided by frontend.
+     * @return the paged representation of the specific models.
      */
     public Page<E> findAll(Pageable pagination, Filter<T> filters)
     {
@@ -53,8 +56,8 @@ public abstract class AbstractService<T extends Model,E extends ApiModel> {
     }
 
     /**
-     * the amount of models in the db that have several specifications
      * @param spec the specifications/filters
+     * @return the amount of models with specifications
      */
     public long count(Specification<T> spec)
     {
@@ -64,6 +67,7 @@ public abstract class AbstractService<T extends Model,E extends ApiModel> {
     /**
      * Create a model and store it in the database
      * @param input the model we want to create
+     * @return the api representation of the stored model
      */
     public E create(E input) throws DependantEntityNotFound, EntityNotFoundException {
         T model = mapper.convertToModel(input);
@@ -81,7 +85,8 @@ public abstract class AbstractService<T extends Model,E extends ApiModel> {
     /**
      * Update a model on the database
      * @param id the id of the model we want to update
-     * @param input the model we want to update
+     * @param input the model we want to
+     * @return the Api representation of the updated model
      */
     public E update(int id,E input) throws DependantEntityNotFound, EntityNotFoundException {
         input.setId(id);

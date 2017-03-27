@@ -28,7 +28,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 /**
  * Abstract class of the restcontrollers
- * @param <E> The apimodel
+ * @param <E> The ApiModel
+ * @param <T> The Model
  */
 public abstract class AbstractRestControllerTest<T extends Model,E extends ApiModel> {
      abstract AbstractRestController getController();
