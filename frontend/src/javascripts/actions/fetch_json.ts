@@ -13,14 +13,18 @@ function request (
     'Accept': 'application/json',
   }
 
+  let params : any = {
+    method: method,
+    headers: headers 
+  }
+
   if (body) {
-    fetch(url, 
-      {
-        method: method,
-        headers, 
-        body: JSON.stringify(body)
-      }
-       ).then((r) => {
+    params = {body: JSON.stringify(body)};
+  }
+
+  console.log(params)
+
+  fetch(url, params).then((r) => {
     r.json().then((data) => {
       if (r.ok) {
         if (success) { success(data); }
@@ -29,24 +33,8 @@ function request (
       }
     });
   });
-  }
-  else{
-    fetch(url, 
-      {
-        method: method,
-        headers  
-      }
-        ) .then((r) => {
-      r.json().then((data) => {
-        if (r.ok) {
-          if (success) { success(data); }
-        } else {
-          if (fail) { fail(data); }
-        }
-      });
-    });
-  }
 }
+
 
 export function GET(url : string, success? : callback, fail? : callback) {
   request(url, 'GET', undefined, success, fail);
