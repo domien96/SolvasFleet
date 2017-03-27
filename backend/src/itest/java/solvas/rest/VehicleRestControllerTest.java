@@ -22,6 +22,10 @@ public class VehicleRestControllerTest extends AbstractRestControllerTest<Vehicl
     @Mock
     private VehicleService vehicleService;
 
+
+    /**
+     * Constructor for specific VehicleController tests
+     */
     public VehicleRestControllerTest() {
         super(ApiVehicle.class);
     }

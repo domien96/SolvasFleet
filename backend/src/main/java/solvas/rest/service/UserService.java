@@ -15,6 +15,10 @@ import solvas.rest.api.models.ApiUser;
  */
 @Service
 public class UserService extends AbstractService<User,ApiUser> {
+
+    /**
+     * Create a UserService object
+     */
     @Autowired
     public UserService(DaoContext context, UserMapper mapper) {
         super(context.getUserDao(), mapper);

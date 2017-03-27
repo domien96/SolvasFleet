@@ -15,6 +15,10 @@ import solvas.rest.api.models.ApiVehicle;
  */
 @Service
 public class VehicleService extends AbstractService<Vehicle,ApiVehicle>{
+
+    /**
+     * Create a VehicleService object
+     */
     @Autowired
     public VehicleService(DaoContext context, VehicleMapper mapper) {
         super(context.getVehicleDao(), mapper);

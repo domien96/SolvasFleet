@@ -22,6 +22,10 @@ public class UserRestControllerTest extends AbstractRestControllerTest<User,ApiU
     @Mock
     private UserService userService;
 
+
+    /**
+     * Constructor for specific UserController tests
+     */
     public UserRestControllerTest() {
         super(ApiUser.class);
     }

@@ -21,7 +21,9 @@ public class FleetRestControllerTest extends AbstractRestControllerTest<Fleet,Ap
     @Mock
     private FleetService service;
 
-
+    /**
+     * Constructor for specific FleetController tests
+     */
     public FleetRestControllerTest() {
         super(ApiFleet.class);
     }
@@ -46,6 +48,10 @@ public class FleetRestControllerTest extends AbstractRestControllerTest<Fleet,Ap
         return "/fleets/11";
     }
 
+
+    /**
+     * Method to check if json has the correct attributes
+     */
     @Override
     public void matchJsonModel(ResultActions res, ApiFleet model) throws Exception {
         res.andExpect(jsonPath("id").value(model.getId()))

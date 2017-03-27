@@ -25,6 +25,9 @@ public class CompanyRestControllerTest extends AbstractRestControllerTest<Compan
     private CompanyService service;
 
 
+    /**
+     * Constructor for specific CompanyController tests
+     */
     public CompanyRestControllerTest() {
         super(ApiCompany.class);
     }

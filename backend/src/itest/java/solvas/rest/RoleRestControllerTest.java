@@ -23,6 +23,10 @@ public class RoleRestControllerTest extends AbstractRestControllerTest<Role,ApiR
     @Mock
     private RoleService roleService;
 
+
+    /**
+     * Constructor for specific CompanyController tests
+     */
     public RoleRestControllerTest() {
         super(ApiRole.class);
     }

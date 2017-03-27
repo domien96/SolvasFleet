@@ -12,6 +12,9 @@ import solvas.rest.api.models.ApiFleet;
  */
 @Service
 public class FleetService extends AbstractService<Fleet,ApiFleet> {
+    /**
+     * Create a FleetService object
+     */
     @Autowired
     public FleetService(DaoContext context, FleetMapper mapper) {
         super(context.getFleetDao(), mapper);

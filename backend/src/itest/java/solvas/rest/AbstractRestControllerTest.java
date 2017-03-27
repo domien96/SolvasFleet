@@ -34,7 +34,12 @@ public abstract class AbstractRestControllerTest<T extends Model,E extends ApiMo
      abstract AbstractRestController getController();
      private E apiModel;
      private Class<? extends E> clazz;
-      AbstractRestControllerTest(Class<?extends E> clazz)
+
+    /**
+     * Abstract test constructor
+     * @param clazz the class we want to make random objects of.
+     */
+    AbstractRestControllerTest(Class<?extends E> clazz)
      {
          this.clazz=clazz;
      }
