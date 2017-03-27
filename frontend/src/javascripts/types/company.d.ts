@@ -12,13 +12,6 @@ namespace Company {
     'id' | 'name' | 'vatNumber' | 'phoneNumber' | 'city' | 'country' | 'houseNumber' | 'postalCode' | 'street';
 
   namespace CForm {
-    export interface Props {
-      onSubmit     : (e : any) => void;
-      handleChange : (field : Company.Field, isAddress : boolean, e : any) => void;
-      errors       : Form.Error[];
-      hasError     : (field : Company.Field) => boolean;
-      company      : Company;
-    }
 
     export interface State {
       errors : Form.Error[];

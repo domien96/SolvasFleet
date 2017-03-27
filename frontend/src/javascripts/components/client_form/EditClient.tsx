@@ -12,17 +12,14 @@ class EditClient extends React.Component<Company.Props, Company.CForm.State> {
     super();
     this.state = {
       errors: [],
-      company: {}
+      company: { address: {} }
     };
-    this.state.company.address = {};
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit     = this.onSubmit.bind(this);
   }
 
   componentDidMount() {
-    fetchClient(this.props.params.id, (data : any) => {
-      this.setState({ company: data })
-    });
+    fetchClient(this.props.params.id, (data : any) => { this.setState({ company: data }) });
   }
 
   handleChange(field : Company.Field, isAddress : boolean, e : any) : any {
