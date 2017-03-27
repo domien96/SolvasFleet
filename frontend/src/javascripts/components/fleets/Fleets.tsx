@@ -1,9 +1,7 @@
 import React from 'react';
-import { browserHistory, Link } from'react-router';
-import { Collapse } from 'react-bootstrap';
+import { browserHistory } from'react-router';
 
-import Card       from '../app/Card.tsx';
-import FleetForm    from '../fleets/FleetForm.tsx';
+import FleetsCard from './FleetsCard.tsx';
 import { postFleet } from '../../actions/fleet_actions.ts';
 
 class Fleets extends React.Component<Fleets.Props, Fleets.State> {
@@ -16,6 +14,7 @@ class Fleets extends React.Component<Fleets.Props, Fleets.State> {
     };
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.onClick = this.onClick.bind(this);
   }
 
   handleChange(field : Fleet.Field, e : any) : any {
@@ -42,37 +41,16 @@ class Fleets extends React.Component<Fleets.Props, Fleets.State> {
   }
 
   render() {
-    let fleets = this.props.fleets.map((f, i) => {
-      return (
-        <Link to={ '/fleets/' + f.id } key={ i } className='fleet'>
-          <h3>{ f.name }</h3>
-          <div className='actions pull-right'>
-            <h3>
-              <span className='glyphicon glyphicon-menu-right' />
-            </h3>
-          </div>
-        </Link>
-      )
-    });
-
     return (
-      <Card>
-        <div className='card-title'>
-          <h2>Fleets</h2>
-          <span className='click' onClick={ this.onClick.bind(this) }>Add a new fleet</span>
-        </div>
-        <div className='card-content fleets'>
-          <div className='fleet-form-wrapper'>
-            <Collapse in={ this.state.formVisible }>
-              <div>
-                <FleetForm handleChange={ this.handleChange } onSubmit={ this.onSubmit } />
-              </div>
-            </Collapse>
-          </div>
-          { fleets }
-        </div>
-      </Card>
-    )};
+      <FleetsCard
+        fleets={ this.props.fleets }
+        onSubmit={ this.onSubmit }
+        handleChange={ this.handleChange }
+        formIsVisible={ this.state.formVisible }
+        onClick={ this.onClick }
+      />
+    );
+  }
 }
 
 export default Fleets;
