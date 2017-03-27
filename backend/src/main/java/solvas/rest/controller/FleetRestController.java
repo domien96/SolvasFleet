@@ -59,8 +59,8 @@ public class FleetRestController extends AbstractRestController<Fleet, ApiFleet>
 
     @Override
     @RequestMapping(value = "/fleets/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteById(@PathVariable int id) {
-        return super.deleteById(id);
+    public ResponseEntity<?> archiveById(@PathVariable int id) {
+        return super.archiveById(id);
     }
 
     @Override
