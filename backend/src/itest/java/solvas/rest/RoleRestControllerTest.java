@@ -20,6 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(MockitoJUnitRunner.class)
 public class RoleRestControllerTest extends AbstractRestControllerTest<Role,ApiRole> {
 
+
     @Mock
     private RoleService roleService;
 
@@ -61,12 +62,12 @@ public class RoleRestControllerTest extends AbstractRestControllerTest<Role,ApiR
 
     @Override
     protected String getBaseUrl() {
-        return "/roles";
+        return RestTestFixtures.ROLEROOTURL;
     }
 
     @Override
     public String getIdUrl() {
-        return "/roles/11";
+        return RestTestFixtures.ROLEIDURL;
     }
 
     @Override

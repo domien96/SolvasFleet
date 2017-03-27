@@ -74,11 +74,11 @@ public class CompanyRestControllerTest extends AbstractRestControllerTest<Compan
 
     @Override
     protected String getBaseUrl() {
-        return "/companies";
+        return RestTestFixtures.COMPANYROOTURL;
     }
 
     @Override
     public String getIdUrl() {
-        return "/companies/10";
+        return RestTestFixtures.COMPANYIDURL;
     }
 }
