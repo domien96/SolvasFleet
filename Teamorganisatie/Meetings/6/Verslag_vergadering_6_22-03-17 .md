@@ -25,7 +25,7 @@ Tijd: 13:30-15:00
 * Deadlines
     * Waarborg -> 31/03/17
     * Authenticatie/Autorisatie: Davit is er mee bezig maar is aan het wachten op de API
-    * Facturisatie -> 16/03/17
+    * Facturisatie -> 16/04/17
 
 
 

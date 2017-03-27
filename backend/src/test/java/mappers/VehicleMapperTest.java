@@ -8,8 +8,8 @@ import solvas.models.Vehicle;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.dao.*;
-import solvas.rest.api.mappers.DependantEntityNotFound;
 import solvas.rest.api.mappers.VehicleAbstractMapper;
+import solvas.rest.api.mappers.exceptions.DependantEntityNotFound;
 import solvas.rest.api.models.ApiVehicle;
 
 import java.util.Optional;
