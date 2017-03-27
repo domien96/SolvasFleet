@@ -39,9 +39,7 @@ public class RoleRestControllerTest extends AbstractRestControllerTest<Role,ApiR
      * @param role the role we want to compare with the json result
      */
     public void matchJsonModel(ResultActions res,ApiRole role) throws Exception {
-        String f ="function"; //sonarqube blocker todo -> simple way to assert jsonmodel
         res.andExpect(jsonPath("id").value(role.getId()))
-                .andExpect(jsonPath(f).value(role.getFunction()))
                 .andExpect(jsonPath("url").value(role.getUrl()))
                 .andExpect(jsonPath("company").value(role.getCompany()))
                 .andExpect(jsonPath("lastUpdatedBy").value(role.getLastUpdatedBy()))
