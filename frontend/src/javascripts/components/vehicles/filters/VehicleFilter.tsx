@@ -20,7 +20,7 @@ class VehicleFilter extends React.Component<FilterProps, FilterState>{
 
 	constructor(){
 		super();
-		this.state = { filter: {fleet : '', type : '', leasingCompany: '', licensePlate: '', vin: '', year: ''}, typeDisplay: 'All vehicles', hidden:false, licensePlateData:['1-TES-700'] };
+		this.state = { filter: {fleet : '', type : '', leasingCompany: '', licensePlate: '', vin: '', year: ''}, typeDisplay: 'All vehicles', hidden:false, licensePlateData:[] };
 		this.handleFilterFleet = this.handleFilterFleet.bind(this);
 		this.handleFilterType = this.handleFilterType.bind(this);
 		this.handleFilterLeasingCompany = this.handleFilterLeasingCompany.bind(this);
@@ -31,6 +31,16 @@ class VehicleFilter extends React.Component<FilterProps, FilterState>{
 		this.handleHide = this.handleHide.bind(this);
 		this.handleShow = this.handleShow.bind(this);
 		this.setLicensePlates = this.setLicensePlates.bind(this);
+	}
+
+	componentDidMount(){
+		this.setLicensePlates(this.props.vehicles);
+	}
+
+	componentWillReceiveProps(nextProps : any){
+		if(this.props.vehicles != nextProps.vehicles){
+			this.setLicensePlates(nextProps.vehicles);
+		}
 	}
 
 	handleFilterFleet(event : any){
@@ -98,19 +108,23 @@ class VehicleFilter extends React.Component<FilterProps, FilterState>{
 		this.setState({ hidden: false });
 	}
 
-	setLicensePlates(){
-		console.log(this.props.vehicles);
-		var newLicensePlateData = this.props.vehicles.map((vehicle) =>{
-			return vehicle.licensePlate;
+	setLicensePlates(vehicles : Vehicle[]){
+		var newLicensePlateData = vehicles.map((vehicle) =>{
+			if(vehicle.licensePlate != null && vehicle.licensePlate != undefined && vehicle.licensePlate != '') return vehicle.licensePlate;
+			else return "";
 		});
-		this.setState( {licensePlateData: newLicensePlateData} );
+		var newLicensePlateDataFiltered = newLicensePlateData.filter((licensePlate) => {
+			if(licensePlate != "") return true;
+			else return false;
+		});
+		this.setState( {licensePlateData: newLicensePlateDataFiltered} );
 	}
 
 	render(){
 
 		var { filter, typeDisplay, licensePlateData } = this.state;
 
-		if(this.state.hidden){
+		if(this.state.hidden || licensePlateData == []){
 			return(
 				<HiddenFilter onReset={ this.handleReset } onShow={ this.handleShow }/>
 			);
