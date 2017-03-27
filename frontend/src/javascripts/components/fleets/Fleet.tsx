@@ -1,8 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router';
 
+import Checkbox from '../app/CheckBox.tsx';
 import Header from '../app/Header.tsx';
 import Card   from '../app/Card.tsx';
+import NestedCheckbox from '../app/NestedCheckbox.tsx';
 
 import { fetchFleet }    from '../../actions/fleet_actions.ts';
 import { fetchVehicles } from '../../actions/vehicle_actions.ts';
@@ -13,24 +15,37 @@ interface vehicleProps {
   vehicle : Vehicle;
 }
 class VehicleRow extends React.Component<vehicleProps, {}> {
+  static contextTypes = {
+    childIsChecked:    React.PropTypes.func,
+    childHandleChange: React.PropTypes.func
+  }
+
   render () {
     var { id, vin, brand, model, mileage } = this.props.vehicle;
 
     return (
-      <Link to={ '/vehicles/' + id } className='vehicle'>
-        <div>
+      <div className='tr'>
+        <div className='td'>
+          <input
+            type='checkbox'
+            className='checkbox'
+            checked={ this.context.childIsChecked(id) }
+            onChange={ () => this.context.childHandleChange(id) }
+            />
+        </div>
+        <Link to={ 'vehicles/' + id } className='td'>
           <span>Chassis Nummer:</span>
           <span>{ vin }</span>
-        </div>
-        <div>
+        </Link>
+        <Link to={ 'vehicles/' + id } className='td'>
           <span>Model:</span>
           <span>{ brand } { model }</span>
-        </div>
-        <div>
+        </Link>
+        <Link to={ 'vehicles/' + id } className='td'>
           <span>Mileage:</span>
           <span>{ mileage }</span>
-        </div>
-      </Link>
+        </Link>
+      </div>
     );
   }
 }
@@ -40,13 +55,18 @@ interface vehiclesProps {
 }
 interface vehiclesState {
   type : string;
+  mappings : any;
 }
 class Vehicles extends React.Component<vehiclesProps, vehiclesState> {
+  static contextTypes = {
+    isChecked:       React.PropTypes.func,
+    isIndeterminate: React.PropTypes.func,
+    handleChange:    React.PropTypes.func
+  }
+
   constructor(props : vehiclesProps) {
     super(props);
-    this.state = { type: null };
-    this.subfleetVehicles = this.subfleetVehicles.bind(this);
-    this.onClick = this.onClick.bind(this);
+    this.state = { type: null, mappings: [] };
   }
 
   subfleetVehicles(key : string) : React.ReactElement<any> {
@@ -59,7 +79,7 @@ class Vehicles extends React.Component<vehiclesProps, vehiclesState> {
     });
 
     return (
-      <div className='vehicles'>
+      <div className='vehicles table'>
         { vehicles }
       </div>
     )
@@ -78,10 +98,20 @@ class Vehicles extends React.Component<vehiclesProps, vehiclesState> {
     const vehicles = Object.keys(this.props.vehicles).map((k, i) => {
       return (
         <div key={ i} className='subfleet-wrapper'>
-          <div className='subfleet click' onClick={ () => this.onClick(k) }>
-            <h3>{ k } ({ this.props.vehicles[k].length })</h3>
+          <div className='table'>
+            <div className='subfleet-row tr'>
+              <Checkbox
+                className='checkbox td'
+                checked={ this.context.isChecked(k) }
+                indeterminate={ this.context.isIndeterminate(k) }
+                onChange={ () => this.context.handleChange(k) }
+                />
+              <h3 className='td' onClick={ () => this.onClick.bind(this)(k) }>
+                { k } ({ this.props.vehicles[k].length })
+              </h3>
+            </div>
           </div>
-          { this.subfleetVehicles(k) }
+          { this.subfleetVehicles.bind(this)(k) }
         </div>
       );
     });
@@ -94,12 +124,13 @@ class Vehicles extends React.Component<vehiclesProps, vehiclesState> {
   }
 }
 
+
 class Fleet extends React.Component<Fleet.Props, Fleet.State> {
   constructor(props : Fleet.Props) {
     super(props);
     this.state = {
       fleet: {},
-      vehicles: {}
+      vehicles: []
     }
   }
 
@@ -111,6 +142,8 @@ class Fleet extends React.Component<Fleet.Props, Fleet.State> {
   }
 
   render () {
+    let nodes = this.state.vehicles.map(({ id, type }) => { return { id, group: type } });
+
     return (
       <div>
         <Header>
@@ -122,7 +155,9 @@ class Fleet extends React.Component<Fleet.Props, Fleet.State> {
               <h5>Vehicles</h5>
             </div>
             <div className='card-content not-padded'>
-              <Vehicles vehicles={ this.state.vehicles } />
+              <NestedCheckbox values={ nodes }>
+                <Vehicles vehicles={ group_by(this.state.vehicles, 'type') } />
+              </NestedCheckbox>
             </div>
           </Card>
         </div>

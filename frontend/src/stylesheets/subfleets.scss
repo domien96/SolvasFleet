@@ -1,7 +1,16 @@
 @import './variables.scss';
 
-.subfleets {
+.fsubfleets {
   .subfleet-wrapper {
+    border-bottom: 1px solid $gray-lighter;
+
+    &:hover {
+      background: lighten(#000, 97.5%);
+    }
+
+    .checkbox {
+      float: left;
+    }
 
     &:last-child {
       .subfleet {
@@ -10,34 +19,65 @@
     }
 
     .subfleet {
-      padding: 20px 0 20px 30px;
-      border-bottom: 1px solid $gray-lighter;
+      padding: 20px 0 20px 10px;
 
-      &:hover {
-        background: lighten(#000, 97.5%);
+      h3 {
+        display: inline;
+        margin-left: 25px;
       }
     }
   }
 
   .vehicles {
     display: table;
-    border-left: 14px solid $gray-lighterer;
     width: 100%;
 
     .vehicle {
       display: table-row;
       height: 40px;
+      border-bottom: 1px solid $gray-lighter;
+
+      input {
+        margin-left: 25px;
+      }
 
       &:hover {
         background: lighten(#000, 97.5%);
       }
 
-      & > div {
+      & > a {
         display: table-cell;
         padding: 10px;
         font-size: 20px;
         font-weight: 100;
-        border-bottom: 1px solid $gray-lighter;
+      }
+    }
+  }
+}
+
+.subfleets {
+  .subfleet-wrapper {
+    .subfleet-row {
+      .checkbox {
+        margin-left: 10px;
+        margin-right: 10px;
+      }
+
+      h3 {
+        width: 99%;
+        padding-top: 20px;
+        padding-bottom: 20px;
+      }
+    }
+
+    .vehicles {
+      .td:first-child {
+        width: 1%;
+      }
+
+      .checkbox {
+        margin-left: 30px;
+        margin-right: 10px;
       }
     }
   }
