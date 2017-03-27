@@ -7,18 +7,19 @@ interface Props {
   filter: VehicleFilterData;
   typeDisplay: string
   licensePlateData: string[];
+  vinData: string[];
   onFilterType : (type : string) => void;
   onFilterFleet : (fleet : any) => void;
   onFilterLeasingCompany : (company : string | number) => void;
   onFilterLicensePlate : (selectedLicenses : string[]) => void;
-  onFilterVin : (vin : string) => void;
+  onFilterVin : (selectedVins : string[]) => void;
   onFilterYear : (year : string | number) => void;
   onReset: () => void;
   onHide: () => void;
 }
 
 const VehicleFilterLayout :  React.StatelessComponent<Props> = props => {
-  var { filter, typeDisplay, licensePlateData, onFilterType, onFilterFleet, onFilterLeasingCompany, onFilterLicensePlate, onFilterVin, onFilterYear } = props;
+  var { filter, typeDisplay, licensePlateData, vinData, onFilterType, onFilterFleet, onFilterLeasingCompany, onFilterLicensePlate, onFilterVin, onFilterYear } = props;
   var { fleet, leasingCompany, licensePlate, vin, year } = filter;
 
   //Different choices for each type of vehicle
@@ -36,17 +37,17 @@ const VehicleFilterLayout :  React.StatelessComponent<Props> = props => {
   //Different input fields for properties of a vehicle
   var fleetInput :          Inputfield = {name:T.translate('vehicle.fleet'),          value:fleet,          type:'number',  callback:onFilterFleet};
   var leasingCompanyInput : Inputfield = {name:T.translate('vehicle.leasingCompany'), value:leasingCompany, type:'number',  callback:onFilterLeasingCompany};
-  var vinInput :            Inputfield = {name:T.translate('vehicle.vin'),            value:vin,            type:'text',    callback:onFilterVin};
   var yearInput :           Inputfield = {name:T.translate('vehicle.year'),           value:year,           type:'number',  callback:onFilterYear};
 
 
   //Different typeahead fields
   var licensePlateInput : Typeaheadfield = {name:T.translate('vehicle.licensePlate'), data:licensePlateData, selected:[licensePlate], callback:onFilterLicensePlate};
+  var vinInput :          Typeaheadfield = {name:T.translate('vehicle.vin'),          data:vinData,          selected:[vin],          callback:onFilterVin};
 
 
   var selections : Selectionfield[] = [typeSelection];
-  var inputfields : Inputfield[] = [fleetInput, leasingCompanyInput, vinInput, yearInput];
-  var typeaheadfields : Typeaheadfield[] = [licensePlateInput];
+  var inputfields : Inputfield[] = [fleetInput, leasingCompanyInput, yearInput];
+  var typeaheadfields : Typeaheadfield[] = [licensePlateInput, vinInput];
 
   return(
     <Filter selections={ selections } inputfields={ inputfields } typeaheadfields={ typeaheadfields } onReset={ props.onReset } onHide={ props.onHide }/>
