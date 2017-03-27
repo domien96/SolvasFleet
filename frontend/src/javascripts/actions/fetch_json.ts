@@ -19,7 +19,7 @@ function request (
   }
 
   if (body) {
-    params = {body: JSON.stringify(body)};
+    params['body'] = JSON.stringify(body);
   }
 
   fetch(url, params).then((r) => {
