@@ -44,6 +44,8 @@ public abstract class AbstractService<T extends Model,E extends ApiModel> {
 
     /**
      * Finding all the models
+     * @param pagination the pagination, provided by frontend
+     * @param filters the filters, provided by frontend
      */
     public Page<E> findAll(Pageable pagination, Filter<T> filters)
     {
@@ -52,6 +54,7 @@ public abstract class AbstractService<T extends Model,E extends ApiModel> {
 
     /**
      * the amount of models in the db that have several specifications
+     * @param spec the specifications/filters
      */
     public long count(Specification<T> spec)
     {
@@ -60,6 +63,7 @@ public abstract class AbstractService<T extends Model,E extends ApiModel> {
 
     /**
      * Create a model and store it in the database
+     * @param input the model we want to create
      */
     public E create(E input) throws DependantEntityNotFound, EntityNotFoundException {
         T model = mapper.convertToModel(input);
@@ -68,6 +72,7 @@ public abstract class AbstractService<T extends Model,E extends ApiModel> {
 
     /**
      * Destroy a model from the database
+     * @param id the id of the entity we want to destroy (or archive)
      */
     public void destroy(int id) throws EntityNotFoundException {
         modelDao.destroy(modelDao.find(id));
@@ -75,6 +80,8 @@ public abstract class AbstractService<T extends Model,E extends ApiModel> {
 
     /**
      * Update a model on the database
+     * @param id the id of the model we want to update
+     * @param input the model we want to update
      */
     public E update(int id,E input) throws DependantEntityNotFound, EntityNotFoundException {
         input.setId(id);

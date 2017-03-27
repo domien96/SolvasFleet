@@ -33,7 +33,9 @@ public class VehicleRestControllerTest extends AbstractRestControllerTest<Vehicl
 
 
     /**
-     * Method to check if json has the correct attributes
+     * Match jsonmodel with ApiCompany
+     * @param res the ResultAction that mockMvc provides.
+     * @param vehicle the vehicle we want to compare with the json result
      */
     public void matchJsonModel(ResultActions res, ApiVehicle vehicle) throws Exception {
 

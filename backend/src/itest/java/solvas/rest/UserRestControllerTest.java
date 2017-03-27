@@ -31,7 +31,9 @@ public class UserRestControllerTest extends AbstractRestControllerTest<User,ApiU
     }
 
     /**
-     * Method to check if json has the correct attributes
+     * Match jsonmodel with ApiCompany
+     * @param res the ResultAction that mockMvc provides.
+     * @param user the user we want to compare with the json result
      */
     public void matchJsonModel(ResultActions res, ApiUser user) throws Exception {
         res.andExpect(jsonPath("id").value(user.getId()))

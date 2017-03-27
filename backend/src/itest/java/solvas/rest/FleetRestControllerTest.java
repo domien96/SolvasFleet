@@ -50,7 +50,9 @@ public class FleetRestControllerTest extends AbstractRestControllerTest<Fleet,Ap
 
 
     /**
-     * Method to check if json has the correct attributes
+     * Match jsonmodel with ApiCompany
+     * @param res the ResultAction that mockMvc provides.
+     * @param model the fleet we want to compare with the json result
      */
     @Override
     public void matchJsonModel(ResultActions res, ApiFleet model) throws Exception {

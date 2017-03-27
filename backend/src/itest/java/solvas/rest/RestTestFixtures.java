@@ -1,5 +1,8 @@
 package solvas.rest;
 
+/**
+ * Class that contains the test fixtures for restcontrollers
+ */
 public class RestTestFixtures {
     public final static String USERROOTURL = "/users";
     public final static String USERIDURL = "/users/14";

@@ -95,6 +95,8 @@ public abstract class AbstractRestControllerTest<T extends Model,E extends ApiMo
 
     /**
      * Match jsonmodel with apimodel (todo: simplify?)
+     * @param res the resultaction that mockMvc provides.
+     * @param model the model we want to compare with the json result
      */
     public abstract void matchJsonModel(ResultActions res, E model) throws Exception;
 

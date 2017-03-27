@@ -14,7 +14,9 @@ import solvas.rest.api.models.ApiRole;
 public class RoleService extends AbstractService<Role,ApiRole>{
 
     /**
-     * Create a RoleService object
+     * Construct a FleetService
+     * @param context the DaoContext
+     * @param mapper the mapper to map ApiRole and Role
      */
     @Autowired
     public RoleService(DaoContext context, RoleMapper mapper) {

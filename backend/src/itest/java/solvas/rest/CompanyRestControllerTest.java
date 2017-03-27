@@ -34,7 +34,9 @@ public class CompanyRestControllerTest extends AbstractRestControllerTest<Compan
 
 
     /**
-     * Method to check if json has the correct attributes
+     * Match jsonmodel with ApiCompany
+     * @param resultActions the resultaction that mockMvc provides.
+     * @param source the company we want to compare with the json result
      */
     public void matchJsonModel(ResultActions resultActions, ApiCompany source) throws Exception {
         resultActions.andExpect(jsonPath("id").value(source.getId()))

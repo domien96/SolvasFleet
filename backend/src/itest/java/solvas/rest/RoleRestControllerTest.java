@@ -34,7 +34,9 @@ public class RoleRestControllerTest extends AbstractRestControllerTest<Role,ApiR
 
 
     /**
-     * Method to check if json has the correct attributes
+     * Match jsonmodel with ApiCompany
+     * @param res the ResultAction that mockMvc provides.
+     * @param role the role we want to compare with the json result
      */
     public void matchJsonModel(ResultActions res,ApiRole role) throws Exception {
         res.andExpect(jsonPath("id").value(role.getId()))

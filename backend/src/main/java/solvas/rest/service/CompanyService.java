@@ -17,7 +17,9 @@ import solvas.rest.api.models.ApiCompany;
 public class CompanyService extends AbstractService<Company,ApiCompany> {
 
     /**
-     * Create a CompanyService object
+     * Construct a CcmpanyService
+     * @param context the daocontext
+     * @param mapper the mapper to map ApiCompany and Company
      */
     @Autowired
     public CompanyService(DaoContext context, CompanyMapper mapper) {
