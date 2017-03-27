@@ -20,6 +20,7 @@
         <property name="addressHouseNumber" column="address_house_number" type="string" not-null="true"/>
         <property name="addressPostalCode" column="address_postalCode" type="string" not-null="true"/>
         <property name="addressStreet" column="address_street" type="string" not-null="true"/>
+        <property name="archived" column="archived" type="boolean" not-null="true"/>
 
         <set name="representatives" table="company_users">
             <key column="company_id"/>

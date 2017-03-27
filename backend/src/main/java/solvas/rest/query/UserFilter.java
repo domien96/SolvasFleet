@@ -15,7 +15,7 @@ import java.util.List;
  *
  * @author Niko Strijbol
  */
-public class UserFilter implements Filter<User> {
+public class UserFilter extends ArchiveFilter<User> {
 
     private String email;
     private String firstName;
@@ -23,7 +23,7 @@ public class UserFilter implements Filter<User> {
 
     @Override
     public Collection<Predicate> asPredicates(CriteriaBuilder builder, Root<User> root) {
-        List<Predicate> predicates = new ArrayList<>();
+        Collection<Predicate> predicates = super.asPredicates(builder,root);
         if (email != null) {
             predicates.add(builder.equal(
                     builder.lower(root.get("email")),
