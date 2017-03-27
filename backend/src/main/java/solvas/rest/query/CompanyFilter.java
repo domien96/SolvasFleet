@@ -1,6 +1,7 @@
 package solvas.rest.query;
 
 import solvas.models.Company;
+import solvas.models.Model;
 import solvas.persistence.api.Filter;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -16,7 +17,7 @@ import java.util.List;
  * @author Niko Strijbol
  */
 @SuppressWarnings("unused")
-public class CompanyFilter implements Filter<Company> {
+public class CompanyFilter extends ArchiveFilter<Company> {
 
     private String city;
     private String country;
@@ -25,7 +26,7 @@ public class CompanyFilter implements Filter<Company> {
 
     @Override
     public Collection<Predicate> asPredicates(CriteriaBuilder builder, Root<Company> root) {
-        List<Predicate> predicates = new ArrayList<>();
+        Collection<Predicate> predicates = super.asPredicates(builder,root);
 
         if (city != null) {
             predicates.add(builder.equal(

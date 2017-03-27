@@ -18,6 +18,7 @@
                     class="solvas.models.User" not-null="true"/>
        <many-to-one name="company" column="company_id"
                     class="solvas.models.User" not-null="true"/>
+       <property name="archived" column="archived" type="boolean" not-null="true"/>
 
 
        <set name="permissions" table="rolepermissions"> <!-- Role is owner of relationship -->

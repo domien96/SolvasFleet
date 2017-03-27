@@ -62,8 +62,8 @@ public class CompanyRestController extends AbstractRestController<Company,ApiCom
 
     @Override
     @RequestMapping(value = "/companies/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteById(@PathVariable int id) {
-        return super.deleteById(id);
+    public ResponseEntity<?> archiveById(@PathVariable int id) {
+        return super.archiveById(id);
     }
 
     @Override
