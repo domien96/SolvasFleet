@@ -138,7 +138,7 @@ class Fleet extends React.Component<Fleet.Props, Fleet.State> {
     var { id } = this.props.params;
     let success = (data : any) => this.setState({ fleet: data });
     fetchFleet(id, success);
-    fetchVehicles((data) => this.setState({ vehicles: data.data}), undefined, { company: id.toString() });
+    fetchVehicles((data) => this.setState({ vehicles: data.data}), undefined, { fleet: id.toString() });
   }
 
   render () {
