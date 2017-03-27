@@ -24,7 +24,7 @@ import AddVehicle  from './components/vehicle_form/AddVehicle.tsx';
 import EditVehicle from './components/vehicle_form/EditVehicle.tsx';
 
 import Fleets from './components/fleets/Fleets.tsx';
-import Fleet  from './components/fleets/Fleet.tsx';
+import Fleet  from './components/fleet/Fleet.tsx';
 
 import NoMatch   from './components/NoMatch.tsx';
 
