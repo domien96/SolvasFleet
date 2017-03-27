@@ -43,7 +43,7 @@ class EditClient extends React.Component<Company.Props, Company.CForm.State> {
       }));
     }
 
-    putClient(this.state.company.id, success, fail);
+    putClient(this.state.company.id, this.state.company, success, fail);
   }
 
   render() {

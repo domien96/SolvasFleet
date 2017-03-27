@@ -143,7 +143,7 @@ class Fleet extends React.Component<Fleet.Props, Fleet.State> {
 
   render () {
     let nodes = this.state.vehicles.map(({ id, type }) => { return { id, group: type } });
-
+    console.log(nodes)
     return (
       <div>
         <Header>

@@ -10,9 +10,9 @@ export interface Props {
 
 const Overview : React.StatelessComponent<Props> = props => {
   const tableHead = [
-    th('id',        'client.id'),
-    th('firstName', 'client.firstName'),
-    th('lastName',  'client.lastName')
+    th('id',        'company.id'),
+    th('name', 'company.name'),
+    th('vatNumber',  'company.vatNumber')
   ];
 
   return (
