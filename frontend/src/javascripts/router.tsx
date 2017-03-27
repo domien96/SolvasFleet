@@ -13,9 +13,9 @@ import User     from './components/user/User.tsx';
 import NoUser   from './components/user/NoUser.tsx';
 
 import Clients    from './components/clients/Clients.tsx';
-import AddClient  from './components/clients/AddClient.tsx';
-import EditClient from './components/clients/EditClient.tsx';
-import Client     from './components/clients/Client.tsx';
+import AddClient  from './components/client_form/AddClient.tsx';
+import EditClient from './components/client_form/EditClient.tsx';
+import Client     from './components/client/Client.tsx';
 
 import Vehicles    from './components/vehicles/Vehicles.tsx';
 import Vehicle     from './components/vehicle/Vehicle.tsx';

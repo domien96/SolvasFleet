@@ -13,23 +13,3 @@
 /// <reference path="table.d.ts"/>
 /// <reference path="filter.d.ts"/>
 /// <reference path="Typeahead.d.ts"/>
-
-
-/* Sidebar */
-
-interface SidebarLinkProps {
-  path: string;
-}
-
-/* Card */
-
-interface CardProps {
-  className?: string;
-}
-
-/* App */
-
-interface AppProps {
-  location: any;
-}
-

@@ -1,13 +1,11 @@
 import React from 'react';
 
-class Header extends React.Component<{}, {}> {
-  render() {
-    return (
-      <div className='header'>
-        { this.props.children }
-      </div>
-    );
-  }
+const Header : React.StatelessComponent<{}> = props => {
+  return (
+    <div className='header'>
+      { props.children }
+    </div>
+  );
 }
 
 export default Header;
