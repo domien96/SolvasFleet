@@ -77,6 +77,14 @@ public abstract class AbstractService<T extends Model,E extends ApiModel> {
     }
 
     /**
+     * Archive a model on the database
+     * @param id the id of the entity we want to archive
+     */
+    public void archive(int id) throws EntityNotFoundException {
+        modelDao.archive(id);
+    }
+
+    /**
      * Destroy a model from the database
      * @param id the id of the entity we want to destroy (or archive)
      */
