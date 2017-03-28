@@ -179,20 +179,20 @@ public abstract class AbstractRestControllerTest<T extends Model,E extends ApiMo
     }
 
     /**
-     * Test: the response of a destroy requests for a model that exists
+     * Test: the response of a archive request for a model that exists
      */
     @Test
-    public void destroyCompanyNoError() throws Exception {
+    public void archiveModelNoError() throws Exception {
         getMockMvc().perform(delete(getIdUrl()).contentType(MediaType.APPLICATION_JSON_UTF8).content(getTestJson()))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 
     /**
-     * Test: the response of a destroy requests for a model that doesn't exists
+     * Test: the response of a archive request for a model that doesn't exists
      */
     @Test
-    public void destroyCompanyNotFound() throws Exception {
-        doThrow(new EntityNotFoundException()).when(getService()).destroy(anyInt());
+    public void archiveModelNotFound() throws Exception {
+        doThrow(new EntityNotFoundException()).when(getService()).archive(anyInt());
         getMockMvc().perform(delete(getIdUrl()).contentType(MediaType.APPLICATION_JSON_UTF8).content(getTestJson()))
                 .andExpect(status().isNotFound());
     }
