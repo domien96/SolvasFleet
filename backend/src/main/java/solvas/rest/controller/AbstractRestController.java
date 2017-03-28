@@ -8,22 +8,19 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import solvas.models.Model;
+import solvas.service.models.Model;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.Filter;
-import solvas.rest.api.mappers.exceptions.DependantEntityNotFound;
+import solvas.service.mappers.exceptions.DependantEntityNotFound;
 import solvas.rest.api.models.ApiModel;
-import solvas.rest.service.AbstractService;
+import solvas.service.AbstractService;
 import solvas.rest.utils.JsonListWrapper;
 
 import java.util.Collections;
 import java.util.stream.Collectors;
-
-import static org.postgresql.hostchooser.HostRequirement.master;
 
 /**
  * Abstract REST controller. Controllers handle incoming requests.

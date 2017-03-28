@@ -5,11 +5,11 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import solvas.models.Company;
+import solvas.service.models.Company;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.dao.CompanyDao;
-import solvas.rest.api.mappers.CompanyMapper;
+import solvas.service.mappers.CompanyMapper;
 import solvas.rest.api.models.ApiCompany;
 
 import static io.github.benas.randombeans.api.EnhancedRandom.random;

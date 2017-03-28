@@ -10,11 +10,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import solvas.models.Model;
+import solvas.service.models.Model;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.api.models.ApiModel;
 import solvas.rest.controller.AbstractRestController;
-import solvas.rest.service.AbstractService;
+import solvas.service.AbstractService;
 
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
 import static org.mockito.Matchers.any;

@@ -1,8 +1,8 @@
 package solvas.persistence.api.dao;
 
 import org.springframework.stereotype.Repository;
-import solvas.models.FleetSubscription;
-import solvas.models.Vehicle;
+import solvas.service.models.FleetSubscription;
+import solvas.service.models.Vehicle;
 import solvas.persistence.api.Dao;
 
 import java.util.Collection;

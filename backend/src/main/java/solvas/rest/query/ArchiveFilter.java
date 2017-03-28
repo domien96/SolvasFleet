@@ -1,7 +1,6 @@
 package solvas.rest.query;
 
-import solvas.models.Company;
-import solvas.models.Model;
+import solvas.service.models.Model;
 import solvas.persistence.api.Filter;
 
 import javax.persistence.criteria.CriteriaBuilder;

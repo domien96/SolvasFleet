@@ -5,12 +5,12 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import solvas.models.Vehicle;
+import solvas.service.models.Vehicle;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.dao.*;
-import solvas.rest.api.mappers.VehicleMapper;
-import solvas.rest.api.mappers.exceptions.DependantEntityNotFound;
+import solvas.service.mappers.VehicleMapper;
+import solvas.service.mappers.exceptions.DependantEntityNotFound;
 import solvas.rest.api.models.ApiVehicle;
 
 import java.util.Optional;

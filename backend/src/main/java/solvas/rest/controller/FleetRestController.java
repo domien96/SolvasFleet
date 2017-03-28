@@ -5,10 +5,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import solvas.models.Fleet;
+import solvas.service.models.Fleet;
 import solvas.rest.api.models.ApiFleet;
 import solvas.rest.query.FleetFilter;
-import solvas.rest.service.FleetService;
+import solvas.service.FleetService;
 
 import javax.validation.Valid;
 

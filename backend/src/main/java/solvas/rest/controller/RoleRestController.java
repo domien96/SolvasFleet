@@ -5,12 +5,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import solvas.models.Role;
-import solvas.persistence.api.DaoContext;
-import solvas.persistence.api.dao.RoleDao;
+import solvas.service.models.Role;
 import solvas.rest.api.models.ApiRole;
 import solvas.rest.query.RoleFilter;
-import solvas.rest.service.RoleService;
+import solvas.service.RoleService;
 
 import javax.validation.Valid;
 

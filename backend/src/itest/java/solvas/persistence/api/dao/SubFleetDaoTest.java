@@ -3,7 +3,7 @@ package solvas.persistence.api.dao;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import solvas.models.Fleet;
+import solvas.service.models.Fleet;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;

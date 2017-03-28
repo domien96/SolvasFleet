@@ -3,8 +3,8 @@ package solvas.persistence.api.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
-import solvas.models.FleetSubscription;
-import solvas.models.Vehicle;
+import solvas.service.models.FleetSubscription;
+import solvas.service.models.Vehicle;
 
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;

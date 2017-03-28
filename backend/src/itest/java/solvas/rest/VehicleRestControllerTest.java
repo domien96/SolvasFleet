@@ -4,12 +4,12 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.web.servlet.ResultActions;
-import solvas.models.Vehicle;
+import solvas.service.models.Vehicle;
 import solvas.rest.api.models.ApiVehicle;
 import solvas.rest.controller.AbstractRestController;
 import solvas.rest.controller.VehicleRestController;
-import solvas.rest.service.AbstractService;
-import solvas.rest.service.VehicleService;
+import solvas.service.AbstractService;
+import solvas.service.VehicleService;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 

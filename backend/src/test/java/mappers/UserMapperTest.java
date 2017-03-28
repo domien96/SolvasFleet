@@ -5,14 +5,12 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import solvas.models.User;
+import solvas.service.models.User;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.dao.UserDao;
-import solvas.rest.api.mappers.UserMapper;
+import solvas.service.mappers.UserMapper;
 import solvas.rest.api.models.ApiUser;
-
-import javax.persistence.Inheritance;
 
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
 import static org.hamcrest.MatcherAssert.assertThat;

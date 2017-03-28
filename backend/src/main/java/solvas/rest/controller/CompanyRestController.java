@@ -5,10 +5,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import solvas.models.Company;
+import solvas.service.models.Company;
 import solvas.rest.api.models.ApiCompany;
 import solvas.rest.query.CompanyFilter;
-import solvas.rest.service.CompanyService;
+import solvas.service.CompanyService;
 
 import javax.validation.Valid;
 

@@ -5,11 +5,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import solvas.models.User;
-import solvas.persistence.api.DaoContext;
+import solvas.service.models.User;
 import solvas.rest.api.models.ApiUser;
 import solvas.rest.query.UserFilter;
-import solvas.rest.service.UserService;
+import solvas.service.UserService;
 
 import javax.validation.Valid;
 

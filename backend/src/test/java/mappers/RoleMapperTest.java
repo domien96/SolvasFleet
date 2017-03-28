@@ -5,10 +5,10 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import solvas.models.Role;
+import solvas.service.models.Role;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.dao.RoleDao;
-import solvas.rest.api.mappers.RoleMapper;
+import solvas.service.mappers.RoleMapper;
 import solvas.rest.api.models.ApiRole;
 
 import static io.github.benas.randombeans.api.EnhancedRandom.random;

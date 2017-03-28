@@ -4,12 +4,12 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.web.servlet.ResultActions;
-import solvas.models.Role;
+import solvas.service.models.Role;
 import solvas.rest.api.models.ApiRole;
 import solvas.rest.controller.AbstractRestController;
 import solvas.rest.controller.RoleRestController;
-import solvas.rest.service.AbstractService;
-import solvas.rest.service.RoleService;
+import solvas.service.AbstractService;
+import solvas.service.RoleService;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
