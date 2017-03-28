@@ -5,6 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.security.cas.ServiceProperties;
 import org.springframework.security.cas.authentication.CasAuthenticationProvider;
@@ -16,13 +17,19 @@ import solvas.authentication.user.SolvasUserDetailsService;
  */
 @Configuration
 @ConfigurationProperties(prefix = "security.cas")
-@PropertySource(value = {"security.properties"})
 public class CasConfig {
 
     // TODO put these in properties file
     private String serviceUrl;
     private String casServerUrl;
     private String casKey; // No idea what this does
+
+    @Autowired
+    public CasConfig(Environment env) {
+        serviceUrl = env.getProperty("security.cas.serviceUrl");
+        casServerUrl = env.getProperty("security.cas.casServerUrl");
+        casKey = env.getProperty("security.cas.casKey");
+    }
 
     /**
      * Configure the CAS-login url which receives the CAS-token
