@@ -4,7 +4,12 @@ import { fetchVehicles } from '../../actions/vehicle_actions.ts';
 
 import { redirect_to } from'../../router.tsx';
 
-class Vehicles extends React.Component<{}, Vehicles.State> {
+interface State {
+    vehicles : Vehicle[];
+    filter: VehicleFilterData;
+  }
+
+class Vehicles extends React.Component<{}, State> {
 
   constructor(props : {}) {
     super(props);
