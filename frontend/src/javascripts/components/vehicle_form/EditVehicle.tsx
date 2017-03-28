@@ -32,13 +32,13 @@ class EditVehicle extends React.Component<Vehicle.Props, Vehicle.VForm.State> {
     e.preventDefault();
     let setErrors = (e : Form.Error[]) => this.setState({ errors: e });
 
-    let success = () => browserHistory.push('/vehicles/' + this.state.vehicle.id);
+    let success = () => browserHistory.push(`/vehicles/${this.state.vehicle.id}`);
     let fail = (data : any) => {
       setErrors(data.errors.map(function(e : any) {
         return { field: e.field, error: 'null' };
       }));
     }
-    putVehicle(this.state.vehicle.id, success, fail);
+    putVehicle(this.state.vehicle.id, this.state.vehicle, success, fail);
   }
 
   render() {

@@ -1,54 +1,14 @@
 import React from 'react';
-import { Link } from 'react-router';
 
-import Checkbox from '../app/CheckBox.tsx';
 import Header from '../app/Header.tsx';
 import Card   from '../app/Card.tsx';
 import NestedCheckbox from '../app/NestedCheckbox.tsx';
+import SubfleetRow from './SubfleetRow.tsx';
 
 import { fetchFleet }    from '../../actions/fleet_actions.ts';
 import { fetchVehicles } from '../../actions/vehicle_actions.ts';
 
 import { group_by } from '../../utils/utils.ts';
-
-interface vehicleProps {
-  vehicle : Vehicle;
-}
-class VehicleRow extends React.Component<vehicleProps, {}> {
-  static contextTypes = {
-    childIsChecked:    React.PropTypes.func,
-    childHandleChange: React.PropTypes.func
-  }
-
-  render () {
-    var { id, vin, brand, model, mileage } = this.props.vehicle;
-
-    return (
-      <div className='tr'>
-        <div className='td'>
-          <input
-            type='checkbox'
-            className='checkbox'
-            checked={ this.context.childIsChecked(id) }
-            onChange={ () => this.context.childHandleChange(id) }
-            />
-        </div>
-        <Link to={ 'vehicles/' + id } className='td'>
-          <span>Chassis Nummer:</span>
-          <span>{ vin }</span>
-        </Link>
-        <Link to={ 'vehicles/' + id } className='td'>
-          <span>Model:</span>
-          <span>{ brand } { model }</span>
-        </Link>
-        <Link to={ 'vehicles/' + id } className='td'>
-          <span>Mileage:</span>
-          <span>{ mileage }</span>
-        </Link>
-      </div>
-    );
-  }
-}
 
 interface vehiclesProps {
   vehicles : any;
@@ -69,22 +29,6 @@ class Vehicles extends React.Component<vehiclesProps, vehiclesState> {
     this.state = { type: null, mappings: [] };
   }
 
-  subfleetVehicles(key : string) : React.ReactElement<any> {
-    if (this.state.type != key) {
-      return null;
-    }
-
-    const vehicles = this.props.vehicles[key].map((v : Vehicle, i : number) => {
-      return (<VehicleRow key={ i } vehicle={ v } />);
-    });
-
-    return (
-      <div className='vehicles table'>
-        { vehicles }
-      </div>
-    )
-  }
-
   onClick(newType : string) : void {
     var { type } = this.state;
     if (newType == type) {
@@ -97,22 +41,16 @@ class Vehicles extends React.Component<vehiclesProps, vehiclesState> {
   render() {
     const vehicles = Object.keys(this.props.vehicles).map((k, i) => {
       return (
-        <div key={ i} className='subfleet-wrapper'>
-          <div className='table'>
-            <div className='subfleet-row tr'>
-              <Checkbox
-                className='checkbox td'
-                checked={ this.context.isChecked(k) }
-                indeterminate={ this.context.isIndeterminate(k) }
-                onChange={ () => this.context.handleChange(k) }
-                />
-              <h3 className='td' onClick={ () => this.onClick.bind(this)(k) }>
-                { k } ({ this.props.vehicles[k].length })
-              </h3>
-            </div>
-          </div>
-          { this.subfleetVehicles.bind(this)(k) }
-        </div>
+        <SubfleetRow
+          key={ i }
+          type={ k }
+          isChecked={ this.context.isChecked }
+          isIndeterminate={ this.context.isIndeterminate }
+          handleChange={ this.context.handleChange }
+          onClick={ this.onClick.bind(this) }
+          vehicles={ this.props.vehicles[k] }
+          showVehicles={ this.state.type != k }
+          />
       );
     });
 
