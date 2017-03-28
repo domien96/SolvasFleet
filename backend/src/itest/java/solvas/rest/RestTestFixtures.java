@@ -4,14 +4,14 @@ package solvas.rest;
  * Class that contains the test fixtures for restcontrollers
  */
 public class RestTestFixtures {
-    public final static String USERROOTURL = "/users";
-    public final static String USERIDURL = "/users/14";
-    public final static String FLEETROOTURL = "/fleets";
-    public final static String FLEETIDURL = "/fleets/9";
-    public final static String VEHICLEROOTURL = "/vehicles";
-    public final static String VEHICLEIDURL = "/vehicles/9";
-    public final static String ROLEROOTURL = "/roles";
-    public final static String ROLEIDURL = "/roles/13";
-    public final static String COMPANYROOTURL = "/companies";
-    public final static String COMPANYIDURL = "/companies/13";
+    public final static String USER_ROOT_URL = "/users";
+    public final static String USER_ID_URL = "/users/14";
+    public final static String FLEET_ROOT_URL = "/fleets";
+    public final static String FLEET_ID_URL = "/fleets/9";
+    public final static String VEHICLE_ROOT_URL = "/vehicles";
+    public final static String VEHICLE_ID_URL = "/vehicles/9";
+    public final static String ROLE_ROOT_URL = "/roles";
+    public final static String ROLE_ID_URL = "/roles/13";
+    public final static String COMPANY_ROOT_URL = "/companies";
+    public final static String COMPANY_ID_URL = "/companies/13";
 }

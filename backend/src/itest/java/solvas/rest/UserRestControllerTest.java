@@ -67,12 +67,12 @@ public class UserRestControllerTest extends AbstractRestControllerTest<User,ApiU
 
     @Override
     protected String getBaseUrl() {
-        return RestTestFixtures.USERROOTURL;
+        return RestTestFixtures.USER_ROOT_URL;
     }
 
     @Override
     public String getIdUrl() {
-        return RestTestFixtures.USERIDURL;
+        return RestTestFixtures.USER_ID_URL;
     }
 
 }

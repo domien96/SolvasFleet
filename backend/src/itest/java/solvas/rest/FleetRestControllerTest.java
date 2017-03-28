@@ -40,12 +40,12 @@ public class FleetRestControllerTest extends AbstractRestControllerTest<Fleet,Ap
 
     @Override
     protected String getBaseUrl() {
-        return RestTestFixtures.FLEETROOTURL;
+        return RestTestFixtures.FLEET_ROOT_URL;
     }
 
     @Override
     public String getIdUrl() {
-        return RestTestFixtures.FLEETIDURL;
+        return RestTestFixtures.FLEET_ID_URL;
     }
 
 

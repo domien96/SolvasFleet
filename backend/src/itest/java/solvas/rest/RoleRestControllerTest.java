@@ -63,12 +63,12 @@ public class RoleRestControllerTest extends AbstractRestControllerTest<Role,ApiR
 
     @Override
     protected String getBaseUrl() {
-        return RestTestFixtures.ROLEROOTURL;
+        return RestTestFixtures.ROLE_ROOT_URL;
     }
 
     @Override
     public String getIdUrl() {
-        return RestTestFixtures.ROLEIDURL;
+        return RestTestFixtures.ROLE_ID_URL;
     }
 
     @Override

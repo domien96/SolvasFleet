@@ -78,11 +78,11 @@ public class VehicleRestControllerTest extends AbstractRestControllerTest<Vehicl
 
     @Override
     protected String getBaseUrl() {
-        return RestTestFixtures.VEHICLEROOTURL;
+        return RestTestFixtures.VEHICLE_ROOT_URL;
     }
 
     @Override
     public String getIdUrl() {
-        return RestTestFixtures.VEHICLEIDURL;
+        return RestTestFixtures.VEHICLE_ID_URL;
     }
 }
