@@ -169,15 +169,15 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
     }
 
     /**
-     * Deletes a model from db
+     * Archives a model in the db
      *
      * @param id id of the model
      * @return ResponseEntity
      */
-    protected ResponseEntity<?> deleteById(int id) {
+    protected ResponseEntity<?> archiveById(int id) {
         try {
-            service.destroy(id);
-            return new ResponseEntity<>(HttpStatus.OK);
+            service.archive(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (EntityNotFoundException e) {
             return notFound();
         }

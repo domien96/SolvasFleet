@@ -62,8 +62,8 @@ public class RoleRestController extends AbstractRestController<Role,ApiRole> {
 
     @Override
     @RequestMapping(value = "/roles/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteById(@PathVariable int id) {
-        return super.deleteById(id);
+    public ResponseEntity<?> archiveById(@PathVariable int id) {
+        return super.archiveById(id);
     }
 
     @Override

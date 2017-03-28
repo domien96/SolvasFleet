@@ -12,16 +12,17 @@ import java.util.Collections;
 /**
  * @author Niko Strijbol
  */
-public class FleetFilter implements Filter<Fleet> {
+public class FleetFilter extends ArchiveFilter<Fleet> {
 
     private int company = -1;
 
     @Override
     public Collection<Predicate> asPredicates(CriteriaBuilder builder, Root<Fleet> root) {
+        Collection<Predicate> predicates = super.asPredicates(builder,root);
         if (company >= 0) {
-            return Collections.singleton(builder.equal(root.get("company"), company));
+            predicates.add(builder.equal(root.get("company"), company));
         }
-        return Collections.emptyList();
+        return predicates;
     }
 
     public void setCompany(int company) {
