@@ -1,9 +1,9 @@
 import React              from 'react';
-import { browserHistory } from'react-router';
 
 import Layout from './Layout.tsx';
 
 import { fetchUsers } from '../../actions/user_actions.ts';
+import { redirect_to } from'../../router.tsx';
 
 class Users extends React.Component<{}, Users.State> {
 
@@ -23,7 +23,7 @@ class Users extends React.Component<{}, Users.State> {
   }
 
   handleClick(id : number) {
-    browserHistory.push('/users/' + id);
+    redirect_to(`/users/${id}`);
   }
 
   render() {

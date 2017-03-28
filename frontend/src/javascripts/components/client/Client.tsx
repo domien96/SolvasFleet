@@ -1,12 +1,14 @@
 import React from 'react';
-import { browserHistory, Link } from'react-router';
+import { Link } from'react-router';
 
-import { fetchFleets } from '../../actions/fleet_actions.ts';
-import { fetchClient, deleteClient } from '../../actions/client_actions.ts';
 import Card         from '../app/Card.tsx';
 import Header       from '../app/Header.tsx';
 import DetailTable  from '../tables/DetailTable.tsx';
 import Fleets       from '../fleets/Fleets.tsx';
+
+import { fetchFleets } from '../../actions/fleet_actions.ts';
+import { fetchClient, deleteClient } from '../../actions/client_actions.ts';
+import { redirect_to } from'../../router.tsx';
 
 import { th } from '../../utils/utils.ts';
 
@@ -28,7 +30,7 @@ class Client extends React.Component<Company.Props, Company.State> {
   }
 
   public deleteClient(){
-    deleteClient(this.props.params.id, () => browserHistory.push('/clients'));
+    deleteClient(this.props.params.id, () => redirect_to('/clients'));
   }
 
   render() {

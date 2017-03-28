@@ -13,9 +13,9 @@ import User     from './components/user/User.tsx';
 import NoUser   from './components/user/NoUser.tsx';
 
 import Clients    from './components/clients/Clients.tsx';
-import AddClient  from './components/clients/AddClient.tsx';
-import EditClient from './components/clients/EditClient.tsx';
-import Client     from './components/clients/Client.tsx';
+import AddClient  from './components/client_form/AddClient.tsx';
+import EditClient from './components/client_form/EditClient.tsx';
+import Client     from './components/client/Client.tsx';
 
 import Vehicles    from './components/vehicles/Vehicles.tsx';
 import Vehicle     from './components/vehicle/Vehicle.tsx';
@@ -24,7 +24,7 @@ import AddVehicle  from './components/vehicle_form/AddVehicle.tsx';
 import EditVehicle from './components/vehicle_form/EditVehicle.tsx';
 
 import Fleets from './components/fleets/Fleets.tsx';
-import Fleet  from './components/fleets/Fleet.tsx';
+import Fleet  from './components/fleet/Fleet.tsx';
 
 import NoMatch   from './components/NoMatch.tsx';
 
@@ -35,6 +35,11 @@ if (ENVIRONMENT == "development") {
   var SUB_URI = "";
 } else {
   var SUB_URI = "/app";
+}
+
+export function redirect_to(path : string) : void {
+  let sep = path[0] == '/' ? '' : '/';
+  browserHistory.push(`${SUB_URI}${sep}${path}`);
 }
 
 class SolvasRouter extends React.Component<{}, {}> {

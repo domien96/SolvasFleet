@@ -27,7 +27,7 @@ const UserForm : React.StatelessComponent<Props> = props => {
           <div className='col-xs-12 col-md-5'>
             <div className='row'>
               <Permissions />
-              <Actions submitLabel={ submit } cancelUrl={ `/users/${user.id}` } model='user' />
+              <Actions submitLabel={ submit } cancelUrl={ `/users/${user.id || ''}` } model='user' />
             </div>
           </div>
         </div>

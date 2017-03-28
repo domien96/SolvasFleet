@@ -1,24 +1,32 @@
 import React      from 'react';
 import T          from 'i18n-react';
 
-export default class FormChoice extends React.Component<Form.Choice.Props, {}> {
+interface Props {
+      placeholder : string;
+      choices : Table.Head.Data[];
+      callback    : (e : any) => void;
+      value : string;
+}
 
+const FormChoice : React.StatelessComponent<Props> = props => {
 
-  render() {
-    const label = T.translate(this.props.placeholder);
+	var { placeholder, choices, value, callback } = props;
 
-    const choices = this.props.choices.map((c : Table.Head.Data, i : number) => (
+    const label = T.translate(placeholder);
+
+    const choicesList = choices.map((c : Table.Head.Data, i : number) => (
       <option key={i} value={c.key}>{ T.translate(c.label) }</option>
-      ));
+    ));
 
     return (
       <div className={ 'form-group' }>
         <label>{ label }:
-        <select className='btn btn-default' value={ this.props.value } onChange={ this.props.callback }>
-        { choices }
+        <select className='btn btn-default' value={ value } onChange={ callback }>
+        { choicesList }
         </select>
         </label>
       </div>
-    )
-  }
+    );
 }
+
+export default FormChoice;
