@@ -1,8 +1,13 @@
 package solvas.rest.api.mappers;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriComponentsBuilder;
 import solvas.models.Company;
 import solvas.persistence.api.DaoContext;
+import solvas.rest.api.mappers.exceptions.FieldNotFoundException;
+import solvas.persistence.api.EntityNotFoundException;
+import solvas.rest.SimpleUrlBuilder;
 import solvas.rest.api.models.ApiAddress;
 import solvas.rest.api.models.ApiCompany;
 
@@ -12,7 +17,7 @@ import solvas.rest.api.models.ApiCompany;
 @Component
 public class CompanyMapper extends AbstractMapper<Company,ApiCompany> {
 
-    private String rootPath="/companies/";
+    private static final String ROOTPATH ="/companies/";
 
     /**
      * Create a mapper between Company and ApiCompany
@@ -20,11 +25,11 @@ public class CompanyMapper extends AbstractMapper<Company,ApiCompany> {
      * @param daoContext The context for Dao's
      */
     public CompanyMapper(DaoContext daoContext) {
-        super(daoContext);
+        super(daoContext, "name", "vatNumber", "phoneNumber");
     }
 
     @Override
-    public Company convertToModel(ApiCompany apiCompany) {
+    public Company convertToModel(ApiCompany apiCompany) throws FieldNotFoundException, EntityNotFoundException {
         Company company = new Company();
         company.setId(apiCompany.getId());
 
@@ -32,17 +37,10 @@ public class CompanyMapper extends AbstractMapper<Company,ApiCompany> {
         if (company.getId()!=0) {
             //update
             company = daoContext.getCompanyDao().find(company.getId());
-            if (company==null){
-                company=new Company();
-            }
         }
 
-        company.setName(apiCompany.getName()==null
-                ? company.getName() : apiCompany.getName());
-        company.setVatNumber(apiCompany.getVatNumber()==null
-                ? company.getVatNumber() : apiCompany.getVatNumber());
-        company.setPhoneNumber(apiCompany.getPhoneNumber()==null
-                ? company.getPhoneNumber() : apiCompany.getPhoneNumber());
+        copySharedAttributes(company, apiCompany);
+
         if (apiCompany.getAddress()!=null) {
             company.setAddressCity(apiCompany.getAddress().getCity());
             company.setAddressCountry(apiCompany.getAddress().getCountry());
@@ -60,21 +58,21 @@ public class CompanyMapper extends AbstractMapper<Company,ApiCompany> {
     }
 
     @Override
-    public ApiCompany convertToApiModel(Company company) {
+    public ApiCompany convertToApiModel(Company company) throws FieldNotFoundException {
         ApiCompany apiCompany = new ApiCompany();
-        apiCompany.setId(company.getId());
-        apiCompany.setName(company.getName());
-        apiCompany.setVatNumber(company.getVatNumber());
-        apiCompany.setPhoneNumber(company.getPhoneNumber());
+
+        copyAttributes(apiCompany, company, "id", "createdAt", "updatedAt");
+        copySharedAttributes(apiCompany, company);
+
         apiCompany.setAddress(new ApiAddress());
         apiCompany.getAddress().setCity(company.getAddressCity());
         apiCompany.getAddress().setCountry(company.getAddressCountry());
         apiCompany.getAddress().setHouseNumber(company.getAddressHouseNumber());
         apiCompany.getAddress().setPostalCode(company.getAddressPostalCode());
         apiCompany.getAddress().setStreet(company.getAddressStreet());
-        apiCompany.setCreatedAt(company.getCreatedAt());
-        apiCompany.setUpdatedAt(company.getUpdatedAt());
-        apiCompany.setUrl(rootPath+apiCompany.getId());
+        apiCompany.setUrl(SimpleUrlBuilder.buildUrl(ROOTPATH + "{id}", company.getId()));
         return apiCompany;
     }
+
+
 }

@@ -4,8 +4,8 @@ import { Link } from 'react-router';
 import Header from '../app/Header.tsx';
 import Card   from '../app/Card.tsx';
 
-import fetchFleet    from '../../actions/fetch_fleet.ts';
-import fetchVehicles from '../../actions/fetch_vehicles.ts';
+import { fetchFleet }    from '../../actions/fleet_actions.ts';
+import { fetchVehicles } from '../../actions/vehicle_actions.ts';
 
 import { group_by } from '../../utils/utils.ts';
 
@@ -17,7 +17,7 @@ class VehicleRow extends React.Component<vehicleProps, {}> {
     var { id, vin, brand, model, mileage } = this.props.vehicle;
 
     return (
-      <Link to={ 'vehicles/' + id } className='vehicle'>
+      <Link to={ '/vehicles/' + id } className='vehicle'>
         <div>
           <span>Chassis Nummer:</span>
           <span>{ vin }</span>
@@ -105,14 +105,9 @@ class Fleet extends React.Component<Fleet.Props, Fleet.State> {
 
   componentDidMount() {
     var { id } = this.props.params;
-    fetchFleet(id)
-      .then((data : any) => {
-        this.setState({ fleet: data });
-      });
-    fetchVehicles('', id.toString())
-      .then((data : any) => {
-        this.setState({ vehicles: group_by(data.data, 'type') })
-      });
+    let success = (data : any) => this.setState({ fleet: data });
+    fetchFleet(id, success);
+    fetchVehicles((data) => this.setState({ vehicles: group_by(data.data, 'type')}), undefined, { company: id.toString() });
   }
 
   render () {

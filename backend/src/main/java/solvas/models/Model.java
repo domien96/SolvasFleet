@@ -15,9 +15,10 @@ import java.time.LocalDateTime;
  */
 public abstract class Model {
 
-    private int id;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    protected int id;
+    protected LocalDateTime createdAt;
+    protected LocalDateTime updatedAt;
+    protected boolean archived;
 
     /**
      * Get the unique identifier for this model. When making a new model, obtaining a an identifier should be
@@ -90,5 +91,24 @@ public abstract class Model {
     @SuppressWarnings("unused")
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+
+    /**
+     * Gets the current state of whether the model is archived
+     * @return The current state of archive the model has in the database
+     */
+    public boolean isArchived() {
+        return archived;
+    }
+
+    /**
+     * Sets whether a model should be archived in the database. (Archive replaces delete)
+     * The model should be saved by a dao before it updates in the database
+     *
+     * @param archived set archived
+     */
+    public void setArchived(boolean archived) {
+        this.archived = archived;
     }
 }

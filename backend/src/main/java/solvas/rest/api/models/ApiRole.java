@@ -1,15 +1,28 @@
 package solvas.rest.api.models;
 
+import org.hibernate.validator.constraints.NotBlank;
+import solvas.models.validators.StartBeforeEnd;
+
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 /**
  * Created by steve on 11/03/2017.
  */
+@StartBeforeEnd
 public class ApiRole extends ApiModel {
+
     private int company;
-    private LocalDateTime endDate;
-    private String function;
+
+    @NotNull
     private LocalDateTime startDate;
+
+    private LocalDateTime endDate;
+
+    @NotBlank
+    private String function;
+
+    private int user;
 
     public int getCompany() {
         return company;
@@ -50,6 +63,4 @@ public class ApiRole extends ApiModel {
     public void setUser(int user) {
         this.user = user;
     }
-
-    private int user;
 }

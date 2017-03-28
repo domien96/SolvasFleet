@@ -10,8 +10,8 @@ if (ENVIRONMENT == "development") {
 export const USERS_URL                = `${BASE_API_URL}/users`;
 export function USER_URL(id : number) { return `${USERS_URL}/${id}`; }
 
-export const COMPANIES_URL               = `${BASE_API_URL}/companies`;
-export function COMPANY_URL(id : number) { return `${COMPANIES_URL}/${id}`; }
+export const CLIENTS_URL                = `${BASE_API_URL}/companies`;
+export function CLIENT_URL(id : number) { return `${CLIENTS_URL}/${id}`; }
 
 export const VEHICLES_URL                = `${BASE_API_URL}/vehicles`;
 export function VEHICLE_URL(id : number) { return `${VEHICLES_URL}/${id}`; }

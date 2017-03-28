@@ -1,9 +1,8 @@
 import React from 'react';
 import { browserHistory, Link } from'react-router';
 
-import fetchClient  from '../../actions/fetch_company.ts';
-import fetchFleets  from '../../actions/fetch_fleets_by_company.ts';
-import deleteClient from '../../actions/delete_company.ts';
+import { fetchFleets } from '../../actions/fleet_actions.ts';
+import { fetchClient, deleteClient } from '../../actions/client_actions.ts';
 import Card         from '../app/Card.tsx';
 import Header       from '../app/Header.tsx';
 import DetailTable  from '../tables/DetailTable.tsx';
@@ -20,20 +19,16 @@ class Client extends React.Component<Company.Props, Company.State> {
   }
 
   componentDidMount() {
-    fetchClient(this.props.params.id)
-      .then((data : any) => {
-        this.setState({ company: data })
-      });
-    fetchFleets(this.props.params.id)
-      .then((data : any) => {
-        this.setState({ fleets: data.data })
-      });
+    fetchClient(this.props.params.id, (data : any) => {
+      this.setState({ company: data })
+    });
+    fetchFleets((data : any) => {
+      this.setState({ fleets: data.data })
+    }, undefined, { company: this.props.params.id });
   }
 
   public deleteClient(){
-    deleteClient(this.props.params.id).then(function(this: any) {
-      browserHistory.push('/clients');
-    });
+    deleteClient(this.props.params.id, () => browserHistory.push('/clients'));
   }
 
   render() {

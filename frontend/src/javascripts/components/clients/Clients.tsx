@@ -5,12 +5,12 @@ import Card       from '../app/Card.tsx';
 import Header     from '../app/Header.tsx';
 import InfoTable  from '../tables/InfoTable.tsx';
 
-import fetchClients from '../../actions/fetch_companies.ts';
+import { fetchClients } from '../../actions/client_actions.ts';
 import { th } from '../../utils/utils.ts';
 
 
 interface OverviewProps {
-  companies: Company[];
+  clients: Company[];
 }
 
 class Overview extends React.Component<OverviewProps, {}> {
@@ -33,7 +33,7 @@ class Overview extends React.Component<OverviewProps, {}> {
     ];
 
     return (
-      <InfoTable head={ tableHead } data={ this.props.companies } onClick={ this.handleClick } />
+      <InfoTable head={ tableHead } data={ this.props.clients } onClick={ this.handleClick } />
     );
   }
 }
@@ -43,14 +43,13 @@ class Clients extends React.Component<{}, Companies.State> {
 
   constructor(props : {}) {
     super(props);
-    this.state = { companies: [] };
+    this.state = { clients: [] };
   }
 
   componentDidMount() {
-    fetchClients()
-      .then((data : Companies.Data) => {
-        this.setState({ companies: data.data })
-      });
+    fetchClients((data : Companies.Data) => {
+      this.setState({ clients: data.data })
+    });
   }
 
   render() {
@@ -68,7 +67,7 @@ class Clients extends React.Component<{}, Companies.State> {
                     <span className='glyphicon glyphicon-plus' aria-hidden='true'></span>
                     Add new client
                   </Link>
-                  <Overview companies={ this.state.companies } />
+                  <Overview clients={ this.state.clients } />
                 </div>
               </Card>
             </div>

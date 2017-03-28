@@ -1,8 +1,13 @@
 package solvas.rest.api.mappers;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriComponentsBuilder;
 import solvas.models.Role;
 import solvas.persistence.api.DaoContext;
+import solvas.rest.api.mappers.exceptions.FieldNotFoundException;
+import solvas.persistence.api.EntityNotFoundException;
+import solvas.rest.SimpleUrlBuilder;
 import solvas.rest.api.models.ApiRole;
 
 /**
@@ -11,30 +16,27 @@ import solvas.rest.api.models.ApiRole;
 @Component
 public class RoleAbstractMapper extends AbstractMapper<Role,ApiRole> {
 
-    private String rootPath="/roles/";
+    private static final String ROOTPATH ="/roles/";
     /**
      * Create a mapper between Role and ApiRole
      *
      * @param daoContext The DaoContext this mapper should work with
      */
     public RoleAbstractMapper(DaoContext daoContext) {
-        super(daoContext);
+        super(daoContext, "startDate", "function", "endDate");
     }
 
     @Override
-    public Role convertToModel(ApiRole api) {
+    public Role convertToModel(ApiRole api) throws FieldNotFoundException,EntityNotFoundException {
+
         Role role = new Role();
         role.setId(api.getId());
         if (role.getId()!=0) {
             //update
             role = daoContext.getRoleDao().find(role.getId());
-            if (role==null){
-                role=new Role();
-            }
         }
-        role.setStartDate(api.getStartDate()==null ? role.getStartDate() : api.getStartDate());
-        role.setFunction(api.getFunction()==null ? role.getFunction() : api.getFunction());
-        role.setEndDate(api.getEndDate()==null ? role.getEndDate() : api.getEndDate());
+
+        copySharedAttributes(role, api);
         role.setUser(api.getUser()==0 ? role.getUser() : daoContext.getUserDao().find(api.getUser()));
         role.setCompany(api.getCompany()==0 ? role.getCompany() : daoContext.getCompanyDao().find(api.getCompany()));
         //role permissions
@@ -42,15 +44,13 @@ public class RoleAbstractMapper extends AbstractMapper<Role,ApiRole> {
     }
 
     @Override
-    public ApiRole convertToApiModel(Role role) {
+    public ApiRole convertToApiModel(Role role) throws FieldNotFoundException {
         ApiRole apiRole = new ApiRole();
-        apiRole.setId(role.getId());
-        apiRole.setUrl(rootPath+apiRole.getId());
+        copyAttributes(apiRole, role, "id");
+        copySharedAttributes(apiRole, role);
         apiRole.setCompany(role.getCompany().getId());
         apiRole.setUser(role.getUser().getId());
-        apiRole.setFunction(role.getFunction());
-        apiRole.setStartDate(role.getStartDate());
-        apiRole.setEndDate(role.getEndDate());
+        apiRole.setUrl(SimpleUrlBuilder.buildUrl(ROOTPATH + "{id}", role.getId()));
         return apiRole;
     }
 }
