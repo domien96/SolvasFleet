@@ -3,14 +3,14 @@ import { Link } from 'react-router';
 
 interface LProps {
   id : number | string;
-  key : string;
+  span : string;
   value : string | number;
 }
 
-const VehicleLink : React.StatelessComponent<LProps> = ({ id, key, value }) => {
+const VehicleLink : React.StatelessComponent<LProps> = ({ id, span, value }) => {
   return (
     <Link to={ `vehicles/${id}` } className='td'>
-      <span>{ key }:</span>
+      <span>{ span }:</span>
       <span>{ value }</span>
     </Link>
   );
@@ -39,9 +39,9 @@ class VehicleRow extends React.Component<Props, {}> {
             onChange={ () => this.context.childHandleChange(id) }
             />
         </div>
-        <VehicleLink id={ id } key='Chassis Nummer' value={ vin } />
-        <VehicleLink id={ id } key='Model' value={ `${brand} ${model}` } />
-        <VehicleLink id={ id } key='Mileage' value={ mileage } />
+        <VehicleLink id={ id } span='Chassis Nummer' value={ vin } />
+        <VehicleLink id={ id } span='Model' value={ `${brand} ${model}` } />
+        <VehicleLink id={ id } span='Mileage' value={ mileage } />
       </div>
     );
   }

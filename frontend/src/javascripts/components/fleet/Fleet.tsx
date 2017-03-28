@@ -49,7 +49,7 @@ class Vehicles extends React.Component<vehiclesProps, vehiclesState> {
           handleChange={ this.context.handleChange }
           onClick={ this.onClick.bind(this) }
           vehicles={ this.props.vehicles[k] }
-          showVehicles={ this.state.type != k }
+          showVehicles={ this.state.type == k }
           />
       );
     });
