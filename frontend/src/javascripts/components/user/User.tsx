@@ -1,8 +1,8 @@
 import React from 'react';
-import { browserHistory } from'react-router';
 
 import UserCard from './UserCard.tsx';
 import { fetchUser, deleteUser } from '../../actions/user_actions.ts';
+import { redirect_to } from'../../router.tsx';
 
 interface Props {
   params : { id : number };
@@ -40,7 +40,7 @@ class User extends React.Component<Props, State> {
   deleteUser(){
     var reloadUsers = this.props.fetchUsers;
     deleteUser(this.props.params.id, () => reloadUsers());
-    browserHistory.push('/users');
+    redirect_to('/users');
   }
 
   render() {

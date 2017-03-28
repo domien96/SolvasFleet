@@ -1,7 +1,8 @@
 import React from 'react';
-import { browserHistory } from'react-router';
 import Layout     from './Layout.tsx'
 import { fetchVehicles } from '../../actions/vehicle_actions.ts';
+
+import { redirect_to } from'../../router.tsx';
 
 class Vehicles extends React.Component<{}, Vehicles.State> {
 
@@ -31,7 +32,7 @@ class Vehicles extends React.Component<{}, Vehicles.State> {
   }
 
   handleClick(id : number) {
-    browserHistory.push('/vehicles/' + id);
+    redirect_to(`/vehicles/${id}`);
   }
 
   render() {

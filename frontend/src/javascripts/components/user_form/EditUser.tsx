@@ -1,11 +1,11 @@
 import React from 'react';
-import { browserHistory } from 'react-router';
 
 import Header from '../app/Header.tsx';
 import UserForm from './UserForm.tsx';
 
 import { fetchUser, putUser } from '../../actions/user_actions.ts';
 import { hasError } from '../../utils/utils.ts';
+import { redirect_to } from'../../router.tsx';
 
 class EditUser extends React.Component<User.Props, User.UForm.State> {
   constructor() {
@@ -31,7 +31,7 @@ class EditUser extends React.Component<User.Props, User.UForm.State> {
   onSubmit(e : any) : void {
     e.preventDefault();
     let setErrors = (e : Form.Error[]) => this.setState({ errors: e });
-    let success = () => browserHistory.push(`/users/${this.state.user.id}`);
+    let success = () => redirect_to(`/users/${this.state.user.id}`);
     let fail = (data : any) => {
       setErrors(data.errors.map(function(e : any) {
         return { field: e, error: 'null' };

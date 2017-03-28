@@ -37,6 +37,11 @@ if (ENVIRONMENT == "development") {
   var SUB_URI = "/app";
 }
 
+export function redirect_to(path : string) : void {
+  let sep = path[0] == '/' ? '' : '/';
+  browserHistory.push(`${SUB_URI}${sep}${path}`);
+}
+
 class SolvasRouter extends React.Component<{}, {}> {
   render() {
     const history = useBasename(() => browserHistory)({
