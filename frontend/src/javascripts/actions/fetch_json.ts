@@ -40,9 +40,12 @@ function request (
   });
 }
 
+export function GET(url : string, success? : callback, fail? : callback, query : any = {} ) {
+  const querystring = Object.keys(query).map((k) => {
+    return `${k}=${query[k]}`
+  }).join('&');
 
-export function GET(url : string, success? : callback, fail? : callback) {
-  request(url, 'GET', undefined, success, fail);
+  request(`${url}?${querystring}`, 'GET', undefined, success, fail);
 }
 
 export function POST(url : string, body : any, success? : callback, fail? : callback) {

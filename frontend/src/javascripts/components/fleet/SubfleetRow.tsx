@@ -34,7 +34,7 @@ const Subfleet : React.StatelessComponent<Props> = props => {
 
   var vehicles = null;
   if(props.showVehicles) {
-    vehicles =  (<Vehicles vehicles={ props.vehicles } />);
+    vehicles = (<Vehicles vehicles={ props.vehicles } />);
   }
 
   return (
