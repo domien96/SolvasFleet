@@ -5,11 +5,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import solvas.models.Fleet;
-import solvas.persistence.api.dao.FleetDao;
-import solvas.rest.api.mappers.FleetMapper;
+import solvas.service.models.Fleet;
 import solvas.rest.api.models.ApiFleet;
 import solvas.rest.query.FleetFilter;
+import solvas.service.FleetService;
 
 import javax.validation.Valid;
 
@@ -22,12 +21,11 @@ public class FleetRestController extends AbstractRestController<Fleet, ApiFleet>
     /**
      * Default constructor.
      *
-     * @param dao       The dao to work with.
-     * @param mapper    The mapper class for objects of domain model class T and API-model class E.
+     * @param service service class for fleets
      */
     @Autowired
-    public FleetRestController(FleetDao dao, FleetMapper mapper) {
-        super(dao, mapper);
+    public FleetRestController(FleetService service) {
+        super(service);
     }
 
     /**

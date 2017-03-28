@@ -1,15 +1,11 @@
 package solvas.rest.query;
 
-import solvas.models.Company;
-import solvas.models.Model;
-import solvas.persistence.api.Filter;
+import solvas.service.models.Company;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Filters for a {@link Company}.

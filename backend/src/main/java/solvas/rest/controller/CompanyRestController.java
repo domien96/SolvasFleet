@@ -5,11 +5,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import solvas.models.Company;
-import solvas.persistence.api.DaoContext;
-import solvas.rest.api.mappers.CompanyMapper;
+import solvas.service.models.Company;
 import solvas.rest.api.models.ApiCompany;
 import solvas.rest.query.CompanyFilter;
+import solvas.service.CompanyService;
 
 import javax.validation.Valid;
 
@@ -24,12 +23,11 @@ public class CompanyRestController extends AbstractRestController<Company,ApiCom
     /**
      * Rest controller for Company
      *
-     * @param daoContext Autowired
-     * @param mapper The mapper class for companies
+     * @param service service class for companies
      */
     @Autowired
-    public CompanyRestController(DaoContext daoContext, CompanyMapper mapper) {
-        super(daoContext.getCompanyDao(), mapper);
+    public CompanyRestController(CompanyService service) {
+        super(service);
     }
 
 

@@ -8,20 +8,18 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import solvas.models.Model;
-import solvas.persistence.api.Dao;
+import solvas.service.models.Model;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.Filter;
-import solvas.rest.api.mappers.AbstractMapper;
-import solvas.rest.api.mappers.exceptions.DependantEntityNotFound;
+import solvas.service.mappers.exceptions.DependantEntityNotFound;
 import solvas.rest.api.models.ApiModel;
+import solvas.service.AbstractService;
 import solvas.rest.utils.JsonListWrapper;
 
-import java.util.*;
+import java.util.Collections;
 import java.util.stream.Collectors;
 
 /**
@@ -30,22 +28,18 @@ import java.util.stream.Collectors;
  * @param <T> Type of the entity to work with.
  * @param <E> The type of the API model
  */
-@Component
-@Transactional // TODO Replace by services
+@Component // TODO Replace by services
 public abstract class AbstractRestController<T extends Model, E extends ApiModel> {
 
-    protected final Dao<T> dao;
-    protected AbstractMapper<T, E> mapper;
+    private AbstractService<T,E> service;
 
     /**
      * Default constructor.
      *
-     * @param dao       The dao to work with.
-     * @param mapper    The mapper class for objects of domain model class T and API-model class E.
+     * @param service service class for entities
      */
-    protected AbstractRestController(Dao<T> dao, AbstractMapper<T, E> mapper) {
-        this.dao = dao;
-        this.mapper = mapper;
+    protected AbstractRestController(AbstractService<T,E> service) {
+        this.service=service;
     }
 
     /**
@@ -64,13 +58,11 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        Page<E> page = dao.findAll(filter, pagination)
-                .map(source -> mapper.convertToApiModel(source));
-
+        Page<E> page = service.findAll( pagination,filter);
         JsonListWrapper<E> wrapper = new JsonListWrapper<>(page.getContent());
         wrapper.put("limit", pagination.getPageSize());
         wrapper.put("offset", pagination.getOffset());
-        wrapper.put("total", dao.count(filter));
+        wrapper.put("total", service.count(filter));
         return new ResponseEntity<>(wrapper, HttpStatus.OK);
     }
 
@@ -83,7 +75,7 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
 
     protected ResponseEntity<?> getById(int id) {
         try {
-            return new ResponseEntity<>(mapper.convertToApiModel(dao.find(id)), HttpStatus.OK);
+            return new ResponseEntity<>(service.getById(id), HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             return notFound();
         }
@@ -163,12 +155,9 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      * @return Response with the saved model, or 400.
      * @throws EntityNotFoundException Should never be thrown, because we're creating a new record. If this happens, a bug is found.
      */
-    protected ResponseEntity<?> post(E input, BindingResult binding) {
+    protected ResponseEntity<?> post(E input, BindingResult binding)  {
         try {
-            return save(input, binding, () -> {
-                T model = mapper.convertToModel(input);
-                return mapper.convertToApiModel(dao.save(model));
-            });
+            return save(input, binding, () -> service.create(input));
         } catch (DependantEntityNotFound e) {
             return handleDependantNotFound(e);
         } catch (EntityNotFoundException e) {
@@ -184,7 +173,7 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      */
     protected ResponseEntity<?> archiveById(int id) {
         try {
-            dao.archive(id);
+            service.archive(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (EntityNotFoundException e) {
             return notFound();
@@ -200,13 +189,7 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      */
     protected ResponseEntity<?> put(int id, E input, BindingResult binding) {
         try {
-            return save(input, binding, () -> {
-                input.setId(id);
-                T model = mapper.convertToModel(input);
-
-                return mapper.convertToApiModel(dao
-                        .save(model));
-            });
+            return save(input, binding, () -> service.update(id,input));
         } catch (DependantEntityNotFound e) {
             return handleDependantNotFound(e);
         } catch (EntityNotFoundException e) {
@@ -230,6 +213,7 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
                             binding.getFieldErrors().stream().map(FieldError::getField).collect(Collectors.toList()),
                             JsonListWrapper.ERROR_KEY
                     ),
+
                     HttpStatus.BAD_REQUEST
             );
         }
