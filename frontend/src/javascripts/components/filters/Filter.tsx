@@ -62,7 +62,7 @@ const Filter : React.StatelessComponent<Props> = props => {
 		return(
 			<div key={ i }>
 				<label>{ name }</label>
-				<input type={ type } placeholder={ name } className='form-control' onChange={ callback } value={ value } />
+				<input type={ type } placeholder={ name } className='form-control' onChange={ callback } value={ value || '' } />
 			</div>
 		);
 	}
