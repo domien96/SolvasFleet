@@ -17,10 +17,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Filter JWT based authentications
+ */
 public class JwtTokenAuthenticationProcessingFilter extends AbstractAuthenticationProcessingFilter {
     private final AuthenticationFailureHandler failureHandler;
     private final TokenExtractor tokenExtractor;
 
+    /**
+     * @param failureHandler failureHandler for JWT authentication
+     * @param tokenExtractor extractor to get tokens from requests
+     * @param matcher Match requests
+     */
     @Autowired
     public JwtTokenAuthenticationProcessingFilter(AuthenticationFailureHandler failureHandler, 
             TokenExtractor tokenExtractor, RequestMatcher matcher) {

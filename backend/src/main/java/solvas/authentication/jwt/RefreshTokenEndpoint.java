@@ -25,10 +25,8 @@ import solvas.authentication.jwt.token.RefreshToken;
 
 /**
  * RefreshTokenEndpoint
- * 
- * @author vladimir.stankovic
  *
- * Aug 17, 2016
+ * Used to request new access tokens
  */
 @RestController
 public class RefreshTokenEndpoint {
@@ -36,9 +34,15 @@ public class RefreshTokenEndpoint {
     @Autowired private JwtSettings jwtSettings;
     @Autowired private SolvasUserDetailsService userService;
     @Autowired @Qualifier("jwtHeaderTokenExtractor") private TokenExtractor tokenExtractor;
-    
+
+    /**
+     * Request a new access token
+     * @param request The request for a new access token
+     * @return The body containing the new access token
+     * @throws InvalidJwt The refresh token was invalid
+     */
     @RequestMapping(value="/auth/token", method=RequestMethod.GET, produces={ MediaType.APPLICATION_JSON_VALUE })
-    public @ResponseBody JwtToken refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, InvalidJwt {
+    public @ResponseBody JwtToken refreshToken(HttpServletRequest request) throws InvalidJwt {
         String tokenPayload = tokenExtractor.extract(request.getHeader(WebSecurityConfig.JWT_TOKEN_HEADER_PARAM));
         
         RawAccessJwtToken rawToken = new RawAccessJwtToken(tokenPayload);

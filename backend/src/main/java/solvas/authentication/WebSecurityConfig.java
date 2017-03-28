@@ -1,6 +1,5 @@
 package solvas.authentication;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,7 +12,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import solvas.authentication.cas.CasAuthenticationSuccessHandler;
 import solvas.authentication.jwt.JwtAuthenticationProvider;
@@ -23,6 +21,9 @@ import solvas.authentication.jwt.TokenExtractor;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Configure authentication system
+ */
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -33,8 +34,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private RestAuthenticationEntryPoint authenticationEntryPoint;
-    @Autowired
-    private AuthenticationSuccessHandler successHandler;
     @Autowired
     private AuthenticationFailureHandler failureHandler;
     @Autowired
@@ -49,10 +48,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private ObjectMapper objectMapper;
-
-    @Autowired
-    public CasAuthenticationSuccessHandler ajaxAwareAuthenticationSuccessHandler;
+    private CasAuthenticationSuccessHandler ajaxAwareAuthenticationSuccessHandler;
 
 
     protected CasAuthenticationFilter buildCasAuthenticationFilter() throws Exception {

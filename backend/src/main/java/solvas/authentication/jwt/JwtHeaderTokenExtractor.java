@@ -4,6 +4,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.stereotype.Component;
 
+/**
+ * Component used to extract the JWT from the request headers
+ */
 @Component
 public class JwtHeaderTokenExtractor implements TokenExtractor {
     public static String HEADER_PREFIX = "Bearer ";

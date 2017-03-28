@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 
+/**
+ * Build User details based on username
+ */
 @Component
 public class SolvasUserDetailsService implements UserDetailsService {
     @Override

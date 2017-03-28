@@ -4,17 +4,18 @@ import org.springframework.security.core.AuthenticationException;
 import solvas.authentication.jwt.token.JwtToken;
 
 /**
- * Created by David Vandorpe.
+ * This exception is raised when an expired JWT is passed by a user.
  */
 public class JwtExpiredTokenException extends AuthenticationException {
     private static final long serialVersionUID = -5959543783324224864L;
 
     private JwtToken token;
 
-    public JwtExpiredTokenException(String msg) {
-        super(msg);
-    }
-
+    /**
+     * @param token The expired JWT
+     * @param msg Custom error message
+     * @param t Nested throwable
+     */
     public JwtExpiredTokenException(JwtToken token, String msg, Throwable t) {
         super(msg, t);
         this.token = token;

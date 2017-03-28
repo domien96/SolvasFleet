@@ -7,9 +7,10 @@ import solvas.authentication.exceptions.InvalidJwt;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Token used to refresh access tokens
+ */
 public class RefreshToken implements JwtToken {
-    // TODO: enable refresh tokens
-
     private Jws<Claims> claims;
 
     private RefreshToken(Jws<Claims> claims) {
@@ -17,12 +18,12 @@ public class RefreshToken implements JwtToken {
     }
 
     /**
-     * Creates and validates Refresh token 
+     * Parses and validates Refresh token
      * 
-     * @param token
-     * @param signingKey
+     * @param token The JWT to parse
+     * @param signingKey The secret key used to sign this JWT
      * 
-     * @return
+     * @return The parsed access token
      */
     public static RefreshToken create(RawAccessJwtToken token, String signingKey) throws InvalidJwt {
         Jws<Claims> claims = token.parseClaims(signingKey);
@@ -41,14 +42,16 @@ public class RefreshToken implements JwtToken {
         return null;
     }
 
+    /**
+     * @return The claims of this token
+     */
     public Jws<Claims> getClaims() {
         return claims;
     }
-    
-    public String getJti() {
-        return claims.getBody().getId();
-    }
-    
+
+    /**
+     * @return The String representation of the subject
+     */
     public String getSubject() {
         return claims.getBody().getSubject();
     }

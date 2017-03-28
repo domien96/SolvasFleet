@@ -15,10 +15,16 @@ import solvas.authentication.jwt.token.RawAccessJwtToken;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Authentication provider for JWT
+ */
 @Component
 public class JwtAuthenticationProvider implements AuthenticationProvider {
     private final JwtSettings jwtSettings;
 
+    /**
+     * @param jwtSettings Settings for the JWT service
+     */
     @Autowired
     public JwtAuthenticationProvider(JwtSettings jwtSettings) {
         this.jwtSettings = jwtSettings;

@@ -20,11 +20,19 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Handler responsible for generating JWT when CAS authentication succeeds
+ */
 @Component
 public class CasAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
     private final ObjectMapper mapper;
     private final JwtTokenFactory tokenFactory;
 
+    /**
+     * Create handler
+     * @param mapper Mapper to convert objects to JSON
+     * @param tokenFactory Factory to generate JWT's
+     */
     @Autowired
     public CasAuthenticationSuccessHandler(final ObjectMapper mapper, final JwtTokenFactory tokenFactory) {
         this.mapper = mapper;
@@ -39,7 +47,7 @@ public class CasAuthenticationSuccessHandler implements AuthenticationSuccessHan
         JwtToken accessToken = tokenFactory.createAccessJwtToken(user);
         JwtToken refreshToken = tokenFactory.createRefreshToken(user);
 
-        Map<String, String> tokenMap = new HashMap<String, String>();
+        Map<String, String> tokenMap = new HashMap<>();
         tokenMap.put("token", accessToken.getToken());
         tokenMap.put("refreshToken", refreshToken.getToken());
 

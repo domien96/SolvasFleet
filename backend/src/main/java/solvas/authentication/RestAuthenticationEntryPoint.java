@@ -12,10 +12,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
 /**
- * 
- * @author vladimir.stankovic
- *
- * Aug 4, 2016
+ * No clue what this is for, but it works
  */
 @Component
 public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {

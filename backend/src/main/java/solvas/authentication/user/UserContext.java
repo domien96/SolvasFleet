@@ -5,6 +5,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
+/**
+ * Details of a user to store in JWT
+ */
 public class UserContext implements UserDetails {
     private final String username;
     private final Collection<? extends GrantedAuthority> authorities;
