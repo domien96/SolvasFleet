@@ -2,7 +2,11 @@ import React    from 'react';
 import { Link } from 'react-router';
 import classNames from 'classnames';
 
-class SidebarLink extends React.Component<SidebarLinkProps, {}> {
+interface SProps {
+  path: string;
+}
+
+class SidebarLink extends React.Component<SProps, {}> {
   static contextTypes = {
     location: React.PropTypes.object
   }
@@ -20,26 +24,28 @@ class SidebarLink extends React.Component<SidebarLinkProps, {}> {
   }
 }
 
-class Sidebar extends React.Component<{}, {}> {
-  render() {
-    return (
-      <nav className='navbar-default navbar-side'>
-        <div id='logo'>
-          <Link to='/'>
-            <h2>SolvasFleet</h2>
-          </Link>
-        </div>
-        <ul className='nav'>
-          <SidebarLink path='/users'>Users</SidebarLink>
-          <SidebarLink path='/clients'>Clients</SidebarLink>
-          <SidebarLink path='/vehicles'>Vehicles</SidebarLink>
-        </ul>
-      </nav>
-    );
-  }
+const Sidebar : React.StatelessComponent<{}> = () => {
+  return (
+    <nav className='navbar-default navbar-side'>
+      <div id='logo'>
+        <Link to='/'>
+          <h2>SolvasFleet</h2>
+        </Link>
+      </div>
+      <ul className='nav'>
+        <SidebarLink path='/users'>Users</SidebarLink>
+        <SidebarLink path='/clients'>Clients</SidebarLink>
+        <SidebarLink path='/vehicles'>Vehicles</SidebarLink>
+      </ul>
+    </nav>
+  );
 }
 
-class App extends React.Component<AppProps, {}> {
+interface Props {
+  location: any;
+}
+
+class App extends React.Component<Props, {}> {
   static childContextTypes = {
     location: React.PropTypes.object
   }

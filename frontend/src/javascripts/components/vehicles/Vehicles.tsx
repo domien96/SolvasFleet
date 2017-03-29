@@ -1,9 +1,15 @@
 import React from 'react';
-import { browserHistory } from'react-router';
 import Layout     from './Layout.tsx'
 import { fetchVehicles } from '../../actions/vehicle_actions.ts';
 
-class Vehicles extends React.Component<{}, Vehicles.State> {
+import { redirect_to } from'../../router.tsx';
+
+interface State {
+    vehicles : Vehicle[];
+    filter: VehicleFilterData;
+  }
+
+class Vehicles extends React.Component<{}, State> {
 
   constructor(props : {}) {
     super(props);
@@ -31,7 +37,7 @@ class Vehicles extends React.Component<{}, Vehicles.State> {
   }
 
   handleClick(id : number) {
-    browserHistory.push('/vehicles/' + id);
+    redirect_to(`/vehicles/${id}`);
   }
 
   render() {

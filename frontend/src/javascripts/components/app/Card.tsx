@@ -1,19 +1,21 @@
 import React from 'react';
 import classNames from 'classnames';
 
-class Card extends React.Component<CardProps, {}> {
-  render() {
-    const classes = classNames(
-      'card',
-      this.props.className
-    );
+interface Props {
+  className?: string;
+}
 
-    return (
-      <div className={ classes }>
-        { this.props.children }
-      </div>
-    );
-  }
+const Card : React.StatelessComponent<Props> = props => {
+  const classes = classNames(
+    'card',
+    props.className
+  );
+
+  return (
+    <div className={ classes }>
+      { props.children }
+    </div>
+  );
 }
 
 export default Card;
