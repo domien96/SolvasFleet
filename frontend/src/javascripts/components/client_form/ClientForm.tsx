@@ -7,24 +7,24 @@ import Info from './form/Info.tsx';
 
 interface Props {
   onSubmit     : (e : any) => void;
-  handleChange : (field : Vehicle.Field, e : any) => void;
+  handleChange : (field : Company.Field, isAddress : boolean, e : any) => void;
   errors       : Form.Error[];
-  hasError     : (field : Vehicle.Field) => boolean;
-  vehicle      : Vehicle;
+  hasError     : (field : Company.Field) => boolean;
+  company      : Company;
 }
 
-const VehicleForm : React.StatelessComponent<Props> = props => {
-  const submit = props.vehicle.id != null ? 'form.update' : 'form.create';
+const ClientForm : React.StatelessComponent<Props> = props => {
+  const submit = props.company.id != null ? 'form.update' : 'form.create';
 
   return (
     <form method='post' onSubmit={ props.onSubmit } >
       <div className='wrapper'>
         <div className='row'>
           <Errors errors={ props.errors } />
-          <Info vehicle={ props.vehicle } handleChange={ props.handleChange } hasError={ props.hasError }/>
+          <Info company={ props.company } handleChange={ props.handleChange } hasError={ props.hasError }/>
           <div className='col-xs-12 col-md-5'>
             <div className='row'>
-              <Actions submitLabel={ submit } cancelUrl={ `/vehicles/${props.vehicle.id || ''}` } model='vehicle' />
+              <Actions submitLabel={ submit } cancelUrl={ `/clients/${props.company.id || ''}` } model='client' />
             </div>
           </div>
         </div>
@@ -33,4 +33,4 @@ const VehicleForm : React.StatelessComponent<Props> = props => {
   );
 }
 
-export default VehicleForm;
+export default ClientForm;

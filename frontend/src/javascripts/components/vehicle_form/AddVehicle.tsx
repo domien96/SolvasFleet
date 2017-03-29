@@ -1,12 +1,11 @@
 import React from 'react';
-import { browserHistory } from 'react-router';
 
 import Header     from '../app/Header.tsx';
 import VehicleForm from './VehicleForm.tsx'
 
 import { postVehicle } from '../../actions/vehicle_actions.ts';
 import { hasError }  from '../../utils/utils.ts';
-
+import { redirect_to } from'../../router.tsx';
 
 class AddVehicle extends React.Component<{}, Vehicle.VForm.State> {
 
@@ -30,7 +29,7 @@ class AddVehicle extends React.Component<{}, Vehicle.VForm.State> {
     e.preventDefault();
     let setErrors = (e : Form.Error[]) => this.setState({ errors: e });
 
-    let success = (data : any) => browserHistory.push('/vehicles/' + data.id);
+    let success = (data : any) => redirect_to(`/vehicles/${data.id}`);
     let fail = (data : any) => {
       setErrors(data.errors.map((e : any) => {
         return { field: e, error: 'null' };
