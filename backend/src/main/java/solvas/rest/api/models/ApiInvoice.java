@@ -2,7 +2,7 @@ package solvas.rest.api.models;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 /**
  * Schema for a contract as defined in the Invoice
@@ -12,11 +12,11 @@ public class ApiInvoice {
 
     @NotNull
     //required
-    private LocalDateTime endDate;
+    private LocalDate endDate;
 
     @NotNull
     //required
-    private LocalDateTime startDate;
+    private LocalDate startDate;
 
     @NotNull
     //optional
