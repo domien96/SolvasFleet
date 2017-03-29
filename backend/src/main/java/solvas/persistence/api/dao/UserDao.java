@@ -12,4 +12,6 @@ import solvas.persistence.api.Dao;
  */
 @Repository
 public interface UserDao extends Dao<User> {
+
+    User getByEmail(String email);
 }

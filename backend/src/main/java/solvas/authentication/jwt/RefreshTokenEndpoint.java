@@ -1,11 +1,6 @@
 package solvas.authentication.jwt;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import solvas.authentication.WebSecurityConfig;
 import solvas.authentication.exceptions.InvalidJwt;
 import solvas.authentication.user.UserContext;
-import solvas.authentication.WebSecurityConfig;
 import solvas.authentication.user.SolvasUserDetailsService;
 import solvas.authentication.jwt.token.JwtToken;
 import solvas.authentication.jwt.token.RawAccessJwtToken;
