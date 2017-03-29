@@ -17,6 +17,8 @@ public class SimpleUrlBuilder extends UriComponentsBuilder{
      * @return The builded url
      */
     public static String buildUrl(String path, Object... parameters ) {
-        return ServletUriComponentsBuilder.fromCurrentRequest().buildAndExpand(parameters).toUriString();
+        ServletUriComponentsBuilder builder = ServletUriComponentsBuilder.fromCurrentRequest();
+        builder.replacePath(path);
+        return builder.buildAndExpand(parameters).toUriString();
     }
 }
