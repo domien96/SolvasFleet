@@ -1,14 +1,11 @@
 package solvas.rest.query;
 
-import solvas.models.Role;
-import solvas.persistence.api.Filter;
+import solvas.service.models.Role;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * @author Niko Strijbol

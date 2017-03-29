@@ -1,13 +1,11 @@
 package solvas.rest.query;
 
-import solvas.models.Fleet;
-import solvas.persistence.api.Filter;
+import solvas.service.models.Fleet;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.Collection;
-import java.util.Collections;
 
 /**
  * @author Niko Strijbol

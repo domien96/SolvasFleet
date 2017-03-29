@@ -1,6 +1,6 @@
 package solvas.rest.api.models;
 
-import solvas.models.Model;
+import solvas.service.models.Model;
 
 /**
  * Created by steve on 11/03/2017.

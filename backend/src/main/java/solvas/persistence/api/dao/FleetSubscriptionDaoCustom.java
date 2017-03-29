@@ -1,7 +1,7 @@
 package solvas.persistence.api.dao;
 
-import solvas.models.FleetSubscription;
-import solvas.models.Vehicle;
+import solvas.service.models.FleetSubscription;
+import solvas.service.models.Vehicle;
 
 import java.util.Optional;
 

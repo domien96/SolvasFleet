@@ -4,7 +4,7 @@
  "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"> 
 
 <hibernate-mapping>
-   <class name="solvas.models.User" table="users">
+   <class name="solvas.service.models.User" table="users">
       <meta attribute="class-description">
          This class contains the User detail.
       </meta>
@@ -25,7 +25,7 @@
 
       <set name="companies" table="company_users" inverse="true"> <!-- Company is owner of relationship -->
          <key column="user_id"/>
-         <many-to-many column="company_id" class="solvas.models.Company" />
+         <many-to-many column="company_id" class="solvas.service.models.Company" />
       </set>
    </class>
 </hibernate-mapping>

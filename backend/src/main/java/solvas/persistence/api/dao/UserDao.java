@@ -1,7 +1,7 @@
 package solvas.persistence.api.dao;
 
 import org.springframework.stereotype.Repository;
-import solvas.models.User;
+import solvas.service.models.User;
 import solvas.persistence.api.Dao;
 
 /**

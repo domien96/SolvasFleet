@@ -1,13 +1,10 @@
 package solvas.rest.query;
 
-import solvas.models.*;
-import solvas.persistence.api.Filter;
+import solvas.service.models.*;
 
 import javax.persistence.criteria.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * @author Niko Strijbol

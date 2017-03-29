@@ -5,11 +5,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import solvas.models.Vehicle;
-import solvas.persistence.api.DaoContext;
-import solvas.rest.api.mappers.VehicleAbstractMapper;
+import solvas.service.models.Vehicle;
 import solvas.rest.api.models.ApiVehicle;
 import solvas.rest.query.VehicleFilter;
+import solvas.service.VehicleService;
 
 import javax.validation.Valid;
 
@@ -23,12 +22,11 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
     /**
      * Rest controller for Vehicle
      *
-     * @param daoContext Autowired
-     * @param mapper The mapper class for vehicles
+     * @param service service class for vehicles
      */
     @Autowired
-    public VehicleRestController(DaoContext daoContext, VehicleAbstractMapper mapper) {
-        super(daoContext.getVehicleDao(),mapper);
+    public VehicleRestController(VehicleService service) {
+        super(service);
     }
 
     /**

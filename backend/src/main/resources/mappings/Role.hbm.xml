@@ -4,7 +4,7 @@
  "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"> 
 
 <hibernate-mapping>
-   <class name="solvas.models.Role" table="roles">
+   <class name="solvas.service.models.Role" table="roles">
       <meta attribute="class-description">
          This class contains the role detail.
       </meta>
@@ -15,15 +15,15 @@
        <property name="function" column="function" type="string" not-null="true"/>
 
        <many-to-one name="user" column="user_id"
-                    class="solvas.models.User" not-null="true"/>
+                    class="solvas.service.models.User" not-null="true"/>
        <many-to-one name="company" column="company_id"
-                    class="solvas.models.User" not-null="true"/>
+                    class="solvas.service.models.User" not-null="true"/>
        <property name="archived" column="archived" type="boolean" not-null="true"/>
 
 
        <set name="permissions" table="rolepermissions"> <!-- Role is owner of relationship -->
            <key column="role_id"/>
-           <many-to-many column="permission_id" class="solvas.models.Permission" />
+           <many-to-many column="permission_id" class="solvas.service.models.Permission" />
        </set>
 
        <property name="updatedAt" column="updated_at" type="java.time.LocalDateTime" generated="always" not-null="true"/>

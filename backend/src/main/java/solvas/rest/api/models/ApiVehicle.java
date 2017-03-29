@@ -1,7 +1,7 @@
 package solvas.rest.api.models;
 
 import org.hibernate.validator.constraints.NotBlank;
-import solvas.models.validators.Vin;
+import solvas.service.models.validators.Vin;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
