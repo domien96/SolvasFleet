@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @StartBeforeEnd
 public class ApiRole extends ApiModel {
 
+    //-1: admin
     private int company;
 
     @NotNull
