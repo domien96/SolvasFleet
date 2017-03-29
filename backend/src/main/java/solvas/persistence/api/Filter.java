@@ -1,11 +1,12 @@
 package solvas.persistence.api;
 
+import org.springframework.data.jpa.domain.Specification;
+
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.util.*;
-import java.util.function.BiFunction;
-import java.util.stream.Collectors;
+import java.util.Collection;
 
 /**
  * Represents something that can be used as a filter in the persistence layer.
@@ -14,7 +15,7 @@ import java.util.stream.Collectors;
  *
  * @author Niko Strijbol
  */
-public interface Filter<T> {
+public interface Filter<T> extends Specification<T> {
 
     /**
      * Convert the object to a list of {@link Predicate}s.
@@ -32,46 +33,15 @@ public interface Filter<T> {
     Collection<Predicate> asPredicates(CriteriaBuilder builder, Root<T> root);
 
     /**
-     * Convert multiple predicates to a Filter.
+     * {@inheritDoc}
      *
-     * @param predicates The predicates.
-     *
-     * @param <R> The return type.
-     *
-     * @return The filterable.
+     * The default implementation combines the predicates from {@link Predicate} with AND.
      */
-    @SafeVarargs
-    static <R> Filter<R> predicates(BiFunction<CriteriaBuilder, Root<R>, Predicate>... predicates) {
-        return (builder, root) -> Arrays.stream(predicates)
-                .map(function -> function.apply(builder, root))
-                .collect(Collectors.toList());
-    }
-
-    /**
-     * Convert a single predicate to a filterable.
-     *
-     * @param predicate The predicate.
-     *
-     * @param <R> The return type.
-     *
-     * @return The filterable.
-     */
-    static <R> Filter<R> predicate(BiFunction<CriteriaBuilder, Root<R>, Predicate> predicate) {
-        return (builder, root) -> Collections.singleton(predicate.apply(builder, root));
-    }
-
-    /**
-     * Add another predicate to this filter. They will be added by AND.
-     *
-     * @param predicate The predicate to add.
-     *
-     * @return A new filterable.
-     */
-    default Filter<T> and(BiFunction<CriteriaBuilder, Root<T>, Predicate> predicate) {
-        return (builder, root) -> {
-            List<Predicate> existing = new ArrayList<>(Filter.this.asPredicates(builder, root));
-            existing.add(predicate.apply(builder, root));
-            return existing;
-        };
+    @Override
+    default Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+        return Filter.this.asPredicates(cb, root)
+                .stream()
+                .reduce(cb::and)
+                .orElseGet(() -> cb.isTrue(cb.literal(true)));
     }
 }

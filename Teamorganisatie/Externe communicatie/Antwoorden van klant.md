@@ -1,5 +1,13 @@
 #Antwoorden op de vragen naar de klant:
 
+>Moet er ook een historie bijgehouden worden van veranderingen van gegevens van klanten, gebruikers, etc. Als voorbeeld: moet er bijgehouden worden op welk tijdstip een bedrijf veranderde van naam?
+
+*Als je logboek bijhoudt van alle acties lijkt het mij logisch van wel.  Het is in elk geval noodzakelijk om de historiek van elk voertuig en dus ook vloot bij te houden.*
+
+
+---
+
+
 >Hoewel een voertuig hoofdzakelijk bij maar 1 bedrijf aangesloten zal zijn, is dit geen garantie. Is het voor Solvas interessant dat we een geschiedenis bijhouden voor ieder voertuig, bij welke bedrijven of banken het voertuig ooit aangesloten was (in context van leasing)?
 
 *De geschiedenis van een voertuig is niet onmiddellijk interessant.  Maar eens een voertuig is gekoppeld geweest aan een bank of een leasingmaatschappij dat wordt dit gegeven wel behouden in de DB en kan men dit altijd terugvinden....*

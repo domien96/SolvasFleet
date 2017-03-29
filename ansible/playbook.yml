@@ -2,13 +2,14 @@
 - hosts: all
   roles:
     #  - role: tomcat8
-      - role: nginx-conf
+    #  - role: nginx-conf
     #  - role: jenkins-conf
     #  - role: documentation
     #  - role: sonarqube
     #  - role: snapshots
     #  - role: frontend
     #  - role: backend
+      - role: backup-client
   vars_files:
     - vars/passwords.yml
     - vars/common.yml

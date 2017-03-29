@@ -7,10 +7,10 @@ import App       from './components/app/App.tsx';
 import Home      from './components/Home.tsx';
 
 import Users    from './components/users/Users.tsx';
-import AddUser  from './components/users/AddUser.tsx';
-import EditUser from './components/users/EditUser.tsx';
-import User     from './components/users/User.tsx';
-import NoUser   from './components/users/NoUser.tsx';
+import AddUser  from './components/user_form/AddUser.tsx';
+import EditUser from './components/user_form/EditUser.tsx';
+import User     from './components/user/User.tsx';
+import NoUser   from './components/user/NoUser.tsx';
 
 import Clients    from './components/clients/Clients.tsx';
 import AddClient  from './components/clients/AddClient.tsx';
@@ -18,10 +18,10 @@ import EditClient from './components/clients/EditClient.tsx';
 import Client     from './components/clients/Client.tsx';
 
 import Vehicles    from './components/vehicles/Vehicles.tsx';
-import Vehicle     from './components/vehicles/Vehicle.tsx';
-import NoVehicle   from './components/vehicles/NoVehicle.tsx';
-import AddVehicle  from './components/vehicles/AddVehicle.tsx';
-import EditVehicle from './components/vehicles/EditVehicle.tsx';
+import Vehicle     from './components/vehicle/Vehicle.tsx';
+import NoVehicle   from './components/vehicle/NoVehicle.tsx';
+import AddVehicle  from './components/vehicle_form/AddVehicle.tsx';
+import EditVehicle from './components/vehicle_form/EditVehicle.tsx';
 
 import Fleets from './components/fleets/Fleets.tsx';
 import Fleet  from './components/fleets/Fleet.tsx';

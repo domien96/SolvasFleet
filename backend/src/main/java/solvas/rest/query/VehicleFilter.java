@@ -1,19 +1,16 @@
 package solvas.rest.query;
 
-import solvas.models.*;
-import solvas.persistence.api.Filter;
+import solvas.service.models.*;
 
 import javax.persistence.criteria.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * @author Niko Strijbol
  */
 @SuppressWarnings("unused")
-public class VehicleFilter implements Filter<Vehicle> {
+public class VehicleFilter extends ArchiveFilter<Vehicle> {
 
     private String vin;
     private int leasingCompany = -1;
@@ -24,10 +21,10 @@ public class VehicleFilter implements Filter<Vehicle> {
 
     @Override
     public Collection<Predicate> asPredicates(CriteriaBuilder builder, Root<Vehicle> root) {
-        List<Predicate> predicates = new ArrayList<>();
+        Collection<Predicate> predicates = super.asPredicates(builder,root);
         if (vin != null) {
             predicates.add(builder.equal(
-                    builder.lower(root.get("vin")),
+                    builder.lower(root.get("chassisNumber")),
                     vin.toLowerCase()
             ));
         }

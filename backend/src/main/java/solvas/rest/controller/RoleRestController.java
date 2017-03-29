@@ -1,16 +1,16 @@
 package solvas.rest.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import solvas.models.Role;
-import solvas.models.validators.RoleValidator;
-import solvas.persistence.api.DaoContext;
-import solvas.rest.api.mappers.RoleAbstractMapper;
+import solvas.service.models.Role;
 import solvas.rest.api.models.ApiRole;
-import solvas.rest.query.PaginationFilter;
 import solvas.rest.query.RoleFilter;
+import solvas.service.RoleService;
+
+import javax.validation.Valid;
 
 
 /**
@@ -23,13 +23,11 @@ public class RoleRestController extends AbstractRestController<Role,ApiRole> {
     /**
      * Rest controller for Role
      *
-     * @param daoContext Autowired
-     * @param mapper The mapper class for roles
-     * @param validator Validator for roles
+     * @param service service class for roles
      */
     @Autowired
-    public RoleRestController(DaoContext daoContext, RoleAbstractMapper mapper, RoleValidator validator) {
-        super(daoContext.getRoleDao(),mapper,validator);
+    public RoleRestController(RoleService service) {
+        super(service);
     }
 
     /**
@@ -37,15 +35,14 @@ public class RoleRestController extends AbstractRestController<Role,ApiRole> {
      * method will contain an object, according to the API spec.
      *
      * @param pagination The pagination information.
-     * @param paginationResult The validation results of the pagination object.
      * @param filter The filters.
      * @param result The validation results of the filterResult
      *
      * @return ResponseEntity
      */
     @RequestMapping(value = "/roles", method = RequestMethod.GET)
-    public ResponseEntity<?> listAll(PaginationFilter pagination, BindingResult paginationResult, RoleFilter filter, BindingResult result) {
-        return super.listAll(pagination, paginationResult, filter, result);
+    public ResponseEntity<?> listAll(Pageable pagination, RoleFilter filter, BindingResult result) {
+        return super.listAll(pagination, filter, result);
     }
 
 
@@ -57,14 +54,14 @@ public class RoleRestController extends AbstractRestController<Role,ApiRole> {
 
     @Override
     @RequestMapping(value = "/roles", method = RequestMethod.POST)
-    public ResponseEntity<?> post(@RequestBody ApiRole input,BindingResult result) {
+    public ResponseEntity<?> post(@Valid @RequestBody ApiRole input, BindingResult result) {
         return super.post(input,result);
     }
 
     @Override
     @RequestMapping(value = "/roles/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteById(@PathVariable int id) {
-        return super.deleteById(id);
+    public ResponseEntity<?> archiveById(@PathVariable int id) {
+        return super.archiveById(id);
     }
 
     @Override

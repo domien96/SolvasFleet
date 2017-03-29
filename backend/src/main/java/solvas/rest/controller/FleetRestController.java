@@ -1,16 +1,16 @@
 package solvas.rest.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import solvas.models.Fleet;
-import solvas.models.validators.FleetValidator;
-import solvas.persistence.api.dao.FleetDao;
-import solvas.rest.api.mappers.FleetMapper;
+import solvas.service.models.Fleet;
 import solvas.rest.api.models.ApiFleet;
 import solvas.rest.query.FleetFilter;
-import solvas.rest.query.PaginationFilter;
+import solvas.service.FleetService;
+
+import javax.validation.Valid;
 
 /**
  * @author Niko Strijbol
@@ -21,13 +21,11 @@ public class FleetRestController extends AbstractRestController<Fleet, ApiFleet>
     /**
      * Default constructor.
      *
-     * @param dao       The dao to work with.
-     * @param mapper    The mapper class for objects of domain model class T and API-model class E.
-     * @param validator The validator to use when creating/updating entities
+     * @param service service class for fleets
      */
     @Autowired
-    public FleetRestController(FleetDao dao, FleetMapper mapper, FleetValidator validator) {
-        super(dao, mapper, validator);
+    public FleetRestController(FleetService service) {
+        super(service);
     }
 
     /**
@@ -35,15 +33,14 @@ public class FleetRestController extends AbstractRestController<Fleet, ApiFleet>
      * method will contain an object, according to the API spec.
      *
      * @param pagination The pagination information.
-     * @param paginationResult The validation results of the pagination object.
      * @param filter The filters.
      * @param result The validation results of the filterResult
      *
      * @return ResponseEntity
      */
     @RequestMapping(value = "/fleets", method = RequestMethod.GET)
-    public ResponseEntity<?> listAll(PaginationFilter pagination, BindingResult paginationResult, FleetFilter filter, BindingResult result) {
-        return super.listAll(pagination, paginationResult, filter, result);
+    public ResponseEntity<?> listAll(Pageable pagination, FleetFilter filter, BindingResult result) {
+        return super.listAll(pagination, filter, result);
     }
 
     @Override
@@ -54,19 +51,19 @@ public class FleetRestController extends AbstractRestController<Fleet, ApiFleet>
 
     @Override
     @RequestMapping(value = "/fleets", method = RequestMethod.POST)
-    public ResponseEntity<?> post(@RequestBody ApiFleet input, BindingResult result) {
+    public ResponseEntity<?> post(@Valid @RequestBody ApiFleet input, BindingResult result) {
         return super.post(input,result);
     }
 
     @Override
     @RequestMapping(value = "/fleets/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteById(@PathVariable int id) {
-        return super.deleteById(id);
+    public ResponseEntity<?> archiveById(@PathVariable int id) {
+        return super.archiveById(id);
     }
 
     @Override
     @RequestMapping(value = "/fleets/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> put(@PathVariable int id, @RequestBody ApiFleet input,BindingResult result) {
+    public ResponseEntity<?> put(@PathVariable int id, @Valid @RequestBody ApiFleet input,BindingResult result) {
         return super.put(id, input,result);
     }
 }

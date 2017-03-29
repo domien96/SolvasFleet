@@ -3,82 +3,66 @@ package solvas.rest.controller;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import org.springframework.beans.TypeMismatchException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import solvas.models.Model;
-import solvas.persistence.api.Dao;
+import solvas.service.models.Model;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.Filter;
-import solvas.rest.api.mappers.AbstractMapper;
-import solvas.rest.api.mappers.DependantEntityNotFound;
+import solvas.service.mappers.exceptions.DependantEntityNotFound;
 import solvas.rest.api.models.ApiModel;
-import solvas.rest.query.Pageable;
+import solvas.service.AbstractService;
 import solvas.rest.utils.JsonListWrapper;
 
-import java.util.*;
+import java.util.Collections;
 import java.util.stream.Collectors;
 
 /**
- * Abstract REST controller.
+ * Abstract REST controller. Controllers handle incoming requests.
  *
  * @param <T> Type of the entity to work with.
  * @param <E> The type of the API model
  */
-@Component
-@Transactional // TODO Replace by services
+@Component // TODO Replace by services
 public abstract class AbstractRestController<T extends Model, E extends ApiModel> {
 
-    protected final Dao<T> dao;
-    protected AbstractMapper<T,E> mapper;
-    protected final Validator validator;
+    private AbstractService<T,E> service;
 
     /**
      * Default constructor.
      *
-     * @param dao The dao to work with.
-     * @param mapper The mapper class for objects of domain model class T and API-model class E.
-     * @param validator The validator to use when creating/updating entities
+     * @param service service class for entities
      */
-    protected AbstractRestController(Dao<T> dao, AbstractMapper<T,E> mapper, Validator validator) {
-        this.dao = dao;
-        this.mapper = mapper;
-        this.validator = validator;
+    protected AbstractRestController(AbstractService<T,E> service) {
+        this.service=service;
     }
 
     /**
      * Query all models, accounting for pagination settings and respect the filters. The return value of this
      * method will contain an object, according to the API spec.
      *
-     * @param pagination The pagination information.
-     * @param paginationResult The validation results of the pagination object.
-     * @param filter The filters.
-     * @param filterResult The validation results of the filterResult
-     *
+     * @param pagination       The pagination information.
+     * @param filter           The filters.
+     * @param filterResult     The validation results of the filterResult
      * @return ResponseEntity
      */
-    protected ResponseEntity<?> listAll(Pageable pagination, BindingResult paginationResult, Filter<T> filter, BindingResult filterResult) {
+    protected ResponseEntity<?> listAll(Pageable pagination, Filter<T> filter, BindingResult filterResult) {
 
         // If there are errors in the filtering, send bad request.
-        if (filterResult.hasErrors() || paginationResult.hasErrors()) {
+        if (filterResult.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        Collection<E> collection = new HashSet<>();
-        for (T item: dao.findAll(pagination, filter)){
-            collection.add(mapper.convertToApiModel(item));
-        }
-        ArrayList<E> sortedList = new ArrayList<>(collection);
-        sortedList.sort(Comparator.comparingInt(Model::getId));
-        JsonListWrapper<E> wrapper = new JsonListWrapper<>(collection);
-        wrapper.put("limit", pagination.getLimit());
-        wrapper.put("offset", pagination.getLimit() * pagination.getPage());
-        wrapper.put("total", dao.count(filter));
+        Page<E> page = service.findAll( pagination,filter);
+        JsonListWrapper<E> wrapper = new JsonListWrapper<>(page.getContent());
+        wrapper.put("limit", pagination.getPageSize());
+        wrapper.put("offset", pagination.getOffset());
+        wrapper.put("total", service.count(filter));
         return new ResponseEntity<>(wrapper, HttpStatus.OK);
     }
 
@@ -90,7 +74,11 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      */
 
     protected ResponseEntity<?> getById(int id) {
-        return new ResponseEntity<>(mapper.convertToApiModel(dao.find(id)), HttpStatus.OK);
+        try {
+            return new ResponseEntity<>(service.getById(id), HttpStatus.OK);
+        } catch (EntityNotFoundException e) {
+            return notFound();
+        }
     }
 
     /**
@@ -110,7 +98,6 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      * the right type.
      *
      * @param ex The exception.
-     *
      * @return A 422 error with the fields that caused an error.
      */
     @ExceptionHandler(JsonMappingException.class)
@@ -125,11 +112,10 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
     /**
      * Handle cases where a dependant entity was not found, e.g. a vehicle with a non-existent
      * fleet.
-     *
+     * <p>
      * TODO: see if this could be done by validation.
      *
      * @param e The exception.
-     *
      * @return 422 with the field.
      */
     @ExceptionHandler(DependantEntityNotFound.class)
@@ -139,14 +125,13 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
                 JsonListWrapper.ERROR_KEY
         );
 
-        return new ResponseEntity<>(wrapper, HttpStatus.UNPROCESSABLE_ENTITY);
+        return new ResponseEntity<>(wrapper, HttpStatus.CONFLICT);
     }
 
     /**
      * Handle cases where there are JSON syntax errors.
      *
      * @param ex The exception.
-     *
      * @return A 400 error.
      */
     @ExceptionHandler(JsonParseException.class)
@@ -165,53 +150,60 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
     /**
      * Save a new model in the database.
      *
-     * @param input The model to save.
+     * @param input   The model to save.
      * @param binding The binding to use to validate
      * @return Response with the saved model, or 400.
+     * @throws EntityNotFoundException Should never be thrown, because we're creating a new record. If this happens, a bug is found.
      */
-    protected ResponseEntity<?> post(E input, BindingResult binding) {
-        return save(input, binding, () -> {
-            T model = mapper.convertToModel(input);
-            return mapper.convertToApiModel(dao.create(model));
-        });
+    protected ResponseEntity<?> post(E input, BindingResult binding)  {
+        try {
+            return save(input, binding, () -> service.create(input));
+        } catch (DependantEntityNotFound e) {
+            return handleDependantNotFound(e);
+        } catch (EntityNotFoundException e) {
+            return notFound();
+        }
     }
 
     /**
-     * Deletes a model from db
+     * Archives a model in the db
      *
      * @param id id of the model
      * @return ResponseEntity
      */
-    protected ResponseEntity<?> deleteById(int id) {
-        dao.destroy(dao.find(id));
-        return new ResponseEntity<>(HttpStatus.OK);
+    protected ResponseEntity<?> archiveById(int id) {
+        try {
+            service.archive(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (EntityNotFoundException e) {
+            return notFound();
+        }
     }
 
     /**
      * Updates a model in db
      *
-     * @param input model to be updated
+     * @param input   model to be updated
      * @param binding The binding to use to validate
      * @return ResponseEntity
      */
-    protected ResponseEntity<?> put(int id,E input,BindingResult binding) {
-        return save(input, binding, () -> {
-            input.setId(id);
-            T model = mapper.convertToModel(input);
-
-            return mapper.convertToApiModel(dao
-                    .update(model));
-        });
+    protected ResponseEntity<?> put(int id, E input, BindingResult binding) {
+        try {
+            return save(input, binding, () -> service.update(id,input));
+        } catch (DependantEntityNotFound e) {
+            return handleDependantNotFound(e);
+        } catch (EntityNotFoundException e) {
+            return notFound();
+        }
     }
 
     /**
-     * @param input The input entity to save
-     * @param binding BindingResult to use for validations
+     * @param input      The input entity to save
+     * @param binding    BindingResult to use for validations
      * @param saveMethod The saveMethod (example: dao.update or dao.create)
      * @return ResponseEntity to return to user
      */
-    private ResponseEntity<?> save(E input, BindingResult binding, SaveMethod<E> saveMethod) {
-        validator.validate(input, binding);
+    private ResponseEntity<?> save(E input, BindingResult binding, SaveMethod<E> saveMethod) throws DependantEntityNotFound, EntityNotFoundException {
         if (!binding.hasErrors()) {
             return new ResponseEntity<>(saveMethod.run(), HttpStatus.OK);
         } else {
@@ -221,6 +213,7 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
                             binding.getFieldErrors().stream().map(FieldError::getField).collect(Collectors.toList()),
                             JsonListWrapper.ERROR_KEY
                     ),
+
                     HttpStatus.BAD_REQUEST
             );
         }
@@ -228,13 +221,16 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
 
     /**
      * Specify how to save an entity
+     *
      * @param <T> Type of the entity to save
      */
+    @FunctionalInterface
     protected interface SaveMethod<T> {
         /**
          * Method to run to save an entity
+         *
          * @return the saved entity
          */
-        T run();
+        T run() throws DependantEntityNotFound,EntityNotFoundException;
     }
 }

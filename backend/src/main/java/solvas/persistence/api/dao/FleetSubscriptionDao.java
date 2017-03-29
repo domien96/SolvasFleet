@@ -1,36 +1,27 @@
 package solvas.persistence.api.dao;
 
-import solvas.models.FleetSubscription;
-import solvas.models.Vehicle;
+import org.springframework.stereotype.Repository;
+import solvas.service.models.FleetSubscription;
+import solvas.service.models.Vehicle;
 import solvas.persistence.api.Dao;
 
 import java.util.Collection;
-import java.util.Optional;
 
 /**
- * Dao for fleetSubscriptions
+ * DAO for fleet subscriptions.
+ *
+ * @author Niko Strijbol
+ * @author Steven Bastiaens
  */
-public interface FleetSubscriptionDao extends Dao<FleetSubscription> {
-    /**
-     * Find fleetsubscriptions for a vehicle
-     * @param vehicleId The id of the vehicle
-     * @return Collection of subscriptions
-     */
-    Collection<FleetSubscription> withVehicleId(int vehicleId);
+@Repository
+public interface FleetSubscriptionDao extends Dao<FleetSubscription>, FleetSubscriptionDaoCustom {
 
     /**
-     * Find fleetsubscriptions for a subfleet
-     * @param subFleetId The id of the subfleet
-     * @return Collection of subscriptions
-     */
-    Collection<FleetSubscription> withFleetId(int subFleetId);
-
-    /**
-     * Get the active subscription for a vehicle.
+     * Similar to {@link #activeForVehicle(Vehicle)}, but returns all subscriptions.
      *
-     * @param vehicle The vehicle.
+     * @param vehicle The vehicle to find subscriptions for.
      *
-     * @return The optional subscription.
+     * @return The subscriptions.
      */
-    Optional<FleetSubscription> activeForVehicle(Vehicle vehicle);
+    Collection<FleetSubscription> findByVehicle(Vehicle vehicle);
 }

@@ -1,18 +1,44 @@
 package solvas.rest.api.models;
 
+import org.hibernate.validator.constraints.NotBlank;
+import solvas.service.models.validators.Vin;
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 /**
  * Created by steve on 11/03/2017.
  */
-public class ApiVehicle extends ApiModel{
+public class ApiVehicle extends ApiModel {
+
+    private static final int FIRST_VIN = 1981;
+
     private String licensePlate;
+
+    @Vin
+    @NotNull
     private String vin;
+
+    @NotBlank
     private String model;
+
+    @NotBlank
     private String type;
+
+    @Min(value = 0)
     private int mileage;
+
+    @Min(value = FIRST_VIN)
     private int year;
+
     private int leasingCompany;
-    private int value=0;
+
+    @Min(value = 0)
+    private int value;
+
     private int fleet = -1; //Use -1 as default value because 0 is removing it.
+
+    @NotBlank
     private String brand;
 
     public String getLicensePlate() {

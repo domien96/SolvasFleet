@@ -4,7 +4,7 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="solvas.models.Company" table="companies">
+    <class name="solvas.service.models.Company" table="companies">
         <meta attribute="class-description">
             This class contains the company detail.
         </meta>
@@ -20,10 +20,11 @@
         <property name="addressHouseNumber" column="address_house_number" type="string" not-null="true"/>
         <property name="addressPostalCode" column="address_postalCode" type="string" not-null="true"/>
         <property name="addressStreet" column="address_street" type="string" not-null="true"/>
+        <property name="archived" column="archived" type="boolean" not-null="true"/>
 
         <set name="representatives" table="company_users">
             <key column="company_id"/>
-            <many-to-many column="user_id" class="solvas.models.User" />
+            <many-to-many column="user_id" class="solvas.service.models.User" />
         </set>
         <property name="updatedAt" column="updated_at" type="java.time.LocalDateTime" generated="always" insert="false" not-null="true"/>
         <property name="createdAt" column="created_at" type="java.time.LocalDateTime" generated="insert" insert="false" not-null="true"/>

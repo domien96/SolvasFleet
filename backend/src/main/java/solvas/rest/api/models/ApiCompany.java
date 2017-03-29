@@ -1,14 +1,29 @@
 package solvas.rest.api.models;
 
+import org.hibernate.validator.constraints.NotBlank;
+import solvas.service.models.validators.PhoneNumber;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 /**
  * Created by steve on 11/03/2017.
  */
-public class ApiCompany extends ApiModel{
-    private ApiAddress address;
-    private String name;
-    private String phoneNumber;
-    private String vatNumber;
+public class ApiCompany extends ApiModel {
 
+    @Valid
+    @NotNull
+    private ApiAddress address;
+
+    @NotBlank
+    private String name;
+
+    @NotNull
+    @PhoneNumber
+    private String phoneNumber;
+
+    @NotBlank
+    private String vatNumber;
 
     public ApiAddress getAddress() {
         return address;

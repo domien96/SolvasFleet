@@ -1,21 +1,18 @@
 package solvas.rest.query;
 
-import solvas.models.User;
-import solvas.persistence.api.Filter;
+import solvas.service.models.User;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Filter for {@link User} objects.
  *
  * @author Niko Strijbol
  */
-public class UserFilter implements Filter<User> {
+public class UserFilter extends ArchiveFilter<User> {
 
     private String email;
     private String firstName;
@@ -23,7 +20,7 @@ public class UserFilter implements Filter<User> {
 
     @Override
     public Collection<Predicate> asPredicates(CriteriaBuilder builder, Root<User> root) {
-        List<Predicate> predicates = new ArrayList<>();
+        Collection<Predicate> predicates = super.asPredicates(builder,root);
         if (email != null) {
             predicates.add(builder.equal(
                     builder.lower(root.get("email")),

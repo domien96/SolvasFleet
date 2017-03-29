@@ -4,8 +4,7 @@ import { browserHistory } from 'react-router';
 import Header     from '../app/Header.tsx';
 import ClientForm from './ClientForm.tsx'
 
-
-import createCompany from '../../actions/create_company.ts';
+import { postClient } from '../../actions/client_actions.ts';
 import { hasError }  from '../../utils/utils.ts';
 
 
@@ -36,19 +35,14 @@ class AddClient extends React.Component<{}, Company.CForm.State> {
   public onSubmit(e : any) : void {
     e.preventDefault();
     let setErrors = (e : Form.Error[]) => this.setState({ errors: e });
+    let success = (data : any) => browserHistory.push('/clients/' + data.id);
+    let fail = (data : any) => {
+      setErrors(data.errors.map(function(e : any) {
+        return { field: e, error: 'null' };
+      }));
+    }
 
-    createCompany(this.state.company)
-    .then(function(response) {
-      return response.json().then(function(data) {
-        if (response.ok) {
-          browserHistory.push('/clients/' + data.id);
-        } else {
-          setErrors(data.errors.map(function(e : any) {
-            return { field: e, error: 'null' };
-          }));
-        }
-      });
-    });
+    postClient(this.state.company, success, fail);
   }
 
   render() {
