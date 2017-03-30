@@ -1,8 +1,8 @@
 -- Drop tables if they exist --
 
-DROP TABLE IF EXISTS insurance_period CASCADE;
-DROP TABLE IF EXISTS insurance CASCADE;
-DROP TABLE IF EXISTS insurance_type CASCADE;
+DROP TABLE IF EXISTS insurance_coverages CASCADE;
+DROP TABLE IF EXISTS insurances CASCADE;
+DROP TABLE IF EXISTS insurance_types CASCADE;
 
 -- Create tables --
 
@@ -23,20 +23,13 @@ CREATE TABLE insurance_types (
   PRIMARY KEY (insurance_type_id)
 );
 
-CREATE TABLE insurance_periods (
-  insurance_period_id SERIAL NOT NULL,
-  beginDate DATE NOT NULL,
-  endDate DATE,
-  PRIMARY KEY (insurance_period_id)
-);
 
 -- Ternary relation
 
 CREATE TABLE insurance_coverages (
-  insurance_coverage_id SERIAL NOT NULL,
   fleet_subscription_id INT NOT NULL REFERENCES fleet_subscriptions(fleet_subscription_id),
-  insurance_period_id INT NOT NULL REFERENCES insurance_periods(insurance_period_id),
   insurance_type_id INT NOT NULL REFERENCES insurance_types(insurance_type_id),
-  PRIMARY KEY (insurance_coverage_id),
-  UNIQUE (fleet_subscription_id,insurance_period_id,insurance_type_id)
+  beginDate DATE NOT NULL,
+  endDate DATE NOT NULL,
+  PRIMARY KEY (fleet_subscription_id,insurance_type_id)
 );
