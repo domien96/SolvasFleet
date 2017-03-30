@@ -5,7 +5,7 @@ import ClientForm from './ClientForm.tsx'
 
 import { postClient } from '../../actions/client_actions.ts';
 import { hasError }  from '../../utils/utils.ts';
-import { redirect_to } from'../../router.tsx';
+import { redirect_to } from'../../routes/router.tsx';
 
 class AddClient extends React.Component<{}, Company.CForm.State> {
 

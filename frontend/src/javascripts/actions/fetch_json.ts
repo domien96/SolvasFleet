@@ -1,3 +1,5 @@
+import Auth from '../modules/Auth.ts';
+
 export type callback = (value? : any) => any;
 
 function request (
@@ -11,6 +13,10 @@ function request (
   let headers : any = {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
+  }
+
+  if (Auth.isUserAuthenticated()) {
+    headers['X-Authorization'] = `Bearer ${Auth.getAccessToken()}`
   }
 
   let params : any = {
@@ -30,7 +36,8 @@ function request (
       } else {
         if (fail) { fail(data); }
       }
-    }).catch(() => {
+    }).catch((e : any) => {
+      console.log(e);
       if (r.ok) {
         if (success) { success(); }
       } else {
@@ -49,6 +56,7 @@ export function GET(url : string, success? : callback, fail? : callback, query :
 }
 
 export function POST(url : string, body : any, success? : callback, fail? : callback) {
+  console.log('POST');
   request(url, 'POST', body, success, fail);
 }
 

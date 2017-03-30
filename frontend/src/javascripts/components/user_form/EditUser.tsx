@@ -5,7 +5,7 @@ import UserForm from './UserForm.tsx';
 
 import { fetchUser, putUser } from '../../actions/user_actions.ts';
 import { hasError } from '../../utils/utils.ts';
-import { redirect_to } from'../../router.tsx';
+import { redirect_to } from'../../routes/router.tsx';
 
 class EditUser extends React.Component<User.Props, User.UForm.State> {
   constructor() {

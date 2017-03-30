@@ -6,7 +6,7 @@ import Card       from '../app/Card.tsx';
 import FleetForm    from '../fleets/FleetForm.tsx';
 import { postFleet } from '../../actions/fleet_actions.ts';
 
-import { redirect_to } from '../../router.tsx';
+import { redirect_to } from '../../routes/router.tsx';
 
 class Fleets extends React.Component<Fleets.Props, Fleets.State> {
   constructor(props : Fleets.Props) {

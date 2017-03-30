@@ -8,7 +8,7 @@ import Fleets       from '../fleets/Fleets.tsx';
 
 import { fetchFleets } from '../../actions/fleet_actions.ts';
 import { fetchClient, deleteClient } from '../../actions/client_actions.ts';
-import { redirect_to } from'../../router.tsx';
+import { redirect_to } from'../../routes/router.tsx';
 
 import { th } from '../../utils/utils.ts';
 
