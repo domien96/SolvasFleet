@@ -47,7 +47,7 @@ public class RoleMapper extends AbstractMapper<Role,ApiRole> {
         copySharedAttributes(apiRole, role);
         apiRole.setCompany(role.getCompany().getId());
         apiRole.setUser(role.getUser().getId());
-        apiRole.setUrl(SimpleUrlBuilder.buildUrl(ROOTPATH + "{id}", role.getId()));
+        apiRole.setUrl(SimpleUrlBuilder.buildUrlFromBase(ROOTPATH + "{id}", role.getId()));
         return apiRole;
     }
 }

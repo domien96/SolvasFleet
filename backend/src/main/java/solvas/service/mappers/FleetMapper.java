@@ -52,7 +52,7 @@ public class FleetMapper extends AbstractMapper<Fleet, ApiFleet> {
 
         fleet.setCompany(model.getCompany() == null ? 0 : model.getCompany().getId());
         fleet.setLastUpdatedBy(0);
-        fleet.setUrl(SimpleUrlBuilder.buildUrl(ROOTPATH + "{id}", model.getId()));
+        fleet.setUrl(SimpleUrlBuilder.buildUrlFromBase(ROOTPATH + "{id}", model.getId()));
         return fleet;
     }
 }
