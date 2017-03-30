@@ -1,6 +1,6 @@
 #29/03/17 - Vergadering 7
 ###Milestone 2
-Aanwezigen: Bastiaens Steven (sjabasti), Cousaert Benjamin (becousae), Mak Nils (nnmak), Strijbol Niko (nistrijb), Van Steendam Domien (dvsteend), VandenBussche Karel (klivdnbu), Vandorpe David (davdorpe)   
+Aanwezigen: Bastiaens Steven (sjabasti), Cousaert Benjamin (becousae), Mak Nils (nnmak), Strijbol Niko (nistrijb), Van Steendam Domien (dvsteend), Vandenbussche Karel (klivdnbu), Vandorpe David (davdorpe)   
 Assistente: Annick Van Daele
 
 Tijd: 16:30-17:30
