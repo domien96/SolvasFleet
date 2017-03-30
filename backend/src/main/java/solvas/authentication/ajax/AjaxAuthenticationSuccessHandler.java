@@ -45,9 +45,20 @@ public class AjaxAuthenticationSuccessHandler implements AuthenticationSuccessHa
         JwtToken accessToken = tokenFactory.createAccessJwtToken(user);
         JwtToken refreshToken = tokenFactory.createRefreshToken(user);
 
-        Map<String, String> tokenMap = new HashMap<>();
-        tokenMap.put("token", accessToken.getToken());
-        tokenMap.put("refreshToken", refreshToken.getToken());
+
+        Map<String, Map<String, Object>> tokenMap = new HashMap<String, Map<String, Object>>() {{
+            put("accessToken", new HashMap<String, Object>() {{
+                put("token", accessToken.getToken());
+                put("claims", accessToken.getClaims());
+            }});
+
+            put("refreshToken", new HashMap<String, Object>() {{
+                put("token", refreshToken.getToken());
+                put("claims", refreshToken.getClaims());
+            }});
+        }};
+       // tokenMap.put("token", accessToken.getToken());
+       // tokenMap.put("refreshToken", refreshToken.getToken());
 
         response.setStatus(HttpStatus.OK.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);

@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import solvas.authentication.exceptions.AuthMethodNotSupportedException;
 import solvas.authentication.utils.WebUtil;
 
 import javax.servlet.FilterChain;
@@ -37,8 +38,8 @@ public class AjaxLoginProcessingFilter extends AbstractAuthenticationProcessingF
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException, IOException, ServletException {
-        if (!HttpMethod.POST.name().equals(request.getMethod()) || !WebUtil.isAjax(request)) {
-       //     throw new AuthMethodNotSupportedException("Authentication method not supported");
+        if (!HttpMethod.POST.name().equals(request.getMethod())) {
+            throw new AuthMethodNotSupportedException("Authentication method not supported");
         }
 
         LoginRequest loginRequest = objectMapper.readValue(request.getReader(), LoginRequest.class);

@@ -9,7 +9,7 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import solvas.authentication.user.UserContext;
-import solvas.authentication.jwt.token.AccessJwtToken;
+import solvas.authentication.jwt.token.AccessToken;
 import solvas.authentication.jwt.token.JwtToken;
 import solvas.authentication.jwt.token.Scopes;
 
@@ -27,7 +27,7 @@ public class JwtTokenFactory {
     }
 
 
-    public AccessJwtToken createAccessJwtToken(UserContext userContext) {
+    public AccessToken createAccessJwtToken(UserContext userContext) {
         if (StringUtils.isBlank(userContext.getUsername()))
             throw new IllegalArgumentException("Cannot create JWT Token without username");
 
@@ -37,7 +37,7 @@ public class JwtTokenFactory {
 
 
         String token = buildToken(claims, settings.getTokenExpirationTime()).compact();
-        return new AccessJwtToken(token, claims);
+        return new AccessToken(token, claims);
     }
 
     public JwtToken createRefreshToken(UserContext user) {
@@ -52,7 +52,7 @@ public class JwtTokenFactory {
                 .setId(UUID.randomUUID().toString())
                 .compact();
 
-        return new AccessJwtToken(token, claims);
+        return new AccessToken(token, claims);
     }
 
     private JwtBuilder buildToken(Claims claims, int duration) {

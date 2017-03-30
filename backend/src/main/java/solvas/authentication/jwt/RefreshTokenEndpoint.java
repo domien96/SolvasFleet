@@ -18,6 +18,9 @@ import solvas.authentication.jwt.token.JwtToken;
 import solvas.authentication.jwt.token.RawAccessJwtToken;
 import solvas.authentication.jwt.token.RefreshToken;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * RefreshTokenEndpoint
  *
@@ -37,15 +40,31 @@ public class RefreshTokenEndpoint {
      * @throws InvalidJwt The refresh token was invalid
      */
     @RequestMapping(value="/auth/token", method=RequestMethod.GET, produces={ MediaType.APPLICATION_JSON_VALUE })
-    public @ResponseBody JwtToken refreshToken(HttpServletRequest request) throws InvalidJwt {
+    public @ResponseBody Map<String, Map<String, Object>> refreshToken(HttpServletRequest request) throws InvalidJwt {
         String tokenPayload = tokenExtractor.extract(request.getHeader(WebSecurityConfig.JWT_TOKEN_HEADER_PARAM));
         
         RawAccessJwtToken rawToken = new RawAccessJwtToken(tokenPayload);
-        RefreshToken refreshToken = RefreshToken.create(rawToken, jwtSettings.getTokenSigningKey());
+        RefreshToken oldRefreshToken = RefreshToken.create(rawToken, jwtSettings.getTokenSigningKey());
 
-        String subject = refreshToken.getSubject();
-        UserContext userContext = userService.loadUserByUsername(subject);
+        String subject = oldRefreshToken.getSubject();
+        UserContext user = userService.loadUserByUsername(subject);
 
-        return tokenFactory.createAccessJwtToken(userContext);
+
+        JwtToken accessToken = tokenFactory.createAccessJwtToken(user);
+        JwtToken refreshToken = tokenFactory.createRefreshToken(user);
+
+        Map<String, Map<String, Object>> tokenMap = new HashMap<String, Map<String, Object>>() {{
+            put("accessToken", new HashMap<String, Object>() {{
+                put("token", accessToken.getToken());
+                put("claims", accessToken.getClaims());
+            }});
+
+            put("refreshToken", new HashMap<String, Object>() {{
+                put("token", refreshToken.getToken());
+                put("claims", refreshToken.getClaims());
+            }});
+        }};
+
+        return tokenMap;
     }
 }

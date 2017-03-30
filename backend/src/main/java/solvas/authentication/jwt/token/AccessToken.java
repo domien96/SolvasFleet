@@ -5,7 +5,7 @@ import io.jsonwebtoken.Claims;
 /**
  * Raw representation of JWT Token.
  */
-public final class AccessJwtToken implements JwtToken {
+public final class AccessToken implements JwtToken {
     private final String rawToken;
     private Claims claims;
 
@@ -13,7 +13,7 @@ public final class AccessJwtToken implements JwtToken {
      * @param token The token in String format
      * @param claims Set of claims (see JWT specs)
      */
-    public AccessJwtToken(final String token, Claims claims) {
+    public AccessToken(final String token, Claims claims) {
         this.rawToken = token;
         this.claims = claims;
     }

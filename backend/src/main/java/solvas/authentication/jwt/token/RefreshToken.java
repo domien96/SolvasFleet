@@ -45,8 +45,8 @@ public class RefreshToken implements JwtToken {
     /**
      * @return The claims of this token
      */
-    public Jws<Claims> getClaims() {
-        return claims;
+    public Claims getClaims() {
+        return claims.getBody();
     }
 
     /**

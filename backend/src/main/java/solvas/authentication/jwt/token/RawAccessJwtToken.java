@@ -33,4 +33,9 @@ public class RawAccessJwtToken implements JwtToken {
     public String getToken() {
         return token;
     }
+
+    @Override
+    public Claims getClaims() {
+        return null;
+    }
 }
