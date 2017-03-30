@@ -18,7 +18,9 @@ import solvas.authentication.ajax.AjaxAuthenticationProvider;
 import solvas.authentication.ajax.AjaxLoginProcessingFilter;
 import solvas.authentication.jwt.JwtAuthenticationProvider;
 import solvas.authentication.jwt.JwtTokenAuthenticationProcessingFilter;
+import solvas.authentication.jwt.SkipPathRequestMatcher;
 import solvas.authentication.jwt.TokenExtractor;
+import solvas.authentication.utils.CorsFilter;
 
 import java.util.Arrays;
 import java.util.List;
@@ -45,7 +47,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired private ObjectMapper objectMapper;
 
     protected AjaxLoginProcessingFilter buildAjaxLoginProcessingFilter() throws Exception {
-        AjaxLoginProcessingFilter filter = new AjaxLoginProcessingFilter(FORM_BASED_LOGIN_ENTRY_POINT, successHandler, failureHandler, objectMapper);
+        AjaxLoginProcessingFilter filter = new AjaxLoginProcessingFilter(
+                FORM_BASED_LOGIN_ENTRY_POINT,
+                successHandler,
+                failureHandler,
+                objectMapper);
         filter.setAuthenticationManager(this.authenticationManager);
         return filter;
     }
@@ -53,7 +59,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected JwtTokenAuthenticationProcessingFilter buildJwtTokenAuthenticationProcessingFilter() throws Exception {
         List<String> pathsToSkip = Arrays.asList(TOKEN_REFRESH_ENTRY_POINT, FORM_BASED_LOGIN_ENTRY_POINT);
         SkipPathRequestMatcher matcher = new SkipPathRequestMatcher(pathsToSkip, TOKEN_BASED_AUTH_ENTRY_POINT);
-        JwtTokenAuthenticationProcessingFilter filter 
+        JwtTokenAuthenticationProcessingFilter filter
             = new JwtTokenAuthenticationProcessingFilter(failureHandler, tokenExtractor, matcher);
         filter.setAuthenticationManager(this.authenticationManager);
         return filter;
@@ -96,6 +102,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
                 .antMatchers(TOKEN_BASED_AUTH_ENTRY_POINT).authenticated() // Protected API End-points
         .and()
+            .addFilterBefore(new CorsFilter(FORM_BASED_LOGIN_ENTRY_POINT), UsernamePasswordAuthenticationFilter.class)
             .addFilterBefore(buildAjaxLoginProcessingFilter(), UsernamePasswordAuthenticationFilter.class)
             .addFilterBefore(buildJwtTokenAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class);
     }
