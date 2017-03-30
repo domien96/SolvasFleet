@@ -6,14 +6,6 @@ DROP TABLE IF EXISTS insurance_types CASCADE;
 
 -- Create tables --
 
-CREATE TABLE insurances (
-  insurance_id SERIAL NOT NULL,
-  risk_premium BIGINT NOT NULL,-- risicopremie
-  applicable_exemption BIGINT NOT NULL,
-  company_id INT REFERENCES companies(company_id),
-  PRIMARY KEY (insurance_id)
-);
-
 CREATE TABLE insurance_types (
   insurance_type_id SERIAL NOT NULL,
   standard_fixed_rate BIGINT NOT NULL,
@@ -23,13 +15,24 @@ CREATE TABLE insurance_types (
   PRIMARY KEY (insurance_type_id)
 );
 
+CREATE TABLE insurances (
+  insurance_id SERIAL NOT NULL,
+  risk_premium BIGINT NOT NULL,-- risicopremie
+  applicable_exemption BIGINT NOT NULL,
+  company_id INT REFERENCES companies(company_id),
+  insurance_type_id INT REFERENCES insurance_types(insurance_type_id),
+  PRIMARY KEY (insurance_id)
+);
 
--- Ternary relation
+-- binary relation m:n
 
 CREATE TABLE insurance_coverages (
+  insurance_coverages_id SERIAL NOT NULL,
   fleet_subscription_id INT NOT NULL REFERENCES fleet_subscriptions(fleet_subscription_id),
-  insurance_type_id INT NOT NULL REFERENCES insurance_types(insurance_type_id),
+  insurance_id INT NOT NULL REFERENCES insurances(insurance_id),
   beginDate DATE NOT NULL,
   endDate DATE NOT NULL,
-  PRIMARY KEY (fleet_subscription_id,insurance_type_id)
+  PRIMARY KEY (insurance_coverages_id),
+  UNIQUE (beginDate,endDate,fleet_subscription_id,insurance_id)
+
 );
