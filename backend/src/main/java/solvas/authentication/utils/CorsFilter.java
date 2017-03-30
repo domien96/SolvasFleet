@@ -15,7 +15,7 @@ public class CorsFilter extends OncePerRequestFilter {
     private final RequestMatcher matcher;
 
     public CorsFilter(String path) {
-        matcher = new AntPathRequestMatcher(path, "OPTIONS");
+        matcher = new AntPathRequestMatcher(path);
     }
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
