@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="solvas.service.models.InsuranceType" table="insurance_types">
+        <meta attribute="class-description">
+            This class contains the User detail.
+        </meta>
+        <id name="id" type="int" column="insurance_type_id">
+            <generator class="identity"/>
+        </id>
+
+        <property name="standardFixedRate" column="standard_fixed_rate" type="long" not-null="true"/>
+        <property name="standardTax" column="standard_tax" type="long" not-null="true"/>
+        <property name="standardCommission" column="standard_commission" type="long" not-null="true"/>
+        <property name="name" column="name" type="string" not-null="true"/>
+
+
+        <property name="archived" column="archived" type="boolean" not-null="true"/>
+
+        <property name="updatedAt" column="updated_at" type="java.time.LocalDateTime" generated="always" insert="false" not-null="true" />
+        <property name="createdAt" column="created_at" type="java.time.LocalDateTime" generated="insert" insert="false" not-null="true" />
+
+
+    </class>
+</hibernate-mapping>

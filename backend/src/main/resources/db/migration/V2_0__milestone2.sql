@@ -10,7 +10,7 @@ CREATE TABLE insurance_types (
   insurance_type_id SERIAL NOT NULL,
   standard_fixed_rate BIGINT NOT NULL,
   standard_tax BIGINT NOT NULL,
-  standard_commision BIGINT NOT NULL,
+  standard_commission BIGINT NOT NULL,
   name VARCHAR (255) NOT NULL,
   PRIMARY KEY (insurance_type_id)
 );
