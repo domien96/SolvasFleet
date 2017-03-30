@@ -51,7 +51,7 @@ public class FleetMapper extends AbstractMapper<Fleet, ApiFleet> {
         copyAttributes(fleet, model, "createdAt", "updatedAt", "id");
 
         fleet.setCompany(model.getCompany() == null ? 0 : model.getCompany().getId());
-        fleet.setUrl(SimpleUrlBuilder.buildUrl(ROOTPATH + "{id}", model.getId()));
+        fleet.setUrl(SimpleUrlBuilder.buildUrlFromBase(ROOTPATH + "{id}", model.getId()));
         return fleet;
     }
 }
