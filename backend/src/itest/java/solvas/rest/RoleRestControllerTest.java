@@ -42,7 +42,6 @@ public class RoleRestControllerTest extends AbstractRestControllerTest<Role,ApiR
         res.andExpect(jsonPath("id").value(role.getId()))
                 .andExpect(jsonPath("url").value(role.getUrl()))
                 .andExpect(jsonPath("company").value(role.getCompany()))
-                .andExpect(jsonPath("lastUpdatedBy").value(role.getLastUpdatedBy()))
                 .andExpect(jsonPath("function").value(role.getFunction()))
                 .andExpect(jsonPath("user").value(role.getUser()));
     }
