@@ -26,7 +26,7 @@ public class AjaxAuthenticationSuccessHandler implements AuthenticationSuccessHa
      * Create handler
      *
      * @param mapper       Mapper to convert objects to JSON
-     * @param tokenFactory Factory to generate JWT's
+     * @param accessAndRefreshTokenBuilder Builder to generate the JWT response
      */
     @Autowired
     public AjaxAuthenticationSuccessHandler(final ObjectMapper mapper, final AccessAndRefreshTokenResponseBuilder accessAndRefreshTokenBuilder) {

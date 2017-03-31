@@ -14,10 +14,15 @@ import org.springframework.stereotype.Component;
 import solvas.authentication.exceptions.UserNotFoundException;
 import solvas.authentication.user.UserContext;
 import solvas.persistence.api.DaoContext;
+import solvas.service.models.Permission;
+import solvas.service.models.Role;
 import solvas.service.models.User;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class AjaxAuthenticationProvider implements AuthenticationProvider {
@@ -38,20 +43,22 @@ public class AjaxAuthenticationProvider implements AuthenticationProvider {
         String password = (String) authentication.getCredentials();
 
         User user = daoContext.getUserDao().getByEmail(principal);
-        if(user == null) {
-            System.out.println("not found");
-
+        if (user == null) {
             throw new UserNotFoundException(principal);
         }
 
         if (!encoder.matches(password, user.getPassword())) {
-            System.out.println("no matching password");
             throw new BadCredentialsException("Authentication Failed. Username or Password not valid.");
         }
 
-        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>() {{
-            add(new SimpleGrantedAuthority("TODO"));
-        }};
+        // TODO Scope authorities by company
+        Collection<GrantedAuthority> authorities = user
+                .getRoles().stream()
+                .map(Role::getPermissions)
+                .flatMap(Collection::stream)
+                .map(Permission::getName)
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toSet());
 
         UserContext userContext = new UserContext(user.getEmail(), authorities);
 
