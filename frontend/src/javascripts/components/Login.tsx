@@ -1,7 +1,10 @@
 import React from 'react';
 import T from 'i18n-react';
 
+import Card from './app/Card.tsx';
 import FormField from './forms/FormField.tsx';
+import { redirect_to } from '../routes/router.tsx';
+import { SIGNED_IN_URL } from '../constants/constants.ts';
 
 import { auth_login } from '../actions/login_actions.ts';
 import Auth from '../modules/Auth.ts';
@@ -37,8 +40,12 @@ class Login extends React.Component<{}, State> {
     const { email, password } = this.state;
 
     let s = (data : any) => {
-      console.log(data);
-      Auth.authenticateUser(data['refreshToken'], data['AccessToken']);
+      Auth.authenticateUser(
+        data['refreshToken']['token'],
+        data['accessToken']['token']
+      );
+
+      redirect_to(SIGNED_IN_URL);
     }
 
     let f = (data : any) => {
@@ -58,15 +65,19 @@ class Login extends React.Component<{}, State> {
       <div className='container'>
         <div className='row'>
           <div className='col-xs-12 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4'>
-            <div className='login-form-wrapper'>
-              <form method='POST' onSubmit={this.onSubmit} className='login-form' >
-                <FormField value={ this.state.email } placeholder='form.placeholders.email'    type='email'     callback={ this.handleEmailChange    } hasError={ this.hasError('email')}    />
-                <FormField value={ this.state.password } placeholder='form.placeholders.password' type='password' callback={ this.handlePasswordChange } hasError={ this.hasError('password')} />
-                <button type='submit' className='btn btn-default' >
-                  <T.text tag='span' text='login.submit' />
-                </button>
-              </form>
-            </div>
+            <Card>
+              <div className='card-content'>
+                <div className='login-form-wrapper'>
+                  <form method='POST' onSubmit={this.onSubmit} className='login-form' >
+                    <FormField value={ this.state.email } placeholder='form.placeholders.email'    type='email'     callback={ this.handleEmailChange    } hasError={ this.hasError('email')}    />
+                    <FormField value={ this.state.password } placeholder='form.placeholders.password' type='password' callback={ this.handlePasswordChange } hasError={ this.hasError('password')} />
+                    <button type='submit' className='btn btn-default' >
+                      <T.text tag='span' text='login.submit' />
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </Card>
           </div>
         </div>
       </div>

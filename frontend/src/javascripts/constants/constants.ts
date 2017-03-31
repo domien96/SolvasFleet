@@ -20,3 +20,5 @@ export const FLEETS_URL                = `${BASE_API_URL}/fleets`;
 export function FLEET_URL(id : number) { return `${FLEETS_URL}/${id}`; }
 
 export const AUTH_LOGIN_URL = `${BASE_API_URL}/auth/login`;
+
+export const SIGNED_IN_URL = '/users';

@@ -2,7 +2,11 @@ import React from 'react';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import { useBasename } from 'history';
 
+import Auth from '../modules/Auth.ts';
+
 import App       from '../components/app/App.tsx';
+import EnsureLoggedInContainer from '../components/containers/EnsureLoggedIn.tsx';
+import EnsureLoggedOutContainer from '../components/containers/EnsureLoggedOut.tsx';
 
 import Login      from '../components/Login.tsx';
 
@@ -42,46 +46,46 @@ export function redirect_to(path : string) : void {
   browserHistory.push(`${SUB_URI}${sep}${path}`);
 }
 
-const SessionRoutes : React.StatelessComponent<{}> = () => {
-  return (
-    <Router>
-
-    </Router>
-  );
-}
-
 const SolvasRouter : React.StatelessComponent<{}> = () => {
   const history = useBasename(() => browserHistory)({
     basename: SUB_URI
   });
 
+  let f = (_state : any, re : any) => {
+    Auth.deauthenticateUser();
+    re('/');
+  }
+
   return (
     <Router history={ history } >
-      <Route path="/" component={ App } >
-
+      <Route path="/" component={ EnsureLoggedOutContainer }>
         <IndexRoute component={ Login } />
-        <Route path="users/new"      component={ AddUser  } />
-        <Route path="users/:id/edit" component={ EditUser } />
-        <Route path="users"          component={ Users    } >
-          <IndexRoute component={ NoUser } />
-          <Route path=":id" component={ User } />
+      </Route>
+      <Route component={ EnsureLoggedInContainer }>
+        <Route path="/" component={ App } >
+          <Route path="sign_out" onEnter={ f } />
+          <Route path="users/new"      component={ AddUser  } />
+          <Route path="users/:id/edit" component={ EditUser } />
+          <Route path="users"          component={ Users    } >
+            <IndexRoute component={ NoUser } />
+            <Route path=":id" component={ User } />
+          </Route>
+
+          <Route path="clients"                component={ Clients    } />
+          <Route path="clients/new"            component={ AddClient  } />
+          <Route path="clients/:id"            component={ Client     } />
+          <Route path="clients/:id/edit"       component={ EditClient } />
+          <Route path="clients/:id/fleets"     component={ Fleets     } />
+
+          <Route path="vehicles/new"      component={ AddVehicle  } />
+          <Route path="vehicles/:id/edit" component={ EditVehicle } />
+          <Route path="vehicles"          component={ Vehicles    }>
+            <IndexRoute component={ NoVehicle } />
+            <Route path=":id" component={ Vehicle } />
+          </Route>
+
+          <Route path="fleets/:id" component={ Fleet } />
         </Route>
-
-        <Route path="clients"                component={ Clients    } />
-        <Route path="clients/new"            component={ AddClient  } />
-        <Route path="clients/:id"            component={ Client     } />
-        <Route path="clients/:id/edit"       component={ EditClient } />
-        <Route path="clients/:id/fleets"     component={ Fleets     } />
-
-        <Route path="vehicles/new"      component={ AddVehicle  } />
-        <Route path="vehicles/:id/edit" component={ EditVehicle } />
-        <Route path="vehicles"          component={ Vehicles    }>
-          <IndexRoute component={ NoVehicle } />
-          <Route path=":id" component={ Vehicle } />
-        </Route>
-
-        <Route path="fleets/:id" component={ Fleet } />
-
         <Route path="*" component={ NoMatch } />
       </Route>
     </Router>

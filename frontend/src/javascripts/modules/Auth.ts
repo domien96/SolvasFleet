@@ -1,6 +1,6 @@
 class Auth {
   /**
-   * Authenticate a user. Save a token and refreshToken string in Local Storage
+   * Authenticate a user. Save a accessToken and refreshToken string in Local Storage
    */
   static authenticateUser(refreshToken : string, accessToken : string) {
     localStorage.setItem('refreshToken', refreshToken);
@@ -10,12 +10,12 @@ class Auth {
   /**
    * Check if a user is authenticated
    */
-  static isUserAuthenticated() {
+  static isAuthenticated() {
     return localStorage.getItem('accessToken') !== null;
   }
 
   /**
-   * Deauthenticate a user. Remove a token from Local Storage.
+   * Deauthenticate a user. Remove tokens from Local Storage.
    *
    */
   static deauthenticateUser() {
@@ -24,7 +24,7 @@ class Auth {
   }
 
   /**
-   * Get a token value.
+   * Get a accessToken value.
    */
 
   static getAccessToken() {

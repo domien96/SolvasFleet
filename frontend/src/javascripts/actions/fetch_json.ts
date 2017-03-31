@@ -15,7 +15,7 @@ function request (
     'Accept': 'application/json',
   }
 
-  if (Auth.isUserAuthenticated()) {
+  if (Auth.isAuthenticated()) {
     headers['X-Authorization'] = `Bearer ${Auth.getAccessToken()}`
   }
 
@@ -23,6 +23,7 @@ function request (
     method: method,
     headers: headers
   }
+
 
   if (body) {
     params['body'] = JSON.stringify(body);
