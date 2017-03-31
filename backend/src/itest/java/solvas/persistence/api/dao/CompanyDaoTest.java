@@ -2,7 +2,7 @@ package solvas.persistence.api.dao;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import solvas.models.Company;
+import solvas.service.models.Company;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;

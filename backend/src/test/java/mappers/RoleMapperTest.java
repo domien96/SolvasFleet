@@ -5,10 +5,10 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import solvas.models.Role;
+import solvas.service.models.Role;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.dao.RoleDao;
-import solvas.rest.api.mappers.RoleAbstractMapper;
+import solvas.service.mappers.RoleMapper;
 import solvas.rest.api.models.ApiRole;
 
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
@@ -22,7 +22,7 @@ import static org.mockito.Mockito.when;
 @Ignore //milestone 2
 public class RoleMapperTest {
 
-    private RoleAbstractMapper mapper;
+    private RoleMapper mapper;
 
     @Mock
     private DaoContext context;
@@ -37,7 +37,7 @@ public class RoleMapperTest {
     public void setUp()
     {
         MockitoAnnotations.initMocks(this);
-        mapper=new RoleAbstractMapper(context);
+        mapper=new RoleMapper(context);
         when(context.getRoleDao()).thenReturn(roleDaoMock);
     }
 

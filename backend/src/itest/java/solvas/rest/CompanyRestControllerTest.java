@@ -1,182 +1,44 @@
 package solvas.rest;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.mockito.ArgumentCaptor;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import solvas.models.Company;
-import solvas.persistence.api.DaoContext;
-import solvas.persistence.api.EntityNotFoundException;
-import solvas.persistence.api.dao.CompanyDao;
-import solvas.rest.api.mappers.CompanyMapper;
+import solvas.service.models.Company;
 import solvas.rest.api.models.ApiCompany;
+import solvas.rest.controller.AbstractRestController;
 import solvas.rest.controller.CompanyRestController;
+import solvas.service.AbstractService;
+import solvas.service.CompanyService;
 
-import static io.github.benas.randombeans.api.EnhancedRandom.random;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.mockito.internal.verification.VerificationModeFactory.times;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 /**
  * Integration tests of the CompanyRestController
  * It checks HTTP responses and calls to the CompanyDao
  */
-public class CompanyRestControllerTest{
-    @Mock
-    private CompanyMapper companyMapper;
+@RunWith(MockitoJUnitRunner.class)
+public class CompanyRestControllerTest extends AbstractRestControllerTest<Company,ApiCompany>{
 
-    @Mock
-    private DaoContext context;
 
     @Mock
-    private CompanyDao companyDaoMock;
-
-    private MockMvc mockMvc;
-
-    private ArgumentCaptor<Company> captor = ArgumentCaptor.forClass(Company.class);
-
-    private ApiCompany apiCompany;
-    private String json;
+    private CompanyService service;
 
 
     /**
-     * Setup of mockMVC
-     * currently provides one random company object and its json representation
+     * Constructor for specific CompanyController tests
      */
-    @Before
-    public void setUp() throws JsonProcessingException {
-        MockitoAnnotations.initMocks(this);
-        when(context.getCompanyDao()).thenReturn(companyDaoMock);
-        CompanyRestController companyRestController=new CompanyRestController(context,companyMapper);
-        mockMvc= MockMvcBuilders.standaloneSetup(companyRestController).build();
-
-        apiCompany=random(ApiCompany.class);
-        apiCompany.setPhoneNumber("+32 56 22 56 99");
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.findAndRegisterModules();
-        json=mapper.writeValueAsString(apiCompany);
-        }
-
-    /**
-     * Test: the response of a get request for a company that exists on the db
-     */
-    @Test
-    public void getCompanyByIdNoError() throws Exception {
-        when(companyMapper.convertToApiModel(any())).thenReturn(apiCompany);
-        ResultActions res =mockMvc.perform(get("/companies/10"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andDo(MockMvcResultHandlers.print());
-        matchCompanyJson(res,apiCompany);
+    public CompanyRestControllerTest() {
+        super(ApiCompany.class);
     }
 
-    /**
-     * Test: the response of a get request for a company that doesn't exist on the db
-     */
-    @Test
-    public void getCompanyByIdNotFound() throws Exception {
-        when(companyDaoMock.find(anyInt())).thenThrow(new EntityNotFoundException());
-        mockMvc.perform(get("/companies/1"))
-                .andExpect(status().isNotFound());
-    }
 
     /**
-     * Test: the response of a get request for all the companies
+     * Match jsonmodel with ApiCompany
+     * @param resultActions the resultaction that mockMvc provides.
+     * @param source the company we want to compare with the json result
      */
-    @Test
-    public void getCompaniesNoError() throws Exception {
-        when(companyMapper.convertToApiModel(any())).thenReturn(random(ApiCompany.class));
-        mockMvc.perform(get("/companies"))
-                .andExpect(status().isOk())
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
-    }
-
-    /**
-     * Test: the response of a post request for a new company that doesn't exist on the db
-     */
-    @Test
-    public void postCompanyNoError() throws Exception {
-        when(companyMapper.convertToApiModel(any())).thenReturn(apiCompany);
-        ResultActions resultActions=
-                mockMvc.perform(post("/companies").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
-                        .andExpect(status().isOk());
-        matchCompanyJson(resultActions,apiCompany);
-        verify(companyDaoMock,times(1)).save(captor.capture());
-    }
-
-    /**
-     * Test: the response of a post request for a role that exists on the db (error)
-     */
-    @Ignore
-    @Test
-    public void postCompanyAlreadyExists()
-    {
-        //todo, ?http response?
-    }
-
-    /**
-     * Test: the response of a put request for a role that exists on the db
-     */
-    @Test
-    public void putCompanyNoError() throws Exception {
-        when(companyMapper.convertToApiModel(any())).thenReturn(apiCompany);
-        when(companyMapper.convertToModel(any())).thenReturn(random(Company.class));
-        ResultActions resultActions =
-                mockMvc.perform(put("/companies/10").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
-        matchCompanyJson(resultActions,apiCompany);
-        verify(companyDaoMock,times(1)).save(captor.capture());
-     }
-
-    /**
-     * Test: the response of a post request for a role that doesn't exist on the db (error)
-     */
-    @Ignore//behavior not as expected
-    @Test
-    public void putCompanyNotFound() throws Exception {
-        when(companyDaoMock.save(any(Company.class))).thenThrow(new EntityNotFoundException());
-        when(companyMapper.convertToModel(any())).thenReturn(random(Company.class));
-        mockMvc.perform(put("/companies/10").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
-                .andExpect(status().isNotFound());
-    }
-
-    /**
-     * Test: the response of a destroy requests for a company that exists
-     */
-    @Test
-    public void destroyCompanyNoError() throws Exception {
-
-        when(companyDaoMock.destroy(any())).thenReturn(random(Company.class));
-        mockMvc.perform(delete("/companies/10").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
-                .andExpect(status().isOk());
-    }
-
-    /**
-     * Test: the response of a destroy requests for a company that doesn't exists
-     */
-    @Test
-    public void destroyCompanyNotFound() throws Exception {
-        when(companyDaoMock.destroy(any())).thenThrow(new EntityNotFoundException());
-        mockMvc.perform(delete("/companies/10").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
-                .andExpect(status().isNotFound());
-    }
-
-    private void matchCompanyJson(ResultActions resultActions, ApiCompany source) throws Exception {
+    public void matchJsonModel(ResultActions resultActions, ApiCompany source) throws Exception {
         resultActions.andExpect(jsonPath("id").value(source.getId()))
                 .andExpect(jsonPath("name").value(source.getName()))
                 .andExpect(jsonPath("phoneNumber").value(source.getPhoneNumber()))
@@ -190,4 +52,35 @@ public class CompanyRestControllerTest{
 
     }
 
+
+    /**
+     * @return the company rest controller
+     */
+    @Override
+    AbstractRestController getController() {
+        return new CompanyRestController(service);
+    }
+
+    @Override
+    ApiCompany getTestModel()
+    {
+        ApiCompany company = super.getTestModel();
+        company.setPhoneNumber("093999084");
+        return company;
+    }
+
+    @Override
+    protected AbstractService<Company, ApiCompany> getService() {
+        return service;
+    }
+
+    @Override
+    protected String getBaseUrl() {
+        return RestTestFixtures.COMPANY_ROOT_URL;
+    }
+
+    @Override
+    public String getIdUrl() {
+        return RestTestFixtures.COMPANY_ID_URL;
+    }
 }

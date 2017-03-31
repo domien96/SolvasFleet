@@ -1,7 +1,7 @@
 package solvas.rest.api.models;
 
 import org.hibernate.validator.constraints.NotBlank;
-import solvas.models.validators.PhoneNumber;
+import solvas.service.models.validators.PhoneNumber;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
