@@ -30,22 +30,41 @@ public class ErrorResponse {
         this.timestamp = new java.util.Date();
     }
 
+    /**
+     * Create ErrorResponse
+     * @param message ErrorMessage
+     * @param errorCode ErrorCode
+     * @param status Http response status (e.g.: 401 UNAUTHORIZED)
+     * @return
+     */
     public static ErrorResponse of(final String message, final ErrorCode errorCode, HttpStatus status) {
         return new ErrorResponse(message, errorCode, status);
     }
 
+    /**
+     * @return HTTP Statuscode of the error
+     */
     public Integer getStatus() {
         return status.value();
     }
 
+    /**
+     * @return Errormessage
+     */
     public String getMessage() {
         return message;
     }
 
+    /**
+     * @return Error code
+     */
     public ErrorCode getErrorCode() {
         return errorCode;
     }
 
+    /**
+     * @return Time of occurrence of the error
+     */
     public Date getTimestamp() {
         return timestamp;
     }

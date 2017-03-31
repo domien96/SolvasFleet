@@ -16,10 +16,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Write cause of authentication failure to response body
+ */
 @Component
 public class JwtAuthenticationFailureHandler implements AuthenticationFailureHandler {
     private final ObjectMapper mapper;
 
+    /**
+     * Create new instance
+     * @param mapper Jackson Object Mapper
+     */
     @Autowired
     public JwtAuthenticationFailureHandler(ObjectMapper mapper) {
         this.mapper = mapper;

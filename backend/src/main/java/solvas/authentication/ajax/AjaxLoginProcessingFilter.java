@@ -12,7 +12,6 @@ import org.springframework.security.web.authentication.AbstractAuthenticationPro
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import solvas.authentication.exceptions.AuthMethodNotSupportedException;
-import solvas.authentication.utils.WebUtil;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -20,6 +19,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Authentication filter for Ajax authentication
+ */
 public class AjaxLoginProcessingFilter extends AbstractAuthenticationProcessingFilter {
 
     private final AuthenticationSuccessHandler successHandler;
@@ -27,6 +29,13 @@ public class AjaxLoginProcessingFilter extends AbstractAuthenticationProcessingF
 
     private final ObjectMapper objectMapper;
 
+    /**
+     *
+     * @param defaultProcessUrl Url this filter listens to
+     * @param successHandler Handler called on successful authentication
+     * @param failureHandler Handler called on failed authentication
+     * @param mapper Jackson object mapper
+     */
     public AjaxLoginProcessingFilter(String defaultProcessUrl, AuthenticationSuccessHandler successHandler,
             AuthenticationFailureHandler failureHandler, ObjectMapper mapper) {
         super(defaultProcessUrl);

@@ -11,9 +11,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Because the AJAX auth has no Spring Controller associated, we need a dirty hack to pass CORS headers.
+ * Otherwise preflight requests 404
+ */
 public class CorsFilter extends OncePerRequestFilter {
     private final RequestMatcher matcher;
 
+    /**
+     * @param path Path this filter should set CORS headers for
+     */
     public CorsFilter(String path) {
         matcher = new AntPathRequestMatcher(path);
     }

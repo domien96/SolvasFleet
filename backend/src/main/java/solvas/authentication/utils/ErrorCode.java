@@ -16,10 +16,13 @@ public enum ErrorCode {
     
     private int errorCode;
 
-    private ErrorCode(int errorCode) {
+    ErrorCode(int errorCode) {
         this.errorCode = errorCode;
     }
 
+    /**
+     * @return The integer representatie of the error
+     */
     @JsonValue
     public int getErrorCode() {
         return errorCode;

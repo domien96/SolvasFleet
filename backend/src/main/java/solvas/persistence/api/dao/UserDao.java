@@ -13,5 +13,10 @@ import solvas.persistence.api.Dao;
 @Repository
 public interface UserDao extends Dao<User> {
 
+    /**
+     * Find a single user by his/her email
+     * @param email The email to search for
+     * @return The associated user entity
+     */
     User getByEmail(String email);
 }

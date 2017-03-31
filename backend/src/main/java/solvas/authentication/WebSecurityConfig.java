@@ -26,6 +26,9 @@ import solvas.authentication.utils.CorsFilter;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Configure Spring Security
+ */
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -34,18 +37,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public static final String TOKEN_BASED_AUTH_ENTRY_POINT = "/**";
     public static final String TOKEN_REFRESH_ENTRY_POINT = "/auth/token";
 
-    @Autowired private RestAuthenticationEntryPoint authenticationEntryPoint;
-    @Autowired private AuthenticationSuccessHandler successHandler;
-    @Autowired private AuthenticationFailureHandler failureHandler;
-    @Autowired private AjaxAuthenticationProvider ajaxAuthenticationProvider;
+    private final RestAuthenticationEntryPoint authenticationEntryPoint;
+    private final AuthenticationSuccessHandler successHandler;
+    private final AuthenticationFailureHandler failureHandler;
+    private final AjaxAuthenticationProvider ajaxAuthenticationProvider;
+    private final JwtAuthenticationProvider jwtAuthenticationProvider;
+    private final TokenExtractor tokenExtractor;
+    private final ObjectMapper objectMapper;
+
     @Autowired
-    private JwtAuthenticationProvider jwtAuthenticationProvider;
+    public WebSecurityConfig(AjaxAuthenticationProvider ajaxAuthenticationProvider, TokenExtractor tokenExtractor, ObjectMapper objectMapper, AuthenticationFailureHandler failureHandler, JwtAuthenticationProvider jwtAuthenticationProvider, AuthenticationSuccessHandler successHandler, RestAuthenticationEntryPoint authenticationEntryPoint) {
+        this.ajaxAuthenticationProvider = ajaxAuthenticationProvider;
+        this.tokenExtractor = tokenExtractor;
+        this.objectMapper = objectMapper;
+        this.failureHandler = failureHandler;
+        this.jwtAuthenticationProvider = jwtAuthenticationProvider;
+        this.successHandler = successHandler;
+        this.authenticationEntryPoint = authenticationEntryPoint;
+    }
 
-    @Autowired private TokenExtractor tokenExtractor;
-
-    @Autowired private AuthenticationManager authenticationManager;
-
-    @Autowired private ObjectMapper objectMapper;
 
     protected AjaxLoginProcessingFilter buildAjaxLoginProcessingFilter() throws Exception {
         AjaxLoginProcessingFilter filter = new AjaxLoginProcessingFilter(
@@ -53,7 +63,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 successHandler,
                 failureHandler,
                 objectMapper);
-        filter.setAuthenticationManager(this.authenticationManager);
+        filter.setAuthenticationManager(this.authenticationManager());
         return filter;
     }
 
@@ -62,7 +72,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         SkipPathRequestMatcher matcher = new SkipPathRequestMatcher(pathsToSkip, TOKEN_BASED_AUTH_ENTRY_POINT);
         JwtTokenAuthenticationProcessingFilter filter
             = new JwtTokenAuthenticationProcessingFilter(failureHandler, tokenExtractor, matcher);
-        filter.setAuthenticationManager(this.authenticationManager);
+        filter.setAuthenticationManager(this.authenticationManager());
         return filter;
     }
 
@@ -76,11 +86,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(ajaxAuthenticationProvider);
         auth.authenticationProvider(jwtAuthenticationProvider);
-    }
-
-    @Bean
-    protected BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 
     @Override

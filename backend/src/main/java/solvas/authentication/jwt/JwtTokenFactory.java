@@ -14,10 +14,14 @@ import solvas.authentication.jwt.token.AccessToken;
 import solvas.authentication.jwt.token.JwtToken;
 import solvas.authentication.jwt.token.Scopes;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+/**
+ * Factory to create access tokens and refresh tokens
+ */
 @Component
 public class JwtTokenFactory {
     private JwtSettings settings;
@@ -38,12 +42,15 @@ public class JwtTokenFactory {
      * @return AccessToken
      */
     public AccessToken createAccessJwtToken(UserDetails userContext) {
-        if (StringUtils.isBlank(userContext.getUsername()))
-            throw new IllegalArgumentException("Cannot create JWT Token without username");
+        validateUserDetails(userContext);
 
-        Claims claims = Jwts.claims().setSubject(userContext.getUsername());
-        claims.put("scopes", userContext.getAuthorities()
-                .stream().map(Object::toString).collect(Collectors.toList()));
+        Claims claims = buildClaims(
+                userContext,
+                userContext.getAuthorities()
+                        .stream()
+                        .map(Object::toString)
+                        .collect(Collectors.toList())
+        );
 
 
         String token = buildToken(claims, settings.getTokenExpirationTime()).compact();
@@ -57,12 +64,10 @@ public class JwtTokenFactory {
      * @return RefreshToken
      */
     public JwtToken createRefreshToken(UserDetails userContext) {
-        if (StringUtils.isBlank(userContext.getUsername())) {
-            throw new IllegalArgumentException("Cannot create JWT Token without username");
-        }
+        validateUserDetails(userContext);
 
-        Claims claims = Jwts.claims().setSubject(userContext.getUsername());
-        claims.put("scopes", Collections.singletonList(Scopes.REFRESH_TOKEN.authority()));
+        Claims claims = buildClaims(userContext,
+                Collections.singletonList(Scopes.REFRESH_TOKEN.authority()));
 
         String token = buildToken(claims, settings.getRefreshTokenExpTime())
                 .setId(UUID.randomUUID().toString())
@@ -71,7 +76,7 @@ public class JwtTokenFactory {
         return new AccessToken(token, claims);
     }
 
-    private JwtBuilder buildToken(Claims claims, int duration) {
+    protected JwtBuilder buildToken(Claims claims, int duration) {
         DateTime currentTime = new DateTime();
 
         return Jwts.builder()
@@ -80,5 +85,21 @@ public class JwtTokenFactory {
                 .setIssuer(settings.getTokenIssuer())
                 .setExpiration(currentTime.plusMinutes(duration).toDate())
                 .signWith(SignatureAlgorithm.HS512, settings.getTokenSigningKey());
+    }
+
+    protected Claims buildClaims(UserDetails userDetails, Collection<String> scopes) {
+        Claims claims = Jwts.claims().setSubject(userDetails.getUsername());
+        claims.put("scopes", scopes);
+        return claims;
+    }
+
+    /**
+     * @param userDetails UserDetails to validate
+     * @throws IllegalArgumentException if atleast one validation failed
+     */
+    protected void validateUserDetails(UserDetails userDetails) {
+        if (StringUtils.isBlank(userDetails.getUsername())) {
+            throw new IllegalArgumentException("Cannot create JWT Token without username");
+        }
     }
 }

@@ -21,6 +21,10 @@ public class JwtExpiredTokenException extends AuthenticationException {
         this.token = token;
     }
 
+    /**
+     *
+     * @return The invalid token
+     */
     public String token() {
         return this.token.getToken();
     }
