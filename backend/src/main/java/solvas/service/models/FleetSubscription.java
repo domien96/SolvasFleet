@@ -3,6 +3,7 @@ package solvas.service.models;
 
 
 import java.time.LocalDate;
+import java.util.Set;
 
 /**
  * Models subscription of a vehicle to a (sub)fleet
@@ -13,6 +14,8 @@ public class FleetSubscription extends Model {
     private LocalDate endDate;
     private Vehicle vehicle;
     private SubFleet subFleet;
+
+    private Set<InsuranceCoverage> insuranceCoverages;
 
 
     public LocalDate getStartDate() {
@@ -46,5 +49,13 @@ public class FleetSubscription extends Model {
 
     public void setSubFleet(SubFleet subFleet) {
         this.subFleet = subFleet;
+    }
+
+    public Set<InsuranceCoverage> getInsuranceCoverages() {
+        return insuranceCoverages;
+    }
+
+    public void setInsuranceCoverages(Set<InsuranceCoverage> insuranceCoverages) {
+        this.insuranceCoverages = insuranceCoverages;
     }
 }

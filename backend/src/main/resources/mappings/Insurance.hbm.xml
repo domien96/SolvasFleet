@@ -25,5 +25,8 @@
         <many-to-one name="insuranceType" column="insurance_type_id"
                      class="solvas.service.models.InsuranceType" not-null="true"/>
 
+        <many-to-one name="company" column="company_id"
+                     class="solvas.service.models.Company" not-null="true"/>
+
     </class>
 </hibernate-mapping>
