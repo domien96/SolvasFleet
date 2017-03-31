@@ -1,11 +1,4 @@
 namespace Vehicles {
-  export interface Props { }
-
-  export interface State {
-    vehicles : Vehicle[];
-    filter: VehicleFilterData;
-  }
-
   export interface Data {
     [ vehicles : string ] : any;
   }
