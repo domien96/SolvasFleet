@@ -8,9 +8,9 @@ import AddVehicle from '../components/vehicle_form/AddVehicle.tsx';
 import EditVehicle from '../components/vehicle_form/EditVehicle.tsx';
 
 export default [
-  <Route path="vehicles/new" component={ AddVehicle } />,
-  <Route path="vehicles/:id/edit" component={ EditVehicle } />,
-  <Route path="vehicles" component={ Vehicles }>
+  <Route key={ 1 } path="vehicles/new" component={ AddVehicle } />,
+  <Route key={ 2 } path="vehicles/:id/edit" component={ EditVehicle } />,
+  <Route key={ 3 } path="vehicles" component={ Vehicles }>
     <IndexRoute component={ NoVehicle } />
     <Route path=":id" component={ Vehicle } />
   </Route>
