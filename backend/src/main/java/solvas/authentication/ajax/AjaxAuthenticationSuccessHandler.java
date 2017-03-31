@@ -8,9 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
-import solvas.authentication.jwt.JwtTokenFactory;
-import solvas.authentication.jwt.response.AccessAndRefreshTokenBuilder;
-import solvas.authentication.jwt.token.JwtToken;
+import solvas.authentication.jwt.response.AccessAndRefreshTokenResponseBuilder;
 import solvas.authentication.user.UserContext;
 
 import javax.servlet.ServletException;
@@ -18,13 +16,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 @Component
 public class AjaxAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
     private final ObjectMapper mapper;
-    private final AccessAndRefreshTokenBuilder accessAndRefreshTokenBuilder;
+    private final AccessAndRefreshTokenResponseBuilder accessAndRefreshTokenBuilder;
 
     /**
      * Create handler
@@ -33,7 +29,7 @@ public class AjaxAuthenticationSuccessHandler implements AuthenticationSuccessHa
      * @param tokenFactory Factory to generate JWT's
      */
     @Autowired
-    public AjaxAuthenticationSuccessHandler(final ObjectMapper mapper, final AccessAndRefreshTokenBuilder accessAndRefreshTokenBuilder) {
+    public AjaxAuthenticationSuccessHandler(final ObjectMapper mapper, final AccessAndRefreshTokenResponseBuilder accessAndRefreshTokenBuilder) {
         this.mapper = mapper;
         this.accessAndRefreshTokenBuilder = accessAndRefreshTokenBuilder;
     }

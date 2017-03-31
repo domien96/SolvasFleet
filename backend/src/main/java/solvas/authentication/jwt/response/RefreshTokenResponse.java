@@ -3,20 +3,32 @@ package solvas.authentication.jwt.response;
 import io.jsonwebtoken.Claims;
 import solvas.authentication.jwt.token.JwtToken;
 
+/**
+ * Represents a response containing a refresh token
+ */
 public class RefreshTokenResponse implements TokenResponse {
     private final String token;
     private final Claims claims;
 
-    RefreshTokenResponse(JwtToken accessToken) {
-        token = accessToken.getToken();
-        claims = accessToken.getClaims();
+    /**
+     * @param refreshToken The refresh token this response will represent
+     */
+    RefreshTokenResponse(JwtToken refreshToken) {
+        token = refreshToken.getToken();
+        claims = refreshToken.getClaims();
     }
 
-    public String getToken() {
-        return token;
-    }
-
+    /**
+     * @return The claims of the access token
+     */
     public Claims getClaims() {
         return claims;
+    }
+
+    /**
+     * @return The String representation of the token
+     */
+    public String getToken() {
+        return token;
     }
 }

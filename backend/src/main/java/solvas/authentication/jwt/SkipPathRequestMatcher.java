@@ -17,6 +17,10 @@ public class SkipPathRequestMatcher implements RequestMatcher {
     private OrRequestMatcher matchers;
     private RequestMatcher processingMatcher;
 
+    /**
+     * @param pathsToSkip Specific path this matcher shouldn't match, even when it matches processingPath
+     * @param processingPath Path this matcher should match
+     */
     public SkipPathRequestMatcher(List<String> pathsToSkip, String processingPath) {
         Assert.notNull(pathsToSkip);
         List<RequestMatcher> m = pathsToSkip.stream()

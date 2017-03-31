@@ -45,7 +45,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
 
         UserContext context = new UserContext(subject, authorities);
 
-        return new JwtAuthenticationToken(context, authorities);
+        return new JwtAuthenticationToken(context);
     }
 
     @Override

@@ -19,14 +19,23 @@ import java.util.stream.Collectors;
 
 @Component
 public class JwtTokenFactory {
-    JwtSettings settings;
+    private JwtSettings settings;
 
+    /**
+     * Create instance
+     * @param settings The Jwt Settings
+     */
     @Autowired
     public JwtTokenFactory(JwtSettings settings) {
         this.settings = settings;
     }
 
 
+    /**
+     * Create an access token from the userContent
+     * @param userContext UserContext containing principal and roles
+     * @return AccessToken
+     */
     public AccessToken createAccessJwtToken(UserContext userContext) {
         if (StringUtils.isBlank(userContext.getUsername()))
             throw new IllegalArgumentException("Cannot create JWT Token without username");
@@ -40,12 +49,18 @@ public class JwtTokenFactory {
         return new AccessToken(token, claims);
     }
 
-    public JwtToken createRefreshToken(UserContext user) {
-        if (StringUtils.isBlank(user.getUsername())) {
+
+    /**
+     * Create a refresh token from the userContent
+     * @param userContext UserContext containing principal and roles
+     * @return RefreshToken
+     */
+    public JwtToken createRefreshToken(UserContext userContext) {
+        if (StringUtils.isBlank(userContext.getUsername())) {
             throw new IllegalArgumentException("Cannot create JWT Token without username");
         }
 
-        Claims claims = Jwts.claims().setSubject(user.getUsername());
+        Claims claims = Jwts.claims().setSubject(userContext.getUsername());
         claims.put("scopes", Collections.singletonList(Scopes.REFRESH_TOKEN.authority()));
 
         String token = buildToken(claims, settings.getRefreshTokenExpTime())

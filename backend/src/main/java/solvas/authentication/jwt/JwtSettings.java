@@ -12,14 +12,14 @@ import solvas.authentication.jwt.token.JwtToken;
 @ConfigurationProperties(prefix = "security.jwt")
 @PropertySource(value = {"security.properties"})
 public class JwtSettings {
-    private Integer tokenExpirationTime = 5;
+    private Integer tokenExpirationTime;
 
     private String tokenIssuer;
 
     private String tokenSigningKey;
     
 
-    private Integer refreshTokenExpTime = 300;
+    private Integer refreshTokenExpTime;
 
     /**
      * @return get duration before refresh tokens expire

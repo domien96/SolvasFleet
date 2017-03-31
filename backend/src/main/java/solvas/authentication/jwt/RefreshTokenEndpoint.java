@@ -3,7 +3,6 @@ package solvas.authentication.jwt;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -12,16 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import solvas.authentication.WebSecurityConfig;
 import solvas.authentication.exceptions.InvalidJwt;
-import solvas.authentication.jwt.response.AccessAndRefreshTokenBuilder;
+import solvas.authentication.jwt.response.AccessAndRefreshTokenResponseBuilder;
 import solvas.authentication.jwt.response.TokenResponse;
 import solvas.authentication.user.UserContext;
 import solvas.authentication.user.SolvasUserDetailsService;
-import solvas.authentication.jwt.token.JwtToken;
 import solvas.authentication.jwt.token.RawAccessJwtToken;
 import solvas.authentication.jwt.token.RefreshToken;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * RefreshTokenEndpoint
@@ -30,11 +25,30 @@ import java.util.Map;
  */
 @RestController
 public class RefreshTokenEndpoint {
-    @Autowired private JwtTokenFactory tokenFactory;
-    @Autowired private AccessAndRefreshTokenBuilder accessAndRefreshTokenBuilder;
-    @Autowired private JwtSettings jwtSettings;
-    @Autowired private SolvasUserDetailsService userService;
-    @Autowired @Qualifier("jwtHeaderTokenExtractor") private TokenExtractor tokenExtractor;
+    private final AccessAndRefreshTokenResponseBuilder accessAndRefreshTokenBuilder;
+    private final JwtSettings jwtSettings;
+    private final SolvasUserDetailsService userService;
+    private final TokenExtractor tokenExtractor;
+
+    /**
+     * Create instance
+     * @param accessAndRefreshTokenBuilder Builder to create response
+     * @param jwtSettings JwtSettings
+     * @param userService Service to create UserContext from principal
+     * @param tokenExtractor Extract token from request
+     */
+    @Autowired
+    public RefreshTokenEndpoint(
+            AccessAndRefreshTokenResponseBuilder accessAndRefreshTokenBuilder,
+            JwtSettings jwtSettings,
+            SolvasUserDetailsService userService,
+            TokenExtractor tokenExtractor) {
+        this.accessAndRefreshTokenBuilder = accessAndRefreshTokenBuilder;
+        this.jwtSettings = jwtSettings;
+        this.userService = userService;
+        this.tokenExtractor = tokenExtractor;
+    }
+
 
     /**
      * Request a new access token

@@ -11,10 +11,8 @@ import solvas.authentication.jwt.token.RawAccessJwtToken;
 /**
  * An {@link org.springframework.security.core.Authentication} implementation
  * that is designed for simple presentation of JwtToken.
- * 
- * @author vladimir.stankovic
  *
- *         May 23, 2016
+ * @author vladimir.stankovic
  */
 public class JwtAuthenticationToken extends AbstractAuthenticationToken {
     private static final long serialVersionUID = 2877954820905567501L;
@@ -22,14 +20,22 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
     private RawAccessJwtToken rawAccessToken;
     private UserContext userContext;
 
+    /**
+     * Create instance from raw uncheck JWT
+     * @param unsafeToken Raw unchecked JWT
+     */
     public JwtAuthenticationToken(RawAccessJwtToken unsafeToken) {
         super(null);
         this.rawAccessToken = unsafeToken;
         this.setAuthenticated(false);
     }
 
-    public JwtAuthenticationToken(UserContext userContext, Collection<? extends GrantedAuthority> authorities) {
-        super(authorities);
+    /**
+     * Create instance from usercontext
+     * @param userContext UserContext containing principal and authorities
+     */
+    public JwtAuthenticationToken(UserContext userContext) {
+        super(userContext.getAuthorities());
         this.eraseCredentials();
         this.userContext = userContext;
         super.setAuthenticated(true);
