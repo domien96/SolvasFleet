@@ -13,6 +13,8 @@ import solvas.service.FleetService;
 import javax.validation.Valid;
 
 /**
+ * Rest controller for Fleet
+ * Visit @ /fleets
  * @author Niko Strijbol
  */
 @RestController
