@@ -10,7 +10,7 @@ interface Props {
   handleChange : (field : Vehicle.Field, e : any) => void;
   errors       : Form.Error[];
   hasError     : (field : Vehicle.Field) => boolean;
-  vehicle      : Vehicle;
+  vehicle      : VehicleData;
 }
 
 const VehicleForm : React.StatelessComponent<Props> = props => {

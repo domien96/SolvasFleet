@@ -9,7 +9,17 @@ import Card      from '../app/Card.tsx';
 import { th } from '../../utils/utils.ts';
 import { redirect_to } from'../../router.tsx';
 
-class Vehicle extends React.Component<Vehicle.Props, Vehicle.State> {
+
+interface Props {
+  params : { id : number };
+  fetchVehicles : () => void;
+}
+
+interface State {
+  vehicle : VehicleData;
+}
+
+class Vehicle extends React.Component<Props, State> {
 
   constructor() {
     super();
@@ -27,7 +37,7 @@ class Vehicle extends React.Component<Vehicle.Props, Vehicle.State> {
     this.fetchVehicle(this.props.params.id);
   }
 
-  componentWillReceiveProps(nextProps : Vehicle.Props) {
+  componentWillReceiveProps(nextProps : Props) {
     if (nextProps.params.id != this.props.params.id) {
       this.fetchVehicle(nextProps.params.id);
     }

@@ -4,11 +4,11 @@ import Checkbox from '../app/CheckBox.tsx';
 import VehicleRow from './VehicleRow.tsx';
 
 interface VProps {
-  vehicles : Vehicle[];
+  vehicles : VehicleData[];
 }
 
 const Vehicles : React.StatelessComponent<VProps> = props => {
-  const vehicles = props.vehicles.map((v : Vehicle, i : number) => {
+  const vehicles = props.vehicles.map((v : VehicleData, i : number) => {
     return (<VehicleRow key={ i } vehicle={ v } />);
   })
 
@@ -25,7 +25,7 @@ interface Props {
   isIndeterminate : (key : string) => boolean;
   handleChange : (key : string) => void;
   onClick : (key : string) => void;
-  vehicles : Vehicle[]
+  vehicles : VehicleData[]
   showVehicles : boolean;
 }
 
