@@ -21,9 +21,9 @@
       <many-to-one name="subFleet" column="subfleet_id"
                    class="solvas.service.models.SubFleet" not-null="true"/>
 
-      <set name="insuranceCoverages" table="insurance_coverages" lazy="true">
+      <set name="contracts" table="insurance_coverages" lazy="true">
          <key column="insurance_id" />
-         <one-to-many class="solvas.service.models.InsuranceCoverage"/>
+         <one-to-many class="solvas.service.models.Contract"/>
       </set>
 
       <property name="updatedAt" column="updated_at" type="java.time.LocalDateTime" generated="always" not-null="true"/>

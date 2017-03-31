@@ -15,7 +15,7 @@ public class FleetSubscription extends Model {
     private Vehicle vehicle;
     private SubFleet subFleet;
 
-    private Set<InsuranceCoverage> insuranceCoverages;
+    private Set<Contract> contracts;
 
 
     public LocalDate getStartDate() {
@@ -51,11 +51,11 @@ public class FleetSubscription extends Model {
         this.subFleet = subFleet;
     }
 
-    public Set<InsuranceCoverage> getInsuranceCoverages() {
-        return insuranceCoverages;
+    public Set<Contract> getContracts() {
+        return contracts;
     }
 
-    public void setInsuranceCoverages(Set<InsuranceCoverage> insuranceCoverages) {
-        this.insuranceCoverages = insuranceCoverages;
+    public void setContracts(Set<Contract> contracts) {
+        this.contracts = contracts;
     }
 }

@@ -26,13 +26,13 @@ CREATE TABLE insurances (
 
 -- binary relation m:n
 
-CREATE TABLE insurance_coverages (
-  insurance_coverages_id SERIAL NOT NULL,
+CREATE TABLE contracts (
+  contract_id SERIAL NOT NULL,
   fleet_subscription_id INT NOT NULL REFERENCES fleet_subscriptions(fleet_subscription_id),
   insurance_id INT NOT NULL REFERENCES insurances(insurance_id),
   beginDate DATE NOT NULL,
   endDate DATE NOT NULL,
-  PRIMARY KEY (insurance_coverages_id),
+  PRIMARY KEY (contract_id),
   UNIQUE (beginDate,endDate,fleet_subscription_id,insurance_id)
 
 );

@@ -5,13 +5,13 @@ import java.time.LocalDateTime;
 /**
  * Created by steve on 31/03/2017.
  */
-public class InsuranceCoverage extends Model {
+public class Contract extends Model {
     private FleetSubscription fleetSubscription;
     private Insurance insurance;
     private LocalDateTime beginDate;
     private LocalDateTime endDate;
 
-    public InsuranceCoverage() {
+    public Contract() {
     } // Hibernate wants a no-arg constructor
 
     public FleetSubscription getFleetSubscription() {
