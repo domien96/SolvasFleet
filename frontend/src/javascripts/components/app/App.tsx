@@ -1,6 +1,7 @@
 import React    from 'react';
 
 import Sidebar from './Sidebar.tsx';
+import Home from '../Home.tsx';
 
 interface Props {
   location: any;
@@ -22,7 +23,7 @@ class App extends React.Component<Props, {}> {
       <div id='wrapper'>
         <Sidebar />
         <div className='page-wrapper'>
-          { this.props.children }
+          { this.props.children || <Home /> }
         </div>
       </div>
     );

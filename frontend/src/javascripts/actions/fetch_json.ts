@@ -57,7 +57,6 @@ export function GET(url : string, success? : callback, fail? : callback, query :
 }
 
 export function POST(url : string, body : any, success? : callback, fail? : callback) {
-  console.log('POST');
   request(url, 'POST', body, success, fail);
 }
 

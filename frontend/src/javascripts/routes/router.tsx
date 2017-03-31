@@ -5,10 +5,10 @@ import { useBasename } from 'history';
 import Auth from '../modules/Auth.ts';
 
 import App       from '../components/app/App.tsx';
-import EnsureLoggedInContainer from '../components/containers/EnsureLoggedIn.tsx';
-import EnsureLoggedOutContainer from '../components/containers/EnsureLoggedOut.tsx';
 
 import Login      from '../components/Login.tsx';
+
+import EnsureLoggedInContainer from '../components/containers/EnsureLoggedIn.tsx';
 
 import Users    from '../components/users/Users.tsx';
 import AddUser  from '../components/user_form/AddUser.tsx';
@@ -46,45 +46,64 @@ export function redirect_to(path : string) : void {
   browserHistory.push(`${SUB_URI}${sep}${path}`);
 }
 
+let f = (_state : any, re : any) => {
+  Auth.deauthenticateUser();
+  re('/');
+}
+
+const client_routes = [
+  <Route path="clients"                component={ Clients    } />,
+  <Route path="clients/new"            component={ AddClient  } />,
+  <Route path="clients/:id"            component={ Client     } />,
+  <Route path="clients/:id/edit"       component={ EditClient } />,
+  <Route path="clients/:id/fleets"     component={ Fleets     } />
+]
+
+const user_routes = [
+  <Route path="users/new"      component={ AddUser  } />,
+  <Route path="users/:id/edit" component={ EditUser } />,
+  <Route path="users"          component={ Users    } >
+    <IndexRoute component={ NoUser } />
+    <Route path=":id" component={ User } />
+  </Route>
+]
+
+const vehicles_routes = [
+  <Route path="vehicles/new"      component={ AddVehicle  } />,
+  <Route path="vehicles/:id/edit" component={ EditVehicle } />,
+  <Route path="vehicles"          component={ Vehicles    }>
+    <IndexRoute component={ NoVehicle } />
+    <Route path=":id" component={ Vehicle } />
+  </Route>
+]
+
+const fleet_routes = [
+  <Route path="fleets/:id" component={ Fleet } />
+]
+
+const signed_in_routes = (
+  <Route component={ App } >
+    <Route path="sign_out" onEnter={ f } />
+
+    { user_routes }
+    { client_routes }
+    { vehicles_routes }
+    { fleet_routes }
+  </Route>
+);
+
 const SolvasRouter : React.StatelessComponent<{}> = () => {
   const history = useBasename(() => browserHistory)({
     basename: SUB_URI
   });
 
-  let f = (_state : any, re : any) => {
-    Auth.deauthenticateUser();
-    re('/');
-  }
-
   return (
     <Router history={ history } >
-      <Route path="/" component={ EnsureLoggedOutContainer }>
-        <IndexRoute component={ Login } />
-      </Route>
-      <Route component={ EnsureLoggedInContainer }>
-        <Route path="/" component={ App } >
-          <Route path="sign_out" onEnter={ f } />
-          <Route path="users/new"      component={ AddUser  } />
-          <Route path="users/:id/edit" component={ EditUser } />
-          <Route path="users"          component={ Users    } >
-            <IndexRoute component={ NoUser } />
-            <Route path=":id" component={ User } />
-          </Route>
+      <Route path="/">
+        <IndexRoute getComponent={ (_s, callback) => { return Auth.isAuthenticated() ? callback(null, App) : callback(null, Login) } } />
 
-          <Route path="clients"                component={ Clients    } />
-          <Route path="clients/new"            component={ AddClient  } />
-          <Route path="clients/:id"            component={ Client     } />
-          <Route path="clients/:id/edit"       component={ EditClient } />
-          <Route path="clients/:id/fleets"     component={ Fleets     } />
-
-          <Route path="vehicles/new"      component={ AddVehicle  } />
-          <Route path="vehicles/:id/edit" component={ EditVehicle } />
-          <Route path="vehicles"          component={ Vehicles    }>
-            <IndexRoute component={ NoVehicle } />
-            <Route path=":id" component={ Vehicle } />
-          </Route>
-
-          <Route path="fleets/:id" component={ Fleet } />
+        <Route component={ EnsureLoggedInContainer }>
+          { signed_in_routes }
         </Route>
         <Route path="*" component={ NoMatch } />
       </Route>
