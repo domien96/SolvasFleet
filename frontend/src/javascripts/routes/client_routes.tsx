@@ -9,9 +9,9 @@ import Client from '../components/client/Client.tsx';
 import Fleets from '../components/fleets/Fleets.tsx';
 
 export default [
-  <Route path="clients" component={ Clients } />,
-  <Route path="clients/new" component={ AddClient } />,
-  <Route path="clients/:id" component={ Client } />,
-  <Route path="clients/:id/edit" component={ EditClient } />,
-  <Route path="clients/:id/fleets" component={ Fleets } />
-]
+  { path: 'clients', component: Clients },
+  { path: 'clients/new', component: AddClient },
+  { path: 'clients/:id', component: Client },
+  { path: 'clients/:id/edit', component: EditClient },
+  { path: 'clients/:id/fleets', component: Fleets }
+].map((props, i) => <Route key={ i} { ...props } />);

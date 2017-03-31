@@ -8,9 +8,9 @@ import User from '../components/user/User.tsx';
 import NoUser from '../components/user/NoUser.tsx';
 
 export default [
-  <Route path="users/new" component={ AddUser } />,
-  <Route path="users/:id/edit" component={ EditUser } />,
-  <Route path="users" component={ Users } >
+  <Route key={ 1 } path="users/new" component={ AddUser } />,
+  <Route key={ 2 } path="users/:id/edit" component={ EditUser } />,
+  <Route key={ 3 } path="users" component={ Users } >
     <IndexRoute component={ NoUser } />
     <Route path=":id" component={ User } />
   </Route>
