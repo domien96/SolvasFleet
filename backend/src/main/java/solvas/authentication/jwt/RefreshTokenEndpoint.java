@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import solvas.authentication.WebSecurityConfig;
 import solvas.authentication.exceptions.InvalidJwt;
+import solvas.authentication.jwt.response.AccessAndRefreshTokenBuilder;
+import solvas.authentication.jwt.response.TokenResponse;
 import solvas.authentication.user.UserContext;
 import solvas.authentication.user.SolvasUserDetailsService;
 import solvas.authentication.jwt.token.JwtToken;
@@ -29,6 +31,7 @@ import java.util.Map;
 @RestController
 public class RefreshTokenEndpoint {
     @Autowired private JwtTokenFactory tokenFactory;
+    @Autowired private AccessAndRefreshTokenBuilder accessAndRefreshTokenBuilder;
     @Autowired private JwtSettings jwtSettings;
     @Autowired private SolvasUserDetailsService userService;
     @Autowired @Qualifier("jwtHeaderTokenExtractor") private TokenExtractor tokenExtractor;
@@ -40,7 +43,7 @@ public class RefreshTokenEndpoint {
      * @throws InvalidJwt The refresh token was invalid
      */
     @RequestMapping(value="/auth/token", method=RequestMethod.GET, produces={ MediaType.APPLICATION_JSON_VALUE })
-    public @ResponseBody Map<String, Map<String, Object>> refreshToken(HttpServletRequest request) throws InvalidJwt {
+    public @ResponseBody TokenResponse refreshToken(HttpServletRequest request) throws InvalidJwt {
         String tokenPayload = tokenExtractor.extract(request.getHeader(WebSecurityConfig.JWT_TOKEN_HEADER_PARAM));
         
         RawAccessJwtToken rawToken = new RawAccessJwtToken(tokenPayload);
@@ -49,22 +52,6 @@ public class RefreshTokenEndpoint {
         String subject = oldRefreshToken.getSubject();
         UserContext user = userService.loadUserByUsername(subject);
 
-
-        JwtToken accessToken = tokenFactory.createAccessJwtToken(user);
-        JwtToken refreshToken = tokenFactory.createRefreshToken(user);
-
-        Map<String, Map<String, Object>> tokenMap = new HashMap<String, Map<String, Object>>() {{
-            put("accessToken", new HashMap<String, Object>() {{
-                put("token", accessToken.getToken());
-                put("claims", accessToken.getClaims());
-            }});
-
-            put("refreshToken", new HashMap<String, Object>() {{
-                put("token", refreshToken.getToken());
-                put("claims", refreshToken.getClaims());
-            }});
-        }};
-
-        return tokenMap;
+        return accessAndRefreshTokenBuilder.build(user);
     }
 }

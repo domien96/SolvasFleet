@@ -9,6 +9,7 @@ import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import solvas.authentication.jwt.JwtTokenFactory;
+import solvas.authentication.jwt.response.AccessAndRefreshTokenBuilder;
 import solvas.authentication.jwt.token.JwtToken;
 import solvas.authentication.user.UserContext;
 
@@ -23,7 +24,7 @@ import java.util.Map;
 @Component
 public class AjaxAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
     private final ObjectMapper mapper;
-    private final JwtTokenFactory tokenFactory;
+    private final AccessAndRefreshTokenBuilder accessAndRefreshTokenBuilder;
 
     /**
      * Create handler
@@ -32,9 +33,9 @@ public class AjaxAuthenticationSuccessHandler implements AuthenticationSuccessHa
      * @param tokenFactory Factory to generate JWT's
      */
     @Autowired
-    public AjaxAuthenticationSuccessHandler(final ObjectMapper mapper, final JwtTokenFactory tokenFactory) {
+    public AjaxAuthenticationSuccessHandler(final ObjectMapper mapper, final AccessAndRefreshTokenBuilder accessAndRefreshTokenBuilder) {
         this.mapper = mapper;
-        this.tokenFactory = tokenFactory;
+        this.accessAndRefreshTokenBuilder = accessAndRefreshTokenBuilder;
     }
 
     @Override
@@ -42,27 +43,9 @@ public class AjaxAuthenticationSuccessHandler implements AuthenticationSuccessHa
                                         Authentication authentication) throws IOException, ServletException {
         UserContext user = (UserContext) authentication.getPrincipal();
 
-        JwtToken accessToken = tokenFactory.createAccessJwtToken(user);
-        JwtToken refreshToken = tokenFactory.createRefreshToken(user);
-
-
-        Map<String, Map<String, Object>> tokenMap = new HashMap<String, Map<String, Object>>() {{
-            put("accessToken", new HashMap<String, Object>() {{
-                put("token", accessToken.getToken());
-                put("claims", accessToken.getClaims());
-            }});
-
-            put("refreshToken", new HashMap<String, Object>() {{
-                put("token", refreshToken.getToken());
-                put("claims", refreshToken.getClaims());
-            }});
-        }};
-       // tokenMap.put("token", accessToken.getToken());
-       // tokenMap.put("refreshToken", refreshToken.getToken());
-
         response.setStatus(HttpStatus.OK.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        mapper.writeValue(response.getWriter(), tokenMap);
+        mapper.writeValue(response.getWriter(), accessAndRefreshTokenBuilder.build(user));
 
         clearAuthenticationAttributes(request);
     }
