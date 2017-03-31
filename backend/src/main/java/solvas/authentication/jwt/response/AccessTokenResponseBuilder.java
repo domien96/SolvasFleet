@@ -1,10 +1,10 @@
 package solvas.authentication.jwt.response;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import solvas.authentication.jwt.JwtTokenFactory;
 import solvas.authentication.jwt.token.JwtToken;
-import solvas.authentication.user.UserContext;
 
 /**
  * Builder to create a response containing an access token
@@ -22,8 +22,8 @@ public class AccessTokenResponseBuilder implements TokenResponseBuilder {
     }
 
     @Override
-    public AccessTokenResponse build(UserContext userContext) {
-        JwtToken token = tokenFactory.createRefreshToken(userContext);
+    public AccessTokenResponse build(UserDetails userContext) {
+        JwtToken token = tokenFactory.createAccessJwtToken(userContext);
         return new AccessTokenResponse(token);
     }
 }

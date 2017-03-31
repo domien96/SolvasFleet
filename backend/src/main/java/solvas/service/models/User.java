@@ -1,5 +1,6 @@
 package solvas.service.models;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -17,7 +18,7 @@ public class User extends Model {
      */
     private Set<Company> companies;
 
-    private Set<Role> roles;
+    private Set<Role> roles = new HashSet<>();
 
     public User() {
     }

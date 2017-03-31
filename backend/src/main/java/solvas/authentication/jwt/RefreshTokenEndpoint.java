@@ -4,6 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -27,7 +29,7 @@ import solvas.authentication.jwt.token.RefreshToken;
 public class RefreshTokenEndpoint {
     private final AccessAndRefreshTokenResponseBuilder accessAndRefreshTokenBuilder;
     private final JwtSettings jwtSettings;
-    private final SolvasUserDetailsService userService;
+    private final UserDetailsService userService;
     private final TokenExtractor tokenExtractor;
 
     /**
@@ -41,7 +43,7 @@ public class RefreshTokenEndpoint {
     public RefreshTokenEndpoint(
             AccessAndRefreshTokenResponseBuilder accessAndRefreshTokenBuilder,
             JwtSettings jwtSettings,
-            SolvasUserDetailsService userService,
+            UserDetailsService userService,
             TokenExtractor tokenExtractor) {
         this.accessAndRefreshTokenBuilder = accessAndRefreshTokenBuilder;
         this.jwtSettings = jwtSettings;
@@ -64,7 +66,7 @@ public class RefreshTokenEndpoint {
         RefreshToken oldRefreshToken = RefreshToken.create(rawToken, jwtSettings.getTokenSigningKey());
 
         String subject = oldRefreshToken.getSubject();
-        UserContext user = userService.loadUserByUsername(subject);
+        UserDetails user = userService.loadUserByUsername(subject);
 
         return accessAndRefreshTokenBuilder.build(user);
     }

@@ -1,6 +1,7 @@
 package solvas.authentication.jwt.response;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import solvas.authentication.jwt.JwtTokenFactory;
 import solvas.authentication.jwt.token.JwtToken;
@@ -22,7 +23,7 @@ public class RefreshTokenResponseBuilder implements TokenResponseBuilder {
     }
 
     @Override
-    public RefreshTokenResponse build(UserContext userContext) {
+    public RefreshTokenResponse build(UserDetails userContext) {
         JwtToken token = tokenFactory.createRefreshToken(userContext);
         return new RefreshTokenResponse(token);
     }

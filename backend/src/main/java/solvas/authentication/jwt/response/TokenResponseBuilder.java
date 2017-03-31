@@ -1,6 +1,6 @@
 package solvas.authentication.jwt.response;
 
-import solvas.authentication.user.UserContext;
+import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * Builder to create token responses from usercontexts
@@ -11,5 +11,5 @@ public interface TokenResponseBuilder {
      * @param userContext The usercontext to create a token for
      * @return The tokenresponse
      */
-    TokenResponse build(UserContext userContext);
+    TokenResponse build(UserDetails userContext);
 }

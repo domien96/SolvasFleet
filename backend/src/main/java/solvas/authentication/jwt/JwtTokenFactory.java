@@ -7,6 +7,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import solvas.authentication.user.UserContext;
 import solvas.authentication.jwt.token.AccessToken;
@@ -36,7 +37,7 @@ public class JwtTokenFactory {
      * @param userContext UserContext containing principal and roles
      * @return AccessToken
      */
-    public AccessToken createAccessJwtToken(UserContext userContext) {
+    public AccessToken createAccessJwtToken(UserDetails userContext) {
         if (StringUtils.isBlank(userContext.getUsername()))
             throw new IllegalArgumentException("Cannot create JWT Token without username");
 
@@ -55,7 +56,7 @@ public class JwtTokenFactory {
      * @param userContext UserContext containing principal and roles
      * @return RefreshToken
      */
-    public JwtToken createRefreshToken(UserContext userContext) {
+    public JwtToken createRefreshToken(UserDetails userContext) {
         if (StringUtils.isBlank(userContext.getUsername())) {
             throw new IllegalArgumentException("Cannot create JWT Token without username");
         }

@@ -9,30 +9,32 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import solvas.authentication.exceptions.UserNotFoundException;
+import solvas.authentication.user.SolvasUserDetailsService;
 import solvas.authentication.user.UserContext;
 import solvas.persistence.api.DaoContext;
 import solvas.service.models.Permission;
 import solvas.service.models.Role;
 import solvas.service.models.User;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
 public class AjaxAuthenticationProvider implements AuthenticationProvider {
     private final BCryptPasswordEncoder encoder;
     private final DaoContext daoContext;
+    private final SolvasUserDetailsService userService;
+
 
     @Autowired
-    public AjaxAuthenticationProvider(final DaoContext daoContext, final BCryptPasswordEncoder encoder) {
+    public AjaxAuthenticationProvider(final DaoContext daoContext, final BCryptPasswordEncoder encoder, SolvasUserDetailsService userService) {
         this.daoContext = daoContext;
         this.encoder = encoder;
+        this.userService = userService;
     }
 
     @Override
@@ -51,16 +53,7 @@ public class AjaxAuthenticationProvider implements AuthenticationProvider {
             throw new BadCredentialsException("Authentication Failed. Username or Password not valid.");
         }
 
-        // TODO Scope authorities by company
-        Collection<GrantedAuthority> authorities = user
-                .getRoles().stream()
-                .map(Role::getPermissions)
-                .flatMap(Collection::stream)
-                .map(Permission::getName)
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toSet());
-
-        UserContext userContext = new UserContext(user.getEmail(), authorities);
+        UserDetails userContext = userService.loadUserByModel(user);
 
         return new UsernamePasswordAuthenticationToken(userContext, null, userContext.getAuthorities());
     }
