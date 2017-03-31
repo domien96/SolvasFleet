@@ -45,6 +45,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final TokenExtractor tokenExtractor;
     private final ObjectMapper objectMapper;
 
+    /**
+     *
+     * @param ajaxAuthenticationProvider Authentication provider for AJAX username+password auth
+     * @param tokenExtractor Extractor to get JWT from request
+     * @param objectMapper Jackson Object Mapper
+     * @param failureHandler Handler called when authentication fails
+     * @param jwtAuthenticationProvider Authentication provider for JWT
+     * @param successHandler Handler called when authentication succeeds
+     * @param authenticationEntryPoint Entry point for authentication
+     */
     @Autowired
     public WebSecurityConfig(AjaxAuthenticationProvider ajaxAuthenticationProvider, TokenExtractor tokenExtractor, ObjectMapper objectMapper, AuthenticationFailureHandler failureHandler, JwtAuthenticationProvider jwtAuthenticationProvider, AuthenticationSuccessHandler successHandler, RestAuthenticationEntryPoint authenticationEntryPoint) {
         this.ajaxAuthenticationProvider = ajaxAuthenticationProvider;
