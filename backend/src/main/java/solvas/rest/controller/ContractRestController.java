@@ -9,10 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import solvas.rest.api.models.ApiCompany;
 import solvas.rest.api.models.ApiContract;
-import solvas.rest.query.CompanyFilter;
 import solvas.rest.query.ContractFilter;
 import solvas.service.AbstractService;
-import solvas.service.models.Contract;
+import solvas.service.models.Insurance;
 
 import javax.validation.Valid;
 
@@ -20,7 +19,7 @@ import javax.validation.Valid;
  * Rest controller for route Contracts/
  * Created by domien on 29/03/2017.
  */
-public class ContractRestController extends AbstractRestController<Contract,ApiContract> {
+public class ContractRestController extends AbstractRestController<Insurance,ApiContract> {
     /**
      * Default constructor.
      *
@@ -45,16 +44,33 @@ public class ContractRestController extends AbstractRestController<Contract,ApiC
         return super.listAll(pagination, filter, result);
     }
 
-    @Override
-    @RequestMapping(value = "/contracts", method = RequestMethod.POST)
-    public ResponseEntity<?> post(@Valid @RequestBody ApiContract input, BindingResult result) {
-        return super.post(input, result);
-    }
 
     @Override
     @RequestMapping(value = "/contracts/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getById(@PathVariable int id) {
         return super.getById(id);
+    }
+
+    @RequestMapping(value = "/companies/{id}/contracts", method = RequestMethod.GET)
+    public ResponseEntity<?> getByCompanyId(@PathVariable int id,Pageable pagination, ContractFilter filter, BindingResult result) {
+        filter.setCompany(id);
+        return super.listAll(pagination,filter,result);
+    }
+
+    @RequestMapping(value = "/companies/{companyId}/fleets/{fleetId}/vehicles/{vehicleId" +
+            "}/contracts", method = RequestMethod.GET)
+    public ResponseEntity<?> getByCompanyFleetVehicleId(@PathVariable int companyId,@PathVariable int fleetId,@PathVariable int vehicleId,Pageable pagination, ContractFilter filter, BindingResult result) {
+        filter.setCompany(companyId);
+        filter.setFleet(fleetId);
+        filter.setVehicle(vehicleId);
+        return super.listAll(pagination,filter,result);
+    }
+
+
+    @Override
+    @RequestMapping(value = "/companies/{company_id}/fleets/{fleet_id}/vehicles/{vehicle_id}/contracts", method = RequestMethod.POST)
+    public ResponseEntity<?> post(@Valid @RequestBody ApiContract input, BindingResult result) {
+        return super.post(input, result);
     }
 
     @Override
