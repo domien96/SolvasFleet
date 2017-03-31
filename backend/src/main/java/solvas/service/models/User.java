@@ -1,6 +1,6 @@
 package solvas.service.models;
 
-import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -18,7 +18,7 @@ public class User extends Model {
      */
     private Set<Company> companies;
 
-    private Set<Role> roles = new HashSet<>();
+    private Map<Company, Set<Role>> roles;
 
     public User() {
     }
@@ -55,19 +55,19 @@ public class User extends Model {
         this.password = password;
     }
 
-    public Set getCompanies() {
+    public Set<Company> getCompanies() {
         return companies; // todo: does this need a defensive copy or not?
     }
 
-    public void setCompanies(Set companies) {
+    public void setCompanies(Set<Company> companies) {
         this.companies = companies;
     }
 
-    public Set<Role> getRoles() {
+    public Map<Company, Set<Role>>  getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<Role> roles) {
+    public void setRoles(Map<Company, Set<Role>> roles) {
         this.roles = roles;
     }
 }

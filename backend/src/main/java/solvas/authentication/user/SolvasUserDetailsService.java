@@ -14,6 +14,7 @@ import solvas.service.models.User;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -43,13 +44,17 @@ public class SolvasUserDetailsService implements UserDetailsService {
      * @return UserDetails containing authorities
      */
     public UserDetails loadUserByModel(User user) {
-        Collection<GrantedAuthority> authorities = user
-                .getRoles().stream()
-                .map(Role::getPermissions)
-                .flatMap(Collection::stream)
-                .map(Permission::getName)
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toSet());
+        System.out.println(user.getRoles().isEmpty());
+        Collection<GrantedAuthority> authorities = new HashSet<>();/*  user
+                .getRoles().entrySet().stream()
+                .map(entry ->
+                        entry.getValue().stream()
+                    .map(Role::getPermissions)
+                    .flatMap(Collection::stream)
+                    .map(Permission::getName)
+                    .map(SimpleGrantedAuthority::new)
+                    .collect(Collectors.toSet())
+                ).collect(Collectors.toMap(entry, ));*/
         return new UserContext(user.getEmail(), authorities);
     }
 }

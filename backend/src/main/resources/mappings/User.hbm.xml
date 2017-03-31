@@ -27,5 +27,11 @@
          <key column="user_id"/>
          <many-to-many column="company_id" class="solvas.service.models.Company" />
       </set>
+
+      <map name="roles" table="users_companies_roles" inverse="true">
+         <key column="user_id" not-null="true"/>
+         <map-key-many-to-many column="company_id" class="solvas.service.models.Company" />
+         <many-to-many class="solvas.service.models.Role" column="role_id"/>
+      </map>
    </class>
 </hibernate-mapping>
