@@ -1,3 +1,23 @@
+import { auth_token } from '../actions/auth_actions.ts';
+
+function parseClaims(token : string) {
+  return (
+    JSON.parse(
+      atob(
+        token.split('.')[1]
+      )
+    )
+  );
+}
+
+function date_from(timestamp : number) {
+  return new Date(timestamp * 1000);
+}
+
+function isExpired(date : Date) {
+  return date <= new Date();
+}
+
 class Auth {
   /**
    * Authenticate a user. Save a accessToken and refreshToken string in Local Storage
@@ -11,7 +31,7 @@ class Auth {
    * Check if a user is authenticated
    */
   static isAuthenticated() {
-    return localStorage.getItem('accessToken') !== null;
+    return Auth.getLocalRefreshToken() !== null && !Auth.isRefreshTokenExpired();
   }
 
   /**
@@ -23,19 +43,55 @@ class Auth {
     localStorage.removeItem('refreshToken');
   }
 
-  /**
-   * Get a accessToken value.
-   */
 
-  static getAccessToken() {
-    return localStorage.getItem('accessToken');
+  static getLocalAccessToken() {
+    return localStorage.getItem('accessToken')
+  }
+
+  static getLocalRefreshToken() {
+    return localStorage.getItem('refreshToken');
   }
 
   /**
-   *  Get a refreshToken value
+   * Get a accessToken value.
    */
+  static getAccessToken() {
+    return new Promise((resolve, reject) => {
+      if (!Auth.isAuthenticated()) {
+        reject();
+      } else if (Auth.isAccessTokenExpired()) {
+        auth_token((data) => {
+          Auth.authenticateUser(
+            data['refreshToken']['token'],
+            data['accessToken']['token']
+          )
+        });
+      } else {
+        resolve(Auth.getLocalAccessToken());
+      }
+    });
+  }
+
   static getRefreshToken() {
-    return localStorage.getItem('refreshToken');
+    return new Promise((resolve, reject) => {
+      if (Auth.isRefreshTokenExpired()) {
+        reject();
+      } else {
+        resolve(Auth.getLocalRefreshToken());
+      }
+    });
+  }
+
+  static isTokenExpired(token : string) {
+    return isExpired(date_from(parseClaims(token)['exp']));
+  }
+
+  static isAccessTokenExpired() {
+    return Auth.isTokenExpired(Auth.getLocalAccessToken());
+  }
+
+  static isRefreshTokenExpired() {
+    return Auth.isTokenExpired(Auth.getLocalRefreshToken());
   }
 }
 
