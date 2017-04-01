@@ -1,28 +1,19 @@
 package solvas.rest.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import solvas.persistence.api.Filter;
-import solvas.rest.api.models.ApiCompany;
 import solvas.rest.api.models.ApiContract;
-import solvas.rest.api.models.ApiInsurance;
 import solvas.rest.query.ContractFilter;
-import solvas.rest.query.InsuranceFilter;
-import solvas.rest.query.InsuranceTypeFilter;
 import solvas.rest.utils.JsonListWrapper;
-import solvas.service.AbstractService;
 import solvas.service.ContractService;
 import solvas.service.InsuranceService;
 import solvas.service.models.Contract;
-import solvas.service.models.Insurance;
-import solvas.service.models.InsuranceType;
 
 import javax.validation.Valid;
+import java.util.Collection;
 
 /**
  * Rest controller for route Contracts/
@@ -98,20 +89,16 @@ public class ContractRestController extends AbstractRestController<Contract,ApiC
         return super.put(id, input,result);
     }
 
-    /* /companies/types */
+    /**
+     * Get all contract types.
+     *
+     * @return The contract types.
+     */
     @RequestMapping(value = "/contracts/types", method = RequestMethod.GET)
-    public ResponseEntity<?> listAllTypes(Pageable pagination, Filter<InsuranceType> filter, BindingResult result) {
-
-        // If there are errors in the filtering, send bad request.
-        if (result.hasErrors()) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-        Page<String> page = insuranceService.findAllInsuranceTypes(pagination,filter);
-        JsonListWrapper<String> wrapper = new JsonListWrapper<>(page.getContent());
-        wrapper.put("limit", pagination.getPageSize());
-        wrapper.put("offset", pagination.getOffset());
-        wrapper.put("total", insuranceService.count((Filter)filter));
-        return new ResponseEntity<>(wrapper, HttpStatus.OK);
+    public JsonListWrapper<String> listAllTypes() {
+        Collection<String> page = insuranceService.findAllInsuranceTypes();
+        JsonListWrapper<String> wrapper = new JsonListWrapper<>(page);
+        wrapper.put("total", page.size());
+        return wrapper;
     }
 }
