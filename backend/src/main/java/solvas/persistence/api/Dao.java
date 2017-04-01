@@ -1,8 +1,8 @@
 package solvas.persistence.api;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.NoRepositoryBean;
-import org.springframework.data.repository.PagingAndSortingRepository;
 import solvas.service.models.Model;
 
 /**
@@ -14,7 +14,7 @@ import solvas.service.models.Model;
  * @author david
  */
 @NoRepositoryBean
-public interface Dao<T extends Model> extends PagingAndSortingRepository<T, Integer>, JpaSpecificationExecutor<T> {
+public interface Dao<T extends Model> extends JpaRepository<T, Integer>, JpaSpecificationExecutor<T> {
 
     default T find(int id) throws EntityNotFoundException {
         T data = findOne(id);
@@ -49,6 +49,4 @@ public interface Dao<T extends Model> extends PagingAndSortingRepository<T, Inte
         save(data);
         return data;
     }
-
-
 }
