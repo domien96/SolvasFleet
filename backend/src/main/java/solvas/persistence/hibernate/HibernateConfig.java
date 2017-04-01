@@ -97,6 +97,12 @@ public class HibernateConfig {
         };
     }
 
+    /**
+     *
+     * @param dataSource The datasource to be used by hibernate
+     * @return Factory to create entity managers
+     * @throws IOException Couldn't load the hibernate configuration/mapping files
+     */
     @Bean
     public EntityManagerFactory entityManagerFactory(DataSource dataSource) throws IOException {
         LocalContainerEntityManagerFactoryBean  entityManager = new LocalContainerEntityManagerFactoryBean();

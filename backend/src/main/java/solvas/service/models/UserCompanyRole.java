@@ -2,6 +2,9 @@ package solvas.service.models;
 
 import java.io.Serializable;
 
+/**
+ * Joining relation between a user, a company and a role
+ */
 public class UserCompanyRole extends Model implements Serializable {
 
     private User user;

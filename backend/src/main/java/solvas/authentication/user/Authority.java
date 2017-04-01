@@ -8,6 +8,9 @@ import solvas.service.models.Permission;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+/**
+ * Permissions a user has within the scope of a company
+ */
 public class Authority implements GrantedAuthority {
     private final Company company;
     private final Collection<Permission> permissions;
