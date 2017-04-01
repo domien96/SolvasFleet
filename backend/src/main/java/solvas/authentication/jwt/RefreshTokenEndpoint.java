@@ -58,7 +58,7 @@ public class RefreshTokenEndpoint {
      * @return The body containing the new access token
      * @throws InvalidJwt The refresh token was invalid
      */
-    @RequestMapping(value="/auth/token", method=RequestMethod.GET, produces={ MediaType.APPLICATION_JSON_VALUE })
+    @RequestMapping(value="/auth/token", method=RequestMethod.POST, produces={ MediaType.APPLICATION_JSON_VALUE })
     public @ResponseBody TokenResponse refreshToken(HttpServletRequest request) throws InvalidJwt {
         String tokenPayload = tokenExtractor.extract(request.getHeader(WebSecurityConfig.JWT_TOKEN_HEADER_PARAM));
         
