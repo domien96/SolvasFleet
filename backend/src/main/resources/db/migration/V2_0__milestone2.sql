@@ -1,6 +1,6 @@
 -- Drop tables if they exist --
 
-DROP TABLE IF EXISTS insurance_coverages CASCADE;
+DROP TABLE IF EXISTS contracts CASCADE;
 DROP TABLE IF EXISTS insurances CASCADE;
 DROP TABLE IF EXISTS insurance_types CASCADE;
 
@@ -12,6 +12,9 @@ CREATE TABLE insurance_types (
   standard_tax BIGINT NOT NULL,
   standard_commission BIGINT NOT NULL,
   name VARCHAR (255) NOT NULL,
+  archived BOOLEAN DEFAULT FALSE,
+  updated_at TIMESTAMP,
+  created_at TIMESTAMP,
   PRIMARY KEY (insurance_type_id)
 );
 
@@ -21,6 +24,9 @@ CREATE TABLE insurances (
   applicable_exemption BIGINT NOT NULL,
   company_id INT REFERENCES companies(company_id),
   insurance_type_id INT REFERENCES insurance_types(insurance_type_id),
+  archived BOOLEAN DEFAULT FALSE,
+  updated_at TIMESTAMP,
+  created_at TIMESTAMP,
   PRIMARY KEY (insurance_id)
 );
 
@@ -32,6 +38,9 @@ CREATE TABLE contracts (
   insurance_id INT NOT NULL REFERENCES insurances(insurance_id),
   beginDate DATE NOT NULL,
   endDate DATE NOT NULL,
+  archived BOOLEAN DEFAULT FALSE,
+  updated_at TIMESTAMP,
+  created_at TIMESTAMP,
   PRIMARY KEY (contract_id),
   UNIQUE (beginDate,endDate,fleet_subscription_id,insurance_id)
 

@@ -21,7 +21,7 @@ import solvas.rest.api.models.ApiModel;
 public abstract class AbstractService<T extends Model,E extends ApiModel> {
 
 
-    private Dao<T> modelDao;
+    protected Dao<T> modelDao;
     protected AbstractMapper<T,E> mapper;
 
     /**

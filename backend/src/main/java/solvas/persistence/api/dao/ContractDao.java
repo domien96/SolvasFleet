@@ -10,6 +10,6 @@ import solvas.service.models.Contract;
  * @author Steven Bastiaens
  */
 @Repository
-public interface InsuranceCoverageDao extends Dao<Contract> {
+public interface ContractDao extends Dao<Contract> {
 
 }

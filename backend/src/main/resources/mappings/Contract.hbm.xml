@@ -4,11 +4,11 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="solvas.service.models.Contract" table="insurance_coverages">
+    <class name="solvas.service.models.Contract" table="contracts">
         <meta attribute="class-description">
             This class contains the User detail.
         </meta>
-        <id name="id" type="int" column="insurance_coverages_id">
+        <id name="id" type="int" column="contract_id">
             <generator class="identity"/>
         </id>
 

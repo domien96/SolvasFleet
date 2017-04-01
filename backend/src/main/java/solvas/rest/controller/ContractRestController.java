@@ -1,17 +1,26 @@
 package solvas.rest.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+import solvas.persistence.api.Filter;
 import solvas.rest.api.models.ApiCompany;
 import solvas.rest.api.models.ApiContract;
+import solvas.rest.api.models.ApiInsurance;
 import solvas.rest.query.ContractFilter;
+import solvas.rest.query.InsuranceFilter;
+import solvas.rest.query.InsuranceTypeFilter;
+import solvas.rest.utils.JsonListWrapper;
 import solvas.service.AbstractService;
+import solvas.service.ContractService;
+import solvas.service.InsuranceService;
+import solvas.service.models.Contract;
 import solvas.service.models.Insurance;
+import solvas.service.models.InsuranceType;
 
 import javax.validation.Valid;
 
@@ -19,14 +28,19 @@ import javax.validation.Valid;
  * Rest controller for route Contracts/
  * Created by domien on 29/03/2017.
  */
-public class ContractRestController extends AbstractRestController<Insurance,ApiContract> {
+@RestController
+public class ContractRestController extends AbstractRestController<Contract,ApiContract> {
+    private final InsuranceService insuranceService;
+
     /**
      * Default constructor.
      *
      * @param service service class for entities
      */
-    protected ContractRestController(AbstractService service) {
+    @Autowired
+    public ContractRestController(ContractService service, InsuranceService srv) {
         super(service);
+        this.insuranceService = srv;
     }
 
     /**
@@ -85,8 +99,19 @@ public class ContractRestController extends AbstractRestController<Insurance,Api
     }
 
     /* /companies/types */
-    /**@RequestMapping(value = "/contracts/types", method = RequestMethod.GET)
-    public ResponseEntity<?> listAllTypes(Pageable pagination, CompanyFilter filter, BindingResult result) {
-        return ...;
-    }TODO*/
+    @RequestMapping(value = "/contracts/types", method = RequestMethod.GET)
+    public ResponseEntity<?> listAllTypes(Pageable pagination, Filter<InsuranceType> filter, BindingResult result) {
+
+        // If there are errors in the filtering, send bad request.
+        if (result.hasErrors()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        Page<String> page = insuranceService.findAllInsuranceTypes(pagination,filter);
+        JsonListWrapper<String> wrapper = new JsonListWrapper<>(page.getContent());
+        wrapper.put("limit", pagination.getPageSize());
+        wrapper.put("offset", pagination.getOffset());
+        wrapper.put("total", insuranceService.count((Filter)filter));
+        return new ResponseEntity<>(wrapper, HttpStatus.OK);
+    }
 }
