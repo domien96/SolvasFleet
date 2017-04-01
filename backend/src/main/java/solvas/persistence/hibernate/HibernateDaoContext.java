@@ -24,7 +24,9 @@ public class HibernateDaoContext implements DaoContext {
      * @param vehicleTypeDao
      */
     @Autowired
-    public HibernateDaoContext(CompanyDao companyDao, FleetDao fleetDao, FleetSubscriptionDao fleetSubscriptionDao, RoleDao roleDao, SubFleetDao subFleetDao, UserDao userDao, VehicleDao vehicleDao, VehicleTypeDao vehicleTypeDao) {
+    public HibernateDaoContext(CompanyDao companyDao, FleetDao fleetDao, FleetSubscriptionDao fleetSubscriptionDao,
+                               RoleDao roleDao, SubFleetDao subFleetDao, UserDao userDao, VehicleDao vehicleDao,
+                               VehicleTypeDao vehicleTypeDao, InsuranceDao insuranceDao, InsuranceTypeDao insuranceTypeDao) {
         this.companyDao = companyDao;
         this.fleetDao = fleetDao;
         this.fleetSubscriptionDao = fleetSubscriptionDao;
@@ -33,6 +35,8 @@ public class HibernateDaoContext implements DaoContext {
         this.userDao = userDao;
         this.vehicleDao = vehicleDao;
         this.vehicleTypeDao = vehicleTypeDao;
+        this.insuranceDao = insuranceDao;
+        this.insuranceTypeDao = insuranceTypeDao;
     }
 
     private CompanyDao companyDao;
@@ -89,5 +93,19 @@ public class HibernateDaoContext implements DaoContext {
     @Override
     public VehicleTypeDao getVehicleTypeDao() {
         return vehicleTypeDao;
+    }
+
+    private InsuranceDao insuranceDao;
+
+    @Override
+    public InsuranceDao getInsuranceDao() {
+        return insuranceDao;
+    }
+
+    private InsuranceTypeDao insuranceTypeDao;
+
+    @Override
+    public InsuranceTypeDao getInsuranceTypeDao() {
+        return insuranceTypeDao;
     }
 }
