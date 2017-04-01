@@ -27,7 +27,7 @@ CREATE TABLE contracts (
   insurance_type CHAR(255) NOT NULL,
   premium BIGINT NOT NULL,
   franchise BIGINT NOT NULL,
-  beginDate DATE NOT NULL,
+  startDate DATE NOT NULL,
   endDate DATE NOT NULL,
   archived BOOLEAN DEFAULT FALSE,
   updated_at TIMESTAMP,
@@ -35,3 +35,9 @@ CREATE TABLE contracts (
   PRIMARY KEY (contract_id)
 
 );
+
+CREATE TRIGGER update_updated_at BEFORE UPDATE
+  ON contracts FOR EACH ROW EXECUTE PROCEDURE  update_updated_at_column();
+
+CREATE TRIGGER update_created_at BEFORE INSERT
+  ON contracts FOR EACH ROW EXECUTE PROCEDURE  update_created_at_column();

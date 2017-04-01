@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
  */
 public class Contract extends Model {
     private FleetSubscription fleetSubscription;
-    private LocalDateTime beginDate;
+    private LocalDateTime startDate;
     private LocalDateTime endDate;
     private long franchise;
     private long premium;
@@ -25,12 +25,12 @@ public class Contract extends Model {
         this.fleetSubscription = fleetSubscription;
     }
 
-     public LocalDateTime getBeginDate() {
-        return beginDate;
+     public LocalDateTime getStartDate() {
+        return startDate;
     }
 
-    public void setBeginDate(LocalDateTime beginDate) {
-        this.beginDate = beginDate;
+    public void setStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
     }
 
     public LocalDateTime getEndDate() {

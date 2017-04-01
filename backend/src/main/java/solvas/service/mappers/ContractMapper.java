@@ -38,13 +38,16 @@ public class ContractMapper extends AbstractMapper<Contract,ApiContract> {
         Contract contract = api.getId()==0? new Contract():daoContext.getContractDao().find(api.getId());
         copySharedAttributes(contract, api);
         contract.setInsuranceType(api.getType());
+        contract.setCompany(daoContext.getCompanyDao().find(api.getInsuranceCompany()));
 
         Collection<FleetSubscription> sub = daoContext.getFleetSubscriptionDao().findByVehicle(
                 daoContext.getVehicleDao().find(api.getVehicle())).stream().filter(fleetSubscription -> {
-                    return (fleetSubscription.getEndDate().compareTo(api.getEndDate().toLocalDate()) >= 0 && fleetSubscription.getStartDate().compareTo(api.getStartDate().toLocalDate()) <=0);
+                    return true;/* //TODO remove as this is test
+                    return ((fleetSubscription.getStartDate().compareTo(api.getStartDate().toLocalDate()) <=0)
+                            && ((fleetSubscription.getEndDate()==null)  || (fleetSubscription.getEndDate().compareTo(api.getEndDate().toLocalDate()) >= 0 )));*/
                 }).collect(Collectors.toSet());
 
-        if (sub.size()>1) throw new EntityNotFoundException(); // TODO make beter exception
+        if (sub.size()!=1) throw new EntityNotFoundException(); // TODO make beter exception
         sub.forEach(contract::setFleetSubscription);
         return contract;
     }
@@ -55,8 +58,10 @@ public class ContractMapper extends AbstractMapper<Contract,ApiContract> {
 
         copyAttributes(api, model, "id", "createdAt", "updatedAt");
         copySharedAttributes(api, model);
+
         api.setVehicle(model.getFleetSubscription().getVehicle().getId());
         api.setType(model.getInsuranceType());
+        api.setInsuranceCompany(model.getCompany().getId());
 
         api.setUrl(SimpleUrlBuilder.buildUrlFromBase(ROOTPATH + "{id}", api.getId()));
         return api;

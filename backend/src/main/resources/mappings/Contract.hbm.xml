@@ -12,7 +12,7 @@
             <generator class="identity"/>
         </id>
 
-        <property name="beginDate" column="beginDate" type="java.time.LocalDateTime" not-null="true" />
+        <property name="startDate" column="startDate" type="java.time.LocalDateTime" not-null="true" />
         <property name="endDate" column="endDate" type="java.time.LocalDateTime" not-null="true" />
 
 

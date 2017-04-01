@@ -20,14 +20,14 @@ public class ApiContract extends ApiModel{
     private LocalDateTime startDate;
 
     //optional
-    private int franchise;
+    private long franchise;
 
     @Min(value = 1)
     //required
     private int insuranceCompany;
 
     //optional
-    private int premium;
+    private long premium;
 
     @NotNull
     //required
@@ -54,11 +54,11 @@ public class ApiContract extends ApiModel{
         this.startDate = startDate;
     }
 
-    public int getFranchise() {
+    public long getFranchise() {
         return franchise;
     }
 
-    public void setFranchise(int franchise) {
+    public void setFranchise(long franchise) {
         this.franchise = franchise;
     }
 
@@ -70,11 +70,11 @@ public class ApiContract extends ApiModel{
         this.insuranceCompany = insuranceCompany;
     }
 
-    public int getPremium() {
+    public long getPremium() {
         return premium;
     }
 
-    public void setPremium(int premium) {
+    public void setPremium(long premium) {
         this.premium = premium;
     }
 
