@@ -18,7 +18,7 @@ public class User extends Model {
      */
     private Set<Company> companies;
 
-    private Map<Company, Set<Role>> roles;
+    private Set<UserCompanyRole> assignedRoles;
 
     public User() {
     }
@@ -63,11 +63,11 @@ public class User extends Model {
         this.companies = companies;
     }
 
-    public Map<Company, Set<Role>>  getRoles() {
-        return roles;
+    public Set<UserCompanyRole> getAssignedRoles() {
+        return assignedRoles;
     }
 
-    public void setRoles(Map<Company, Set<Role>> roles) {
-        this.roles = roles;
+    public void setAssignedRoles(Set<UserCompanyRole> assignedRoles) {
+        this.assignedRoles = assignedRoles;
     }
 }

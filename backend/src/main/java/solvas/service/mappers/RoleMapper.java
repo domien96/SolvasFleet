@@ -35,8 +35,8 @@ public class RoleMapper extends AbstractMapper<Role,ApiRole> {
             throw new DependantEntityNotFound("Company or User not found",e);
         }*/
 
-        role.setUser(api.getUser()==0 ? role.getUser() : daoContext.getUserDao().find(api.getUser()));
-        role.setCompany(api.getCompany()==0 ? role.getCompany() : daoContext.getCompanyDao().find(api.getCompany()));
+        //role.setUser(api.getUser()==0 ? role.getUser() : daoContext.getUserDao().find(api.getUser()));
+       // role.setCompany(api.getCompany()==0 ? role.getCompany() : daoContext.getCompanyDao().find(api.getCompany()));
         return role;
     }
 
@@ -45,8 +45,8 @@ public class RoleMapper extends AbstractMapper<Role,ApiRole> {
         ApiRole apiRole = new ApiRole();
         copyAttributes(apiRole, role, "id");
         copySharedAttributes(apiRole, role);
-        apiRole.setCompany(role.getCompany().getId());
-        apiRole.setUser(role.getUser().getId());
+        //apiRole.setCompany(role.getCompany().getId());
+      //  apiRole.setUser(role.getUser().getId());
         apiRole.setUrl(SimpleUrlBuilder.buildUrlFromBase(ROOTPATH + "{id}", role.getId()));
         return apiRole;
     }

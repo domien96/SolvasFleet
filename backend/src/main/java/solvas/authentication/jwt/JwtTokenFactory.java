@@ -47,9 +47,6 @@ public class JwtTokenFactory {
         Claims claims = buildClaims(
                 userContext,
                 userContext.getAuthorities()
-                        .stream()
-                        .map(Object::toString)
-                        .collect(Collectors.toList())
         );
 
 
@@ -87,7 +84,7 @@ public class JwtTokenFactory {
                 .signWith(SignatureAlgorithm.HS512, settings.getTokenSigningKey());
     }
 
-    protected Claims buildClaims(UserDetails userDetails, Collection<String> scopes) {
+    protected Claims buildClaims(UserDetails userDetails, Collection<?> scopes) {
         Claims claims = Jwts.claims().setSubject(userDetails.getUsername());
         claims.put("scopes", scopes);
         return claims;

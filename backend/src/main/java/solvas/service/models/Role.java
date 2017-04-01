@@ -15,12 +15,6 @@ public class Role extends Model {
     private LocalDateTime endDate;
 
     /**
-     * Users who have this role.
-     */
-    private User user;
-    private Company company;
-
-    /**
      * The set of permissions which belong to this role.
      */
     private Set<Permission> permissions;
@@ -58,21 +52,5 @@ public class Role extends Model {
 
     public void setPermissions(Set<Permission> permissions) {
         this.permissions = permissions;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Company getCompany() {
-        return company;
-    }
-
-    public void setCompany(Company company) {
-        this.company = company;
     }
 }

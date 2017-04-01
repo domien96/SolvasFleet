@@ -8,12 +8,15 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import solvas.persistence.api.dao.UserDao;
+import solvas.service.models.Company;
 import solvas.service.models.Permission;
 import solvas.service.models.Role;
 import solvas.service.models.User;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -44,17 +47,25 @@ public class SolvasUserDetailsService implements UserDetailsService {
      * @return UserDetails containing authorities
      */
     public UserDetails loadUserByModel(User user) {
-        System.out.println(user.getRoles().isEmpty());
-        Collection<GrantedAuthority> authorities = new HashSet<>();/*  user
-                .getRoles().entrySet().stream()
-                .map(entry ->
-                        entry.getValue().stream()
-                    .map(Role::getPermissions)
-                    .flatMap(Collection::stream)
-                    .map(Permission::getName)
-                    .map(SimpleGrantedAuthority::new)
-                    .collect(Collectors.toSet())
-                ).collect(Collectors.toMap(entry, ));*/
+        // Get permissions for each company
+        Map<Company, Collection<Permission>> permissionsMap = new HashMap<>();
+        user.getAssignedRoles().forEach(assignedRole -> {
+            if(permissionsMap.containsKey(assignedRole.getCompany())) {
+                permissionsMap.get(assignedRole.getCompany())
+                        .addAll(assignedRole.getRole().getPermissions());
+            } else {
+                permissionsMap.put(assignedRole.getCompany(),
+                        assignedRole.getRole().getPermissions());
+            }
+        });
+
+        // Map permissions to authority objects
+        Collection<GrantedAuthority> authorities = permissionsMap.entrySet().stream().map(entry -> {
+            Company company = entry.getKey();
+            Collection<Permission> permissions = entry.getValue();
+            return new Authority(company, permissions);
+        }).collect(Collectors.toSet());
+
         return new UserContext(user.getEmail(), authorities);
     }
 }

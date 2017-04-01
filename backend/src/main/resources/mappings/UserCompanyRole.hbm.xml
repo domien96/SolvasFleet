@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="solvas.service.models.UserCompanyRole" table="users_companies_roles">
+        <meta attribute="class-description">
+            This class contains the joining information between users, companies and roles.
+        </meta>
+
+        <composite-id>
+            <key-many-to-one name="role" class="solvas.service.models.Role" column="role_id"/>
+            <key-many-to-one name="user" class="solvas.service.models.User" column="user_id"/>
+            <key-many-to-one name="company" class="solvas.service.models.Company" column="company_id"/>
+        </composite-id>
+    </class>
+</hibernate-mapping>
