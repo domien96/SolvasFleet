@@ -8,10 +8,16 @@ import solvas.service.mappers.exceptions.DependantEntityNotFound;
 import solvas.service.models.Contract;
 
 /**
- * Created by steve on 31/03/2017.
+ * Mapper between Contract and ApiContract
  */
 @Component
 public class ContractMapper extends AbstractMapper<Contract,ApiContract> {
+
+    /**
+     * Create a mapper between Contract and ApiContract
+     *
+     * @param daoContext The context for Dao's
+     */
     public ContractMapper(DaoContext daoContext) {
         super(daoContext);
     }

@@ -27,6 +27,7 @@ public class ContractRestController extends AbstractRestController<Contract,ApiC
      * Default constructor.
      *
      * @param service service class for entities
+     * @param srv InsuranceService service for /contracts/types
      */
     @Autowired
     public ContractRestController(ContractService service, InsuranceService srv) {
