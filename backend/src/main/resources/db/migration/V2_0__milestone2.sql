@@ -1,12 +1,11 @@
 -- Drop tables if they exist --
 
 DROP TABLE IF EXISTS contracts CASCADE;
-DROP TABLE IF EXISTS insurances CASCADE;
 DROP TABLE IF EXISTS insurance_types CASCADE;
 
 -- Create tables --
 
-CREATE TABLE insurance_types (
+CREATE TABLE insurance_types ( -- TODO
   insurance_type_id SERIAL NOT NULL,
   standard_fixed_rate BIGINT NOT NULL,
   standard_tax BIGINT NOT NULL,
@@ -19,21 +18,20 @@ CREATE TABLE insurance_types (
 );
 
 
-
 CREATE TABLE contracts (
   contract_id SERIAL NOT NULL,
   fleet_subscription_id INT NOT NULL REFERENCES fleet_subscriptions(fleet_subscription_id),
-  company_id INT REFERENCES companies(company_id),
+  company_id INT NOT NULL REFERENCES companies(company_id),
   insurance_type CHAR(255) NOT NULL,
-  premium BIGINT NOT NULL,
-  franchise BIGINT NOT NULL,
-  startDate DATE NOT NULL,
-  endDate DATE NOT NULL,
+  premium INT NOT NULL,
+  franchise INT NOT NULL,
+  startDate TIMESTAMP NOT NULL,
+  endDate TIMESTAMP NOT NULL,
   archived BOOLEAN DEFAULT FALSE,
   updated_at TIMESTAMP,
   created_at TIMESTAMP,
-  PRIMARY KEY (contract_id)
-
+  PRIMARY KEY (contract_id),
+  UNIQUE (startDate,endDate,fleet_subscription_id,contract_id)
 );
 
 CREATE TRIGGER update_updated_at BEFORE UPDATE

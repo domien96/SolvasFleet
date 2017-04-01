@@ -35,6 +35,6 @@ public class ContractService extends AbstractService<Contract,ApiContract> {
      * @return types of insurance
      */
     public Collection<String> findAllInsuranceTypes() {
-        return modelDao.findAll().stream().map(Contract::getInsuranceType).collect(Collectors.toSet());
+        return modelDao.findAll().stream().map(Contract::getInsuranceType).collect(Collectors.toSet()); //TODO replace by dao
     }
 }

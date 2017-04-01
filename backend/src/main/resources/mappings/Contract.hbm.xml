@@ -20,8 +20,8 @@
                      class="solvas.service.models.FleetSubscription" not-null="true"/>
 
 
-        <property name="premium" column="premium" type="long" not-null="true"/>
-        <property name="franchise" column="franchise" type="long" not-null="true"/>
+        <property name="premium" column="premium" type="int" not-null="true"/>
+        <property name="franchise" column="franchise" type="int" not-null="true"/>
 
         <property name="insuranceType" column="insurance_type" type="string" not-null="true"/>
 

@@ -9,8 +9,8 @@ public class Contract extends Model {
     private FleetSubscription fleetSubscription;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
-    private long franchise;
-    private long premium;
+    private int franchise;
+    private int premium;
     private Company company;
     private String insuranceType;
 
@@ -41,19 +41,19 @@ public class Contract extends Model {
         this.endDate = endDate;
     }
 
-    public long getFranchise() {
+    public int getFranchise() {
         return franchise;
     }
 
-    public void setFranchise(long franchise) {
+    public void setFranchise(int franchise) {
         this.franchise = franchise;
     }
 
-    public long getPremium() {
+    public int getPremium() {
         return premium;
     }
 
-    public void setPremium(long premium) {
+    public void setPremium(int premium) {
         this.premium = premium;
     }
 

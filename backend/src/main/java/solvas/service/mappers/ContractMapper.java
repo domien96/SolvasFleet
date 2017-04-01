@@ -48,6 +48,8 @@ public class ContractMapper extends AbstractMapper<Contract,ApiContract> {
                 }).collect(Collectors.toSet());
 
         if (sub.size()!=1) {throw new EntityNotFoundException(); }// TODO make beter exception
+
+        //Size of sub always = 1 see previous line, since a collection doesn't have a get method, a loop will do the trick
         sub.forEach(contract::setFleetSubscription);
         return contract;
     }
