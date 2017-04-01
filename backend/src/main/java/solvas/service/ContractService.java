@@ -29,6 +29,11 @@ public class ContractService extends AbstractService<Contract,ApiContract> {
         super(context.getContractDao(), mapper);
     }
 
+
+    /**
+     * Finds all types of insurance in the database
+     * @return types of insurance
+     */
     public Collection<String> findAllInsuranceTypes() {
         return modelDao.findAll().stream().map(Contract::getInsuranceType).collect(Collectors.toSet());
     }

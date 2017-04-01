@@ -47,7 +47,7 @@ public class ContractMapper extends AbstractMapper<Contract,ApiContract> {
                             && ((fleetSubscription.getEndDate()==null)  || (fleetSubscription.getEndDate().compareTo(api.getEndDate().toLocalDate()) >= 0 )));*/
                 }).collect(Collectors.toSet());
 
-        if (sub.size()!=1) throw new EntityNotFoundException(); // TODO make beter exception
+        if (sub.size()!=1) {throw new EntityNotFoundException(); }// TODO make beter exception
         sub.forEach(contract::setFleetSubscription);
         return contract;
     }
