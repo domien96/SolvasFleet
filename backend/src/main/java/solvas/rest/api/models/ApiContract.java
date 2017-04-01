@@ -37,4 +37,59 @@ public class ApiContract extends ApiModel{
     private int vehicle;
 
 
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
+
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+    public int getFranchise() {
+        return franchise;
+    }
+
+    public void setFranchise(int franchise) {
+        this.franchise = franchise;
+    }
+
+    public int getInsuranceCompany() {
+        return insuranceCompany;
+    }
+
+    public void setInsuranceCompany(int insuranceCompany) {
+        this.insuranceCompany = insuranceCompany;
+    }
+
+    public int getPremium() {
+        return premium;
+    }
+
+    public void setPremium(int premium) {
+        this.premium = premium;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public int getVehicle() {
+        return vehicle;
+    }
+
+    public void setVehicle(int vehicle) {
+        this.vehicle = vehicle;
+    }
 }
