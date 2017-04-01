@@ -3,6 +3,7 @@ package solvas.rest.api.models;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * Schema for a contract as defined in the api
@@ -12,11 +13,11 @@ public class ApiContract extends ApiModel{
 
     @NotNull
     //required
-    private LocalDate endDate;
+    private LocalDateTime endDate;
 
     @NotNull
     //required
-    private LocalDate startDate;
+    private LocalDateTime startDate;
 
     //optional
     private int franchise;
@@ -37,19 +38,19 @@ public class ApiContract extends ApiModel{
     private int vehicle;
 
 
-    public LocalDate getEndDate() {
+    public LocalDateTime getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDate endDate) {
+    public void setEndDate(LocalDateTime endDate) {
         this.endDate = endDate;
     }
 
-    public LocalDate getStartDate() {
+    public LocalDateTime getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDate startDate) {
+    public void setStartDate(LocalDateTime startDate) {
         this.startDate = startDate;
     }
 

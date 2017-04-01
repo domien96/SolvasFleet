@@ -18,9 +18,15 @@
 
         <many-to-one name="fleetSubscription" column="fleet_subscription_id"
                      class="solvas.service.models.FleetSubscription" not-null="true"/>
-        <many-to-one name="insurance" column="insurance_id"
-                     class="solvas.service.models.Insurance" not-null="true"/>
 
+
+        <property name="premium" column="premium" type="long" not-null="true"/>
+        <property name="franchise" column="franchise" type="long" not-null="true"/>
+
+        <property name="insuranceType" column="insurance_type" type="string" not-null="true"/>
+
+        <many-to-one name="company" column="company_id"
+                     class="solvas.service.models.Company" not-null="true"/>
 
 
         <property name="archived" column="archived" type="boolean" not-null="true"/>

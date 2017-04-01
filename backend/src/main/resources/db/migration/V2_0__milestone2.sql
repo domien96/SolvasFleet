@@ -18,30 +18,20 @@ CREATE TABLE insurance_types (
   PRIMARY KEY (insurance_type_id)
 );
 
-CREATE TABLE insurances (
-  insurance_id SERIAL NOT NULL,
-  risk_premium BIGINT NOT NULL,-- risicopremie
-  applicable_exemption BIGINT NOT NULL,
-  company_id INT REFERENCES companies(company_id),
-  insurance_type_id INT REFERENCES insurance_types(insurance_type_id),
-  archived BOOLEAN DEFAULT FALSE,
-  updated_at TIMESTAMP,
-  created_at TIMESTAMP,
-  PRIMARY KEY (insurance_id)
-);
 
--- binary relation m:n
 
 CREATE TABLE contracts (
   contract_id SERIAL NOT NULL,
   fleet_subscription_id INT NOT NULL REFERENCES fleet_subscriptions(fleet_subscription_id),
-  insurance_id INT NOT NULL REFERENCES insurances(insurance_id),
+  company_id INT REFERENCES companies(company_id),
+  insurance_type CHAR(255) NOT NULL,
+  premium BIGINT NOT NULL,
+  franchise BIGINT NOT NULL,
   beginDate DATE NOT NULL,
   endDate DATE NOT NULL,
   archived BOOLEAN DEFAULT FALSE,
   updated_at TIMESTAMP,
   created_at TIMESTAMP,
-  PRIMARY KEY (contract_id),
-  UNIQUE (beginDate,endDate,fleet_subscription_id,insurance_id)
+  PRIMARY KEY (contract_id)
 
 );
