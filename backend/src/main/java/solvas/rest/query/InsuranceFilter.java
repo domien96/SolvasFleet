@@ -11,9 +11,9 @@ import java.util.Collection;
 /**
  * Created by domien on 1/04/2017.
  */
-public class InsuranceFilter implements Filter<Insurance> {
+public class InsuranceFilter extends ArchiveFilter<Insurance> {
     @Override
     public Collection<Predicate> asPredicates(CriteriaBuilder builder, Root<Insurance> root) {
-        return null; //todo
+        return super.asPredicates(builder,root);
     }
 }
