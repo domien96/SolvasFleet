@@ -10,3 +10,5 @@
 /// <reference path="table.d.ts"/>
 /// <reference path="filter.d.ts"/>
 /// <reference path="Typeahead.d.ts"/>
+
+declare module 'react-burger-menu';
