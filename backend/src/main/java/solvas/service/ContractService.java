@@ -22,14 +22,4 @@ public class ContractService extends AbstractService<Insurance,ApiContract> {
     public ContractService(Dao<Insurance> modelDao, AbstractMapper<Insurance, ApiContract> mapper) {
         super(modelDao, mapper);
     }
-
-    /**
-     * Find all different possible contract types.
-     * @param pagination The pagination information.
-     * @param filters The filters.
-     * @return the paged representation of the contracttype objects
-     */
-    public Page<ApiContract> findAllContractTypes(Pageable pagination, Filter<Insurance> filters) {
-        return null; // TODO dao call
-    }
 }

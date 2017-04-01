@@ -66,9 +66,8 @@ public class ContractRestController extends AbstractRestController<Insurance,Api
         return super.listAll(pagination,filter,result);
     }
 
-
     @Override
-    @RequestMapping(value = "/companies/{company_id}/fleets/{fleet_id}/vehicles/{vehicle_id}/contracts", method = RequestMethod.POST)
+    @RequestMapping(value = "/contracts", method = RequestMethod.POST)
     public ResponseEntity<?> post(@Valid @RequestBody ApiContract input, BindingResult result) {
         return super.post(input, result);
     }
