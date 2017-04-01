@@ -57,12 +57,34 @@ public class ContractRestController extends AbstractRestController<Contract,ApiC
         return super.getById(id);
     }
 
+    /**
+     * Get all contracts for a company.
+     *
+     * @param id The ID of the company.
+     * @param pagination The pagination.
+     * @param filter The filters.
+     * @param result The validation results.
+     *
+     * @return The response.
+     */
     @RequestMapping(value = "/companies/{id}/contracts", method = RequestMethod.GET)
     public ResponseEntity<?> getByCompanyId(@PathVariable int id,Pageable pagination, ContractFilter filter, BindingResult result) {
         filter.setCompany(id);
         return super.listAll(pagination,filter,result);
     }
 
+    /**
+     * Get all contracts for a vehicle in a fleet from a company.
+     *
+     * @param companyId ID of the company.
+     * @param fleetId ID of the fleet.
+     * @param vehicleId ID of the vehicle.
+     * @param pagination The pagination.
+     * @param filter The filters.
+     * @param result The validation results.
+     *
+     * @return The response.
+     */
     @RequestMapping(value = "/companies/{companyId}/fleets/{fleetId}/vehicles/{vehicleId" +
             "}/contracts", method = RequestMethod.GET)
     public ResponseEntity<?> getByCompanyFleetVehicleId(@PathVariable int companyId,@PathVariable int fleetId,@PathVariable int vehicleId,Pageable pagination, ContractFilter filter, BindingResult result) {
