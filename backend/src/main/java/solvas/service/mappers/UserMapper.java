@@ -1,5 +1,8 @@
 package solvas.service.mappers;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import solvas.service.models.User;
 import solvas.persistence.api.DaoContext;
@@ -15,19 +18,25 @@ import solvas.rest.api.models.ApiUser;
 public class UserMapper extends AbstractMapper<User,ApiUser> {
 
     private static final String ROOTPATH ="/users/";
+    private final PasswordEncoder passwordEncoder;
     /**
      * Create UserMapper
      *
      * @param daoContext The DAO context
      */
-    public UserMapper(DaoContext daoContext) {
-        super(daoContext, "firstName", "lastName", "email", "password");
+    @Autowired
+    public UserMapper(DaoContext daoContext, PasswordEncoder passwordEncoder) {
+        super(daoContext, "firstName", "lastName", "email");
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public User convertToModel(ApiUser apiUser) throws FieldNotFoundException ,EntityNotFoundException {
         User user = apiUser.getId()==0 ? new User() : daoContext.getUserDao().find(apiUser.getId());
         copySharedAttributes(user, apiUser);
+        if(! apiUser.getPassword().isEmpty()) {
+            user.setPassword(passwordEncoder.encode(apiUser.getPassword()));
+        }
         return user;
     }
 

@@ -5,6 +5,8 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import solvas.service.models.User;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
@@ -29,6 +31,7 @@ public class UserMapperTest {
     private UserDao userDaoMock;
 
     private UserMapper mapper;
+    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     /**
      * Setting up the tests of UserMapper
@@ -38,7 +41,7 @@ public class UserMapperTest {
     {
         MockitoAnnotations.initMocks(this);
         when(daoContext.getUserDao()).thenReturn(userDaoMock);
-        mapper=new UserMapper(daoContext);
+        mapper=new UserMapper(daoContext, passwordEncoder);
     }
 
     /**
