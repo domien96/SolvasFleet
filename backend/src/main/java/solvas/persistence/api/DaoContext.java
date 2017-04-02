@@ -60,6 +60,12 @@ public interface DaoContext {
      */
     VehicleTypeDao getVehicleTypeDao();
 
+    /**
+     * Get InsuranceTypeDao for this content
+     * @return A InsuranceTypeDao
+     */
+    InsuranceTypeDao getInsuranceTypeDao();
+
 
     /**
      * Get ContractDao for this content

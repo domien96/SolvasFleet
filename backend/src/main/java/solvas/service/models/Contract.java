@@ -3,7 +3,9 @@ package solvas.service.models;
 import java.time.LocalDateTime;
 
 /**
- * Created by steve on 31/03/2017.
+ * Models a contract
+ * A contract has a type, a insuranceCompany a Vehicle(fleet sub), a franchise and a premium
+ * @author Sjabasti.
  */
 public class Contract extends Model {
     private FleetSubscription fleetSubscription;
@@ -12,7 +14,7 @@ public class Contract extends Model {
     private int franchise;
     private int premium;
     private Company company;
-    private String insuranceType;
+    private InsuranceType insuranceType;
 
     public Contract() {
     } // Hibernate wants a no-arg constructor
@@ -65,11 +67,11 @@ public class Contract extends Model {
         this.company = company;
     }
 
-    public String getInsuranceType() {
+    public InsuranceType getInsuranceType() {
         return insuranceType;
     }
 
-    public void setInsuranceType(String insuranceType) {
+    public void setInsuranceType(InsuranceType insuranceType) {
         this.insuranceType = insuranceType;
     }
 }
