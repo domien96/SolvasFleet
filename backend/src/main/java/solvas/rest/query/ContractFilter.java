@@ -31,17 +31,17 @@ public class ContractFilter extends ArchiveFilter<Contract> {
         }
         if (vehicle >=0 ||fleet >=0){
             Join<Contract, FleetSubscription> subscriptionJoin = root.join("fleetSubscription");
-
+            LocalDate now = LocalDate.now();
+            // The start must be before today
+            Predicate start = builder.lessThanOrEqualTo(subscriptionJoin.get("startDate"), now);
+            // The end is not set or after today
+            Expression<LocalDate> endDate = subscriptionJoin.get("endDate");
+            Predicate end = builder.or(
+                    builder.isNull(endDate),
+                    builder.greaterThan(endDate, now)
+            );
+            
             if (vehicle >= 0) {
-                LocalDate now = LocalDate.now();
-                // The start must be before today
-                Predicate start = builder.lessThanOrEqualTo(subscriptionJoin.get("startDate"), now);
-                // The end is not set or after today
-                Expression<LocalDate> endDate = subscriptionJoin.get("endDate");
-                Predicate end = builder.or(
-                        builder.isNull(endDate),
-                        builder.greaterThan(endDate, now)
-                );
                 predicates.add(
                         builder.and(
                                 builder.equal(subscriptionJoin.get("vehicle"), vehicle),
@@ -52,17 +52,7 @@ public class ContractFilter extends ArchiveFilter<Contract> {
             }
             if (fleet >= 0){
                 Join<FleetSubscription, SubFleet> subFleetJoin = subscriptionJoin.join("subFleet");
-                LocalDate now = LocalDate.now();
-                // The start must be before today
-                Predicate start = builder.lessThanOrEqualTo(subscriptionJoin.get("startDate"), now);
-                // The end is not set or after today
-                Expression<LocalDate> endDate = subscriptionJoin.get("endDate");
-                Predicate end = builder.or(
-                        builder.isNull(endDate),
-                        builder.greaterThan(endDate, now)
-                );
-
-                predicates.add(
+                 predicates.add(
                         builder.and(
                                 builder.equal(subFleetJoin.get("fleet"), fleet),
                                 start,
