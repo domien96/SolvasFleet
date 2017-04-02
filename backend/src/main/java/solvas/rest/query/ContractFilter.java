@@ -1,17 +1,21 @@
 package solvas.rest.query;
 
 import solvas.service.models.Contract;
-import solvas.service.models.Fleet;
 import solvas.service.models.FleetSubscription;
 import solvas.service.models.SubFleet;
 
-import javax.persistence.criteria.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Expression;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Collection;
 
 /**
- * Created by domien on 30/03/2017.
+ * Filters for a {@link Contract}.
+ *
+ * @author Domien
  * @author Steven
  */
 public class ContractFilter extends ArchiveFilter<Contract> {
