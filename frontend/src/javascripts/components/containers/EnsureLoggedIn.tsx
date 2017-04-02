@@ -5,7 +5,16 @@ import { redirect_to } from '../../routes/router.tsx';
 
 class EnsureLoggedInContainer extends React.Component<{}, {}> {
   componentDidMount() {
+    this.sign_out_and_redirect();
+  }
+
+  componentWillReceiveProps() {
+    this.sign_out_and_redirect();
+  }
+
+  sign_out_and_redirect() {
     if (!Auth.isAuthenticated()) {
+      Auth.deauthenticateUser();
       redirect_to('/');
     }
   }

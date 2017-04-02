@@ -6,7 +6,7 @@ import FormField from './forms/FormField.tsx';
 import { redirect_to } from '../routes/router.tsx';
 import { SIGNED_IN_URL } from '../constants/constants.ts';
 
-import { auth_login } from '../actions/login_actions.ts';
+import { auth_login } from '../actions/auth_actions.ts';
 import Auth from '../modules/Auth.ts';
 
 interface State {
