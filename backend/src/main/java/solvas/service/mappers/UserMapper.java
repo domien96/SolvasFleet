@@ -23,6 +23,7 @@ public class UserMapper extends AbstractMapper<User,ApiUser> {
      * Create UserMapper
      *
      * @param daoContext The DAO context
+     * @param passwordEncoder Encoder for passwords to avoid storing plaintext
      */
     @Autowired
     public UserMapper(DaoContext daoContext, PasswordEncoder passwordEncoder) {

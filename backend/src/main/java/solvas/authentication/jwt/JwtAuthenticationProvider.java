@@ -29,6 +29,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
 
     /**
      * @param jwtSettings Settings for the JWT service
+     * @param mapper Jackson object mapper
      */
     @Autowired
     public JwtAuthenticationProvider(JwtSettings jwtSettings, ObjectMapper mapper) {
