@@ -23,6 +23,7 @@ public class HibernateDaoContext implements DaoContext {
      * @param vehicleDao
      * @param vehicleTypeDao
      * @param contractDao
+     * @param insuranceTypeDao
      */
     @Autowired
     public HibernateDaoContext(CompanyDao companyDao, FleetDao fleetDao, FleetSubscriptionDao fleetSubscriptionDao,
