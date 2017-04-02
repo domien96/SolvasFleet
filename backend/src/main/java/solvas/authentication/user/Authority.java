@@ -1,23 +1,32 @@
 package solvas.authentication.user;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import solvas.service.models.Company;
 import solvas.service.models.Permission;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.stream.Collectors;
 
 /**
  * Permissions a user has within the scope of a company
  */
 public class Authority implements GrantedAuthority {
-    private final Company company;
-    private final Collection<Permission> permissions;
+    private int companyId;
+    private Collection<String> permissions = new HashSet<>();
+
+    /**
+     * Default constructor for Jackson
+     */
+    public Authority() {
+    }
 
     Authority(Company company, Collection<Permission> permissions) {
-        this.company = company;
-        this.permissions = permissions;
+        this.companyId = company.getId();
+        this.permissions = permissions.stream().map(Permission::getName).collect(Collectors.toSet());
     }
 
     @Override
@@ -27,10 +36,18 @@ public class Authority implements GrantedAuthority {
     }
 
     public Integer getCompanyId() {
-        return company.getId();
+        return companyId;
+    }
+
+    public void setCompanyId(int companyId) {
+        this.companyId = companyId;
     }
 
     public Collection<String> getPermissions() {
-        return permissions.stream().map(Permission::getName).collect(Collectors.toSet());
+        return permissions;
+    }
+
+    public void setPermissions(Collection<String> permissions) {
+        this.permissions = permissions;
     }
 }
