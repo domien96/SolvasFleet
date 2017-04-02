@@ -1,31 +1,33 @@
 package solvas.rest.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import solvas.rest.api.models.ApiCompany;
+import org.springframework.web.bind.annotation.*;
 import solvas.rest.api.models.ApiContract;
 import solvas.rest.query.ContractFilter;
-import solvas.service.AbstractService;
-import solvas.service.models.Insurance;
+import solvas.rest.utils.JsonListWrapper;
+import solvas.service.ContractService;
+import solvas.service.models.Contract;
 
 import javax.validation.Valid;
+import java.util.Collection;
 
 /**
  * Rest controller for route Contracts/
  * Created by domien on 29/03/2017.
  */
-public class ContractRestController extends AbstractRestController<Insurance,ApiContract> {
+@RestController
+public class ContractRestController extends AbstractRestController<Contract,ApiContract> {
+
     /**
      * Default constructor.
      *
      * @param service service class for entities
      */
-    protected ContractRestController(AbstractService service) {
+    @Autowired
+    public ContractRestController(ContractService service) {
         super(service);
     }
 
@@ -51,12 +53,34 @@ public class ContractRestController extends AbstractRestController<Insurance,Api
         return super.getById(id);
     }
 
+    /**
+     * Get all contracts for a company.
+     *
+     * @param id The ID of the company.
+     * @param pagination The pagination.
+     * @param filter The filters.
+     * @param result The validation results.
+     *
+     * @return The response.
+     */
     @RequestMapping(value = "/companies/{id}/contracts", method = RequestMethod.GET)
     public ResponseEntity<?> getByCompanyId(@PathVariable int id,Pageable pagination, ContractFilter filter, BindingResult result) {
         filter.setCompany(id);
         return super.listAll(pagination,filter,result);
     }
 
+    /**
+     * Get all contracts for a vehicle in a fleet from a company.
+     *
+     * @param companyId ID of the company.
+     * @param fleetId ID of the fleet.
+     * @param vehicleId ID of the vehicle.
+     * @param pagination The pagination.
+     * @param filter The filters.
+     * @param result The validation results.
+     *
+     * @return The response.
+     */
     @RequestMapping(value = "/companies/{companyId}/fleets/{fleetId}/vehicles/{vehicleId" +
             "}/contracts", method = RequestMethod.GET)
     public ResponseEntity<?> getByCompanyFleetVehicleId(@PathVariable int companyId,@PathVariable int fleetId,@PathVariable int vehicleId,Pageable pagination, ContractFilter filter, BindingResult result) {
@@ -84,9 +108,16 @@ public class ContractRestController extends AbstractRestController<Insurance,Api
         return super.put(id, input,result);
     }
 
-    /* /companies/types */
-    /**@RequestMapping(value = "/contracts/types", method = RequestMethod.GET)
-    public ResponseEntity<?> listAllTypes(Pageable pagination, CompanyFilter filter, BindingResult result) {
-        return ...;
-    }TODO*/
+    /**
+     * Get all contract types.
+     *
+     * @return The contract types.
+     */
+    @RequestMapping(value = "/contracts/types", method = RequestMethod.GET)
+    public JsonListWrapper<String> listAllTypes() {
+        Collection<String> page = ((ContractService) service).findAllInsuranceTypes();
+        JsonListWrapper<String> wrapper = new JsonListWrapper<>(page);
+        wrapper.put("total", page.size());
+        return wrapper;
+    }
 }

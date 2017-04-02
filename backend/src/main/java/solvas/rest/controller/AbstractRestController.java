@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 @Component // TODO Replace by services
 public abstract class AbstractRestController<T extends Model, E extends ApiModel> {
 
-    private AbstractService<T,E> service;
+    protected AbstractService<T,E> service;
 
     /**
      * Default constructor.

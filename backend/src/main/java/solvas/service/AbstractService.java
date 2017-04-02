@@ -12,6 +12,8 @@ import solvas.service.mappers.AbstractMapper;
 import solvas.service.mappers.exceptions.DependantEntityNotFound;
 import solvas.rest.api.models.ApiModel;
 
+import java.util.Collection;
+
 /**
  * Abstract Service class
  * @param <T> The class of the Model
@@ -21,7 +23,7 @@ import solvas.rest.api.models.ApiModel;
 public abstract class AbstractService<T extends Model,E extends ApiModel> {
 
 
-    private Dao<T> modelDao;
+    protected Dao<T> modelDao;
     protected AbstractMapper<T,E> mapper;
 
     /**
@@ -102,4 +104,6 @@ public abstract class AbstractService<T extends Model,E extends ApiModel> {
         input.setId(id);
         return mapper.convertToApiModel(modelDao.save(mapper.convertToModel(input)));
     }
+
+
 }

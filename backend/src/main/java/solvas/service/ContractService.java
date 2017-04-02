@@ -1,25 +1,40 @@
 package solvas.service;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import solvas.persistence.api.Dao;
-import solvas.persistence.api.Filter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import solvas.persistence.api.DaoContext;
 import solvas.rest.api.models.ApiContract;
-import solvas.service.mappers.AbstractMapper;
-import solvas.service.models.Insurance;
+import solvas.service.mappers.ContractMapper;
+import solvas.service.models.Contract;
+
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 /**
  * Service class of Contracts and contracttypes.
  * Created by domien on 30/03/2017.
  */
-public class ContractService extends AbstractService<Insurance,ApiContract> {
+@Service
+public class ContractService extends AbstractService<Contract,ApiContract> {
+
+
     /**
      * Contruct an abstractservice
      *
-     * @param modelDao the DAO of the model
+     * @param context the DAO context
      * @param mapper   the mapper between the apimodel and the model
      */
-    public ContractService(Dao<Insurance> modelDao, AbstractMapper<Insurance, ApiContract> mapper) {
-        super(modelDao, mapper);
+    @Autowired
+    public ContractService(DaoContext context, ContractMapper mapper) {
+        super(context.getContractDao(), mapper);
+    }
+
+
+    /**
+     * Finds all types of insurance in the database
+     * @return types of insurance
+     */
+    public Collection<String> findAllInsuranceTypes() {
+        return modelDao.findAll().stream().map(Contract::getInsuranceType).collect(Collectors.toSet()); //TODO replace by dao
     }
 }
