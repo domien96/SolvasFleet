@@ -9,7 +9,6 @@ import solvas.rest.api.models.ApiContract;
 import solvas.rest.query.ContractFilter;
 import solvas.rest.utils.JsonListWrapper;
 import solvas.service.ContractService;
-import solvas.service.InsuranceService;
 import solvas.service.models.Contract;
 
 import javax.validation.Valid;
@@ -21,18 +20,15 @@ import java.util.Collection;
  */
 @RestController
 public class ContractRestController extends AbstractRestController<Contract,ApiContract> {
-    private final InsuranceService insuranceService;
 
     /**
      * Default constructor.
      *
      * @param service service class for entities
-     * @param srv InsuranceService service for /contracts/types
      */
     @Autowired
-    public ContractRestController(ContractService service, InsuranceService srv) {
+    public ContractRestController(ContractService service) {
         super(service);
-        this.insuranceService = srv;
     }
 
     /**
@@ -119,7 +115,7 @@ public class ContractRestController extends AbstractRestController<Contract,ApiC
      */
     @RequestMapping(value = "/contracts/types", method = RequestMethod.GET)
     public JsonListWrapper<String> listAllTypes() {
-        Collection<String> page = insuranceService.findAllInsuranceTypes();
+        Collection<String> page = ((ContractService) service).findAllInsuranceTypes();
         JsonListWrapper<String> wrapper = new JsonListWrapper<>(page);
         wrapper.put("total", page.size());
         return wrapper;

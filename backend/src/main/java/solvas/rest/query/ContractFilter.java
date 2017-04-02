@@ -1,7 +1,6 @@
 package solvas.rest.query;
 
 import solvas.service.models.Contract;
-import solvas.service.models.Insurance;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;
