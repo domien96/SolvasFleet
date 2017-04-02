@@ -37,7 +37,7 @@ public class ContractMapper extends AbstractMapper<Contract,ApiContract> {
     public Contract convertToModel(ApiContract api) throws DependantEntityNotFound, EntityNotFoundException {
         Contract contract = api.getId()==0? new Contract():daoContext.getContractDao().find(api.getId());
         copySharedAttributes(contract, api);
-        contract.setInsuranceType(api.getType());
+        contract.setInsuranceType(new InsuranceTypeMapper(daoContext).convertToModel(api.getType()));
         contract.setCompany(daoContext.getCompanyDao().find(api.getInsuranceCompany()));
 
         Collection<FleetSubscription> sub = daoContext.getFleetSubscriptionDao().findByVehicle(
@@ -62,7 +62,7 @@ public class ContractMapper extends AbstractMapper<Contract,ApiContract> {
         copySharedAttributes(api, model);
 
         api.setVehicle(model.getFleetSubscription().getVehicle().getId());
-        api.setType(model.getInsuranceType());
+        api.setType(new InsuranceTypeMapper(daoContext).convertToApiModel(model.getInsuranceType()));
         api.setInsuranceCompany(model.getCompany().getId());
 
         api.setUrl(SimpleUrlBuilder.buildUrlFromBase(ROOTPATH + "{id}", api.getId()));
@@ -70,15 +70,4 @@ public class ContractMapper extends AbstractMapper<Contract,ApiContract> {
 
     }
 
-    /*
-    private Insurance convertToInsuranceModel(ApiContract api) throws EntityNotFoundException {
-        Insurance x = new Insurance();
-        copySharedAttributes(contract, api);
-
-        x.setRiskPremium(api.getPremium());
-        x.setApplicableExemption(0); //TODO not defined in api
-        x.setCompany(daoContext.getCompanyDao().find(api.getInsuranceCompany()));
-        x.setInsuranceType(daoContext.getInsuranceTypeDao().findByName(api.getType()));
-        return x;
-    }*/
 }
