@@ -19,7 +19,7 @@ class Login extends React.Component<{}, State> {
 
   constructor() {
     super();
-    this.state = { errors: [], email: 'david.vandorpe@fkgent.be', password: 'test' };
+    this.state = { errors: [], email: null, password: null };
 
     this.handleEmailChange    = this.handleEmailChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
