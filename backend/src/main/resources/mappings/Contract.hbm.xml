@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="solvas.service.models.Contract" table="contracts">
+        <meta attribute="class-description">
+            This class contains the User detail.
+        </meta>
+        <id name="id" type="int" column="contract_id">
+            <generator class="identity"/>
+        </id>
+
+        <property name="startDate" column="startDate" type="java.time.LocalDateTime" not-null="true" />
+        <property name="endDate" column="endDate" type="java.time.LocalDateTime" not-null="true" />
+
+
+        <many-to-one name="fleetSubscription" column="fleet_subscription_id"
+                     class="solvas.service.models.FleetSubscription" not-null="true"/>
+
+        <many-to-one name="insuranceType" column="insurance_type_id"
+                     class="solvas.service.models.InsuranceType" not-null="true"/>
+
+
+        <property name="premium" column="premium" type="int" not-null="true"/>
+        <property name="franchise" column="franchise" type="int" not-null="true"/>
+
+        <many-to-one name="company" column="company_id"
+                     class="solvas.service.models.Company" not-null="true"/>
+
+
+        <property name="archived" column="archived" type="boolean" not-null="true"/>
+
+        <property name="updatedAt" column="updated_at" type="java.time.LocalDateTime" generated="always" insert="false" not-null="true" />
+        <property name="createdAt" column="created_at" type="java.time.LocalDateTime" generated="insert" insert="false" not-null="true" />
+
+
+
+    </class>
+</hibernate-mapping>
