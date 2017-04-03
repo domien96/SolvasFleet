@@ -7,7 +7,12 @@ import { postVehicle } from '../../actions/vehicle_actions.ts';
 import { hasError }  from '../../utils/utils.ts';
 import { redirect_to } from'../../router.tsx';
 
-class AddVehicle extends React.Component<{}, Vehicle.VForm.State> {
+interface State {
+  errors : Form.Error[];
+  vehicle   : VehicleData;
+}
+
+class AddVehicle extends React.Component<{}, State> {
 
   constructor() {
     super();
@@ -20,7 +25,7 @@ class AddVehicle extends React.Component<{}, Vehicle.VForm.State> {
   }
 
   public handleChange(field : Vehicle.Field, e : any) : void {
-    var newVehicle : Vehicle = this.state.vehicle;
+    var newVehicle : VehicleData = this.state.vehicle;
     newVehicle[field] = e.target.value;
     this.setState({ vehicle: newVehicle });
   }

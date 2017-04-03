@@ -5,7 +5,7 @@ import { fetchVehicles } from '../../actions/vehicle_actions.ts';
 import { redirect_to } from'../../router.tsx';
 
 interface State {
-    vehicles : Vehicle[];
+    vehicles : VehicleData[];
     filter: VehicleFilterData;
   }
 

@@ -4,7 +4,7 @@ import { th }    from '../../utils/utils.ts';
 import InfoTable from '../tables/InfoTable.tsx';
 
 interface Props {
-  vehicles: Vehicle[];
+  vehicles: VehicleData[];
   onVehicleSelect : (id : number) => void;
 }
 

@@ -10,7 +10,7 @@ interface Props {
   handleChange : (field : User.Field, e : any) => void;
   errors       : Form.Error[];
   hasError     : (field : User.Field) => boolean;
-  user         : User;
+  user         : UserData;
 }
 
 const UserForm : React.StatelessComponent<Props> = props => {

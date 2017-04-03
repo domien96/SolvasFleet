@@ -62,9 +62,17 @@ class Vehicles extends React.Component<vehiclesProps, vehiclesState> {
   }
 }
 
+interface fleetProps {
+  [ params : string ] : { [ id : string ] : number };
+}
 
-class Fleet extends React.Component<Fleet.Props, Fleet.State> {
-  constructor(props : Fleet.Props) {
+interface fleetState {
+  fleet    : FleetData;
+  vehicles : VehicleData[];
+}
+
+class Fleet extends React.Component<fleetProps, fleetState> {
+  constructor(props : fleetProps) {
     super(props);
     this.state = {
       fleet: {},
@@ -76,16 +84,18 @@ class Fleet extends React.Component<Fleet.Props, Fleet.State> {
     var { id } = this.props.params;
     let success = (data : any) => this.setState({ fleet: data });
     fetchFleet(id, success);
-    fetchVehicles((data) => this.setState({ vehicles: data.data}), undefined, { fleet: id.toString() });
+    fetchVehicles((data) => this.setState({ vehicles: data.data }), undefined, { fleet: id.toString() });
   }
 
   render () {
-    let nodes = this.state.vehicles.map(({ id, type }) => { return { id, group: type } });
+    var {fleet, vehicles} = this.state;
+
+    let nodes = vehicles.map(({ id, type }) => { return { id, group: type } });
 
     return (
       <div>
         <Header>
-          <h2>{ this.state.fleet.name }</h2>
+          <h2>{ fleet.name }</h2>
         </Header>
         <div className='wrapper'>
           <Card>
@@ -94,7 +104,7 @@ class Fleet extends React.Component<Fleet.Props, Fleet.State> {
             </div>
             <div className='card-content not-padded'>
               <NestedCheckbox values={ nodes }>
-                <Vehicles vehicles={ group_by(this.state.vehicles, 'type') } />
+                <Vehicles vehicles={ group_by(vehicles, 'type') } />
               </NestedCheckbox>
             </div>
           </Card>

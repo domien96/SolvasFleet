@@ -6,7 +6,7 @@ import Card from '../../app/Card.tsx';
 export interface Props {
   handleChange : (field : string, e : any) => void;
   hasError : (s : string) => boolean;
-  user : MUser;
+  user : UserData;
 }
 
 const Info : React.StatelessComponent<Props> = (props) => {
