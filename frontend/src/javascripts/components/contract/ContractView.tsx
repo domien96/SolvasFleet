@@ -1,0 +1,21 @@
+import React from 'react';
+
+interface Props {
+	contract : ContractData
+}
+
+const ContractView : React.StatelessComponent<Props> = props => {
+	var { franchise, id, insuranceCompany, premium, type, vehicle } = props.contract;
+	return(
+		<div>
+			<div>Franchise : { franchise }</div>
+			<div>id : { id }</div>
+			<div>insuranceCompany : { insuranceCompany }</div>
+			<div>premium : { premium }</div>
+			<div>type : { type }</div>
+			<div>vehicle : { vehicle }</div>
+		</div>
+	);
+}
+
+export default ContractView;

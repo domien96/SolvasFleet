@@ -63,7 +63,7 @@ class Vehicles extends React.Component<vehiclesProps, vehiclesState> {
 }
 
 interface fleetProps {
-  [ params : string ] : { [ id : string ] : number };
+  [ params : string ] : { [ id : string ] : number, companyId : number };
 }
 
 interface fleetState {

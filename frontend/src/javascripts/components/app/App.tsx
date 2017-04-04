@@ -58,7 +58,7 @@ class App extends React.Component<Props, {}> {
 
   render() {
     return (
-      <div id='wrapper' className='wrapper'>
+      <div id='wrapper' className='all-wrapper'>
         <Sidebar />
         <div className='page-wrapper'>
           { this.props.children }

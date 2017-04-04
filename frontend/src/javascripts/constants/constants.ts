@@ -18,3 +18,7 @@ export function VEHICLE_URL(id : number) { return `${VEHICLES_URL}/${id}`; }
 
 export const FLEETS_URL                = `${BASE_API_URL}/fleets`;
 export function FLEET_URL(id : number) { return `${FLEETS_URL}/${id}`; }
+
+export const CONTRACTS_URL                = `${BASE_API_URL}/contracts`;
+export function CONTRACT_URL(id : number) { return `${FLEETS_URL}/${id}`; }
+
