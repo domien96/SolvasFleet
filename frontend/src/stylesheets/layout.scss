@@ -1,5 +1,10 @@
 @import './variables.scss';
 
+
+.wrapper {
+  height: 100%
+}
+
 .page-wrapper {
   margin: 0 0 0 $nav-width;
   background-color: $gray-lighterer;
