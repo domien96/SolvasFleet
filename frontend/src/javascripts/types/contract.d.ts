@@ -1,3 +1,8 @@
+namespace Contract {
+  export type Field =
+    'franchise' | 'insuranceCompany' | 'premium' | 'type' | 'vehicle'| 'startDate' | 'endDate';
+}
+
 interface ContractsData {
   [ contracts : string ] : any;
 }
@@ -9,4 +14,6 @@ interface ContractData{
 	premium? 					: number;
 	type? 						: string;
 	vehicle? 					: number;
+	startDate? : Date;
+	endDate? : Date;
 }

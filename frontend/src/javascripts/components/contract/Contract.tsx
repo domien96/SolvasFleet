@@ -35,8 +35,6 @@ class Contract extends React.Component<Props, State> {
   		<ContractView contract={ this.state.contract }/>
   	);
   }
-
-
 }
 
 export default Contract;

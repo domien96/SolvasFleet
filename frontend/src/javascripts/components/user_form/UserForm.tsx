@@ -14,7 +14,7 @@ interface Props {
 }
 
 const UserForm : React.StatelessComponent<Props> = props => {
-  var { user, onSubmit, handleChange, errors, hasError, user } = props;
+  var { user, onSubmit, handleChange, errors, hasError } = props;
 
   const submit = user.id != null ? 'form.update' : 'form.create';
 

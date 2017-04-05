@@ -5,7 +5,8 @@ interface Props {
 }
 
 const ContractView : React.StatelessComponent<Props> = props => {
-	var { franchise, id, insuranceCompany, premium, type, vehicle } = props.contract;
+	var { franchise, id, insuranceCompany, premium, type, vehicle, startDate, endDate } = props.contract;
+	console.log(franchise)
 	return(
 		<div>
 			<div>Franchise : { franchise }</div>
@@ -14,6 +15,8 @@ const ContractView : React.StatelessComponent<Props> = props => {
 			<div>premium : { premium }</div>
 			<div>type : { type }</div>
 			<div>vehicle : { vehicle }</div>
+			<div>startDate : { startDate }</div>
+			<div>endDate : { endDate }</div>
 		</div>
 	);
 }

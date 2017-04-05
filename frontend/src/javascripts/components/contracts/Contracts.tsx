@@ -24,9 +24,17 @@ class Contracts extends React.Component<Props, State> {
 
 	componentDidMount() {
 		var { vehicleId, fleetId } = this.props;
-		var companyId = this.getCompanyId(fleetId);
-    this.fetchContracts(vehicleId, fleetId, companyId);
+		console.log("vehicleId: "+vehicleId+" fleetId: "+fleetId);		
   }
+
+  componentWillReceiveProps(nextProps : any){
+		if(this.props.vehicleId != nextProps.vehicleId){
+			var { vehicleId, fleetId } = this.props;
+			var companyId = this.getCompanyId(fleetId);
+			console.log(companyId)
+    	this.fetchContracts(vehicleId, fleetId, companyId);
+		}
+	}
 
   getCompanyId(fleetId : number){
   	var fleet : FleetData;
@@ -45,12 +53,18 @@ class Contracts extends React.Component<Props, State> {
     redirect_to(`/contracts/${id}`);
   }
 
-
-
   render(){
-  	return(
-  	<ContractsView contracts={ this.state.contracts } onContractSelect={ this.handleClick }/>
-  	);
+  	console.log(this.state.contracts)
+  	if(this.state.contracts != []){
+	  	return(
+	  	<ContractsView contracts={ this.state.contracts } onContractSelect={ this.handleClick }/>
+	  	);
+		}
+		return(
+			<div>
+				nothing here
+			</div>
+		);
   }
 }
 
