@@ -1,11 +1,8 @@
 package solvas.authentication.jwt;
 
-import java.util.Collection;
-
 import org.springframework.security.authentication.AbstractAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
 
-import solvas.authentication.user.UserContext;
+import org.springframework.security.core.userdetails.UserDetails;
 import solvas.authentication.jwt.token.RawAccessJwtToken;
 
 /**
@@ -18,7 +15,7 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
     private static final long serialVersionUID = 2877954820905567501L;
 
     private RawAccessJwtToken rawAccessToken;
-    private UserContext userContext;
+    private UserDetails userDetails;
 
     /**
      * Create instance from raw uncheck JWT
@@ -31,13 +28,13 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
     }
 
     /**
-     * Create instance from usercontext
-     * @param userContext UserContext containing principal and authorities
+     * Create instance from user details
+     * @param userDetails UserDetails containing principal and authorities
      */
-    public JwtAuthenticationToken(UserContext userContext) {
-        super(userContext.getAuthorities());
+    public JwtAuthenticationToken(UserDetails userDetails) {
+        super(userDetails.getAuthorities());
         this.eraseCredentials();
-        this.userContext = userContext;
+        this.userDetails = userDetails;
         super.setAuthenticated(true);
     }
 
@@ -45,7 +42,7 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
     public void setAuthenticated(boolean authenticated) {
         if (authenticated) {
             throw new IllegalArgumentException(
-                    "Cannot set this token to trusted - use constructor which takes a GrantedAuthority list instead");
+                    "Cannot set this token to trusted - use constructor which takes an Authority list instead");
         }
         super.setAuthenticated(false);
     }
@@ -57,7 +54,7 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
 
     @Override
     public Object getPrincipal() {
-        return this.userContext;
+        return this.userDetails;
     }
 
     @Override

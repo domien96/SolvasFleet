@@ -6,16 +6,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import solvas.authentication.ajax.AjaxAuthenticationProvider;
 import solvas.authentication.ajax.AjaxLoginProcessingFilter;
 import solvas.authentication.jwt.JwtAuthenticationProvider;
 import solvas.authentication.jwt.JwtTokenAuthenticationProcessingFilter;
@@ -40,8 +39,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final RestAuthenticationEntryPoint authenticationEntryPoint;
     private final AuthenticationSuccessHandler successHandler;
     private final AuthenticationFailureHandler failureHandler;
-    private final AjaxAuthenticationProvider ajaxAuthenticationProvider;
-    private final JwtAuthenticationProvider jwtAuthenticationProvider;
+    private final AuthenticationProvider ajaxAuthenticationProvider;
+    private final AuthenticationProvider jwtAuthenticationProvider;
     private final TokenExtractor tokenExtractor;
     private final ObjectMapper objectMapper;
 
@@ -56,7 +55,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      * @param authenticationEntryPoint Entry point for authentication
      */
     @Autowired
-    public WebSecurityConfig(AjaxAuthenticationProvider ajaxAuthenticationProvider, TokenExtractor tokenExtractor, ObjectMapper objectMapper, AuthenticationFailureHandler failureHandler, JwtAuthenticationProvider jwtAuthenticationProvider, AuthenticationSuccessHandler successHandler, RestAuthenticationEntryPoint authenticationEntryPoint) {
+    public WebSecurityConfig(AuthenticationProvider ajaxAuthenticationProvider, TokenExtractor tokenExtractor, ObjectMapper objectMapper, AuthenticationFailureHandler failureHandler, JwtAuthenticationProvider jwtAuthenticationProvider, AuthenticationSuccessHandler successHandler, RestAuthenticationEntryPoint authenticationEntryPoint) {
         this.ajaxAuthenticationProvider = ajaxAuthenticationProvider;
         this.tokenExtractor = tokenExtractor;
         this.objectMapper = objectMapper;

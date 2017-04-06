@@ -54,6 +54,10 @@ public class HibernateConfig {
         this.rl = resourceLoader;
     }
 
+    /**
+     * Get datasource bean that contains database connection info
+     * @return the datasource
+     */
     @Bean
     @Profile({"default", "debug", "clean"})
     public DataSource getDataSource() {

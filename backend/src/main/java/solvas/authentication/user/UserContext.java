@@ -2,6 +2,7 @@ package solvas.authentication.user;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import solvas.service.models.User;
 
 import java.util.Collection;
 
@@ -10,14 +11,28 @@ import java.util.Collection;
  */
 public class UserContext implements UserDetails {
     private final String username;
+    private String password = null;
     private final Collection<? extends GrantedAuthority> authorities;
 
     /**
      * Create instance
-     * @param username Username (email) of the user
+     * @param user User this context belongs to
      * @param authorities Authorities of the user
      */
-    public UserContext(String username, Collection<? extends GrantedAuthority> authorities) {
+    public UserContext(User user, Collection<? extends GrantedAuthority> authorities) {
+        this.username = user.getEmail();
+        this.password = user.getPassword();
+        this.authorities = authorities;
+    }
+
+    /**
+     * This method is used when creating the context from a JWT
+     * Otherwise we would need a DB request to get the password which we won't use
+     *
+     * @param username Username of the user
+     * @param authorities Authorities of the user
+     */
+    public UserContext(String username,  Collection<? extends GrantedAuthority> authorities) {
         this.username = username;
         this.authorities = authorities;
     }
@@ -28,7 +43,7 @@ public class UserContext implements UserDetails {
 
     @Override
     public String getPassword() {
-        return null;
+        return password;
     }
 
     @Override

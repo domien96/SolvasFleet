@@ -48,16 +48,9 @@ public class JwtTokenAuthenticationProcessingFilter extends AbstractAuthenticati
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
             Authentication authResult) throws IOException, ServletException {
-        SecurityContext context = SecurityContextHolder.createEmptyContext();
-        context.setAuthentication(authResult);
-        SecurityContextHolder.setContext(context);
+        super.successfulAuthentication(request, response, chain, authResult);
+        // As this authentication is in HTTP header, after success we need to continue the request normally
+        // and return the response as if the resource was not secured at all
         chain.doFilter(request, response);
-    }
-
-    @Override
-    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
-            AuthenticationException failed) throws IOException, ServletException {
-        SecurityContextHolder.clearContext();
-        failureHandler.onAuthenticationFailure(request, response, failed);
     }
 }

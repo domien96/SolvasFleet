@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import solvas.persistence.api.dao.UserDao;
 import solvas.service.models.Company;
 import solvas.service.models.Permission;
@@ -23,7 +24,7 @@ import java.util.stream.Collectors;
 /**
  * Build User details based on username
  */
-@Component
+@Service
 public class SolvasUserDetailsService implements UserDetailsService {
 
     private final UserDao userDao;
@@ -66,6 +67,6 @@ public class SolvasUserDetailsService implements UserDetailsService {
             return new Authority(company, permissions);
         }).collect(Collectors.toSet());
 
-        return new UserContext(user.getEmail(), authorities);
+        return new UserContext(user, authorities);
     }
 }
