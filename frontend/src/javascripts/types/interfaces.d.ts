@@ -6,9 +6,6 @@
 /// <reference path="vehicle.d.ts"/>
 /// <reference path="vehicles.d.ts"/>
 /// <reference path="fleet.d.ts"/>
-/// <reference path="fleets.d.ts"/>
-/// <reference path="subfleet.d.ts"/>
-/// <reference path="subfleets.d.ts"/>
 /// <reference path="role.d.ts"/>
 /// <reference path="table.d.ts"/>
 /// <reference path="filter.d.ts"/>

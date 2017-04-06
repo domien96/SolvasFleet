@@ -4,7 +4,7 @@ import { th }    from '../../utils/utils.ts';
 import InfoTable from '../tables/InfoTable.tsx';
 
 export interface Props {
-  users : User[];
+  users : UserData[];
   onUserSelect : (id : number) => void;
 }
 

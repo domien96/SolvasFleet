@@ -8,8 +8,19 @@ import { postFleet } from '../../actions/fleet_actions.ts';
 
 import { redirect_to } from '../../routes/router.tsx';
 
-class Fleets extends React.Component<Fleets.Props, Fleets.State> {
-  constructor(props : Fleets.Props) {
+interface Props {
+    fleets : FleetData[];
+    company : number;
+}
+
+interface State {
+    formVisible : boolean;
+    fleet : FleetData;
+    errors : Form.Error[];
+}
+
+class Fleets extends React.Component<Props, State> {
+  constructor(props : Props) {
     super(props);
     this.state = {
       formVisible: false,
@@ -21,7 +32,7 @@ class Fleets extends React.Component<Fleets.Props, Fleets.State> {
   }
 
   handleChange(field : Fleet.Field, e : any) : any {
-    var fleet : Fleet = this.state.fleet;
+    var fleet : FleetData = this.state.fleet;
     fleet[field] = e.target.value;
     this.setState({ fleet });
   }

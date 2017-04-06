@@ -17,7 +17,7 @@ const VehicleLink : React.StatelessComponent<LProps> = ({ id, span, value }) => 
 }
 
 interface Props {
-  vehicle : Vehicle;
+  vehicle : VehicleData;
 }
 
 class VehicleRow extends React.Component<Props, {}> {

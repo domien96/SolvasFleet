@@ -9,7 +9,7 @@ import Card from '../../app/Card.tsx';
 interface Props {
   handleChange: (field : string, e : any) => void;
   hasError: (e : any) => boolean;
-  vehicle : Vehicle;
+  vehicle : VehicleData;
 }
 
 const Info : React.StatelessComponent<Props> = props => {

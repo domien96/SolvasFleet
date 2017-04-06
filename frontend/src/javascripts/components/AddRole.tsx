@@ -4,7 +4,12 @@ import T from 'i18n-react';
 
 import FormField from './forms/FormField.tsx';
 
-class AddRole extends React.Component<RoleProps, RoleState> {
+interface State {
+  errors : Form.Error[];
+  role   : Role;
+}
+
+class AddRole extends React.Component<{}, State> {
 
   constructor(props : RoleProps) {
     super(props);

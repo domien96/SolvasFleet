@@ -12,7 +12,16 @@ import { redirect_to } from'../../routes/router.tsx';
 
 import { th } from '../../utils/utils.ts';
 
-class Client extends React.Component<Company.Props, Company.State> {
+interface Props {
+  [ params : string ] : { [ id : string ] : number };
+}
+
+interface State {
+  company : Company;
+  fleets : FleetData[];
+}
+
+class Client extends React.Component<Props, State> {
 
   constructor() {
     super();

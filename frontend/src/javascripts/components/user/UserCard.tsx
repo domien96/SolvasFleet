@@ -7,7 +7,7 @@ import DetailTable from '../tables/DetailTable.tsx';
 import { th } from '../../utils/utils.ts';
 
 interface Props {
-  user : User;
+  user : UserData;
   handleDelete : () => void;
 }
 

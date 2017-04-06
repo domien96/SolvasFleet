@@ -5,7 +5,11 @@ import Layout from './Layout.tsx';
 import { fetchUsers } from '../../actions/user_actions.ts';
 import { redirect_to } from'../../routes/router.tsx';
 
-class Users extends React.Component<{}, Users.State> {
+interface State {
+    users : UserData[];
+}
+
+class Users extends React.Component<{}, State> {
 
   constructor(props : {}) {
     super(props);

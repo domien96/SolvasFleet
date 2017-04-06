@@ -7,7 +7,17 @@ import { fetchVehicle, putVehicle } from '../../actions/vehicle_actions.ts';
 import { hasError } from '../../utils/utils.ts';
 import { redirect_to } from'../../routes/router.tsx';
 
-class EditVehicle extends React.Component<Vehicle.Props, Vehicle.VForm.State> {
+interface Props {
+  params : { id : number };
+  fetchVehicles : () => void;
+}
+
+interface State {
+  errors : Form.Error[];
+  vehicle   : VehicleData;
+}
+
+class EditVehicle extends React.Component<Props, State> {
   constructor() {
     super();
     this.state = {
@@ -23,7 +33,7 @@ class EditVehicle extends React.Component<Vehicle.Props, Vehicle.VForm.State> {
   }
 
   handleChange(field : Vehicle.Field, e : any) : any {
-    var vehicle : Vehicle = this.state.vehicle;
+    var vehicle : VehicleData = this.state.vehicle;
     vehicle[field] = e.target.value;
     this.setState({ vehicle });
   }

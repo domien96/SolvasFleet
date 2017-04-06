@@ -7,7 +7,17 @@ import { fetchUser, putUser } from '../../actions/user_actions.ts';
 import { hasError } from '../../utils/utils.ts';
 import { redirect_to } from'../../routes/router.tsx';
 
-class EditUser extends React.Component<User.Props, User.UForm.State> {
+interface Props {
+  params : { id : number };
+  fetchUsers : () => void;
+}
+
+interface State {
+  errors : Form.Error[];
+  user   : UserData;
+}
+
+class EditUser extends React.Component<Props, State> {
   constructor() {
     super();
     this.state = {
@@ -23,7 +33,7 @@ class EditUser extends React.Component<User.Props, User.UForm.State> {
   }
 
   handleChange(field : User.Field, e : any) : any {
-    var user : User = this.state.user;
+    var user : UserData = this.state.user;
     user[field] = e.target.value;
     this.setState({ user });
   }

@@ -1,4 +1,3 @@
-
 interface Choice {
   name: any; //TODO change to ReactNode or string (translations)
   eventKey: string;
