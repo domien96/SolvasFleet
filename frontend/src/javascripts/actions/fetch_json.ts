@@ -1,4 +1,5 @@
 import Auth from '../modules/Auth.ts';
+import { redirect_to } from '../routes/router.tsx';
 
 export type callback = (value? : any) => any;
 
@@ -47,8 +48,10 @@ function request (
         }
       });
     });
-  }, () => {
-    console.log('sign out');
+  }, (e) => {
+    console.log(e);
+    Auth.deauthenticateUser();
+    redirect_to('/');
   });
 }
 
