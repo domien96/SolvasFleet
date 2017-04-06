@@ -9,7 +9,7 @@ import solvas.service.models.Fleet;
 import java.io.Serializable;
 
 /**
- * Created by david on 02/04/17.
+ * Check if the current user meets a certain permission criteria
  */
 public class CompanyPermissionEvaluator implements PermissionEvaluator {
     @Override
