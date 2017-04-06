@@ -91,3 +91,7 @@ task jacocoReport(type: JacocoReport){
     sourceSets sourceSets.main
     executionData test, itest
 }
+
+bootRun {
+   systemProperties System.properties
+}
