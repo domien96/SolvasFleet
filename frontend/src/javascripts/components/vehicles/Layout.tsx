@@ -7,12 +7,12 @@ import VehicleFilter    from './filters/VehicleFilter.tsx'
 import { Link }  from 'react-router';
 
 interface CardProps {
-  vehicles: Vehicle[];
+  vehicles: VehicleData[];
   onVehicleSelect : (id : number) => void;
 }
 
 interface LayoutProps {
-  vehicles: Vehicle[];
+  vehicles: VehicleData[];
   onVehicleSelect : (id : number) => void;
   onFilter : (filter : VehicleFilterData) => void;
 }

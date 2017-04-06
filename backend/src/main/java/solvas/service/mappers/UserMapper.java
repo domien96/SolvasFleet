@@ -36,7 +36,7 @@ public class UserMapper extends AbstractMapper<User,ApiUser> {
         ApiUser apiUser = new ApiUser();
         copyAttributes(apiUser,user, "id","createdAt", "updatedAt");
         copySharedAttributes(apiUser, user);
-        apiUser.setUrl(SimpleUrlBuilder.buildUrl(ROOTPATH + "{id}", user.getId()));
+        apiUser.setUrl(SimpleUrlBuilder.buildUrlFromBase(ROOTPATH + "{id}", user.getId()));
         return apiUser;
     }
 }
