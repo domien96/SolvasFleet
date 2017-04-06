@@ -4,7 +4,7 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="solvas.service.models.UserCompanyRole" table="users_companies_roles">
+    <class name="solvas.service.models.Function" table="functions">
         <meta attribute="class-description">
             This class contains the joining information between users, companies and roles.
         </meta>

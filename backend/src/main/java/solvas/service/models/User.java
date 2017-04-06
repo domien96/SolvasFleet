@@ -1,6 +1,5 @@
 package solvas.service.models;
 
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -18,10 +17,7 @@ public class User extends Model {
      */
     private Set<Company> companies;
 
-    private Set<UserCompanyRole> assignedRoles;
-
-    public User() {
-    }
+    private Set<Function> functions;
 
     public String getFirstName() {
         return firstName;
@@ -63,11 +59,11 @@ public class User extends Model {
         this.companies = companies;
     }
 
-    public Set<UserCompanyRole> getAssignedRoles() {
-        return assignedRoles;
+    public Set<Function> getFunctions() {
+        return functions;
     }
 
-    public void setAssignedRoles(Set<UserCompanyRole> assignedRoles) {
-        this.assignedRoles = assignedRoles;
+    public void setFunctions(Set<Function> functions) {
+        this.functions = functions;
     }
 }

@@ -23,9 +23,9 @@
       <property name="createdAt" column="created_at" type="java.time.LocalDateTime" generated="insert" insert="false" not-null="true" />
 
 
-      <set name="assignedRoles" table="users_companies_roles" lazy="true">
+      <set name="functions" table="functions" lazy="true">
          <key column="user_id"/>
-         <one-to-many class="solvas.service.models.UserCompanyRole" />
+         <one-to-many class="solvas.service.models.Function" />
       </set>
 
 

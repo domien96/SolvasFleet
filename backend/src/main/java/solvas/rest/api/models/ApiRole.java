@@ -7,14 +7,10 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 /**
- * Created by steve on 11/03/2017.
+ * Api Model in the API layer
  */
 @StartBeforeEnd
 public class ApiRole extends ApiModel {
-
-    //-1: admin
-    private int company;
-
     @NotNull
     private LocalDateTime startDate;
 
@@ -24,14 +20,6 @@ public class ApiRole extends ApiModel {
     private String function;
 
     private int user;
-
-    public int getCompany() {
-        return company;
-    }
-
-    public void setCompany(int company) {
-        this.company = company;
-    }
 
     public LocalDateTime getEndDate() {
         return endDate;
