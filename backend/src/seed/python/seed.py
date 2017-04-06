@@ -1,9 +1,6 @@
 import psycopg2
 #De bedoeling van dit python script is om de postgres database te vullen, zodat we eenvoudig de frontend kunnen testen
 
-#We gaan ervan uit dat de databank leeg is (start bvb eerst de backend met profile clean). Reden=truncate zorgt voor een enorme overhead
-
-
 def getEntities(filename):
     file=open(filename,"r")
     rows=[]
@@ -24,10 +21,13 @@ def insertEntities(cursor,tablenames):
 try:
     conn = psycopg2.connect(dbname="vop", user="vop", password="vop")
     cursor = conn.cursor()
+    cursor.execute("DELETE FROM VEHICLES")
+    cursor.execute("DELETE FROM VEHICLE_TYPES")
+    cursor.execute("DELETE FROM COMPANIES")
+    cursor.execute("DELETE FROM USERS")
     insertEntities(cursor,["users","companies","vehicle_types","vehicles"])
     conn.commit()
     conn.close()
-
 
 except psycopg2.Error as e:
     print (e.pgerror)
