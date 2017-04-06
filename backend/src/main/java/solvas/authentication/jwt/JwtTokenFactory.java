@@ -16,6 +16,7 @@ import solvas.authentication.jwt.token.Scopes;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -74,13 +75,13 @@ public class JwtTokenFactory {
     }
 
     protected JwtBuilder buildToken(Claims claims, int duration) {
-        DateTime currentTime = new DateTime();
+        Date currentTime = new Date();
 
         return Jwts.builder()
                 .setClaims(claims)
-                .setIssuedAt(currentTime.toDate())
+                .setIssuedAt(currentTime)
                 .setIssuer(settings.getTokenIssuer())
-                .setExpiration(currentTime.plusMinutes(duration).toDate())
+                .setExpiration(new Date(currentTime.getTime() + duration*60*1000))
                 .signWith(SignatureAlgorithm.HS512, settings.getTokenSigningKey());
     }
 
