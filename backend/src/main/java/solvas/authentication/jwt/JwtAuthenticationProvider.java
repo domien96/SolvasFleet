@@ -45,7 +45,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
         String subject = jwsClaims.getBody().getSubject();
 
         // Unfortunately the JWT library can't convert these to our custom class directly
-        List<LinkedHashMap> authorityObjects = jwsClaims.getBody().get(
+        List<?> authorityObjects = jwsClaims.getBody().get(
                 "scopes",
                 List.class);
 
