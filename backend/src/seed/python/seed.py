@@ -18,14 +18,26 @@ def insertEntities(cursor,tablenames):
             sql="INSERT INTO "+table+" ("+columns+") VALUES("+entity+");"
             cursor.execute(sql)
 
+def clear(cursor,tablenames):
+    for table in tablenames:
+        cursor.execute("DELETE FROM "+table)
+
+
+
+def resetSeq(cursor,tablename,idname):
+    cursor.execute("SELECT setval('"+tablename+"_"+idname+"_seq', (SELECT MAX("+idname+") FROM "+tablename+"));")
+
 try:
     conn = psycopg2.connect(dbname="vop", user="vop", password="vop")
     cursor = conn.cursor()
-    cursor.execute("DELETE FROM VEHICLES")
-    cursor.execute("DELETE FROM VEHICLE_TYPES")
-    cursor.execute("DELETE FROM COMPANIES")
-    cursor.execute("DELETE FROM USERS")
-    insertEntities(cursor,["users","companies","vehicle_types","vehicles"])
+    tables=["users","companies","vehicle_types","vehicles"]
+    clear(cursor,reversed(tables))
+    insertEntities(cursor,tables)
+    resetSeq(cursor,"users","user_id")
+    resetSeq(cursor,"companies","company_id")
+    resetSeq(cursor,"vehicles","vehicle_id")
+    resetSeq(cursor,"vehicle_types","vehicletype_id")
+
     conn.commit()
     conn.close()
 
