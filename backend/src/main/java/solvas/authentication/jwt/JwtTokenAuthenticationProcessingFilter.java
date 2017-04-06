@@ -8,6 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.util.matcher.RequestMatcher;
+import org.springframework.stereotype.Component;
 import solvas.authentication.WebSecurityConfig;
 import solvas.authentication.jwt.token.RawAccessJwtToken;
 
@@ -21,7 +22,6 @@ import java.io.IOException;
  * Filter JWT based authentications
  */
 public class JwtTokenAuthenticationProcessingFilter extends AbstractAuthenticationProcessingFilter {
-    private final AuthenticationFailureHandler failureHandler;
     private final TokenExtractor tokenExtractor;
 
     /**
@@ -29,11 +29,10 @@ public class JwtTokenAuthenticationProcessingFilter extends AbstractAuthenticati
      * @param tokenExtractor extractor to get tokens from requests
      * @param matcher Match requests
      */
-    @Autowired
-    public JwtTokenAuthenticationProcessingFilter(AuthenticationFailureHandler failureHandler, 
+    public JwtTokenAuthenticationProcessingFilter(AuthenticationFailureHandler failureHandler,
             TokenExtractor tokenExtractor, RequestMatcher matcher) {
         super(matcher);
-        this.failureHandler = failureHandler;
+        setAuthenticationFailureHandler(failureHandler);
         this.tokenExtractor = tokenExtractor;
     }
 

@@ -24,6 +24,11 @@ public class PasswordConfig {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * @param passwordEncoder Encoder to avoid storing plaintext
+     * @param userDetailsService Service to resolve username to UserDetails instance
+     * @return The authentication provider
+     */
     @Bean
     @Autowired
     public AuthenticationProvider ajaxAuthenticationProvider(PasswordEncoder passwordEncoder,
