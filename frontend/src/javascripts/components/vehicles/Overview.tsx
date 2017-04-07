@@ -6,6 +6,7 @@ import InfoTable from '../tables/InfoTable.tsx';
 interface Props {
   vehicles: VehicleData[];
   onVehicleSelect : (id : number) => void;
+  fetchVehicles : (query?:any)=>void;
 }
 
 const Overview : React.StatelessComponent<Props> = props => {

@@ -6,6 +6,7 @@ import InfoTable from '../tables/InfoTable.tsx';
 export interface Props {
   users : UserData[];
   onUserSelect : (id : number) => void;
+  fetchUsers : (query?:any)=>void;
 }
 
 const Overview : React.StatelessComponent<Props> = props => {
