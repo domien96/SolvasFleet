@@ -40,32 +40,32 @@ public class RoleRestController extends AbstractRestController<Role,ApiRole> {
      *
      * @return ResponseEntity
      */
-    @RequestMapping(value = "/roles", method = RequestMethod.GET)
+    @RequestMapping(value = "/auth/roles", method = RequestMethod.GET)
     public ResponseEntity<?> listAll(Pageable pagination, RoleFilter filter, BindingResult result) {
         return super.listAll(pagination, filter, result);
     }
 
 
     @Override
-    @RequestMapping(value = "/roles/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/auth/roles/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getById(@PathVariable int id) {
         return super.getById(id);
     }
 
     @Override
-    @RequestMapping(value = "/roles", method = RequestMethod.POST)
+    @RequestMapping(value = "/auth/roles", method = RequestMethod.POST)
     public ResponseEntity<?> post(@Valid @RequestBody ApiRole input, BindingResult result) {
         return super.post(input,result);
     }
 
     @Override
-    @RequestMapping(value = "/roles/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/auth/roles/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> archiveById(@PathVariable int id) {
         return super.archiveById(id);
     }
 
     @Override
-    @RequestMapping(value = "/roles/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/auth/roles/{id}", method = RequestMethod.PUT)
     public ResponseEntity<?> put(@PathVariable int id, @RequestBody ApiRole input,BindingResult result) {
         return super.put(id, input,result);
     }
