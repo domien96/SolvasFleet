@@ -2,6 +2,8 @@ package solvas.service.models;
 
 
 //TODO change discription to allow {Id,createdat, .} gets changed by deserializer.
+import org.hibernate.Hibernate;
+
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -111,19 +113,5 @@ public abstract class Model {
      */
     public void setArchived(boolean archived) {
         this.archived = archived;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if(! (o instanceof Model)) {
-            return false;
-        }
-        Model m = (Model) o;
-        return getClass().equals(o.getClass()) && getId() == m.getId();
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getClass(), getId());
     }
 }
