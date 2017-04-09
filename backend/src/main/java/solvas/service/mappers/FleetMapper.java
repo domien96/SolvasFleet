@@ -10,9 +10,6 @@ import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.SimpleUrlBuilder;
 import solvas.rest.api.models.ApiFleet;
 
-/**
- * @author Niko Strijbol
- */
 @Component
 public class FleetMapper extends AbstractMapper<Fleet, ApiFleet> {
 

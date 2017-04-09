@@ -7,9 +7,6 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.Collection;
 
-/**
- * @author Niko Strijbol
- */
 public class FleetFilter extends ArchiveFilter<Fleet> {
 
     private int company = -1;

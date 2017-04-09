@@ -6,9 +6,6 @@ import javax.persistence.criteria.*;
 import java.time.LocalDate;
 import java.util.Collection;
 
-/**
- * @author Niko Strijbol
- */
 @SuppressWarnings("unused")
 public class VehicleFilter extends ArchiveFilter<Vehicle> {
 
