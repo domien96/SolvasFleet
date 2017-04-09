@@ -9,10 +9,20 @@
             This class contains the joining information between users, companies and roles.
         </meta>
 
-        <composite-id>
-            <key-many-to-one name="role" class="solvas.service.models.Role" column="role_id"/>
-            <key-many-to-one name="user" class="solvas.service.models.User" column="user_id"/>
-            <key-many-to-one name="company" class="solvas.service.models.Company" column="company_id"/>
-        </composite-id>
+        <id name="id" type="int" column="function_id">
+            <generator class="identity"/>
+        </id>
+
+        <property name="endDate" column="end_date" type="java.time.LocalDate"/>
+        <property name="startDate" column="start_date" type="java.time.LocalDate" not-null="true"/>
+        <property name="archived" column="archived" type="boolean" not-null="true"/>
+
+        <many-to-one name="company" column="company_id"
+                     class="solvas.service.models.Company" not-null="true"/>
+        <many-to-one name="user" column="user_id"
+                     class="solvas.service.models.User" not-null="true"/>
+        <many-to-one name="role" column="role_id"
+                     class="solvas.service.models.Role" not-null="true"/>
+
     </class>
 </hibernate-mapping>
