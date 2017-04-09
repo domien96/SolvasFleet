@@ -7,6 +7,9 @@ import solvas.rest.api.models.ApiPermission;
 import solvas.service.mappers.AbstractMapper;
 import solvas.service.models.Permission;
 
+/**
+ * Service layer for permissions
+ */
 @Service
 public class PermissionService extends AbstractService<Permission, ApiPermission> {
     /**

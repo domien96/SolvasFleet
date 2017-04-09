@@ -12,6 +12,9 @@ import javax.persistence.criteria.Root;
 import java.util.Collection;
 import java.util.HashSet;
 
+/**
+ * Filter for permissions
+ */
 public class PermissionFilter implements Filter<Permission> {
     private final RoleDao roleDao;
     private int roleId;
