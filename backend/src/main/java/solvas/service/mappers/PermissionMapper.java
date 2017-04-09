@@ -1,11 +1,13 @@
 package solvas.service.mappers;
 
+import org.springframework.stereotype.Component;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.api.models.ApiPermission;
 import solvas.service.mappers.exceptions.DependantEntityNotFound;
 import solvas.service.models.Permission;
 
+@Component
 public class PermissionMapper extends AbstractMapper<Permission, ApiPermission> {
 
     public PermissionMapper(DaoContext daoContext) {
@@ -15,7 +17,6 @@ public class PermissionMapper extends AbstractMapper<Permission, ApiPermission> 
     @Override
     public Permission convertToModel(ApiPermission api) throws DependantEntityNotFound, EntityNotFoundException {
         Permission p = new Permission();
-        p.setName(api.g);
         return null;
     }
 
