@@ -1,13 +1,16 @@
 package solvas.rest.api.models;
 
-/**
- * Created by david on 09/04/17.
- */
+import java.time.LocalDateTime;
+
 public class ApiFunction extends ApiModel {
 
     private int company;
     private int user;
     private int role;
+
+
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
 
     public int getCompany() {
         return company;
@@ -31,5 +34,22 @@ public class ApiFunction extends ApiModel {
 
     public void setRole(int role) {
         this.role = role;
+    }
+
+
+    public LocalDateTime getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDateTime endDate) {
+        this.endDate = endDate;
+    }
+
+    public LocalDateTime getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
     }
 }

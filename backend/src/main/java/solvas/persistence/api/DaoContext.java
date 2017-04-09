@@ -72,4 +72,10 @@ public interface DaoContext {
      * @return A VehicleTypeDao
      */
     ContractDao getContractDao();
+
+    /**
+     * Get FunctionDao for this content
+     * @return A FunctionDao
+     */
+    FunctionDao getFunctionDao();
 }

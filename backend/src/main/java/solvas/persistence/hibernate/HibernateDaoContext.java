@@ -24,12 +24,14 @@ public class HibernateDaoContext implements DaoContext {
      * @param vehicleTypeDao
      * @param contractDao
      * @param insuranceTypeDao
+     * @param functionDao
      */
     @Autowired
     public HibernateDaoContext(CompanyDao companyDao, FleetDao fleetDao, FleetSubscriptionDao fleetSubscriptionDao,
                                RoleDao roleDao, SubFleetDao subFleetDao, UserDao userDao, VehicleDao vehicleDao,
                                VehicleTypeDao vehicleTypeDao,
-                               ContractDao contractDao,InsuranceTypeDao insuranceTypeDao) {
+                               ContractDao contractDao, InsuranceTypeDao insuranceTypeDao,
+                               FunctionDao functionDao) {
         this.companyDao = companyDao;
         this.fleetDao = fleetDao;
         this.fleetSubscriptionDao = fleetSubscriptionDao;
@@ -40,6 +42,7 @@ public class HibernateDaoContext implements DaoContext {
         this.vehicleTypeDao = vehicleTypeDao;
         this.contractDao = contractDao;
         this.insuranceTypeDao=insuranceTypeDao;
+        this.functionDao = functionDao;
     }
 
     private CompanyDao companyDao;
@@ -112,5 +115,11 @@ public class HibernateDaoContext implements DaoContext {
     @Override
     public ContractDao getContractDao() {
         return contractDao;
+    }
+
+    private FunctionDao functionDao;
+    @Override
+    public FunctionDao getFunctionDao() {
+        return functionDao;
     }
 }
