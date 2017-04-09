@@ -26,7 +26,12 @@ class AddContract extends React.Component<{}, State> {
 
   public handleChange(field : Contract.Field, e : any) : any {
     var contract : ContractData = this.state.contract;
-    contract[field] = e.target.value;
+    if(field == "startDate" || field == "endDate"){
+    	contract[field] = e;
+    }
+    else{
+    	contract[field] = e.target.value;
+	}	
     this.setState({ contract });
   }
 

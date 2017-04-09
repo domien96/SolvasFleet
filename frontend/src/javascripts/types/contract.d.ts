@@ -14,6 +14,6 @@ interface ContractData{
 	premium? 					: number;
 	type? 						: string;
 	vehicle? 					: number;
-	startDate? : Date;
-	endDate? : Date;
+	startDate? : string;
+	endDate? : string;
 }

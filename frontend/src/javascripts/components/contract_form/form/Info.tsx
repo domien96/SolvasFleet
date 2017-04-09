@@ -1,6 +1,7 @@
 import React from 'react';
 
 import FormField from '../../forms/FormField.tsx';
+import DateForm from '../../forms/DateForm.tsx';
 import Card from '../../app/Card.tsx';
 
 interface Props {
@@ -30,8 +31,8 @@ const Info : React.StatelessComponent<Props> = props => {
           <FormField value={ premium }  placeholder='contract.premium'         type='number'  callback={ handleChange('premium') }  hasError={ props.hasError('premium')} />
           <FormField value={ type }       placeholder='contract.type'      type='text' callback={ handleChange('type') }       hasError={ props.hasError('type')}      />
           <FormField value={ vehicle }  placeholder='contract.vehicle' type='number' callback={ handleChange('vehicle') }  hasError={ props.hasError('vehicle')}      />
-          <FormField value={ startDate }  placeholder='contract.startDate' type='date' callback={ handleChange('startDate') }  hasError={ props.hasError('startDate')}      />
-          <FormField value={ endDate }  placeholder='contract.endDate' type='date' callback={ handleChange('endDate') }  hasError={ props.hasError('endDate')}      />
+          <DateForm value={ startDate }  label='contract.startDate' callback={ handleChange('startDate') }  hasError={ props.hasError('startDate')}      />
+          <DateForm value={ endDate }  label='contract.endDate' callback={ handleChange('endDate') }  hasError={ props.hasError('endDate')}      />
         </div>
       </Card>
     </div>
