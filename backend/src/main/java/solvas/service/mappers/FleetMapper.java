@@ -10,6 +10,9 @@ import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.SimpleUrlBuilder;
 import solvas.rest.api.models.ApiFleet;
 
+/**
+ * Class to map {@link Fleet} in the persistence layer to {@link ApiFleet} in the API layer
+ */
 @Component
 public class FleetMapper extends AbstractMapper<Fleet, ApiFleet> {
 

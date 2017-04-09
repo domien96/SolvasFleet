@@ -6,6 +6,9 @@ import solvas.service.models.validators.PhoneNumber;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+/**
+ * Company in the API layer
+ */
 public class ApiCompany extends ApiModel {
 
     @Valid

@@ -3,6 +3,9 @@ package solvas.rest.utils;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Utilities for iterators
+ */
 public class IteratorUtils {
 
     /**

@@ -7,6 +7,9 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.Collection;
 
+/**
+ * Filter for {@link Role}s
+ */
 public class RoleFilter extends ArchiveFilter<Role> {
 
     private int company = -1;

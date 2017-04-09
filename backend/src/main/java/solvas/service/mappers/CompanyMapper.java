@@ -10,7 +10,7 @@ import solvas.rest.api.models.ApiAddress;
 import solvas.rest.api.models.ApiCompany;
 
 /**
- * Mapper between Company and ApiCompany
+ * Class to map {@link Company} in the persistence layer to {@link ApiCompany} in the API layer
  */
 @Component
 public class CompanyMapper extends AbstractMapper<Company,ApiCompany> {

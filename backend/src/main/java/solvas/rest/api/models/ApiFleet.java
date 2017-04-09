@@ -2,6 +2,9 @@ package solvas.rest.api.models;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+/**
+ * Fleet in the API layer
+ */
 public class ApiFleet extends ApiModel {
 
     private int company;

@@ -6,6 +6,9 @@ import solvas.service.models.validators.Vin;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+/**
+ * Vehicle in the API layer
+ */
 public class ApiVehicle extends ApiModel {
 
     private static final int FIRST_VIN = 1981;

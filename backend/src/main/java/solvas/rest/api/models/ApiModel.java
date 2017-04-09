@@ -2,6 +2,9 @@ package solvas.rest.api.models;
 
 import solvas.service.models.Model;
 
+/**
+ * Abstract class for models in the API layer
+ */
 public abstract class ApiModel extends Model {
 
     private String url;

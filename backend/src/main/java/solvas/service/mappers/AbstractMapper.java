@@ -75,7 +75,7 @@ public abstract class AbstractMapper<T extends Model, E> {
      * @return Field with name
      * @throws FieldNotFoundException If field wasn't found
      */
-    private Field findFieldInSuper(Class<?> clazz, String name) {
+    private Field findFieldInSupper(Class<?> clazz, String name) {
         Class<?> current = clazz;
         do {
             try {
@@ -95,8 +95,8 @@ public abstract class AbstractMapper<T extends Model, E> {
      * @throws FieldNotFoundException If field wasn't found or was inaccessible
      */
     private void copyNotNull(Object target, Object source, String name) {
-        Field targetField = findFieldInSuper(target.getClass(),name);
-        Field sourceField = findFieldInSuper(source.getClass(),name);
+        Field targetField = findFieldInSupper(target.getClass(),name);
+        Field sourceField = findFieldInSupper(source.getClass(),name);
         try {
             targetField.setAccessible(true);
             sourceField.setAccessible(true);
