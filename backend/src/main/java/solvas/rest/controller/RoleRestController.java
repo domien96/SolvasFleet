@@ -45,7 +45,6 @@ public class RoleRestController extends AbstractRestController<Role,ApiRole> {
         return super.listAll(pagination, filter, result);
     }
 
-
     @Override
     @RequestMapping(value = "/auth/roles/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getById(@PathVariable int id) {
