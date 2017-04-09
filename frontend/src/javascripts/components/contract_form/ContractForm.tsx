@@ -6,7 +6,7 @@ import Info from './form/Info.tsx';
 
 interface Props {
   onSubmit     : (e : any) => void;
-  handleChange : (field : Contract.Field, e : any) => void;
+  handleChange : (field : Contract.Field, e : any, type : string) => void;
   errors       : Form.Error[];
   hasError     : (field : Contract.Field) => boolean;
   contract     : ContractData;

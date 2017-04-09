@@ -44,13 +44,11 @@ class Vehicle extends React.Component<Props, State> {
     redirect_to('/vehicles');
   }
 
-  render() {
-    var { fleet, id } = this.state.vehicle;
-    
+  render() {  
     return(
     <div>
       <VehicleView vehicle={ this.state.vehicle } handleDelete={ this.deleteVehicle }/>
-      <Contracts fleetId={ fleet } vehicleId={ id }/>
+      <Contracts vehicleId={ this.props.params.id }/>
     </div>
     );
   }

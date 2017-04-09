@@ -71,16 +71,15 @@ class SolvasRouter extends React.Component<{}, {}> {
 
           <Route path="vehicles/new"      component={ AddVehicle  } />
           <Route path="vehicles/:id/edit" component={ EditVehicle } />
+          <Route path="vehicles/:id/contracts" component={ Contracts } />
+          <Route path="vehicles/:vehicleId/contracts/new" component={ AddContract } />
+          <Route path="vehicles/:vehicleId/contracts/:contractId" component={ Contract } />
           <Route path="vehicles"          component={ Vehicles    }>
             <IndexRoute component={ NoVehicle } />
             <Route path=":id" component={ Vehicle } />
           </Route>
 
           <Route path="fleets/:id" component={ Fleet } />
-
-          <Route path="contracts" component={ Contracts } />
-          <Route path="contracts/new" component={ AddContract } />
-          <Route path="contracts/:id" component={ Contract } />
 
           <Route path="*" component={ NoMatch } />
         </Route>

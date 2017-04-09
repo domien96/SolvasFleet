@@ -2,13 +2,13 @@ import React from 'react';
 
 import { fetchContractsByParams } from '../../actions/contract_actions.ts';
 import { fetchFleet } from '../../actions/fleet_actions.ts'
+import { fetchVehicle } from '../../actions/vehicle_actions.ts'
 import { redirect_to } from'../../router.tsx';
 
 import ContractsView from './ContractsView.tsx'
 
 interface Props {
-	vehicleId : number; 
-	fleetId : number; 
+  vehicleId: number
 }
 
 interface State {
@@ -22,19 +22,21 @@ class Contracts extends React.Component<Props, State> {
     this.state = { contracts: [] };
   }
 
-	componentDidMount() {
-		var { vehicleId, fleetId } = this.props;
-		console.log("vehicleId: "+vehicleId+" fleetId: "+fleetId);		
+
+  componentWillReveiveProps(nextProps: any){
+    if(nextProps.vehicleId != this.props.vehicleId){
+      let fleetId = this.getFleetId(this.props.vehicleId);
+      let companyId = this.getCompanyId(fleetId);
+      this.fetchContracts(this.props.vehicleId, fleetId, companyId);
+    }
   }
 
-  componentWillReceiveProps(nextProps : any){
-		if(this.props.vehicleId != nextProps.vehicleId){
-			var { vehicleId, fleetId } = this.props;
-			var companyId = this.getCompanyId(fleetId);
-			console.log(companyId)
-    	this.fetchContracts(vehicleId, fleetId, companyId);
-		}
-	}
+  getFleetId(vehicleId: number){
+    var vehicle : VehicleData;
+    let success = (data : any) => vehicle = data;
+    fetchVehicle(vehicleId, success);
+    return vehicle.fleet;
+  }
 
   getCompanyId(fleetId : number){
   	var fleet : FleetData;
@@ -50,14 +52,14 @@ class Contracts extends React.Component<Props, State> {
   }
 
   handleClick(id : number) {
-    redirect_to(`/contracts/${id}`);
+    redirect_to(`/vehicles/${this.props.vehicleId}/contracts/${id}`);
   }
 
   render(){
   	console.log(this.state.contracts)
   	if(this.state.contracts != []){
 	  	return(
-	  	<ContractsView contracts={ this.state.contracts } onContractSelect={ this.handleClick }/>
+	  	<ContractsView contracts={ this.state.contracts } vehicleId={ this.props.vehicleId } onContractSelect={ this.handleClick }/>
 	  	);
 		}
 		return(

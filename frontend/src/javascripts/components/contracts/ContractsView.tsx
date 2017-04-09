@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 
 export interface Props {
 	contracts: ContractData[];
+	vehicleId: number;
 	onContractSelect : (event : any) => void;
 }
 
@@ -28,7 +29,7 @@ const ContractsView : React.StatelessComponent<Props> = props => {
 	return(
 		<div>
 			<h2> Contracts: </h2>
-		  <Link to='/contracts/new' className='btn btn-default pull-right'>
+		  <Link to={ '/vehicles/'+ props.vehicleId +'/contracts/new' } className='btn btn-default pull-right'>
         <span className='glyphicon glyphicon-plus' aria-hidden='true'></span> Add new contract
       </Link>
 			{ contractList }

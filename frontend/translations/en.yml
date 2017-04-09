@@ -76,3 +76,13 @@ form:
   create: Create
   update: Update
   submit: Submit
+
+contract:
+  franchise: Franchise
+  insuranceCompany: Insurance Company 
+  premium: Premium
+  type: Type of contract
+  vehicle: Vehicle ID
+  startDate: Start date
+  endDate: End date
+  

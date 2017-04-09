@@ -5,15 +5,15 @@ import DateForm from '../../forms/DateForm.tsx';
 import Card from '../../app/Card.tsx';
 
 interface Props {
-  handleChange: (field : string, e : any) => void;
+  handleChange: (field : string, e : any, type : string) => void;
   hasError: (e : any) => boolean;
   contract : ContractData;
 }
 
 const Info : React.StatelessComponent<Props> = props => {
-  let handleChange = (field : Contract.Field) => {
+  let handleChange = (field : Contract.Field, type : string) => {
     return (e : any) => {
-      props.handleChange(field, e);
+      props.handleChange(field, e, type);
     }
   }
 
@@ -26,13 +26,13 @@ const Info : React.StatelessComponent<Props> = props => {
           <h5>General info</h5>
         </div>
         <div className='card-content'>
-          <FormField value={ franchise }         placeholder='contract.franchise'                type='number' callback={ handleChange('franchise') }         hasError={ props.hasError('franchise')}         />
-          <FormField value={ insuranceCompany }    placeholder='contract.insuranceCompany'           type='number' callback={ handleChange('insuranceCompany') }    hasError={ props.hasError('insuranceCompany')}   />
-          <FormField value={ premium }  placeholder='contract.premium'         type='number'  callback={ handleChange('premium') }  hasError={ props.hasError('premium')} />
-          <FormField value={ type }       placeholder='contract.type'      type='text' callback={ handleChange('type') }       hasError={ props.hasError('type')}      />
-          <FormField value={ vehicle }  placeholder='contract.vehicle' type='number' callback={ handleChange('vehicle') }  hasError={ props.hasError('vehicle')}      />
-          <DateForm value={ startDate }  label='contract.startDate' callback={ handleChange('startDate') }  hasError={ props.hasError('startDate')}      />
-          <DateForm value={ endDate }  label='contract.endDate' callback={ handleChange('endDate') }  hasError={ props.hasError('endDate')}      />
+          <FormField value={ franchise }           placeholder='contract.franchise'                type='number' callback={ handleChange('franchise', 'text') }         hasError={ props.hasError('franchise')}         />
+          <FormField value={ insuranceCompany }    placeholder='contract.insuranceCompany'           type='number' callback={ handleChange('insuranceCompany', 'text') }    hasError={ props.hasError('insuranceCompany')}   />
+          <FormField value={ premium }    placeholder='contract.premium'         type='number'  callback={ handleChange('premium', 'text') }  hasError={ props.hasError('premium')} />
+          <FormField value={ type }       placeholder='contract.type'      type='text' callback={ handleChange('type', 'text') }       hasError={ props.hasError('type')}      />
+          <FormField value={ vehicle }    placeholder='contract.vehicle' type='number' callback={ handleChange('vehicle', 'text') }  hasError={ props.hasError('vehicle')}      />
+          <DateForm value={ startDate }   label='contract.startDate' callback={ handleChange('startDate', 'date') }  hasError={ props.hasError('startDate')}      />
+          <DateForm value={ endDate }     label='contract.endDate' callback={ handleChange('endDate', 'date') }  hasError={ props.hasError('endDate')}      />
         </div>
       </Card>
     </div>

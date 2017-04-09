@@ -5,7 +5,7 @@ import { fetchContract } from '../../actions/contract_actions.ts';
 import ContractView from './ContractView.tsx'
 
 interface Props {
-   params : { id : number };
+   params : { vehicleId : number, contractId : number };
 }
 
 interface State {
@@ -20,14 +20,14 @@ class Contract extends React.Component<Props, State> {
     //this.deleteContract = this.deleteContract.bind(this);
   }
 
-  fetchContract(id : number){
-  	fetchContract(id, ((data) => {
+  fetchContract(contractId : number){
+  	fetchContract(contractId, ((data) => {
       this.setState({ contract: data })
     }));
   }
 
   ComponentDidMount(){
-  	fetchContract(this.props.params.id);
+  	fetchContract(this.props.params.contractId);
   }
 
   render(){

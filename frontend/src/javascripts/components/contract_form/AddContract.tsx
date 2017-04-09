@@ -7,31 +7,35 @@ import { postContract } from '../../actions/contract_actions.ts';
 import { hasError } from '../../utils/utils.ts';
 import { redirect_to } from'../../router.tsx';
 
+interface Props {
+  params : { vehicleId : number };
+}
+
 interface State {
   errors : Form.Error[];
   contract   : ContractData;
 }
 
-class AddContract extends React.Component<{}, State> {
+class AddContract extends React.Component<Props, State> {
 
 	constructor() {
     super();
     this.state = {
       errors: [],
-      contract: {}
+      contract: {vehicle: this.props.params.vehicleId}
     };
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit     = this.onSubmit.bind(this);
   }
 
-  public handleChange(field : Contract.Field, e : any) : any {
+  public handleChange(field : Contract.Field, e : any, type : string) : any {
     var contract : ContractData = this.state.contract;
-    if(field == "startDate" || field == "endDate"){
+    if(type == 'date'){
     	contract[field] = e;
     }
     else{
     	contract[field] = e.target.value;
-	}	
+		}	
     this.setState({ contract });
   }
 
