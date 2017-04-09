@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 @Component
 public class JwtTokenFactory {
     private JwtSettings settings;
+    private static final int MILLISECONDS_PER_MINUTE = 60*1000;
 
     /**
      * Create instance
@@ -81,7 +82,7 @@ public class JwtTokenFactory {
                 .setClaims(claims)
                 .setIssuedAt(currentTime)
                 .setIssuer(settings.getTokenIssuer())
-                .setExpiration(new Date(currentTime.getTime() + duration*60*1000))
+                .setExpiration(new Date(currentTime.getTime() + duration*MILLISECONDS_PER_MINUTE))
                 .signWith(SignatureAlgorithm.HS512, settings.getTokenSigningKey());
     }
 

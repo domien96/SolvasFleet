@@ -6,9 +6,6 @@ import solvas.service.models.validators.Vin;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-/**
- * Created by steve on 11/03/2017.
- */
 public class ApiVehicle extends ApiModel {
 
     private static final int FIRST_VIN = 1981;

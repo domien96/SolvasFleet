@@ -2,6 +2,9 @@ package solvas.rest.api.models;
 
 import java.time.LocalDateTime;
 
+/**
+ * Function representation in the API layer
+ */
 public class ApiFunction extends ApiModel {
 
     private int company;

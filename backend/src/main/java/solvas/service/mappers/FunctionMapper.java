@@ -12,9 +12,16 @@ import solvas.service.models.Function;
 import solvas.service.models.Role;
 import solvas.service.models.User;
 
+/**
+ * Map functions in the persistence layer and functions in the api layer (bidirectionally)
+ */
 @Component
 public class FunctionMapper extends AbstractMapper<Function, ApiFunction> {
 
+    /**
+     * Create instance
+     * @param daoContext DaoContext used
+     */
     @Autowired
     public FunctionMapper(DaoContext daoContext) {
         super(daoContext, "startDate", "endDate");

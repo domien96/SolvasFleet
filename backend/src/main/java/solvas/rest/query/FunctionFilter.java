@@ -8,6 +8,9 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.Collection;
 
+/**
+ * Filters for a {@link Function}.
+ */
 public class FunctionFilter extends ArchiveFilter<Function> {
 
     private int company = -1;
@@ -21,6 +24,10 @@ public class FunctionFilter extends ArchiveFilter<Function> {
         return predicates;
     }
 
+    /**
+     * Set user to filter functions for
+     * @param userId id of the user
+     */
     public void setUser(int userId) {
         this.company = userId;
     }

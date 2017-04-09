@@ -6,9 +6,6 @@ import solvas.service.models.validators.PhoneNumber;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-/**
- * Created by steve on 11/03/2017.
- */
 public class ApiCompany extends ApiModel {
 
     @Valid
