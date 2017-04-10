@@ -7,7 +7,7 @@ import solvas.persistence.api.DaoContext;
 import solvas.service.mappers.exceptions.DependantEntityNotFound;
 import solvas.service.mappers.exceptions.FieldNotFoundException;
 import solvas.persistence.api.EntityNotFoundException;
-import solvas.rest.SimpleUrlBuilder;
+import solvas.rest.utils.SimpleUrlBuilder;
 import solvas.rest.api.models.ApiFleet;
 
 /**
@@ -51,7 +51,7 @@ public class FleetMapper extends AbstractMapper<Fleet, ApiFleet> {
         copyAttributes(fleet, model, "createdAt", "updatedAt", "id");
 
         fleet.setCompany(model.getCompany() == null ? 0 : model.getCompany().getId());
-        fleet.setUrl(SimpleUrlBuilder.buildUrlFromBase(ROOTPATH + "{id}", model.getId()));
+        fleet.setUrl(ROOTPATH + model.getId());
         return fleet;
     }
 }

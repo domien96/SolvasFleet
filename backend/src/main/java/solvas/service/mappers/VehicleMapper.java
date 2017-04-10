@@ -8,7 +8,7 @@ import solvas.service.models.SubFleet;
 import solvas.service.models.Vehicle;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
-import solvas.rest.SimpleUrlBuilder;
+import solvas.rest.utils.SimpleUrlBuilder;
 import solvas.service.mappers.exceptions.DependantEntityNotFound;
 import solvas.service.mappers.exceptions.FieldNotFoundException;
 import solvas.rest.api.models.ApiVehicle;
@@ -126,7 +126,7 @@ public class VehicleMapper extends AbstractMapper<Vehicle, ApiVehicle> {
 
         api.setFleet(getApiFleet(vehicle));
         api.setType(vehicle.getType().getName());
-        api.setUrl(SimpleUrlBuilder.buildUrlFromBase(ROOTPATH + "{id}", vehicle.getId()));
+        api.setUrl(ROOTPATH + vehicle.getId());
         return api;
     }
 

@@ -5,7 +5,7 @@ import solvas.service.models.Role;
 import solvas.persistence.api.DaoContext;
 import solvas.service.mappers.exceptions.FieldNotFoundException;
 import solvas.persistence.api.EntityNotFoundException;
-import solvas.rest.SimpleUrlBuilder;
+import solvas.rest.utils.SimpleUrlBuilder;
 import solvas.rest.api.models.ApiRole;
 
 /**
@@ -14,14 +14,14 @@ import solvas.rest.api.models.ApiRole;
 @Component
 public class RoleMapper extends AbstractMapper<Role,ApiRole> {
 
-    private static final String ROOTPATH ="/roles/";
+    private static final String ROOTPATH ="/auth/roles/";
     /**
      * Create a mapper between Role and ApiRole
      *
      * @param daoContext The DaoContext this mapper should work with
      */
     public RoleMapper(DaoContext daoContext) {
-        super(daoContext, "startDate", "function", "endDate");
+        super(daoContext,"function");
     }
 
     @Override
@@ -43,11 +43,11 @@ public class RoleMapper extends AbstractMapper<Role,ApiRole> {
     @Override
     public ApiRole convertToApiModel(Role role) throws FieldNotFoundException {
         ApiRole apiRole = new ApiRole();
-        copyAttributes(apiRole, role, "id");
+        copyAttributes(apiRole, role, "id", "createdAt", "updatedAt");
         copySharedAttributes(apiRole, role);
         //apiRole.setCompany(role.getCompany().getId());
       //  apiRole.setUser(role.getUser().getId());
-        apiRole.setUrl(SimpleUrlBuilder.buildUrlFromBase(ROOTPATH + "{id}", role.getId()));
+        apiRole.setUrl(ROOTPATH + role.getId());
         return apiRole;
     }
 }

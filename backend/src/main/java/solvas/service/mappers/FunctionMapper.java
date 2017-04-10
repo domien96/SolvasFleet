@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
-import solvas.rest.SimpleUrlBuilder;
 import solvas.rest.api.models.ApiFunction;
 import solvas.service.mappers.exceptions.DependantEntityNotFound;
 import solvas.service.models.Company;

@@ -1,14 +1,13 @@
 package solvas.service.mappers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import solvas.service.models.User;
 import solvas.persistence.api.DaoContext;
 import solvas.service.mappers.exceptions.FieldNotFoundException;
 import solvas.persistence.api.EntityNotFoundException;
-import solvas.rest.SimpleUrlBuilder;
+import solvas.rest.utils.SimpleUrlBuilder;
 import solvas.rest.api.models.ApiUser;
 
 /**
@@ -46,7 +45,7 @@ public class UserMapper extends AbstractMapper<User,ApiUser> {
         ApiUser apiUser = new ApiUser();
         copyAttributes(apiUser,user, "id","createdAt", "updatedAt");
         copySharedAttributes(apiUser, user);
-        apiUser.setUrl(SimpleUrlBuilder.buildUrlFromBase(ROOTPATH + "{id}", user.getId()));
+        apiUser.setUrl(ROOTPATH + user.getId());
         return apiUser;
     }
 }
