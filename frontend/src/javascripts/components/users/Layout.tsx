@@ -1,23 +1,12 @@
 import React from 'react';
 
-import Overview, { Props } from './Overview.tsx';
 import Header    from '../app/Header.tsx';
-import Card      from '../app/Card.tsx';
-import { Link } from 'react-router';
-import Pagination from '../pagination/Pagination.tsx';
+import Listing from '../app/Listing.tsx';
 
-const MainCard : React.StatelessComponent<Props> = props => {
-  return (
-    <Card>
-      <div className='card-content'>
-        <Link to='/users/new' className='btn btn-default pull-right'>
-          <span className='glyphicon glyphicon-plus' aria-hidden='true'></span> Add new user
-        </Link>
-        <Overview users={ props.users } onUserSelect={ props.onUserSelect } fetchUsers={props.fetchUsers} />
-        <Pagination onClick={props.fetchUsers}/>
-      </div>
-    </Card>
-  );
+interface Props {
+  users : UserData[];
+  onUserSelect : (id : number) => void;
+  fetchUsers : (query?:any)=>void;
 }
 
 const Layout : React.StatelessComponent<Props> = props => {
@@ -29,7 +18,7 @@ const Layout : React.StatelessComponent<Props> = props => {
       <div className='wrapper'>
         <div className='row'>
           <div className='col-xs-12 col-md-7'>
-            <MainCard users={ props.users } onUserSelect={ props.onUserSelect } fetchUsers={props.fetchUsers} />
+            <Listing onSelect={props.onUserSelect} addNewRoute='/users/new' fetchModels={props.fetchUsers} modelName='user' columns={['id','firstName','lastName']} models={props.users}/>
           </div>
           <div className='col-xs-12 col-md-5'>
             { props.children }

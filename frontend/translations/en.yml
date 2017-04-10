@@ -2,14 +2,6 @@
 login:
   submit: 'Login'
 
-addClient:
-  submit: 'Add Client'
-
-addVehicle: 
-  submit: 'Add Vehicle'
-
-addUser: 
-  submit: 'Add User'
 
 addRole:
   submit: 'Add Role to user'
@@ -21,19 +13,20 @@ company:
   name: Name
   vatNumber: VAT number
   phoneNumber: Phone number
-  address: 
+  address:
     street: Street
     houseNumber: House number
     city: City
     postalCode: Postal code
     country: Country
+  addNew: Add New Company
 
 errors:
   null: is empty
 
 vehicle:
   licensePlate: License plate
-  vin: Vehicle Identification Number 
+  vin: Vehicle Identification Number
   brand: Brand
   model: Model
   type: Type
@@ -49,6 +42,7 @@ vehicle:
     semiTrailer: Semi-trailer
     trailer: Trailer
     truck: Truck
+  addNew: Add New Vehicle
 
 user:
   id: ID
@@ -57,6 +51,7 @@ user:
   address: Address
   firstName: First name
   lastName: Last name
+  addNew: Add New User
 
 role:
   permission: Function in company
