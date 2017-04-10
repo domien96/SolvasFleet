@@ -72,9 +72,6 @@ public class RoleRestControllerTest extends AbstractRestControllerTest<Role,ApiR
     @Override
     public ApiRole getTestModel()
     {
-        int future=30;
-        ApiRole role=super.getTestModel();
-        role.setEndDate(role.getStartDate().plusDays(future));
-        return role;
+        return super.getTestModel();
     }
 }
