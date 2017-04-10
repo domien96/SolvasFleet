@@ -25,7 +25,6 @@ import static org.mockito.Mockito.when;
 /**
  * Tests to check correct mapping of a Vehicle
  */
-@Ignore
 public class VehicleMapperTest {
     private VehicleMapper mapper;
 

@@ -21,7 +21,6 @@ import static org.mockito.Mockito.when;
 /**
  * Tests to check correct mapping of a company
  */
-@Ignore
 public class CompanyMapperTest {
     @Mock
     private DaoContext context;

@@ -17,7 +17,6 @@ import static org.hamcrest.core.Is.is;
 /**
  * Tests to check correct mapping of a fleet
  */
-@Ignore
 public class FleetMapperTest {
 
     @Mock

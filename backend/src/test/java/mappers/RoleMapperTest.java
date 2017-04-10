@@ -19,7 +19,6 @@ import static org.mockito.Mockito.when;
 /**
  * Tests of the RoleMapper
  */
-@Ignore //milestone 2
 public class RoleMapperTest {
 
     private RoleMapper mapper;
@@ -54,6 +53,6 @@ public class RoleMapperTest {
         assertThat(converted.getFunction(),is(role.getFunction()));
         assertThat(converted.getCreatedAt(),is(role.getCreatedAt()));
         assertThat(converted.getUpdatedAt(),is(role.getUpdatedAt()));
-        assertThat(converted.getUrl(),is("/roles/"+role.getId()));
+        assertThat(converted.getUrl(),is("/auth/roles/"+role.getId()));
     }
 }

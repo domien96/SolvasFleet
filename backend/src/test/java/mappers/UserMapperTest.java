@@ -5,6 +5,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import solvas.service.models.User;
@@ -17,12 +18,12 @@ import solvas.rest.api.models.ApiUser;
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.when;
 
 /**
  * Tests to check correct mapping of a User
  */
-@Ignore
 public class UserMapperTest {
     @Mock
     private DaoContext daoContext;
@@ -31,7 +32,9 @@ public class UserMapperTest {
     private UserDao userDaoMock;
 
     private UserMapper mapper;
-    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    @Mock
+    private PasswordEncoder passwordEncoder;
 
     /**
      * Setting up the tests of UserMapper
@@ -54,7 +57,7 @@ public class UserMapperTest {
         ApiUser converted = mapper.convertToApiModel(user);
         assertThat(converted.getId(),is(user.getId()));
         assertThat(converted.getUrl(),is("/users/"+user.getId()));
-        assertThat(converted.getPassword(),is(user.getPassword()));
+        assertNull(converted.getPassword()); // Never let password go back to api from persistence
         assertThat(converted.getEmail(),is(user.getEmail()));
         assertThat(converted.getFirstName(),is(user.getFirstName()));
         assertThat(converted.getLastName(),is(user.getLastName()));
@@ -66,13 +69,13 @@ public class UserMapperTest {
      * Test the conversion ApiUser->User
      */
     @Test
-    public void convertToUser() throws EntityNotFoundException {
+    public void convertToUser( ) throws EntityNotFoundException {
         ApiUser user = random(ApiUser.class);
         user.setId(0);
         User converted = mapper.convertToModel(user);
         assertThat(converted.getLastName(), is(user.getLastName()));
         assertThat(converted.getFirstName(), is(user.getFirstName()));
-        assertThat(converted.getPassword(), is(user.getPassword()));
+        assertThat(converted.getPassword(), is( passwordEncoder.encode(user.getPassword())));
         assertThat(converted.getEmail(), is(user.getEmail()));
     }
 }
