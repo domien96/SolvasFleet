@@ -37,6 +37,7 @@ public class VinValidatorTest {
         assertTrue(validator.isValid("JTHB-F30G 1200-69075", context));
         assertFalse(validator.isValid("+1 1-877-355-5787", context));
         assertFalse(validator.isValid("", context));
+        assertFalse(validator.isValid("JTHBF30G120069076", context));
         assertTrue(validator.isValid(null, context));
     }
 }
