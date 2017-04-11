@@ -5,6 +5,7 @@ import Card         from '../app/Card.tsx';
 import Header       from '../app/Header.tsx';
 import DetailTable  from '../tables/DetailTable.tsx';
 import Fleets       from '../fleets/Fleets.tsx';
+import Contracts    from '../contracts/Contracts.tsx'
 
 import { fetchFleets } from '../../actions/fleet_actions.ts';
 import { fetchClient, deleteClient } from '../../actions/client_actions.ts';
@@ -90,6 +91,7 @@ class Client extends React.Component<Props, State> {
             </div>
             <div className='col-xs-12 col-md-6'>
               <Fleets fleets={ this.state.fleets } company={ this.props.params.id } />
+              <Contracts vehicleId={ null } fleetId={ null } companyId={ id }/>
             </div>
           </div>
         </div>

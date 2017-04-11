@@ -29,6 +29,7 @@ import Fleet  from './components/fleet/Fleet.tsx';
 import Contracts from './components/contracts/Contracts.tsx';
 import Contract from './components/contract/Contract.tsx';
 import AddContract from './components/contract_form/AddContract.tsx';
+import EditContract from './components/contract_form/EditContract.tsx';
 
 import NoMatch   from './components/NoMatch.tsx';
 
@@ -71,15 +72,17 @@ class SolvasRouter extends React.Component<{}, {}> {
 
           <Route path="vehicles/new"      component={ AddVehicle  } />
           <Route path="vehicles/:id/edit" component={ EditVehicle } />
-          <Route path="vehicles/:id/contracts" component={ Contracts } />
-          <Route path="vehicles/:vehicleId/contracts/new" component={ AddContract } />
-          <Route path="vehicles/:vehicleId/contracts/:contractId" component={ Contract } />
           <Route path="vehicles"          component={ Vehicles    }>
             <IndexRoute component={ NoVehicle } />
             <Route path=":id" component={ Vehicle } />
           </Route>
 
           <Route path="fleets/:id" component={ Fleet } />
+
+          <Route path="contracts" component={ Contracts } />
+          <Route path="contracts/new" component={ AddContract } />
+          <Route path="contracts/:contractId" component={ Contract } />
+          <Route path="contracts/:contractId/edit" component={ EditContract } />
 
           <Route path="*" component={ NoMatch } />
         </Route>

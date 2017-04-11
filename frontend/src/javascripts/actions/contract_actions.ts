@@ -9,8 +9,18 @@ export function fetchContracts(success? : callback, fail? : callback, query? : a
   GET( CONTRACTS_URL, success, fail, query );
 }
 
-export function fetchContractsByParams(companyId : number, fleetId : number, vehicleId : number, success? : callback, fail? : callback, query? : any) {
+export function fetchContractsByVehicle(companyId : number, fleetId : number, vehicleId : number, success? : callback, fail? : callback, query? : any) {
   let url = `${CLIENTS_URL}/${companyId}/fleets/${fleetId}/vehicles/${vehicleId}/contracts`;
+  GET( url, success, fail, query );
+}
+
+export function fetchContractsByFleet(companyId : number, fleetId : number, success? : callback, fail? : callback, query? : any) {
+  let url = `${CLIENTS_URL}/${companyId}/fleets/${fleetId}/contracts`;
+  GET( url, success, fail, query );
+}
+
+export function fetchContractsByCompany(companyId : number, success? : callback, fail? : callback, query? : any) {
+  let url = `${CLIENTS_URL}/${companyId}/contracts`;
   GET( url, success, fail, query );
 }
 

@@ -17,6 +17,7 @@ class Contract extends React.Component<Props, State> {
   constructor() {
     super();
     this.state = { contract: {} };
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
   fetchContract(contractId : number){
@@ -29,9 +30,13 @@ class Contract extends React.Component<Props, State> {
   	this.fetchContract(this.props.params.contractId);
   }
 
+  handleDelete(){
+    //delete contract
+  }
+
   render(){
   	return(
-  		<ContractView contract={ this.state.contract }/>
+  		<ContractView contract={ this.state.contract } handleDelete={ this.handleDelete } />
   	);
   }
 }

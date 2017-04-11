@@ -78,6 +78,7 @@ form:
   submit: Submit
 
 contract:
+  id: Contract ID
   franchise: Franchise
   insuranceCompany: Insurance Company 
   premium: Premium
