@@ -1,8 +1,6 @@
 import React from 'react';
 
-import { fetchContractsByVehicle } from '../../actions/contract_actions.ts';
-import { fetchContractsByFleet } from '../../actions/contract_actions.ts';
-import { fetchContractsByCompany } from '../../actions/contract_actions.ts';
+import { fetchContractsByVehicle, fetchContractsByFleet, fetchContractsByCompany, fetchContracts } from '../../actions/contract_actions.ts';
 
 import { fetchFleet } from '../../actions/fleet_actions.ts'
 import { fetchVehicle } from '../../actions/vehicle_actions.ts'
@@ -45,28 +43,35 @@ class Contracts extends React.Component<Props, State> {
     }
   }
 
+  //Gets called whenever the state of the component changes
   componentWillUpdate(){
-    if(this.props.vehicleId && !this.state.isInitialized){
+    if(this.props.vehicleId && !this.state.isInitialized){    // if Contracts is called for a specific vehicle and contracts are not yet fetched
       this.updateContracts(this.props.vehicleId, this.state.fleetByVehicle, this.state.companyByFleet);
     }
   }
 
+  /*Checks if the contracts of a company, a fleet or a vehicle are requested
+    If it's a vehicle check if the param is not null before passing it to a fetch function
+  */
   updateContracts(nextVehicleId : number, nextFleetId : number, nextCompanyId : number){
-    if(nextVehicleId){
-      this.setFleetId(nextVehicleId);
-      if(this.state.fleetByVehicle){
-        this.setCompanyId(this.state.fleetByVehicle);
+    if(nextVehicleId){                                                  // if Contracts is called for a specific vehicle
+      this.setFleetId(nextVehicleId);                                   // fetch the fleet of the vehicle
+      if(this.state.fleetByVehicle){                                    // if the fleet fetch is complete
+        this.setCompanyId(this.state.fleetByVehicle);                   // fetch the company of the fleet
       }
-      if(this.state.fleetByVehicle && this.state.companyByFleet){
+      if(this.state.fleetByVehicle && this.state.companyByFleet){       // if both fetches are complete fetch the contracts
         this.fetchContractsByVehicle(this.state.companyByFleet, this.state.fleetByVehicle, nextVehicleId);
       }
-    }
-    else if(nextFleetId){
+    }                                                                   
+    else if(nextFleetId){                                               // if Contracts is called for a fleet
       this.setCompanyId(nextFleetId);
       this.fetchContractsByFleet(this.state.companyByFleet, nextFleetId);
     }
-    else if(nextCompanyId){
+    else if(nextCompanyId){                                             // if Contracts is called for a company
       this.fetchContractsByCompany(nextCompanyId);
+    }
+    else{
+      this.fetchContracts();
     }
   }
 
@@ -98,6 +103,12 @@ class Contracts extends React.Component<Props, State> {
 
   fetchContractsByCompany(companyId : number) {
     fetchContractsByCompany(companyId, ((data : ContractsData) => {
+      this.setState({ contracts: data.data, isInitialized: true })
+    }));
+  }
+
+  fetchContracts(){
+    fetchContracts(((data : ContractsData) => {
       this.setState({ contracts: data.data, isInitialized: true })
     }));
   }

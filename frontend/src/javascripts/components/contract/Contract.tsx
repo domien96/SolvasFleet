@@ -1,6 +1,8 @@
 import React from 'react';
 
-import { fetchContract } from '../../actions/contract_actions.ts';
+import { fetchContract, deleteContract } from '../../actions/contract_actions.ts';
+import { redirect_to } from'../../router.tsx';
+
 
 import ContractView from './ContractView.tsx'
 
@@ -31,7 +33,7 @@ class Contract extends React.Component<Props, State> {
   }
 
   handleDelete(){
-    //delete contract
+    deleteContract(this.props.params.contractId, () => redirect_to('/contracts'));
   }
 
   render(){

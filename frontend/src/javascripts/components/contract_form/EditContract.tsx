@@ -3,12 +3,13 @@ import React from 'react';
 import Header     from '../app/Header.tsx';
 import ContractForm   from './ContractForm.tsx';
 
-import { postContract } from '../../actions/contract_actions.ts';
+import { fetchContract, putContract } from '../../actions/contract_actions.ts';
 import { hasError } from '../../utils/utils.ts';
 import { redirect_to } from'../../router.tsx';
 
 interface Props {
-  params : { vehicleId : number };
+  params : { contractId : number };
+  fetchContracts : () => void;
 }
 
 interface State {
@@ -18,11 +19,11 @@ interface State {
 
 class EditContract extends React.Component<Props, State> {
 
-	constructor() {
+  constructor() {
     super();
     this.state = {
       errors: [],
-      contract: {vehicle: this.props.params.vehicleId}
+      contract: {}
     };
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit     = this.onSubmit.bind(this);
@@ -31,13 +32,18 @@ class EditContract extends React.Component<Props, State> {
   public handleChange(field : Contract.Field, e : any, type : string) : any {
     var contract : ContractData = this.state.contract;
     if(type == 'date'){
-    	contract[field] = e;
+      contract[field] = e;
     }
     else{
-    	contract[field] = e.target.value;
-		}	
+      contract[field] = e.target.value;
+    } 
     this.setState({ contract });
   }
+
+  componentDidMount() {
+    fetchContract(this.props.params.contractId, (data : any) => this.setState({ contract: data }));
+  }
+
 
   public onSubmit(e : any) : void {
     e.preventDefault();
@@ -49,14 +55,14 @@ class EditContract extends React.Component<Props, State> {
       }));
     }
 
-    postContract(this.state.contract, success, fail);
+    putContract(this.props.params.contractId, this.state.contract, success, fail);
   }
 
   render() {
     return (
       <div>
         <Header>
-          <h2>Add A New Contract</h2>
+          <h2>Edit Contract</h2>
         </Header>
         <ContractForm
           contract={ this.state.contract }
