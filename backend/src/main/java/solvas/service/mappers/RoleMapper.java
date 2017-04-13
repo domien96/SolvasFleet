@@ -1,12 +1,18 @@
 package solvas.service.mappers;
 
 import org.springframework.stereotype.Component;
+import solvas.service.models.Permission;
 import solvas.service.models.Role;
 import solvas.persistence.api.DaoContext;
 import solvas.service.mappers.exceptions.FieldNotFoundException;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.utils.SimpleUrlBuilder;
 import solvas.rest.api.models.ApiRole;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Mapper between Role and ApiRole
@@ -28,15 +34,8 @@ public class RoleMapper extends AbstractMapper<Role,ApiRole> {
     public Role convertToModel(ApiRole api) throws FieldNotFoundException,EntityNotFoundException {
         Role role = api.getId()==0?new Role():daoContext.getRoleDao().find(api.getId());
         copySharedAttributes(role, api);
-        /*try {  The api allows -1 will leave this here for the future
-            role.setUser(daoContext.getUserDao().find(api.getUser()));
-            role.setCompany(daoContext.getCompanyDao().find(api.getCompany()));
-        } catch(EntityNotFoundException e) {
-            throw new DependantEntityNotFound("Company or User not found",e);
-        }*/
+        role.setPermissions(new HashSet<>(daoContext.getPermissionDao().findAll(api.getPermissions())));
 
-        //role.setUser(api.getUser()==0 ? role.getUser() : daoContext.getUserDao().find(api.getUser()));
-       // role.setCompany(api.getCompany()==0 ? role.getCompany() : daoContext.getCompanyDao().find(api.getCompany()));
         return role;
     }
 
@@ -45,8 +44,9 @@ public class RoleMapper extends AbstractMapper<Role,ApiRole> {
         ApiRole apiRole = new ApiRole();
         copyAttributes(apiRole, role, "id", "createdAt", "updatedAt");
         copySharedAttributes(apiRole, role);
-        //apiRole.setCompany(role.getCompany().getId());
-      //  apiRole.setUser(role.getUser().getId());
+        Set<Integer> apiPermissions = role.getPermissions().stream()
+                .map(Permission::getId).collect(Collectors.toSet());
+        apiRole.setPermissions(apiPermissions);
         apiRole.setUrl(ROOTPATH + role.getId());
         return apiRole;
     }

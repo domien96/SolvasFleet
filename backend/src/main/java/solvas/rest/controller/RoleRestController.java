@@ -2,15 +2,20 @@ package solvas.rest.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import solvas.persistence.api.EntityNotFoundException;
+import solvas.rest.query.PermissionFilter;
 import solvas.service.models.Role;
 import solvas.rest.api.models.ApiRole;
 import solvas.rest.query.RoleFilter;
 import solvas.service.RoleService;
 
 import javax.validation.Valid;
+import java.util.Collection;
+import java.util.Set;
 
 
 /**
@@ -67,5 +72,15 @@ public class RoleRestController extends AbstractRestController<Role,ApiRole> {
     @RequestMapping(value = "/auth/roles/{id}", method = RequestMethod.PUT)
     public ResponseEntity<?> put(@PathVariable int id, @RequestBody ApiRole input,BindingResult result) {
         return super.put(id, input,result);
+    }
+
+
+    @RequestMapping(value = "/auth/roles/{id}/permissions", method = RequestMethod.PUT)
+    public ResponseEntity<?> putPermissions(@PathVariable int id,
+                                            @RequestBody Set<Integer> permissions,
+                                            BindingResult result) {
+        ApiRole r = new ApiRole();
+        r.setPermissions(permissions);
+        return super.put(id, r, result);
     }
 }

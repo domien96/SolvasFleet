@@ -1,6 +1,8 @@
 package solvas.rest.query;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.Filter;
 import solvas.persistence.api.dao.RoleDao;
@@ -15,34 +17,24 @@ import java.util.HashSet;
 /**
  * Filter for permissions
  */
+@Component
 public class PermissionFilter implements Filter<Permission> {
-    private final RoleDao roleDao;
-    private int roleId;
-
-    public PermissionFilter(RoleDao roleDao) {
-        this.roleDao = roleDao;
-    }
-
+    private Collection<Integer> ids = new HashSet<>();
     @Override
     public Collection<Predicate> asPredicates(CriteriaBuilder builder, Root<Permission> root) {
         Collection<Predicate> predicates = new HashSet<>();
 
-        if (roleId >= 0) {
-            try {
-               Predicate[] rolePredicates = roleDao.find(roleId).getPermissions().stream()
-                        .map(Permission::getId)
+        if (ids.size() > 0) {
+               Predicate[] rolePredicates = ids.stream()
                         .map(id -> builder.equal(root.get("id"), id))
                         .toArray(Predicate[]::new);
 
                 predicates.add(builder.or(rolePredicates));
-            } catch (EntityNotFoundException ignored) {
-                // TODO: what to do when filter is invalid?
-            }
         }
         return predicates;
     }
 
-    public void setRole(int roleId) {
-        this.roleId = roleId;
+    public void setIds(Collection<Integer> ids) {
+        this.ids = ids;
     }
 }

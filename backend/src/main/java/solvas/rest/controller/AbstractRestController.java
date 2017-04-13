@@ -143,7 +143,7 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      * @return ResponseEntity of a 404
      */
     @ExceptionHandler(EntityNotFoundException.class)
-    private ResponseEntity<?> notFound() {
+    protected ResponseEntity<?> notFound() {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 

@@ -5,6 +5,9 @@ import solvas.service.models.validators.StartBeforeEnd;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Api Model in the API layer
@@ -14,6 +17,8 @@ public class ApiRole extends ApiModel {
     private String function;
 
     private int user;
+
+    private Set<Integer> permissions = new HashSet<>();
 
     public String getFunction() {
         return function;
@@ -29,5 +34,13 @@ public class ApiRole extends ApiModel {
 
     public void setUser(int user) {
         this.user = user;
+    }
+
+    public Set<Integer> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(Set<Integer> permissions) {
+        this.permissions = permissions;
     }
 }

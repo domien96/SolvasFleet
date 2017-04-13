@@ -1,6 +1,7 @@
 package solvas.service.models;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.Set;
 
 /**

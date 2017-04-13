@@ -78,4 +78,10 @@ public interface DaoContext {
      * @return A FunctionDao
      */
     FunctionDao getFunctionDao();
+
+    /**
+     * Get PermissionDao for this content
+     * @return A PermissionDao
+     */
+    PermissionDao getPermissionDao();
 }
