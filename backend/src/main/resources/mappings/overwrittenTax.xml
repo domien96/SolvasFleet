@@ -4,7 +4,7 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="solvas.service.models.Transaction" table="transaction_costs">
+    <class name="solvas.service.models.overwrittenTax" table="overwritten_taxes">
         <meta attribute="class-description">
             This class contains the transactions detail.
         </meta>

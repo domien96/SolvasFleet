@@ -6,7 +6,7 @@ import java.util.Date;
  * Models transaction costs (Dutch: overschreven kosten)
  * Created by domien on 15/04/2017.
  */
-public class Transaction extends Model {
+public class overwrittenTax extends Model {
 
     private double forfaitair;
     private double taxes;
@@ -16,7 +16,7 @@ public class Transaction extends Model {
     private Fleet fleet;
     private InsuranceType insuranceType;
 
-    public Transaction() {
+    public overwrittenTax() {
     } // Hibernate wants a no-arg constructor
 
     public double getForfaitair() {
