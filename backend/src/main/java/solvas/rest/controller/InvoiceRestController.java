@@ -77,11 +77,12 @@ public class InvoiceRestController  extends AbstractRestController<Invoice,ApiIn
      * Get invoice with id
      *
      * @param id The ID of the invoice.
+     * @param fleetId The id of the fleet
      *
      * @return The response.
      */
-    @RequestMapping(value = "/fleets/{fleet_id}/invoices/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> getByCompanyAndInvoiceId(@PathVariable int fleet_id, @PathVariable int id) {
+    @RequestMapping(value = "/fleets/{fleetId}/invoices/{id}", method = RequestMethod.GET)
+    public ResponseEntity<?> getByCompanyAndInvoiceId(@PathVariable int fleetId, @PathVariable int id) {
         return super.getById(id);
     }
 
@@ -89,11 +90,11 @@ public class InvoiceRestController  extends AbstractRestController<Invoice,ApiIn
      * Get invoice with id
      *
      * @param id The ID of the invoice.
-     *
+     * @param fleetId the id of the fleet
      * @return The response.
      */
-    @RequestMapping(value = "/fleets/{fleet_id}/invoices/{id}{extension}", method = RequestMethod.GET)
-    public ResponseEntity<?> getByCompanyAndInvoiceIdWithExtension(@PathVariable int fleet_id, @PathVariable int id,@PathVariable String extension) {
+    @RequestMapping(value = "/fleets/{fleetId}/invoices/{id}{extension}", method = RequestMethod.GET)
+    public ResponseEntity<?> getByCompanyAndInvoiceIdWithExtension(@PathVariable int fleetId, @PathVariable int id,@PathVariable String extension) {
         //Todo process extension
         return super.getById(id);
     }
