@@ -8,6 +8,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
@@ -21,6 +22,7 @@ public class PasswordConfig {
      * @return PasswordEncoder
      */
     @Bean
+    @Profile({"default"})
     public PasswordEncoder BCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
@@ -32,7 +34,7 @@ public class PasswordConfig {
     @Bean
     @Profile({"debug", "test"})
     public PasswordEncoder NoOpPasswordEncoder() {
-        return new BCryptPasswordEncoder();
+        return NoOpPasswordEncoder.getInstance();
     }
 
     /**
