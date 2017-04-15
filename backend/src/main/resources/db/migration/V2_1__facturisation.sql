@@ -29,6 +29,8 @@ CREATE TABLE billings (
   billing_id SERIAL NOT NULL,
   amount DOUBLE PRECISION NOT NULL ,
   fleet_id INT NOT NULL ,
+  startDate TIMESTAMP NOT NULL ,
+  endDate TIMESTAMP NOT NULL ,
   created_at TIMESTAMP ,
   updated_at TIMESTAMP ,
   archived BOOLEAN DEFAULT FALSE ,
