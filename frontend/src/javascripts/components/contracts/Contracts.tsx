@@ -33,12 +33,12 @@ class Contracts extends React.Component<Props, State> {
     this.updateContracts(vehicleId, fleetId, companyId);
   }
 
-  componentWillReveiveProps(nextProps: any){
+  componentWillReceiveProps(nextProps: any){
     var {vehicleId, companyId, fleetId} = nextProps;
 
     if(vehicleId != this.props.vehicleId 
-      || companyId != this.props.fleetId
-      || fleetId != this.props.companyId){
+      || companyId != this.props.companyId
+      || fleetId != this.props.fleetId){
         this.updateContracts(vehicleId, companyId, fleetId);      
     }
   }
@@ -56,10 +56,10 @@ class Contracts extends React.Component<Props, State> {
   updateContracts(nextVehicleId : number, nextFleetId : number, nextCompanyId : number){
     if(nextVehicleId){                                                  // if Contracts is called for a specific vehicle
       this.setFleetId(nextVehicleId);                                   // fetch the fleet of the vehicle
-      if(this.state.fleetByVehicle){                                    // if the fleet fetch is complete
+      if(this.state.fleetByVehicle){                                   // if the fleet fetch is complete
         this.setCompanyId(this.state.fleetByVehicle);                   // fetch the company of the fleet
       }
-      if(this.state.fleetByVehicle && this.state.companyByFleet){       // if both fetches are complete fetch the contracts
+      if(this.state.fleetByVehicle && this.state.companyByFleet){      // if both fetches are complete fetch the contracts
         this.fetchContractsByVehicle(this.state.companyByFleet, this.state.fleetByVehicle, nextVehicleId);
       }
     }                                                                   
@@ -109,7 +109,7 @@ class Contracts extends React.Component<Props, State> {
 
   fetchContracts(){
     fetchContracts(((data : ContractsData) => {
-      this.setState({ contracts: data.data, isInitialized: true })
+      this.setState({ contracts: data.data })
     }));
   }
 
