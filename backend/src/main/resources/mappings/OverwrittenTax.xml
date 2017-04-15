@@ -4,7 +4,7 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="solvas.service.models.OverwrittenTax" table="overwritten_taxes">
+    <class name="solvas.service.models.OverwrittenTaxes" table="overwritten_taxes">
         <meta attribute="class-description">
             This class contains the transactions detail.
         </meta>
@@ -12,8 +12,8 @@
             <generator class="identity"/>
         </id>
         <property name="forfaitair" column="forfaitair" type="big_decimal" not-null="true"/>
-        <property name="taxes" column="taxes" type="double" not-null="true"/>
-        <property name="commission" column="commission" type="double" not-null="true"/>
+        <property name="taxes" column="taxes" type="big_decimal" not-null="true"/>
+        <property name="commission" column="commission" type="big_decimal" not-null="true"/>
 
         <property name="startDate" column="startDate" type="java.time.LocalDateTime" not-null="true" />
         <property name="endDate" column="endDate" type="java.time.LocalDateTime" not-null="true" />

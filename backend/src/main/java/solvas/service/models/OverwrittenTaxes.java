@@ -7,17 +7,17 @@ import java.util.Date;
  * Models overwritten taxes (Dutch: overschreven kosten)
  * Created by domien on 15/04/2017.
  */
-public class OverwrittenTax extends Model {
+public class OverwrittenTaxes extends Model {
 
     private BigDecimal forfaitair;
-    private double taxes;
-    private double commission;
+    private BigDecimal taxes;
+    private BigDecimal commission;
     private Date startDate;
     private Date endDate;
     private Fleet fleet;
     private InsuranceType insuranceType;
 
-    public OverwrittenTax() {
+    public OverwrittenTaxes() {
     } // Hibernate wants a no-arg constructor
 
     public BigDecimal getForfaitair() {
@@ -28,19 +28,19 @@ public class OverwrittenTax extends Model {
         this.forfaitair = forfaitair;
     }
 
-    public double getTaxes() {
+    public BigDecimal getTaxes() {
         return taxes;
     }
 
-    public void setTaxes(double taxes) {
+    public void setTaxes(BigDecimal taxes) {
         this.taxes = taxes;
     }
 
-    public double getCommission() {
+    public BigDecimal getCommission() {
         return commission;
     }
 
-    public void setCommission(double commission) {
+    public void setCommission(BigDecimal commission) {
         this.commission = commission;
     }
 

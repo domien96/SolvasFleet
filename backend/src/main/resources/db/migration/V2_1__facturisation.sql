@@ -4,8 +4,8 @@ DROP TABLE IF EXISTS invoices;
 CREATE TABLE overwritten_taxes (
   overwritten_tax_id SERIAL NOT NULL,
   forfaitair NUMERIC NOT NULL ,
-  taxes DOUBLE PRECISION NOT NULL ,
-  commission DOUBLE PRECISION NOT NULL ,
+  taxes NUMERIC NOT NULL ,
+  commission NUMERIC NOT NULL ,
   startDate TIMESTAMP NOT NULL ,
   endDate TIMESTAMP NOT NULL ,
   fleet_id INT NOT NULL ,
