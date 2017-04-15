@@ -7,6 +7,7 @@ import solvas.rest.api.models.ApiContract;
 import solvas.rest.api.models.ApiInvoice;
 import solvas.rest.api.models.ApiModel;
 import solvas.service.mappers.ContractMapper;
+import solvas.service.mappers.InvoiceMapper;
 import solvas.service.models.Contract;
 import solvas.service.models.InsuranceType;
 import solvas.service.models.Model;
@@ -17,7 +18,7 @@ import java.util.stream.Collectors;
 /**
  * Created by steve on 15/04/2017.
  */
-public class InvoiceService extends AbstractService<Model,ApiInvoice> {
+public class InvoiceService extends AbstractService<Invoice,ApiInvoice> {
 
     //Dao for generating a response for findAllInsuranceTypes
     private InsuranceTypeDao insuranceTypeDao;
@@ -29,8 +30,8 @@ public class InvoiceService extends AbstractService<Model,ApiInvoice> {
      * @param mapper   the mapper between the apimodel and the model
      */
     @Autowired
-    public InvoiceService(DaoContext context, ContractMapper mapper) {
-        super(context.getContractDao(), mapper);
+    public InvoiceService(DaoContext context, InvoiceMapper mapper) {
+        super(context.getInvoiceDao(), mapper);
         insuranceTypeDao= context.getInsuranceTypeDao();
     }
 

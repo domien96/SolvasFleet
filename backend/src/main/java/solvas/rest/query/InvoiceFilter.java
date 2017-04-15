@@ -11,7 +11,7 @@ import java.util.Collection;
 /**
  * Created by steve on 15/04/2017.
  */
-public class InvoiceFilter extends ArchiveFilter<Model> {
+public class InvoiceFilter extends ArchiveFilter<Invoice> {
 
     private int fleet = -1;
 

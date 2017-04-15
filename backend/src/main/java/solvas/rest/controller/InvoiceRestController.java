@@ -18,7 +18,7 @@ import javax.validation.Valid;
  * Rest controller for Invoice
  *
  */                                                                //TODO REPLACE
-public class InvoiceRestController  extends AbstractRestController<Model,ApiInvoice> {
+public class InvoiceRestController  extends AbstractRestController<Invoice,ApiInvoice> {
 
     /**
      * Default constructor.
@@ -64,11 +64,10 @@ public class InvoiceRestController  extends AbstractRestController<Model,ApiInvo
      *
      * @return The response.
      */
-    @RequestMapping(value = "/companies/{id}/invoices/current", method = RequestMethod.GET)
+    @RequestMapping(value = "/fleets/{id}/invoices/current", method = RequestMethod.GET)
     public ResponseEntity<?> getActiveByCompanyId(@PathVariable int id,Pageable pagination, InvoiceFilter filter, BindingResult result) {
         //Todo filter set active
-        //Todo filter set company/fleet
-        //filter.setFleet(id);
+        filter.setFleet(id);
         return super.listAll(pagination,filter,result);
     }
 
@@ -80,8 +79,8 @@ public class InvoiceRestController  extends AbstractRestController<Model,ApiInvo
      *
      * @return The response.
      */
-    @RequestMapping(value = "/companies/{company_id}/invoices/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> getByCompanyAndInvoiceId(@PathVariable int company_id, @PathVariable int id) {
+    @RequestMapping(value = "/fleets/{fleet_id}/invoices/{id}", method = RequestMethod.GET)
+    public ResponseEntity<?> getByCompanyAndInvoiceId(@PathVariable int fleet_id, @PathVariable int id) {
         return super.getById(id);
     }
 
@@ -92,8 +91,8 @@ public class InvoiceRestController  extends AbstractRestController<Model,ApiInvo
      *
      * @return The response.
      */
-    @RequestMapping(value = "/companies/{company_id}/invoices/{id}{extension}", method = RequestMethod.GET)
-    public ResponseEntity<?> getByCompanyAndInvoiceIdWithExtension(@PathVariable int company_id, @PathVariable int id,@PathVariable String extension) {
+    @RequestMapping(value = "/fleets/{fleet_id}/invoices/{id}{extension}", method = RequestMethod.GET)
+    public ResponseEntity<?> getByCompanyAndInvoiceIdWithExtension(@PathVariable int fleet_id, @PathVariable int id,@PathVariable String extension) {
         //Todo process extension
         return super.getById(id);
     }
@@ -109,11 +108,9 @@ public class InvoiceRestController  extends AbstractRestController<Model,ApiInvo
      *
      * @return The response.
      */
-    @RequestMapping(value = "/companies/{id}/invoices", method = RequestMethod.GET)
+    @RequestMapping(value = "/fleets/{id}/invoices", method = RequestMethod.GET)
     public ResponseEntity<?> getByCompanyId(@PathVariable int id,Pageable pagination, InvoiceFilter filter, BindingResult result) {
-        //Todo filter set active
-        //Todo filter set company/fleet
-        //filter.setFleet(id);
+        filter.setFleet(id);
         return super.listAll(pagination,filter,result);
     }
 
