@@ -3,10 +3,10 @@ package solvas.service.models;
 import java.util.Date;
 
 /**
- * Models transaction costs (Dutch: overschreven kosten)
+ * Models overwritten taxes (Dutch: overschreven kosten)
  * Created by domien on 15/04/2017.
  */
-public class overwrittenTax extends Model {
+public class OverwrittenTax extends Model {
 
     private double forfaitair;
     private double taxes;
@@ -16,7 +16,7 @@ public class overwrittenTax extends Model {
     private Fleet fleet;
     private InsuranceType insuranceType;
 
-    public overwrittenTax() {
+    public OverwrittenTax() {
     } // Hibernate wants a no-arg constructor
 
     public double getForfaitair() {
