@@ -4,9 +4,9 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="solvas.service.models.Billing" table="billings">
+    <class name="solvas.service.models.Invoice" table="invoices">
         <meta attribute="class-description">
-            This class contains the billings detail.
+            This class contains the invoices detail.
         </meta>
         <id name="id" type="int" column="billing_id">
             <generator class="identity"/>

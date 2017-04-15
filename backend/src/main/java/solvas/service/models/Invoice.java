@@ -3,17 +3,17 @@ package solvas.service.models;
 import java.util.Date;
 
 /**
- * Models a billing
+ * Models an invoice
  * Created by domien on 15/04/2017.
  */
-public class Billing extends Model {
+public class Invoice extends Model {
 
     private double amount;
     private Date startDate;
     private Date endDate;
     private Fleet fleet;
 
-    public Billing() {
+    public Invoice() {
     } // Hibernate wants a no-arg constructor
 
     public Fleet getFleet() {

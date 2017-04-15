@@ -25,7 +25,7 @@ CREATE TRIGGER update_created_at BEFORE INSERT
   ON transaction_costs FOR EACH ROW EXECUTE PROCEDURE  update_created_at_column();
 
 
-CREATE TABLE billings (
+CREATE TABLE invoices (
   billing_id SERIAL NOT NULL,
   amount DOUBLE PRECISION NOT NULL ,
   fleet_id INT NOT NULL ,
