@@ -11,6 +11,10 @@ public class Invoice extends Model {
     private double amount;
     private Date startDate;
     private Date endDate;
+    private int type;
+    private boolean paid;
+
+    private Company company;
     private Fleet fleet;
 
     public Invoice() {
@@ -46,5 +50,29 @@ public class Invoice extends Model {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public boolean isPaid() {
+        return paid;
+    }
+
+    public void setPaid(boolean paid) {
+        this.paid = paid;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
     }
 }
