@@ -1,5 +1,7 @@
 package solvas.service.models;
 
+import java.util.Date;
+
 /**
  * Models a billing
  * Created by domien on 15/04/2017.
@@ -7,6 +9,8 @@ package solvas.service.models;
 public class Billing extends Model {
 
     private double amount;
+    private Date startDate;
+    private Date endDate;
     private Fleet fleet;
 
     public Billing() {
@@ -26,5 +30,21 @@ public class Billing extends Model {
 
     public void setAmount(double amount) {
         this.amount = amount;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 }
