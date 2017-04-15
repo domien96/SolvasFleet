@@ -4,6 +4,7 @@ import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.api.models.ApiInvoice;
 import solvas.service.mappers.exceptions.DependantEntityNotFound;
+import solvas.service.models.Invoice;
 import solvas.service.models.Model;
 
 /**
@@ -23,12 +24,12 @@ public class InvoiceMapper extends AbstractMapper<Invoice,ApiInvoice> {
     }
 
     @Override
-    public Model convertToModel(ApiInvoice api) throws DependantEntityNotFound, EntityNotFoundException {
+    public Invoice convertToModel(ApiInvoice api) throws DependantEntityNotFound, EntityNotFoundException {
         return null;
     }
 
     @Override
-    public ApiInvoice convertToApiModel(Model model) {
+    public ApiInvoice convertToApiModel(Invoice model) {
         return null;
     }
 

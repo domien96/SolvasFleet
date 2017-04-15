@@ -9,6 +9,7 @@ import solvas.rest.api.models.ApiInvoice;
 import solvas.rest.api.models.ApiModel;
 import solvas.rest.query.InvoiceFilter;
 import solvas.service.InvoiceService;
+import solvas.service.models.Invoice;
 import solvas.service.models.Model;
 
 import javax.validation.Valid;
@@ -17,7 +18,7 @@ import javax.validation.Valid;
 /**
  * Rest controller for Invoice
  *
- */                                                                //TODO REPLACE
+ */ 
 public class InvoiceRestController  extends AbstractRestController<Invoice,ApiInvoice> {
 
     /**

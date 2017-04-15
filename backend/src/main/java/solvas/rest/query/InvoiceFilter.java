@@ -1,5 +1,6 @@
 package solvas.rest.query;
 
+import solvas.service.models.Invoice;
 import solvas.service.models.Model;
 
 
@@ -16,7 +17,7 @@ public class InvoiceFilter extends ArchiveFilter<Invoice> {
     private int fleet = -1;
 
     @Override
-    public Collection<Predicate> asPredicates(CriteriaBuilder builder, Root<Model> root) {
+    public Collection<Predicate> asPredicates(CriteriaBuilder builder, Root<Invoice> root) {
         Collection<Predicate> predicates = super.asPredicates(builder,root);
         if (fleet >= 0) {
             predicates.add(builder.equal(root.get("fleet"), fleet));

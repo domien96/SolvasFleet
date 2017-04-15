@@ -10,6 +10,7 @@ import solvas.service.mappers.ContractMapper;
 import solvas.service.mappers.InvoiceMapper;
 import solvas.service.models.Contract;
 import solvas.service.models.InsuranceType;
+import solvas.service.models.Invoice;
 import solvas.service.models.Model;
 
 import java.util.Collection;
