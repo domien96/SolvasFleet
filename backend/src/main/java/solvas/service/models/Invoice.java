@@ -15,7 +15,6 @@ public class Invoice extends Model {
     private int type;
     private boolean paid;
 
-    private Company company;
     private Fleet fleet;
 
     public Invoice() {
@@ -67,13 +66,5 @@ public class Invoice extends Model {
 
     public void setPaid(boolean paid) {
         this.paid = paid;
-    }
-
-    public Company getCompany() {
-        return company;
-    }
-
-    public void setCompany(Company company) {
-        this.company = company;
     }
 }

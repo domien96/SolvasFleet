@@ -30,7 +30,6 @@ CREATE TABLE invoices (
   type INT NOT NULL ,
   amount NUMERIC NOT NULL ,
   paid BOOLEAN NOT NULL ,
-  company_id INT NOT NULL ,
   fleet_id INT NOT NULL ,
   startDate TIMESTAMP NOT NULL ,
   endDate TIMESTAMP NOT NULL ,
@@ -38,8 +37,7 @@ CREATE TABLE invoices (
   updated_at TIMESTAMP ,
   archived BOOLEAN DEFAULT FALSE ,
   PRIMARY KEY (invoice_id) ,
-  FOREIGN KEY (fleet_id) REFERENCES fleets(fleet_id) ,
-  FOREIGN KEY (company_id) REFERENCES companies(company_id)
+  FOREIGN KEY (fleet_id) REFERENCES fleets(fleet_id)
 );
 
 CREATE TRIGGER update_updated_at BEFORE UPDATE

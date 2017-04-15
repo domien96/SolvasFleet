@@ -17,9 +17,6 @@
         <property name="startDate" column="startDate" type="java.time.LocalDateTime" not-null="true" />
         <property name="endDate" column="endDate" type="java.time.LocalDateTime" not-null="true" />
 
-        <many-to-one name="company" column="company_id"
-                     class="solvas.service.models.Company" not-null="true"/>
-
         <many-to-one name="fleet" column="fleet_id"
                      class="solvas.service.models.Fleet" not-null="true"/>
 
