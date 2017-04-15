@@ -91,6 +91,7 @@ public class InvoiceRestController  extends AbstractRestController<Invoice,ApiIn
      *
      * @param id The ID of the invoice.
      * @param fleetId the id of the fleet
+     * @param extension the extension of the desired return document
      * @return The response.
      */
     @RequestMapping(value = "/fleets/{fleetId}/invoices/{id}{extension}", method = RequestMethod.GET)
