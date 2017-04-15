@@ -3,6 +3,7 @@ package solvas.rest.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import solvas.service.models.Fleet;
@@ -47,6 +48,7 @@ public class FleetRestController extends AbstractRestController<Fleet, ApiFleet>
 
     @Override
     @RequestMapping(value = "/fleets/{id}", method = RequestMethod.GET)
+    @PreAuthorize("hasPermission(#id, 'fleet', 'READ')")
     public ResponseEntity<?> getById(@PathVariable int id) {
         return super.getById(id);
     }
