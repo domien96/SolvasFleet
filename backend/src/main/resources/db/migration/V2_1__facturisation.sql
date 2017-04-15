@@ -26,7 +26,7 @@ CREATE TRIGGER update_created_at BEFORE INSERT
 
 
 CREATE TABLE invoices (
-  billing_id SERIAL NOT NULL,
+  invoice_id SERIAL NOT NULL,
   type INT NOT NULL ,
   amount DOUBLE PRECISION NOT NULL ,
   paid BOOLEAN NOT NULL ,
