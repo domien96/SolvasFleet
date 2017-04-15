@@ -1,5 +1,6 @@
 package solvas.service.models;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -8,7 +9,7 @@ import java.util.Date;
  */
 public class Invoice extends Model {
 
-    private double amount;
+    private BigDecimal amount; // in cents
     private Date startDate;
     private Date endDate;
     private int type;
@@ -28,11 +29,11 @@ public class Invoice extends Model {
         this.fleet = fleet;
     }
 
-    public double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 

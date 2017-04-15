@@ -28,7 +28,7 @@ CREATE TRIGGER update_created_at BEFORE INSERT
 CREATE TABLE invoices (
   invoice_id SERIAL NOT NULL,
   type INT NOT NULL ,
-  amount DOUBLE PRECISION NOT NULL ,
+  amount NUMERIC NOT NULL ,
   paid BOOLEAN NOT NULL ,
   company_id INT NOT NULL ,
   fleet_id INT NOT NULL ,
@@ -37,7 +37,7 @@ CREATE TABLE invoices (
   created_at TIMESTAMP ,
   updated_at TIMESTAMP ,
   archived BOOLEAN DEFAULT FALSE ,
-  PRIMARY KEY (billing_id) ,
+  PRIMARY KEY (invoice_id) ,
   FOREIGN KEY (fleet_id) REFERENCES fleets(fleet_id) ,
   FOREIGN KEY (company_id) REFERENCES companies(company_id)
 );
