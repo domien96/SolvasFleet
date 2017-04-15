@@ -6,10 +6,7 @@ export function fetchFleet(id : number, success? : callback, fail? : callback) {
 }
 
 export function fetchFleets(success? : callback, fail? : callback, query? : any) {
-  const querystring = Object.keys(query).map((k) => {
-    return `${k}=${query[k]}`
-  }).join('&');
-  GET( `${FLEETS_URL}?${querystring}`, success, fail);
+  GET( FLEETS_URL, success, fail, query );
 }
 
 export function postFleet(body : any, success? : callback, fail? : callback) {

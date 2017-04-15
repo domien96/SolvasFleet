@@ -28,6 +28,7 @@ public class TestConfig {
                 .addScript("db/migration/V1_0__milestone1.sql")
                 .addScript("db/migration/V1_1__n-m_relations.sql")
                 .addScript("schema.sql")
+                .addScript("db/migration/V1_4__archive.sql")
                 .build();
     }
 }

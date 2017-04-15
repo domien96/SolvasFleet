@@ -3,7 +3,7 @@ package solvas.persistence.api;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.PagingAndSortingRepository;
-import solvas.models.Model;
+import solvas.service.models.Model;
 
 /**
  * Interface to simplify repository creations.
@@ -35,4 +35,20 @@ public interface Dao<T extends Model> extends PagingAndSortingRepository<T, Inte
         delete(id);
         return data;
     }
+
+    default T archive(int id) throws EntityNotFoundException {
+        T data = find(id);
+        data.setArchived(true);
+        save(data);
+        return data;
+    }
+
+    default T archive(T entity) throws EntityNotFoundException {
+        T data = find(entity.getId());
+        data.setArchived(true);
+        save(data);
+        return data;
+    }
+
+
 }

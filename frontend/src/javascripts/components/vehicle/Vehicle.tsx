@@ -1,5 +1,5 @@
 import React from 'react';
-import { browserHistory, Link } from'react-router';
+import { Link } from'react-router';
 
 import { fetchVehicle, deleteVehicle }  from '../../actions/vehicle_actions.ts';
 
@@ -7,6 +7,7 @@ import DetailTable from '../tables/DetailTable.tsx';
 import Card      from '../app/Card.tsx';
 
 import { th } from '../../utils/utils.ts';
+import { redirect_to } from'../../router.tsx';
 
 class Vehicle extends React.Component<Vehicle.Props, Vehicle.State> {
 
@@ -35,7 +36,7 @@ class Vehicle extends React.Component<Vehicle.Props, Vehicle.State> {
   deleteVehicle(){
     var reloadVehicles = this.props.fetchVehicles;
     deleteVehicle(this.props.params.id, reloadVehicles);
-    browserHistory.push('/vehicles');
+    redirect_to('/vehicles');
   }
 
   render() {
@@ -56,7 +57,7 @@ class Vehicle extends React.Component<Vehicle.Props, Vehicle.State> {
     ];
 
     return (
-    <Card>  
+    <Card>
       <div>
         <div className='card-content user'>
           <h2>{ vin } </h2>

@@ -1,11 +1,11 @@
 import React from 'react';
-import { browserHistory } from 'react-router';
 
 import Header     from '../app/Header.tsx';
 import ClientForm from './ClientForm.tsx'
 
 import { postClient } from '../../actions/client_actions.ts';
 import { hasError }  from '../../utils/utils.ts';
+import { redirect_to } from'../../router.tsx';
 
 class AddClient extends React.Component<{}, Company.CForm.State> {
 
@@ -33,7 +33,7 @@ class AddClient extends React.Component<{}, Company.CForm.State> {
   public onSubmit(e : any) : void {
     e.preventDefault();
     let setErrors = (e : Form.Error[]) => this.setState({ errors: e });
-    let success = (data : any) => browserHistory.push(`/clients/${data.id}`);
+    let success = (data : any) => redirect_to(`/clients/${data.id}`);
     let fail = (data : any) => {
       setErrors(data.errors.map(function(e : any) {
         return { field: e, error: 'null' };

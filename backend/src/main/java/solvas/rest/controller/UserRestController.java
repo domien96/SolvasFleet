@@ -5,11 +5,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import solvas.models.User;
-import solvas.persistence.api.DaoContext;
-import solvas.rest.api.mappers.UserAbstractMapper;
+import solvas.service.models.User;
 import solvas.rest.api.models.ApiUser;
 import solvas.rest.query.UserFilter;
+import solvas.service.UserService;
 
 import javax.validation.Valid;
 
@@ -23,12 +22,11 @@ public class UserRestController extends AbstractRestController<User,ApiUser> {
     /**
      * Rest controller for User
      *
-     * @param daoContext Autowired
-     * @param mapper The mapper class for users
+     * @param service service class for users
      */
     @Autowired
-    public UserRestController(DaoContext daoContext, UserAbstractMapper mapper) {
-        super(daoContext.getUserDao(),mapper);
+    public UserRestController(UserService service) {
+        super( service);
     }
 
     /**
@@ -60,8 +58,8 @@ public class UserRestController extends AbstractRestController<User,ApiUser> {
 
     @Override
     @RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteById(@PathVariable int id) {
-        return super.deleteById(id);
+    public ResponseEntity<?> archiveById(@PathVariable int id) {
+        return super.archiveById(id);
     }
 
     @Override

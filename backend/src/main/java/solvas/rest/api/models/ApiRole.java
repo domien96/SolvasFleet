@@ -1,7 +1,7 @@
 package solvas.rest.api.models;
 
 import org.hibernate.validator.constraints.NotBlank;
-import solvas.models.validators.StartBeforeEnd;
+import solvas.service.models.validators.StartBeforeEnd;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @StartBeforeEnd
 public class ApiRole extends ApiModel {
 
+    //-1: admin
     private int company;
 
     @NotNull

@@ -3,8 +3,8 @@ package solvas.persistence.api.dao;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import solvas.models.FleetSubscription;
-import solvas.models.Vehicle;
+import solvas.service.models.FleetSubscription;
+import solvas.service.models.Vehicle;
 
 import java.time.LocalDate;
 import java.util.Collection;

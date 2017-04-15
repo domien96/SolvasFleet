@@ -2,7 +2,7 @@ package solvas.persistence.api.dao;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import solvas.models.Vehicle;
+import solvas.service.models.Vehicle;
 import solvas.persistence.api.EntityNotFoundException;
 
 import static org.hamcrest.MatcherAssert.assertThat;

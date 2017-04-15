@@ -6,10 +6,7 @@ export function fetchVehicle(id : number, success? : callback, fail? : callback)
 }
 
 export function fetchVehicles(success? : callback, fail? : callback, query? : any) {
-  const querystring = Object.keys(query).map((k) => {
-    return `${k}=${query[k]}`
-  }).join('&');
-  GET ( `${VEHICLES_URL}?${querystring}`, success, fail );
+  GET ( VEHICLES_URL, success, fail, query );
 }
 
 export function postVehicle(body : any, success? : callback, fail? : callback) {

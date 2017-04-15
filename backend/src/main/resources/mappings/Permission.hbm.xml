@@ -4,7 +4,7 @@
  "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"> 
 
 <hibernate-mapping>
-   <class name="solvas.models.Permission" table="permissions">
+   <class name="solvas.service.models.Permission" table="permissions">
       <meta attribute="class-description">
          This class contains the permission detail.
       </meta>
@@ -17,8 +17,9 @@
 
        <set name="roles" table="role_permissions" inverse="true"> <!-- Role is owner of relationship -->
            <key column="permission_id"/>
-           <many-to-many column="role_id" class="solvas.models.Role" />
+           <many-to-many column="role_id" class="solvas.service.models.Role" />
        </set>
+       <property name="archived" column="archived" type="boolean" not-null="true"/>
 
       <property name="updatedAt" column="updated_at" type="java.time.LocalDateTime" generated="always" not-null="true"/>
       <property name="createdAt" column="created_at" type="java.time.LocalDateTime" generated="insert" not-null="true"/>

@@ -5,6 +5,7 @@ import VehicleFilterLayout from './VehicleFilterLayout.tsx'
 import HiddenFilter from '../../filters/HiddenFilter.tsx'
 
 interface FilterProps {
+  vehicles : Vehicle[];
   onFilter : (filter : VehicleFilterData) => void;
 }
 
@@ -12,13 +13,21 @@ interface FilterState {
   filter : VehicleFilterData;
   typeDisplay: string;
   hidden: boolean;
+  licensePlateData: string[];
+  vinData: string[];
 }
 
 class VehicleFilter extends React.Component<FilterProps, FilterState>{
 
 	constructor(){
 		super();
-		this.state = { filter: {fleet : '', type : '', leasingCompany: '', licensePlate: '', vin: '', year: ''}, typeDisplay: 'All vehicles', hidden:false };
+		this.state = { 
+			filter: {fleet : '', type : '', leasingCompany: '', licensePlate: '', vin: '', year: ''}, 
+			typeDisplay: 'All vehicles', 
+			hidden:false, 
+			licensePlateData: [],
+			vinData: []
+		};
 		this.handleFilterFleet = this.handleFilterFleet.bind(this);
 		this.handleFilterType = this.handleFilterType.bind(this);
 		this.handleFilterLeasingCompany = this.handleFilterLeasingCompany.bind(this);
@@ -28,6 +37,17 @@ class VehicleFilter extends React.Component<FilterProps, FilterState>{
 		this.handleReset = this.handleReset.bind(this);
 		this.handleHide = this.handleHide.bind(this);
 		this.handleShow = this.handleShow.bind(this);
+		this.setTypeaheadOptions = this.setTypeaheadOptions.bind(this);
+	}
+
+	componentDidMount(){
+		this.setTypeaheadOptions(this.props.vehicles);
+	}
+
+	componentWillReceiveProps(nextProps : any){
+		if(this.props.vehicles != nextProps.vehicles){
+			this.setTypeaheadOptions(nextProps.vehicles);
+		}
 	}
 
 	handleFilterFleet(event : any){
@@ -60,16 +80,16 @@ class VehicleFilter extends React.Component<FilterProps, FilterState>{
 		this.props.onFilter( newFilter );
 	}
 
-	handleFilterLicensePlate(event : any){
+	handleFilterLicensePlate(selected : string[]){
 		var newFilter = this.state.filter;
-		newFilter.licensePlate = event.target.value;
+		newFilter.licensePlate = selected[0];
 		this.setState( {filter: newFilter} )
 		this.props.onFilter( newFilter );
 	}
 
-	handleFilterVin(event : any){
+	handleFilterVin(selected : string[]){
 		var newFilter = this.state.filter;
-		newFilter.vin = event.target.value;
+		newFilter.vin = selected[0];
 		this.setState( {filter: newFilter} )
 		this.props.onFilter( newFilter );
 	}
@@ -95,9 +115,30 @@ class VehicleFilter extends React.Component<FilterProps, FilterState>{
 		this.setState({ hidden: false });
 	}
 
+	setTypeaheadOptions(vehicles : Vehicle[]){
+		var newLicensePlateData : string[] = [];
+		var newVinData : string[] = [];
+
+		vehicles.map((vehicle) =>{
+
+			if(vehicle.licensePlate != null && vehicle.licensePlate != undefined && vehicle.licensePlate != ''){
+				newLicensePlateData.push(vehicle.licensePlate);
+			}
+
+			if(vehicle.vin != null && vehicle.vin != undefined && vehicle.vin != ''){
+				newVinData.push(vehicle.vin);
+			}
+
+		});
+
+		this.setState( {licensePlateData: newLicensePlateData, vinData: newVinData} );
+	}
+
 	render(){
 
-		if(this.state.hidden){
+		var { filter, typeDisplay, licensePlateData, vinData } = this.state;
+
+		if(this.state.hidden || this.props.vehicles == []){
 			return(
 				<HiddenFilter onReset={ this.handleReset } onShow={ this.handleShow }/>
 			);
@@ -105,8 +146,10 @@ class VehicleFilter extends React.Component<FilterProps, FilterState>{
 		else{
 			return(
 				<VehicleFilterLayout 
-					filter={ this.state.filter } 
-					typeDisplay={ this.state.typeDisplay } 
+					filter={ filter } 
+					typeDisplay={ typeDisplay } 
+					licensePlateData={ licensePlateData }
+					vinData={ vinData }
 					onFilterType={ this.handleFilterType } 
 					onFilterFleet={ this.handleFilterFleet } 
 					onFilterLeasingCompany={ this.handleFilterLeasingCompany } 

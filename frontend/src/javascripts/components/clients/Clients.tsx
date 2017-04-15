@@ -1,9 +1,9 @@
 import React from 'react';
-import { browserHistory } from'react-router';
 
 import Layout from './Layout.tsx';
 
 import { fetchClients } from '../../actions/client_actions.ts';
+import { redirect_to } from'../../router.tsx';
 
 class Clients extends React.Component<{}, Companies.State> {
 
@@ -19,7 +19,7 @@ class Clients extends React.Component<{}, Companies.State> {
   }
 
   handleClick(id : number) {
-    browserHistory.push('/clients/' + id);
+    redirect_to(`/clients/${id}`);
   }
 
   render() {
