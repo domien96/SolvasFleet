@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS transaction_costs;
 DROP TABLE IF EXISTS invoices;
+DROP TYPE IF EXISTS invoice_type;
 
 CREATE TABLE overwritten_taxes (
   overwritten_tax_id SERIAL NOT NULL,
@@ -24,10 +25,11 @@ CREATE TRIGGER update_updated_at BEFORE UPDATE
 CREATE TRIGGER update_created_at BEFORE INSERT
   ON overwritten_taxes FOR EACH ROW EXECUTE PROCEDURE  update_created_at_column();
 
+CREATE TYPE invoice_type AS ENUM ('billing','payment');
 
 CREATE TABLE invoices (
   invoice_id SERIAL NOT NULL,
-  type INT NOT NULL ,
+  type invoice_type NOT NULL ,
   amount NUMERIC NOT NULL ,
   paid BOOLEAN NOT NULL ,
   fleet_id INT NOT NULL ,

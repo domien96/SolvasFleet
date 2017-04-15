@@ -12,7 +12,7 @@ public class Invoice extends Model {
     private BigDecimal amount; // in cents
     private Date startDate;
     private Date endDate;
-    private int type;
+    private InvoiceType type;
     private boolean paid;
 
     private Fleet fleet;
@@ -52,11 +52,11 @@ public class Invoice extends Model {
         this.endDate = endDate;
     }
 
-    public int getType() {
+    public InvoiceType getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(InvoiceType type) {
         this.type = type;
     }
 
