@@ -12,6 +12,7 @@ CREATE TABLE transaction_costs (
   insurance_type_id INT NOT NULL ,
   created_at TIMESTAMP ,
   updated_at TIMESTAMP ,
+  archived BOOLEAN DEFAULT FALSE ,
   PRIMARY KEY (transaction_costs_id),
   FOREIGN KEY (fleet_id) REFERENCES fleets(fleet_id),
   FOREIGN KEY (insurance_type_id) REFERENCES insurance_types(insurance_type_id)
@@ -30,6 +31,7 @@ CREATE TABLE billings (
   fleet_id INT NOT NULL ,
   created_at TIMESTAMP ,
   updated_at TIMESTAMP ,
+  archived BOOLEAN DEFAULT FALSE ,
   PRIMARY KEY (billing_id) ,
   FOREIGN KEY (fleet_id) REFERENCES fleets(fleet_id)
 );
