@@ -23,7 +23,7 @@ export function redirect_to(path : string) : void {
   browserHistory.push(`${SUB_URI}${sep}${path}`);
 }
 
-let sign_in_and_redirect = (_state : RouterState, re : RedirectFunction) => {
+let sign_out_and_redirect = (_state : RouterState, re : RedirectFunction) => {
   Auth.deauthenticateUser();
   re('/');
 }
@@ -40,7 +40,7 @@ const SolvasRouter : React.StatelessComponent<{}> = () => {
 
         <Route component={ EnsureLoggedInContainer }>
           <Route component={ App } >
-            <Route path="sign_out" onEnter={ sign_in_and_redirect } />
+            <Route path="sign_out" onEnter={ sign_out_and_redirect } />
 
             { user_routes }
             { client_routes }
