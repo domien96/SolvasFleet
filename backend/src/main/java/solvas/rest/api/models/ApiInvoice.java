@@ -5,10 +5,10 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 /**
- * Schema for a contract as defined in the Invoice
+ * Schema for a Invoice as defined in the api
  * @author Steven Bastiaens
  */
-public class ApiInvoice {
+public class ApiInvoice extends ApiModel {
 
     @NotNull
     //required
@@ -20,7 +20,7 @@ public class ApiInvoice {
 
     @NotNull
     //optional
-    private boolean payed;
+    private boolean paid;
 
     @Min(value = 1)
     //required
@@ -33,11 +33,6 @@ public class ApiInvoice {
     @Min(value = 1)
     //required
     private int type;
-
-    @Min(value = 1)
-    //required
-    private int vehicle;
-
 
 
 }

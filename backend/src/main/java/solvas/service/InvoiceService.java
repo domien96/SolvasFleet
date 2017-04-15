@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.dao.InsuranceTypeDao;
 import solvas.rest.api.models.ApiContract;
+import solvas.rest.api.models.ApiInvoice;
 import solvas.rest.api.models.ApiModel;
 import solvas.service.mappers.ContractMapper;
 import solvas.service.models.Contract;
@@ -16,7 +17,7 @@ import java.util.stream.Collectors;
 /**
  * Created by steve on 15/04/2017.
  */
-public class InvoiceService extends AbstractService<Model,ApiModel> {
+public class InvoiceService extends AbstractService<Model,ApiInvoice> {
 
     //Dao for generating a response for findAllInsuranceTypes
     private InsuranceTypeDao insuranceTypeDao;

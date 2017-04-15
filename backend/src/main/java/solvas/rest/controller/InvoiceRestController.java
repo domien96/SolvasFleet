@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import solvas.rest.api.models.ApiInvoice;
 import solvas.rest.api.models.ApiModel;
 import solvas.rest.query.InvoiceFilter;
 import solvas.service.InvoiceService;
@@ -17,7 +18,7 @@ import javax.validation.Valid;
  * Rest controller for Invoice
  *
  */                                                                //TODO REPLACE
-public class InvoiceRestController  extends AbstractRestController<Model,ApiModel> {
+public class InvoiceRestController  extends AbstractRestController<Model,ApiInvoice> {
 
     /**
      * Default constructor.
