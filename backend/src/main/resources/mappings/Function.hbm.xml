@@ -13,8 +13,8 @@
             <generator class="identity"/>
         </id>
 
-        <property name="endDate" column="end_date" type="java.time.LocalDate"/>
-        <property name="startDate" column="start_date" type="java.time.LocalDate" not-null="true"/>
+        <property name="endDate" column="end_date" type="java.time.LocalDateTime" />
+        <property name="startDate" column="start_date" type="java.time.LocalDateTime"  not-null="true"/>
         <property name="archived" column="archived" type="boolean" not-null="true"/>
 
         <many-to-one name="company" column="company_id"
