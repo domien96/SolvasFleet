@@ -1,5 +1,5 @@
 DROP TABLE IF EXISTS transaction_costs;
-DROP TABLE IF EXISTS billings;
+DROP TABLE IF EXISTS invoices;
 
 CREATE TABLE transaction_costs (
   transaction_costs_id SERIAL NOT NULL,
@@ -43,7 +43,7 @@ CREATE TABLE invoices (
 );
 
 CREATE TRIGGER update_updated_at BEFORE UPDATE
-  ON billings FOR EACH ROW EXECUTE PROCEDURE  update_updated_at_column();
+  ON invoices FOR EACH ROW EXECUTE PROCEDURE  update_updated_at_column();
 
 CREATE TRIGGER update_created_at BEFORE INSERT
-  ON billings FOR EACH ROW EXECUTE PROCEDURE  update_created_at_column();
+  ON invoices FOR EACH ROW EXECUTE PROCEDURE  update_created_at_column();
