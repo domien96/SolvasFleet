@@ -12,7 +12,7 @@ interface Props {
 const EditLink = ({ id } : { id : number }) => {
   return (
     <div className='col-sm-6'>
-      <Link to={ `${id}/edit` } className='btn btn-default form-control'>
+      <Link to={ '/contracts/'+id+'/edit' } className='btn btn-default form-control'>
         <span className='glyphicon glyphicon-edit' /> Edit
       </Link>
     </div>
