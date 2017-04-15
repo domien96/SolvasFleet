@@ -11,7 +11,7 @@
         <id name="id" type="int" column="company_id">
             <generator class="identity"/>
         </id>
-        <property name="forfaitair" column="forfaitair" type="double" not-null="true"/>
+        <property name="forfaitair" column="forfaitair" type="big_decimal" not-null="true"/>
         <property name="taxes" column="taxes" type="double" not-null="true"/>
         <property name="commission" column="commission" type="double" not-null="true"/>
 

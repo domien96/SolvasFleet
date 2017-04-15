@@ -1,5 +1,6 @@
 package solvas.service.models;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -8,7 +9,7 @@ import java.util.Date;
  */
 public class OverwrittenTax extends Model {
 
-    private double forfaitair;
+    private BigDecimal forfaitair;
     private double taxes;
     private double commission;
     private Date startDate;
@@ -19,11 +20,11 @@ public class OverwrittenTax extends Model {
     public OverwrittenTax() {
     } // Hibernate wants a no-arg constructor
 
-    public double getForfaitair() {
+    public BigDecimal getForfaitair() {
         return forfaitair;
     }
 
-    public void setForfaitair(double forfaitair) {
+    public void setForfaitair(BigDecimal forfaitair) {
         this.forfaitair = forfaitair;
     }
 

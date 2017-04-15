@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS invoices;
 
 CREATE TABLE overwritten_taxes (
   overwritten_tax_id SERIAL NOT NULL,
-  forfaitair DOUBLE PRECISION NOT NULL ,
+  forfaitair NUMERIC NOT NULL ,
   taxes DOUBLE PRECISION NOT NULL ,
   commission DOUBLE PRECISION NOT NULL ,
   startDate TIMESTAMP NOT NULL ,
