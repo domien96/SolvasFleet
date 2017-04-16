@@ -37,6 +37,10 @@ public class TaxRestController extends AbstractRestController<Tax,ApiTax>{
     /**
      * Get tax with vehicle type and contract type
      *
+     *  @param vehicleType vehicle type for the tax
+     *  @param contractType insurance type for the tax
+     *  @param filter autowired filter
+     *
      * @return The current tax
      */
     @RequestMapping(value = "/vehicles/types/{vehicleType}/taxes/{contractType}", method = RequestMethod.GET)
@@ -54,6 +58,10 @@ public class TaxRestController extends AbstractRestController<Tax,ApiTax>{
 
     /**
      * Put tax with vehicle type and contract type
+     *  @param vehicleType vehicle type for the tax
+     *  @param contractType insurance type for the tax
+     *  @param input input of the endpoint
+     *  @param result binding result
      *
      * @return The contract types.
      */
