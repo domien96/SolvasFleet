@@ -43,7 +43,7 @@ public class RoleMapper extends AbstractMapper<Role,ApiRole> {
     @Override
     public ApiRole convertToApiModel(Role role) throws FieldNotFoundException {
         ApiRole apiRole = new ApiRole();
-        copyAttributes(apiRole, role, "id");
+        copyAttributes(apiRole, role, "id","createdAt", "updatedAt");
         copySharedAttributes(apiRole, role);
         apiRole.setCompany(role.getCompany().getId());
         apiRole.setUser(role.getUser().getId());
