@@ -16,6 +16,7 @@ public class SimpleUrlBuilder extends UriComponentsBuilder{
      * @param path the path with parameters surrounded by curly braces.
      *             e.g. /users/{id}
      * @param parameters The values for the parameters mentioned in the path in order.
+     * @throws IllegalStateException When a request is not found.
      * @return The builded url which has following format protocol://authentication@domain:port/path
      * with the parameters filled in.
      */

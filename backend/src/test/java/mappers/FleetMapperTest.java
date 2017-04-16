@@ -5,6 +5,9 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import solvas.service.models.Fleet;
 import solvas.persistence.api.DaoContext;
 import solvas.service.mappers.FleetMapper;
@@ -17,7 +20,6 @@ import static org.hamcrest.core.Is.is;
 /**
  * Tests to check correct mapping of a fleet
  */
-@Ignore
 public class FleetMapperTest {
 
     @Mock
@@ -34,6 +36,8 @@ public class FleetMapperTest {
     {
         MockitoAnnotations.initMocks(this);
         mapper=new FleetMapper(daoContext);
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
     }
 
     /**
@@ -45,7 +49,7 @@ public class FleetMapperTest {
         Fleet fleet = random(Fleet.class);
         ApiFleet converted = mapper.convertToApiModel(fleet);
         assertThat(converted.getId(),is(fleet.getId()));
-        assertThat(converted.getUrl(),is("/fleets/"+fleet.getId()));
+        assertThat(converted.getUrl(),is("http://localhost/fleets/"+fleet.getId()));
         assertThat(converted.getName(),is(fleet.getName()));
         assertThat(converted.getCompany(),is(fleet.getCompany().getId()));
         assertThat(converted.getUpdatedAt(),is(fleet.getUpdatedAt()));
