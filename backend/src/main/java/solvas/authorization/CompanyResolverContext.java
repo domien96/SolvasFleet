@@ -15,13 +15,13 @@ import java.util.Map;
  */
 @Component
 public class CompanyResolverContext {
-    private final String VEHICLE_RESOURCE_TYPE = "vehicle";
-    private final String COMPANY_RESOURCE_TYPE = "company";
-    private final String FLEET_RESOURCE_TYPE = "fleet";
-    private final String USER_RESOURCE_TYPE = "user";
-    private final String ROLE_RESOURCE_TYPE = "role";
-    private final String FUNCTION_RESOURCE_TYPE = "function";
-    private final String PERMISSION_RESOURCE_TYPE = "permission";
+    public final static String VEHICLE_RESOURCE_TYPE = "vehicle";
+    public final static String COMPANY_RESOURCE_TYPE = "company";
+    public final static String FLEET_RESOURCE_TYPE = "fleet";
+    public final static String USER_RESOURCE_TYPE = "user";
+    public final static String ROLE_RESOURCE_TYPE = "role";
+    public final static String FUNCTION_RESOURCE_TYPE = "function";
+    public final static String PERMISSION_RESOURCE_TYPE = "permission";
 
     private final Map<String, CompanyIdResolver> resolvers = new HashMap<>();
     private final Map<Class<? extends ApiModel>, String> resourceNames =
