@@ -22,6 +22,8 @@ public class CompanyResolverContext {
     public final static String ROLE_RESOURCE_TYPE = "role";
     public final static String FUNCTION_RESOURCE_TYPE = "function";
     public final static String PERMISSION_RESOURCE_TYPE = "permission";
+    public final static String INVOICE_RESOURCE_TYPE = "invoice";
+    public final static String CONTRACT_RESOURCE_TYPE = "contract";
 
     private final Map<String, CompanyIdResolver> resolvers = new HashMap<>();
     private final Map<Class<? extends ApiModel>, String> resourceNames =
@@ -33,6 +35,8 @@ public class CompanyResolverContext {
                 put(ApiRole.class, ROLE_RESOURCE_TYPE);
                 put(ApiFunction.class, FUNCTION_RESOURCE_TYPE);
                 put(ApiPermission.class, PERMISSION_RESOURCE_TYPE);
+                put(ApiInvoice.class, INVOICE_RESOURCE_TYPE);
+                put(ApiContract.class, CONTRACT_RESOURCE_TYPE);
             }};
 
     /**
@@ -48,6 +52,8 @@ public class CompanyResolverContext {
         resolvers.put(ROLE_RESOURCE_TYPE, new NoCompanyResolver());
         resolvers.put(PERMISSION_RESOURCE_TYPE, new NoCompanyResolver());
         resolvers.put(FUNCTION_RESOURCE_TYPE, new NoCompanyResolver());
+        resolvers.put(INVOICE_RESOURCE_TYPE, new InvoiceToCompanyIdResolver(daoContext.getInvoiceDao()));
+        resolvers.put(CONTRACT_RESOURCE_TYPE, new ContractToCompanyIdResolver(daoContext.getContractDao()));
     }
 
     /**

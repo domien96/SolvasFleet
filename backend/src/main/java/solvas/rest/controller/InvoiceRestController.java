@@ -19,7 +19,8 @@ import javax.validation.Valid;
  * Rest controller for Invoice
  *
  */
-public class InvoiceRestController  extends AbstractRestController<Invoice,ApiInvoice> {
+@RestController
+public class InvoiceRestController extends AbstractRestController<Invoice,ApiInvoice> {
 
     /**
      * Default constructor.

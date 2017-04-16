@@ -1,6 +1,7 @@
 package solvas.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.dao.InsuranceTypeDao;
 import solvas.rest.api.models.ApiContract;
@@ -16,9 +17,8 @@ import solvas.service.models.Model;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-/**
- * Created by steve on 15/04/2017.
- */
+
+@Service
 public class InvoiceService extends AbstractService<Invoice,ApiInvoice> {
 
     //Dao for generating a response for findAllInsuranceTypes
