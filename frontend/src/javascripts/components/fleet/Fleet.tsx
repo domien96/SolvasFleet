@@ -109,8 +109,7 @@ class Fleet extends React.Component<fleetProps, fleetState> {
               </NestedCheckbox>
             </div>
           </Card>
-          <Contracts vehicleId={ null } fleetId={ this.props.params.id } companyId={ null }/> 
-        </div>
+          </div>
       </div>
     )
   }

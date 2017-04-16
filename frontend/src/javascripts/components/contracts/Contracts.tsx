@@ -6,7 +6,6 @@ import { fetchFleet } from '../../actions/fleet_actions.ts'
 import { fetchVehicle } from '../../actions/vehicle_actions.ts'
 import { redirect_to } from'../../router.tsx';
 import Listing from '../app/Listing.tsx';
-import ContractsView from './ContractsView.tsx'
 
 interface Props {
   vehicleId: number
@@ -29,7 +28,7 @@ class Contracts extends React.Component<Props, State> {
   fetchContracts(){
     fetchContracts(((data : ContractsData) => {
       this.setState({ contracts: data.data })
-    }),query={vehicle:vehicleId});
+    }),undefined,{vehicle:this.props.vehicleId});
   }
 
   handleClick(id : number) {

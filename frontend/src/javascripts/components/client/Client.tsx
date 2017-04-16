@@ -91,8 +91,7 @@ class Client extends React.Component<Props, State> {
             </div>
             <div className='col-xs-12 col-md-6'>
               <Fleets fleets={ this.state.fleets } company={ this.props.params.id } />
-              <Contracts vehicleId={ null } fleetId={ null } companyId={ id }/>
-            </div>
+              </div>
           </div>
         </div>
       </div>

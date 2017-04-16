@@ -31,7 +31,7 @@ class AddContract extends React.Component<{}, State> {
     }
     else{
     	contract[field] = e.target.value;
-		}	
+		}
     this.setState({ contract });
   }
 
@@ -45,7 +45,7 @@ class AddContract extends React.Component<{}, State> {
       }));
     }
 
-    postContract(this.state.contract, success, fail);
+    postContract(this.state.contract, success, undefined);
   }
 
   render() {
