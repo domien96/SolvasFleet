@@ -6,6 +6,8 @@ import solvas.rest.SimpleUrlBuilder;
 /**
  * Represents an API response that is paged.
  *
+ * @param <T> The type of the entities over which the pagination happens.
+ *
  * @author Niko Strijbol
  */
 public class PagedResult<T> extends JsonListWrapper<T> {
