@@ -11,9 +11,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+/**
+ * Resolve company id for vehicle resource
+ */
 public class VehicleToCompanyIdResolver implements CompanyIdResolver {
     private final VehicleDao vehicleDao;
 
+    /**
+     * Create instance
+     * @param vehicleDao Dao used to query vehicles
+     */
     public VehicleToCompanyIdResolver(VehicleDao vehicleDao) {
         this.vehicleDao = vehicleDao;
     }

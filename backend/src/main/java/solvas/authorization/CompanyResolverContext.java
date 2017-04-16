@@ -10,6 +10,9 @@ import solvas.rest.api.models.*;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Context to find {@link CompanyIdResolver} for a resource
+ */
 @Component
 public class CompanyResolverContext {
     private final Map<String, CompanyIdResolver> resolvers = new HashMap<>();
@@ -24,6 +27,10 @@ public class CompanyResolverContext {
                 put(ApiPermission.class, "permission");
             }};
 
+    /**
+     * Create instance
+     * @param daoContext Context to pass Dao's to resolvers
+     */
     @Autowired
     public CompanyResolverContext(DaoContext daoContext) {
         resolvers.put("fleet", new FleetToCompanyIdResolver(daoContext.getFleetDao()));
@@ -35,6 +42,11 @@ public class CompanyResolverContext {
         resolvers.put("function", new NoCompanyResolver());
     }
 
+    /**
+     * Get resolver for a resource type
+     * @param resource name of the resource type
+     * @return The CompanyIdResolver
+     */
     public CompanyIdResolver getResolver(String resource) {
         if (!resolvers.containsKey(resource)) {
             throw new CompanyResolvingException(String.format("Could not resolve company for resource type %s.", resource));
@@ -42,6 +54,11 @@ public class CompanyResolverContext {
         return resolvers.get(resource);
     }
 
+    /**
+     * Get resource type name for a resource
+     * @param resource Resource to get type name for
+     * @return The type name
+     */
     public String getResourceType(ApiModel resource) {
         return resourceNames.get(resource.getClass());
     }

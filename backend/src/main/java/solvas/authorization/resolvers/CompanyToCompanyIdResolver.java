@@ -5,6 +5,9 @@ import solvas.persistence.api.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
 
+/**
+ * Resolve company id for company resource
+ */
 public class CompanyToCompanyIdResolver implements CompanyIdResolver {
     @Override
     public Collection<Integer> resolve(int targetId) throws EntityNotFoundException {
