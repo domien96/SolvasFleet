@@ -17,7 +17,9 @@ import solvas.service.models.Model;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-
+/**
+ * Service class for invoices
+ */
 @Service
 public class InvoiceService extends AbstractService<Invoice,ApiInvoice> {
 
