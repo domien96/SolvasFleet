@@ -15,5 +15,10 @@
         <property name="action" column="action" type="string" not-null="true"/>
         <property name="resource" column="resource" type="string" not-null="true"/>
 
-    </class>
+       <property name="archived" column="archived" type="boolean" not-null="true"/>
+
+      <property name="updatedAt" column="updated_at" type="java.time.LocalDateTime" generated="always"/>
+      <property name="createdAt" column="created_at" type="java.time.LocalDateTime" generated="insert"/>
+
+   </class>
 </hibernate-mapping>
