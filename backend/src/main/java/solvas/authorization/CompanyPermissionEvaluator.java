@@ -7,6 +7,7 @@ import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.api.models.ApiModel;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -31,12 +32,7 @@ public class CompanyPermissionEvaluator implements PermissionEvaluator {
 
     @Override
     public boolean hasPermission(Authentication authentication, Serializable targetId, String targetType, Object permission) {
-        Collection<Integer>  companyIds;
-        try {
-            companyIds = getCompanyIds((Integer) targetId, targetType);
-        } catch (EntityNotFoundException e) {
-            return false;
-        }
+        Collection<Integer>  companyIds = getCompanyIds((Integer) targetId, targetType);
 
         return authentication.getAuthorities().stream()
                 .filter(Authority.class::isInstance)
@@ -46,9 +42,14 @@ public class CompanyPermissionEvaluator implements PermissionEvaluator {
                 .anyMatch(p -> p.getAction().equals(permission) && p.getResource().equals(targetType));
     }
 
-    private Collection<Integer> getCompanyIds(int targetId, String targetType) throws EntityNotFoundException {
-        Collection<Integer> ids = resolverContext.getResolver(targetType).resolve(targetId);
-        ids.add(0); // Company id 0 means permission is granted for all companiesw
+    private Collection<Integer> getCompanyIds(int targetId, String targetType) {
+        Collection<Integer> ids;
+        try {
+            ids = resolverContext.getResolver(targetType).resolve(targetId);
+        } catch (EntityNotFoundException e) {
+            ids = new ArrayList<>();
+        }
+        ids.add(0); // Company id 0 means permission is granted for all companies
         return ids;
     }
 }
