@@ -12,8 +12,10 @@
             <generator class="identity"/>
         </id>
 
-         <property name="name" column="name" type="string" not-null="true"/>
+        <property name="name" column="name" type="string" not-null="true"/>
 
+        <property name="updatedAt" column="updated_at" type="java.time.LocalDateTime" generated="always" insert="false"/>
+        <property name="createdAt" column="created_at" type="java.time.LocalDateTime" generated="insert" insert="false"/>
 
     </class>
 </hibernate-mapping>
