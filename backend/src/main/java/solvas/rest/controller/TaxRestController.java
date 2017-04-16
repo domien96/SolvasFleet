@@ -70,7 +70,7 @@ public class TaxRestController extends AbstractRestController<Tax,ApiTax>{
                                     @Valid @RequestBody ApiTax input, BindingResult result) {
         input.setVehicleType(vehicleType);
         input.setContractType(contractType);
-        return super.post(input,result);
+        return super.put(0,input,result);
     }
 
 }
