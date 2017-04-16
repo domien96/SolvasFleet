@@ -7,14 +7,18 @@ import { redirect_to } from'../../router.tsx';
 interface State {
     vehicles : VehicleData[];
     filter: VehicleFilterData;
+    pagresponse: PaginationResponse;
   }
 
 class Vehicles extends React.Component<{}, State> {
 
   constructor(props : {}) {
     super(props);
-    this.state = { vehicles: [], filter : {fleet : '', type : '', leasingCompany: '', licensePlate: '', vin: '', year: ''} };
+    this.state = { vehicles: [], filter : {fleet : '', type : '', leasingCompany: '', licensePlate: '', vin: '', year: ''},
+      pagresponse:{total:0,first : 0, last : 0, limit : 0, offset : 0, previous : 0, next : 0}
+   };
     this.handleFilter = this.handleFilter.bind(this);
+    this.fetchVehicles = this.fetchVehicles.bind(this);
   }
 
   componentDidMount() {
@@ -47,7 +51,7 @@ class Vehicles extends React.Component<{}, State> {
       })
     );
     return (
-      <Layout vehicles={ this.state.vehicles } onVehicleSelect={ this.handleClick } onFilter={ this.handleFilter }>
+      <Layout vehicles={ this.state.vehicles } onVehicleSelect={ this.handleClick } onFilter={ this.handleFilter } fetchVehicles={this.fetchVehicles}>
         { children }
       </Layout>
     );

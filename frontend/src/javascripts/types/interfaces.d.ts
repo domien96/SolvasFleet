@@ -12,3 +12,4 @@
 /// <reference path="contract.d.ts"/>
 
 /// <reference path="Typeahead.d.ts"/>
+/// <reference path="pagination.d.ts"/>
