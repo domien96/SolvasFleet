@@ -85,6 +85,7 @@ public class ContractRestController extends AbstractRestController<Contract,ApiC
      */
     @RequestMapping(value = "/companies/{companyId}/fleets/{fleetId}/vehicles/{vehicleId" +
             "}/contracts", method = RequestMethod.GET)
+    @PreAuthorize("hasPermission(#vehicleId, 'vehicle', 'READ') && hasPermission(#companyId, 'company', 'READ') && hasPermission(#fleetId, 'fleet', 'READ')")
     public ResponseEntity<?> getByCompanyFleetVehicleId(@PathVariable int companyId,@PathVariable int fleetId,@PathVariable int vehicleId,Pageable pagination, ContractFilter filter, BindingResult result) {
         filter.setCompany(companyId);
         filter.setFleet(fleetId);
@@ -92,6 +93,7 @@ public class ContractRestController extends AbstractRestController<Contract,ApiC
         return super.listAll(pagination,filter,result);
     }
 
+    // TODO: authorize
     @Override
     @RequestMapping(value = "/contracts", method = RequestMethod.POST)
     public ResponseEntity<?> post(@Valid @RequestBody ApiContract input, BindingResult result) {
@@ -100,12 +102,14 @@ public class ContractRestController extends AbstractRestController<Contract,ApiC
 
     @Override
     @RequestMapping(value = "/contracts/{id}", method = RequestMethod.DELETE)
+    @PreAuthorize("hasPermission(#id, 'contract', 'WRITE')")
     public ResponseEntity<?> archiveById(@PathVariable int id) {
         return super.archiveById(id);
     }
 
     @Override
     @RequestMapping(value = "/contracts/{id}", method = RequestMethod.PUT)
+    @PreAuthorize("hasPermission(#id, 'contract', 'WRITE')")
     public ResponseEntity<?> put(@PathVariable int id, @Valid @RequestBody ApiContract input,BindingResult result) {
         return super.put(id, input,result);
     }
