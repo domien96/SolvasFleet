@@ -41,8 +41,9 @@ public class FleetRestController extends AbstractRestController<Fleet, ApiFleet>
      *
      * @return ResponseEntity
      */
-    @RequestMapping(value = "/fleets", method = RequestMethod.GET)
-    public ResponseEntity<?> listAll(Pageable pagination, FleetFilter filter, BindingResult result) {
+    @RequestMapping(value = "/companies/{companyId}/fleets", method = RequestMethod.GET)
+    public ResponseEntity<?> listAll(Pageable pagination, FleetFilter filter, BindingResult result, @PathVariable int companyId) {
+        filter.setCompany(companyId);
         return super.listAll(pagination, filter, result);
     }
 
