@@ -13,6 +13,10 @@ import solvas.service.models.Permission;
 @Component
 public class PermissionMapper extends AbstractMapper<Permission, ApiPermission> {
 
+    /**
+     * Create instance
+     * @param daoContext DaoContext
+     */
     public PermissionMapper(DaoContext daoContext) {
         super(daoContext, "action", "resource");
     }

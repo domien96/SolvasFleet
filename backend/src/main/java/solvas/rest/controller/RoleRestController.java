@@ -74,7 +74,13 @@ public class RoleRestController extends AbstractRestController<Role,ApiRole> {
         return super.put(id, input,result);
     }
 
-
+    /**
+     *
+     * @param id Id of the role to update permissions for
+     * @param permissions List of permissions (ids)
+     * @param result Validation result
+     * @return ReponseEntity
+     */
     @RequestMapping(value = "/auth/roles/{id}/permissions", method = RequestMethod.PUT)
     public ResponseEntity<?> putPermissions(@PathVariable int id,
                                             @RequestBody Set<Integer> permissions,

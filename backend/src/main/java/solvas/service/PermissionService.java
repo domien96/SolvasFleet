@@ -19,20 +19,26 @@ import java.util.stream.Collectors;
  */
 @Service
 public class PermissionService extends AbstractService<Permission, ApiPermission> {
+    private DaoContext daoContext;
+
     /**
      * Contruct an abstractservice
      *
      * @param daoContext the DAO context
      * @param mapper   the mapper between the apimodel and the model
      */
-
-    private DaoContext daoContext;
     @Autowired
     public PermissionService(DaoContext daoContext, AbstractMapper<Permission, ApiPermission> mapper) {
         super(daoContext.getPermissionDao(), mapper);
         this.daoContext = daoContext;
     }
 
+    /**
+     * Allow to add filtering by role to filter
+     * @param filter The filter to add filtering to
+     * @param roleId The id of the role to filter one
+     * @throws EntityNotFoundException Role not found
+     */
     public void filterOnRole(PermissionFilter filter, int roleId) throws EntityNotFoundException {
         Collection<Integer> ids = daoContext.getRoleDao().find(roleId).getPermissions().stream()
                 .map(Permission::getId)
