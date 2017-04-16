@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import Card   from '../app/Card.tsx';
 import { th }    from '../../utils/utils.ts';
 import InfoTable from '../tables/InfoTable.tsx';
-
+import Listing from '../app/Listing.tsx';
 export interface OverviewProps {
   contracts : ContractData[];
   onContractSelect : (id : number) => void;
@@ -24,25 +24,12 @@ const Overview : React.StatelessComponent<OverviewProps> = props => {
 export interface Props {
 	contracts: ContractData[];
 	onContractSelect : (id : number) => void;
+
 }
 
 const ContractsView : React.StatelessComponent<Props> = props => {
 	return(
-		<div>
-			<Card>
-        <div className='card-title'>
-        	<h2> 
-        		Contracts: 
-	        	<Link to={ '/contracts/new' } className='btn btn-default pull-right'>
-			        <span className='glyphicon glyphicon-plus' aria-hidden='true'></span> Add new contract
-			      </Link>
-			     </h2>
-        </div>
-        <div className='card-content'>
-					<Overview contracts={ props.contracts } onContractSelect={ props.onContractSelect }/>
-				</div>
-			</Card>	
-		</div>
+    <Listing onSelect={props.onContractSelect} addNewRoute='/contracts/new' fetchModels={props.fetchUsers} modelName='contract' columns={['id','type','vehicle']}/>
 	);
 
 }
