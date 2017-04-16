@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
-import solvas.persistence.api.DaoContext;
 
 /**
  * Configure the authorization
@@ -20,7 +19,7 @@ public class MethodSecurityConfig extends GlobalMethodSecurityConfiguration {
      */
     @Bean
     @Autowired
-    public PermissionEvaluator permissionEvaluator(ResolverContext resolverContext) {
+    public PermissionEvaluator permissionEvaluator(CompanyResolverContext resolverContext) {
         return new CompanyPermissionEvaluator(resolverContext);
     }
 }

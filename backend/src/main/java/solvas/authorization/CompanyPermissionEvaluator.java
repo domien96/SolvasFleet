@@ -1,14 +1,10 @@
 package solvas.authorization;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
 import solvas.authentication.user.Authority;
-import solvas.persistence.api.Dao;
-import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
-import solvas.service.models.Company;
-import solvas.service.models.Fleet;
+import solvas.rest.api.models.ApiModel;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -17,15 +13,20 @@ import java.util.Collection;
  * Check if the current user meets a certain permission criteria
  */
 public class CompanyPermissionEvaluator implements PermissionEvaluator {
-    private final ResolverContext resolverContext;
+    private final CompanyResolverContext resolverContext;
 
-    public CompanyPermissionEvaluator(ResolverContext resolverContext) {
+    public CompanyPermissionEvaluator(CompanyResolverContext resolverContext) {
         this.resolverContext = resolverContext;
     }
 
     @Override
     public boolean hasPermission(Authentication authentication, Object targetDomainObject, Object permission) {
-        return false; // TODO
+        if(! (targetDomainObject instanceof  ApiModel)) {
+            throw new UnsupportedOperationException(String.format("Could not check permissions for target object of class %s.", targetDomainObject.getClass()));
+        }
+        ApiModel o = (ApiModel)targetDomainObject;
+
+        return hasPermission(authentication, o.getId(), resolverContext.getResourceType(o), permission);
     }
 
     @Override
@@ -46,6 +47,8 @@ public class CompanyPermissionEvaluator implements PermissionEvaluator {
     }
 
     private Collection<Integer> getCompanyIds(int targetId, String targetType) throws EntityNotFoundException {
-        return resolverContext.getResolver(targetType).resolve(targetId);
+        Collection<Integer> ids = resolverContext.getResolver(targetType).resolve(targetId);
+        ids.add(0); // Company id 0 means permission is granted for all companiesw
+        return ids;
     }
 }
