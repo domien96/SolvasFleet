@@ -11,6 +11,7 @@ import org.springframework.data.web.config.SpringDataWebConfiguration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import solvas.rest.utils.PagedResult;
 
 
 /**
@@ -67,7 +68,8 @@ public class Application {
             @Override
             public PageableHandlerMethodArgumentResolver pageableResolver() {
                 PageableHandlerMethodArgumentResolver resolver = super.pageableResolver();
-                resolver.setSizeParameterName("limit");
+                resolver.setSizeParameterName(PagedResult.PAGINATION_QUERY_SIZE);
+                resolver.setPageParameterName(PagedResult.PAGINATION_QUERY_PAGE);
                 return resolver;
             }
         };

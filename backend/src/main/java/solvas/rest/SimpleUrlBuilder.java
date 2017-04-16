@@ -25,4 +25,14 @@ public class SimpleUrlBuilder extends UriComponentsBuilder{
         builder.replacePath(path);
         return builder.buildAndExpand(parameters).toUriString();
     }
+
+    /**
+     * Get the a uri builder for the current path. This is the full URL, including the full path and all query
+     * parameters.
+     *
+     * @return The builder for the current path.
+     */
+    public static UriComponentsBuilder baseBuilder() {
+        return ServletUriComponentsBuilder.fromCurrentRequestUri();
+    }
 }
