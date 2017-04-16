@@ -16,8 +16,6 @@ public interface InsuranceTypeDao extends Dao<InsuranceType> {
     /**
      * Get the type from it's name.
      *
-     * TODO: this needs a constraint in the database.
-     *
      * @param type The name of the type.
      *
      * @return The insurance type.

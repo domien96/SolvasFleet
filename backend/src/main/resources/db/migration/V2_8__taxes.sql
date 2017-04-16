@@ -14,3 +14,5 @@ CREATE TABLE taxes (
   FOREIGN KEY (insurancetype_id) REFERENCES insurance_types(insurance_type_id),
   UNIQUE (vehicletype_id,insuranceType_id)
 );
+
+ALTER TABLE insurance_types ADD UNIQUE (name);
