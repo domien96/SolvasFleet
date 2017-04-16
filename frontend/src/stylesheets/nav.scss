@@ -15,8 +15,7 @@
   margin-top: 25px;
 
   li {
-    &.active {
-      border-left: 4px solid $orange;
+    &.active {  
       background: $gray-darkest;
 
       a {

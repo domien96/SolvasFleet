@@ -1,10 +1,22 @@
 @import './variables.scss';
 
 .page-wrapper {
-  margin: 0 0 0 $nav-width;
   background-color: $gray-lighterer;
   min-height: 100%;
   padding: $top-padding 15px 0;
+}
+
+.page-wrapper-normal {
+  margin: 0 0 0 $nav-width;
+}
+
+.page-wrapper-mobile {
+  margin: 0 0 0 $nav-width-mobile;
+}
+
+.sidebar-wrapper-mobile {
+  background-color: $gray-lighterer;
+  min-height: 100%;
 }
 
 .header {

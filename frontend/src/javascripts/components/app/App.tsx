@@ -1,6 +1,7 @@
 import React    from 'react';
 import Sidebar  from './Sidebar.tsx'
 import MobileSidebar  from './MobileSidebar.tsx'
+//import MOBILE_WIDTH from '../../constants/constants.ts'
 
 interface Props {
   location: any;
@@ -44,16 +45,22 @@ class App extends React.Component<Props, State> {
 
   render() {
     let sidebar;
-    if(this.state.width > 1000){
+    let classnamesInner;
+    let classnamesOuter;
+    if(this.state.width > 1000){ //TODO change to MOBILE_WIDTH
       sidebar = <Sidebar />
+      classnamesInner = 'page-wrapper page-wrapper-normal';
+      classnamesOuter = '';
     }
     else{
       sidebar = <MobileSidebar />
+      classnamesInner = 'page-wrapper page-wrapper-mobile';
+      classnamesOuter = 'sidebar-wrapper-mobile';
     }
     return (
-      <div id='outer-container'>
+      <div id='outer-container' className={classnamesOuter}>
         {sidebar}
-        <main id='page-wrap' className='page-wrapper'>
+        <main id='page-wrap' className={classnamesInner}>
           { this.props.children }
         </main>
       </div>
