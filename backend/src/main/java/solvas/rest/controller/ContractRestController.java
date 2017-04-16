@@ -3,6 +3,7 @@ package solvas.rest.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import solvas.rest.api.models.ApiContract;
@@ -64,6 +65,7 @@ public class ContractRestController extends AbstractRestController<Contract,ApiC
      * @return The response.
      */
     @RequestMapping(value = "/companies/{id}/contracts", method = RequestMethod.GET)
+    @PreAuthorize("hasPermission(#id, 'company', 'READ')")
     public ResponseEntity<?> getByCompanyId(@PathVariable int id,Pageable pagination, ContractFilter filter, BindingResult result) {
         filter.setCompany(id);
         return super.listAll(pagination,filter,result);

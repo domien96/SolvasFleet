@@ -3,15 +3,9 @@ package solvas.authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import solvas.authorization.exceptions.CompanyResolvingException;
-import solvas.authorization.resolvers.CompanyIdResolver;
-import solvas.authorization.resolvers.CompanyToCompanyIdResolver;
-import solvas.authorization.resolvers.FleetToCompanyIdResolver;
-import solvas.authorization.resolvers.VehicleToCompanyIdResolver;
+import solvas.authorization.resolvers.*;
 import solvas.persistence.api.DaoContext;
-import solvas.rest.api.models.ApiCompany;
-import solvas.rest.api.models.ApiFleet;
-import solvas.rest.api.models.ApiModel;
-import solvas.rest.api.models.ApiVehicle;
+import solvas.rest.api.models.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,6 +18,10 @@ public class CompanyResolverContext {
                 put(ApiVehicle.class, "vehicle");
                 put(ApiCompany.class, "company");
                 put(ApiFleet.class, "fleet");
+                put(ApiUser.class, "user");
+                put(ApiRole.class, "role");
+                put(ApiFunction.class, "function");
+                put(ApiPermission.class, "permission");
             }};
 
     @Autowired
@@ -31,6 +29,10 @@ public class CompanyResolverContext {
         resolvers.put("fleet", new FleetToCompanyIdResolver(daoContext.getFleetDao()));
         resolvers.put("company", new CompanyToCompanyIdResolver());
         resolvers.put("vehicle", new VehicleToCompanyIdResolver(daoContext.getVehicleDao()));
+        resolvers.put("user", new NoCompanyResolver());
+        resolvers.put("role", new NoCompanyResolver());
+        resolvers.put("permission", new NoCompanyResolver());
+        resolvers.put("function", new NoCompanyResolver());
     }
 
     public CompanyIdResolver getResolver(String resource) {
