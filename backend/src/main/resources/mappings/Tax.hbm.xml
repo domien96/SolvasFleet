@@ -6,7 +6,7 @@
 <hibernate-mapping>
     <class name="solvas.service.models.Tax" table="taxes">
         <meta attribute="class-description">
-            This class contains the User detail.
+            This class contains the taxes for tuple (vehicle type, insurance type).
         </meta>
         <id name="id" type="int" column="tax_id">
             <generator class="identity"/>
