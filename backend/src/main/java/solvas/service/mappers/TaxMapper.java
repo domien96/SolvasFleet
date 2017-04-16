@@ -28,20 +28,12 @@ public class TaxMapper extends AbstractMapper<Tax,ApiTax> {
 
     @Override
     public Tax convertToModel(ApiTax api) throws DependantEntityNotFound, EntityNotFoundException {
-        TaxFilter filter = new TaxFilter();
-        filter.setVehicleType(api.getVehicleType());
-        filter.setContractType(api.getContractType());
-
-
-        Tax tax = daoContext.getTaxDao().findAll(filter).iterator().next(); // Only one is allowed
-        if (tax == null) {
-            tax= new Tax();
-        }
+        Tax tax = new Tax();
 
         tax.setInsuranceType(daoContext.getInsuranceTypeDao()
                 .findByName(api.getContractType()).iterator().next());
         tax.setVehicleType(daoContext.getVehicleTypeDao()
-                .findByName(api.getContractType()).iterator().next());
+                .findByName(api.getVehicleType()).iterator().next());
         tax.setTax(BigDecimal.valueOf(api.getTax()));
         return tax;
     }
