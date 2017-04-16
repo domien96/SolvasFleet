@@ -18,8 +18,6 @@
 
        <many-to-one name="vehicle" column="vehicle_id"
                     class="solvas.service.models.Vehicle" not-null="true"/>
-      <many-to-one name="subFleet" column="subfleet_id"
-                   class="solvas.service.models.SubFleet" not-null="true"/>
 
       <set name="contracts" table="contracts" lazy="true">
          <key column="insurance_id" />

@@ -4,7 +4,6 @@ package solvas.service.mappers;
 import org.springframework.stereotype.Component;
 import solvas.service.models.Fleet;
 import solvas.service.models.FleetSubscription;
-import solvas.service.models.SubFleet;
 import solvas.service.models.Vehicle;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
@@ -101,7 +100,7 @@ public class VehicleMapper extends AbstractMapper<Vehicle, ApiVehicle> {
         try {
             Fleet fleet = daoContext.getFleetDao().find(api.getFleet());
             // This is a new subscription.
-            Fleet subscriptionFleet = subscription.getSubFleet().getFleet();
+            Fleet subscriptionFleet = subscription.getFleet();
             if (subscriptionFleet.getId() != fleet.getId()) {
                 subscription.setEndDate(date);
                 daoContext.getFleetSubscriptionDao().save(subscription);
@@ -138,35 +137,20 @@ public class VehicleMapper extends AbstractMapper<Vehicle, ApiVehicle> {
         return daoContext
                 .getFleetSubscriptionDao()
                 .activeForVehicle(vehicle)
-                .map(fleetSubscription -> fleetSubscription.getSubFleet().getFleet().getId()).orElse(0);
+                .map(fleetSubscription -> fleetSubscription.getFleet().getId()).orElse(0);
     }
 
     /**
      * Ensure a link between a vehicle and a fleet.
-     *
+     * Always creates new fleet subscription even if fleet and vehicle were already linked.
      * @param vehicle The vehicle.
      * @param fleet   The fleet.
      * @param now     The current date.
      */
     private void linkFleet(Vehicle vehicle, Fleet fleet, LocalDate now) throws EntityNotFoundException {
-
-        // Check for subfleet
-        Collection<SubFleet> subFleets = daoContext.getSubFleetDao().findByFleet(fleet);
-        // Filter if we already have a subtype or not.
-        Optional<SubFleet> maybeFleet = subFleets.stream()
-                .filter(s -> vehicle.getType().getName().equals(s.getVehicleType().getName()))
-                .findFirst();
-
-        SubFleet subFleet = maybeFleet.orElseGet(() -> {
-            SubFleet newFleet = new SubFleet();
-            newFleet.setFleet(fleet);
-            newFleet.setVehicleType(vehicle.getType());
-            return daoContext.getSubFleetDao().save(newFleet);
-        });
-
         FleetSubscription subscription = new FleetSubscription();
         subscription.setStartDate(now);
-        subscription.setSubFleet(subFleet);
+        subscription.setFleet(fleet);
         subscription.setVehicle(vehicle);
 
         daoContext.getFleetSubscriptionDao().save(subscription);
