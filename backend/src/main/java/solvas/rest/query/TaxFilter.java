@@ -1,5 +1,6 @@
 package solvas.rest.query;
 
+import solvas.persistence.api.Filter;
 import solvas.service.models.InsuranceType;
 import solvas.service.models.Tax;
 import solvas.service.models.VehicleType;
@@ -8,6 +9,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -15,14 +17,14 @@ import java.util.Collection;
  *
  * @author Sjabasti
  */
-public class TaxFilter extends ArchiveFilter<Tax> {
+public class TaxFilter implements Filter<Tax> {
 
     private String vehicleType;
     private String contractType;
 
     @Override
     public Collection<Predicate> asPredicates(CriteriaBuilder builder, Root<Tax> root) {
-        Collection<Predicate> predicates = super.asPredicates(builder,root);
+        Collection<Predicate> predicates = new ArrayList<>();
 
         Join<Tax, VehicleType> join = root.join("vehicleType");
         predicates.add(builder.equal(
