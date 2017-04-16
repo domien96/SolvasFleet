@@ -9,6 +9,7 @@ import solvas.service.mappers.exceptions.DependantEntityNotFound;
 import solvas.service.models.Tax;
 
 import java.math.BigDecimal;
+import java.util.NoSuchElementException;
 
 /**
  * Mapper between for Tax
@@ -33,13 +34,13 @@ public class TaxMapper extends AbstractMapper<Tax,ApiTax> {
         try {
             tax.setInsuranceType(daoContext.getInsuranceTypeDao()
                     .findByName(api.getContractType()).iterator().next());
-        } catch (Exception e) {
+        } catch (NoSuchElementException e) {
             throw new EntityNotFoundException("Unexistent Contracttype");
         }
         try {
             tax.setVehicleType(daoContext.getVehicleTypeDao()
                     .findByName(api.getVehicleType()).iterator().next());
-        } catch (Exception e) {
+        } catch (NoSuchElementException e) {
             throw new EntityNotFoundException("Unexistent Vehicletype");
         }
         tax.setTax(BigDecimal.valueOf(api.getTax()));
