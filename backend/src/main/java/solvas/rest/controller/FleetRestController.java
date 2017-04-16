@@ -42,33 +42,48 @@ public class FleetRestController extends AbstractRestController<Fleet, ApiFleet>
      * @return ResponseEntity
      */
     @RequestMapping(value = "/companies/{companyId}/fleets", method = RequestMethod.GET)
+    @PreAuthorize("hasPermission(#companyId, 'company', 'READ')")
     public ResponseEntity<?> listAll(Pageable pagination, FleetFilter filter, BindingResult result, @PathVariable int companyId) {
         filter.setCompany(companyId);
         return super.listAll(pagination, filter, result);
     }
 
     @Override
-    @RequestMapping(value = "/fleets/{id}", method = RequestMethod.GET)
-    @PreAuthorize("hasPermission(#id, 'fleet', 'READ')")
-    public ResponseEntity<?> getById(@PathVariable int id) {
-        return super.getById(id);
+    @RequestMapping(value = "/companies/{companyId}/fleets/{fleetId}", method = RequestMethod.GET)
+    @PreAuthorize("hasPermission(#fleetId, 'fleet', 'READ')")
+    public ResponseEntity<?> getById(@PathVariable int fleetId) {
+        return super.getById(fleetId);
     }
 
-    @Override
-    @RequestMapping(value = "/fleets", method = RequestMethod.POST)
-    public ResponseEntity<?> post(@Valid @RequestBody ApiFleet input, BindingResult result) {
+    /**
+     * Add fleet to company
+     * @param input The fleet to create
+     * @param result Fleet validation
+     * @param companyId Id of company to create fleet for
+     * @return The Response
+     */
+    @RequestMapping(value = "/companies/{companyId}/fleets", method = RequestMethod.POST)
+    @PreAuthorize("hasPermission(#companyId, 'company', 'WRITE')")
+    public ResponseEntity<?> post(@Valid @RequestBody ApiFleet input, BindingResult result, @PathVariable int companyId) {
+        input.setCompany(companyId);
         return super.post(input,result);
     }
 
     @Override
-    @RequestMapping(value = "/fleets/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> archiveById(@PathVariable int id) {
-        return super.archiveById(id);
+    @RequestMapping(value = "/companies/{companyId}/fleets/{fleetId}", method = RequestMethod.DELETE)
+    @PreAuthorize("hasPermission(#fleetId, 'fleet', 'WRITE')")
+    public ResponseEntity<?> archiveById(@PathVariable int fleetId) {
+        return super.archiveById(fleetId);
     }
 
-    @Override
-    @RequestMapping(value = "/fleets/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> put(@PathVariable int id, @Valid @RequestBody ApiFleet input,BindingResult result) {
-        return super.put(id, input,result);
+    @RequestMapping(value = "/companies/{companyId}/fleets/{fleetId}", method = RequestMethod.PUT)
+    @PreAuthorize("hasPermission(#fleetId, 'fleet', 'WRITE') && hasPermission(#companyId, 'company', 'WRITE')")
+    public ResponseEntity<?> put(
+            @PathVariable int fleetId,
+            @PathVariable int companyId,
+            @Valid @RequestBody ApiFleet input,
+            BindingResult result) {
+        input.setCompany(companyId);
+        return super.put(fleetId, input,result);
     }
 }
