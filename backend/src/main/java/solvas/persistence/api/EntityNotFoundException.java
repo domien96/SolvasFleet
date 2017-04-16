@@ -5,8 +5,15 @@ package solvas.persistence.api;
  */
 public class EntityNotFoundException extends Exception {
 
+    /**
+     * Constructs exception without any message
+     */
     public EntityNotFoundException() { super();}
 
+    /**
+     * Construct with a message
+     * @param s Message
+     */
     public EntityNotFoundException(String s) {
         super(s);
     }
