@@ -38,6 +38,7 @@ public class FleetRestController extends AbstractRestController<Fleet, ApiFleet>
      * @param pagination The pagination information.
      * @param filter The filters.
      * @param result The validation results of the filterResult
+     * @param companyId Id of the company to filter fleets on
      *
      * @return ResponseEntity
      */
@@ -76,6 +77,14 @@ public class FleetRestController extends AbstractRestController<Fleet, ApiFleet>
         return super.archiveById(fleetId);
     }
 
+    /**
+     * Update fleet
+     * @param fleetId Fleet to update
+     * @param companyId Company this fleet will belong to after update
+     * @param input new attributes for the fleet
+     * @param result Validation result for fleet
+     * @return ResponseEntity
+     */
     @RequestMapping(value = "/companies/{companyId}/fleets/{fleetId}", method = RequestMethod.PUT)
     @PreAuthorize("hasPermission(#fleetId, 'fleet', 'WRITE') && hasPermission(#companyId, 'company', 'WRITE')")
     public ResponseEntity<?> put(

@@ -15,16 +15,24 @@ import java.util.Map;
  */
 @Component
 public class CompanyResolverContext {
+    private final String VEHICLE_RESOURCE_TYPE = "vehicle";
+    private final String COMPANY_RESOURCE_TYPE = "company";
+    private final String FLEET_RESOURCE_TYPE = "fleet";
+    private final String USER_RESOURCE_TYPE = "user";
+    private final String ROLE_RESOURCE_TYPE = "role";
+    private final String FUNCTION_RESOURCE_TYPE = "function";
+    private final String PERMISSION_RESOURCE_TYPE = "permission";
+
     private final Map<String, CompanyIdResolver> resolvers = new HashMap<>();
     private final Map<Class<? extends ApiModel>, String> resourceNames =
             new HashMap<Class<? extends ApiModel>, String>() {{
-                put(ApiVehicle.class, "vehicle");
-                put(ApiCompany.class, "company");
-                put(ApiFleet.class, "fleet");
-                put(ApiUser.class, "user");
-                put(ApiRole.class, "role");
-                put(ApiFunction.class, "function");
-                put(ApiPermission.class, "permission");
+                put(ApiVehicle.class, VEHICLE_RESOURCE_TYPE);
+                put(ApiCompany.class, COMPANY_RESOURCE_TYPE);
+                put(ApiFleet.class, FLEET_RESOURCE_TYPE);
+                put(ApiUser.class, USER_RESOURCE_TYPE);
+                put(ApiRole.class, ROLE_RESOURCE_TYPE);
+                put(ApiFunction.class, FUNCTION_RESOURCE_TYPE);
+                put(ApiPermission.class, PERMISSION_RESOURCE_TYPE);
             }};
 
     /**
@@ -33,13 +41,13 @@ public class CompanyResolverContext {
      */
     @Autowired
     public CompanyResolverContext(DaoContext daoContext) {
-        resolvers.put("fleet", new FleetToCompanyIdResolver(daoContext.getFleetDao()));
-        resolvers.put("company", new CompanyToCompanyIdResolver());
-        resolvers.put("vehicle", new VehicleToCompanyIdResolver(daoContext.getVehicleDao()));
-        resolvers.put("user", new NoCompanyResolver());
-        resolvers.put("role", new NoCompanyResolver());
-        resolvers.put("permission", new NoCompanyResolver());
-        resolvers.put("function", new NoCompanyResolver());
+        resolvers.put(FLEET_RESOURCE_TYPE, new FleetToCompanyIdResolver(daoContext.getFleetDao()));
+        resolvers.put(COMPANY_RESOURCE_TYPE, new CompanyToCompanyIdResolver());
+        resolvers.put(VEHICLE_RESOURCE_TYPE, new VehicleToCompanyIdResolver(daoContext.getVehicleDao()));
+        resolvers.put(USER_RESOURCE_TYPE, new NoCompanyResolver());
+        resolvers.put(ROLE_RESOURCE_TYPE, new NoCompanyResolver());
+        resolvers.put(PERMISSION_RESOURCE_TYPE, new NoCompanyResolver());
+        resolvers.put(FUNCTION_RESOURCE_TYPE, new NoCompanyResolver());
     }
 
     /**

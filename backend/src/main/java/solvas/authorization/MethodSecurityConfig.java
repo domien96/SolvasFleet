@@ -15,6 +15,7 @@ import org.springframework.security.config.annotation.method.configuration.Globa
 public class MethodSecurityConfig extends GlobalMethodSecurityConfiguration {
 
     /**
+     * @param resolverContext Context to resolve company id's for resources
      * @return The evaluator to check if a user has permissions
      */
     @Bean

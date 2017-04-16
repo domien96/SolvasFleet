@@ -16,6 +16,10 @@ import java.util.Collection;
 public class CompanyPermissionEvaluator implements PermissionEvaluator {
     private final CompanyResolverContext resolverContext;
 
+    /**
+     * Create instance
+     * @param resolverContext Context to resolve company id's for resources
+     */
     public CompanyPermissionEvaluator(CompanyResolverContext resolverContext) {
         this.resolverContext = resolverContext;
     }
