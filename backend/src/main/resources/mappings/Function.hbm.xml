@@ -18,7 +18,7 @@
         <property name="archived" column="archived" type="boolean" not-null="true"/>
 
         <many-to-one name="company" column="company_id"
-                     class="solvas.service.models.Company" not-null="true"/>
+                     class="solvas.service.models.Company" not-null="false"/>
         <many-to-one name="user" column="user_id"
                      class="solvas.service.models.User" not-null="true"/>
         <many-to-one name="role" column="role_id"
