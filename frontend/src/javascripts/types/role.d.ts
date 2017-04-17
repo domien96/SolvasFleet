@@ -1,7 +1,10 @@
-interface Role {
-  company    : string;
-  permission : string;
-  user       : string;
-  startDate  : string;
-  endDate    : string;
+namespace Role {
+  export type Field =
+    'id' | 'name' | 'permissions' ;
+}
+
+interface RoleData {
+	id? 		: number;	
+  name?    : string;
+  permissions? : string;
 }

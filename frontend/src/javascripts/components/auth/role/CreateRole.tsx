@@ -8,34 +8,34 @@ import { redirect_to } from'../../../router.tsx';
 
 interface State{
 	errors : Form.Error[];
-	permission: RoleData;
+	role: RoleData;
 }
 
 class CreateRole extends React.Component<{}, State> {
 	constructor() {
     super();
-    this.state = {permission: {}, errors: []}
+    this.state = {role: {}, errors: []}
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit     = this.onSubmit.bind(this);
   }
 
 	public handleChange(field : Permission.Field, e : any) : any {
-    var permission : RoleData = this.state.permission;
-    permission[field] = e.target.value;
-    this.setState({ permission });
+    var role : RoleData = this.state.role;
+    role[field] = e.target.value;
+    this.setState({ role });
   }
 
   public onSubmit(e : any) : void {
     e.preventDefault();
     let setErrors = (e : Form.Error[]) => this.setState({ errors: e });
-    let success = (data : any) => redirect_to(`/permissions/${data.id}`);
+    let success = (data : any) => redirect_to(`/roles/${data.id}`);
     let fail = (data : any) => {
       setErrors(data.errors.map(function(e : any) {
         return { field: e, error: 'null' };
       }));
     }
 
-    postRole(this.state.permission, success, fail);
+    postRole(this.state.role, success, fail);
   }
 
    
@@ -43,10 +43,10 @@ class CreateRole extends React.Component<{}, State> {
     return (
       <div>
         <Header>
-          <h2>Create a new permission</h2>
+          <h2>Create a new role</h2>
         </Header>
         <RoleForm
-          permission={ this.state.permission }
+          role={ this.state.role }
           onSubmit={ this.onSubmit }
           handleChange={ this.handleChange }
           hasError={ hasError.bind(this) }
