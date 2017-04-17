@@ -1,6 +1,5 @@
 import React from 'react';
 
-import Card from '../app/Card.tsx';
 import { th }    from '../../utils/utils.ts';
 import InfoTable from '../tables/InfoTable.tsx';
 import { Link } from 'react-router';
@@ -30,20 +29,14 @@ interface Props {
 const UserFunctionsView : React.StatelessComponent<Props> = props => {
 
   return (
-    <div className='col-xs-12'>
-      <Card>
-        <div className='card-title'>
-          <Link to={ '/users/'+ props.userId +'/functions/edit' } className='btn btn-default pull-right'>
-            <span className='glyphicon glyphicon-edit' aria-hidden='true'/> Edit
-          </Link>
-          <h5>
-            Functions
-          </h5>
-        </div>
-        <div className='card-content'>
-          <Overview Sfunctions={ props.Sfunctions } onFunctionSelect={ props.onFunctionSelect }/>
-        </div>
-      </Card>
+    <div>    
+      <Link to={ '/users/'+ props.userId +'/functions/edit' } className='btn btn-default pull-right'>
+        <span className='glyphicon glyphicon-edit' aria-hidden='true'/> Edit
+      </Link>
+      <h3>
+        Functions
+      </h3>
+      <Overview Sfunctions={ props.Sfunctions } onFunctionSelect={ props.onFunctionSelect }/>
     </div>
   );
 }

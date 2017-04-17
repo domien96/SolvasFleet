@@ -3,7 +3,7 @@ import React    from 'react';
 import Actions from '../forms/Actions.tsx';
 import Errors from '../app/Errors.tsx';
 import Info from './form/Info.tsx';
-import UserFunctions from './UserFunctions.tsx';
+
 
 interface Props {
   onSubmit     : (e : any) => void;
@@ -26,7 +26,6 @@ const UserForm : React.StatelessComponent<Props> = props => {
           <Info user={ user } handleChange={ handleChange } hasError={ hasError } />
           <div className='col-xs-12 col-md-5'>
             <div className='row'>
-              <UserFunctions user={ user }/>
               <Actions submitLabel={ submit } cancelUrl={ `/users/${user.id || ''}` } model='user' />
             </div>
           </div>
