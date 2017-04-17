@@ -6,7 +6,7 @@
 <hibernate-mapping>
    <class name="solvas.service.models.FleetSubscription" table="fleet_subscriptions">
       <meta attribute="class-description">
-         This class contains the subscribed subFleet detail.
+         This class contains the subscribed Fleet subscriptions detail.
       </meta>
       <id name="id" type="int" column="fleet_subscription_id">
          <generator class="identity"/>

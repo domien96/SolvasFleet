@@ -142,12 +142,20 @@ public class VehicleMapper extends AbstractMapper<Vehicle, ApiVehicle> {
 
     /**
      * Ensure a link between a vehicle and a fleet.
-     * Always creates new fleet subscription even if fleet and vehicle were already linked.
+     * Doesn't create new fleet subscription when fleet and vehicle were already linked.
+     * If the vehicle already had another subscription, that subscription will be terminated and a new one
+     * will be created and linked to the vehicle.
      * @param vehicle The vehicle.
      * @param fleet   The fleet.
      * @param now     The current date.
      */
     private void linkFleet(Vehicle vehicle, Fleet fleet, LocalDate now) throws EntityNotFoundException {
+        Optional<FleetSubscription> fs = daoContext.getFleetSubscriptionDao().activeForVehicle(vehicle);
+        if(fs.isPresent())
+            if(fs.get().getFleet().equals(fleet))
+                return;
+            else
+                fs.get().setEndDate(now);
         FleetSubscription subscription = new FleetSubscription();
         subscription.setStartDate(now);
         subscription.setFleet(fleet);
