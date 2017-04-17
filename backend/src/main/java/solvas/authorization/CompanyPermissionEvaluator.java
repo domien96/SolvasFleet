@@ -42,8 +42,9 @@ public class CompanyPermissionEvaluator implements PermissionEvaluator {
                 .filter(Authority.class::isInstance)
                 .map(Authority.class::cast)
                 .filter(authority -> companyIds.contains(authority.getCompanyId()))
-                .flatMap(a -> a.getPermissions().stream())
-                .anyMatch(p -> p.getAction().equals(permission) && p.getResource().equals(targetType));
+                .map(Authority::getScopes)
+                .flatMap(Collection::stream)
+                .anyMatch(permission::equals);
     }
 
     private Collection<Integer> getCompanyIds(int targetId, String targetType) {
