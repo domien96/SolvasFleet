@@ -8,3 +8,9 @@ interface RoleData {
   name?    : string;
   permissions? : string;
 }
+
+namespace Roles {
+  export interface Data {
+    [ roles : string ] : any;
+  }
+}

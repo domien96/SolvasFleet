@@ -23,3 +23,6 @@ export const AUTH_LOGIN_URL = `${BASE_API_URL}/auth/login`;
 export const AUTH_TOKEN_URL = `${BASE_API_URL}/auth/token`;
 
 export const SIGNED_IN_URL = '/users';
+
+export const AUTH_ROLES_URL 		= `${BASE_API_URL}/auth/roles`;
+export const AUTH_PERMISSIONS_URL 	= `${BASE_API_URL}/auth/permissions`;

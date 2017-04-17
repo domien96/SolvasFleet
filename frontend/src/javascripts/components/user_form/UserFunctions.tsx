@@ -42,7 +42,7 @@ class UserFunctions extends React.Component<Props, State> {
 
   render(){
     return (
-      <UserFunctionsView Sfunctions={ this.state.Sfunctions } onFunctionSelect={ this.handleFunctionSelect }/>
+      <UserFunctionsView userId={ this.props.user.id } Sfunctions={ this.state.Sfunctions } onFunctionSelect={ this.handleFunctionSelect }/>
     );
   }
 }

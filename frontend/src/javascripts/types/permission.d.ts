@@ -9,3 +9,8 @@ interface PermissionData {
   resource?   : string;
 }
 
+namespace Permissions {
+  export interface Data {
+    [ permissions : string ] : any;
+  }
+}
