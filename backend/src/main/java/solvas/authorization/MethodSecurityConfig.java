@@ -15,12 +15,12 @@ import org.springframework.security.config.annotation.method.configuration.Globa
 public class MethodSecurityConfig extends GlobalMethodSecurityConfiguration {
 
     /**
-     * @param resolverContext Context to resolve company id's for resources
+     * @param permissionEvaluatorContext Context to look up evaluators for different models
      * @return The evaluator to check if a user has permissions
      */
     @Bean
     @Autowired
-    public PermissionEvaluator permissionEvaluator(CompanyResolverContext resolverContext) {
-        return new CompanyPermissionEvaluator(resolverContext);
+    public PermissionEvaluator permissionEvaluator(PermissionEvaluatorContext permissionEvaluatorContext) {
+        return new SolvasPermissionEvaluator(permissionEvaluatorContext);
     }
 }
