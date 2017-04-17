@@ -53,7 +53,7 @@ public class CompanyPermissionEvaluator implements PermissionEvaluator {
         } catch (EntityNotFoundException e) {
             ids = new ArrayList<>();
         }
-        ids.add(0); // Company id 0 means permission is granted for all companies
+        ids.add(-1); // Company id -1 means permission is granted for all companies
         return ids;
     }
 }

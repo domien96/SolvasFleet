@@ -58,7 +58,11 @@ public class FunctionMapper extends AbstractMapper<Function, ApiFunction> {
         copySharedAttributes(apiFunction, model);
         copyAttributes(apiFunction, model, "id");
 
-        apiFunction.setCompany(model.getCompany().getId());
+        if(model.getCompany() == null) {
+            apiFunction.setCompany(-1);
+        } else {
+            apiFunction.setCompany(model.getCompany().getId());
+        }
         apiFunction.setRole(model.getRole().getId());
         apiFunction.setUser(model.getUser().getId());
 
