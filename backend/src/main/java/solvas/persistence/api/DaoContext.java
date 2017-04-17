@@ -1,13 +1,7 @@
 package solvas.persistence.api;
 
-import solvas.persistence.api.dao.CompanyDao;
-import solvas.persistence.api.dao.FleetDao;
-import solvas.persistence.api.dao.FleetSubscriptionDao;
-import solvas.persistence.api.dao.RoleDao;
-import solvas.persistence.api.dao.SubFleetDao;
-import solvas.persistence.api.dao.UserDao;
-import solvas.persistence.api.dao.VehicleDao;
-import solvas.persistence.api.dao.VehicleTypeDao;
+import solvas.persistence.api.dao.*;
+import solvas.service.models.Model;
 
 /**
  * This class ressembles a context/environment wherein the DAO's operate.
@@ -20,50 +14,77 @@ import solvas.persistence.api.dao.VehicleTypeDao;
 public interface DaoContext {
 
     /**
-     * Get companyDao fox this content
+     * Get companyDao for this content
      * @return A CompanyDao
      */
     CompanyDao getCompanyDao();
 
     /**
-     * Get fleetDao fox this content
+     * Get fleetDao for this content
      * @return A fleetyDao
      */
     FleetDao getFleetDao();
 
     /**
-     * Get fleetSubscriptionDao fox this content
+     * Get fleetSubscriptionDao for this content
      * @return A FleetSubscriptionDao
      */
     FleetSubscriptionDao getFleetSubscriptionDao();
 
     /**
-     * Get roleDao fox this content
+     * Get roleDao for this content
      * @return A RoleDao
      */
     RoleDao getRoleDao();
 
     /**
-     * Get subFleetDao fox this content
+     * Get subFleetDao for this content
      * @return A SubFleetDao
      */
     SubFleetDao getSubFleetDao();
 
     /**
-     * Get userDao fox this content
+     * Get userDao for this content
      * @return A UserDao
      */
     UserDao getUserDao();
 
     /**
-     * Get vehicleDao fox this content
+     * Get vehicleDao for this content
      * @return A VehcielDao
      */
     VehicleDao getVehicleDao();
 
     /**
-     * Get vehicleTypeDao fox this content
+     * Get vehicleTypeDao for this content
      * @return A VehicleTypeDao
      */
     VehicleTypeDao getVehicleTypeDao();
+
+    /**
+     * Get InsuranceTypeDao for this content
+     * @return A InsuranceTypeDao
+     */
+    InsuranceTypeDao getInsuranceTypeDao();
+
+
+    /**
+     * Get ContractDao for this content
+     * @return A VehicleTypeDao
+     */
+    ContractDao getContractDao();
+
+    /**
+     * Get InvoiceDao for this content
+     * @return A InvoiceDao
+     */
+    InvoiceDao getInvoiceDao();
+
+    /**
+     * Get TaxDao for this content
+     * @return A InvoiceDao
+     */
+    TaxDao getTaxDao();
+
+
 }

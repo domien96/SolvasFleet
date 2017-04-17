@@ -5,6 +5,9 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import solvas.service.models.User;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
@@ -20,7 +23,6 @@ import static org.mockito.Mockito.when;
 /**
  * Tests to check correct mapping of a User
  */
-@Ignore
 public class UserMapperTest {
     @Mock
     private DaoContext daoContext;
@@ -39,6 +41,8 @@ public class UserMapperTest {
         MockitoAnnotations.initMocks(this);
         when(daoContext.getUserDao()).thenReturn(userDaoMock);
         mapper=new UserMapper(daoContext);
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
     }
 
     /**
@@ -50,7 +54,7 @@ public class UserMapperTest {
         User user = random(User.class);
         ApiUser converted = mapper.convertToApiModel(user);
         assertThat(converted.getId(),is(user.getId()));
-        assertThat(converted.getUrl(),is("/users/"+user.getId()));
+        assertThat(converted.getUrl(),is("http://localhost/users/"+user.getId()));
         assertThat(converted.getPassword(),is(user.getPassword()));
         assertThat(converted.getEmail(),is(user.getEmail()));
         assertThat(converted.getFirstName(),is(user.getFirstName()));

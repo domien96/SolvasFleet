@@ -3,7 +3,6 @@ package solvas.rest.controller;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import org.springframework.beans.TypeMismatchException;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,13 +10,14 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import solvas.service.models.Model;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.Filter;
-import solvas.service.mappers.exceptions.DependantEntityNotFound;
 import solvas.rest.api.models.ApiModel;
-import solvas.service.AbstractService;
 import solvas.rest.utils.JsonListWrapper;
+import solvas.rest.utils.PagedResult;
+import solvas.service.AbstractService;
+import solvas.service.mappers.exceptions.DependantEntityNotFound;
+import solvas.service.models.Model;
 
 import java.util.Collections;
 import java.util.stream.Collectors;
@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 @Component // TODO Replace by services
 public abstract class AbstractRestController<T extends Model, E extends ApiModel> {
 
-    private AbstractService<T,E> service;
+    protected AbstractService<T,E> service;
 
     /**
      * Default constructor.
@@ -58,12 +58,8 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        Page<E> page = service.findAll( pagination,filter);
-        JsonListWrapper<E> wrapper = new JsonListWrapper<>(page.getContent());
-        wrapper.put("limit", pagination.getPageSize());
-        wrapper.put("offset", pagination.getOffset());
-        wrapper.put("total", service.count(filter));
-        return new ResponseEntity<>(wrapper, HttpStatus.OK);
+        PagedResult<E> pagedResult = new PagedResult<>(service.findAll(pagination, filter));
+        return new ResponseEntity<>(pagedResult, HttpStatus.OK);
     }
 
     /**
@@ -143,7 +139,7 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      * @return ResponseEntity of a 404
      */
     @ExceptionHandler(EntityNotFoundException.class)
-    private ResponseEntity<?> notFound() {
+    protected ResponseEntity<?> notFound() {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 

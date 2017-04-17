@@ -22,9 +22,17 @@ public class HibernateDaoContext implements DaoContext {
      * @param userDao
      * @param vehicleDao
      * @param vehicleTypeDao
+     * @param contractDao
+     * @param insuranceTypeDao
+     * @param invoiceDao
+     * @param taxDao
      */
     @Autowired
-    public HibernateDaoContext(CompanyDao companyDao, FleetDao fleetDao, FleetSubscriptionDao fleetSubscriptionDao, RoleDao roleDao, SubFleetDao subFleetDao, UserDao userDao, VehicleDao vehicleDao, VehicleTypeDao vehicleTypeDao) {
+    public HibernateDaoContext(CompanyDao companyDao, FleetDao fleetDao, FleetSubscriptionDao fleetSubscriptionDao,
+                               RoleDao roleDao, SubFleetDao subFleetDao, UserDao userDao, VehicleDao vehicleDao,
+                               VehicleTypeDao vehicleTypeDao, ContractDao contractDao,
+                               InsuranceTypeDao insuranceTypeDao,InvoiceDao invoiceDao,
+                               TaxDao taxDao) {
         this.companyDao = companyDao;
         this.fleetDao = fleetDao;
         this.fleetSubscriptionDao = fleetSubscriptionDao;
@@ -33,6 +41,10 @@ public class HibernateDaoContext implements DaoContext {
         this.userDao = userDao;
         this.vehicleDao = vehicleDao;
         this.vehicleTypeDao = vehicleTypeDao;
+        this.contractDao = contractDao;
+        this.insuranceTypeDao=insuranceTypeDao;
+        this.invoiceDao=invoiceDao;
+        this.taxDao=taxDao;
     }
 
     private CompanyDao companyDao;
@@ -89,5 +101,35 @@ public class HibernateDaoContext implements DaoContext {
     @Override
     public VehicleTypeDao getVehicleTypeDao() {
         return vehicleTypeDao;
+    }
+
+    @Override
+    public InsuranceTypeDao getInsuranceTypeDao() {
+        return insuranceTypeDao;
+    }
+
+
+
+    private InsuranceTypeDao insuranceTypeDao;
+
+    private ContractDao contractDao;
+
+    @Override
+    public ContractDao getContractDao() {
+        return contractDao;
+    }
+
+    private InvoiceDao invoiceDao;
+
+    @Override
+    public InvoiceDao getInvoiceDao() {
+        return invoiceDao;
+    }
+
+    private TaxDao taxDao;
+
+    @Override
+    public TaxDao getTaxDao() {
+        return taxDao;
     }
 }

@@ -12,6 +12,10 @@ import solvas.service.mappers.AbstractMapper;
 import solvas.service.mappers.exceptions.DependantEntityNotFound;
 import solvas.rest.api.models.ApiModel;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * Abstract Service class
  * @param <T> The class of the Model
@@ -21,7 +25,7 @@ import solvas.rest.api.models.ApiModel;
 public abstract class AbstractService<T extends Model,E extends ApiModel> {
 
 
-    private Dao<T> modelDao;
+    protected Dao<T> modelDao;
     protected AbstractMapper<T,E> mapper;
 
     /**
@@ -56,6 +60,18 @@ public abstract class AbstractService<T extends Model,E extends ApiModel> {
     {
         return modelDao.findAll(filters,pagination).map(s -> mapper.convertToApiModel(s));
     }
+
+    /**
+     * Finding all the models
+     * @param filters the filters, provided by frontend.
+     * @return the filtered representation of the specific models.
+     */
+    public List<E> findAll(Filter<T> filters)
+    {
+        return modelDao.findAll(filters).stream().map(s -> mapper.convertToApiModel(s)).collect(Collectors.toList());
+    }
+
+
 
     /**
      * @param spec the specifications/filters
@@ -102,4 +118,6 @@ public abstract class AbstractService<T extends Model,E extends ApiModel> {
         input.setId(id);
         return mapper.convertToApiModel(modelDao.save(mapper.convertToModel(input)));
     }
+
+
 }
