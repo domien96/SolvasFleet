@@ -3,12 +3,16 @@ package solvas.persistence.api.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
+import solvas.service.models.Fleet;
 import solvas.service.models.FleetSubscription;
 import solvas.service.models.Vehicle;
+import solvas.service.models.VehicleType;
 
 import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -25,6 +29,7 @@ public class FleetSubscriptionDaoImpl implements FleetSubscriptionDaoCustom {
      * the JPA Metamodel generator, but we cannot use that (because we don't use annotations).
      */
     private static final String VEHICLE_ATTRIBUTE = "vehicle";
+    private static final String FLEET_ATTRIBUTE = "fleet";
 
     @Autowired
     private FleetSubscriptionDao dao;
@@ -54,5 +59,28 @@ public class FleetSubscriptionDaoImpl implements FleetSubscriptionDaoCustom {
         } else {
             return Optional.empty();
         }
+    }
+
+    @Override
+    public Collection<FleetSubscription> fleetSubscriptionByFleetAndVehicleTypeAfterStartDate(Fleet fleet, VehicleType vehicleType, LocalDateTime startDate) {
+        Specification<FleetSubscription> filter = (root, query, cb) -> {
+
+            LocalDate startDateTrunc = LocalDate.from(startDate); //TODO replace subscription localdate to localdatetime
+            Predicate start = cb.lessThanOrEqualTo(root.get("startDate"), startDateTrunc);
+
+            // Vehicle type
+            Join<Vehicle, VehicleType> join = root.join("type");
+            Predicate vehicleTypePredicate = cb.equal(
+                    cb.lower(join.get("name")),
+                    vehicleType.getName().toLowerCase());
+
+
+            return cb.and(
+                    start,
+                    vehicleTypePredicate,
+                    cb.equal(root.get(FLEET_ATTRIBUTE), fleet));
+        };
+
+        return dao.findAll(filter);
     }
 }

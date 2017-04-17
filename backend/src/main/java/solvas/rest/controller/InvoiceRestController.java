@@ -2,9 +2,11 @@ package solvas.rest.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.api.models.ApiInvoice;
 import solvas.rest.api.models.ApiModel;
 import solvas.rest.query.InvoiceFilter;
@@ -21,6 +23,8 @@ import javax.validation.Valid;
  */
 public class InvoiceRestController  extends AbstractRestController<Invoice,ApiInvoice> {
 
+    private InvoiceService invoiceService;
+
     /**
      * Default constructor.
      *
@@ -29,6 +33,7 @@ public class InvoiceRestController  extends AbstractRestController<Invoice,ApiIn
     @Autowired
     public InvoiceRestController(InvoiceService service) {
         super(service);
+        invoiceService = service;
     }
 
     /**
@@ -56,21 +61,19 @@ public class InvoiceRestController  extends AbstractRestController<Invoice,ApiIn
 
 
     /**
-     * Get the active invoice for a company.
+     * Get the active invoice for a fleet.
      *
-     * @param id The ID of the company.
-     * @param pagination The pagination.
-     * @param filter The filters.
-     * @param result The validation results.
+     * @param id The ID of the fleet.s.
      *
      * @return The response.
      */
     @RequestMapping(value = "/fleets/{id}/invoices/current", method = RequestMethod.GET)
-    public ResponseEntity<?> getActiveByCompanyId(@PathVariable int id,Pageable pagination, InvoiceFilter filter, BindingResult result) {
-        //Todo filter set active
-        filter.setFleet(id);
-        return super.listAll(pagination,filter,result);
+    public ResponseEntity<?> getActiveByFleetId(@PathVariable int id) throws EntityNotFoundException {
+        return new ResponseEntity<>(invoiceService.findActiveInvoice(id), HttpStatus.OK);
     }
+
+
+
 
 
     /**
