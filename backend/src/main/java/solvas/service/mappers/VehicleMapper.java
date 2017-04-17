@@ -151,11 +151,13 @@ public class VehicleMapper extends AbstractMapper<Vehicle, ApiVehicle> {
      */
     private void linkFleet(Vehicle vehicle, Fleet fleet, LocalDate now) throws EntityNotFoundException {
         Optional<FleetSubscription> fs = daoContext.getFleetSubscriptionDao().activeForVehicle(vehicle);
-        if(fs.isPresent())
-            if(fs.get().getFleet().equals(fleet))
+        if(fs.isPresent()) {
+            if (fs.get().getFleet().equals(fleet)) {
                 return;
-            else
+            } else {
                 fs.get().setEndDate(now);
+            }
+        }
         FleetSubscription subscription = new FleetSubscription();
         subscription.setStartDate(now);
         subscription.setFleet(fleet);
