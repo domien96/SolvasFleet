@@ -10,12 +10,16 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.view.document.AbstractPdfView;
+import org.yaml.snakeyaml.introspector.PropertyUtils;
 import solvas.rest.api.models.ApiInvoice;
 import solvas.service.models.Invoice;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.beans.IntrospectionException;
+import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.Map;
 
 @Component
@@ -33,8 +37,13 @@ public class InvoicePdfView extends AbstractITextPdfView {
         PdfPTable table = new PdfPTable(2);
         for (Field f : invoice.getClass().getDeclaredFields()) {
             table.addCell(new PdfPCell(new Phrase(f.getName(), dataFontBold)));
-            table.addCell(new PdfPCell(new Phrase(f.get(invoice).toString(), dataFont)));
+            table.addCell(new PdfPCell(new Phrase(getGetterMethodByField(f).invoke(invoice).toString(), dataFont)));
         }
         document.add(table);
+    }
+
+    private Method getGetterMethodByField(Field f) throws IntrospectionException {
+        PropertyDescriptor pd = new PropertyDescriptor(f.getName(), Invoice.class);
+        return pd.getReadMethod();
     }
 }
