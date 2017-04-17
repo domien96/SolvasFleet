@@ -23,7 +23,6 @@ public class PasswordConfig {
      * @return PasswordEncoder
      */
     @Bean
-    @Primary
     public PasswordEncoder BCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
@@ -33,6 +32,7 @@ public class PasswordConfig {
      * @return PasswordEncoder
      */
     @Bean
+    @Primary
     @Profile({"debug", "test"})
     public PasswordEncoder NoOpPasswordEncoder() {
         return NoOpPasswordEncoder.getInstance();
