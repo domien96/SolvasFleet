@@ -33,9 +33,11 @@ const Sidebar : React.StatelessComponent<{}> = () => {
           <h2>SolvasFleet</h2>
         </Link>
       </div>
-      <div><SidebarLink path='/users'>Users</SidebarLink></div>
-      <div><SidebarLink path='/clients'>Clients</SidebarLink></div>
-      <div><SidebarLink path='/vehicles'>Vehicles</SidebarLink></div>
+      <ul className='nav'>
+        <SidebarLink path='/users'>Users</SidebarLink>
+        <SidebarLink path='/clients'>Clients</SidebarLink>
+        <SidebarLink path='/vehicles'>Vehicles</SidebarLink>
+      </ul>
     </Menu>
   );
 }

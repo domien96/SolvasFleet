@@ -11,12 +11,12 @@
 }
 
 .page-wrapper-mobile {
-  margin: 0 0 0 $nav-width-mobile;
+  margin: 0 0 0 0;
 }
 
 .sidebar-wrapper-mobile {
   background-color: $gray-lighterer;
-  min-height: 100%;
+  width: 100%;
 }
 
 .header {
