@@ -9,3 +9,9 @@ interface SFunctionData {
   role? 		: number;
   user? 		: number;
 }
+
+namespace SFunctions {
+  export interface Data {
+    [ Sfunctions : string ] : any;
+  }
+}

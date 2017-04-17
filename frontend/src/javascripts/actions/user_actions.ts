@@ -20,3 +20,7 @@ export function putUser(id : number, body : any, success? : callback, fail? : ca
 export function deleteUser(id : number, success? : callback, fail? : callback) {
   DELETE( USER_URL(id), success, fail );
 }
+
+export function fetchFunctionsByUser(id : number, success? : callback, fail? : callback) {
+  GET( USER_URL(id)+'/functions', success, fail);
+}

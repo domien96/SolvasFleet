@@ -78,3 +78,7 @@ form:
   placeholders:
     email: Email
     password: Password
+
+function: 
+  role: Role
+  company: Company
