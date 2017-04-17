@@ -25,7 +25,9 @@ public class Authority implements GrantedAuthority {
     }
 
     Authority(Company company, Collection<Permission> permissions) {
-        this.companyId = company.getId();
+        if(company != null) {
+            this.companyId = company.getId();
+        }
         this.permissions = permissions;
     }
 

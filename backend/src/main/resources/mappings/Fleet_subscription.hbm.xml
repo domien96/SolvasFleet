@@ -26,8 +26,8 @@
          <one-to-many class="solvas.service.models.Contract"/>
       </set>
 
-      <property name="updatedAt" column="updated_at" type="java.time.LocalDateTime" generated="always" not-null="true"/>
-      <property name="createdAt" column="created_at" type="java.time.LocalDateTime" generated="insert" not-null="true"/>
+      <property name="updatedAt" column="updated_at" type="java.time.LocalDateTime" generated="always"/>
+      <property name="createdAt" column="created_at" type="java.time.LocalDateTime" generated="insert"/>
 
    </class>
 </hibernate-mapping>

@@ -1,6 +1,7 @@
 package solvas.persistence.api;
 
 import solvas.persistence.api.dao.*;
+import solvas.service.models.Model;
 
 /**
  * This class ressembles a context/environment wherein the DAO's operate.
@@ -84,4 +85,10 @@ public interface DaoContext {
      * @return A PermissionDao
      */
     PermissionDao getPermissionDao();
+
+    /**
+     * Get InvoiceDao for this content
+     * @return A InvoiceDao
+     */
+    InvoiceDao getInvoiceDao();
 }

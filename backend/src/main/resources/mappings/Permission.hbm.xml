@@ -14,6 +14,5 @@
 
         <property name="action" column="action" type="string" not-null="true"/>
         <property name="resource" column="resource" type="string" not-null="true"/>
-
-    </class>
+   </class>
 </hibernate-mapping>
