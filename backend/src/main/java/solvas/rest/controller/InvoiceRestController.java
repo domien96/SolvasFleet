@@ -85,11 +85,10 @@ public class InvoiceRestController extends AbstractRestController<Invoice, ApiIn
      *
      * @param fleetId   the id of the fleet
      * @param id        The ID of the invoice.
-     * @param extension the extension of the desired return document
      * @return The response.
      */
-    @RequestMapping(value = "/fleets/{fleetId}/invoices/{id}/{extension}", method = RequestMethod.GET)
-    public ModelAndView getByCompanyAndInvoiceIdWithExtension(@PathVariable int fleetId, @PathVariable int id, @PathVariable String extension) throws EntityNotFoundException {
+    @RequestMapping(value = "/fleets/{fleetId}/invoices/{id}.pdf", method = RequestMethod.GET)
+    public ModelAndView getByCompanyAndInvoiceIdWithExtension(@PathVariable int fleetId, @PathVariable int id) throws EntityNotFoundException {
         ApiInvoice invoice = service.getById(id);
         return new ModelAndView("InvoicePdfView", "invoice", invoice);
     }
