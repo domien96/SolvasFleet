@@ -20,16 +20,16 @@ public class UserPermissionEvaluator extends AbstractPermissionEvaluator<User> {
 
     @Override
     public boolean canCreate(Authentication authentication, User model) {
-        return false;
+        return hasScope(authentication, "create:users");
     }
 
     @Override
     public boolean canEdit(Authentication authentication, User model) {
-        return false;
+        return hasScope(authentication, "write:users") || model.getEmail().equals(authentication.getName());
     }
 
     @Override
     public boolean canDelete(Authentication authentication, User model) {
-        return false;
+        return hasScope(authentication, "write:users");
     }
 }
