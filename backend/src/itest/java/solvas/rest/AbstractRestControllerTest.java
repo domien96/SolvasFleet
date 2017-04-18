@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -31,6 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @param <E> The ApiModel
  * @param <T> The Model
  */
+@RunWith(MockitoJUnitRunner.class)
 public abstract class AbstractRestControllerTest<T extends Model,E extends ApiModel> {
      abstract AbstractRestController getController();
      private E apiModel;
@@ -175,6 +178,7 @@ public abstract class AbstractRestControllerTest<T extends Model,E extends ApiMo
     public void putModelNotFound() throws Exception {
         when(getService().update(anyInt(),any())).thenThrow(new EntityNotFoundException());
         getMockMvc().perform(put(getIdUrl()).contentType(MediaType.APPLICATION_JSON_UTF8).content(getTestJson()))
+                .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isNotFound());
     }
 
