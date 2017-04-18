@@ -61,7 +61,7 @@ public class ContractMapper extends AbstractMapper<Contract,ApiContract> {
         api.setType(new InsuranceTypeMapper(daoContext).convertToApiModel(model.getInsuranceType()));
         api.setInsuranceCompany(model.getCompany().getId());
 
-        api.setUrl(ROOTPATH + api.getId());
+        api.setUrl(SimpleUrlBuilder.buildUrlFromBase(ROOTPATH + "{id}", api.getId()));
         return api;
 
     }
