@@ -22,7 +22,7 @@
                    class="solvas.service.models.SubFleet" not-null="true"/>
 
       <set name="contracts" table="contracts" lazy="true">
-         <key column="insurance_id" />
+         <key column="contract_id" />
          <one-to-many class="solvas.service.models.Contract"/>
       </set>
 

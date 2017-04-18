@@ -1,6 +1,7 @@
 package solvas.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.dao.InsuranceTypeDao;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 /**
  * Created by steve on 15/04/2017.
  */
+@Service
 public class InvoiceService extends AbstractService<Invoice,ApiInvoice> {
 
     //Dao for generating a response for findAllInsuranceTypes
@@ -103,7 +105,11 @@ public class InvoiceService extends AbstractService<Invoice,ApiInvoice> {
                 for (Contract contract: contracts) {
                     // Todo handle startdate in between as wel
                     if (contract.getEndDate().isAfter(invoice.getEndDate())){
-                        totalAmount.add(
+                        int prem = contract.getPremium();
+                        Tax tax = context.getTaxDao().findDistinctByVehicleTypeNameAndInsuranceTypeName(vehicleType.getName(), contract.getInsuranceType().getName());
+
+
+                        totalAmount=totalAmount.add(
                                 (context.getTaxDao().findDistinctByVehicleTypeNameAndInsuranceTypeName(vehicleType.getName(),contract.getInsuranceType().getName())
                                         .getTax().add(BigDecimal.ONE)).multiply(BigDecimal.valueOf(contract.getPremium())));
 
@@ -113,23 +119,17 @@ public class InvoiceService extends AbstractService<Invoice,ApiInvoice> {
 
                     }
 
-
-
-
-
                 }
-
             }
-
-
-            
         }
-
+        invoice.setTotalAmount(totalAmount.longValue());
+        invoice.setCreatedAt(LocalDateTime.now());
+        invoice.setUpdatedAt(LocalDateTime.now());
 
 
 
         // set ype of invoice
-
+        invoice.setType(InvoiceType.BILLING.getText());
 
 
         return invoice;

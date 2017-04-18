@@ -3,10 +3,7 @@ package solvas.persistence.api.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
-import solvas.service.models.Fleet;
-import solvas.service.models.FleetSubscription;
-import solvas.service.models.Vehicle;
-import solvas.service.models.VehicleType;
+import solvas.service.models.*;
 
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Join;
@@ -68,17 +65,21 @@ public class FleetSubscriptionDaoImpl implements FleetSubscriptionDaoCustom {
             LocalDate startDateTrunc = LocalDate.from(startDate); //TODO replace subscription localdate to localdatetime
             Predicate start = cb.lessThanOrEqualTo(root.get("startDate"), startDateTrunc);
 
+            Join<FleetSubscription, Vehicle> joinVehicle = root.join("vehicle");
+
             // Vehicle type
-            Join<Vehicle, VehicleType> join = root.join("type");
+            Join<Vehicle, VehicleType> join = joinVehicle.join("type");
             Predicate vehicleTypePredicate = cb.equal(
                     cb.lower(join.get("name")),
                     vehicleType.getName().toLowerCase());
+
+            Join<FleetSubscription, SubFleet> joinSubfleet = root.join("subFleet");
 
 
             return cb.and(
                     start,
                     vehicleTypePredicate,
-                    cb.equal(root.get(FLEET_ATTRIBUTE), fleet));
+                    cb.equal(joinSubfleet.get(FLEET_ATTRIBUTE), fleet));
         };
 
         return dao.findAll(filter);
