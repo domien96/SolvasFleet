@@ -21,9 +21,10 @@ import java.util.stream.Collectors;
 @Service
 public class InvoiceService extends AbstractService<Invoice,ApiInvoice> {
 
-    //Dao for generating a response for findAllInsuranceTypes
-    private InsuranceTypeDao insuranceTypeDao;
-    private DaoContext context;
+    // Helper for calculaitng premiums
+    private final PremiumCalculator premiumCalc;
+    //Dao context
+    protected DaoContext context;
 
     /**
      * Construct an abstract service
@@ -34,8 +35,8 @@ public class InvoiceService extends AbstractService<Invoice,ApiInvoice> {
     @Autowired
     public InvoiceService(DaoContext context, InvoiceMapper mapper) {
         super(context.getInvoiceDao(), mapper);
-        insuranceTypeDao= context.getInsuranceTypeDao();
         this.context=context;
+        this.premiumCalc = new PremiumCalculator();
     }
 
 
@@ -44,11 +45,11 @@ public class InvoiceService extends AbstractService<Invoice,ApiInvoice> {
      * @return types of insurance
      */
     public Collection<String> findAllInsuranceTypes() {
-        return insuranceTypeDao.findAll().stream().map(InsuranceType::getName).collect(Collectors.toSet());
+        return context.getInsuranceTypeDao().findAll().stream().map(InsuranceType::getName).collect(Collectors.toSet());
 
     }
 
-    public ApiInvoice findActiveInvoiceByType(int fleetId,String type) throws EntityNotFoundException{
+    public ApiInvoice findActiveInvoiceByType(int fleetId,InvoiceType type) throws EntityNotFoundException{
         ApiInvoice invoice = new ApiInvoice();
 
         // fleet is given as parameter
@@ -82,32 +83,9 @@ public class InvoiceService extends AbstractService<Invoice,ApiInvoice> {
             for (FleetSubscription fleetSubscription: subscriptionsWithVehicleType) {
                 // contract
                 // TODO handle case when enddate != null
-                Collection<Contract> contracts =fleetSubscription.getContracts();
-                final LocalDateTime finalStartDate=invoice.getStartDate();
-                contracts = contracts.stream().filter((c) -> {
-                    return c.getEndDate().isAfter(finalStartDate);
-
-                }).collect(Collectors.toSet());
-
-                for (Contract contract: contracts) {
-                    // Todo handle startdate in between as wel
-                    if (contract.getEndDate().isAfter(invoice.getEndDate())){
-                        int prem = contract.getPremium();
-                        Tax tax = context.getTaxDao().findDistinctByVehicleTypeNameAndInsuranceTypeName(vehicleType.getName(), contract.getInsuranceType().getName());
-
-
-                        totalAmount=totalAmount.add(
-                                (context.getTaxDao().findDistinctByVehicleTypeNameAndInsuranceTypeName(vehicleType.getName(),contract.getInsuranceType().getName())
-                                        .getTax().add(BigDecimal.ONE)).multiply(BigDecimal.valueOf(contract.getPremium())));
-
-
-                    } else {
-                        // Stops in the middle
-
-                    }
+                totalAmount = totalAmount.add(premiumCalc.calculatePremium(fleetSubscription,invoice.getStartDate()));
 
                 }
-            }
         }
         invoice.setTotalAmount(totalAmount.longValue());
         invoice.setCreatedAt(LocalDateTime.now());
@@ -116,7 +94,7 @@ public class InvoiceService extends AbstractService<Invoice,ApiInvoice> {
 
 
         // set ype of invoice
-        invoice.setType(type);
+        invoice.setType(type.getText());
 
 
         return invoice;
@@ -150,4 +128,36 @@ public class InvoiceService extends AbstractService<Invoice,ApiInvoice> {
         invoice.setStartDate(startDate);
     }
 
+
+    private class PremiumCalculator {
+
+        /**
+         * Calculate premium of a vehicle subscription from a given date.
+         * All contracts linked to the subscription which are still active after the given date
+         * will be included.
+         * @param f the fleet subscription
+         * @param startDate start date from where contracts have to be included
+         * @return calculated premium
+         */
+        BigDecimal calculatePremium(FleetSubscription f, LocalDateTime startDate) {
+            BigDecimal totalAmount = BigDecimal.ZERO;
+            Collection<Contract> contracts =f.getContracts();
+            contracts = contracts.stream().filter((c) -> {
+                return c.getEndDate().isAfter(startDate);
+
+            }).collect(Collectors.toSet());
+
+            for (Contract contract: contracts) {
+                // Todo handle startdate in between as wel
+                // TODO -if (contract.getEndDate().isAfter(invoice.getEndDate()))- check needed?
+                int premium = contract.getPremium();
+                Tax tax = context.getTaxDao().findDistinctByVehicleTypeNameAndInsuranceTypeName(
+                        f.getVehicle().getType().getName(), contract.getInsuranceType().getName());
+
+
+                totalAmount = totalAmount.add((tax.getTax().add(BigDecimal.ONE)).multiply(BigDecimal.valueOf(premium)));
+            }
+            return totalAmount;
+        }
+    }
 }
