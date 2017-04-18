@@ -5,6 +5,9 @@ import solvas.persistence.api.Dao;
 import solvas.service.models.Fleet;
 
 public class FleetPermissionEvaluator extends AbstractPermissionEvaluator<Fleet> {
+    {
+        registerPermissionDecider("READ_INVOICES", this::canReadInvoices);
+    }
     public FleetPermissionEvaluator(Dao<Fleet> dao) {
         super(dao);
     }
@@ -21,6 +24,10 @@ public class FleetPermissionEvaluator extends AbstractPermissionEvaluator<Fleet>
     @Override
     public boolean canCreate(Authentication authentication, Fleet model) {
         return false;
+    }
+
+    public boolean canReadInvoices(Authentication authentication, Fleet model) {
+        return hasScope(authentication, "read:company", model.getCompany().getId(), "read:companies");
     }
 
     @Override

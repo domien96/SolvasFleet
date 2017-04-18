@@ -12,7 +12,6 @@ public class CompanyPermissionEvaluator extends AbstractPermissionEvaluator<Comp
     {
         registerPermissionDecider("MANAGE_FLEETS", this::canManageFleets);
         registerPermissionDecider("LIST_FLEETS", this::canListFLeets);
-
     }
     @Autowired
     public CompanyPermissionEvaluator(Dao<Company> dao) {
