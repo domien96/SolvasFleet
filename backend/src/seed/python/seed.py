@@ -30,7 +30,7 @@ def resetSeq(cursor,tablename,idname):
 try:
     conn = psycopg2.connect(dbname="vop", user="vop", password="vop")
     cursor = conn.cursor()
-    tables=["users","companies","vehicle_types","vehicles"]
+    tables=["users","companies","vehicles"]
     clear(cursor,reversed(tables))
     insertEntities(cursor,tables)
     resetSeq(cursor,"users","user_id")
