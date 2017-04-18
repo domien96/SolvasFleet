@@ -5,22 +5,18 @@ import org.springframework.stereotype.Service;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.dao.InsuranceTypeDao;
-import solvas.rest.api.models.ApiContract;
 import solvas.rest.api.models.ApiInvoice;
-import solvas.rest.api.models.ApiModel;
-import solvas.service.mappers.ContractMapper;
 import solvas.service.mappers.InvoiceMapper;
 import solvas.service.models.*;
 
 
-import javax.persistence.criteria.Predicate;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
 /**
- * Created by steve on 15/04/2017.
+ * InvoiceService class
  */
 @Service
 public class InvoiceService extends AbstractService<Invoice,ApiInvoice> {
@@ -30,10 +26,10 @@ public class InvoiceService extends AbstractService<Invoice,ApiInvoice> {
     private DaoContext context;
 
     /**
-     * Contruct an abstractservice
+     * Construct an abstract service
      *
      * @param context the DAO context
-     * @param mapper   the mapper between the apimodel and the model
+     * @param mapper   the mapper between the api model and the model
      */
     @Autowired
     public InvoiceService(DaoContext context, InvoiceMapper mapper) {
@@ -52,7 +48,7 @@ public class InvoiceService extends AbstractService<Invoice,ApiInvoice> {
 
     }
 
-    public ApiInvoice findActiveInvoice(int fleetId) throws EntityNotFoundException{
+    public ApiInvoice findActiveInvoiceByType(int fleetId,String type) throws EntityNotFoundException{
         ApiInvoice invoice = new ApiInvoice();
 
         // fleet is given as parameter
@@ -62,21 +58,12 @@ public class InvoiceService extends AbstractService<Invoice,ApiInvoice> {
             //the method not found in AbstractController
         invoice.setFleet(fleet.getId()); // or just use the parameter
 
-        //invoice startdate = date fleet was made or the end date of last generated invoice
-        LocalDateTime startDate=fleet.getCreatedAt();
-        // TODO Perhaps overtime replace this by a max function in dao sql database
-        Collection<Invoice> previousInvoices = context.getInvoiceDao().findByFleet(fleet);
-        if (!previousInvoices.isEmpty()){
-            for (Invoice item: previousInvoices) {
-                if (item.getEndDate().isAfter(startDate)){
-                    startDate=item.getStartDate();
-                }
-            }
-        }
-        invoice.setStartDate(startDate);
+        // Set the startDate for this invoice
+        invoiceSetStartDate(invoice,fleet);
+
 
         //invoice enddate = startend date  + periode
-        invoice.setEndDate(startDate.plusMonths(3)); //TODO replace by fleet.get period
+        invoice.setEndDate(invoice.getStartDate().plusMonths(3)); //TODO replace by fleet.get period
 
 
         // paid == false, as it is active
@@ -91,12 +78,12 @@ public class InvoiceService extends AbstractService<Invoice,ApiInvoice> {
         Collection<VehicleType> vehicleTypes = context.getVehicleTypeDao().findAll();
         for (VehicleType vehicleType: vehicleTypes) {
             Collection<FleetSubscription> subscriptionsWithVehicleType = context.getFleetSubscriptionDao()
-                    .fleetSubscriptionByFleetAndVehicleTypeAfterStartDate(fleet,vehicleType,startDate);
+                    .fleetSubscriptionByFleetAndVehicleTypeAfterStartDate(fleet,vehicleType,invoice.getStartDate());
             for (FleetSubscription fleetSubscription: subscriptionsWithVehicleType) {
                 // contract
                 // TODO handle case when enddate != null
                 Collection<Contract> contracts =fleetSubscription.getContracts();
-                final LocalDateTime finalStartDate=startDate;
+                final LocalDateTime finalStartDate=invoice.getStartDate();
                 contracts = contracts.stream().filter((c) -> {
                     return c.getEndDate().isAfter(finalStartDate);
 
@@ -129,9 +116,38 @@ public class InvoiceService extends AbstractService<Invoice,ApiInvoice> {
 
 
         // set ype of invoice
-        invoice.setType(InvoiceType.BILLING.getText());
+        invoice.setType(type);
 
 
         return invoice;
     }
+
+    private ApiInvoice callculateInvoiceTypeBilling(Fleet fleet, LocalDateTime beginDate,LocalDateTime endDate) {
+
+        return null;
+    }
+
+
+
+
+
+    /**
+     * invoice startdate = date fleet was made or the end date of last generated invoice
+     * @param invoice
+     * @param fleet
+     */
+    private void invoiceSetStartDate(ApiInvoice invoice,Fleet fleet) {
+        // TODO Perhaps overtime replace this by a max function in dao sql database
+        LocalDateTime startDate=fleet.getCreatedAt();
+        Collection<Invoice> previousInvoices = context.getInvoiceDao().findByFleet(fleet);
+        if (!previousInvoices.isEmpty()){
+            for (Invoice item: previousInvoices) {
+                if (item.getEndDate().isAfter(startDate)){
+                    startDate=item.getStartDate();
+                }
+            }
+        }
+        invoice.setStartDate(startDate);
+    }
+
 }

@@ -15,6 +15,7 @@ import solvas.service.models.Invoice;
 import solvas.service.models.Model;
 
 import javax.validation.Valid;
+import java.util.Map;
 
 
 /**
@@ -69,8 +70,9 @@ public class InvoiceRestController  extends AbstractRestController<Invoice,ApiIn
      * @return The response.
      */
     @RequestMapping(value = "/fleets/{id}/invoices/current", method = RequestMethod.GET)
-    public ResponseEntity<?> getActiveByFleetId(@PathVariable int id) throws EntityNotFoundException {
-        return new ResponseEntity<>(invoiceService.findActiveInvoice(id), HttpStatus.OK);
+    public ResponseEntity<?> getActiveByFleetId(@PathVariable int id, @RequestBody Object body) throws EntityNotFoundException {
+        String type = (String)((Map)body).get("type"); // TODO a better fix then my quick fix should be applied
+        return new ResponseEntity<>(invoiceService.findActiveInvoiceByType(id,type), HttpStatus.OK);
     }
 
 
