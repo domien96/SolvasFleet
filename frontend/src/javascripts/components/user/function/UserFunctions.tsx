@@ -1,7 +1,7 @@
 import React from 'react';
 import UserFunctionsView from './UserFunctionsView.tsx';
-import { fetchFunctionsByUser } from '../../actions/user_actions.ts';
-import { redirect_to } from'../../routes/router.tsx';
+import { fetchFunctionsByUser } from '../../../actions/user_actions.ts';
+import { redirect_to } from'../../../routes/router.tsx';
 
 interface Props{
   user: UserData;

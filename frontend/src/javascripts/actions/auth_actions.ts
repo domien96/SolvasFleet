@@ -1,4 +1,4 @@
-import { AUTH, callback, GET } from './fetch_json.ts';
+import { AUTH, callback, GET, POST } from './fetch_json.ts';
 import { AUTH_LOGIN_URL, AUTH_TOKEN_URL, AUTH_ROLES_URL, AUTH_PERMISSIONS_URL } from '../constants/constants.ts';
 
 import Auth from '../modules/Auth.ts';
@@ -19,6 +19,11 @@ export function fetchRoles(success? : callback, fail? : callback) {
   GET( AUTH_ROLES_URL, success, fail);
 }
 
+export function postRole(body : any, success? : callback, fail? : callback) {
+  POST( AUTH_ROLES_URL, body, success, fail );
+}
+
 export function fetchPermissions(success? : callback, fail? : callback) {
   GET( AUTH_PERMISSIONS_URL, success, fail);
 }
+

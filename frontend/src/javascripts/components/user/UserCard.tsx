@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 
 import Card from '../app/Card.tsx';
 import DetailTable from '../tables/DetailTable.tsx';
-import UserFunctions from './UserFunctions.tsx';
+import UserFunctions from './function/UserFunctions.tsx';
 import { th } from '../../utils/utils.ts';
 
 interface Props {

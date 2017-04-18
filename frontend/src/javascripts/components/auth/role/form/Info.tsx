@@ -12,7 +12,7 @@ interface Props {
 }
 
 const Info : React.StatelessComponent<Props> = props => {
-  let handleChange = (field : Vehicle.Field) => {
+  let handleChange = (field : Role.Field) => {
     return (e : any) => {
       props.handleChange(field, e);
     }
@@ -20,19 +20,22 @@ const Info : React.StatelessComponent<Props> = props => {
 
   var { name, permissions } = props.role;
 
-  let checkboxes = props.permissions.map((permission : string) => {
-    let active = "";
-    if(permission in permissions){
-      active = "active";
-    }
-    return(<Checkbox label={ permission } active={ active }/>);
-  });
-  
+  let checkboxes;
+  if(permissions){
+    checkboxes = props.permissions.map((permission : string) => {
+      let active = "";
+      if(permission in permissions){
+        active = "active";
+      }
+      return(<Checkbox label={ permission } active={ active }/>);
+    });
+  }
+    
   return (
     <div className='col-xs-12 col-md-7'>
       <Card>
         <div className='card-title'>
-          <h5>General info</h5>
+          <h5>Role form</h5>
         </div>
         <div className='card-content'>
           <FormField value={ name }  placeholder='role.name'  type='text'  callback={ handleChange('name') }  hasError={ props.hasError('name')} />

@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { th }    from '../../utils/utils.ts';
-import InfoTable from '../tables/InfoTable.tsx';
+import { th }    from '../../../utils/utils.ts';
+import InfoTable from '../../tables/InfoTable.tsx';
 import { Link } from 'react-router';
 
 interface OverviewProps {

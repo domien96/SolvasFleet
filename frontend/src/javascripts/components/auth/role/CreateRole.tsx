@@ -34,6 +34,7 @@ class CreateRole extends React.Component<{}, State> {
 	handleChange(field : Role.Field, e : any) : any {
     var role : RoleData = this.state.role;
     if(e.target.type == 'checkbox'){
+      console.log(e.target.type)
       let permissions = role['permissions'].slice();
       if(e.target.checked){
         permissions.push(e.target.value);

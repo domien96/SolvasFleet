@@ -14,3 +14,4 @@ namespace Roles {
     [ roles : string ] : any;
   }
 }
+

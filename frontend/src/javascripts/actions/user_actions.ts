@@ -1,5 +1,5 @@
 import { GET, POST, PUT, DELETE, callback } from './fetch_json.ts';
-import { USER_URL, USERS_URL } from '../constants/constants.ts';
+import { USER_URL, USERS_URL, FUNCTION_URL } from '../constants/constants.ts';
 
 export function fetchUser(id : number, success? : callback, fail? : callback) {
   GET( USER_URL(id), success, fail );
@@ -21,6 +21,10 @@ export function deleteUser(id : number, success? : callback, fail? : callback) {
   DELETE( USER_URL(id), success, fail );
 }
 
-export function fetchFunctionsByUser(id : number, success? : callback, fail? : callback) {
-  GET( USER_URL(id)+'/functions', success, fail);
+export function fetchFunctionsByUser(userId : number, success? : callback, fail? : callback) {
+  GET( FUNCTION_URL(userId), success, fail);
+}
+
+export function postFunction(userId : number, body : any, success? : callback, fail? : callback) {
+  POST( FUNCTION_URL(userId), body, success, fail);
 }

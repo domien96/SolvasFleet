@@ -2,10 +2,10 @@ import React      from 'react';
 import T          from 'i18n-react';
 
 interface Props {
-      placeholder : string;
-      choices : Table.Head.Data[];
-      callback    : (e : any) => void;
-      value : string;
+  placeholder : string;
+  choices : Table.Head.Data[];
+  callback    : (e : any) => void;
+  value : any;
 }
 
 const FormChoice : React.StatelessComponent<Props> = props => {

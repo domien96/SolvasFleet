@@ -2,7 +2,9 @@ import React from 'react';
 
 import Card from '../app/Card.tsx';
 import { th }    from '../../utils/utils.ts';
-import InfoTable from '../tables/InfoTable.tsx';
+import RoleTable from '../tables/RoleTable.tsx';
+import SimpleTable from '../tables/SimpleTable.tsx';
+
 import { Link } from 'react-router';
 
 interface RoleOverviewProps {
@@ -17,7 +19,7 @@ const RoleOverview : React.StatelessComponent<RoleOverviewProps> = props => {
   ];
 
   return (
-    <InfoTable head={ tableHead } data={ props.roles } onClick={ props.onRoleSelect } />
+    <RoleTable head={ tableHead } roles={ props.roles } onClick={ props.onRoleSelect } />
   );
 }
 
@@ -28,8 +30,13 @@ interface PermissionOverviewProps {
 
 const PermissionOverview : React.StatelessComponent<PermissionOverviewProps> = props => {
 
+  var rows : Permission.Data[] = props.permissions.map((permission : string) => {
+    var row : Permission.Data = [permission.split(':')[0], permission.split(':')[1]];
+    return row; 
+  });
+
   return (
-    <div> TODO </div>
+    <SimpleTable rows={ rows } />
   );
 }
 
@@ -49,8 +56,8 @@ const PermissionControlView : React.StatelessComponent<Props> = props => {
           <div className='card-title'>
             <h2>
               Roles
-              <Link to={ '/auth' } className='btn btn-default pull-right'>
-                <span className='glyphicon glyphicon-edit' aria-hidden='true'/> Edit
+              <Link to={ '/auth/roles/new' } className='btn btn-default pull-right'>
+                <span className='glyphicon glyphicon-plus' aria-hidden='true'/> Add new Role
               </Link>
             </h2>
           </div>
@@ -64,9 +71,6 @@ const PermissionControlView : React.StatelessComponent<Props> = props => {
           <div className='card-title'>
             <h2>
               Permissions
-              <Link to={ '/auth' } className='btn btn-default pull-right'>
-                <span className='glyphicon glyphicon-edit' aria-hidden='true'/> Edit
-              </Link>
             </h2>
           </div>
           <div className='card-content'>
