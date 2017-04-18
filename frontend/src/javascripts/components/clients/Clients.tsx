@@ -6,14 +6,14 @@ import { fetchClients } from '../../actions/client_actions.ts';
 import { redirect_to } from'../../router.tsx';
 
 interface State {
-  clients : Company[];
+  response:ListResponse;
 }
 
 class Clients extends React.Component<{}, State> {
 
   constructor(props : {}) {
     super(props);
-    this.state = { clients: [] };
+    this.state = { response:{data:[],total:0} };
     this.fetchClients=this.fetchClients.bind(this);
   }
 
@@ -23,7 +23,7 @@ class Clients extends React.Component<{}, State> {
 
   fetchClients(query?:any) {
     fetchClients((data : Companies.Data) => {
-      this.setState({ clients: data.data })
+      this.setState({ response: data })
     },undefined,query);
   }
 
@@ -33,7 +33,7 @@ class Clients extends React.Component<{}, State> {
 
   render() {
     return (
-      <Layout clients={ this.state.clients } onClientSelect={ this.handleClick } fetchClients={this.fetchClients}/>
+      <Layout response={ this.state.response } onClientSelect={ this.handleClick } fetchClients={this.fetchClients}/>
     );
   }
 }

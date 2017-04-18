@@ -75,10 +75,10 @@ form:
 contract:
   id: Contract ID
   franchise: Franchise
-  insuranceCompany: Insurance Company 
+  insuranceCompany: Insurance Company
   premium: Premium
   type: Type of contract
   vehicle: Vehicle ID
   startDate: Start date
   endDate: End date
-  
+  addNew: Add New Contract

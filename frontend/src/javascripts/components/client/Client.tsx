@@ -13,6 +13,8 @@ import { redirect_to } from'../../router.tsx';
 
 import { th } from '../../utils/utils.ts';
 
+import { fetchContractsByCompany} from '../../actions/contract_actions.ts';
+
 interface Props {
   [ params : string ] : { [ id : string ] : number };
 }
@@ -28,6 +30,7 @@ class Client extends React.Component<Props, State> {
     super();
     this.state = { company : { address: {} }, fleets : [] };
     this.deleteClient = this.deleteClient.bind(this);
+    this.fetchContracts= this.fetchContracts.bind(this);
   }
 
   componentDidMount() {
@@ -41,6 +44,10 @@ class Client extends React.Component<Props, State> {
 
   public deleteClient(){
     deleteClient(this.props.params.id, () => redirect_to('/clients'));
+  }
+
+  fetchContracts(success?:callback,fail?:callback) {
+    fetchContractsByCompany(this.props.params.id,success,fail);
   }
 
   render() {
@@ -58,6 +65,7 @@ class Client extends React.Component<Props, State> {
       th('company.address.city', city),
       th('company.address.country', country)
     ];
+
 
     return (
       <div>
@@ -91,6 +99,7 @@ class Client extends React.Component<Props, State> {
             </div>
             <div className='col-xs-12 col-md-6'>
               <Fleets fleets={ this.state.fleets } company={ this.props.params.id } />
+              <Contracts companyId={ this.props.params.id } fetchMethod={this.fetchContracts}/>
               </div>
           </div>
         </div>

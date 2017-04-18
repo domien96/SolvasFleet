@@ -1,7 +1,7 @@
 import React from 'react';
 import { fetchVehicle, deleteVehicle }  from '../../actions/vehicle_actions.ts';
 import { redirect_to } from'../../router.tsx';
-
+import { fetchContracts} from '../../actions/contract_actions.ts';
 import VehicleView from './VehicleView.tsx'
 import Contracts from '../contracts/Contracts.tsx'
 
@@ -20,6 +20,7 @@ class Vehicle extends React.Component<Props, State> {
     super();
     this.state = { vehicle : { type: 'personalCar' } };
     this.deleteVehicle = this.deleteVehicle.bind(this);
+    this.fetchContracts= this.fetchContracts.bind(this);
   }
 
   fetchVehicle(id : number) {
@@ -44,11 +45,15 @@ class Vehicle extends React.Component<Props, State> {
     redirect_to('/vehicles');
   }
 
+  fetchContracts(success?:callback,fail?:callback) {
+    fetchContracts(success,fail,{vehicle:this.props.params.id})
+  }
+
   render() {
     return(
     <div>
       <VehicleView vehicle={ this.state.vehicle } handleDelete={ this.deleteVehicle }/>
-      <Contracts vehicleId={ this.props.params.id } />
+      <Contracts vehicleId={ this.props.params.id } fetchMethod={this.fetchContracts}/>
     </div>
     );
   }

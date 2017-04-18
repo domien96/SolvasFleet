@@ -8,11 +8,14 @@ import { redirect_to } from'../../router.tsx';
 import Listing from '../app/Listing.tsx';
 
 interface Props {
+  fetchMethod: any //succes,fail
   vehicleId: number
+  fleetId: number
+  companyId: number
 }
 
 interface State {
-  contracts : ContractData[];
+  response: ListResponse;
   fleetByVehicle : number;
   companyByFleet : number;
   isInitialized : boolean;
@@ -22,14 +25,21 @@ class Contracts extends React.Component<Props, State> {
 
 	constructor(props : any) {
     super(props);
-    this.state = { contracts: [], fleetByVehicle: null, companyByFleet: null, isInitialized: false };
+    this.state = { contracts: [], fleetByVehicle: null, companyByFleet: null, isInitialized: false ,  response:{total:0,first : 0, last : 0, limit : 0, offset : 0, previous : 0, next : 0,data:[]}};
+    this.fetchContracts=this.fetchContracts.bind(this);
   }
 
   fetchContracts(){
-    fetchContracts(((data : ContractsData) => {
-      this.setState({ contracts: data.data })
-    }),undefined,{vehicle:this.props.vehicleId});
+    this.props.fetchMethod((data:ListResponse)=> {
+      this.setState({response:data})
+    })
   }
+
+  componentDidUpdate(){
+    this.fetchContracts();
+  }
+
+
 
   handleClick(id : number) {
     redirect_to(`/contracts/${id}`);
@@ -42,7 +52,7 @@ class Contracts extends React.Component<Props, State> {
   render(){
   	if(this.state.contracts != []){
 	  	return(
-          <Listing onSelect={this.handleClick} addNewRoute='/contracts/new' fetchModels={this.fetchContracts} models={this.state.contracts} modelName='contract' columns={['id','type','vehicle']}/>
+          <Listing onSelect={this.handleClick} addNewRoute='/contracts/new' fetchModels={this.fetchContracts} response={this.state.response} modelName='contract' columns={['id','type','vehicle']}/>
 	  	);
 		}
 		return(

@@ -4,6 +4,7 @@ import { ButtonGroup, DropdownButton, MenuItem,Button } from 'react-bootstrap';
 
 interface Props {
   onClick:any
+  response:PaginationResponse
 }
 
 interface State {
@@ -40,21 +41,37 @@ class Pagination extends React.Component<Props, State> {
     this.props.onClick(this.state.query)
   }
 
+
   render() {
-    return (
-      <div className='row action'>
-      <PageButton click={this.clickPage} n='0'/>
-      <PageButton click={this.clickPage} n='1'/>
-      <ButtonGroup>
-        <DropdownButton onSelect={this.setLimit} title="Elements per page" id="bg-nested-dropdown">
-          <MenuItem eventKey="25">25</MenuItem>
-          <MenuItem eventKey="50">50</MenuItem>
-          <MenuItem eventKey="100">100</MenuItem>
-        </DropdownButton>
-      </ButtonGroup>
-      </div>
+    var indents = [];
+    var times = Math.ceil(this.props.response.total/this.props.response.limit);
+    if(times>1) {
+      for (var i = 0; i < times;i++) {
+        indents.push(<PageButton key={i} click={this.clickPage} n={i} />);
+      }
+    }
+
+    if(this.props.response.total>20) {
+      return (
+        <div className='row action'>
+        {indents}
+        <ButtonGroup>
+          <DropdownButton onSelect={this.setLimit} title="Elements per page" id="bg-nested-dropdown">
+            <MenuItem eventKey="25">25</MenuItem>
+            <MenuItem eventKey="50">50</MenuItem>
+            <MenuItem eventKey="100">100</MenuItem>
+          </DropdownButton>
+        </ButtonGroup>
+        </div>
     );
   }
+    else {
+      return (
+        null
+      );
+    }
+  }
+
 
 }
 

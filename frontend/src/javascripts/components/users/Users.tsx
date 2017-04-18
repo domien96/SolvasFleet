@@ -3,18 +3,14 @@ import Layout from './Layout.tsx';
 import { fetchUsers } from '../../actions/user_actions.ts';
 import { redirect_to } from'../../router.tsx';
 interface State {
-    users : UserData[];
-    pagresponse : PaginationResponse;
+    response:ListResponse;
 }
 
 class Users extends React.Component<{}, State> {
 
   constructor(props : {}) {
     super(props);
-    this.state = {
-      users: [],
-      pagresponse:{total:0,first : 0, last : 0, limit : 0, offset : 0, previous : 0, next : 0}
-    }
+    this.state = {response: {data:[],total:0}}
     this.fetchUsers=this.fetchUsers.bind(this)
   }
 
@@ -24,8 +20,7 @@ class Users extends React.Component<{}, State> {
 
   fetchUsers(query?:any) {
     fetchUsers((data : any) => {
-      this.setState({ users: data.data,
-        pagresponse : data
+      this.setState({ response:data
       })
     },undefined,query);
   }
@@ -42,7 +37,7 @@ class Users extends React.Component<{}, State> {
     );
 
     return (
-      <Layout users={ this.state.users } onUserSelect={ this.handleClick } fetchUsers={this.fetchUsers} >
+      <Layout response={this.state.response} onUserSelect={ this.handleClick } fetchUsers={this.fetchUsers} >
         { children }
       </Layout>
     );

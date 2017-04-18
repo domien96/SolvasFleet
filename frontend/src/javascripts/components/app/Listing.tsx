@@ -12,7 +12,8 @@ interface Props {
   fetchModels:any,
   modelName:string,
   columns:string[],
-  models:any[]
+  models:any[],
+  response:ListResponse
 }
 
 
@@ -31,8 +32,8 @@ const Listing : React.StatelessComponent<Props>  = props =>  {
             <Link to={props.addNewRoute} className='btn btn-default pull-right'>
               <span className='glyphicon glyphicon-plus' aria-hidden='true'></span>{T.translate(props.modelName+'.addNew')}
             </Link>
-            <InfoTable head={ tablehead } data={ props.models } onClick={ props.onSelect } />
-            <Pagination onClick={props.fetchModels}/>
+            <InfoTable head={ tablehead } data={ props.response.data } onClick={ props.onSelect } />
+            <Pagination onClick={props.fetchModels} response={props.response}/>
           </div>
         </Card>
       </div>

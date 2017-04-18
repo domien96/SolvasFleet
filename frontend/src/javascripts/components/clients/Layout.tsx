@@ -4,7 +4,7 @@ import Header    from '../app/Header.tsx';
 import Listing from '../app/Listing.tsx';
 
 interface Props {
-  clients : Company[];
+  response : ListResponse;
   onClientSelect : (id : number) => void;
   fetchClients : (query?:any)=>void;
 }
@@ -19,7 +19,7 @@ const Layout : React.StatelessComponent<Props> = props => {
         <div className='row'>
           <div className='col-xs-12'>
             <Listing onSelect={props.onClientSelect} addNewRoute='/users/new' fetchModels={props.fetchClients} modelName='company'
-              columns={['id','name','vatNumber']} models={props.clients}/>
+              columns={['id','name','vatNumber']} response={props.response}/>
           </div>
         </div>
       </div>

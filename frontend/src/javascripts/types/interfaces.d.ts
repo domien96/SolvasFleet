@@ -10,6 +10,6 @@
 /// <reference path="table.d.ts"/>
 /// <reference path="filter.d.ts"/>
 /// <reference path="contract.d.ts"/>
-
+/// <reference path="listing.d.ts"/>
 /// <reference path="Typeahead.d.ts"/>
 /// <reference path="pagination.d.ts"/>
