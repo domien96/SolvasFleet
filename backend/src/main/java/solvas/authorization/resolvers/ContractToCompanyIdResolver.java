@@ -21,7 +21,6 @@ public class ContractToCompanyIdResolver implements CompanyIdResolver {
         this.contractDao = contractDao;
     }
 
-
     @Override
     public Collection<Integer> resolve(int targetId) throws EntityNotFoundException {
         return new ArrayList<Integer>() {{

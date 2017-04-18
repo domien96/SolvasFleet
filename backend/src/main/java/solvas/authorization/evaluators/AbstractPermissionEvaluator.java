@@ -30,12 +30,14 @@ public abstract class AbstractPermissionEvaluator<M extends Model> implements Pe
 
     @Override
     public boolean hasPermission(Authentication authentication, Serializable targetId, Object permission) {
+        M model;
         try {
-            return deciders.getOrDefault(permission, this::reject)
-                    .decide(authentication, dao.find((Integer) targetId));
+            model = dao.find((Integer) targetId);
         } catch (EntityNotFoundException e) {
-            return reject(authentication, null);
+            model = null;
         }
+
+        return deciders.getOrDefault(permission, this::reject).decide(authentication, model);
     }
 
     public abstract boolean canRead(Authentication authentication, M model);
