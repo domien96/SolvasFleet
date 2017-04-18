@@ -41,7 +41,7 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
      *
      * @return ResponseEntity
      */
-    @PreAuthorize("hasPermission(#fleetId, 'fleet', 'READ')")
+    @PreAuthorize("hasPermission(#fleetId, 'fleet', 'READ_VEHICLES')")
     @RequestMapping(value = "/companies/{companyId}/fleets/{fleetId}/vehicles", method = RequestMethod.GET)
     public ResponseEntity<?> listAll(Pageable pagination, VehicleFilter filter, BindingResult result, @PathVariable int fleetId) {
         return super.listAll(pagination, filter, result);
@@ -62,7 +62,7 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
      * @return ResponseEntity
      */
     @RequestMapping(value = "/companies/{companyId}/fleets/{fleetId}/vehicles", method = RequestMethod.POST)
-    @PreAuthorize("hasPermission(#fleetId, 'fleet', 'WRITE')")
+    @PreAuthorize("hasPermission(#fleetId, 'fleet', 'MANAGE_VEHICLES')")
     public ResponseEntity<?> post(@Valid @RequestBody ApiVehicle input,BindingResult result, @PathVariable int fleetId) {
         input.setFleet(fleetId);
         return super.post(input,result);
@@ -70,7 +70,7 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
 
     @Override
     @RequestMapping(value = "/companies/{companyId}/fleets/{fleetId}/vehicles/{vehicleId}", method = RequestMethod.DELETE)
-    @PreAuthorize("hasPermission(#vehicleId, 'vehicle', 'WRITE')")
+    @PreAuthorize("hasPermission(#vehicleId, 'vehicle', 'DELETE')")
     public ResponseEntity<?> archiveById(@PathVariable int vehicleId) {
         return super.archiveById(vehicleId);
     }
@@ -84,7 +84,7 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
      * @return ResponseEntity
      */
     @RequestMapping(value = "/companies/{companyId}/fleets/{fleetId}/vehicles/{vehicleId}", method = RequestMethod.PUT)
-    @PreAuthorize("hasPermission(#vehicleId, 'vehicle', 'WRITE') && hasPermission(#fleetId, 'fleet', 'WRITE')")
+    @PreAuthorize("hasPermission(#vehicleId, 'vehicle', 'EDIT') && hasPermission(#fleetId, 'fleet', 'MANAGE_VEHICLES')")
     public ResponseEntity<?> put(
             @PathVariable int vehicleId,
             @PathVariable int fleetId,

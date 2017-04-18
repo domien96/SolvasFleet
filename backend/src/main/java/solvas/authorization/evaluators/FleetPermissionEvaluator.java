@@ -7,6 +7,8 @@ import solvas.service.models.Fleet;
 public class FleetPermissionEvaluator extends AbstractPermissionEvaluator<Fleet> {
     {
         registerPermissionDecider("READ_INVOICES", this::canReadInvoices);
+        registerPermissionDecider("READ_VEHICLES", this::canReadVehicles);
+        registerPermissionDecider("MANAGE_VEHICLES", this::canManageVehicles);
     }
     public FleetPermissionEvaluator(Dao<Fleet> dao) {
         super(dao);
@@ -15,6 +17,14 @@ public class FleetPermissionEvaluator extends AbstractPermissionEvaluator<Fleet>
     @Override
     public boolean canRead(Authentication authentication, Fleet model) {
         return hasScope(authentication, "read:company:fleet", getCompanyId(model), "read:company:fleets");
+    }
+
+    public boolean canReadVehicles(Authentication authentication, Fleet model) {
+        return hasScope(authentication, "read:company:fleet", getCompanyId(model), "read:company:fleets");
+    }
+
+    public boolean canManageVehicles(Authentication authentication, Fleet model) {
+        return hasScope(authentication, "write:company:fleet", getCompanyId(model), "write:company:fleets");
     }
 
     private int getCompanyId(Fleet fleet) {
