@@ -8,6 +8,7 @@ import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.SimpleUrlBuilder;
 import solvas.rest.api.models.ApiAddress;
 import solvas.rest.api.models.ApiCompany;
+import solvas.service.models.CompanyType;
 
 /**
  * Mapper between Company and ApiCompany
@@ -37,6 +38,7 @@ public class CompanyMapper extends AbstractMapper<Company,ApiCompany> {
         company.setAddressHouseNumber(apiCompany.getAddress().getHouseNumber());
         company.setAddressPostalCode(apiCompany.getAddress().getPostalCode());
         company.setAddressStreet(apiCompany.getAddress().getStreet());
+        company.setType(CompanyType.fromString(apiCompany.getType()));
         return company;
     }
 
@@ -54,6 +56,7 @@ public class CompanyMapper extends AbstractMapper<Company,ApiCompany> {
         apiCompany.getAddress().setPostalCode(company.getAddressPostalCode());
         apiCompany.getAddress().setStreet(company.getAddressStreet());
         apiCompany.setUrl(SimpleUrlBuilder.buildUrlFromBase(ROOTPATH + "{id}", company.getId()));
+        apiCompany.setType(company.getType().getText());
         return apiCompany;
     }
 
