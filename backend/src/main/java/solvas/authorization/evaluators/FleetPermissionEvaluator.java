@@ -11,7 +11,7 @@ public class FleetPermissionEvaluator extends AbstractPermissionEvaluator<Fleet>
 
     @Override
     public boolean canRead(Authentication authentication, Fleet model) {
-        return hasScope(authentication, "read:company:fleet", getCompanyId(model), "read:company:fleet");
+        return hasScope(authentication, "read:company:fleet", getCompanyId(model), "read:company:fleets");
     }
 
     private int getCompanyId(Fleet fleet) {
@@ -25,11 +25,12 @@ public class FleetPermissionEvaluator extends AbstractPermissionEvaluator<Fleet>
 
     @Override
     public boolean canEdit(Authentication authentication, Fleet model) {
-        return false;
+        return hasScope(authentication, "write:company:fleet", getCompanyId(model), "write:company:fleets");
+
     }
 
     @Override
     public boolean canDelete(Authentication authentication, Fleet model) {
-        return false;
+        return hasScope(authentication, "write:company:fleet", getCompanyId(model), "write:company:fleets");
     }
 }

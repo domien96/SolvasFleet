@@ -10,7 +10,9 @@ import solvas.service.models.Company;
 @Component
 public class CompanyPermissionEvaluator extends AbstractPermissionEvaluator<Company> {
     {
-        registerPermissionDecider("CREATE_FLEET", this::canCreateFleet);
+        registerPermissionDecider("MANAGE_FLEETS", this::canManageFleets);
+        registerPermissionDecider("LIST_FLEETS", this::canListFLeets);
+
     }
     @Autowired
     public CompanyPermissionEvaluator(Dao<Company> dao) {
@@ -22,8 +24,12 @@ public class CompanyPermissionEvaluator extends AbstractPermissionEvaluator<Comp
         return hasScope(authentication, "read:company", model.getId(), "read:companies");
     }
 
-    public boolean canCreateFleet(Authentication authentication, Company model) {
+    public boolean canManageFleets(Authentication authentication, Company model) {
         return hasScope(authentication, "read:company:fleet", model.getId(), "read:company:fleets");
+    }
+
+    public boolean canListFLeets(Authentication authentication, Company model) {
+        return hasScope(authentication, "write:company:fleet", model.getId(), "write:company:fleets");
     }
 
     @Override
