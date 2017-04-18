@@ -38,8 +38,8 @@ const Info : React.StatelessComponent<Props> = props => {
           <h5>Role form</h5>
         </div>
         <div className='card-content'>
-          <FormChoice value={ role }      placeholder='Sfunction.role'      choices={ roleChoices }     callback={ handleChange('role') } />
-          <FormChoice value={ company }   placeholder='Sfunction.company'   choices={ companyChoices }  callback={ handleChange('company') } />
+          <FormChoice value={ role }      placeholder='function.role'      choices={ roleChoices }     callback={ handleChange('role') } />
+          <FormChoice value={ company }   placeholder='function.company'   choices={ companyChoices }  callback={ handleChange('company') } />
         </div>
       </Card>
     </div>

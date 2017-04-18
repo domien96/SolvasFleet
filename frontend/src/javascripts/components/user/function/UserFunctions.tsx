@@ -1,7 +1,6 @@
 import React from 'react';
 import UserFunctionsView from './UserFunctionsView.tsx';
-import { fetchFunctionsByUser } from '../../../actions/user_actions.ts';
-import { redirect_to } from'../../../routes/router.tsx';
+import { fetchFunctionsByUser, deleteFunction } from '../../../actions/user_actions.ts';
 
 interface Props{
   user: UserData;
@@ -15,7 +14,7 @@ class UserFunctions extends React.Component<Props, State> {
   constructor(props : any){
     super(props);
     this.state = { Sfunctions: [] };
-    this.handleFunctionSelect = this.handleFunctionSelect.bind(this);
+    this.handleFunctionDelete = this.handleFunctionDelete.bind(this);
   }
 
   componentDidMount() {
@@ -36,13 +35,14 @@ class UserFunctions extends React.Component<Props, State> {
     }));
   }
 
-  handleFunctionSelect(id : number){
-    redirect_to(`/auth/functions/${id}`);
+  handleFunctionDelete(functionId : number){
+    var reloadFunctions = this.fetchFunctions;
+    deleteFunction(this.props.user.id, functionId, () => reloadFunctions());
   }
 
   render(){
     return (
-      <UserFunctionsView userId={ this.props.user.id } Sfunctions={ this.state.Sfunctions } onFunctionSelect={ this.handleFunctionSelect }/>
+      <UserFunctionsView userId={ this.props.user.id } Sfunctions={ this.state.Sfunctions } onFunctionDelete={ this.handleFunctionDelete }/>
     );
   }
 }

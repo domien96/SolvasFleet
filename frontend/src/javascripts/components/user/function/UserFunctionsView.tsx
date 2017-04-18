@@ -1,12 +1,12 @@
 import React from 'react';
 
 import { th }    from '../../../utils/utils.ts';
-import InfoTable from '../../tables/InfoTable.tsx';
+import ExtendedInfoTable from '../../tables/ExtendedInfoTable.tsx';
 import { Link } from 'react-router';
 
 interface OverviewProps {
   Sfunctions : SFunctionData[];
-  onFunctionSelect : (id : number) => void;
+  onFunctionDelete : (id : number) => void;
 }
 
 const Overview : React.StatelessComponent<OverviewProps> = props => {
@@ -16,27 +16,27 @@ const Overview : React.StatelessComponent<OverviewProps> = props => {
   ];
 
   return (
-    <InfoTable head={ tableHead } data={ props.Sfunctions } onClick={ props.onFunctionSelect } />
+    <ExtendedInfoTable head={ tableHead } data={ props.Sfunctions } onDelete={ props.onFunctionDelete } />
   );
 }
 
 interface Props {
   userId : number;
   Sfunctions : SFunctionData[];
-  onFunctionSelect : (id : number) => void;
+  onFunctionDelete : (id : number) => void;
 }
 
 const UserFunctionsView : React.StatelessComponent<Props> = props => {
 
   return (
     <div>    
-      <Link to={ '/users/'+ props.userId +'/functions/edit' } className='btn btn-default pull-right'>
-        <span className='glyphicon glyphicon-edit' aria-hidden='true'/> Edit
+      <Link to={ '/users/'+ props.userId +'/functions/new' } className='btn btn-default pull-right'>
+        <span className='glyphicon glyphicon-plus' aria-hidden='true'/> Add new function
       </Link>
       <h3>
         Functions
       </h3>
-      <Overview Sfunctions={ props.Sfunctions } onFunctionSelect={ props.onFunctionSelect }/>
+      <Overview Sfunctions={ props.Sfunctions } onFunctionDelete={ props.onFunctionDelete }/>
     </div>
   );
 }

@@ -15,6 +15,7 @@ const Sidebar : React.StatelessComponent<{}> = () => {
         <SidebarLink path='/users'>Users</SidebarLink>
         <SidebarLink path='/clients'>Clients</SidebarLink>
         <SidebarLink path='/vehicles'>Vehicles</SidebarLink>
+        <SidebarLink path='/auth'>Permission Settings</SidebarLink>
         <li>
           <Link to='/sign_out'>
             Sign out

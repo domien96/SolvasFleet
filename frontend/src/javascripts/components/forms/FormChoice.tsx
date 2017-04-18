@@ -20,7 +20,7 @@ const FormChoice : React.StatelessComponent<Props> = props => {
 
     return (
       <div className={ 'form-group' }>
-        <label>{ label }:
+        <label>{ label }:{' '}
         <select className='btn btn-default' value={ value } onChange={ callback }>
         { choicesList }
         </select>

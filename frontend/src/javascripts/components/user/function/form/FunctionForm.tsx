@@ -27,7 +27,7 @@ const FunctionForm : React.StatelessComponent<Props> = props => {
           <Info Sfunction={ Sfunction } roles={ roles } companies={ companies } handleChange={ handleChange } hasError={ hasError } />
           <div className='col-xs-12 col-md-5'>
             <div className='row'>
-              <Actions submitLabel={ submit } cancelUrl='/auth' model='role' />
+              <Actions submitLabel={ submit } cancelUrl='/auth' model='function' />
             </div>
           </div>
         </div>
