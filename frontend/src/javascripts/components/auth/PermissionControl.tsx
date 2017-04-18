@@ -7,7 +7,7 @@ import { redirect_to } from'../../routes/router.tsx';
 interface State{
   //Sfunctions : SFunctionData[];
   roles: RoleData[];
-  permissions: PermissionData[];
+  permissions: string[];
 }
 
 class PermissionControl extends React.Component<{}, State> {
@@ -31,7 +31,7 @@ class PermissionControl extends React.Component<{}, State> {
   }
 
   fetchPermissions(){
-    fetchPermissions((data : Permissions.Data) => {
+    fetchPermissions((data : any) => {
       this.setState({ permissions: data.data })
     });
   }

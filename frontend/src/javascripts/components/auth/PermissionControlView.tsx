@@ -22,24 +22,20 @@ const RoleOverview : React.StatelessComponent<RoleOverviewProps> = props => {
 }
 
 interface PermissionOverviewProps {
-  permissions : PermissionData[];
+  permissions : string[];
   onPermissionSelect : (id : number) => void;
 }
 
 const PermissionOverview : React.StatelessComponent<PermissionOverviewProps> = props => {
-  const tableHead = [
-    th('action',          'permission.action'),
-    th('resource',        'permission.resource')
-  ];
 
   return (
-    <InfoTable head={ tableHead } data={ props.permissions } onClick={ props.onPermissionSelect } />
+    <div> TODO </div>
   );
 }
 
 interface Props {
   roles : RoleData[];
-  permissions : PermissionData[];
+  permissions : string[];
   onRoleSelect : (id : number) => void;
   onPermissionSelect : (id : number) => void;
 }

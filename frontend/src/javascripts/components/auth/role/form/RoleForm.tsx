@@ -1,8 +1,8 @@
 import React    from 'react';
 
-import Actions from '../../forms/Actions.tsx';
-import Errors from '../../app/Errors.tsx';
-import Info from './form/Info.tsx';
+import Actions from '../../../forms/Actions.tsx';
+import Errors from '../../../app/Errors.tsx';
+import Info from './Info.tsx';
 
 interface Props {
   onSubmit     : (e : any) => void;
@@ -10,10 +10,11 @@ interface Props {
   errors       : Form.Error[];
   hasError     : (field : Role.Field) => boolean;
   role         : RoleData;
+  permissions  : string[];
 }
 
 const RoleForm : React.StatelessComponent<Props> = props => {
-  var { role, onSubmit, handleChange, errors, hasError } = props;
+  var { role, permissions, onSubmit, handleChange, errors, hasError } = props;
 
   const submit = role.id != null ? 'form.update' : 'form.create';
 
@@ -22,10 +23,10 @@ const RoleForm : React.StatelessComponent<Props> = props => {
       <div className='wrapper'>
         <div className='row'>
           <Errors errors={ errors } />
-          <Info role={ role } handleChange={ handleChange } hasError={ hasError } />
+          <Info role={ role } permissions={ permissions } handleChange={ handleChange } hasError={ hasError } />
           <div className='col-xs-12 col-md-5'>
             <div className='row'>
-              <Actions submitLabel={ submit } cancelUrl={ `/roles/${permission.id || ''}` } model='role' />
+              <Actions submitLabel={ submit } cancelUrl='/auth' model='role' />
             </div>
           </div>
         </div>
