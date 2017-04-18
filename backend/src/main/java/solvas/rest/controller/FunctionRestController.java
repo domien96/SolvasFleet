@@ -39,7 +39,7 @@ public class FunctionRestController extends AbstractRestController<Function, Api
      * @return ResponseEntity containing the (paginated) functions
      */
     @RequestMapping(value = "/users/{userId}/functions", method = RequestMethod.GET)
-    @PreAuthorize("hasPermission(#userId, 'user', 'READ')")
+    @PreAuthorize("hasPermission(#userId, 'user', 'READ_ROLES')")
     public ResponseEntity<?> listAll(
             Pageable pagination,
             FunctionFilter filter,
@@ -56,7 +56,7 @@ public class FunctionRestController extends AbstractRestController<Function, Api
      * @param userId the id of the user this permission is for
      * @return ResponseEntity
      */
-    @PreAuthorize("hasPermission(#userId, 'user', 'WRITE')")
+    @PreAuthorize("hasPermission(#input, 'CREATE')")
     @RequestMapping(value = "/users/{userId}/functions", method = RequestMethod.POST)
     public ResponseEntity<?> post(
             @Valid @RequestBody ApiFunction input,
@@ -68,7 +68,7 @@ public class FunctionRestController extends AbstractRestController<Function, Api
 
     @Override
     @RequestMapping(value = "/users/{userId}/functions/{id}", method = RequestMethod.DELETE)
-    @PreAuthorize("hasPermission(#id, 'function', 'WRITE')")
+    @PreAuthorize("hasPermission(#id, 'function', 'DELETE')")
     public ResponseEntity<?> archiveById(@PathVariable int id) {
         return super.archiveById(id);
     }
