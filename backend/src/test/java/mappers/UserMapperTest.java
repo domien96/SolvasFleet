@@ -8,6 +8,9 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import solvas.service.models.User;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
@@ -45,6 +48,8 @@ public class UserMapperTest {
         MockitoAnnotations.initMocks(this);
         when(daoContext.getUserDao()).thenReturn(userDaoMock);
         mapper=new UserMapper(daoContext, passwordEncoder);
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
     }
 
     /**
@@ -56,7 +61,8 @@ public class UserMapperTest {
         User user = random(User.class);
         ApiUser converted = mapper.convertToApiModel(user);
         assertThat(converted.getId(),is(user.getId()));
-        assertThat(converted.getUrl(),is("/users/"+user.getId()));
+
+        assertThat(converted.getUrl(),is("http://localhost/users/"+user.getId()));
         assertNull(converted.getPassword()); // Never let password go back to api from persistence
         assertThat(converted.getEmail(),is(user.getEmail()));
         assertThat(converted.getFirstName(),is(user.getFirstName()));

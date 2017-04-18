@@ -5,6 +5,9 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import solvas.service.models.Vehicle;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
@@ -59,6 +62,8 @@ public class VehicleMapperTest {
         when(context.getVehicleTypeDao()).thenReturn(vehicleTypeDao);
         when(context.getFleetDao()).thenReturn(fleetDao);
         when(context.getFleetSubscriptionDao()).thenReturn(fleetSubscriptionDao);
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
     }
 
     /**
@@ -97,7 +102,7 @@ public class VehicleMapperTest {
         assertThat(converted.getId(),is(vehicle.getId()));
         assertThat(converted.getLeasingCompany(),is(vehicle.getLeasingCompany().getId()));
         assertThat(converted.getValue(),is(vehicle.getValue()));
-        assertThat(converted.getUrl(),is("/vehicles/"+vehicle.getId()));
+        assertThat(converted.getUrl(),is("http://localhost/vehicles/"+vehicle.getId()));
         assertThat(converted.getMileage(),is(vehicle.getKilometerCount()));
         assertThat(converted.getYear(),is(vehicle.getYear()));
         assertThat(converted.getBrand(),is(vehicle.getBrand()));
