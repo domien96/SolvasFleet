@@ -13,10 +13,10 @@ public class ApiFleet extends ApiModel {
     private int company;
 
     @Min(value = 1)
-    private int facturationPeriod;
+    private int facturationPeriod;  // In months
 
     @Min(value = 1)
-    private int paymentPeriod;
+    private int paymentPeriod;// In months
 
     @NotEmpty
     private String name;

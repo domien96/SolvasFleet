@@ -8,8 +8,8 @@ package solvas.service.models;
 public class Fleet extends Model {
     private Company company;
     private String name;
-    private int facturationPeriod;
-    private int paymentPeriod;
+    private int facturationPeriod; // In months
+    private int paymentPeriod; // In months
 
 
     public Company getCompany() {
