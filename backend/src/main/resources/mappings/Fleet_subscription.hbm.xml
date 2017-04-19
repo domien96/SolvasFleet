@@ -6,7 +6,7 @@
 <hibernate-mapping>
    <class name="solvas.service.models.FleetSubscription" table="fleet_subscriptions">
       <meta attribute="class-description">
-         This class contains the subscribed subFleet detail.
+         This class contains the subscribed Fleet subscriptions detail.
       </meta>
       <id name="id" type="int" column="fleet_subscription_id">
          <generator class="identity"/>
@@ -18,8 +18,8 @@
 
        <many-to-one name="vehicle" column="vehicle_id"
                     class="solvas.service.models.Vehicle" not-null="true"/>
-      <many-to-one name="subFleet" column="subfleet_id"
-                   class="solvas.service.models.SubFleet" not-null="true"/>
+       <many-to-one name="fleet" column="fleet_id"
+                    class="solvas.service.models.Fleet" not-null="true"/>
 
       <set name="contracts" table="contracts" lazy="true">
          <key column="contract_id" />
