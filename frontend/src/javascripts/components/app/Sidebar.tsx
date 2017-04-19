@@ -1,6 +1,7 @@
 import React    from 'react';
 import { Link } from 'react-router';
 import classNames from 'classnames';
+import { slide as Menu } from 'react-burger-menu';
 
 interface SProps {
   path: string;
@@ -25,8 +26,9 @@ class SidebarLink extends React.Component<SProps, {}> {
 }
 
 const Sidebar : React.StatelessComponent<{}> = () => {
-  return (
-    <nav className='navbar-default navbar-side'>
+
+  const info = (
+    <div>
       <div id='logo'>
         <Link to='/'>
           <h2>SolvasFleet</h2>
@@ -37,7 +39,18 @@ const Sidebar : React.StatelessComponent<{}> = () => {
         <SidebarLink path='/clients'>Clients</SidebarLink>
         <SidebarLink path='/vehicles'>Vehicles</SidebarLink>
       </ul>
-    </nav>
+    </div> 
+  );
+
+  return (
+    <div>
+      <Menu pageWrapId={'page-wrap'} outerContainerId={'outer-container'} className='mobile-menu'>
+        {info}
+      </Menu>
+      <nav className='standard-menu'>
+        {info}
+      </nav>
+    </div>
   );
 }
 
