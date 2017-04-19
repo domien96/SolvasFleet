@@ -48,7 +48,7 @@ public class InvoiceMapper extends AbstractMapper<Invoice,ApiInvoice> {
         api.setType(model.getType().getText());
         api.setFleet(model.getFleet().getId());
         api.setUrl(ROOTPATH);
-        return null;
+        return api;
     }
 
 }
