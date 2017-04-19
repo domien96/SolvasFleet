@@ -1,14 +1,12 @@
 import React from 'react';
 
-import Popup from 'react-popup';
-
 import Header from '../app/Header.tsx';
 import Card   from '../app/Card.tsx';
 import NestedCheckbox from '../app/NestedCheckbox.tsx';
 import SubfleetRow from './SubfleetRow.tsx';
 import { fetchFleet }    from '../../actions/fleet_actions.ts';
 import { fetchVehicles } from '../../actions/vehicle_actions.ts';
-
+import  FleetSettings  from './FleetSettings.tsx';
 import { group_by } from '../../utils/utils.ts';
 
 interface vehiclesProps {
@@ -40,6 +38,7 @@ class Vehicles extends React.Component<vehiclesProps, vehiclesState> {
   }
 
   render() {
+
     const vehicles = Object.keys(this.props.vehicles).map((k, i) => {
       return (
         <SubfleetRow
@@ -97,12 +96,11 @@ class Fleet extends React.Component<fleetProps, fleetState> {
       <div>
         <Header>
           <h2>{ fleet.name }
+          <FleetSettings test="a"></FleetSettings>
 
-                    <div className='actions pull-right'>
-                      <h3>
-                        <span className='glyphicon glyphicon-cog' />
-                      </h3>
-                    </div></h2>
+
+          </h2>
+
 
         </Header>
         <div className='wrapper'>
