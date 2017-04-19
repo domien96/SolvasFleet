@@ -58,24 +58,17 @@ public class InvoiceRestController extends AbstractRestController<Invoice, ApiIn
 
     /**
      * Get the active invoice for a fleet.
-     *
-     * @param id         The ID of the company.
-     * @param pagination The pagination.
-     * @param filter     The filters.
-     * @param result     The validation results.
+     * @param id The ID of the fleet
      * @return The response.
      */
     @RequestMapping(value = "/fleets/{id}/invoices/current", method = RequestMethod.GET)
-    public ResponseEntity<?> getActiveByCompanyId(@PathVariable int id, @RequestParam("type") String type, Pageable pagination, InvoiceFilter filter, BindingResult result) {
+    public ResponseEntity<?> getActiveByFleetId(@PathVariable int id, @RequestParam("type") String type) throws EntityNotFoundException {
         InvoiceType invtype = InvoiceType.fromString(type);
-        if(invtype == null)
+        if(invtype == null) {
             return notFound();
-        //Todo filter set active
-        filter.setFleet(id);
-        return super.listAll(pagination, filter, result);
+        }
+        return new ResponseEntity<>(invoiceService.findActiveInvoiceByType(id,invtype), HttpStatus.OK);
     }
-
-
 
 
 

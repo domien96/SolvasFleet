@@ -51,54 +51,14 @@ public class InvoiceService extends AbstractService<Invoice,ApiInvoice> {
     }
 
     public ApiInvoice findActiveInvoiceByType(int fleetId,InvoiceType type) throws EntityNotFoundException{
-        ApiInvoice invoice = new ApiInvoice();
-
         // fleet is given as parameter
         // Read fleet from database
         Fleet fleet = context.getFleetDao().find(fleetId);
         // if the fleet is not found, it will throw a EntityNotFoundException, which will be caught by
-            //the method not found in AbstractController
-        invoice.setFleet(fleet.getId()); // or just use the parameter
+        //the method not found in AbstractController
+        generateMissingInvoices(fleet);
+        return mapper.convertToApiModel(generateNextBillingInvoice(fleet));
 
-        // Set the startDate for this invoice
-        invoiceSetStartDate(invoice,fleet);
-
-
-        //invoice enddate = startend date  + periode
-        invoice.setEndDate(invoice.getStartDate().plusMonths(3)); //TODO replace by fleet.get period
-
-
-        // paid == false, as it is active
-        invoice.setPaid(false);
-
-
-        //TODO review each type how to calculate
-        // Calculate totalamount
-        //step 1 get all vehicle types
-        BigDecimal totalAmount =BigDecimal.ZERO;
-
-        Collection<VehicleType> vehicleTypes = context.getVehicleTypeDao().findAll();
-        for (VehicleType vehicleType: vehicleTypes) {
-            Collection<FleetSubscription> subscriptionsWithVehicleType = context.getFleetSubscriptionDao()
-                    .fleetSubscriptionByFleetAndVehicleTypeAfterStartDate(fleet,vehicleType,invoice.getStartDate());
-            for (FleetSubscription fleetSubscription: subscriptionsWithVehicleType) {
-                // contract
-                // TODO handle case when enddate != null
-                totalAmount = totalAmount.add(premiumCalc.calculatePremium(fleetSubscription,invoice.getStartDate()));
-
-                }
-        }
-        invoice.setTotalAmount(totalAmount.longValue());
-        invoice.setCreatedAt(LocalDateTime.now());
-        invoice.setUpdatedAt(LocalDateTime.now());
-
-
-
-        // set ype of invoice
-        invoice.setType(type.getText());
-
-
-        return invoice;
     }
 
     /**
