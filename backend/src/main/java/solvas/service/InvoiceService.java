@@ -88,25 +88,6 @@ public class InvoiceService extends AbstractService<Invoice,ApiInvoice> {
     }
 
     /**
-     * invoice startdate = date fleet was made or the end date of last generated invoice
-     * @param invoice
-     * @param fleet
-     */
-    private void invoiceSetStartDate(ApiInvoice invoice,Fleet fleet) {
-        // TODO Perhaps overtime replace this by a max function in dao sql database
-        LocalDateTime startDate=fleet.getCreatedAt();
-        Collection<Invoice> previousInvoices = context.getInvoiceDao().findByFleet(fleet);
-        if (!previousInvoices.isEmpty()){
-            for (Invoice item: previousInvoices) {
-                if (item.getEndDate().isAfter(startDate)){
-                    startDate=item.getStartDate();
-                }
-            }
-        }
-        invoice.setStartDate(startDate);
-    }
-
-    /**
      * Generates the invoices for each past period which does not have one yet.
      * Each one will be saved except for the current one.
      * @param fleet Fleet for which the invoices have to be calculated
@@ -126,11 +107,21 @@ public class InvoiceService extends AbstractService<Invoice,ApiInvoice> {
      * Get the startdate of the next invoice for this fleet.
      * If this fleet never had an invoice yet, the startdate of the
      * active fleetsubscription will be taken.
-     * @param fleet
+     * @param fleet fleet
      * @return the start date
      */
     public LocalDateTime getStartDateNextInvoice(Fleet fleet) {
-        return null; //todo
+        // TODO Perhaps overtime replace this by a max function in dao sql database
+        LocalDateTime startDate=fleet.getCreatedAt();
+        Collection<Invoice> previousInvoices = context.getInvoiceDao().findByFleet(fleet);
+        if (!previousInvoices.isEmpty()){
+            for (Invoice item: previousInvoices) {
+                if (item.getEndDate().isAfter(startDate)){
+                    startDate=item.getStartDate();
+                }
+            }
+        }
+        return startDate;
     }
 
 
