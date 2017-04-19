@@ -4,8 +4,6 @@ import org.springframework.stereotype.Component;
 import solvas.persistence.api.DaoContext;
 import solvas.service.models.InsuranceType;
 
-import java.util.Collection;
-
 /**
  * Mapper between InsuranceType and it's String representation
  */
@@ -23,15 +21,14 @@ public class InsuranceTypeMapper extends AbstractMapper<InsuranceType,String> {
 
     @Override
     public InsuranceType convertToModel(String api) {
-        Collection<InsuranceType> types = daoContext.getInsuranceTypeDao().findByName(api);
-        InsuranceType type;
-        if (types.size()==0){
+        InsuranceType type = daoContext.getInsuranceTypeDao().findByName(api);
+        if (type == null){
             type = new InsuranceType();
             type.setId(0);
             type.setName(api);
             return daoContext.getInsuranceTypeDao().save(type);
         } else {
-            return types.iterator().next();
+            return type;
         }
     }
 

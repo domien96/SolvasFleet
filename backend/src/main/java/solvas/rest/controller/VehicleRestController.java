@@ -5,12 +5,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import solvas.rest.utils.JsonListWrapper;
 import solvas.service.models.Vehicle;
 import solvas.rest.api.models.ApiVehicle;
 import solvas.rest.query.VehicleFilter;
 import solvas.service.VehicleService;
 
 import javax.validation.Valid;
+import java.util.Collection;
 
 /**
  * Rest controller for Vehicle
@@ -68,4 +70,17 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
     public ResponseEntity<?> put(@PathVariable int id, @Valid @RequestBody ApiVehicle input, BindingResult result) {
         return super.put(id, input,result);
     }
+
+    /**
+     * Get all vehicle types.
+     * @return The vehicle types.
+     */
+    @RequestMapping(value = "/vehicles/types", method = RequestMethod.GET)
+    public JsonListWrapper<String> listAllTypes() {
+        Collection<String> page = ((VehicleService) service).findAllVehicleTypes();
+        JsonListWrapper<String> wrapper = new JsonListWrapper<>(page);
+        wrapper.put("total", page.size());
+        return wrapper;
+    }
+
 }
