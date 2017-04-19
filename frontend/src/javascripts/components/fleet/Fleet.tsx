@@ -6,7 +6,6 @@ import NestedCheckbox from '../app/NestedCheckbox.tsx';
 import SubfleetRow from './SubfleetRow.tsx';
 import { fetchFleet }    from '../../actions/fleet_actions.ts';
 import { fetchVehicles } from '../../actions/vehicle_actions.ts';
-import  FleetSettings  from './FleetSettings.tsx';
 import { group_by } from '../../utils/utils.ts';
 
 interface vehiclesProps {
@@ -75,7 +74,7 @@ class Fleet extends React.Component<fleetProps, fleetState> {
   constructor(props : fleetProps) {
     super(props);
     this.state = {
-      fleet: {},
+      fleet: {paymentPeriod:0,facturationPeriod:0,name:""},
       vehicles: []
     }
   }
@@ -95,13 +94,8 @@ class Fleet extends React.Component<fleetProps, fleetState> {
     return (
       <div>
         <Header>
-          <h2>{ fleet.name }
-
-
-          </h2>        </Header>
-
-        <FleetSettings test="a"></FleetSettings>
-
+          <h2>{ fleet.name }</h2>
+        </Header>
 
         <div className='wrapper'>
           <Card>

@@ -10,13 +10,14 @@ interface Props {
 
 const FleetForm : React.StatelessComponent<Props> = props => {
   let handleChange = (field : Fleet.Field) => {
+    console.log(props.fleet)
     return (e : any) => {
       props.handleChange(field, e);
     }
   }
   const choices = [
-    th('monthly', 'fleet.options.monthly'),
-    th('yearly', 'fleet.options.yearly')
+    th(31, 'fleet.options.monthly'),
+    th(365, 'fleet.options.yearly')
   ];
 
   return (

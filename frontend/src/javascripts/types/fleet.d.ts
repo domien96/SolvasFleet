@@ -1,6 +1,6 @@
 namespace Fleet {
   export type Field =
-    'id' | 'name' | 'company';
+    'id' | 'name' | 'company' | 'facturationPeriod' | 'paymentPeriod';
 }
 
 interface FleetData {
@@ -8,6 +8,6 @@ interface FleetData {
   name?       : string;
   size?       : number;
   company?    : number;
-  facturationPerod? : number;
+  facturationPeriod? : number;
   paymentPeriod? : number;
 }

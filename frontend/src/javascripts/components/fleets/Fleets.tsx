@@ -62,6 +62,7 @@ class Fleets extends React.Component<Props, State> {
         handleChange={ this.handleChange }
         formIsVisible={ this.state.formVisible }
         onClick={ this.onClick }
+        fleet={this.state.fleet}
       />
     );
   }
