@@ -43,16 +43,10 @@ class Contracts extends React.Component<Props, State> {
   }
 
   render(){
-  	if(this.state.response.total != 0){
 	  	return(
           <Listing onSelect={this.handleClick} addNewRoute='/contracts/new' fetchModels={this.fetchContracts} response={this.state.response} modelName='contract' columns={['id','type','vehicle']}/>
 	  	);
-		}
-		return(
-			<div>
-				nothing here
-			</div>
-		);
+
   }
 }
 
