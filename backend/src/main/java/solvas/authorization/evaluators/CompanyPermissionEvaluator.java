@@ -24,11 +24,11 @@ public class CompanyPermissionEvaluator extends AbstractPermissionEvaluator<Comp
     }
 
     public boolean canManageFleets(Authentication authentication, Company model) {
-        return hasScope(authentication, "read:company:fleet", model.getId(), "read:company:fleets");
+        return hasScope(authentication, "read:company:fleets", model.getId(), "read:companies:fleets");
     }
 
     public boolean canListFLeets(Authentication authentication, Company model) {
-        return hasScope(authentication, "write:company:fleet", model.getId(), "write:company:fleets");
+        return hasScope(authentication, "write:company:fleets", model.getId(), "write:companies:fleets");
     }
 
     @Override

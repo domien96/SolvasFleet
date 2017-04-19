@@ -16,8 +16,8 @@ public class VehiclePermissionEvaluator extends AbstractPermissionEvaluator<Vehi
 
     @Override
     public boolean canRead(Authentication authentication, Vehicle model) {
-        return hasScope(authentication, "read:company:fleets")
-                || getIds(model).anyMatch(id -> hasScope(authentication, "read:company:fleet")
+        return hasScope(authentication, "read:companies:fleets")
+                || getIds(model).anyMatch(id -> hasScope(authentication, "read:company:fleets")
         );
     }
 
@@ -33,8 +33,8 @@ public class VehiclePermissionEvaluator extends AbstractPermissionEvaluator<Vehi
 
     @Override
     public boolean canCreate(Authentication authentication, Vehicle model) {
-        return hasScope(authentication, "write:company:fleets")
-                || getIds(model).anyMatch(id -> hasScope(authentication, "write:company:fleet")
+        return hasScope(authentication, "write:companies:fleets")
+                || getIds(model).anyMatch(id -> hasScope(authentication, "write:company:fleets")
         );
     }
 
