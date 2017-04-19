@@ -13,7 +13,7 @@ public class FleetSubscription extends Model {
     private LocalDate startDate;
     private LocalDate endDate;
     private Vehicle vehicle;
-    private SubFleet subFleet;
+    private Fleet fleet;
 
     private Set<Contract> contracts;
 
@@ -42,20 +42,19 @@ public class FleetSubscription extends Model {
         this.vehicle = vehicle;
     }
 
-
-    public SubFleet getSubFleet() {
-        return subFleet;
-    }
-
-    public void setSubFleet(SubFleet subFleet) {
-        this.subFleet = subFleet;
-    }
-
     public Set<Contract> getContracts() {
         return contracts;
     }
 
     public void setContracts(Set<Contract> contracts) {
         this.contracts = contracts;
+    }
+
+    public Fleet getFleet() {
+        return fleet;
+    }
+
+    public void setFleet(Fleet fleet) {
+        this.fleet = fleet;
     }
 }

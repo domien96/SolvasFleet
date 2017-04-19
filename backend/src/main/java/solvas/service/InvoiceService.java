@@ -171,11 +171,11 @@ public class InvoiceService extends AbstractService<Invoice,ApiInvoice> {
             Collection<VehicleType> vehicleTypes = context.getVehicleTypeDao().findAll();
             for (VehicleType vehicleType: vehicleTypes) {
                 Collection<FleetSubscription> subscriptionsWithVehicleType = context.getFleetSubscriptionDao()
-                        .fleetSubscriptionByFleetAndVehicleTypeAfterStartDate(fleet,vehicleType,invoice.getStartDate());
+                        .fleetSubscriptionByFleetAndVehicleTypeAfterStartDate(null,vehicleType,null);
                 for (FleetSubscription fleetSubscription: subscriptionsWithVehicleType) {
                     // contract
                     // TODO handle case when enddate != null
-                    totalAmount = totalAmount.add(calculatePremium(fleetSubscription,invoice.getStartDate()));
+                    totalAmount = totalAmount.add(calculatePremium(fleetSubscription,null));
 
                 }
             }
