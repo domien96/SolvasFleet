@@ -16,7 +16,7 @@ interface State{
 class CreateRole extends React.Component<{}, State> {
 	constructor() {
     super();
-    this.state = {role: {}, errors: [], permissions: []}
+    this.state = {role: {name:'', permissions:[]}, errors: [], permissions: []}
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit     = this.onSubmit.bind(this);
   }
@@ -68,6 +68,7 @@ class CreateRole extends React.Component<{}, State> {
 
    
   render() {
+    console.log(this.state)
     return (
       <div>
         <Header>

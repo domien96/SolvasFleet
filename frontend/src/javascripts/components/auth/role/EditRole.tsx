@@ -39,7 +39,8 @@ class EditRole extends React.Component<Props, State> {
 
   fetchRole(id: number){
     fetchRole(id, (data : any) => {
-      this.setState({ role: data.data })
+      console.log(data)
+      this.setState({ role: data })
     });
   }
 

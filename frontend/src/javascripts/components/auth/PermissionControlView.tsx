@@ -15,8 +15,7 @@ interface RoleOverviewProps {
 
 const RoleOverview : React.StatelessComponent<RoleOverviewProps> = props => {
   const tableHead = [
-    th('name',          'role.name'),
-    th('permissions',   'role.permissions')
+    th('name',          'role.name')
   ];
 
   return (
@@ -74,7 +73,7 @@ const PermissionControlView : React.StatelessComponent<Props> = props => {
             </h2>
           </div>
           <div className='card-content'>
-            <PermissionOverview permissions={ props.permissions }/>
+            <PermissionOverview permissions={ props.permissions.sort() }/>
           </div>
         </Card>
       </div>

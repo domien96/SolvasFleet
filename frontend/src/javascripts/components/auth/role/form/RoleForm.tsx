@@ -23,7 +23,7 @@ const RoleForm : React.StatelessComponent<Props> = props => {
       <div className='wrapper'>
         <div className='row'>
           <Errors errors={ errors } />
-          <Info role={ role } permissions={ permissions } handleChange={ handleChange } hasError={ hasError } />
+          <Info role={ role } permissions={ permissions.sort() } handleChange={ handleChange } hasError={ hasError } />
           <div className='col-xs-12 col-md-5'>
             <div className='row'>
               <Actions submitLabel={ submit } cancelUrl='/auth' model='role' />

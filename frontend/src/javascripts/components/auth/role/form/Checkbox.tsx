@@ -8,7 +8,7 @@ interface Props {
 const Checkbox : React.StatelessComponent<Props> = props => {
   return (
     <div className='checkbox'>
-      <label className={ "btn btn-default "+props.active }>
+      <label className={ " "+props.active }>
         <input type="checkbox" value={ props.label } /> { props.label }
       </label>
     </div>

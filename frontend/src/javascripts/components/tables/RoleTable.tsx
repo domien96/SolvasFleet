@@ -1,6 +1,6 @@
 import React from 'react';
 import T     from 'i18n-react';
-import SimpleList from './SimpleList.tsx'
+//import SimpleList from './SimpleList.tsx'
 
 interface Props {
       head    : Table.Head.Data[];
@@ -22,7 +22,7 @@ const InfoTable : React.StatelessComponent<Props> = props => {
       return(
         <tr key={ i } onClick={ () => onClick(role.id) } className='table-row'>
           <td>{ role.name }</td>
-          <td><SimpleList list={role.permissions}/></td>
+          
           <td>
             <button onClick={ onDelete } className='btn btn-danger btn-xs'>
               <span className='glyphicon glyphicon-remove' /> Delete
