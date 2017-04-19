@@ -91,4 +91,12 @@ public interface DaoContext {
      * @return A InvoiceDao
      */
     InvoiceDao getInvoiceDao();
+
+    /**
+     * Get TaxDao for this content
+     * @return A InvoiceDao
+     */
+    TaxDao getTaxDao();
+
+
 }

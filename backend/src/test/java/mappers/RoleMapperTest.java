@@ -1,15 +1,17 @@
 package mappers;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import solvas.service.models.Role;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.dao.RoleDao;
-import solvas.service.mappers.RoleMapper;
 import solvas.rest.api.models.ApiRole;
+import solvas.service.mappers.RoleMapper;
+import solvas.service.models.Role;
 
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -38,6 +40,8 @@ public class RoleMapperTest {
         MockitoAnnotations.initMocks(this);
         mapper=new RoleMapper(context);
         when(context.getRoleDao()).thenReturn(roleDaoMock);
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
     }
 
     /**
@@ -53,6 +57,6 @@ public class RoleMapperTest {
         assertThat(converted.getFunction(),is(role.getFunction()));
         assertThat(converted.getCreatedAt(),is(role.getCreatedAt()));
         assertThat(converted.getUpdatedAt(),is(role.getUpdatedAt()));
-        assertThat(converted.getUrl(),is("/auth/roles/"+role.getId()));
+        assertThat(converted.getUrl(),is("http://localhost/auth/roles/"+role.getId()));
     }
 }

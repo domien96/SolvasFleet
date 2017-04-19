@@ -1,4 +1,4 @@
-package solvas.rest.utils;
+package solvas.rest;
 
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -7,7 +7,7 @@ import org.springframework.web.util.UriComponentsBuilder;
  * Helps in dynamically building Url's.
  * Created by domien on 25/03/2017.
  */
-public class SimpleUrlBuilder extends UriComponentsBuilder {
+public class SimpleUrlBuilder extends UriComponentsBuilder{
 
     /**
      * Makes up the full url by appending the given path and parameters
