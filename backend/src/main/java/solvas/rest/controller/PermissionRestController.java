@@ -13,6 +13,7 @@ import solvas.rest.api.models.ApiPermission;
 import solvas.rest.api.models.ApiRole;
 import solvas.rest.query.PermissionFilter;
 import solvas.rest.utils.JsonListWrapper;
+import solvas.rest.utils.PagedResult;
 import solvas.service.AbstractService;
 import solvas.service.PermissionService;
 import solvas.service.models.Permission;
@@ -52,7 +53,13 @@ public class PermissionRestController extends AbstractRestController<Permission,
     @RequestMapping(value = "/auth/permissions", method = RequestMethod.GET)
     @PreAuthorize("hasPermission(0, 'permission', 'READ')")
     public ResponseEntity<?> listAll(Pageable pagination, PermissionFilter filter, BindingResult result) {
-        return super.listAll(pagination, filter, result);
+
+        // If there are errors in the filtering, send bad request.
+        if (result.hasErrors()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>( new PagedResult<>(service.findAll(pagination, filter).map(ApiPermission::getScope)), HttpStatus.OK);
     }
 
     /**
