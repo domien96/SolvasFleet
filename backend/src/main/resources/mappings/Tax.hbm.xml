@@ -4,15 +4,21 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="solvas.service.models.InsuranceType" table="insurance_types">
+    <class name="solvas.service.models.Tax" table="taxes">
         <meta attribute="class-description">
-            This class contains the User detail.
+            This class contains the taxes for tuple (vehicle type, insurance type).
         </meta>
-        <id name="id" type="int" column="insurance_type_id">
+        <id name="id" type="int" column="tax_id">
             <generator class="identity"/>
         </id>
 
-        <property name="name" column="name" type="string" not-null="true"/>
+        <property name="tax" column="tax" type="big_decimal" not-null="true"/>
+
+        <many-to-one name="vehicleType" column="vehicletype_id"
+                     class="solvas.service.models.VehicleType" not-null="true"/>
+
+        <many-to-one name="insuranceType" column="insurancetype_id"
+                     class="solvas.service.models.InsuranceType" not-null="true"/>
 
         <property name="updatedAt" column="updated_at" type="java.time.LocalDateTime" generated="always" insert="false"/>
         <property name="createdAt" column="created_at" type="java.time.LocalDateTime" generated="insert" insert="false"/>

@@ -4,38 +4,29 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="solvas.service.models.Contract" table="contracts">
+    <class name="solvas.service.models.Invoice" table="invoices">
         <meta attribute="class-description">
-            This class contains the User detail.
+            This class contains the invoices detail.
         </meta>
-        <id name="id" type="int" column="contract_id">
+        <id name="id" type="int" column="invoice_id">
             <generator class="identity"/>
         </id>
-
+        <property name="amount" column="amount" type="big_decimal" not-null="true"/>
+        <property name="type" column="type" not-null="true">
+            <type name="org.hibernate.type.EnumType" >
+                <param name="enumClass">solvas.service.models.InvoiceType</param>
+            </type>
+        </property>
+        <property name="paid" column="paid" type="boolean" not-null="true"/>
         <property name="startDate" column="startDate" type="java.time.LocalDateTime" not-null="true" />
         <property name="endDate" column="endDate" type="java.time.LocalDateTime" not-null="true" />
 
-
-        <many-to-one name="fleetSubscription" column="fleet_subscription_id"
-                     class="solvas.service.models.FleetSubscription" not-null="true"/>
-
-        <many-to-one name="insuranceType" column="insurance_type_id"
-                     class="solvas.service.models.InsuranceType" not-null="true"/>
-
-
-        <property name="premium" column="premium" type="int" not-null="true"/>
-        <property name="franchise" column="franchise" type="int" not-null="true"/>
-
-        <many-to-one name="company" column="company_id"
-                     class="solvas.service.models.Company" not-null="true"/>
-
+        <many-to-one name="fleet" column="fleet_id"
+                     class="solvas.service.models.Fleet" not-null="true"/>
 
         <property name="archived" column="archived" type="boolean" not-null="true"/>
-
         <property name="updatedAt" column="updated_at" type="java.time.LocalDateTime" generated="always" insert="false"/>
         <property name="createdAt" column="created_at" type="java.time.LocalDateTime" generated="insert" insert="false"/>
-
-
 
     </class>
 </hibernate-mapping>

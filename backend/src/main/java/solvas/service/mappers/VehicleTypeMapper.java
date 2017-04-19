@@ -1,10 +1,8 @@
 package solvas.service.mappers;
 
 import org.springframework.stereotype.Component;
-import solvas.service.models.VehicleType;
 import solvas.persistence.api.DaoContext;
-
-import java.util.Collection;
+import solvas.service.models.VehicleType;
 
 /**
  * Mapper between VehicleType and it's String representation
@@ -23,15 +21,14 @@ public class VehicleTypeMapper extends AbstractMapper<VehicleType,String> {
 
     @Override
     public VehicleType convertToModel(String api) {
-        Collection <VehicleType> types = daoContext.getVehicleTypeDao().findByName(api);
-        VehicleType type;
-        if (types.size()==0){
+        VehicleType type = daoContext.getVehicleTypeDao().findByName(api);
+        if (type == null) {
             type = new VehicleType();
             type.setId(0);
             type.setName(api);
             return daoContext.getVehicleTypeDao().save(type);
         } else {
-            return types.iterator().next();
+            return type;
         }
     }
 
