@@ -111,9 +111,19 @@ public class InvoiceService extends AbstractService<Invoice,ApiInvoice> {
         LocalDateTime startDate = getStartDateNextInvoice(fleet),
         endDate = startDate.plusMonths(fleet.getFacturationPeriod());
         Invoice invoice = new Invoice();
+        invoice.setStartDate(startDate);
+        invoice.setEndDate(endDate);
         invoice.setPaid(false);
-
-        return null;
+        invoice.setType(InvoiceType.BILLING);
+        invoice.setAmount(premiumCalc.calculateTotalAmount());
+        invoice.setCreatedAt(LocalDateTime.now());
+        invoice.setUpdatedAt(LocalDateTime.now());
+        if(endDate.isBefore(LocalDateTime.now())) {
+            context.getInvoiceDao().save(invoice);
+            return invoice;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -187,21 +197,23 @@ public class InvoiceService extends AbstractService<Invoice,ApiInvoice> {
             }
             return totalAmount;
         }
-    }
 
-    BigDecimal calculateTotalAmount() {
-        BigDecimal totalAmount =BigDecimal.ZERO;
+        BigDecimal calculateTotalAmount() {
+            BigDecimal totalAmount =BigDecimal.ZERO;
 
-        Collection<VehicleType> vehicleTypes = context.getVehicleTypeDao().findAll();
-        for (VehicleType vehicleType: vehicleTypes) {
-            Collection<FleetSubscription> subscriptionsWithVehicleType = context.getFleetSubscriptionDao()
-                    .fleetSubscriptionByFleetAndVehicleTypeAfterStartDate(fleet,vehicleType,invoice.getStartDate());
-            for (FleetSubscription fleetSubscription: subscriptionsWithVehicleType) {
-                // contract
-                // TODO handle case when enddate != null
-                totalAmount = totalAmount.add(premiumCalc.calculatePremium(fleetSubscription,invoice.getStartDate()));
+            Collection<VehicleType> vehicleTypes = context.getVehicleTypeDao().findAll();
+            for (VehicleType vehicleType: vehicleTypes) {
+                Collection<FleetSubscription> subscriptionsWithVehicleType = context.getFleetSubscriptionDao()
+                        .fleetSubscriptionByFleetAndVehicleTypeAfterStartDate(fleet,vehicleType,invoice.getStartDate());
+                for (FleetSubscription fleetSubscription: subscriptionsWithVehicleType) {
+                    // contract
+                    // TODO handle case when enddate != null
+                    totalAmount = totalAmount.add(calculatePremium(fleetSubscription,invoice.getStartDate()));
 
+                }
             }
+
+            return totalAmount;
         }
     }
 }
