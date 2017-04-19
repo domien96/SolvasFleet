@@ -63,9 +63,11 @@ public class InvoiceService extends AbstractService<Invoice,ApiInvoice> {
 
     /**
      * Generate invoice with type billing. If the new invoice period has not yet been completed
-     * then the new invoice will not be saved.
-     * @param fleet
-     * @return new invoice if not yet existed for period.
+     * then the new invoice will not be saved. With other words, if the next invoice is equal to the current
+     * running invoice, then nothing will be saved.
+     * A period is considered not completed if the enddate is before <u>or equal</u> to now.
+     * @param fleet the fleet
+     * @return newly generated invoice
      */
     private Invoice generateNextBillingInvoice(Fleet fleet) {
         LocalDateTime startDate = getStartDateNextInvoice(fleet),
@@ -74,16 +76,15 @@ public class InvoiceService extends AbstractService<Invoice,ApiInvoice> {
         invoice.setStartDate(startDate);
         invoice.setEndDate(endDate);
         invoice.setPaid(false);
+        invoice.setFleet(fleet);
         invoice.setType(InvoiceType.BILLING);
         invoice.setAmount(premiumCalc.calculateTotalAmount());
         invoice.setCreatedAt(LocalDateTime.now());
         invoice.setUpdatedAt(LocalDateTime.now());
         if(endDate.isBefore(LocalDateTime.now())) {
             context.getInvoiceDao().save(invoice);
-            return invoice;
-        } else {
-            return null;
         }
+        return invoice;
     }
 
     /**
@@ -107,12 +108,18 @@ public class InvoiceService extends AbstractService<Invoice,ApiInvoice> {
 
     /**
      * Generates the invoices for each past period which does not have one yet.
-     *
+     * Each one will be saved except for the current one.
      * @param fleet Fleet for which the invoices have to be calculated
-     * @return amount of invoices generated
+     * @return amount of invoices generated and saved
      */
     public int generateMissingInvoices(Fleet fleet) {
-
+        Invoice lastGenerated = null;
+        int count = 0;
+        do {
+          lastGenerated = generateNextBillingInvoice(fleet);
+          count++;
+        } while( !lastGenerated.getEndDate().isAfter(LocalDateTime.now()));
+        return count-1; // current invoice is not saved. See method generateNextBillingInvoice.
     }
 
     /**
