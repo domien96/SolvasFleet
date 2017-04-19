@@ -69,7 +69,7 @@ public class UserRestController extends AbstractRestController<User,ApiUser> {
 
     @Override
     @RequestMapping(value = "/users/{userId}", method = RequestMethod.PUT)
-    @PreAuthorize("hasPermission(#input 'EDIT')")
+    @PreAuthorize("hasPermission(#input, 'EDIT')")
     public ResponseEntity<?> put(@PathVariable int userId, @Valid @RequestBody ApiUser input, BindingResult result) {
         return super.put(userId, input,result);
     }
