@@ -6,15 +6,16 @@ interface Props {
       head    : Table.Head.Data[];
       roles    : RoleData[];
       onClick : (e : any) => void;
+      onDelete : (e : any) => void;
 }
 
 const InfoTable : React.StatelessComponent<Props> = props => {
 
-    var { head, roles, onClick } = props;
+    var { head, roles, onClick, onDelete } = props;
  
     const tableHead = head.map((headData : Table.Head.Data) =>
     (
-      <th key={ headData.key } scope='row' className='table-row col-sm-3' >{ T.translate(headData.label) }</th>
+      <th key={ headData.key } scope='row' className='table-row' >{ T.translate(headData.label) }</th>
     ));
 
     const tableRows = roles.map((role : RoleData, i : number) => {
@@ -22,6 +23,11 @@ const InfoTable : React.StatelessComponent<Props> = props => {
         <tr key={ i } onClick={ () => onClick(role.id) } className='table-row'>
           <td>{ role.name }</td>
           <td><SimpleList list={role.permissions}/></td>
+          <td>
+            <button onClick={ onDelete } className='btn btn-danger btn-xs'>
+              <span className='glyphicon glyphicon-remove' /> Delete
+            </button>
+          </td>
         </tr>
       );
     });
@@ -30,7 +36,10 @@ const InfoTable : React.StatelessComponent<Props> = props => {
       <div className='table-wrap'>
       <table className='table table-hover'>
         <thead className='thead-default'>
-          <tr>{tableHead}</tr>
+          <tr>
+            {tableHead}
+            <th className='table-row'>Actions</th>
+          </tr>
         </thead>
         <tbody>
           {tableRows}

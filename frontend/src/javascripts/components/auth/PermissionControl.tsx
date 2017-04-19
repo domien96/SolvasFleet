@@ -1,6 +1,6 @@
 import React from 'react';
 import PermissionControlView from './PermissionControlView.tsx';
-import { fetchPermissions, fetchRoles } from '../../actions/auth_actions.ts';
+import { fetchPermissions, fetchRoles, deleteRole } from '../../actions/auth_actions.ts';
 import { redirect_to } from'../../routes/router.tsx';
 
 
@@ -21,7 +21,6 @@ class PermissionControl extends React.Component<{}, State> {
     this.fetchRoles();
     this.fetchPermissions();
     this.handleRoleSelect = this.handleRoleSelect.bind(this);
-    this.handlePermissionSelect = this.handlePermissionSelect.bind(this);
   }
 
   fetchRoles(){
@@ -37,17 +36,17 @@ class PermissionControl extends React.Component<{}, State> {
   }
 
   handleRoleSelect(id : number){
-    redirect_to(`/auth/roles/${id}`);
+    redirect_to(`/auth/roles/${id}/edit`);
   }
 
-  handlePermissionSelect(id : number){
-    redirect_to(`/auth/permissions/${id}`);
+  handleRoleDelete(id: number){
+    deleteRole(id, this.fetchRoles);
   }
 
   render(){
     var {roles, permissions} = this.state;
     return (
-      <PermissionControlView roles={ roles } permissions={ permissions } onRoleSelect={ this.handleRoleSelect } onPermissionSelect={ this.handlePermissionSelect }/>
+      <PermissionControlView roles={ roles } permissions={ permissions } onRoleSelect={ this.handleRoleSelect } onRoleDelete={ this.handleRoleDelete }/>
     );
   }
 }

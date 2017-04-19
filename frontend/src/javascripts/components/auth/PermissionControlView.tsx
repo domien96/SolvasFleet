@@ -10,6 +10,7 @@ import { Link } from 'react-router';
 interface RoleOverviewProps {
   roles : RoleData[];
   onRoleSelect : (id : number) => void;
+  onRoleDelete : (id : number) => void;
 }
 
 const RoleOverview : React.StatelessComponent<RoleOverviewProps> = props => {
@@ -19,13 +20,12 @@ const RoleOverview : React.StatelessComponent<RoleOverviewProps> = props => {
   ];
 
   return (
-    <RoleTable head={ tableHead } roles={ props.roles } onClick={ props.onRoleSelect } />
+    <RoleTable head={ tableHead } roles={ props.roles } onClick={ props.onRoleSelect } onDelete={ props.onRoleDelete }/>
   );
 }
 
 interface PermissionOverviewProps {
   permissions : string[];
-  onPermissionSelect : (id : number) => void;
 }
 
 const PermissionOverview : React.StatelessComponent<PermissionOverviewProps> = props => {
@@ -44,7 +44,7 @@ interface Props {
   roles : RoleData[];
   permissions : string[];
   onRoleSelect : (id : number) => void;
-  onPermissionSelect : (id : number) => void;
+  onRoleDelete : (id : number) => void;
 }
 
 const PermissionControlView : React.StatelessComponent<Props> = props => {
@@ -62,7 +62,7 @@ const PermissionControlView : React.StatelessComponent<Props> = props => {
             </h2>
           </div>
           <div className='card-content'>
-            <RoleOverview roles={ props.roles } onRoleSelect={ props.onRoleSelect }/>
+            <RoleOverview roles={ props.roles } onRoleSelect={ props.onRoleSelect } onRoleDelete={ props.onRoleDelete }/>
           </div>
         </Card>
       </div>
@@ -74,7 +74,7 @@ const PermissionControlView : React.StatelessComponent<Props> = props => {
             </h2>
           </div>
           <div className='card-content'>
-            <PermissionOverview permissions={ props.permissions } onPermissionSelect={ props.onPermissionSelect }/>
+            <PermissionOverview permissions={ props.permissions }/>
           </div>
         </Card>
       </div>

@@ -25,6 +25,7 @@ export const AUTH_TOKEN_URL = `${BASE_API_URL}/auth/token`;
 export const SIGNED_IN_URL = '/users';
 
 export const AUTH_ROLES_URL 		= `${BASE_API_URL}/auth/roles`;
+export function AUTH_ROLE_URL(id: number) { return `${BASE_API_URL}/auth/roles/${id}`; }
 export const AUTH_PERMISSIONS_URL 	= `${BASE_API_URL}/auth/permissions`;
 
 export function FUNCTIONS_URL(userId: number) { return `${USERS_URL}/${userId}/functions`; }
