@@ -10,7 +10,7 @@ class Users extends React.Component<{}, State> {
 
   constructor(props : {}) {
     super(props);
-    this.state = {response: {data:[],total:0}}
+    this.state = {response: {data:[],total:0,first:null,last:null,next:null,previous:null,limit:0,offset:0}}
     this.fetchUsers=this.fetchUsers.bind(this)
   }
 

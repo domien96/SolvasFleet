@@ -45,7 +45,7 @@ class AddContract extends React.Component<{}, State> {
       }));
     }
 
-    postContract(this.state.contract, success, undefined);
+    postContract(this.state.contract, success, fail);
   }
 
   render() {

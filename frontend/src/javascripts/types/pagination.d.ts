@@ -5,10 +5,10 @@ interface PaginationQuery {
 
 interface PaginationResponse {
   total : number,
-  first : number,
-  last : number,
+  first : string,
+  last : string,
   limit : number,
   offset : number,
-  previous : number,
-  next : number
+  previous : string,
+  next : string
 }

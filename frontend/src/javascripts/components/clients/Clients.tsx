@@ -13,7 +13,7 @@ class Clients extends React.Component<{}, State> {
 
   constructor(props : {}) {
     super(props);
-    this.state = { response:{data:[],total:0} };
+    this.state = { response:{total:0,first : "", last : "", limit : 0, offset : 0, previous : "", next : "",data:[]} };
     this.fetchClients=this.fetchClients.bind(this);
   }
 
@@ -22,7 +22,7 @@ class Clients extends React.Component<{}, State> {
   }
 
   fetchClients(query?:any) {
-    fetchClients((data : Companies.Data) => {
+    fetchClients((data : any) => {
       this.setState({ response: data })
     },undefined,query);
   }

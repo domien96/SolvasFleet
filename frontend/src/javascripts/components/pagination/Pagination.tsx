@@ -1,5 +1,5 @@
 import React from 'react';
-import { ButtonGroup, DropdownButton, MenuItem,Button } from 'react-bootstrap';
+import { ButtonGroup, DropdownButton, MenuItem} from 'react-bootstrap';
 
 
 interface Props {
@@ -11,7 +11,7 @@ interface State {
   query:PaginationQuery
 }
 
-const PageButton = ({ click ,n}) => {
+const PageButton = ({ click ,n}:{click:any,n:any}) => {
   return (
     <div className="col-sm-4">
     <button onClick={ ()=>click(n) } className='btn btn-default form-control'>
@@ -36,7 +36,7 @@ class Pagination extends React.Component<Props, State> {
     this.props.onClick(this.state.query)
   }
 
-  setLimit(limit) {
+  setLimit(limit:number) {
     this.state.query.limit=limit
     this.props.onClick(this.state.query)
   }

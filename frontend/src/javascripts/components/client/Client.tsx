@@ -7,6 +7,8 @@ import DetailTable  from '../tables/DetailTable.tsx';
 import Fleets       from '../fleets/Fleets.tsx';
 import Contracts    from '../contracts/Contracts.tsx'
 
+
+import { callback } from '../../actions/fetch_json.ts';
 import { fetchFleets } from '../../actions/fleet_actions.ts';
 import { fetchClient, deleteClient } from '../../actions/client_actions.ts';
 import { redirect_to } from'../../router.tsx';
@@ -99,7 +101,7 @@ class Client extends React.Component<Props, State> {
             </div>
             <div className='col-xs-12 col-md-6'>
               <Fleets fleets={ this.state.fleets } company={ this.props.params.id } />
-              <Contracts companyId={ this.props.params.id } fetchMethod={this.fetchContracts}/>
+              <Contracts companyId={ this.props.params.id } vehicleId={null} fleetId={null} fetchMethod={this.fetchContracts}/>
               </div>
           </div>
         </div>

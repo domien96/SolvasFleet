@@ -1,9 +1,5 @@
 import React from 'react';
 
-import { fetchContractsByVehicle, fetchContractsByFleet, fetchContractsByCompany, fetchContracts } from '../../actions/contract_actions.ts';
-
-import { fetchFleet } from '../../actions/fleet_actions.ts'
-import { fetchVehicle } from '../../actions/vehicle_actions.ts'
 import { redirect_to } from'../../router.tsx';
 import Listing from '../app/Listing.tsx';
 
@@ -16,16 +12,13 @@ interface Props {
 
 interface State {
   response: ListResponse;
-  fleetByVehicle : number;
-  companyByFleet : number;
-  isInitialized : boolean;
 }
 
 class Contracts extends React.Component<Props, State> {
 
 	constructor(props : any) {
     super(props);
-    this.state = { contracts: [], fleetByVehicle: null, companyByFleet: null, isInitialized: false ,  response:{total:0,first : 0, last : 0, limit : 0, offset : 0, previous : 0, next : 0,data:[]}};
+    this.state = {  response:{total:0,first : "", last : "", limit : 0, offset : 0, previous : "", next : "",data:[]}};
     this.fetchContracts=this.fetchContracts.bind(this);
   }
 
@@ -50,7 +43,7 @@ class Contracts extends React.Component<Props, State> {
   }
 
   render(){
-  	if(this.state.contracts != []){
+  	if(this.state.response.total != 0){
 	  	return(
           <Listing onSelect={this.handleClick} addNewRoute='/contracts/new' fetchModels={this.fetchContracts} response={this.state.response} modelName='contract' columns={['id','type','vehicle']}/>
 	  	);

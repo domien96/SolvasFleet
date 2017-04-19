@@ -12,7 +12,6 @@ interface Props {
   fetchModels:any,
   modelName:string,
   columns:string[],
-  models:any[],
   response:ListResponse
 }
 

@@ -4,6 +4,7 @@ import { redirect_to } from'../../router.tsx';
 import { fetchContracts} from '../../actions/contract_actions.ts';
 import VehicleView from './VehicleView.tsx'
 import Contracts from '../contracts/Contracts.tsx'
+import { callback } from '../../actions/fetch_json.ts';
 
 interface Props {
   params : { id : number };
@@ -53,7 +54,7 @@ class Vehicle extends React.Component<Props, State> {
     return(
     <div>
       <VehicleView vehicle={ this.state.vehicle } handleDelete={ this.deleteVehicle }/>
-      <Contracts vehicleId={ this.props.params.id } fetchMethod={this.fetchContracts}/>
+      <Contracts vehicleId={ this.props.params.id } companyId={null} fleetId={null} fetchMethod={this.fetchContracts}/>
     </div>
     );
   }

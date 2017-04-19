@@ -4,8 +4,6 @@ import Header from '../app/Header.tsx';
 import Card   from '../app/Card.tsx';
 import NestedCheckbox from '../app/NestedCheckbox.tsx';
 import SubfleetRow from './SubfleetRow.tsx';
-import Contracts    from '../contracts/Contracts.tsx'
-
 import { fetchFleet }    from '../../actions/fleet_actions.ts';
 import { fetchVehicles } from '../../actions/vehicle_actions.ts';
 
