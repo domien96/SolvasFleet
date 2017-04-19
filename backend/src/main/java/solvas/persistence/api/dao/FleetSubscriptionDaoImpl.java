@@ -45,7 +45,8 @@ public class FleetSubscriptionDaoImpl implements FleetSubscriptionDaoCustom {
                     start,
                     cb.or(
                             cb.isNull(endDate),
-                            cb.greaterThan(endDate, now)
+                            cb.greaterThan(endDate, now),
+                            cb.isFalse(root.get("archived"))
                     ));
         };
 
@@ -79,7 +80,8 @@ public class FleetSubscriptionDaoImpl implements FleetSubscriptionDaoCustom {
             return cb.and(
                     start,
                     vehicleTypePredicate,
-                    cb.equal(joinSubfleet.get(FLEET_ATTRIBUTE), fleet));
+                    cb.equal(joinSubfleet.get(FLEET_ATTRIBUTE), fleet),
+                    cb.isFalse(root.get("archived")));
         };
 
         return dao.findAll(filter);
