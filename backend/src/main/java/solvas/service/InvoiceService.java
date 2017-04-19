@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @Service
 public class InvoiceService extends AbstractService<Invoice,ApiInvoice> {
 
-    // Helper for calculaitng premiums
+    // Helper for calculating premiums
     private final PremiumCalculator premiumCalc;
     //Dao context
     protected DaoContext context;
@@ -78,7 +78,7 @@ public class InvoiceService extends AbstractService<Invoice,ApiInvoice> {
         invoice.setPaid(false);
         invoice.setFleet(fleet);
         invoice.setType(InvoiceType.BILLING);
-        invoice.setAmount(premiumCalc.calculateTotalAmount());
+        invoice.setAmount(premiumCalc.calculateTotalAmount(fleet,startDate));
         invoice.setCreatedAt(LocalDateTime.now());
         invoice.setUpdatedAt(LocalDateTime.now());
         if(endDate.isBefore(LocalDateTime.now())) {
@@ -135,13 +135,10 @@ public class InvoiceService extends AbstractService<Invoice,ApiInvoice> {
          * @param startDate start date from where contracts have to be included
          * @return calculated premium
          */
-        BigDecimal calculatePremium(FleetSubscription f, LocalDateTime startDate) {
+        BigDecimal calculatePremium(FleetSubscription f, LocalDateTime startDate,LocalDateTime endDate) {
             BigDecimal totalAmount = BigDecimal.ZERO;
             Collection<Contract> contracts =f.getContracts();
-            contracts = contracts.stream().filter((c) -> {
-                return c.getEndDate().isAfter(startDate);
-
-            }).collect(Collectors.toSet());
+            contracts = contracts.stream().filter((c) -> c.getEndDate().isAfter(startDate)).collect(Collectors.toSet());
 
             for (Contract contract: contracts) {
                 // Todo handle startdate in between as wel
@@ -156,21 +153,25 @@ public class InvoiceService extends AbstractService<Invoice,ApiInvoice> {
             return totalAmount;
         }
 
-        BigDecimal calculateTotalAmount() {
+        /**
+         * finds all fleet subscriptions that lay in between startdate and startdate + facturation period
+         *  calls the methode calculatePremium for each subscription
+         * @param fleet
+         * @param startDate
+         * @return
+         */
+        BigDecimal calculateTotalAmount(Fleet fleet, LocalDateTime startDate) {
             BigDecimal totalAmount =BigDecimal.ZERO;
-
+            LocalDateTime endDate = startDate.plusMonths(fleet.getFacturationPeriod());
             Collection<VehicleType> vehicleTypes = context.getVehicleTypeDao().findAll();
             for (VehicleType vehicleType: vehicleTypes) {
                 Collection<FleetSubscription> subscriptionsWithVehicleType = context.getFleetSubscriptionDao()
-                        .fleetSubscriptionByFleetAndVehicleTypeAfterStartDate(null,vehicleType,null);
+                        .fleetSubscriptionByFleetAndVehicleTypeWithStartDateAndEndDate(fleet,vehicleType,startDate.toLocalDate(),endDate.toLocalDate());
                 for (FleetSubscription fleetSubscription: subscriptionsWithVehicleType) {
-                    // contract
-                    // TODO handle case when enddate != null
-                    totalAmount = totalAmount.add(calculatePremium(fleetSubscription,null));
+                    totalAmount = totalAmount.add(calculatePremium(fleetSubscription,startDate,endDate));
 
                 }
             }
-
             return totalAmount;
         }
     }
