@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 
 import SidebarLink from './SidebarLink.tsx';
+import LanguageSwitcher from './LanguageSwitcher.tsx';
 
 const Sidebar : React.StatelessComponent<{}> = () => {
   return (
@@ -21,6 +22,7 @@ const Sidebar : React.StatelessComponent<{}> = () => {
           </Link>
         </li>
       </ul>
+      <LanguageSwitcher />
     </nav>
   );
 }

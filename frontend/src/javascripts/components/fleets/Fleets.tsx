@@ -1,6 +1,4 @@
 import React from 'react';
-import { Link } from'react-router';
-import { Collapse } from 'react-bootstrap';
 
 import FleetsCard from './FleetsCard.tsx';
 import { postFleet } from '../../actions/fleet_actions.ts';
@@ -23,7 +21,7 @@ class Fleets extends React.Component<Props, State> {
     super(props);
     this.state = {
       formVisible: false,
-      fleet: { company: this.props.company },
+      fleet: { },
       errors: []
     };
     this.handleChange = this.handleChange.bind(this);
@@ -51,7 +49,7 @@ class Fleets extends React.Component<Props, State> {
       }));
     }
 
-    postFleet(this.state.fleet, success, fail);
+    postFleet(this.props.company, this.state.fleet, success, fail);
   }
 
   render() {

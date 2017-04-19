@@ -1,15 +1,14 @@
 package solvas.service.mappers;
 
 import org.springframework.stereotype.Component;
+import solvas.persistence.api.DaoContext;
+import solvas.persistence.api.EntityNotFoundException;
+import solvas.rest.api.models.ApiRole;
+import solvas.rest.utils.SimpleUrlBuilder;
+import solvas.service.mappers.exceptions.FieldNotFoundException;
 import solvas.service.models.Permission;
 import solvas.service.models.Role;
-import solvas.persistence.api.DaoContext;
-import solvas.service.mappers.exceptions.FieldNotFoundException;
-import solvas.persistence.api.EntityNotFoundException;
-import solvas.rest.utils.SimpleUrlBuilder;
-import solvas.rest.api.models.ApiRole;
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -47,7 +46,7 @@ public class RoleMapper extends AbstractMapper<Role,ApiRole> {
         Set<Integer> apiPermissions = role.getPermissions().stream()
                 .map(Permission::getId).collect(Collectors.toSet());
         apiRole.setPermissions(apiPermissions);
-        apiRole.setUrl(ROOTPATH + role.getId());
+        apiRole.setUrl(SimpleUrlBuilder.buildUrlFromBase(ROOTPATH + "{id}", role.getId()));
         return apiRole;
     }
 }

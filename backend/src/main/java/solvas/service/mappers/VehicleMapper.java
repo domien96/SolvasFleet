@@ -126,7 +126,7 @@ public class VehicleMapper extends AbstractMapper<Vehicle, ApiVehicle> {
 
         api.setFleet(getApiFleet(vehicle));
         api.setType(vehicle.getType().getName());
-        api.setUrl(ROOTPATH + vehicle.getId());
+        api.setUrl(SimpleUrlBuilder.buildUrlFromBase(ROOTPATH + "{id}", vehicle.getId()));
         return api;
     }
 

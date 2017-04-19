@@ -4,19 +4,18 @@ require('../stylesheets/index.scss');
 
 import React      from 'react';
 import { render } from 'react-dom';
-import T          from 'i18n-react';
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 import reducer from './reducers/app.ts';
+import i18n from './i18n.ts';
 
 import Perf from 'react-addons-perf'
 (window as any).Perf = Perf
 
 import SolvasRouter from './routes/router.tsx';
 
-T.setTexts(require('../../translations/en.yml'));
-
 let store = createStore(reducer)
+store.subscribe(i18n(store));
 
 render(
   <Provider store={ store }>

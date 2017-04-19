@@ -60,7 +60,6 @@ public class UserMapperTest {
         assertThat(converted.getId(),is(user.getId()));
         assertThat(converted.getUrl(),is("http://localhost/users/"+user.getId()));
         assertNull(converted.getPassword()); // Never let password go back to api from persistence
-
         assertThat(converted.getEmail(),is(user.getEmail()));
         assertThat(converted.getFirstName(),is(user.getFirstName()));
         assertThat(converted.getLastName(),is(user.getLastName()));

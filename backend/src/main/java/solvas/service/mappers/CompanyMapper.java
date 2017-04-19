@@ -53,7 +53,7 @@ public class CompanyMapper extends AbstractMapper<Company,ApiCompany> {
         apiCompany.getAddress().setHouseNumber(company.getAddressHouseNumber());
         apiCompany.getAddress().setPostalCode(company.getAddressPostalCode());
         apiCompany.getAddress().setStreet(company.getAddressStreet());
-        apiCompany.setUrl(ROOTPATH + company.getId());
+        apiCompany.setUrl(SimpleUrlBuilder.buildUrlFromBase(ROOTPATH + "{id}", company.getId()));
         return apiCompany;
     }
 

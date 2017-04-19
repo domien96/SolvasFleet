@@ -4,12 +4,9 @@ import org.junit.Test;
 import solvas.rest.api.models.ApiRole;
 
 import javax.validation.ConstraintViolation;
-import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Test that {@link ApiRole}'s validations work.
@@ -17,9 +14,6 @@ import static org.junit.Assert.assertTrue;
  * @author Niko Strijbol
  */
 public class ApiRoleValidationTest extends ValidationTest {
-
-    private static final String START_DATE_FIELD = "startDate";
-    private static final String END_DATE_FIELD = "endDate";
 
     /**
      * Test a valid instance.

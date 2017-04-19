@@ -32,9 +32,9 @@ public class HibernateDaoContext implements DaoContext {
     @Autowired
     public HibernateDaoContext(CompanyDao companyDao, FleetDao fleetDao, FleetSubscriptionDao fleetSubscriptionDao,
                                RoleDao roleDao, SubFleetDao subFleetDao, UserDao userDao, VehicleDao vehicleDao,
-                               VehicleTypeDao vehicleTypeDao,
-                               ContractDao contractDao, InsuranceTypeDao insuranceTypeDao,
-                               FunctionDao functionDao, PermissionDao permissionDao,InvoiceDao invoiceDao, TaxDao taxDao) {
+                               VehicleTypeDao vehicleTypeDao, ContractDao contractDao, InsuranceTypeDao insuranceTypeDao,
+                               FunctionDao functionDao, PermissionDao permissionDao, InvoiceDao invoiceDao, TaxDao taxDao)
+    {
         this.companyDao = companyDao;
         this.fleetDao = fleetDao;
         this.fleetSubscriptionDao = fleetSubscriptionDao;
