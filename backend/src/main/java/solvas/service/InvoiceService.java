@@ -172,7 +172,9 @@ public class InvoiceService extends AbstractService<Invoice,ApiInvoice> {
             Collection<VehicleType> vehicleTypes = context.getVehicleTypeDao().findAll();
             for (VehicleType vehicleType: vehicleTypes) {
                 Collection<FleetSubscription> subscriptionsWithVehicleType = context.getFleetSubscriptionDao()
-                        .fleetSubscriptionByFleetAndVehicleTypeWithStartDateAndEndDate(fleet,vehicleType,startDate.toLocalDate(),endDate.toLocalDate());
+                        .fleetSubscriptionByFleetAndVehicleTypeWithStartDateAndEndDate(fleet,vehicleType,endDate.toLocalDate())
+                        .stream().filter(c->c.getEndDate()==null || c.getEndDate().isAfter(startDate.toLocalDate())).collect(Collectors.toSet());
+
                 for (FleetSubscription fleetSubscription: subscriptionsWithVehicleType) {
                     totalAmount = totalAmount.add(calculatePremium(fleetSubscription,startDate,endDate));
 

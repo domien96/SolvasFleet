@@ -42,7 +42,7 @@ public interface FleetSubscriptionDao extends Dao<FleetSubscription> {
     Collection<FleetSubscription> findAllByFleetAndVehicleTypeAndStartDateGreaterThanEqual(Fleet fleet, VehicleType vehicleType, LocalDate startDate) ;
 
 
-    Collection<FleetSubscription> findAllByFleetAndVehicleTypeAndEndDateGreaterThanAndStartDateLessThan(Fleet fleet, VehicleType vehicleType, LocalDate startDate,LocalDate endDate) ;
+    Collection<FleetSubscription> findAllByFleetAndVehicleTypeAndStartDateLessThan(Fleet fleet, VehicleType vehicleType, LocalDate endDate) ;
 
 
     /**
@@ -60,7 +60,7 @@ public interface FleetSubscriptionDao extends Dao<FleetSubscription> {
         return findAllByFleetAndVehicleTypeAndStartDateGreaterThanEqual(fleet, vehicleType, startDate);
     }
 
-    default Collection<FleetSubscription> fleetSubscriptionByFleetAndVehicleTypeWithStartDateAndEndDate(Fleet fleet, VehicleType vehicleType, LocalDate startDate,LocalDate endDate) {
-        return findAllByFleetAndVehicleTypeAndEndDateGreaterThanAndStartDateLessThan(fleet, vehicleType, startDate,endDate);
+    default Collection<FleetSubscription> fleetSubscriptionByFleetAndVehicleTypeWithStartDateAndEndDate(Fleet fleet, VehicleType vehicleType,LocalDate endDate) {
+        return findAllByFleetAndVehicleTypeAndStartDateLessThan(fleet, vehicleType,endDate);
     }
 }
