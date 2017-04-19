@@ -96,13 +96,13 @@ class Fleet extends React.Component<fleetProps, fleetState> {
       <div>
         <Header>
           <h2>{ fleet.name }
-          <FleetSettings test="a"></FleetSettings>
 
 
-          </h2>
+          </h2>        </Header>
+
+        <FleetSettings test="a"></FleetSettings>
 
 
-        </Header>
         <div className='wrapper'>
           <Card>
             <div className='card-title'>

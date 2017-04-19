@@ -8,5 +8,6 @@ interface FleetData {
   name?       : string;
   size?       : number;
   company?    : number;
+  facturationPerod? : number;
+  paymentPeriod? : number;
 }
-
