@@ -18,8 +18,8 @@
             </type>
         </property>
         <property name="paid" column="paid" type="boolean" not-null="true"/>
-        <property name="startDate" column="startDate" type="java.time.LocalDateTime" not-null="true" />
-        <property name="endDate" column="endDate" type="java.time.LocalDateTime" not-null="true" />
+        <property name="startDate" column="start_date" type="java.time.LocalDateTime" not-null="true" />
+        <property name="endDate" column="end_date" type="java.time.LocalDateTime" not-null="true" />
 
         <many-to-one name="fleet" column="fleet_id"
                      class="solvas.service.models.Fleet" not-null="true"/>

@@ -8,6 +8,9 @@ package solvas.service.models;
 public class Fleet extends Model {
     private Company company;
     private String name;
+    private int facturationPeriod; // In months
+    private int paymentPeriod; // In months
+
 
     public Company getCompany() {
         return company;
@@ -25,4 +28,19 @@ public class Fleet extends Model {
         this.name = name;
     }
 
+    public int getFacturationPeriod() {
+        return facturationPeriod;
+    }
+
+    public void setFacturationPeriod(int facturationPeriod) {
+        this.facturationPeriod = facturationPeriod;
+    }
+
+    public int getPaymentPeriod() {
+        return paymentPeriod;
+    }
+
+    public void setPaymentPeriod(int paymentPeriod) {
+        this.paymentPeriod = paymentPeriod;
+    }
 }
