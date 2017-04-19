@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 //import { parseClaims } from '../../modules/Auth.ts';
 
 import SidebarLink from './SidebarLink.tsx';
+import LanguageSwitcher from './LanguageSwitcher.tsx';
 
 const Sidebar : React.StatelessComponent<{}> = () => {
 
@@ -27,6 +28,7 @@ const Sidebar : React.StatelessComponent<{}> = () => {
           </Link>
         </li>
       </ul>
+      <LanguageSwitcher />
     </nav>
   );
 }

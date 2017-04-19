@@ -43,7 +43,7 @@ public class FleetRestController extends AbstractRestController<Fleet, ApiFleet>
      * @return ResponseEntity
      */
     @RequestMapping(value = "/companies/{companyId}/fleets", method = RequestMethod.GET)
-    @PreAuthorize("hasPermission(#companyId, 'company', 'READ')")
+    @PreAuthorize("hasPermission(#companyId, 'company', 'MANAGE_FLEETS')")
     public ResponseEntity<?> listAll(Pageable pagination, FleetFilter filter, BindingResult result, @PathVariable int companyId) {
         filter.setCompany(companyId);
         return super.listAll(pagination, filter, result);
@@ -64,7 +64,7 @@ public class FleetRestController extends AbstractRestController<Fleet, ApiFleet>
      * @return The Response
      */
     @RequestMapping(value = "/companies/{companyId}/fleets", method = RequestMethod.POST)
-    @PreAuthorize("hasPermission(#companyId, 'company', 'WRITE')")
+    @PreAuthorize("hasPermission(#companyId, 'company', 'MANAGE_FLEETS')")
     public ResponseEntity<?> post(@Valid @RequestBody ApiFleet input, BindingResult result, @PathVariable int companyId) {
         input.setCompany(companyId);
         return super.post(input,result);
@@ -72,7 +72,7 @@ public class FleetRestController extends AbstractRestController<Fleet, ApiFleet>
 
     @Override
     @RequestMapping(value = "/companies/{companyId}/fleets/{fleetId}", method = RequestMethod.DELETE)
-    @PreAuthorize("hasPermission(#fleetId, 'fleet', 'WRITE')")
+    @PreAuthorize("hasPermission(#fleetId, 'fleet', 'DELETE')")
     public ResponseEntity<?> archiveById(@PathVariable int fleetId) {
         return super.archiveById(fleetId);
     }
@@ -86,7 +86,7 @@ public class FleetRestController extends AbstractRestController<Fleet, ApiFleet>
      * @return ResponseEntity
      */
     @RequestMapping(value = "/companies/{companyId}/fleets/{fleetId}", method = RequestMethod.PUT)
-    @PreAuthorize("hasPermission(#fleetId, 'fleet', 'WRITE') && hasPermission(#companyId, 'company', 'WRITE')")
+    @PreAuthorize("hasPermission(#companyId, 'company', 'MANAGE_FLEETS') && hasPermission(#input, 'EDIT')")
     public ResponseEntity<?> put(
             @PathVariable int fleetId,
             @PathVariable int companyId,

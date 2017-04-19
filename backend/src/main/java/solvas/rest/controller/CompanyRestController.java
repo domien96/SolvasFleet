@@ -49,7 +49,7 @@ public class CompanyRestController extends AbstractRestController<Company,ApiCom
 
     @Override
     @RequestMapping(value = "/companies", method = RequestMethod.POST)
-    @PreAuthorize("hasPermission(#input, 'WRITE')")
+    @PreAuthorize("hasPermission(#input, 'CREATE')")
     public ResponseEntity<?> post(@Valid @RequestBody ApiCompany input, BindingResult result) {
         return super.post(input, result);
     }
@@ -63,14 +63,14 @@ public class CompanyRestController extends AbstractRestController<Company,ApiCom
 
     @Override
     @RequestMapping(value = "/companies/{id}", method = RequestMethod.DELETE)
-    @PreAuthorize("hasPermission(#id, 'company', 'WRITE')")
+    @PreAuthorize("hasPermission(#id, 'company', 'DELETE')")
     public ResponseEntity<?> archiveById(@PathVariable int id) {
         return super.archiveById(id);
     }
 
     @Override
     @RequestMapping(value = "/companies/{id}", method = RequestMethod.PUT)
-    @PreAuthorize("hasPermission(#id, 'company', 'WRITE')")
+    @PreAuthorize("hasPermission(#id, 'company', 'EDIT')")
     public ResponseEntity<?> put(@PathVariable int id, @Valid @RequestBody ApiCompany input,BindingResult result) {
         return super.put(id, input,result);
     }

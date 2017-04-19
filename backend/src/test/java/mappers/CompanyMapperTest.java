@@ -5,6 +5,9 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import solvas.service.models.Company;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
@@ -37,6 +40,8 @@ public class CompanyMapperTest {
         MockitoAnnotations.initMocks(this);
         when(context.getCompanyDao()).thenReturn(companyDaoMock);
         mapper=new CompanyMapper(context);
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
     }
 
     /**
@@ -71,6 +76,7 @@ public class CompanyMapperTest {
         ApiCompany converted = mapper.convertToApiModel(company);
         assertThat(converted.getId(),is(company.getId()));
         assertThat(converted.getName(),is(company.getName()));
+        assertThat(converted.getUrl(),is("http://localhost/companies/"+company.getId()));
         assertThat(converted.getAddress().getHouseNumber(),is(company.getAddressHouseNumber()));
         assertThat(converted.getAddress().getCity(),is(company.getAddressCity()));
         assertThat(converted.getAddress().getCountry(),is(company.getAddressCountry()));

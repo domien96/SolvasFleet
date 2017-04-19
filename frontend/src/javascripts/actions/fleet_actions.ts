@@ -5,12 +5,12 @@ export function fetchFleet(id : number, success? : callback, fail? : callback) {
   GET( FLEET_URL(id), success, fail );
 }
 
-export function fetchFleets(success? : callback, fail? : callback, query? : any) {
-  GET( FLEETS_URL, success, fail, query );
+export function fetchFleets(id: number, success? : callback, fail? : callback, query? : any) {
+  GET( FLEETS_URL(id), success, fail, query );
 }
 
-export function postFleet(body : any, success? : callback, fail? : callback) {
-  POST( FLEETS_URL, body, success, fail );
+export function postFleet(companyId: number, body : any, success? : callback, fail? : callback) {
+  POST( FLEETS_URL(companyId), body, success, fail );
 }
 
 export function putFleet(id : number, body : any, success? : callback, fail? : callback) {

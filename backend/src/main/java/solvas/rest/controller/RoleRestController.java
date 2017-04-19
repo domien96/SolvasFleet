@@ -61,21 +61,21 @@ public class RoleRestController extends AbstractRestController<Role,ApiRole> {
 
     @Override
     @RequestMapping(value = "/auth/roles", method = RequestMethod.POST)
-    @PreAuthorize("hasPermission(0, 'role', 'WRITE')")
+    @PreAuthorize("hasPermission(input, 'CREATE')")
     public ResponseEntity<?> post(@Valid @RequestBody ApiRole input, BindingResult result) {
         return super.post(input,result);
     }
 
     @Override
     @RequestMapping(value = "/auth/roles/{id}", method = RequestMethod.DELETE)
-    @PreAuthorize("hasPermission(#roleId, 'role', 'WRITE')")
+    @PreAuthorize("hasPermission(#roleId, 'role', 'DELETE')")
     public ResponseEntity<?> archiveById(@PathVariable int roleId) {
         return super.archiveById(roleId);
     }
 
     @Override
     @RequestMapping(value = "/auth/roles/{roleId}", method = RequestMethod.PUT)
-    @PreAuthorize("hasPermission(#roleId, 'role', 'WRITE')")
+    @PreAuthorize("hasPermission(#input, 'EDIT')")
     public ResponseEntity<?> put(@PathVariable int roleId, @RequestBody ApiRole input,BindingResult result) {
         return super.put(roleId, input,result);
     }

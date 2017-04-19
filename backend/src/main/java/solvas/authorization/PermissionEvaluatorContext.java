@@ -1,20 +1,18 @@
 package solvas.authorization;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import solvas.authorization.exceptions.CompanyResolvingException;
-import solvas.authorization.resolvers.*;
+import solvas.authorization.evaluators.*;
+import solvas.authorization.exceptions.UnsupportedResourceType;
 import solvas.persistence.api.DaoContext;
 import solvas.rest.api.models.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Context to find {@link CompanyIdResolver} for a resource
- */
 @Component
-public class CompanyResolverContext {
+public class PermissionEvaluatorContext {
     public final static String VEHICLE_RESOURCE_TYPE = "vehicle";
     public final static String COMPANY_RESOURCE_TYPE = "company";
     public final static String FLEET_RESOURCE_TYPE = "fleet";
@@ -25,7 +23,6 @@ public class CompanyResolverContext {
     public final static String INVOICE_RESOURCE_TYPE = "invoice";
     public final static String CONTRACT_RESOURCE_TYPE = "contract";
 
-    private final Map<String, CompanyIdResolver> resolvers = new HashMap<>();
     private final Map<Class<? extends ApiModel>, String> resourceNames =
             new HashMap<Class<? extends ApiModel>, String>() {{
                 put(ApiVehicle.class, VEHICLE_RESOURCE_TYPE);
@@ -39,33 +36,19 @@ public class CompanyResolverContext {
                 put(ApiContract.class, CONTRACT_RESOURCE_TYPE);
             }};
 
-    /**
-     * Create instance
-     * @param daoContext Context to pass Dao's to resolvers
-     */
-    @Autowired
-    public CompanyResolverContext(DaoContext daoContext) {
-        resolvers.put(FLEET_RESOURCE_TYPE, new FleetToCompanyIdResolver(daoContext.getFleetDao()));
-        resolvers.put(COMPANY_RESOURCE_TYPE, new CompanyToCompanyIdResolver());
-        resolvers.put(VEHICLE_RESOURCE_TYPE, new VehicleToCompanyIdResolver(daoContext.getVehicleDao()));
-        resolvers.put(USER_RESOURCE_TYPE, new NoCompanyResolver());
-        resolvers.put(ROLE_RESOURCE_TYPE, new NoCompanyResolver());
-        resolvers.put(PERMISSION_RESOURCE_TYPE, new NoCompanyResolver());
-        resolvers.put(FUNCTION_RESOURCE_TYPE, new NoCompanyResolver());
-        resolvers.put(INVOICE_RESOURCE_TYPE, new InvoiceToCompanyIdResolver(daoContext.getInvoiceDao()));
-        resolvers.put(CONTRACT_RESOURCE_TYPE, new ContractToCompanyIdResolver(daoContext.getContractDao()));
-    }
+    private Map<String, PermissionEvaluator> evaluators = new HashMap<>();
 
-    /**
-     * Get resolver for a resource type
-     * @param resource name of the resource type
-     * @return The CompanyIdResolver
-     */
-    public CompanyIdResolver getResolver(String resource) {
-        if (!resolvers.containsKey(resource)) {
-            throw new CompanyResolvingException(String.format("Could not resolve company for resource type %s.", resource));
-        }
-        return resolvers.get(resource);
+    @Autowired
+    public PermissionEvaluatorContext(DaoContext daoContext) {
+        evaluators.put(COMPANY_RESOURCE_TYPE, new CompanyPermissionEvaluator(daoContext.getCompanyDao()));
+        evaluators.put(VEHICLE_RESOURCE_TYPE, new VehiclePermissionEvaluator(daoContext.getVehicleDao()));
+        evaluators.put(FLEET_RESOURCE_TYPE, new FleetPermissionEvaluator(daoContext.getFleetDao()));
+        evaluators.put(USER_RESOURCE_TYPE, new UserPermissionEvaluator(daoContext.getUserDao()));
+        evaluators.put(ROLE_RESOURCE_TYPE, new RolePermissionEvaluator(daoContext.getRoleDao()));
+        evaluators.put(FUNCTION_RESOURCE_TYPE, new FunctionPermissionEvaluator(daoContext.getFunctionDao()));
+        evaluators.put(PERMISSION_RESOURCE_TYPE, new PermissionPermissionEvaluator(daoContext.getPermissionDao()));
+        evaluators.put(INVOICE_RESOURCE_TYPE, new InvoicePermissionEvaluator(daoContext.getInvoiceDao()));
+        evaluators.put(CONTRACT_RESOURCE_TYPE, new ContractPermissionEvaluator(daoContext.getContractDao()));
     }
 
     /**
@@ -74,6 +57,18 @@ public class CompanyResolverContext {
      * @return The type name
      */
     public String getResourceType(ApiModel resource) {
+        if(! resourceNames.containsKey(resource.getClass())) {
+            throw new UnsupportedResourceType(String.format("Unsupported resource class %s.", resource.getClass()));
+        }
+
         return resourceNames.get(resource.getClass());
+    }
+
+    public PermissionEvaluator getEvaluator(String resourceType) {
+        if(! evaluators.containsKey(resourceType)) {
+            throw new UnsupportedResourceType(String.format("Unsupported resource type %s.", resourceType));
+        }
+
+        return evaluators.get(resourceType);
     }
 }

@@ -33,9 +33,9 @@ class Client extends React.Component<Props, State> {
     fetchClient(this.props.params.id, (data : any) => {
       this.setState({ company: data })
     });
-    fetchFleets((data : any) => {
+    fetchFleets(this.props.params.id, (data : any) => {
       this.setState({ fleets: data.data })
-    }, undefined, { company: this.props.params.id });
+    });
   }
 
   public deleteClient(){

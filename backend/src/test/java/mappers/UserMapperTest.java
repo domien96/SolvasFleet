@@ -1,19 +1,19 @@
 package mappers;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import solvas.service.models.User;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.dao.UserDao;
-import solvas.service.mappers.UserMapper;
 import solvas.rest.api.models.ApiUser;
+import solvas.service.mappers.UserMapper;
+import solvas.service.models.User;
 
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -45,6 +45,8 @@ public class UserMapperTest {
         MockitoAnnotations.initMocks(this);
         when(daoContext.getUserDao()).thenReturn(userDaoMock);
         mapper=new UserMapper(daoContext, passwordEncoder);
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
     }
 
     /**
@@ -56,7 +58,7 @@ public class UserMapperTest {
         User user = random(User.class);
         ApiUser converted = mapper.convertToApiModel(user);
         assertThat(converted.getId(),is(user.getId()));
-        assertThat(converted.getUrl(),is("/users/"+user.getId()));
+        assertThat(converted.getUrl(),is("http://localhost/users/"+user.getId()));
         assertNull(converted.getPassword()); // Never let password go back to api from persistence
         assertThat(converted.getEmail(),is(user.getEmail()));
         assertThat(converted.getFirstName(),is(user.getFirstName()));

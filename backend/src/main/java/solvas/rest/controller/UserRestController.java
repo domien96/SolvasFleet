@@ -55,21 +55,21 @@ public class UserRestController extends AbstractRestController<User,ApiUser> {
 
     @Override
     @RequestMapping(value = "/users", method = RequestMethod.POST)
-    @PreAuthorize("hasPermission(0, 'user', 'WRITE')")
+    @PreAuthorize("hasPermission(#input, 'CREATE')")
     public ResponseEntity<?> post(@RequestBody @Valid ApiUser input, BindingResult result) {
         return super.post(input,result);
     }
 
     @Override
     @RequestMapping(value = "/users/{userId}", method = RequestMethod.DELETE)
-    @PreAuthorize("hasPermission(#userId, 'user', 'WRITE')")
+    @PreAuthorize("hasPermission(#userId, 'user', 'DELETE')")
     public ResponseEntity<?> archiveById(@PathVariable int userId) {
         return super.archiveById(userId);
     }
 
     @Override
     @RequestMapping(value = "/users/{userId}", method = RequestMethod.PUT)
-    @PreAuthorize("hasPermission(#userId, 'user', 'WRITE')")
+    @PreAuthorize("hasPermission(#input, 'EDIT')")
     public ResponseEntity<?> put(@PathVariable int userId, @Valid @RequestBody ApiUser input, BindingResult result) {
         return super.put(userId, input,result);
     }

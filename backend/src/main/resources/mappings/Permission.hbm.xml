@@ -12,7 +12,6 @@
             <generator class="identity"/>
         </id>
 
-        <property name="action" column="action" type="string" not-null="true"/>
-        <property name="resource" column="resource" type="string" not-null="true"/>
+        <property name="scope" column="scope" type="string" not-null="true"/>
    </class>
 </hibernate-mapping>

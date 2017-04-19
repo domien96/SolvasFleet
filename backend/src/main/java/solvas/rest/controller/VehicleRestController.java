@@ -6,12 +6,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import solvas.rest.utils.JsonListWrapper;
 import solvas.service.models.Vehicle;
 import solvas.rest.api.models.ApiVehicle;
 import solvas.rest.query.VehicleFilter;
 import solvas.service.VehicleService;
 
 import javax.validation.Valid;
+import java.util.Collection;
 
 /**
  * Rest controller for Vehicle
@@ -41,7 +43,7 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
      *
      * @return ResponseEntity
      */
-    @PreAuthorize("hasPermission(#fleetId, 'fleet', 'READ')")
+    @PreAuthorize("hasPermission(#fleetId, 'fleet', 'READ_VEHICLES')")
     @RequestMapping(value = "/companies/{companyId}/fleets/{fleetId}/vehicles", method = RequestMethod.GET)
     public ResponseEntity<?> listAll(Pageable pagination, VehicleFilter filter, BindingResult result, @PathVariable int fleetId) {
         return super.listAll(pagination, filter, result);
@@ -62,7 +64,7 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
      * @return ResponseEntity
      */
     @RequestMapping(value = "/companies/{companyId}/fleets/{fleetId}/vehicles", method = RequestMethod.POST)
-    @PreAuthorize("hasPermission(#fleetId, 'fleet', 'WRITE')")
+    @PreAuthorize("hasPermission(#fleetId, 'fleet', 'MANAGE_VEHICLES')")
     public ResponseEntity<?> post(@Valid @RequestBody ApiVehicle input,BindingResult result, @PathVariable int fleetId) {
         input.setFleet(fleetId);
         return super.post(input,result);
@@ -70,7 +72,7 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
 
     @Override
     @RequestMapping(value = "/companies/{companyId}/fleets/{fleetId}/vehicles/{vehicleId}", method = RequestMethod.DELETE)
-    @PreAuthorize("hasPermission(#vehicleId, 'vehicle', 'WRITE')")
+    @PreAuthorize("hasPermission(#vehicleId, 'vehicle', 'DELETE')")
     public ResponseEntity<?> archiveById(@PathVariable int vehicleId) {
         return super.archiveById(vehicleId);
     }
@@ -84,7 +86,7 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
      * @return ResponseEntity
      */
     @RequestMapping(value = "/companies/{companyId}/fleets/{fleetId}/vehicles/{vehicleId}", method = RequestMethod.PUT)
-    @PreAuthorize("hasPermission(#vehicleId, 'vehicle', 'WRITE') && hasPermission(#fleetId, 'fleet', 'WRITE')")
+    @PreAuthorize("hasPermission(#vehicleId, 'vehicle', 'EDIT') && hasPermission(#fleetId, 'fleet', 'MANAGE_VEHICLES')")
     public ResponseEntity<?> put(
             @PathVariable int vehicleId,
             @PathVariable int fleetId,
@@ -93,4 +95,17 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
         input.setFleet(fleetId);
         return super.put(vehicleId, input,result);
     }
+
+    /**
+     * Get all vehicle types.
+     * @return The vehicle types.
+     */
+    @RequestMapping(value = "/vehicles/types", method = RequestMethod.GET)
+    public JsonListWrapper<String> listAllTypes() {
+        Collection<String> page = ((VehicleService) service).findAllVehicleTypes();
+        JsonListWrapper<String> wrapper = new JsonListWrapper<>(page);
+        wrapper.put("total", page.size());
+        return wrapper;
+    }
+
 }

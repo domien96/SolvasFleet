@@ -63,7 +63,7 @@ public class PermissionRestController extends AbstractRestController<Permission,
      * @param roleId roleId taken from request path
      * @return ResponseEntity to return to user
      */
-    @PreAuthorize("hasPermission(#roleId, 'role', 'READ')")
+    @PreAuthorize("hasPermission(#roleId, 'role', 'LIST_PERMISSIONS')")
     @RequestMapping(value = "/auth/roles/{roleId}/permissions", method = RequestMethod.GET)
     public ResponseEntity<?> listForRole(
             Pageable pagination,

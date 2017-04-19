@@ -70,7 +70,7 @@ public class InvoiceRestController extends AbstractRestController<Invoice,ApiInv
      * @return The response.
      */
     @RequestMapping(value = "/fleets/{fleetId}/invoices/current", method = RequestMethod.GET)
-    @PreAuthorize("hasPermission(#fleetId, 'fleet', 'READ')")
+    @PreAuthorize("hasPermission(#fleetId, 'fleet', 'READ_INVOICES')")
     public ResponseEntity<?> getActiveByCompanyId(@PathVariable int fleetId,Pageable pagination, InvoiceFilter filter, BindingResult result) {
         //Todo filter set active
         filter.setFleet(fleetId);
@@ -118,8 +118,8 @@ public class InvoiceRestController extends AbstractRestController<Invoice,ApiInv
      * @return The response.
      */
     @RequestMapping(value = "/fleets/{id}/invoices", method = RequestMethod.GET)
-    @PreAuthorize("hasPermission(#id, 'fleet', 'READ')")
-    public ResponseEntity<?> getByCompanyId(@PathVariable int id,Pageable pagination, InvoiceFilter filter, BindingResult result) {
+    @PreAuthorize("hasPermission(#id, 'fleet', 'READ_INVOICES')")
+    public ResponseEntity<?> getByFleetId(@PathVariable int id,Pageable pagination, InvoiceFilter filter, BindingResult result) {
         filter.setFleet(id);
         return super.listAll(pagination,filter,result);
     }
