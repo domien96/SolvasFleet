@@ -85,3 +85,9 @@ contract:
   startDate: Start date
   endDate: End date
   addNew: Add New Contract
+  types:
+    Omnium: Omnium
+    CivilLiability: Civil liability
+    LegalAid: Legal aid
+    DriverInsurance: Driver insurance  
+    TravelInsurance: Travel insurance
