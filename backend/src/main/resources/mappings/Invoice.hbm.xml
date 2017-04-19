@@ -15,7 +15,6 @@
         <property name="type" column="type" not-null="true">
             <type name="org.hibernate.type.EnumType" >
                 <param name="enumClass">solvas.service.models.InvoiceType</param>
-                <param name="type">12</param>
             </type>
         </property>
         <property name="paid" column="paid" type="boolean" not-null="true"/>
