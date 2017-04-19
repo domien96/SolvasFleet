@@ -22,12 +22,12 @@ const Info : React.StatelessComponent<Props> = props => {
 
   let checkboxes;
   if(permissions){
-    checkboxes = props.permissions.map((permission : string) => {
+    checkboxes = props.permissions.map((permission : string, i : number) => {
       let active = "";
       if(permission in permissions){
         active = "active";
       }
-      return(<Checkbox label={ permission } active={ active }/>);
+      return(<Checkbox key={ i } label={ permission } active={ active }/>);
     });
   }
     
