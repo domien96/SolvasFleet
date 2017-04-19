@@ -45,6 +45,7 @@ class PermissionControl extends React.Component<{}, State> {
 
   render(){
     var {roles, permissions} = this.state;
+    console.log(this.state)
     return (
       <PermissionControlView roles={ roles } permissions={ permissions } onRoleSelect={ this.handleRoleSelect } onRoleDelete={ this.handleRoleDelete }/>
     );
