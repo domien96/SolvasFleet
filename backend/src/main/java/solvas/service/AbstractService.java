@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
+import solvas.persistence.api.DaoContext;
 import solvas.service.models.Model;
 import solvas.persistence.api.Dao;
 import solvas.persistence.api.EntityNotFoundException;
@@ -27,6 +28,7 @@ public abstract class AbstractService<T extends Model,E extends ApiModel> {
 
     protected Dao<T> modelDao;
     protected AbstractMapper<T,E> mapper;
+    protected DaoContext context=null;
 
     /**
      * Contruct an abstractservice
@@ -37,6 +39,18 @@ public abstract class AbstractService<T extends Model,E extends ApiModel> {
     {
         this.modelDao=modelDao;
         this.mapper=mapper;
+    }
+
+    /**
+     * Contruct an abstractservice
+     * @param modelDao the DAO of the model
+     * @param mapper the mapper between the apimodel and the model
+     */
+    public AbstractService(Dao<T> modelDao,DaoContext context,AbstractMapper<T,E> mapper)
+    {
+        this.modelDao=modelDao;
+        this.mapper=mapper;
+        this.context=context;
     }
 
     /**
