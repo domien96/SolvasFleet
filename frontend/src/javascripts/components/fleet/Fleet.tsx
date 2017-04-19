@@ -1,5 +1,7 @@
 import React from 'react';
 
+import Popup from 'react-popup';
+
 import Header from '../app/Header.tsx';
 import Card   from '../app/Card.tsx';
 import NestedCheckbox from '../app/NestedCheckbox.tsx';
@@ -94,12 +96,20 @@ class Fleet extends React.Component<fleetProps, fleetState> {
     return (
       <div>
         <Header>
-          <h2>{ fleet.name }</h2>
+          <h2>{ fleet.name }
+
+                    <div className='actions pull-right'>
+                      <h3>
+                        <span className='glyphicon glyphicon-cog' />
+                      </h3>
+                    </div></h2>
+
         </Header>
         <div className='wrapper'>
           <Card>
             <div className='card-title'>
               <h5>Vehicles</h5>
+
             </div>
             <div className='card-content not-padded'>
               <NestedCheckbox values={ nodes }>
