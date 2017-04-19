@@ -138,7 +138,8 @@ public class InvoiceService extends AbstractService<Invoice,ApiInvoice> {
         BigDecimal calculatePremium(FleetSubscription f, LocalDateTime startDate,LocalDateTime endDate) {
             BigDecimal totalAmount = BigDecimal.ZERO;
             Collection<Contract> contracts =f.getContracts();
-            contracts = contracts.stream().filter((c) -> c.getEndDate().isAfter(startDate)).collect(Collectors.toSet());
+            contracts = contracts.stream().filter((c) -> c.getEndDate().isAfter(startDate)&&
+                    c.getEndDate().isBefore(endDate)).collect(Collectors.toSet());
 
             for (Contract contract: contracts) {
                 // Todo handle startdate in between as wel
