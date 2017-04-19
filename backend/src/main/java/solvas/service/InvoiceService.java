@@ -11,6 +11,7 @@ import solvas.service.models.*;
 
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -100,14 +101,20 @@ public class InvoiceService extends AbstractService<Invoice,ApiInvoice> {
         return invoice;
     }
 
-    private ApiInvoice callculateInvoiceTypeBilling(Fleet fleet, LocalDateTime beginDate,LocalDateTime endDate) {
+    /**
+     * Generate invoice with type billing. If the new invoice period has not yet been completed
+     * then the new invoice will not be saved.
+     * @param fleet
+     * @return new invoice if not yet existed for period.
+     */
+    private Invoice generateNextBillingInvoice(Fleet fleet) {
+        LocalDateTime startDate = getStartDateNextInvoice(fleet),
+        endDate = startDate.plusMonths(fleet.getFacturationPeriod());
+        Invoice invoice = new Invoice();
+        invoice.setPaid(false);
 
         return null;
     }
-
-
-
-
 
     /**
      * invoice startdate = date fleet was made or the end date of last generated invoice
@@ -126,6 +133,27 @@ public class InvoiceService extends AbstractService<Invoice,ApiInvoice> {
             }
         }
         invoice.setStartDate(startDate);
+    }
+
+    /**
+     * Generates the invoices for each past period which does not have one yet.
+     *
+     * @param fleet Fleet for which the invoices have to be calculated
+     * @return amount of invoices generated
+     */
+    public int generateMissingInvoices(Fleet fleet) {
+
+    }
+
+    /**
+     * Get the startdate of the next invoice for this fleet.
+     * If this fleet never had an invoice yet, the startdate of the
+     * active fleetsubscription will be taken.
+     * @param fleet
+     * @return the start date
+     */
+    public LocalDateTime getStartDateNextInvoice(Fleet fleet) {
+        return null; //todo
     }
 
 
@@ -158,6 +186,22 @@ public class InvoiceService extends AbstractService<Invoice,ApiInvoice> {
                 totalAmount = totalAmount.add((tax.getTax().add(BigDecimal.ONE)).multiply(BigDecimal.valueOf(premium)));
             }
             return totalAmount;
+        }
+    }
+
+    BigDecimal calculateTotalAmount() {
+        BigDecimal totalAmount =BigDecimal.ZERO;
+
+        Collection<VehicleType> vehicleTypes = context.getVehicleTypeDao().findAll();
+        for (VehicleType vehicleType: vehicleTypes) {
+            Collection<FleetSubscription> subscriptionsWithVehicleType = context.getFleetSubscriptionDao()
+                    .fleetSubscriptionByFleetAndVehicleTypeAfterStartDate(fleet,vehicleType,invoice.getStartDate());
+            for (FleetSubscription fleetSubscription: subscriptionsWithVehicleType) {
+                // contract
+                // TODO handle case when enddate != null
+                totalAmount = totalAmount.add(premiumCalc.calculatePremium(fleetSubscription,invoice.getStartDate()));
+
+            }
         }
     }
 }
