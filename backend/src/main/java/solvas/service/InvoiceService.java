@@ -9,6 +9,9 @@ import solvas.rest.api.models.ApiInvoice;
 import solvas.service.mappers.InvoiceMapper;
 import solvas.service.models.*;
 
+import java.math.RoundingMode;
+import java.time.temporal.ChronoUnit;
+
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -142,21 +145,24 @@ public class InvoiceService extends AbstractService<Invoice,ApiInvoice> {
                     c.getEndDate().isBefore(endDate)).collect(Collectors.toSet());
 
             for (Contract contract: contracts) {
-                // Todo handle startdate in between as wel
-                // TODO -if (contract.getEndDate().isAfter(invoice.getEndDate()))- check needed?
-                int premium = contract.getPremium();
+                BigDecimal premium = BigDecimal.valueOf(contract.getPremium());
+                if (contract.getStartDate().isAfter(startDate) || contract.getEndDate().isBefore(endDate)){
+                    LocalDateTime maxStart = contract.getStartDate().isAfter(startDate) ? contract.getStartDate() : startDate;
+                    LocalDateTime minEnd = contract.getEndDate().isAfter(endDate) ? endDate:contract.getEndDate();
+                    premium = premium.divide(BigDecimal.valueOf(ChronoUnit.DAYS.between(startDate, endDate)), RoundingMode.FLOOR)
+                            .multiply(BigDecimal.valueOf(ChronoUnit.DAYS.between(maxStart, minEnd)));
+                    //Todo test divide by zeo?
+                }
                 Tax tax = context.getTaxDao().findDistinctByVehicleTypeNameAndInsuranceTypeName(
                         f.getVehicle().getType().getName(), contract.getInsuranceType().getName());
-
-
-                totalAmount = totalAmount.add((tax.getTax().add(BigDecimal.ONE)).multiply(BigDecimal.valueOf(premium)));
+                totalAmount = totalAmount.add((tax.getTax().add(BigDecimal.ONE)).multiply(premium));
             }
             return totalAmount;
         }
 
         /**
-         * finds all fleet subscriptions that lay in between startdate and startdate + facturation period
-         *  calls the methode calculatePremium for each subscription
+         * Finds all fleet subscriptions that lay in between startdate and (startdate + facturation period)
+         *  calls the method calculatePremium for each subscription
          * @param fleet
          * @param startDate
          * @return
