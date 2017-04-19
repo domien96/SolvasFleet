@@ -1,9 +1,9 @@
 -- enum values in caps
-CREATE TYPE invoice_type_caps AS ENUM ('BILLING','PAYMENT');
+DROP TYPE IF EXISTS invoice_type_caps;
 ALTER TABLE invoices RENAME COLUMN type TO old_type;
-ALTER TABLE invoices ADD COLUMN type invoice_type_caps;
-UPDATE invoices SET type = 'BILLING' WHERE old_type = 'billing';
-UPDATE invoices SET type = 'PAYMENT' WHERE old_type = 'payment';
+ALTER TABLE invoices ADD COLUMN type INTEGER;
+UPDATE invoices SET type = 1 WHERE old_type = 'billing';
+UPDATE invoices SET type = 2 WHERE old_type = 'payment';
 ALTER TABLE invoices ALTER COLUMN type SET NOT NULL;
 ALTER TABLE invoices DROP COLUMN old_type;
 DROP TYPE invoice_type;
