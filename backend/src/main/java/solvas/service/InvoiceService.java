@@ -142,7 +142,7 @@ public class InvoiceService extends AbstractService<Invoice,ApiInvoice> {
             BigDecimal totalAmount = BigDecimal.ZERO;
             Collection<Contract> contracts =f.getContracts();
             contracts = contracts.stream().filter((c) -> c.getEndDate().isAfter(startDate)&&
-                    c.getEndDate().isBefore(endDate)).collect(Collectors.toSet());
+                    c.getStartDate().isBefore(endDate)).collect(Collectors.toSet());
 
             for (Contract contract: contracts) {
                 BigDecimal premium = BigDecimal.valueOf(contract.getPremium());
