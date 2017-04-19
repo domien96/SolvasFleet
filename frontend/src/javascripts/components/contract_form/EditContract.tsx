@@ -3,7 +3,7 @@ import React from 'react';
 import Header     from '../app/Header.tsx';
 import ContractForm   from './ContractForm.tsx';
 
-import { fetchContract, putContract } from '../../actions/contract_actions.ts';
+import { fetchContract, putContract, fetchTypes } from '../../actions/contract_actions.ts';
 import { hasError } from '../../utils/utils.ts';
 import { redirect_to } from'../../router.tsx';
 
@@ -15,6 +15,7 @@ interface Props {
 interface State {
   errors : Form.Error[];
   contract   : ContractData;
+  types : string[];
 }
 
 class EditContract extends React.Component<Props, State> {
@@ -23,7 +24,8 @@ class EditContract extends React.Component<Props, State> {
     super();
     this.state = {
       errors: [],
-      contract: {}
+      contract: {},
+      types: []
     };
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit     = this.onSubmit.bind(this);
@@ -42,8 +44,8 @@ class EditContract extends React.Component<Props, State> {
 
   componentDidMount() {
     fetchContract(this.props.params.contractId, (data : any) => this.setState({ contract: data }));
+    fetchTypes((data : any) => this.setState({ types: data.data }));
   }
-
 
   public onSubmit(e : any) : void {
     e.preventDefault();
@@ -66,6 +68,7 @@ class EditContract extends React.Component<Props, State> {
         </Header>
         <ContractForm
           contract={ this.state.contract }
+          types={ this.state.types }
           onSubmit={ this.onSubmit }
           handleChange={ this.handleChange }
           hasError={ hasError.bind(this) }

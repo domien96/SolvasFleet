@@ -10,10 +10,11 @@ interface Props {
   errors       : Form.Error[];
   hasError     : (field : Contract.Field) => boolean;
   contract     : ContractData;
+  types        : string[];
 }
 
 const ContractForm : React.StatelessComponent<Props> = props => {
-  var { contract, onSubmit, handleChange, errors, hasError } = props;
+  var { contract, onSubmit, handleChange, errors, hasError, types } = props;
 
   const submit = contract.id != null ? 'form.update' : 'form.create';
 
@@ -22,7 +23,7 @@ const ContractForm : React.StatelessComponent<Props> = props => {
       <div className='wrapper'>
         <div className='row'>
           <Errors errors={ errors } />
-          <Info contract={ contract } handleChange={ handleChange } hasError={ hasError } />
+          <Info contract={ contract } handleChange={ handleChange } hasError={ hasError } types={ types }/>
           <div className='col-xs-12 col-md-5'>
             <div className='row'>
               <Actions submitLabel={ submit } cancelUrl={ `/contracts/${contract.id || ''}` } model='contract' />
