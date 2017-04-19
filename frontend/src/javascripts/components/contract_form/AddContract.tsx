@@ -3,13 +3,14 @@ import React from 'react';
 import Header     from '../app/Header.tsx';
 import ContractForm   from './ContractForm.tsx';
 
-import { postContract } from '../../actions/contract_actions.ts';
+import { postContract, fetchTypes } from '../../actions/contract_actions.ts';
 import { hasError } from '../../utils/utils.ts';
 import { redirect_to } from'../../router.tsx';
 
 interface State {
   errors : Form.Error[];
   contract   : ContractData;
+  types   : string[];
 }
 
 class AddContract extends React.Component<{}, State> {
@@ -18,10 +19,15 @@ class AddContract extends React.Component<{}, State> {
     super();
     this.state = {
       errors: [],
-      contract: {}
+      contract: {type: 'Omnium'},
+      types: []
     };
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit     = this.onSubmit.bind(this);
+  }
+
+  componentDidMount(){
+    fetchTypes((data : any) => this.setState({ types: data.data }));
   }
 
   public handleChange(field : Contract.Field, e : any, type : string) : any {
@@ -56,6 +62,7 @@ class AddContract extends React.Component<{}, State> {
         </Header>
         <ContractForm
           contract={ this.state.contract }
+          types={ this.state.types }
           onSubmit={ this.onSubmit }
           handleChange={ this.handleChange }
           hasError={ hasError.bind(this) }
