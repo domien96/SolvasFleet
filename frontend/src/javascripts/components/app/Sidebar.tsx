@@ -1,9 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router';
+//import Auth from '../../modules/Auth.ts';
+//import { parseClaims } from '../../modules/Auth.ts';
 
 import SidebarLink from './SidebarLink.tsx';
 
 const Sidebar : React.StatelessComponent<{}> = () => {
+
+  //Auth.getAccessToken().then((value) => { console.log(parseClaims(value.toString())) });
+
   return (
     <nav className='navbar-default navbar-side'>
       <div id='logo'>
