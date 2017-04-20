@@ -18,7 +18,7 @@ public class PermissionMapper extends AbstractMapper<Permission, ApiPermission> 
      * @param daoContext DaoContext
      */
     public PermissionMapper(DaoContext daoContext) {
-        super(daoContext, "action", "resource");
+        super(daoContext, "scope");
     }
 
     @Override

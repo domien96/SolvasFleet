@@ -3,6 +3,7 @@ package solvas.rest.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import solvas.rest.api.models.ApiFunction;
@@ -38,6 +39,7 @@ public class FunctionRestController extends AbstractRestController<Function, Api
      * @return ResponseEntity containing the (paginated) functions
      */
     @RequestMapping(value = "/users/{userId}/functions", method = RequestMethod.GET)
+    @PreAuthorize("hasPermission(#userId, 'user', 'READ_ROLES')")
     public ResponseEntity<?> listAll(
             Pageable pagination,
             FunctionFilter filter,
@@ -54,6 +56,7 @@ public class FunctionRestController extends AbstractRestController<Function, Api
      * @param userId the id of the user this permission is for
      * @return ResponseEntity
      */
+    @PreAuthorize("hasPermission(#input, 'CREATE')")
     @RequestMapping(value = "/users/{userId}/functions", method = RequestMethod.POST)
     public ResponseEntity<?> post(
             @Valid @RequestBody ApiFunction input,
@@ -65,6 +68,7 @@ public class FunctionRestController extends AbstractRestController<Function, Api
 
     @Override
     @RequestMapping(value = "/users/{userId}/functions/{id}", method = RequestMethod.DELETE)
+    @PreAuthorize("hasPermission(#id, 'function', 'DELETE')")
     public ResponseEntity<?> archiveById(@PathVariable int id) {
         return super.archiveById(id);
     }

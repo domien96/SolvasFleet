@@ -28,7 +28,7 @@ public class PasswordConfig {
     }
 
     /**
-     * Bean for BCrypt
+     * Bean for Passwordencoding in debug and test (return input)
      * @return PasswordEncoder
      */
     @Bean

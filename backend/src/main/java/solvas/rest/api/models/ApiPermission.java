@@ -1,33 +1,25 @@
 package solvas.rest.api.models;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import solvas.rest.api.models.serializers.PermissionSerializer;
+
 import javax.validation.constraints.NotNull;
 
 /**
  * Schema for a contract as defined in the Permission
  * @author Steven Bastiaens
  */
+@JsonSerialize(using = PermissionSerializer.class)
 public class ApiPermission extends ApiModel {
 
     @NotNull
-    private String action;
+    private String scope;
 
-    @NotNull
-    private String resource;
-
-
-    public String getAction() {
-        return action;
+    public String getScope() {
+        return scope;
     }
 
-    public void setAction(String action) {
-        this.action = action;
-    }
-
-    public String getResource() {
-        return resource;
-    }
-
-    public void setResource(String resource) {
-        this.resource = resource;
+    public void setScope(String scope) {
+        this.scope = scope;
     }
 }

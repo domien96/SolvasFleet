@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
  */
 public class Authority implements GrantedAuthority {
     private int companyId;
-    private Collection<Permission> permissions = new HashSet<>();
+    private Collection<String> scopes = new HashSet<>();
 
     /**
      * Default constructor for Jackson
@@ -24,11 +24,18 @@ public class Authority implements GrantedAuthority {
     public Authority() {
     }
 
-    Authority(Company company, Collection<Permission> permissions) {
+    /**
+     * Create instance
+     * @param company Company to scope permissions on (null if unscoped)
+     * @param permissions List of permissions users has for this company
+     */
+    public Authority(Company company, Collection<Permission> permissions) {
         if(company != null) {
             this.companyId = company.getId();
+        } else {
+            this.companyId = -1;
         }
-        this.permissions = permissions;
+        this.scopes = permissions.stream().map(Permission::getScope).collect(Collectors.toSet());
     }
 
     @Override
@@ -45,11 +52,11 @@ public class Authority implements GrantedAuthority {
         this.companyId = companyId;
     }
 
-    public Collection<Permission> getPermissions() {
-        return permissions;
+    public Collection<String> getScopes() {
+        return scopes;
     }
 
-    public void setPermissions(Collection<Permission> permissions) {
-        this.permissions = permissions;
+    public void setScopes(Collection<String> scopes) {
+        this.scopes = scopes;
     }
 }

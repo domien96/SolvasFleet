@@ -57,10 +57,6 @@ user:
   firstName: First name
   lastName: Last name
 
-role:
-  permission: Function in company
-  permissionShort: Function
-
 fleet:
   id: ID
   name: Name
@@ -78,3 +74,15 @@ form:
   placeholders:
     email: Email
     password: Password
+
+function: 
+  role: Role
+  company: Company
+
+permission:
+  action: Action
+  resource: Resource 
+
+role:
+  name: Name 
+  permissions: Permissions

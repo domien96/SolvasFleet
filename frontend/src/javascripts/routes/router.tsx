@@ -10,6 +10,7 @@ import client_routes from './client_routes.tsx';
 import user_routes from './user_routes.tsx';
 import vehicle_routes from './vehicle_routes.tsx';
 import fleet_routes from './vehicle_routes.tsx';
+import auth_routes from './auth_routes.tsx';
 
 import NoMatch from '../components/NoMatch.tsx';
 import App from '../components/app/App.tsx';
@@ -46,6 +47,8 @@ const SolvasRouter : React.StatelessComponent<{}> = () => {
             { client_routes }
             { vehicle_routes }
             { fleet_routes }
+            { auth_routes }
+
           </Route>
         </Route>
         <Route path="*" component={ NoMatch } />

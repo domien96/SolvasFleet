@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import solvas.persistence.api.EntityNotFoundException;
@@ -12,6 +13,7 @@ import solvas.rest.api.models.ApiPermission;
 import solvas.rest.api.models.ApiRole;
 import solvas.rest.query.PermissionFilter;
 import solvas.rest.utils.JsonListWrapper;
+import solvas.rest.utils.PagedResult;
 import solvas.service.AbstractService;
 import solvas.service.PermissionService;
 import solvas.service.models.Permission;
@@ -43,24 +45,26 @@ public class PermissionRestController extends AbstractRestController<Permission,
      * method will contain an object, according to the API spec.
      *
      * @param pagination The pagination information.
-     * @param filter The filters.
-     * @param result The validation results of the filterResult
-     *
+     * @param filter     The filters.
+     * @param result     The validation results of the filterResult
      * @return ResponseEntity
      */
     @RequestMapping(value = "/auth/permissions", method = RequestMethod.GET)
+    @PreAuthorize("hasPermission(0, 'permission', 'READ')")
     public ResponseEntity<?> listAll(Pageable pagination, PermissionFilter filter, BindingResult result) {
         return super.listAll(pagination, filter, result);
     }
 
     /**
      * List permissions for a role
-     * @param pagination Pagination object from request
+     *
+     * @param pagination       Pagination object from request
      * @param permissionFilter Filters from request
-     * @param filterResult Bindingresult
-     * @param roleId roleId taken from request path
+     * @param filterResult     Bindingresult
+     * @param roleId           roleId taken from request path
      * @return ResponseEntity to return to user
      */
+    @PreAuthorize("hasPermission(#roleId, 'role', 'LIST_PERMISSIONS')")
     @RequestMapping(value = "/auth/roles/{roleId}/permissions", method = RequestMethod.GET)
     public ResponseEntity<?> listForRole(
             Pageable pagination,

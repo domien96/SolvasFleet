@@ -4,7 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.access.PermissionEvaluator;
+import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
+import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -21,6 +25,8 @@ import solvas.authentication.jwt.JwtTokenAuthenticationProcessingFilter;
 import solvas.authentication.jwt.SkipPathRequestMatcher;
 import solvas.authentication.jwt.TokenExtractor;
 import solvas.authentication.utils.CorsFilter;
+import solvas.authorization.PermissionEvaluatorContext;
+import solvas.authorization.SolvasPermissionEvaluator;
 
 import java.util.Arrays;
 import java.util.List;
@@ -115,7 +121,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
         .and()
             .authorizeRequests()
-                .antMatchers(TOKEN_BASED_AUTH_ENTRY_POINT).authenticated() // Protected API End-points
+                .antMatchers(TOKEN_BASED_AUTH_ENTRY_POINT).authenticated()
         .and()
             .addFilterBefore(new CorsFilter(FORM_BASED_LOGIN_ENTRY_POINT), UsernamePasswordAuthenticationFilter.class)
             .addFilterBefore(buildAjaxLoginProcessingFilter(), UsernamePasswordAuthenticationFilter.class)

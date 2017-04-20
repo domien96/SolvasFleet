@@ -1,6 +1,6 @@
 import { auth_token } from '../actions/auth_actions.ts';
 
-function parseClaims(token : string) {
+export function parseClaims(token : string) {
   return (
     JSON.parse(
       atob(

@@ -3,6 +3,7 @@ package solvas.rest.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import solvas.rest.api.models.ApiInvoice;
@@ -19,7 +20,8 @@ import javax.validation.Valid;
  * Rest controller for Invoice
  *
  */
-public class InvoiceRestController  extends AbstractRestController<Invoice,ApiInvoice> {
+@RestController
+public class InvoiceRestController extends AbstractRestController<Invoice,ApiInvoice> {
 
     /**
      * Default constructor.
@@ -41,6 +43,7 @@ public class InvoiceRestController  extends AbstractRestController<Invoice,ApiIn
      *
      * @return ResponseEntity
      */
+    @PreAuthorize("hasPermission(0, 'invoice', 'READ')")
     @RequestMapping(value = "/invoices", method = RequestMethod.GET)
     public ResponseEntity<?> listAll(Pageable pagination, InvoiceFilter filter, BindingResult result) {
         return super.listAll(pagination, filter, result);
@@ -49,6 +52,7 @@ public class InvoiceRestController  extends AbstractRestController<Invoice,ApiIn
 
     @Override
     @RequestMapping(value = "/invoices/{id}", method = RequestMethod.GET)
+    @PreAuthorize("hasPermission(#id, 'invoice', 'READ')")
     public ResponseEntity<?> getById(@PathVariable int id) {
         return super.getById(id);
     }
@@ -56,19 +60,20 @@ public class InvoiceRestController  extends AbstractRestController<Invoice,ApiIn
 
 
     /**
-     * Get the active invoice for a company.
+     * Get the active invoice for a fleet.
      *
-     * @param id The ID of the company.
+     * @param fleetId The ID of the fleet
      * @param pagination The pagination.
      * @param filter The filters.
      * @param result The validation results.
      *
      * @return The response.
      */
-    @RequestMapping(value = "/fleets/{id}/invoices/current", method = RequestMethod.GET)
-    public ResponseEntity<?> getActiveByCompanyId(@PathVariable int id,Pageable pagination, InvoiceFilter filter, BindingResult result) {
+    @RequestMapping(value = "/fleets/{fleetId}/invoices/current", method = RequestMethod.GET)
+    @PreAuthorize("hasPermission(#fleetId, 'fleet', 'READ_INVOICES')")
+    public ResponseEntity<?> getActiveByCompanyId(@PathVariable int fleetId,Pageable pagination, InvoiceFilter filter, BindingResult result) {
         //Todo filter set active
-        filter.setFleet(id);
+        filter.setFleet(fleetId);
         return super.listAll(pagination,filter,result);
     }
 
@@ -77,12 +82,12 @@ public class InvoiceRestController  extends AbstractRestController<Invoice,ApiIn
      * Get invoice with id
      *
      * @param id The ID of the invoice.
-     * @param fleetId The id of the fleet
      *
      * @return The response.
      */
     @RequestMapping(value = "/fleets/{fleetId}/invoices/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> getByCompanyAndInvoiceId(@PathVariable int fleetId, @PathVariable int id) {
+    @PreAuthorize("hasPermission(#id, 'invoice', 'READ')")
+    public ResponseEntity<?> getByCompanyAndInvoiceId(@PathVariable int id) {
         return super.getById(id);
     }
 
@@ -95,6 +100,7 @@ public class InvoiceRestController  extends AbstractRestController<Invoice,ApiIn
      * @return The response.
      */
     @RequestMapping(value = "/fleets/{fleetId}/invoices/{id}{extension}", method = RequestMethod.GET)
+    @PreAuthorize("hasPermission(#id, 'invoice', 'READ')")
     public ResponseEntity<?> getByCompanyAndInvoiceIdWithExtension(@PathVariable int fleetId, @PathVariable int id,@PathVariable String extension) {
         //Todo process extension
         return super.getById(id);
@@ -102,9 +108,9 @@ public class InvoiceRestController  extends AbstractRestController<Invoice,ApiIn
 
 
     /**
-     * Get all invoices for a company.
+     * Get all invoices for a fleet
      *
-     * @param id The ID of the company.
+     * @param id The ID of the fleet.
      * @param pagination The pagination.
      * @param filter The filters.
      * @param result The validation results.
@@ -112,10 +118,9 @@ public class InvoiceRestController  extends AbstractRestController<Invoice,ApiIn
      * @return The response.
      */
     @RequestMapping(value = "/fleets/{id}/invoices", method = RequestMethod.GET)
-    public ResponseEntity<?> getByCompanyId(@PathVariable int id,Pageable pagination, InvoiceFilter filter, BindingResult result) {
+    @PreAuthorize("hasPermission(#id, 'fleet', 'READ_INVOICES')")
+    public ResponseEntity<?> getByFleetId(@PathVariable int id,Pageable pagination, InvoiceFilter filter, BindingResult result) {
         filter.setFleet(id);
         return super.listAll(pagination,filter,result);
     }
-
-
 }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import solvas.persistence.api.EntityNotFoundException;
@@ -46,47 +47,53 @@ public class RoleRestController extends AbstractRestController<Role,ApiRole> {
      * @return ResponseEntity
      */
     @RequestMapping(value = "/auth/roles", method = RequestMethod.GET)
+    @PreAuthorize("hasPermission(0, 'role', 'READ')")
     public ResponseEntity<?> listAll(Pageable pagination, RoleFilter filter, BindingResult result) {
         return super.listAll(pagination, filter, result);
     }
 
     @Override
-    @RequestMapping(value = "/auth/roles/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> getById(@PathVariable int id) {
-        return super.getById(id);
+    @RequestMapping(value = "/auth/roles/{roleId}", method = RequestMethod.GET)
+    @PreAuthorize("hasPermission(#roleId, 'role', 'READ')")
+    public ResponseEntity<?> getById(@PathVariable int roleId) {
+        return super.getById(roleId);
     }
 
     @Override
     @RequestMapping(value = "/auth/roles", method = RequestMethod.POST)
+    @PreAuthorize("hasPermission(input, 'CREATE')")
     public ResponseEntity<?> post(@Valid @RequestBody ApiRole input, BindingResult result) {
         return super.post(input,result);
     }
 
     @Override
     @RequestMapping(value = "/auth/roles/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> archiveById(@PathVariable int id) {
-        return super.archiveById(id);
+    @PreAuthorize("hasPermission(#roleId, 'role', 'DELETE')")
+    public ResponseEntity<?> archiveById(@PathVariable int roleId) {
+        return super.archiveById(roleId);
     }
 
     @Override
-    @RequestMapping(value = "/auth/roles/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> put(@PathVariable int id, @RequestBody ApiRole input,BindingResult result) {
-        return super.put(id, input,result);
+    @RequestMapping(value = "/auth/roles/{roleId}", method = RequestMethod.PUT)
+    @PreAuthorize("hasPermission(#input, 'EDIT')")
+    public ResponseEntity<?> put(@PathVariable int roleId, @RequestBody ApiRole input,BindingResult result) {
+        return super.put(roleId, input,result);
     }
 
     /**
      *
-     * @param id Id of the role to update permissions for
+     * @param roleId Id of the role to update permissions for
      * @param permissions List of permissions (ids)
      * @param result Validation result
      * @return ReponseEntity
      */
-    @RequestMapping(value = "/auth/roles/{id}/permissions", method = RequestMethod.PUT)
-    public ResponseEntity<?> putPermissions(@PathVariable int id,
+    @RequestMapping(value = "/auth/roles/{roleId}/permissions", method = RequestMethod.PUT)
+    @PreAuthorize("hasPermission(#roleId, 'role', 'WRITE')")
+    public ResponseEntity<?> putPermissions(@PathVariable int roleId,
                                             @RequestBody Set<Integer> permissions,
                                             BindingResult result) {
         ApiRole r = new ApiRole();
         r.setPermissions(permissions);
-        return super.put(id, r, result);
+        return super.put(roleId, r, result);
     }
 }
