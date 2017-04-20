@@ -8,6 +8,8 @@ import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.Filter;
 import solvas.rest.api.models.ApiInvoice;
+import solvas.rest.invoices.InvoiceFileViewResolver;
+import solvas.rest.query.InvoiceFilter;
 import solvas.service.mappers.InvoiceMapper;
 import solvas.service.models.*;
 
@@ -49,11 +51,23 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
 
     @Override
     public Page<ApiInvoice> findAll(Pageable pagination, Filter<Invoice> filters) {
+        InvoiceFilter f = (InvoiceFilter) filters;
+        try {
+            generateMissingInvoices(f.getFleet());
+        } catch (EntityNotFoundException e) {
+            // Todo what here?
+        }
         return super.findAll(pagination, filters);
     }
 
     @Override
     public List<ApiInvoice> findAll(Filter<Invoice> filters) {
+        InvoiceFilter f = (InvoiceFilter) filters;
+        try {
+            generateMissingInvoices(f.getFleet());
+        } catch (EntityNotFoundException e) {
+            // Todo what here?
+        }
         return super.findAll(filters);
     }
 
