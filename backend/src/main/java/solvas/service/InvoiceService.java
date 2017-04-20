@@ -153,8 +153,8 @@ public class InvoiceService extends AbstractService<Invoice,ApiInvoice> {
                             contract.getStartDate().toLocalDate() : startDate;
                     LocalDate minEnd = contract.getEndDate().toLocalDate().isAfter(endDate) ?
                             endDate:contract.getEndDate().toLocalDate();
-                    premium = premium.divide(BigDecimal.valueOf(ChronoUnit.DAYS.between(startDate, endDate)), RoundingMode.FLOOR)
-                            .multiply(BigDecimal.valueOf(ChronoUnit.DAYS.between(maxStart, minEnd)));
+                    premium = premium.multiply(BigDecimal.valueOf(ChronoUnit.DAYS.between(maxStart, minEnd)))
+                            .divide(BigDecimal.valueOf(ChronoUnit.DAYS.between(startDate, endDate)), RoundingMode.HALF_UP);
                     //Todo test divide by zeo?
                 }
                 Tax tax = context.getTaxDao().findDistinctByVehicleTypeNameAndInsuranceTypeName(
