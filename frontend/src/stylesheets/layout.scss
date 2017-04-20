@@ -1,7 +1,11 @@
 @import './variables.scss';
 
+
+.all-wrapper {
+  height: 100%
+}
+
 .page-wrapper {
-  margin: 0 0 0 $nav-width;
   background-color: $gray-lighterer;
   min-height: 100%;
   padding: $top-padding 15px 0;

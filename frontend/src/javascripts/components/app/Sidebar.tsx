@@ -1,17 +1,36 @@
-import React from 'react';
-import { Link } from 'react-router';
-//import Auth from '../../modules/Auth.ts';
-//import { parseClaims } from '../../modules/Auth.ts';
 
-import SidebarLink from './SidebarLink.tsx';
+import React    from 'react';
+import { Link } from 'react-router';
+import classNames from 'classnames';
+import { slide as Menu } from 'react-burger-menu';
 import LanguageSwitcher from './LanguageSwitcher.tsx';
+
+interface SProps {
+  path: string;
+}
+
+class SidebarLink extends React.Component<SProps, {}> {
+  static contextTypes = {
+    location: React.PropTypes.object
+  }
+
+  render() {
+    const classes = classNames({ active: this.context.location.pathname.includes(this.props.path) });
+
+    return (
+      <li className={ classes } >
+        <Link to={ this.props.path }>
+          { this.props.children }
+        </Link>
+      </li>
+    )
+  }
+}
 
 const Sidebar : React.StatelessComponent<{}> = () => {
 
-  //Auth.getAccessToken().then((value) => { console.log(parseClaims(value.toString())) });
-
-  return (
-    <nav className='navbar-default navbar-side'>
+  const info = (
+    <div>
       <div id='logo'>
         <Link to='/'>
           <h2>SolvasFleet</h2>
@@ -28,9 +47,21 @@ const Sidebar : React.StatelessComponent<{}> = () => {
           </Link>
         </li>
       </ul>
+    </div>
+  );  
+      
+  return (
+    <div>
+      <Menu pageWrapId={'page-wrap'} outerContainerId={'outer-container'} className='mobile-menu'>
+        {info}
+      </Menu>
+      <nav className='standard-menu'>
+        {info}
+      </nav>
       <LanguageSwitcher />
-    </nav>
+    </div>
   );
 }
 
 export default Sidebar;
+

@@ -13,7 +13,7 @@ const InfoTable : React.StatelessComponent<Props> = props => {
  
     const tableHead = head.map((headData : Table.Head.Data) =>
     (
-      <th key={ headData.key } scope='row' className='table-row col-sm-3' >{ T.translate(headData.label) }</th>
+      <th key={ headData.key } scope='row' className='table-row' >{ T.translate(headData.label) }</th>
     ));
 
     const tableRows = data.map((item : any, i : number) => {

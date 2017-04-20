@@ -10,6 +10,11 @@
 /// <reference path="table.d.ts"/>
 /// <reference path="filter.d.ts"/>
 /// <reference path="permission.d.ts"/>
-/// <reference path="role.d.ts"/>
 /// <reference path="function.d.ts"/>
+/// <reference path="invoice.d.ts"/>
 /// <reference path="Typeahead.d.ts"/>
+/// <reference path="contract.d.ts"/>
+/// <reference path="listing.d.ts"/>
+/// <reference path="pagination.d.ts"/>
+
+declare module 'react-burger-menu';

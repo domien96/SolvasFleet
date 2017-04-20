@@ -26,13 +26,14 @@ public class RoleMapper extends AbstractMapper<Role,ApiRole> {
      * @param daoContext The DaoContext this mapper should work with
      */
     public RoleMapper(DaoContext daoContext) {
-        super(daoContext,"function");
+        super(daoContext);
     }
 
     @Override
     public Role convertToModel(ApiRole api) throws FieldNotFoundException,EntityNotFoundException {
         Role role = api.getId()==0?new Role():daoContext.getRoleDao().find(api.getId());
         copySharedAttributes(role, api);
+        role.setFunction(api.getName());
         role.setPermissions(new HashSet<>(daoContext.getPermissionDao().findAll(api.getPermissions())));
 
         return role;
@@ -46,6 +47,7 @@ public class RoleMapper extends AbstractMapper<Role,ApiRole> {
         Set<Integer> apiPermissions = role.getPermissions().stream()
                 .map(Permission::getId).collect(Collectors.toSet());
         apiRole.setPermissions(apiPermissions);
+        apiRole.setName(role.getFunction());
         apiRole.setUrl(SimpleUrlBuilder.buildUrlFromBase(ROOTPATH + "{id}", role.getId()));
         return apiRole;
     }
