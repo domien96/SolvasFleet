@@ -38,12 +38,12 @@ class PermissionControl extends React.Component<{}, State> {
   }
 
   handleRoleDelete(id: number){
-    deleteRole(id, this.fetchRoles);
+    console.log(id);
+    deleteRole(id, () => redirect_to('/auth'));
   }
 
   render(){
     var {roles, permissions} = this.state;
-    console.log(this.state)
     return (
       <PermissionControlView roles={ roles } permissions={ permissions } onRoleEdit={ this.handleRoleEdit } onRoleDelete={ this.handleRoleDelete }/>
     );
