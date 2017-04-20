@@ -16,6 +16,9 @@ import static solvas.authorization.ApiPermissionStrings.*;
  */
 public class VehiclePermissionEvaluator extends AbstractPermissionEvaluator<Vehicle> {
 
+    {
+        registerPermissionDecider("LIST_VEHICLES", this::canListAll);
+    }
     /**
      * @param dao Autowired dao.
      */
@@ -38,6 +41,18 @@ public class VehiclePermissionEvaluator extends AbstractPermissionEvaluator<Vehi
                     .map(SubFleet::getFleet)
                     .map(Fleet::getId),
                  Stream.of(vehicle.getLeasingCompany().getId()));
+    }
+
+    /**
+     * Check if a user can list all vehicles
+     *
+     * @param authentication The authentication.
+     * @param model The model. Unused
+     *
+     * @return True if the user has permission.
+     */
+    public boolean canListAll(Authentication authentication, Vehicle model) {
+        return hasScope(authentication, READ_COMPANIES_FLEETS);
     }
 
     @Override

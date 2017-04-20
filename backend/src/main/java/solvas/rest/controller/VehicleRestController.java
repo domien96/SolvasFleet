@@ -46,6 +46,13 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
     @PreAuthorize("hasPermission(#fleetId, 'fleet', 'READ_VEHICLES')")
     @RequestMapping(value = "/companies/{companyId}/fleets/{fleetId}/vehicles", method = RequestMethod.GET)
     public ResponseEntity<?> listAll(Pageable pagination, VehicleFilter filter, BindingResult result, @PathVariable int fleetId) {
+        filter.setFleet(fleetId);
+        return super.listAll(pagination, filter, result);
+    }
+
+    @PreAuthorize("hasPermission(0, 'vehicle', 'LIST_VEHICLES')")
+    @RequestMapping(value = "/vehicles", method = RequestMethod.GET)
+    public ResponseEntity<?> listAll(Pageable pagination, VehicleFilter filter, BindingResult result) {
         return super.listAll(pagination, filter, result);
     }
 
