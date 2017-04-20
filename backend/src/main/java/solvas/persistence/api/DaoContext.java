@@ -75,6 +75,18 @@ public interface DaoContext {
     ContractDao getContractDao();
 
     /**
+     * Get FunctionDao for this content
+     * @return A FunctionDao
+     */
+    FunctionDao getFunctionDao();
+
+    /**
+     * Get PermissionDao for this content
+     * @return A PermissionDao
+     */
+    PermissionDao getPermissionDao();
+
+    /**
      * Get InvoiceDao for this content
      * @return A InvoiceDao
      */

@@ -8,7 +8,7 @@ import solvas.service.models.SubFleet;
 import solvas.service.models.Vehicle;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
-import solvas.rest.SimpleUrlBuilder;
+import solvas.rest.utils.SimpleUrlBuilder;
 import solvas.service.mappers.exceptions.DependantEntityNotFound;
 import solvas.service.mappers.exceptions.FieldNotFoundException;
 import solvas.rest.api.models.ApiVehicle;

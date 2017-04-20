@@ -3,7 +3,7 @@ package solvas.rest.api.models;
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
- * @author Niko Strijbol
+ * Fleet in the API layer
  */
 public class ApiFleet extends ApiModel {
 

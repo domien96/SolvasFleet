@@ -7,7 +7,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 /**
- * Created by steve on 11/03/2017.
+ * Company in the API layer
  */
 public class ApiCompany extends ApiModel {
 

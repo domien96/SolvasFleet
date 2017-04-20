@@ -2,7 +2,10 @@ package solvas.service.models;
 
 
 //TODO change discription to allow {Id,createdat, .} gets changed by deserializer.
+import org.hibernate.Hibernate;
+
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * Abstract model. Contains some common attributes and metadata for the models.

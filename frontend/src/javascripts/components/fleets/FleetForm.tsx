@@ -20,7 +20,7 @@ const FleetForm : React.StatelessComponent<Props> = props => {
       </span>
       <div className='actions pull-right'>
         <h3>
-          <span className='glyphicon glyphicon-plus' />
+          <span className='glyphicon glyphicon-plus' onClick={ props.onSubmit }/>
         </h3>
       </div>
     </form>

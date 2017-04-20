@@ -14,14 +14,7 @@
 
        <property name="function" column="function" type="string" not-null="true"/>
 
-       <many-to-one name="user" column="user_id"
-                    class="solvas.service.models.User" not-null="true"/>
-       <many-to-one name="company" column="company_id"
-                    class="solvas.service.models.User" not-null="true"/>
-       <property name="archived" column="archived" type="boolean" not-null="true"/>
-
-
-       <set name="permissions" table="rolepermissions"> <!-- Role is owner of relationship -->
+       <set name="permissions" table="role_permissions"> <!-- Role is owner of relationship -->
            <key column="role_id"/>
            <many-to-many column="permission_id" class="solvas.service.models.Permission" />
        </set>
