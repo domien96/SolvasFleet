@@ -75,6 +75,9 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
      */
     private Invoice generateNextBillingInvoice(Fleet fleet) {
         LocalDateTime startDate = getStartDateNextInvoice(fleet);
+        if (startDate==null) {
+            startDate=fleet.getCreatedAt();
+        }
         LocalDateTime endDate = startDate.plusMonths(fleet.getFacturationPeriod());
         Invoice invoice = new Invoice();
         invoice.setStartDate(startDate);
