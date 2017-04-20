@@ -27,5 +27,10 @@ public interface InvoiceDao extends Dao<Invoice> {
      */
     Collection<Invoice> findByFleet(Fleet fleet);
 
+    /**
+     * Get latest date for which an invoice was generated for a fleet
+     * @param fleet
+     * @return LocalDateTime
+     */
     LocalDateTime getLatestEndDateByFleet(Fleet fleet);
 }

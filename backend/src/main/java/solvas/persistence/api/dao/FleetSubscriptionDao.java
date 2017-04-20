@@ -78,6 +78,13 @@ public interface FleetSubscriptionDao extends Dao<FleetSubscription> {
     }
 
 
+    /**
+     * Find all subscription for a fleet in the period start-end
+     * @param fleet
+     * @param start
+     * @param end
+     * @return
+     */
     Collection<FleetSubscription> findByFleetAndInPeriod(Fleet fleet, LocalDate start, LocalDate end);
 
 

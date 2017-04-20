@@ -4,12 +4,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import solvas.persistence.api.dao.InvoiceDao;
 import solvas.service.models.Fleet;
-import solvas.service.models.Invoice;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Collection;
 
+/**
+ * Interface containing queries for some methods JPA couldn't interpret
+ */
 @Repository
 public interface HibernateInvoiceDao extends InvoiceDao {
     @Override

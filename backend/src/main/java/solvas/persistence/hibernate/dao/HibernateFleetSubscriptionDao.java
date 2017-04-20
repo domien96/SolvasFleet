@@ -11,6 +11,9 @@ import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Optional;
 
+/**
+ * Interface containing queries for some methods JPA couldn't interpret
+ */
 @Repository
 public interface HibernateFleetSubscriptionDao extends FleetSubscriptionDao {
 

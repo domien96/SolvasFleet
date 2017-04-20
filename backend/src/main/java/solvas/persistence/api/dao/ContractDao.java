@@ -19,8 +19,22 @@ import java.util.Collection;
 @Repository
 public interface ContractDao extends Dao<Contract> {
 
+    /**
+     * Find all contracts for a subscription which overlaps with the period start-end
+     * @param fleetSubscription
+     * @param start
+     * @param end
+     * @return
+     */
     Collection<Contract> findAllByFleetSubscriptionAndEndDateGreaterThanEqualAndStartDateLessThanEqual(FleetSubscription fleetSubscription, LocalDateTime start, LocalDateTime end);
 
+    /**
+     * Convenient short named alias for findAllByFleetSubscriptionAndEndDateGreaterThanEqualAndStartDateLessThanEqual
+     * @param fleetSubscription
+     * @param start
+     * @param end
+     * @return
+     */
     default Collection<Contract> findByFleetSubscriptionAndOverlaps(FleetSubscription fleetSubscription, LocalDateTime start, LocalDateTime end) {
         return findAllByFleetSubscriptionAndEndDateGreaterThanEqualAndStartDateLessThanEqual(fleetSubscription, start, end);
     }
