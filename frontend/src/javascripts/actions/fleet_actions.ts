@@ -1,5 +1,5 @@
 import { GET, POST, PUT, DELETE, callback } from './fetch_json.ts';
-import { FLEET_URL, FLEETS_URL, CLIENT_URL, INVOICE_URL, INVOICES_URL } from '../constants/constants.ts';
+import { FLEET_URL, FLEETS_URL, CLIENT_URL, INVOICE_URL, INVOICES_URL, INVOICE_PDF_URL } from '../constants/constants.ts';
 
 export function fetchFleet(id : number, success? : callback, fail? : callback) {
   GET( FLEET_URL(id), success, fail );
@@ -32,4 +32,8 @@ export function fetchInvoices(fleetId : number, success? : callback, fail? : cal
 
 export function fetchInvoice(fleetId : number, invoiceId : number, success? : callback, fail? : callback, query? : any) {
   GET( INVOICE_URL(fleetId, invoiceId), success, fail, query );
+}
+
+export function fetchInvoicePdf(fleetId : number, invoiceId : number, success? : callback, fail? : callback, query? : any) {
+  GET( INVOICE_PDF_URL(fleetId, invoiceId), success, fail, query );
 }
