@@ -26,6 +26,8 @@ import EditVehicle from './components/vehicle_form/EditVehicle.tsx';
 import Fleets from './components/fleets/Fleets.tsx';
 import Fleet  from './components/fleet/Fleet.tsx';
 
+import Invoices  from './components/invoices/Invoices.tsx'
+
 import NoMatch   from './components/NoMatch.tsx';
 
 declare var ENVIRONMENT: string;
@@ -73,6 +75,8 @@ class SolvasRouter extends React.Component<{}, {}> {
           </Route>
 
           <Route path="fleets/:id" component={ Fleet } />
+
+          <Route path="fleets/:fleetId/invoices" component={ Invoices } />
 
           <Route path="*" component={ NoMatch } />
         </Route>

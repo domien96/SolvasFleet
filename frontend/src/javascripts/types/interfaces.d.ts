@@ -9,4 +9,5 @@
 /// <reference path="role.d.ts"/>
 /// <reference path="table.d.ts"/>
 /// <reference path="filter.d.ts"/>
+/// <reference path="invoice.d.ts"/>
 /// <reference path="Typeahead.d.ts"/>
