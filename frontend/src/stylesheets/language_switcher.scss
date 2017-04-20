@@ -1,0 +1,42 @@
+$color: #a7b1c2;
+
+.lang-wrapper {
+  position: absolute;
+  bottom: 0;
+  left: 25px;
+  color: $color;
+  font-weight: 600;
+  margin-bottom: 15px;
+  padding-right: 5px;
+
+  &.active {
+    padding-right: 0;
+
+    .options {
+      display: block;
+    }
+  }
+
+  &.active .current, .options span {
+    padding: 2px 5px;
+    border: 1px solid $color;
+  }
+
+  .current {
+    padding-left: 5px;
+    border: 1px solid transparent;
+  }
+
+  .options {
+    position: absolute;
+    bottom: 100%;
+    right: 0;
+    display: none;
+
+    span {
+      display: block;
+      border: 1px solid $color;
+      padding: 2px 5px;
+    }
+  }
+}

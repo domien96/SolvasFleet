@@ -18,21 +18,35 @@ public class HibernateDaoContext implements DaoContext {
      * @param fleetDao
      * @param fleetSubscriptionDao
      * @param roleDao
-     * @param subFleetDao
      * @param userDao
      * @param vehicleDao
      * @param vehicleTypeDao
+     * @param contractDao
+     * @param insuranceTypeDao
+     * @param functionDao
+     * @param permissionDao
+     * @param invoiceDao
+     * @param taxDao
      */
     @Autowired
-    public HibernateDaoContext(CompanyDao companyDao, FleetDao fleetDao, FleetSubscriptionDao fleetSubscriptionDao, RoleDao roleDao, SubFleetDao subFleetDao, UserDao userDao, VehicleDao vehicleDao, VehicleTypeDao vehicleTypeDao) {
+    public HibernateDaoContext(CompanyDao companyDao, FleetDao fleetDao, FleetSubscriptionDao fleetSubscriptionDao,
+                               RoleDao roleDao, UserDao userDao, VehicleDao vehicleDao,
+                               VehicleTypeDao vehicleTypeDao, ContractDao contractDao,
+                               InsuranceTypeDao insuranceTypeDao,InvoiceDao invoiceDao,
+                               TaxDao taxDao, FunctionDao functionDao, PermissionDao permissionDao) {
         this.companyDao = companyDao;
         this.fleetDao = fleetDao;
         this.fleetSubscriptionDao = fleetSubscriptionDao;
         this.roleDao = roleDao;
-        this.subFleetDao = subFleetDao;
         this.userDao = userDao;
         this.vehicleDao = vehicleDao;
         this.vehicleTypeDao = vehicleTypeDao;
+        this.contractDao = contractDao;
+        this.insuranceTypeDao=insuranceTypeDao;
+        this.functionDao = functionDao;
+        this.permissionDao = permissionDao;
+        this.invoiceDao=invoiceDao;
+        this.taxDao=taxDao;
     }
 
     private CompanyDao companyDao;
@@ -63,13 +77,6 @@ public class HibernateDaoContext implements DaoContext {
         return roleDao;
     }
 
-    private SubFleetDao subFleetDao;
-
-    @Override
-    public SubFleetDao getSubFleetDao() {
-        return subFleetDao;
-    }
-
     private UserDao userDao;
 
     @Override
@@ -89,5 +96,48 @@ public class HibernateDaoContext implements DaoContext {
     @Override
     public VehicleTypeDao getVehicleTypeDao() {
         return vehicleTypeDao;
+    }
+
+    @Override
+    public InsuranceTypeDao getInsuranceTypeDao() {
+        return insuranceTypeDao;
+    }
+
+
+
+    private InsuranceTypeDao insuranceTypeDao;
+
+    private ContractDao contractDao;
+
+    @Override
+    public ContractDao getContractDao() {
+        return contractDao;
+    }
+
+    private FunctionDao functionDao;
+    @Override
+    public FunctionDao getFunctionDao() {
+        return functionDao;
+    }
+
+    private PermissionDao permissionDao;
+
+    @Override
+    public PermissionDao getPermissionDao() {
+        return permissionDao;
+    }
+
+    private InvoiceDao invoiceDao;
+
+    @Override
+    public InvoiceDao getInvoiceDao() {
+        return invoiceDao;
+    }
+
+    private TaxDao taxDao;
+
+    @Override
+    public TaxDao getTaxDao() {
+        return taxDao;
     }
 }

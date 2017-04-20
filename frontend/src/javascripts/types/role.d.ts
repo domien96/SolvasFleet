@@ -1,16 +1,17 @@
 namespace Role {
-  export interface Props { }
+  export type Field =
+    'id' | 'name' | 'permissions' ;
+}
 
-  export interface State {
-    errors : Form.Error[];
-    role   : Role;
+interface RoleData {
+	id? 					: number;	
+  name?    			: string;
+  permissions? 	: string[];
+}
+
+namespace Roles {
+  export interface Data {
+    [ roles : string ] : any;
   }
 }
 
-interface Role {
-  company    : string;
-  permission : string;
-  user       : string;
-  startDate  : string;
-  endDate    : string;
-}

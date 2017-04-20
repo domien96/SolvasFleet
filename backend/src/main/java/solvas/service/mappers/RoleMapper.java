@@ -1,12 +1,17 @@
 package solvas.service.mappers;
 
 import org.springframework.stereotype.Component;
-import solvas.service.models.Role;
 import solvas.persistence.api.DaoContext;
-import solvas.service.mappers.exceptions.FieldNotFoundException;
 import solvas.persistence.api.EntityNotFoundException;
-import solvas.rest.SimpleUrlBuilder;
 import solvas.rest.api.models.ApiRole;
+import solvas.rest.utils.SimpleUrlBuilder;
+import solvas.service.mappers.exceptions.FieldNotFoundException;
+import solvas.service.models.Permission;
+import solvas.service.models.Role;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Mapper between Role and ApiRole
@@ -14,40 +19,36 @@ import solvas.rest.api.models.ApiRole;
 @Component
 public class RoleMapper extends AbstractMapper<Role,ApiRole> {
 
-    private static final String ROOTPATH ="/roles/";
+    private static final String ROOTPATH ="/auth/roles/";
     /**
      * Create a mapper between Role and ApiRole
      *
      * @param daoContext The DaoContext this mapper should work with
      */
     public RoleMapper(DaoContext daoContext) {
-        super(daoContext, "startDate", "function", "endDate");
+        super(daoContext);
     }
 
     @Override
     public Role convertToModel(ApiRole api) throws FieldNotFoundException,EntityNotFoundException {
         Role role = api.getId()==0?new Role():daoContext.getRoleDao().find(api.getId());
         copySharedAttributes(role, api);
-        /*try {  The api allows -1 will leave this here for the future
-            role.setUser(daoContext.getUserDao().find(api.getUser()));
-            role.setCompany(daoContext.getCompanyDao().find(api.getCompany()));
-        } catch(EntityNotFoundException e) {
-            throw new DependantEntityNotFound("Company or User not found",e);
-        }*/
+        role.setFunction(api.getName());
+        role.setPermissions(new HashSet<>(daoContext.getPermissionDao().findAll(api.getPermissions())));
 
-        role.setUser(api.getUser()==0 ? role.getUser() : daoContext.getUserDao().find(api.getUser()));
-        role.setCompany(api.getCompany()==0 ? role.getCompany() : daoContext.getCompanyDao().find(api.getCompany()));
         return role;
     }
 
     @Override
     public ApiRole convertToApiModel(Role role) throws FieldNotFoundException {
         ApiRole apiRole = new ApiRole();
-        copyAttributes(apiRole, role, "id");
+        copyAttributes(apiRole, role, "id", "createdAt", "updatedAt");
         copySharedAttributes(apiRole, role);
-        apiRole.setCompany(role.getCompany().getId());
-        apiRole.setUser(role.getUser().getId());
-        apiRole.setUrl(SimpleUrlBuilder.buildUrl(ROOTPATH + "{id}", role.getId()));
+        Set<Integer> apiPermissions = role.getPermissions().stream()
+                .map(Permission::getId).collect(Collectors.toSet());
+        apiRole.setPermissions(apiPermissions);
+        apiRole.setName(role.getFunction());
+        apiRole.setUrl(SimpleUrlBuilder.buildUrlFromBase(ROOTPATH + "{id}", role.getId()));
         return apiRole;
     }
 }

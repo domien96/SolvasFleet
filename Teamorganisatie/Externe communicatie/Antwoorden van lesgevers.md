@@ -1,4 +1,4 @@
-# *Vragenbundel 1*
+# *Vragenbundel*
 ### Opmerkingen van projectleider
 Deze vragen zijn ook nog eens doorgestuurd naar de klant.
 
@@ -23,3 +23,13 @@ Hieronder heb ik geschreven wat ik *denk*, maar dat is niet noodzakelijk correct
 *  _Op welk niveau valt het onderscheid tussen forfaitair en percentueel? Per vloot, per subvloot of anders?_
 
   Dat weet ik niet.
+  
+* _De vraag was ofdat CAS gewenst en toegelaten was_
+
+  Hieronder het antwoord van Jan:
+  Dit is dus heel zeker een nice to have en geen need to have. Ik zou zeggen: als ze het echt heel graag willen implementeren EN als de andere API-mensen akkoord zijn EN als dit hen echt niet veel tijd kost, dan mogen ze dit implementeren.
+  
+  Nogal veel Als-en... Staar je er dus niet blind op. Het zou mooi zijn, maar niet noodzakelijk. Stel dat je het aan het einde nog zou willen toevoegen aan jullie applicatie, is dat dan nog heel veel werk? Of moet het echt in deze fase gebeuren en samen met de andere API-mensen?
+  
+  vriendelijke groeten
+  Annick

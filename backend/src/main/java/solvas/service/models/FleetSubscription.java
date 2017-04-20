@@ -3,6 +3,8 @@ package solvas.service.models;
 
 
 import java.time.LocalDate;
+import java.util.Date;
+import java.util.Set;
 
 /**
  * Models subscription of a vehicle to a (sub)fleet
@@ -12,7 +14,9 @@ public class FleetSubscription extends Model {
     private LocalDate startDate;
     private LocalDate endDate;
     private Vehicle vehicle;
-    private SubFleet subFleet;
+    private Fleet fleet;
+
+    private Set<Contract> contracts;
 
 
     public LocalDate getStartDate() {
@@ -39,12 +43,25 @@ public class FleetSubscription extends Model {
         this.vehicle = vehicle;
     }
 
-
-    public SubFleet getSubFleet() {
-        return subFleet;
+    public Set<Contract> getContracts() {
+        return contracts;
     }
 
-    public void setSubFleet(SubFleet subFleet) {
-        this.subFleet = subFleet;
+    public void setContracts(Set<Contract> contracts) {
+        this.contracts = contracts;
+    }
+
+    public boolean isActive() {
+        LocalDate now = LocalDate.now();
+        return startDate.isBefore(now) &&
+                endDate.isAfter(now);
+    }
+
+    public Fleet getFleet() {
+        return fleet;
+    }
+
+    public void setFleet(Fleet fleet) {
+        this.fleet = fleet;
     }
 }

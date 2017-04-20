@@ -1,27 +1,36 @@
 import React from 'react';
-import { Link } from'react-router';
-import { Collapse } from 'react-bootstrap';
 
-import Card       from '../app/Card.tsx';
-import FleetForm    from '../fleets/FleetForm.tsx';
+import FleetsCard from './FleetsCard.tsx';
 import { postFleet } from '../../actions/fleet_actions.ts';
 
-import { redirect_to } from '../../router.tsx';
+import { redirect_to } from '../../routes/router.tsx';
 
-class Fleets extends React.Component<Fleets.Props, Fleets.State> {
-  constructor(props : Fleets.Props) {
+interface Props {
+    fleets : FleetData[];
+    company : number;
+}
+
+interface State {
+    formVisible : boolean;
+    fleet : FleetData;
+    errors : Form.Error[];
+}
+
+class Fleets extends React.Component<Props, State> {
+  constructor(props : Props) {
     super(props);
     this.state = {
       formVisible: false,
-      fleet: { company: this.props.company },
+      fleet: { company: this.props.company ,facturationPeriod:91 ,paymentPeriod:31},
       errors: []
     };
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.onClick = this.onClick.bind(this);
   }
 
   handleChange(field : Fleet.Field, e : any) : any {
-    var fleet : Fleet = this.state.fleet;
+    var fleet : FleetData = this.state.fleet;
     fleet[field] = e.target.value;
     this.setState({ fleet });
   }
@@ -40,41 +49,21 @@ class Fleets extends React.Component<Fleets.Props, Fleets.State> {
       }));
     }
 
-    postFleet(this.state.fleet, success, fail);
+    postFleet(this.props.company, this.state.fleet, success, fail);
   }
 
   render() {
-    let fleets = this.props.fleets.map((f, i) => {
-      return (
-        <Link to={ '/fleets/' + f.id } key={ i } className='fleet'>
-          <h3>{ f.name }</h3>
-          <div className='actions pull-right'>
-            <h3>
-              <span className='glyphicon glyphicon-menu-right' />
-            </h3>
-          </div>
-        </Link>
-      )
-    });
-
     return (
-      <Card>
-        <div className='card-title'>
-          <h2>Fleets</h2>
-          <span className='click' onClick={ this.onClick.bind(this) }>Add a new fleet</span>
-        </div>
-        <div className='card-content fleets'>
-          <div className='fleet-form-wrapper'>
-            <Collapse in={ this.state.formVisible }>
-              <div>
-                <FleetForm handleChange={ this.handleChange } onSubmit={ this.onSubmit } />
-              </div>
-            </Collapse>
-          </div>
-          { fleets }
-        </div>
-      </Card>
-    )};
+      <FleetsCard
+        fleets={ this.props.fleets }
+        onSubmit={ this.onSubmit }
+        handleChange={ this.handleChange }
+        formIsVisible={ this.state.formVisible }
+        onClick={ this.onClick }
+        fleet={this.state.fleet}
+      />
+    );
+  }
 }
 
 export default Fleets;

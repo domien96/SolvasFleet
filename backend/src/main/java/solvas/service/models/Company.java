@@ -18,7 +18,8 @@ public class Company extends Model {
     private String addressStreet;
     private String addressHouseNumber;
     private String addressPostalCode;
-    private boolean archived;
+    private CompanyType type;
+
     /**
      * These users represent this company.
      * Remark: this is a subset of the set of all employees!
@@ -100,13 +101,11 @@ public class Company extends Model {
         this.representatives = representatives;
     }
 
-    @Override
-    public boolean isArchived() {
-        return archived;
+    public CompanyType getType() {
+        return type;
     }
 
-    @Override
-    public void setArchived(boolean archived) {
-        this.archived = archived;
+    public void setType(CompanyType type) {
+        this.type = type;
     }
 }

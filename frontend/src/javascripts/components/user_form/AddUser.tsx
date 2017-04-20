@@ -5,9 +5,14 @@ import UserForm   from './UserForm.tsx';
 
 import { postUser } from '../../actions/user_actions.ts';
 import { hasError } from '../../utils/utils.ts';
-import { redirect_to } from'../../router.tsx';
+import { redirect_to } from'../../routes/router.tsx';
 
-class AddUser extends React.Component<{}, User.UForm.State> {
+interface State {
+  errors : Form.Error[];
+  user   : UserData;
+}
+
+class AddUser extends React.Component<{}, State> {
 
   constructor() {
     super();
@@ -20,7 +25,7 @@ class AddUser extends React.Component<{}, User.UForm.State> {
   }
 
   public handleChange(field : User.Field, e : any) : any {
-    var user : User = this.state.user;
+    var user : UserData = this.state.user;
     user[field] = e.target.value;
     this.setState({ user });
   }

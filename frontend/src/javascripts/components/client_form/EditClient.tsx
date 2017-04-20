@@ -5,9 +5,18 @@ import ClientForm from './ClientForm.tsx';
 
 import { fetchClient, putClient }    from '../../actions/client_actions.ts';
 import { hasError } from '../../utils/utils.ts';
-import { redirect_to } from'../../router.tsx';
+import { redirect_to } from'../../routes/router.tsx';
 
-class EditClient extends React.Component<Company.Props, Company.CForm.State> {
+interface Props {
+  [ params : string ] : { [ id : string ] : number };
+}
+
+interface State {
+  errors  : Form.Error[];
+  company : Company;
+}
+
+class EditClient extends React.Component<Props, State> {
   constructor() {
     super();
     this.state = {

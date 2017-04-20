@@ -41,8 +41,6 @@ public class RoleRestControllerTest extends AbstractRestControllerTest<Role,ApiR
     public void matchJsonModel(ResultActions res,ApiRole role) throws Exception {
         res.andExpect(jsonPath("id").value(role.getId()))
                 .andExpect(jsonPath("url").value(role.getUrl()))
-                .andExpect(jsonPath("company").value(role.getCompany()))
-                .andExpect(jsonPath("lastUpdatedBy").value(role.getLastUpdatedBy()))
                 .andExpect(jsonPath("function").value(role.getFunction()))
                 .andExpect(jsonPath("user").value(role.getUser()));
     }
@@ -74,9 +72,6 @@ public class RoleRestControllerTest extends AbstractRestControllerTest<Role,ApiR
     @Override
     public ApiRole getTestModel()
     {
-        int future=30;
-        ApiRole role=super.getTestModel();
-        role.setEndDate(role.getStartDate().plusDays(future));
-        return role;
+        return super.getTestModel();
     }
 }

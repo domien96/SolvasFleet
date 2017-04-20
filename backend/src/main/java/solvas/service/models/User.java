@@ -17,10 +17,7 @@ public class User extends Model {
      */
     private Set<Company> companies;
 
-    private Set<Role> roles;
-
-    public User() {
-    }
+    private Set<Function> functions;
 
     public String getFirstName() {
         return firstName;
@@ -54,19 +51,19 @@ public class User extends Model {
         this.password = password;
     }
 
-    public Set getCompanies() {
+    public Set<Company> getCompanies() {
         return companies; // todo: does this need a defensive copy or not?
     }
 
-    public void setCompanies(Set companies) {
+    public void setCompanies(Set<Company> companies) {
         this.companies = companies;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public Set<Function> getFunctions() {
+        return functions;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setFunctions(Set<Function> functions) {
+        this.functions = functions;
     }
 }

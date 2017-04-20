@@ -1,4 +1,3 @@
-
 namespace Table {
   namespace Head {
     export interface Data {

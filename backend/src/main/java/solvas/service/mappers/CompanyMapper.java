@@ -5,12 +5,13 @@ import solvas.service.models.Company;
 import solvas.persistence.api.DaoContext;
 import solvas.service.mappers.exceptions.FieldNotFoundException;
 import solvas.persistence.api.EntityNotFoundException;
-import solvas.rest.SimpleUrlBuilder;
+import solvas.rest.utils.SimpleUrlBuilder;
 import solvas.rest.api.models.ApiAddress;
 import solvas.rest.api.models.ApiCompany;
+import solvas.service.models.CompanyType;
 
 /**
- * Mapper between Company and ApiCompany
+ * Class to map {@link Company} in the persistence layer to {@link ApiCompany} in the API layer
  */
 @Component
 public class CompanyMapper extends AbstractMapper<Company,ApiCompany> {
@@ -37,6 +38,7 @@ public class CompanyMapper extends AbstractMapper<Company,ApiCompany> {
         company.setAddressHouseNumber(apiCompany.getAddress().getHouseNumber());
         company.setAddressPostalCode(apiCompany.getAddress().getPostalCode());
         company.setAddressStreet(apiCompany.getAddress().getStreet());
+        company.setType(CompanyType.fromString(apiCompany.getType()));
         return company;
     }
 
@@ -53,7 +55,8 @@ public class CompanyMapper extends AbstractMapper<Company,ApiCompany> {
         apiCompany.getAddress().setHouseNumber(company.getAddressHouseNumber());
         apiCompany.getAddress().setPostalCode(company.getAddressPostalCode());
         apiCompany.getAddress().setStreet(company.getAddressStreet());
-        apiCompany.setUrl(SimpleUrlBuilder.buildUrl(ROOTPATH + "{id}", company.getId()));
+        apiCompany.setUrl(SimpleUrlBuilder.buildUrlFromBase(ROOTPATH + "{id}", company.getId()));
+        apiCompany.setType(company.getType().getText());
         return apiCompany;
     }
 

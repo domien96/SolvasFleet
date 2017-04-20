@@ -58,6 +58,14 @@ java -jar -Dspring.profiles.active=clean build/libs/SolvasFleet-0.1.0.jar
 
 De webapplicatie draait op poort 8080.
 
+### Seed met testdata
+
+Bij het ontwikkelen kan data in de databank nuttig zijn.
+
+1. Installeer Python 3 en zet het in uw PATH als `pyhton3`.
+2. Installeer psycopg2: `pip install psycopg2`
+3. Voer uit: `gradlew seedDatabase`
+
 # Opbouw
 
 De applicatie bestaat uit 3 pakketten:

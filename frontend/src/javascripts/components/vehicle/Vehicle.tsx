@@ -1,20 +1,28 @@
 import React from 'react';
-import { Link } from'react-router';
-
 import { fetchVehicle, deleteVehicle }  from '../../actions/vehicle_actions.ts';
 
-import DetailTable from '../tables/DetailTable.tsx';
-import Card      from '../app/Card.tsx';
+import { redirect_to } from'../../routes/router.tsx';
+import { fetchContracts} from '../../actions/contract_actions.ts';
+import VehicleView from './VehicleView.tsx'
+import Contracts from '../contracts/Contracts.tsx'
+import { callback } from '../../actions/fetch_json.ts';
 
-import { th } from '../../utils/utils.ts';
-import { redirect_to } from'../../router.tsx';
+interface Props {
+  params : { id : number };
+  fetchVehicles : () => void;
+}
 
-class Vehicle extends React.Component<Vehicle.Props, Vehicle.State> {
+interface State {
+  vehicle : VehicleData;
+}
+
+class Vehicle extends React.Component<Props, State> {
 
   constructor() {
     super();
     this.state = { vehicle : { type: 'personalCar' } };
     this.deleteVehicle = this.deleteVehicle.bind(this);
+    this.fetchContracts= this.fetchContracts.bind(this);
   }
 
   fetchVehicle(id : number) {
@@ -27,7 +35,7 @@ class Vehicle extends React.Component<Vehicle.Props, Vehicle.State> {
     this.fetchVehicle(this.props.params.id);
   }
 
-  componentWillReceiveProps(nextProps : Vehicle.Props) {
+  componentWillReceiveProps(nextProps : Props) {
     if (nextProps.params.id != this.props.params.id) {
       this.fetchVehicle(nextProps.params.id);
     }
@@ -39,46 +47,16 @@ class Vehicle extends React.Component<Vehicle.Props, Vehicle.State> {
     redirect_to('/vehicles');
   }
 
+  fetchContracts(vehicleId:number,companyId:number,fleetId:number,success?:callback,fail?:callback) {
+    fetchContracts(success,fail,{vehicle:vehicleId})
+  }
+
   render() {
-    var { licensePlate, vin, brand, model, type, mileage, year, leasingCompany, value, fleet } = this.state.vehicle;
-    var id = this.props.params.id;
-
-    const data = [
-      th('vehicle.fleet', fleet),
-      th('vehicle.vin', vin),
-      th('vehicle.licensePlate', licensePlate),
-      th('vehicle.brand', brand),
-      th('vehicle.model', model),
-      th('vehicle.type', type),
-      th('vehicle.mileage', mileage),
-      th('vehicle.year', year),
-      th('vehicle.value', value),
-      th('vehicle.leasingCompany', leasingCompany),
-    ];
-
-    return (
-    <Card>
-      <div>
-        <div className='card-content user'>
-          <h2>{ vin } </h2>
-          <div className='row actions'>
-            <div className='col-sm-6'>
-              <Link to={ '/vehicles/' + id + '/edit' } className='btn btn-default form-control'>
-                <span className='glyphicon glyphicon-edit' /> Edit
-              </Link>
-            </div>
-            <div className='col-sm-6'>
-              <button onClick = { this.deleteVehicle } className='btn btn-danger form-control'>
-                <span className='glyphicon glyphicon-remove' /> Delete
-              </button>
-            </div>
-          </div>
-        </div>
-        <div className='card-content'>
-          <DetailTable data={ data }/>
-        </div>
-      </div>
-    </Card>
+    return(
+    <div>
+      <VehicleView vehicle={ this.state.vehicle } handleDelete={ this.deleteVehicle }/>
+      <Contracts vehicleId={ this.props.params.id } companyId={null} fleetId={null} fetchMethod={this.fetchContracts}/>
+    </div>
     );
   }
 }

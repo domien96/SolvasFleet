@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="solvas.service.models.OverwrittenTaxes" table="overwritten_taxes">
+        <meta attribute="class-description">
+            This class contains the transactions detail.
+        </meta>
+        <id name="id" type="int" column="company_id">
+            <generator class="identity"/>
+        </id>
+        <property name="forfaitair" column="forfaitair" type="big_decimal" not-null="true"/>
+        <property name="taxes" column="taxes" type="big_decimal" not-null="true"/>
+        <property name="commission" column="commission" type="big_decimal" not-null="true"/>
+
+        <property name="startDate" column="startDate" type="java.time.LocalDateTime" not-null="true" />
+        <property name="endDate" column="endDate" type="java.time.LocalDateTime" not-null="true" />
+        <property name="archived" column="archived" type="boolean" not-null="true"/>
+
+        <many-to-one name="fleet" column="fleet_id"
+                     class="solvas.service.models.Fleet" not-null="true"/>
+
+        <many-to-one name="insuranceType" column="insurance_type_id"
+                     class="solvas.service.models.InsuranceType" not-null="true"/>
+
+        <property name="updatedAt" column="updated_at" type="java.time.LocalDateTime" generated="always" insert="false"/>
+        <property name="createdAt" column="created_at" type="java.time.LocalDateTime" generated="insert" insert="false"/>
+
+    </class>
+</hibernate-mapping>

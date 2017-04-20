@@ -5,7 +5,7 @@ import VehicleFilterLayout from './VehicleFilterLayout.tsx'
 import HiddenFilter from '../../filters/HiddenFilter.tsx'
 
 interface FilterProps {
-  vehicles : Vehicle[];
+  vehicles : VehicleData[];
   onFilter : (filter : VehicleFilterData) => void;
 }
 
@@ -115,7 +115,7 @@ class VehicleFilter extends React.Component<FilterProps, FilterState>{
 		this.setState({ hidden: false });
 	}
 
-	setTypeaheadOptions(vehicles : Vehicle[]){
+	setTypeaheadOptions(vehicles : VehicleData[]){
 		var newLicensePlateData : string[] = [];
 		var newVinData : string[] = [];
 

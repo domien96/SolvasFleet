@@ -2,7 +2,7 @@ import React from 'react';
 
 import UserCard from './UserCard.tsx';
 import { fetchUser, deleteUser } from '../../actions/user_actions.ts';
-import { redirect_to } from'../../router.tsx';
+import { redirect_to } from'../../routes/router.tsx';
 
 interface Props {
   params : { id : number };
@@ -10,7 +10,7 @@ interface Props {
 }
 
 interface State {
-  user : MUser;
+  user : UserData;
 }
 
 class User extends React.Component<Props, State> {
@@ -31,7 +31,7 @@ class User extends React.Component<Props, State> {
     this.fetchUser(this.props.params.id);
   }
 
-  componentWillReceiveProps(nextProps : User.Props) {
+  componentWillReceiveProps(nextProps : Props) {
     if (nextProps.params.id != this.props.params.id) {
       this.fetchUser(nextProps.params.id);
     }
