@@ -16,12 +16,12 @@ const InvoiceActions : React.StatelessComponent<Props> = props => {
 	      <div className='row actions'>
 	        <div className='col-sm-6'>
 	          <Link to={ '/fleets/' + fleet + '/invoices/current' } className='btn btn-default form-control'>
-	            <span className='glyphicon glyphicon glyphicon-file' /> Get current invoice
+	            <span className='glyphicon glyphicon glyphicon-file' /> Show current invoice
 	          </Link>
 	        </div>
 	        <div className='col-sm-6'>
 	          <Link to={ '/fleets/' + fleet + '/invoices' } className='btn btn-default form-control'>
-	            <span className='glyphicon glyphicon glyphicon-folder-open' /> Get all invoices
+	            <span className='glyphicon glyphicon glyphicon-folder-open' /> Show all invoices
 	          </Link>
 	        </div>
 	      </div>
