@@ -25,6 +25,7 @@
     "babel-preset-react": "^6.23.0",
     "bootstrap": "^3.3.7",
     "classnames": "^2.2.5",
+    "file-saver": "^1.3.3",
     "history": "^3.0.0",
     "i18n-react": "^0.3.0-ts1",
     "react": "^15.4.2",
@@ -41,6 +42,7 @@
     "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
+    "@types/file-saver": "0.0.0",
     "@types/react": "^15.0.13",
     "@types/react-dom": "^0.14.23",
     "css-loader": "^0.26.2",

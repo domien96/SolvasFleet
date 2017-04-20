@@ -22,7 +22,7 @@ export function hasError(this: any, k : string) : boolean {
   return (errors.length != 0);
 }
 
-export function th(key : string, label : string | number) : Table.Head.Data {
+export function th(key : string, label : string | number | boolean) : Table.Head.Data {
   return { key: key, label: (label || '').toString() };
 }
 

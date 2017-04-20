@@ -86,3 +86,12 @@ permission:
 role:
   name: Name 
   permissions: Permissions
+
+invoice:
+  id: Invoice ID
+  fleet: Fleet ID 
+  paid: Paid
+  totalAmount: Total amount due 
+  type: Type 
+  startDate: Start date 
+  endDate: End date

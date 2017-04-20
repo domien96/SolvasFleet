@@ -19,7 +19,7 @@ export function VEHICLE_URL(id : number) { return `${VEHICLES_URL}/${id}`; }
 export function FLEETS_URL(id: number) { return `${BASE_API_URL}/companies/${id}/fleets`; }
 export function FLEET_URL(id : number) { return `${FLEETS_URL}/${id}`; }
 
-;export const AUTH_LOGIN_URL = `${BASE_API_URL}/auth/login`;
+export const AUTH_LOGIN_URL = `${BASE_API_URL}/auth/login`;
 export const AUTH_TOKEN_URL = `${BASE_API_URL}/auth/token`;
 
 export const SIGNED_IN_URL = '/users';
@@ -33,3 +33,6 @@ export function FUNCTION_URL(userId: number, functionId: number) { return `${USE
 
 export const ACTION_LANG = 'CHANGE_LANG';
 
+export function INVOICES_URL(fleetId : number) { return `${BASE_API_URL}/fleets/${fleetId}/invoices`; }
+export function INVOICE_URL(fleetId : number, invoiceId : number) { return `${BASE_API_URL}/fleets/${fleetId}/invoices/${invoiceId}`; }
+export function INVOICE_PDF_URL(fleetId : number, invoiceId : number) { return `${BASE_API_URL}/fleets/${fleetId}/invoices/${invoiceId}${'.pdf'}`; }
