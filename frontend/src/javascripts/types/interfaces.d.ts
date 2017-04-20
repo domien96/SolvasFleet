@@ -14,3 +14,5 @@
 /// <reference path="function.d.ts"/>
 /// <reference path="invoice.d.ts"/>
 /// <reference path="Typeahead.d.ts"/>
+
+declare module 'react-burger-menu';

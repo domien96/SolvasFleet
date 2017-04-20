@@ -1,5 +1,5 @@
 import { GET, POST, PUT, DELETE, callback } from './fetch_json.ts';
-import { FLEET_URL, FLEETS_URL, CLIENT_URL, INVOICE_URL, INVOICES_URL, INVOICE_PDF_URL } from '../constants/constants.ts';
+import { FLEET_URL, FLEETS_URL, INVOICE_URL, INVOICES_URL, INVOICE_PDF_URL } from '../constants/constants.ts';
 
 export function fetchFleet(id : number, success? : callback, fail? : callback) {
   GET( FLEET_URL(id), success, fail );
