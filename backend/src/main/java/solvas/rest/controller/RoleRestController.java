@@ -63,7 +63,7 @@ public class RoleRestController extends AbstractRestController<Role,ApiRole> {
     }
 
     @Override
-    @RequestMapping(value = "/auth/roles/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/auth/roles/{roleId}", method = RequestMethod.DELETE)
     @PreAuthorize("hasPermission(#roleId, 'role', 'DELETE')")
     public ResponseEntity<?> archiveById(@PathVariable int roleId) {
         return super.archiveById(roleId);
