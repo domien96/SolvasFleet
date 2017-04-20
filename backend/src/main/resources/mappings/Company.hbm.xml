@@ -22,6 +22,12 @@
         <property name="addressStreet" column="address_street" type="string" not-null="true"/>
         <property name="archived" column="archived" type="boolean" not-null="true"/>
 
+        <property name="type" column="company_type" not-null="true">
+            <type name="org.hibernate.type.EnumType" >
+                <param name="enumClass">solvas.service.models.CompanyType</param>
+            </type>
+        </property>
+
         <set name="representatives" table="company_users">
             <key column="company_id"/>
             <many-to-many column="user_id" class="solvas.service.models.User" />

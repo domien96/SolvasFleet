@@ -2,26 +2,27 @@ package solvas.rest.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.api.models.ApiInvoice;
-import solvas.rest.api.models.ApiModel;
 import solvas.rest.query.InvoiceFilter;
 import solvas.service.InvoiceService;
 import solvas.service.models.Invoice;
-import solvas.service.models.Model;
-
-import javax.validation.Valid;
+import solvas.service.models.InvoiceType;
 
 
 /**
  * Rest controller for Invoice
- *
  */
 @RestController
-public class InvoiceRestController extends AbstractRestController<Invoice,ApiInvoice> {
+public class InvoiceRestController extends AbstractRestController<Invoice, ApiInvoice> {
+
+    private InvoiceService invoiceService;
 
     /**
      * Default constructor.
@@ -31,6 +32,7 @@ public class InvoiceRestController extends AbstractRestController<Invoice,ApiInv
     @Autowired
     public InvoiceRestController(InvoiceService service) {
         super(service);
+        invoiceService = service;
     }
 
     /**
@@ -38,9 +40,8 @@ public class InvoiceRestController extends AbstractRestController<Invoice,ApiInv
      * method will contain an object, according to the API spec.
      *
      * @param pagination The pagination information.
-     * @param filter The filters.
-     * @param result The validation results of the filterResult
-     *
+     * @param filter     The filters.
+     * @param result     The validation results of the filterResult
      * @return ResponseEntity
      */
     @PreAuthorize("hasPermission(0, 'invoice', 'READ')")
@@ -58,52 +59,47 @@ public class InvoiceRestController extends AbstractRestController<Invoice,ApiInv
     }
 
 
-
     /**
      * Get the active invoice for a fleet.
-     *
-     * @param fleetId The ID of the fleet
-     * @param pagination The pagination.
-     * @param filter The filters.
-     * @param result The validation results.
-     *
+     * @param id The ID of the fleet
      * @return The response.
      */
-    @RequestMapping(value = "/fleets/{fleetId}/invoices/current", method = RequestMethod.GET)
+    @RequestMapping(value = "/fleets/{id}/invoices/current", method = RequestMethod.GET)
     @PreAuthorize("hasPermission(#fleetId, 'fleet', 'READ_INVOICES')")
-    public ResponseEntity<?> getActiveByCompanyId(@PathVariable int fleetId,Pageable pagination, InvoiceFilter filter, BindingResult result) {
-        //Todo filter set active
-        filter.setFleet(fleetId);
-        return super.listAll(pagination,filter,result);
+    public ResponseEntity<?> getActiveByFleetId(@PathVariable int id, @RequestParam("type") String type) throws EntityNotFoundException {
+        InvoiceType invtype = InvoiceType.fromString(type);
+        if(invtype == null) {
+            return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(invoiceService.findActiveInvoiceByType(id,invtype), HttpStatus.OK);
     }
+
 
 
     /**
      * Get invoice with id
      *
-     * @param id The ID of the invoice.
-     *
+     * @param id      The ID of the invoice.
      * @return The response.
      */
     @RequestMapping(value = "/fleets/{fleetId}/invoices/{id}", method = RequestMethod.GET)
     @PreAuthorize("hasPermission(#id, 'invoice', 'READ')")
-    public ResponseEntity<?> getByCompanyAndInvoiceId(@PathVariable int id) {
+    public ResponseEntity<?> getByFleetAndInvoiceId(@PathVariable int id) {
         return super.getById(id);
     }
 
     /**
      * Get invoice with id
      *
-     * @param id The ID of the invoice.
-     * @param fleetId the id of the fleet
-     * @param extension the extension of the desired return document
+     * @param fleetId   the id of the fleet
+     * @param id        The ID of the invoice.
      * @return The response.
      */
-    @RequestMapping(value = "/fleets/{fleetId}/invoices/{id}{extension}", method = RequestMethod.GET)
+    @RequestMapping(value = "/fleets/{fleetId}/invoices/{id}.pdf", method = RequestMethod.GET)
     @PreAuthorize("hasPermission(#id, 'invoice', 'READ')")
-    public ResponseEntity<?> getByCompanyAndInvoiceIdWithExtension(@PathVariable int fleetId, @PathVariable int id,@PathVariable String extension) {
-        //Todo process extension
-        return super.getById(id);
+    public ModelAndView getByFleetAndInvoiceIdWithExtension(@PathVariable int fleetId, @PathVariable int id) throws EntityNotFoundException {
+        ApiInvoice invoice = service.getById(id);
+        return new ModelAndView("InvoicePdfView", "invoice", invoice);
     }
 
 
@@ -112,15 +108,14 @@ public class InvoiceRestController extends AbstractRestController<Invoice,ApiInv
      *
      * @param id The ID of the fleet.
      * @param pagination The pagination.
-     * @param filter The filters.
-     * @param result The validation results.
-     *
+     * @param filter     The filters.
+     * @param result     The validation results.
      * @return The response.
      */
     @RequestMapping(value = "/fleets/{id}/invoices", method = RequestMethod.GET)
     @PreAuthorize("hasPermission(#id, 'fleet', 'READ_INVOICES')")
-    public ResponseEntity<?> getByFleetId(@PathVariable int id,Pageable pagination, InvoiceFilter filter, BindingResult result) {
+    public ResponseEntity<?> getByFleetId(@PathVariable int id, Pageable pagination, InvoiceFilter filter, BindingResult result) throws EntityNotFoundException {
         filter.setFleet(id);
-        return super.listAll(pagination,filter,result);
+        return super.listAll(pagination, filter, result);
     }
 }
