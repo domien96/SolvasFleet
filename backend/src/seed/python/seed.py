@@ -31,6 +31,7 @@ try:
     conn = psycopg2.connect(dbname="vop", user="vop", password="vop")
     cursor = conn.cursor()
     tables=["users","companies","vehicles","fleets","fleet_subscriptions","contracts","invoices"]
+    cursor.execute("DELETE FROM functions")
     clear(cursor,reversed(tables))
     insertEntities(cursor,tables)
     resetSeq(cursor,"users","user_id")
