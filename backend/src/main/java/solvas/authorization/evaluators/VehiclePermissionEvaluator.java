@@ -18,6 +18,7 @@ public class VehiclePermissionEvaluator extends AbstractPermissionEvaluator<Vehi
     {
         registerPermissionDecider("LIST_VEHICLES", this::canListAll);
     }
+
     /**
      * @param dao Autowired dao.
      */
@@ -33,20 +34,22 @@ public class VehiclePermissionEvaluator extends AbstractPermissionEvaluator<Vehi
     }
 
     private Stream<Integer> getIds(Vehicle vehicle) {
-         return Stream.concat(
-                 vehicle.getFleetSubscriptions().stream()
-                    .filter(FleetSubscription::isActive)
-                    .map(FleetSubscription::getFleet)
-                    .map(Fleet::getId),
-                 Stream.of(vehicle.getLeasingCompany().getId()));
+        if (vehicle == null) {
+            return Stream.empty();
+        }
+        return Stream.concat(
+                vehicle.getFleetSubscriptions().stream()
+                        .filter(FleetSubscription::isActive)
+                        .map(FleetSubscription::getFleet)
+                        .map(Fleet::getId),
+                Stream.of(vehicle.getLeasingCompany().getId()));
     }
 
     /**
      * Check if a user can list all vehicles
      *
      * @param authentication The authentication.
-     * @param model The model. Unused
-     *
+     * @param model          The model. Unused
      * @return True if the user has permission.
      */
     public boolean canListAll(Authentication authentication, Vehicle model) {
