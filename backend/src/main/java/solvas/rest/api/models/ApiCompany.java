@@ -1,6 +1,8 @@
 package solvas.rest.api.models;
 
 import org.hibernate.validator.constraints.NotBlank;
+import solvas.rest.utils.validators.UniqueVatNumber;
+import solvas.service.models.Company;
 import solvas.service.models.validators.PhoneNumber;
 
 import javax.validation.Valid;
@@ -23,6 +25,7 @@ public class ApiCompany extends ApiModel {
     private String phoneNumber;
 
     @NotBlank
+    @UniqueVatNumber
     private String vatNumber;
 
     @NotBlank
