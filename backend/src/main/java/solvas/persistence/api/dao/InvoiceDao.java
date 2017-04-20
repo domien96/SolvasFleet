@@ -5,6 +5,7 @@ import solvas.persistence.api.Dao;
 import solvas.service.models.Fleet;
 import solvas.service.models.Invoice;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 /**
@@ -13,8 +14,7 @@ import java.util.Collection;
  * @author Steven Bastiaens
  */
 @Repository
-public interface InvoiceDao extends Dao<Invoice> {
-
+public interface InvoiceDao extends Dao<Invoice>, InvoiceDaoCustom {
     /**
      * Get all the invoices with given fleet
      *
@@ -23,5 +23,4 @@ public interface InvoiceDao extends Dao<Invoice> {
      * @return a collection of invoices with given fleet
      */
     Collection<Invoice> findByFleet(Fleet fleet);
-
 }

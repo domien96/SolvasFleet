@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.Collection;
 
 /**
- * @author Niko Strijbol
+ * Filter for {@link Vehicle}s
  */
 @SuppressWarnings("unused")
 public class VehicleFilter extends ArchiveFilter<Vehicle> {

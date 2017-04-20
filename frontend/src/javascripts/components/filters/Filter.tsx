@@ -50,7 +50,7 @@ const Filter : React.StatelessComponent<Props> = props => {
 			<div key={ selection.name }>
 				<label>{ selection.name }</label>
 				<ButtonGroup justified>
-						<DropdownButton id={ selection.title } key={ selection.title } className='btn btn-default' title={ selection.title }>{ choices }</DropdownButton>
+					<DropdownButton id={ selection.title } key={ selection.title } className='btn btn-default' title={ selection.title }>{ choices }</DropdownButton>
 				</ButtonGroup>
 			</div>
 		);

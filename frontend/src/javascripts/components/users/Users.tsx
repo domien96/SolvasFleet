@@ -3,7 +3,7 @@ import React              from 'react';
 import Layout from './Layout.tsx';
 
 import { fetchUsers } from '../../actions/user_actions.ts';
-import { redirect_to } from'../../router.tsx';
+import { redirect_to } from'../../routes/router.tsx';
 
 interface State {
     users : UserData[];

@@ -1,11 +1,15 @@
 package solvas.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
-import solvas.persistence.api.dao.InsuranceTypeDao;
+import solvas.persistence.api.Filter;
 import solvas.rest.api.models.ApiInvoice;
+import solvas.rest.invoices.InvoiceFileViewResolver;
+import solvas.rest.query.InvoiceFilter;
 import solvas.service.mappers.InvoiceMapper;
 import solvas.service.models.*;
 
@@ -17,13 +21,15 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * InvoiceService class
+<<<<<<< HEAD
+ * Service class for invoices
  */
 @Service
-public class InvoiceService extends AbstractService<Invoice,ApiInvoice> {
+public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
 
     // Helper for calculating premiums
     private final PremiumCalculator premiumCalc;
@@ -34,18 +40,41 @@ public class InvoiceService extends AbstractService<Invoice,ApiInvoice> {
      * Construct an abstract service
      *
      * @param context the DAO context
-     * @param mapper   the mapper between the api model and the model
+     * @param mapper  the mapper between the api model and the model
      */
     @Autowired
     public InvoiceService(DaoContext context, InvoiceMapper mapper) {
         super(context.getInvoiceDao(), mapper);
-        this.context=context;
+        this.context = context;
         this.premiumCalc = new PremiumCalculator();
     }
 
 
+    @Override
+    public Page<ApiInvoice> findAll(Pageable pagination, Filter<Invoice> filters) {
+        InvoiceFilter f = (InvoiceFilter) filters;
+        try {
+            generateMissingInvoices(f.getFleet());
+        } catch (EntityNotFoundException e) {
+            // Todo what here?
+        }
+        return super.findAll(pagination, filters);
+    }
+
+    @Override
+    public List<ApiInvoice> findAll(Filter<Invoice> filters) {
+        InvoiceFilter f = (InvoiceFilter) filters;
+        try {
+            generateMissingInvoices(f.getFleet());
+        } catch (EntityNotFoundException e) {
+            // Todo what here?
+        }
+        return super.findAll(filters);
+    }
+
     /**
      * Finds all types of insurance in the database
+     *
      * @return types of insurance
      */
     public Collection<String> findAllInsuranceTypes() {
@@ -53,7 +82,7 @@ public class InvoiceService extends AbstractService<Invoice,ApiInvoice> {
 
     }
 
-    public ApiInvoice findActiveInvoiceByType(int fleetId,InvoiceType type) throws EntityNotFoundException{
+    public ApiInvoice findActiveInvoiceByType(int fleetId, InvoiceType type) throws EntityNotFoundException {
         // fleet is given as parameter
         // Read fleet from database
         Fleet fleet = context.getFleetDao().find(fleetId);
@@ -64,11 +93,21 @@ public class InvoiceService extends AbstractService<Invoice,ApiInvoice> {
 
     }
 
+    public void generateMissingInvoices(int fleetId) throws EntityNotFoundException {
+        // fleet is given as parameter
+        // Read fleet from database
+        Fleet fleet = context.getFleetDao().find(fleetId);
+        // if the fleet is not found, it will throw a EntityNotFoundException, which will be caught by
+        //the method not found in AbstractController
+        generateMissingInvoices(fleet);
+    }
+
     /**
      * Generate invoice with type billing. If the new invoice period has not yet been completed
      * then the new invoice will not be saved. With other words, if the next invoice is equal to the current
      * running invoice, then nothing will be saved.
      * A period is considered not completed if the enddate is before <u>or equal</u> to now.
+     *
      * @param fleet the fleet
      * @return newly generated invoice
      */
@@ -81,10 +120,10 @@ public class InvoiceService extends AbstractService<Invoice,ApiInvoice> {
         invoice.setPaid(false);
         invoice.setFleet(fleet);
         invoice.setType(InvoiceType.BILLING);
-        invoice.setAmount(premiumCalc.calculateTotalAmount(fleet,startDate));
+        invoice.setAmount(premiumCalc.calculateTotalAmount(fleet, startDate));
         invoice.setCreatedAt(LocalDateTime.now());
         invoice.setUpdatedAt(LocalDateTime.now());
-        if(endDate.isBefore(LocalDateTime.now())) {
+        if (endDate.isBefore(LocalDateTime.now())) {
             context.getInvoiceDao().save(invoice);
         }
         return invoice;
@@ -93,6 +132,7 @@ public class InvoiceService extends AbstractService<Invoice,ApiInvoice> {
     /**
      * Generates the invoices for each past period which does not have one yet.
      * Each one will be saved except for the current one.
+     *
      * @param fleet Fleet for which the invoices have to be calculated
      * @return amount of invoices generated and saved
      */
@@ -100,31 +140,25 @@ public class InvoiceService extends AbstractService<Invoice,ApiInvoice> {
         Invoice lastGenerated = null;
         int count = 0;
         do {
-          lastGenerated = generateNextBillingInvoice(fleet);
-          count++;
-        } while( !lastGenerated.getEndDate().isAfter(LocalDateTime.now()));
-        return count-1; // current invoice is not saved. See method generateNextBillingInvoice.
+            lastGenerated = generateNextBillingInvoice(fleet);
+            count++;
+        } while (!lastGenerated.getEndDate().isAfter(LocalDateTime.now()));
+        return count - 1; // current invoice is not saved. See method generateNextBillingInvoice.
     }
 
     /**
      * Get the startdate of the next invoice for this fleet.
-     * If this fleet never had an invoice yet, the startdate of the
-     * active fleetsubscription will be taken.
+     * If this fleet never had an invoice yet, the creation date of the fleet is chosen
+     *
      * @param fleet fleet
      * @return the start date
      */
     public LocalDateTime getStartDateNextInvoice(Fleet fleet) {
-        // TODO Perhaps overtime replace this by a max function in dao sql database
-        LocalDateTime startDate=fleet.getCreatedAt();
-        Collection<Invoice> previousInvoices = context.getInvoiceDao().findByFleet(fleet);
-        if (!previousInvoices.isEmpty()){
-            for (Invoice item: previousInvoices) {
-                if (item.getEndDate().isAfter(startDate)){
-                    startDate=item.getEndDate();
-                }
-            }
+        LocalDateTime result = context.getInvoiceDao().latestEndDateByFleet(fleet);
+        if (result==null) {
+            return  fleet.getCreatedAt();
         }
-        return startDate;
+        return result;
     }
 
 
@@ -134,24 +168,28 @@ public class InvoiceService extends AbstractService<Invoice,ApiInvoice> {
          * Calculate premium of a vehicle subscription from a given date.
          * All contracts linked to the subscription which are still active after the given date
          * will be included.
-         * @param f the fleet subscription
-         * @param startDate start date from where contracts have to be included
+         *
+         * @param f             the fleet subscription
+         * @param startDateTime start date from where contracts have to be included
+         * @param endDateTime   start date to where contracts have to be included
          * @return calculated premium
          */
-        BigDecimal calculatePremium(FleetSubscription f, LocalDateTime startDate,LocalDateTime endDate) {
+        BigDecimal calculatePremium(FleetSubscription f, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+            LocalDate startDate = startDateTime.toLocalDate(), endDate = endDateTime.toLocalDate();
             BigDecimal totalAmount = BigDecimal.ZERO;
-            Collection<Contract> contracts =f.getContracts();
-            contracts = contracts.stream().filter((c) -> c.getEndDate().isAfter(startDate)&&
-                    c.getStartDate().isBefore(endDate)).collect(Collectors.toSet());
-
-            for (Contract contract: contracts) {
+            Collection<Contract> contracts = context.getContractDao()
+                    .findByFleetSubscriptionAndOverlaps(f, startDateTime, endDateTime);
+            for (Contract contract : contracts) {
                 BigDecimal premium = BigDecimal.valueOf(contract.getPremium());
-                if (contract.getStartDate().isAfter(startDate) || contract.getEndDate().isBefore(endDate)){
-                    LocalDateTime maxStart = contract.getStartDate().isAfter(startDate) ? contract.getStartDate() : startDate;
-                    LocalDateTime minEnd = contract.getEndDate().isAfter(endDate) ? endDate:contract.getEndDate();
-                    premium = premium.divide(BigDecimal.valueOf(ChronoUnit.DAYS.between(startDate, endDate)), RoundingMode.FLOOR)
-                            .multiply(BigDecimal.valueOf(ChronoUnit.DAYS.between(maxStart, minEnd)));
+                if (contract.getStartDate().toLocalDate().isAfter(startDate) || contract.getEndDate().toLocalDate().isBefore(endDate)) {
+                    LocalDate maxStart = contract.getStartDate().toLocalDate().isAfter(startDate) ?
+                            contract.getStartDate().toLocalDate() : startDate;
+                    LocalDate minEnd = contract.getEndDate().toLocalDate().isAfter(endDate) ?
+                            endDate:contract.getEndDate().toLocalDate();
+                    premium = premium.multiply(BigDecimal.valueOf(ChronoUnit.DAYS.between(maxStart, minEnd)))
+                            .divide(BigDecimal.valueOf(ChronoUnit.DAYS.between(startDate, endDate)), RoundingMode.HALF_UP);
                     //Todo test divide by zeo?
+
                 }
                 Tax tax = context.getTaxDao().findDistinctByVehicleTypeNameAndInsuranceTypeName(
                         f.getVehicle().getType().getName(), contract.getInsuranceType().getName());
@@ -162,26 +200,18 @@ public class InvoiceService extends AbstractService<Invoice,ApiInvoice> {
 
         /**
          * Finds all fleet subscriptions that lay in between startdate and (startdate + facturation period)
-         *  calls the method calculatePremium for each subscription
+         * calls the method calculatePremium for each subscription
+         *
          * @param fleet
          * @param startDate
          * @return
          */
         BigDecimal calculateTotalAmount(Fleet fleet, LocalDateTime startDate) {
-            BigDecimal totalAmount =BigDecimal.ZERO;
             LocalDateTime endDate = startDate.plusMonths(fleet.getFacturationPeriod());
-            Collection<VehicleType> vehicleTypes = context.getVehicleTypeDao().findAll();
-            for (VehicleType vehicleType: vehicleTypes) {
-                Collection<FleetSubscription> subscriptionsWithVehicleType = context.getFleetSubscriptionDao()
-                        .fleetSubscriptionByFleetAndVehicleTypeWithStartDateAndEndDate(fleet,vehicleType,endDate.toLocalDate())
-                        .stream().filter(c->c.getEndDate()==null || c.getEndDate().isAfter(startDate.toLocalDate())).collect(Collectors.toSet());
-
-                for (FleetSubscription fleetSubscription: subscriptionsWithVehicleType) {
-                    totalAmount = totalAmount.add(calculatePremium(fleetSubscription,startDate,endDate));
-
-                }
-            }
-            return totalAmount;
+            return context.getFleetSubscriptionDao()
+                    .findByFleetAndStartDateAndEndDate(fleet, startDate.toLocalDate(), endDate.toLocalDate()).stream()
+                    .map(fleetSubscription -> calculatePremium(fleetSubscription, startDate, endDate))
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
         }
     }
 }

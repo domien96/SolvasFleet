@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -43,6 +44,7 @@ public class InvoiceRestController extends AbstractRestController<Invoice, ApiIn
      * @param result     The validation results of the filterResult
      * @return ResponseEntity
      */
+    @PreAuthorize("hasPermission(0, 'invoice', 'READ')")
     @RequestMapping(value = "/invoices", method = RequestMethod.GET)
     public ResponseEntity<?> listAll(Pageable pagination, InvoiceFilter filter, BindingResult result) {
         return super.listAll(pagination, filter, result);
@@ -51,6 +53,7 @@ public class InvoiceRestController extends AbstractRestController<Invoice, ApiIn
 
     @Override
     @RequestMapping(value = "/invoices/{id}", method = RequestMethod.GET)
+    @PreAuthorize("hasPermission(#id, 'invoice', 'READ')")
     public ResponseEntity<?> getById(@PathVariable int id) {
         return super.getById(id);
     }
@@ -62,10 +65,11 @@ public class InvoiceRestController extends AbstractRestController<Invoice, ApiIn
      * @return The response.
      */
     @RequestMapping(value = "/fleets/{id}/invoices/current", method = RequestMethod.GET)
+    @PreAuthorize("hasPermission(#fleetId, 'fleet', 'READ_INVOICES')")
     public ResponseEntity<?> getActiveByFleetId(@PathVariable int id, @RequestParam("type") String type) throws EntityNotFoundException {
         InvoiceType invtype = InvoiceType.fromString(type);
         if(invtype == null) {
-            return notFound();
+            return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(invoiceService.findActiveInvoiceByType(id,invtype), HttpStatus.OK);
     }
@@ -76,11 +80,11 @@ public class InvoiceRestController extends AbstractRestController<Invoice, ApiIn
      * Get invoice with id
      *
      * @param id      The ID of the invoice.
-     * @param fleetId The id of the fleet
      * @return The response.
      */
     @RequestMapping(value = "/fleets/{fleetId}/invoices/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> getByCompanyAndInvoiceId(@PathVariable int fleetId, @PathVariable int id) {
+    @PreAuthorize("hasPermission(#id, 'invoice', 'READ')")
+    public ResponseEntity<?> getByFleetAndInvoiceId(@PathVariable int id) {
         return super.getById(id);
     }
 
@@ -92,23 +96,25 @@ public class InvoiceRestController extends AbstractRestController<Invoice, ApiIn
      * @return The response.
      */
     @RequestMapping(value = "/fleets/{fleetId}/invoices/{id}.pdf", method = RequestMethod.GET)
-    public ModelAndView getByCompanyAndInvoiceIdWithExtension(@PathVariable int fleetId, @PathVariable int id) throws EntityNotFoundException {
+    @PreAuthorize("hasPermission(#id, 'invoice', 'READ')")
+    public ModelAndView getByFleetAndInvoiceIdWithExtension(@PathVariable int fleetId, @PathVariable int id) throws EntityNotFoundException {
         ApiInvoice invoice = service.getById(id);
         return new ModelAndView("InvoicePdfView", "invoice", invoice);
     }
 
 
     /**
-     * Get all invoices for a company.
+     * Get all invoices for a fleet
      *
-     * @param id         The ID of the company.
+     * @param id The ID of the fleet.
      * @param pagination The pagination.
      * @param filter     The filters.
      * @param result     The validation results.
      * @return The response.
      */
     @RequestMapping(value = "/fleets/{id}/invoices", method = RequestMethod.GET)
-    public ResponseEntity<?> getByCompanyId(@PathVariable int id, Pageable pagination, InvoiceFilter filter, BindingResult result) {
+    @PreAuthorize("hasPermission(#id, 'fleet', 'READ_INVOICES')")
+    public ResponseEntity<?> getByFleetId(@PathVariable int id, Pageable pagination, InvoiceFilter filter, BindingResult result) throws EntityNotFoundException {
         filter.setFleet(id);
         return super.listAll(pagination, filter, result);
     }

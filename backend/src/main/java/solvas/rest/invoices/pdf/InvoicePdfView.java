@@ -22,8 +22,9 @@ import java.util.Map;
 @Component
 public class InvoicePdfView extends AbstractITextPdfView {
 
-    private Font dataFont = new Font(Font.FontFamily.HELVETICA,12,Font.NORMAL);
-    private Font dataFontBold = new Font(Font.FontFamily.HELVETICA,12,Font.BOLD);
+    public final int BASE_FONT_SIZE = 12;
+    private Font dataFont = new Font(Font.FontFamily.HELVETICA,BASE_FONT_SIZE,Font.NORMAL);
+    private Font dataFontBold = new Font(Font.FontFamily.HELVETICA,BASE_FONT_SIZE,Font.BOLD);
 
     @Override
     protected void buildPdfDocument(Map<String, Object> model, Document document, PdfWriter writer, HttpServletRequest request, HttpServletResponse response) throws Exception {

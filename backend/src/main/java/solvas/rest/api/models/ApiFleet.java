@@ -6,7 +6,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import javax.validation.constraints.Min;
 
 /**
- * @author Niko Strijbol
+ * Fleet in the API layer
  */
 public class ApiFleet extends ApiModel {
 
