@@ -10,7 +10,7 @@ interface Props {
 const InfoTable : React.StatelessComponent<Props> = props => {
 
     var { head, data, onClick } = props;
- 
+
     const tableHead = head.map((headData : Table.Head.Data) =>
     (
       <th key={ headData.key } scope='row' className='table-row' >{ T.translate(headData.label) }</th>
@@ -19,7 +19,7 @@ const InfoTable : React.StatelessComponent<Props> = props => {
     const tableRows = data.map((item : any, i : number) => {
       const cells = head.map((headData : Table.Head.Data, j : number) => {
         return (
-          <td key={ j }>{ item[headData.key] }</td>
+          <td key={ j }>{ (item[headData.key]).toString() }</td>
         );
       });
       return (
