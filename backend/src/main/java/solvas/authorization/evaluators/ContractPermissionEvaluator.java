@@ -4,6 +4,8 @@ import org.springframework.security.core.Authentication;
 import solvas.persistence.api.Dao;
 import solvas.service.models.Contract;
 
+import static solvas.authorization.ApiPermissionStrings.*;
+
 /**
  * Evaluate contract-related permissions.
  */
@@ -18,21 +20,21 @@ public class ContractPermissionEvaluator extends AbstractPermissionEvaluator<Con
 
     @Override
     public boolean canRead(Authentication authentication, Contract model) {
-        return hasScope(authentication, "read:company:contracts", model.getCompany().getId(), "read:companies:contracts");
+        return hasScope(authentication, READ_COMPANY_CONTRACTS, model.getCompany().getId(), READ_COMPANIES_CONTRACTS);
     }
 
     @Override
     public boolean canCreate(Authentication authentication, Contract model) {
-        return hasScope(authentication, "write:company:contracts", model.getCompany().getId(), "write:companies:contracts");
+        return hasScope(authentication, WRITE_COMPANY_CONTRACTS, model.getCompany().getId(), WRITE_COMPANIES_CONTRACTS);
     }
 
     @Override
     public boolean canEdit(Authentication authentication, Contract model) {
-        return hasScope(authentication, "write:company:contracts", model.getCompany().getId(), "write:companies:contracts");
+        return hasScope(authentication, WRITE_COMPANY_CONTRACTS, model.getCompany().getId(), WRITE_COMPANIES_CONTRACTS);
     }
 
     @Override
     public boolean canDelete(Authentication authentication, Contract model) {
-        return hasScope(authentication, "write:company:contracts", model.getCompany().getId(), "write:companies:contracts");
+        return hasScope(authentication, WRITE_COMPANY_CONTRACTS, model.getCompany().getId(), WRITE_COMPANIES_CONTRACTS);
     }
 }

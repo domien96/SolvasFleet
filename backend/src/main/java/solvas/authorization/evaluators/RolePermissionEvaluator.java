@@ -4,10 +4,14 @@ import org.springframework.security.core.Authentication;
 import solvas.persistence.api.Dao;
 import solvas.service.models.Role;
 
+import static solvas.authorization.ApiPermissionStrings.READ_AUTH_ROLES;
+import static solvas.authorization.ApiPermissionStrings.WRITE_AUTH_ROLES;
+
 /**
  * Evaluate permissions for roles.
  */
 public class RolePermissionEvaluator extends AbstractPermissionEvaluator<Role> {
+
     {
         registerPermissionDecider("LIST_PERMISSIONS", this::canListPermissions);
     }
@@ -21,7 +25,7 @@ public class RolePermissionEvaluator extends AbstractPermissionEvaluator<Role> {
 
     @Override
     public boolean canRead(Authentication authentication, Role model) {
-        return hasScope(authentication, "read:auth:roles");
+        return hasScope(authentication, READ_AUTH_ROLES);
     }
 
     /**
@@ -33,21 +37,21 @@ public class RolePermissionEvaluator extends AbstractPermissionEvaluator<Role> {
      * @return True if the user has permission.
      */
     public boolean canListPermissions(Authentication authentication, Role model) {
-        return hasScope(authentication, "read:auth:roles");
+        return hasScope(authentication, READ_AUTH_ROLES);
     }
 
     @Override
     public boolean canCreate(Authentication authentication, Role model) {
-        return hasScope(authentication, "write:auth:roles");
+        return hasScope(authentication, WRITE_AUTH_ROLES);
     }
 
     @Override
     public boolean canEdit(Authentication authentication, Role model) {
-        return hasScope(authentication, "write:auth:roles");
+        return hasScope(authentication, WRITE_AUTH_ROLES);
     }
 
     @Override
     public boolean canDelete(Authentication authentication, Role model) {
-        return hasScope(authentication, "write:auth:roles");
+        return hasScope(authentication, WRITE_AUTH_ROLES);
     }
 }

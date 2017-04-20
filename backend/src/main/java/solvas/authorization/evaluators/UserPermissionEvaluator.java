@@ -4,6 +4,8 @@ import org.springframework.security.core.Authentication;
 import solvas.persistence.api.Dao;
 import solvas.service.models.User;
 
+import static solvas.authorization.ApiPermissionStrings.*;
+
 /**
  * Evaluate user-related permissions.
  */
@@ -18,21 +20,21 @@ public class UserPermissionEvaluator extends AbstractPermissionEvaluator<User> {
 
     @Override
     public boolean canRead(Authentication authentication, User model) {
-        return hasScope(authentication, "read:users") || model.getEmail().equals(authentication.getName());
+        return hasScope(authentication, READ_USERS) || model.getEmail().equals(authentication.getName());
     }
 
     @Override
     public boolean canCreate(Authentication authentication, User model) {
-        return hasScope(authentication, "create:users");
+        return hasScope(authentication, CREATE_USERS);
     }
 
     @Override
     public boolean canEdit(Authentication authentication, User model) {
-        return hasScope(authentication, "write:users") || model.getEmail().equals(authentication.getName());
+        return hasScope(authentication, WRITE_USERS) || model.getEmail().equals(authentication.getName());
     }
 
     @Override
     public boolean canDelete(Authentication authentication, User model) {
-        return hasScope(authentication, "write:users");
+        return hasScope(authentication, WRITE_USERS);
     }
 }
