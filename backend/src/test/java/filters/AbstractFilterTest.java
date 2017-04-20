@@ -6,6 +6,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import solvas.persistence.api.Filter;
 import solvas.rest.query.ArchiveFilter;
 import solvas.service.models.Model;
 
@@ -60,8 +61,8 @@ public abstract class AbstractFilterTest<T extends Model> {
         assertEquals("Amount of predicates",1,predicates.size());
     }
 
-    abstract ArchiveFilter<T> getFilterWithCorrectParameters();
-    abstract ArchiveFilter<T> getFilterWithBadParameters();
+    abstract Filter<T> getFilterWithCorrectParameters();
+    abstract Filter<T> getFilterWithBadParameters();
 
     abstract int parameterSize();
 }
