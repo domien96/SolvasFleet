@@ -28,7 +28,7 @@ interface Props {
   handleChange : (field: Fleet.Field, e : any) => void;
   onClick : () => void;
   formIsVisible : boolean;
-  fleets : Fleet[];
+  fleets : FleetData[];
 }
 
 const FleetsCard : React.StatelessComponent<Props> = props => {

@@ -1,6 +1,4 @@
 import React from 'react';
-import { Link } from'react-router';
-import { Collapse } from 'react-bootstrap';
 
 import FleetsCard from './FleetsCard.tsx';
 import { postFleet } from '../../actions/fleet_actions.ts';

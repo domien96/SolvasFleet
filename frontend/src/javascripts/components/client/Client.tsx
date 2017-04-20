@@ -6,7 +6,7 @@ import Header       from '../app/Header.tsx';
 import DetailTable  from '../tables/DetailTable.tsx';
 import Fleets       from '../fleets/Fleets.tsx';
 
-import { fetchFleets , fetchFleetsByCompany} from '../../actions/fleet_actions.ts';
+import { fetchFleetsByCompany} from '../../actions/fleet_actions.ts';
 import { fetchClient, deleteClient } from '../../actions/client_actions.ts';
 import { redirect_to } from'../../router.tsx';
 
