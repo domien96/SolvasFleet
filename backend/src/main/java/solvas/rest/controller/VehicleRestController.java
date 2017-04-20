@@ -114,7 +114,7 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
      */
     @Override
     @RequestMapping(value = "/vehicles/{vehicleId}", method = RequestMethod.PUT)
-    @PreAuthorize("hasPermission(#vehicleId, 'vehicle', 'EDIT') && hasPermission(#input.fleet, 'fleet', 'MANAGE_VEHICLES')")
+    @PreAuthorize("hasPermission(#vehicleId, 'vehicle', 'EDIT')")
     public ResponseEntity<?> put(
             @PathVariable int vehicleId,
             @Valid @RequestBody ApiVehicle input,
