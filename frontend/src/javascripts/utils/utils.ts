@@ -22,8 +22,8 @@ export function hasError(this: any, k : string) : boolean {
   return (errors.length != 0);
 }
 
-export function th(key : string, label : string | number) : Table.Head.Data {
-  return { key: key, label: (label || '').toString() };
+export function th(key : string|number, label : string | number) : Table.Head.Data {
+  return { key: (key||'').toString(), label: (label || '').toString() };
 }
 
 export function group_by(xs : any[], key : string) {
