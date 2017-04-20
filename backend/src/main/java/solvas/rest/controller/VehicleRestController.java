@@ -87,15 +87,14 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
     }
 
     /**
-     * Create new vehicle.
+     * Create new vehicle
      * @param input ApiVehicle to save
      * @param result Validation result
      * @return ResponseEntity
      */
-    @Override
     @RequestMapping(value = "/vehicles", method = RequestMethod.POST)
-    @PreAuthorize("hasPermission(#input.fleet, 'fleet', 'MANAGE_VEHICLES')")
-    public ResponseEntity<?> post(@Valid @RequestBody ApiVehicle input, BindingResult result) {
+    @PreAuthorize("hasPermission(#input, 'CREATE')")
+    public ResponseEntity<?> post(@Valid @RequestBody ApiVehicle input,BindingResult result) {
         return super.post(input,result);
     }
 
