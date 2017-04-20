@@ -30,7 +30,7 @@ public class ApiRoleValidationTest extends ValidationTest {
      */
     @Test
     public void testEmptyAndNoFunction() {
-        final String function = "function";
+        final String function = "name";
         ApiRole role = new ApiRole();
         role.setName("");
         Set<ConstraintViolation<ApiRole>> v = validator.validate(role);
