@@ -63,6 +63,16 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
         return super.listAll(pagination, filter, result);
     }
 
+    /**
+     * Get a vehicle by it's ID. This requires a vehicle to have a fleet (and thus also a company). Vehicles that
+     * don't have those, should be accessed using {@link #getById(int)}.
+     *
+     * @param companyId The ID of the company.
+     * @param fleetId The ID of the fleet.
+     * @param vehicleId The ID of the vehicle.
+     *
+     * @return The response.
+     */
     @RequestMapping(value = "/companies/{companyId}/fleets/{fleetId}/vehicles/{vehicleId}", method = RequestMethod.GET)
     @PreAuthorize("hasPermission(#vehicleId, 'vehicle', 'READ')")
     public ResponseEntity<?> getById(@PathVariable int companyId, @PathVariable int fleetId, @PathVariable int vehicleId) {
