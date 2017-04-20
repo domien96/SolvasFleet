@@ -25,7 +25,7 @@ Bij het klikken op 'Edit' verschijnt dit formulier. De gekende gegevens van de g
 
 ![functie toevoegen](images/add_function.png)
 
-Bij het klikken op 'Add a new function' verschijnt dit formulier. Om een nieuwe functie toe te voegen vult u de rol in en voor welk bedrijf deze gebruiker de rol kan uitoefenen. Door op 'Add function' te drukken wordt de functie opgeslagen.
+Bij het klikken op 'Add new function' verschijnt dit formulier. Om een nieuwe functie toe te voegen vult u de rol in en voor welk bedrijf deze gebruiker de rol kan uitoefenen. Door op 'Add function' te drukken wordt de functie opgeslagen.
 
 ### Functies van een gebruiker wijzigen
 
