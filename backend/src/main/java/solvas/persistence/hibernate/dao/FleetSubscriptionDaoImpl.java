@@ -31,16 +31,13 @@ public class FleetSubscriptionDaoImpl implements FleetSubscriptionDaoCustom {
     }
 
     @Override
-    @Query()
     public Optional<FleetSubscription> activeForVehicle(Vehicle vehicle) {
-        return Optional.ofNullable(
-                entityManager.createQuery("select s from FleetSubscription s where s.vehicle = ?1 and s.startDate <= current_date and (s.endDate is null or s.endDate >= current_date) and s.archived = false", FleetSubscription.class)
+        return entityManager.createQuery("select s from FleetSubscription s where s.vehicle = ?1 and s.startDate <= current_date and (s.endDate is null or s.endDate >= current_date) and s.archived = false", FleetSubscription.class)
                         .setParameter(1, vehicle)
-                        .getSingleResult());
+                        .getResultList().stream().findFirst();
     }
 
     @Override
-    public @Query()
     Collection<FleetSubscription> findByFleetAndStartDateAndEndDate(Fleet fleet, LocalDate start, LocalDate end) {
         return entityManager
                 .createQuery("select s from FleetSubscription s where s.fleet = ?1 and (s.endDate is null or s.endDate >= ?2) and s.startDate <= ?3 and s.archived = false", FleetSubscription.class)
