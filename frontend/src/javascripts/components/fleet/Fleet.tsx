@@ -6,7 +6,6 @@ import NestedCheckbox from '../app/NestedCheckbox.tsx';
 import SubfleetRow from './SubfleetRow.tsx';
 import InvoiceActions from './InvoiceActions.tsx';
 
-import { fetchFleet }    from '../../actions/fleet_actions.ts';
 import { fetchVehicles } from '../../actions/vehicle_actions.ts';
 import { group_by } from '../../utils/utils.ts';
 
@@ -83,7 +82,6 @@ class Fleet extends React.Component<fleetProps, fleetState> {
 
   componentDidMount() {
     var { id } = this.props.params;
-    let success = (data : any) => this.setState({ fleet: data });
     //fetchFleet(id, success);
     fetchVehicles((data) => this.setState({ vehicles: data.data }), undefined, { fleet: id.toString() });
   }
