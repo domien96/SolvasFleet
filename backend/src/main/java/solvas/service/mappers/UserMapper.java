@@ -34,7 +34,7 @@ public class UserMapper extends AbstractMapper<User,ApiUser> {
     public User convertToModel(ApiUser apiUser) throws FieldNotFoundException ,EntityNotFoundException {
         User user = apiUser.getId()==0 ? new User() : daoContext.getUserDao().find(apiUser.getId());
         copySharedAttributes(user, apiUser);
-        if(! apiUser.getPassword().isEmpty()) {
+        if(apiUser.getPassword() != null && ! apiUser.getPassword().isEmpty()) {
             user.setPassword(passwordEncoder.encode(apiUser.getPassword()));
         }
         return user;

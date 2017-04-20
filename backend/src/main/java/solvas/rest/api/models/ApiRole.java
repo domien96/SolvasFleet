@@ -14,19 +14,11 @@ import java.util.Set;
  */
 public class ApiRole extends ApiModel {
     @NotBlank
-    private String function;
+    private String name;
 
     private int user;
 
     private Set<Integer> permissions = new HashSet<>();
-
-    public String getFunction() {
-        return function;
-    }
-
-    public void setFunction(String function) {
-        this.function = function;
-    }
 
     public int getUser() {
         return user;
@@ -42,5 +34,13 @@ public class ApiRole extends ApiModel {
 
     public void setPermissions(Set<Integer> permissions) {
         this.permissions = permissions;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
