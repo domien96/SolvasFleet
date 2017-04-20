@@ -108,8 +108,9 @@ public class InvoiceRestController extends AbstractRestController<Invoice, ApiIn
      * @return The response.
      */
     @RequestMapping(value = "/fleets/{id}/invoices", method = RequestMethod.GET)
-    public ResponseEntity<?> getByCompanyId(@PathVariable int id, Pageable pagination, InvoiceFilter filter, BindingResult result) {
+    public ResponseEntity<?> getByCompanyId(@PathVariable int id, Pageable pagination, InvoiceFilter filter, BindingResult result) throws EntityNotFoundException {
         filter.setFleet(id);
+        invoiceService.generateMissingInvoices(id);
         return super.listAll(pagination, filter, result);
     }
 }

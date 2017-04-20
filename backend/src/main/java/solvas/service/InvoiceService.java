@@ -1,9 +1,12 @@
 package solvas.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
+import solvas.persistence.api.Filter;
 import solvas.rest.api.models.ApiInvoice;
 import solvas.service.mappers.InvoiceMapper;
 import solvas.service.models.*;
@@ -16,6 +19,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -43,6 +47,16 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
     }
 
 
+    @Override
+    public Page<ApiInvoice> findAll(Pageable pagination, Filter<Invoice> filters) {
+        return super.findAll(pagination, filters);
+    }
+
+    @Override
+    public List<ApiInvoice> findAll(Filter<Invoice> filters) {
+        return super.findAll(filters);
+    }
+
     /**
      * Finds all types of insurance in the database
      *
@@ -62,6 +76,15 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
         generateMissingInvoices(fleet);
         return mapper.convertToApiModel(generateNextBillingInvoice(fleet));
 
+    }
+
+    public void generateMissingInvoices(int fleetId) throws EntityNotFoundException {
+        // fleet is given as parameter
+        // Read fleet from database
+        Fleet fleet = context.getFleetDao().find(fleetId);
+        // if the fleet is not found, it will throw a EntityNotFoundException, which will be caught by
+        //the method not found in AbstractController
+        generateMissingInvoices(fleet);
     }
 
     /**
