@@ -10,7 +10,6 @@ interface Props {
 
 const FleetForm : React.StatelessComponent<Props> = props => {
   let handleChange = (field : Fleet.Field) => {
-    console.log(props.fleet)
     return (e : any) => {
       props.handleChange(field, e);
     }

@@ -48,8 +48,8 @@ class Client extends React.Component<Props, State> {
     deleteClient(this.props.params.id, () => redirect_to('/clients'));
   }
 
-  fetchContracts(success?:callback,fail?:callback) {
-    fetchContractsByCompany(this.props.params.id,success,fail);
+  fetchContracts(vehicleId:number,companyId:number,fleetId:number,success?:callback,fail?:callback) {
+    fetchContractsByCompany(companyId,success,fail);
   }
 
   render() {
