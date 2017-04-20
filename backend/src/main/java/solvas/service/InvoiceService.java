@@ -135,20 +135,24 @@ public class InvoiceService extends AbstractService<Invoice,ApiInvoice> {
          * All contracts linked to the subscription which are still active after the given date
          * will be included.
          * @param f the fleet subscription
-         * @param startDate start date from where contracts have to be included
+         * @param startDateTime start date from where contracts have to be included
+         * @param endDateTime start date to where contracts have to be included
          * @return calculated premium
          */
-        BigDecimal calculatePremium(FleetSubscription f, LocalDateTime startDate,LocalDateTime endDate) {
+        BigDecimal calculatePremium(FleetSubscription f, LocalDateTime startDateTime,LocalDateTime endDateTime) {
+            LocalDate startDate = startDateTime.toLocalDate(), endDate = endDateTime.toLocalDate();
             BigDecimal totalAmount = BigDecimal.ZERO;
             Collection<Contract> contracts =f.getContracts();
-            contracts = contracts.stream().filter((c) -> c.getEndDate().isAfter(startDate)&&
-                    c.getStartDate().isBefore(endDate)).collect(Collectors.toSet());
+            contracts = contracts.stream().filter((c) -> c.getEndDate().toLocalDate().isAfter(startDate)&&
+                    c.getStartDate().toLocalDate().isBefore(endDate)).collect(Collectors.toSet());
 
             for (Contract contract: contracts) {
                 BigDecimal premium = BigDecimal.valueOf(contract.getPremium());
-                if (contract.getStartDate().isAfter(startDate) || contract.getEndDate().isBefore(endDate)){
-                    LocalDateTime maxStart = contract.getStartDate().isAfter(startDate) ? contract.getStartDate() : startDate;
-                    LocalDateTime minEnd = contract.getEndDate().isAfter(endDate) ? endDate:contract.getEndDate();
+                if (contract.getStartDate().toLocalDate().isAfter(startDate) || contract.getEndDate().toLocalDate().isBefore(endDate)){
+                    LocalDate maxStart = contract.getStartDate().toLocalDate().isAfter(startDate) ?
+                            contract.getStartDate().toLocalDate() : startDate;
+                    LocalDate minEnd = contract.getEndDate().toLocalDate().isAfter(endDate) ?
+                            endDate:contract.getEndDate().toLocalDate();
                     premium = premium.divide(BigDecimal.valueOf(ChronoUnit.DAYS.between(startDate, endDate)), RoundingMode.FLOOR)
                             .multiply(BigDecimal.valueOf(ChronoUnit.DAYS.between(maxStart, minEnd)));
                     //Todo test divide by zeo?
