@@ -16,8 +16,19 @@ const Info : React.StatelessComponent<Props> = (props) => {
     }
   }
 
-  var { firstName, lastName, email, password } = props.user;
-  const pwLabel = props.user.password==undefined ? '******' : password;
+  var { id, firstName, lastName, email, password } = props.user;
+  let pwmsg;
+  if(id != null){
+    pwmsg = (
+      <div className='col-xs-12'>
+        <div className='panel panel-info'>
+          <div className='panel-body'>
+            It is not required to edit the password to make other changes to the user.
+          </div>
+        </div>
+      </div>
+      );
+  }
 
   return (
     <div className='col-xs-12 col-md-7'>
@@ -29,7 +40,8 @@ const Info : React.StatelessComponent<Props> = (props) => {
           <FormField value={ firstName } placeholder='user.firstName' type='text'     callback={ handleChange('firstName') } hasError={ props.hasError('firstName')} />
           <FormField value={ lastName } placeholder='user.lastName' type='text'     callback={ handleChange('lastName') } hasError={ props.hasError('lastName')}  />
           <FormField value={ email } placeholder='user.email' type='email'    callback={ handleChange('email') } hasError={ props.hasError('email')}  />
-          <FormField value={ pwLabel } placeholder='user.password' type='password' callback={ handleChange('password') } hasError={ props.hasError('password')}  />
+          {pwmsg}
+          <FormField value={ password } placeholder='user.password' type='password' callback={ handleChange('password') } hasError={ props.hasError('password')}  />
         </div>
       </Card>
     </div>
