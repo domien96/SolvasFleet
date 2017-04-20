@@ -68,4 +68,11 @@ public class FleetRestController extends AbstractRestController<Fleet, ApiFleet>
     public ResponseEntity<?> put(@PathVariable int id, @Valid @RequestBody ApiFleet input,BindingResult result) {
         return super.put(id, input,result);
     }
+
+    @RequestMapping(value = "/companies/{id}/fleets", method = RequestMethod.GET)
+    public ResponseEntity<?> listAllByCompany(Pageable pagination, FleetFilter filter,
+                                              BindingResult result, @PathVariable int id) {
+        filter.setCompany(id);
+        return super.listAll(pagination, filter, result);
+    }
 }

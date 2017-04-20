@@ -34,7 +34,7 @@ interface Props {
 
 const FleetsCard : React.StatelessComponent<Props> = props => {
   let fleets = props.fleets.map(({ id, name }) => {
-    <FleetLink id={ id } name={ name } />
+    return <FleetLink key={id} id={ id } name={ name } />
   });
 
   return (
