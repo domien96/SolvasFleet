@@ -5,6 +5,9 @@ import solvas.persistence.api.Dao;
 import solvas.service.models.User;
 
 public class UserPermissionEvaluator extends AbstractPermissionEvaluator<User> {
+    {
+        registerPermissionDecider("READ_ROLES", this::canReadRoles);
+    }
     public UserPermissionEvaluator(Dao<User> dao) {
         super(dao);
     }
