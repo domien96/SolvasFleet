@@ -45,29 +45,23 @@ public class PermissionRestController extends AbstractRestController<Permission,
      * method will contain an object, according to the API spec.
      *
      * @param pagination The pagination information.
-     * @param filter The filters.
-     * @param result The validation results of the filterResult
-     *
+     * @param filter     The filters.
+     * @param result     The validation results of the filterResult
      * @return ResponseEntity
      */
     @RequestMapping(value = "/auth/permissions", method = RequestMethod.GET)
     @PreAuthorize("hasPermission(0, 'permission', 'READ')")
     public ResponseEntity<?> listAll(Pageable pagination, PermissionFilter filter, BindingResult result) {
-
-        // If there are errors in the filtering, send bad request.
-        if (result.hasErrors()) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-        return new ResponseEntity<>( new PagedResult<>(service.findAll(pagination, filter).map(ApiPermission::getScope)), HttpStatus.OK);
+        return super.listAll(pagination, filter, result);
     }
 
     /**
      * List permissions for a role
-     * @param pagination Pagination object from request
+     *
+     * @param pagination       Pagination object from request
      * @param permissionFilter Filters from request
-     * @param filterResult Bindingresult
-     * @param roleId roleId taken from request path
+     * @param filterResult     Bindingresult
+     * @param roleId           roleId taken from request path
      * @return ResponseEntity to return to user
      */
     @PreAuthorize("hasPermission(#roleId, 'role', 'LIST_PERMISSIONS')")
