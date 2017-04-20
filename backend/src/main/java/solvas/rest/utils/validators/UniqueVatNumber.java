@@ -17,9 +17,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target({ FIELD })
 @Retention(RUNTIME)  
 public @interface UniqueVatNumber {
-    String message() default "{org.hibernate.validator.constraints.UniqueVatNumber.message}";
-
-    Class<?>[] groups() default { };  
-  
-    Class<? extends Payload>[] payload() default { };  
+    /**
+     * @return  Validation message
+     */
+    String message() default "{solvas.rest.utils.validators.UniqueVatNumber.message}";
 } 
