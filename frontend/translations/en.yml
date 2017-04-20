@@ -64,6 +64,8 @@ fleet:
   options:
     yearly: Yearly
     monthly: Monthly
+    perTrimester: Per Trimester
+    perSemester: Per Semester
 
 subfleet:
   id: ID
@@ -89,5 +91,5 @@ contract:
     Omnium: Omnium
     CivilLiability: Civil liability
     LegalAid: Legal aid
-    DriverInsurance: Driver insurance  
+    DriverInsurance: Driver insurance
     TravelInsurance: Travel insurance

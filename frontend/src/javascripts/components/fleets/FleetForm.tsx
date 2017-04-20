@@ -10,23 +10,20 @@ interface Props {
 
 const FleetForm : React.StatelessComponent<Props> = props => {
   let handleChange = (field : Fleet.Field) => {
-    console.log(props.fleet)
     return (e : any) => {
       props.handleChange(field, e);
     }
   }
-  const choices = [
-    th(31, 'fleet.options.monthly'),
-    th(365, 'fleet.options.yearly')
-  ];
 
   return (
     <form method='post' onSubmit={ props.onSubmit } className='fleet-form'>
       <h3><label htmlFor='name'>Name:</label></h3>
       <span>
         <input type='text' id='name' onChange={ handleChange('name') }/>
-        <FormChoice placeholder="Facturation Period" choices={choices} value={props.fleet.facturationPeriod} callback={handleChange('facturationPeriod')}/>
-        <FormChoice placeholder="Payment Period" choices={choices} value={props.fleet.paymentPeriod} callback={handleChange('paymentPeriod')} />
+        <FormChoice placeholder="Facturation Period" choices={[th('91','fleet.options.perTrimester'),th('186','fleet.options.perSemester'),th('365', 'fleet.options.yearly')]}
+            value={props.fleet.facturationPeriod} callback={handleChange('facturationPeriod')}/>
+        <FormChoice placeholder="Payment Period" choices={[th('31', 'fleet.options.monthly'),th('91','fleet.options.perTrimester'),th('186','fleet.options.perSemester'),,th('365', 'fleet.options.yearly')]}
+           value={props.fleet.paymentPeriod} callback={handleChange('paymentPeriod')} />
       </span>
 
 
