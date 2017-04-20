@@ -9,15 +9,24 @@ import solvas.service.models.Vehicle;
 
 import java.util.stream.Stream;
 
+import static solvas.authorization.ApiPermissionStrings.*;
+
+/**
+ * Evaluate permissions for vehicles.
+ */
 public class VehiclePermissionEvaluator extends AbstractPermissionEvaluator<Vehicle> {
+
+    /**
+     * @param dao Autowired dao.
+     */
     public VehiclePermissionEvaluator(Dao<Vehicle> dao) {
         super(dao);
     }
 
     @Override
     public boolean canRead(Authentication authentication, Vehicle model) {
-        return hasScope(authentication, "read:companies:fleets")
-                || getIds(model).anyMatch(id -> hasScope(authentication, "read:company:fleets")
+        return hasScope(authentication, READ_COMPANIES_FLEETS)
+                || getIds(model).anyMatch(id -> hasScope(authentication, READ_COMPANY_FLEETS)
         );
     }
 
@@ -33,8 +42,8 @@ public class VehiclePermissionEvaluator extends AbstractPermissionEvaluator<Vehi
 
     @Override
     public boolean canCreate(Authentication authentication, Vehicle model) {
-        return hasScope(authentication, "write:companies:fleets")
-                || getIds(model).anyMatch(id -> hasScope(authentication, "write:company:fleets")
+        return hasScope(authentication, WRITE_COMPANIES_FLEETS)
+                || getIds(model).anyMatch(id -> hasScope(authentication, WRITE_COMPANY_FLEETS)
         );
     }
 
