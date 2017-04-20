@@ -11,6 +11,9 @@ import solvas.rest.api.models.*;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Context for the permission evaluator.
+ */
 @Component
 public class PermissionEvaluatorContext {
     public final static String VEHICLE_RESOURCE_TYPE = "vehicle";
@@ -38,6 +41,9 @@ public class PermissionEvaluatorContext {
 
     private Map<String, PermissionEvaluator> evaluators = new HashMap<>();
 
+    /**
+     * @param daoContext Autowired dao.
+     */
     @Autowired
     public PermissionEvaluatorContext(DaoContext daoContext) {
         evaluators.put(COMPANY_RESOURCE_TYPE, new CompanyPermissionEvaluator(daoContext.getCompanyDao()));
@@ -64,6 +70,13 @@ public class PermissionEvaluatorContext {
         return resourceNames.get(resource.getClass());
     }
 
+    /**
+     * Get evaluator for a resource type.
+     *
+     * @param resourceType The resource type.
+     *
+     * @return The evaluator.
+     */
     public PermissionEvaluator getEvaluator(String resourceType) {
         if(! evaluators.containsKey(resourceType)) {
             throw new UnsupportedResourceType(String.format("Unsupported resource type %s.", resourceType));
