@@ -2,20 +2,16 @@ package solvas.rest.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import solvas.persistence.api.EntityNotFoundException;
-import solvas.rest.query.PermissionFilter;
-import solvas.service.models.Role;
 import solvas.rest.api.models.ApiRole;
 import solvas.rest.query.RoleFilter;
 import solvas.service.RoleService;
+import solvas.service.models.Role;
 
 import javax.validation.Valid;
-import java.util.Collection;
 import java.util.Set;
 
 
@@ -61,7 +57,7 @@ public class RoleRestController extends AbstractRestController<Role,ApiRole> {
 
     @Override
     @RequestMapping(value = "/auth/roles", method = RequestMethod.POST)
-    @PreAuthorize("hasPermission(input, 'CREATE')")
+    @PreAuthorize("hasPermission(#input, 'CREATE')")
     public ResponseEntity<?> post(@Valid @RequestBody ApiRole input, BindingResult result) {
         return super.post(input,result);
     }
