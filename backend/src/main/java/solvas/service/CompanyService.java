@@ -3,11 +3,13 @@ package solvas.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import solvas.persistence.api.EntityNotFoundException;
+import solvas.service.mappers.ContractMapper;
 import solvas.service.mappers.FleetMapper;
 import solvas.service.models.Company;
 import solvas.persistence.api.DaoContext;
 import solvas.service.mappers.CompanyMapper;
 import solvas.rest.api.models.ApiCompany;
+import solvas.service.models.Contract;
 import solvas.service.models.Fleet;
 
 /**
@@ -29,16 +31,19 @@ public class CompanyService extends AbstractService<Company,ApiCompany> {
 
     @Override
     public void archive(int id) throws EntityNotFoundException {
+        Company company = context.getCompanyDao().find(id);
+        // stop and archive each contract
+        ContractService contractService = new ContractService(context,new ContractMapper(context));
+        for (Contract contract:context.getContractDao().findByCompany(company)){
+            contractService.archive(contract.getId());
+        }
+
         // archive each fleet
         FleetService fleetService= new FleetService(context,new FleetMapper(context));
-        Company company = context.getCompanyDao().find(id);
+
         for (Fleet fleet:context.getFleetDao().findByCompany(company)){
             fleetService.archive(fleet.getId());
         }
-
-
-        // stop and archive each contract
-
 
         super.archive(id);
     }

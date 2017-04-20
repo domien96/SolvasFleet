@@ -14,6 +14,12 @@ import java.util.Collection;
  */
 @Repository
 public interface FleetDao extends Dao<Fleet> {
+    /**
+     * Find all fleets with given company
+     *
+     * @param company the company of which the fleets are needed
+     * @return Fleets with given company
+     */
     Collection<Fleet> findByCompany(Company company);
 
 }
