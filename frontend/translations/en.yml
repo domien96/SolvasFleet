@@ -76,3 +76,12 @@ form:
   create: Create
   update: Update
   submit: Submit
+
+invoice:
+  id: Invoice ID
+  fleet: Fleet ID 
+  paid: Paid
+  totalAmount: Total amount due 
+  type: Type 
+  startDate: Start date 
+  endDate: End date
