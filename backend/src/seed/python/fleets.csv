@@ -1,0 +1,5 @@
+fleet_id,name,company_id,facturation_period,payment_period
+1,'Transport 1',4,31,31
+2,'Transport 2',4,31,365
+3,'Transport A',5,31,365
+4,'Transport B',5,31,365
