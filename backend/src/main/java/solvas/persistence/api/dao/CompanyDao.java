@@ -5,6 +5,7 @@ import solvas.service.models.Company;
 import solvas.persistence.api.Dao;
 
 import java.util.Collection;
+import java.util.Optional;
 
 /**
  * DAO for companies.
@@ -22,4 +23,13 @@ public interface CompanyDao extends Dao<Company> {
      * @return The companies.
      */
     Collection<Company> findByName(String name);
+
+    /**
+     * Find the company with a certain vat number.
+     *
+     * @param vatNumber the vat number
+     *
+     * @return The company
+     */
+    Optional<Company> findByVatNumber(String vatNumber);
 }
