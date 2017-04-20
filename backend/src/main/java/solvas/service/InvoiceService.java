@@ -143,10 +143,11 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
                     LocalDate maxStart = contract.getStartDate().toLocalDate().isAfter(startDate) ?
                             contract.getStartDate().toLocalDate() : startDate;
                     LocalDate minEnd = contract.getEndDate().toLocalDate().isAfter(endDate) ?
-                            endDate : contract.getEndDate().toLocalDate();
+                            endDate:contract.getEndDate().toLocalDate();
                     premium = premium.multiply(BigDecimal.valueOf(ChronoUnit.DAYS.between(maxStart, minEnd)))
                             .divide(BigDecimal.valueOf(ChronoUnit.DAYS.between(startDate, endDate)), RoundingMode.HALF_UP);
-                    // TODO: assert difference between end and start is atleast 1 (otherwise a companies debt would be infinite)
+                    //Todo test divide by zeo?
+
                 }
                 Tax tax = context.getTaxDao().findDistinctByVehicleTypeNameAndInsuranceTypeName(
                         f.getVehicle().getType().getName(), contract.getInsuranceType().getName());
