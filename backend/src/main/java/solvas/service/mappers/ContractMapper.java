@@ -3,17 +3,13 @@ package solvas.service.mappers;
 import org.springframework.stereotype.Component;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
-import solvas.rest.SimpleUrlBuilder;
+import solvas.rest.utils.SimpleUrlBuilder;
 import solvas.rest.api.models.ApiContract;
 import solvas.service.mappers.exceptions.DependantEntityNotFound;
-import solvas.service.models.Company;
 import solvas.service.models.Contract;
-import solvas.service.models.Fleet;
 import solvas.service.models.FleetSubscription;
 
-import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**

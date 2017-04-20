@@ -8,7 +8,7 @@ import solvas.service.models.validators.Password;
 import javax.validation.constraints.NotNull;
 
 /**
- * @author Steven Bastiaens
+ * User in the API layer
  */
 @Password
 public class ApiUser extends ApiModel {

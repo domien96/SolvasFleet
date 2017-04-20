@@ -5,41 +5,20 @@ import solvas.service.models.validators.StartBeforeEnd;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
- * Created by steve on 11/03/2017.
+ * Api Model in the API layer
  */
-@StartBeforeEnd
 public class ApiRole extends ApiModel {
-
-    //-1: admin
-    private int company;
-
-    @NotNull
-    private LocalDateTime startDate;
-
-    private LocalDateTime endDate;
-
     @NotBlank
     private String function;
 
     private int user;
 
-    public int getCompany() {
-        return company;
-    }
-
-    public void setCompany(int company) {
-        this.company = company;
-    }
-
-    public LocalDateTime getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(LocalDateTime endDate) {
-        this.endDate = endDate;
-    }
+    private Set<Integer> permissions = new HashSet<>();
 
     public String getFunction() {
         return function;
@@ -49,19 +28,19 @@ public class ApiRole extends ApiModel {
         this.function = function;
     }
 
-    public LocalDateTime getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(LocalDateTime startDate) {
-        this.startDate = startDate;
-    }
-
     public int getUser() {
         return user;
     }
 
     public void setUser(int user) {
         this.user = user;
+    }
+
+    public Set<Integer> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(Set<Integer> permissions) {
+        this.permissions = permissions;
     }
 }

@@ -1,5 +1,6 @@
 package solvas.service.mappers;
 
+import org.springframework.stereotype.Component;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.api.models.ApiInvoice;
@@ -13,6 +14,7 @@ import java.math.BigDecimal;
 /**
  * Mapper between for invoice
  */
+@Component
 public class InvoiceMapper extends AbstractMapper<Invoice,ApiInvoice> {
 
     private static final String ROOTPATH="/invoices/";
@@ -46,7 +48,7 @@ public class InvoiceMapper extends AbstractMapper<Invoice,ApiInvoice> {
         api.setType(model.getType().getText());
         api.setFleet(model.getFleet().getId());
         api.setUrl(ROOTPATH);
-        return null;
+        return api;
     }
 
 }

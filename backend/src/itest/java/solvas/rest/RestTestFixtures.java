@@ -10,8 +10,8 @@ public class RestTestFixtures {
     public final static String FLEET_ID_URL = "/fleets/9";
     public final static String VEHICLE_ROOT_URL = "/vehicles";
     public final static String VEHICLE_ID_URL = "/vehicles/9";
-    public final static String ROLE_ROOT_URL = "/roles";
-    public final static String ROLE_ID_URL = "/roles/13";
+    public final static String ROLE_ROOT_URL = "/auth/roles";
+    public final static String ROLE_ID_URL = "/auth/roles/13";
     public final static String COMPANY_ROOT_URL = "/companies";
     public final static String COMPANY_ID_URL = "/companies/13";
     public final static String INVOICE_ROOT_URL = "/invoices";

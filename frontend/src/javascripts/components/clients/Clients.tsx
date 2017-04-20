@@ -3,7 +3,7 @@ import React from 'react';
 import Layout from './Layout.tsx';
 
 import { fetchClients } from '../../actions/client_actions.ts';
-import { redirect_to } from'../../router.tsx';
+import { redirect_to } from'../../routes/router.tsx';
 
 interface State {
   clients : Company[];

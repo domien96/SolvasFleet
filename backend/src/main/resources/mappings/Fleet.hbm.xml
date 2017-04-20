@@ -6,11 +6,15 @@
 <hibernate-mapping>
    <class name="solvas.service.models.Fleet" table="fleets">
       <meta attribute="class-description">
-         This class contains the subFleet detail.
+         This class contains the Fleet detail.
       </meta>
       <id name="id" type="int" column="fleet_id">
          <generator class="identity"/>
       </id>
+
+      <property name="facturationPeriod" column="facturation_period" type="int" not-null="true"/>
+      <property name="paymentPeriod" column="payment_period" type="int" not-null="true"/>
+
 
        <property name="name" column="name" type="string"/>
       <property name="archived" column="archived" type="boolean" not-null="true"/>

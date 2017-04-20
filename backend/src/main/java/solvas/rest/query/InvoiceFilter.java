@@ -28,5 +28,9 @@ public class InvoiceFilter extends ArchiveFilter<Invoice> {
     public void setFleet(int fleet) {
         this.fleet = fleet;
     }
+
+    public int getFleet() {
+        return fleet;
+    }
 }
 

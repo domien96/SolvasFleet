@@ -5,7 +5,7 @@ import VehicleForm from './VehicleForm.tsx';
 
 import { fetchVehicle, putVehicle } from '../../actions/vehicle_actions.ts';
 import { hasError } from '../../utils/utils.ts';
-import { redirect_to } from'../../router.tsx';
+import { redirect_to } from'../../routes/router.tsx';
 
 interface Props {
   params : { id : number };
