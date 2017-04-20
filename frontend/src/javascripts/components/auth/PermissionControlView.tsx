@@ -30,7 +30,14 @@ interface PermissionOverviewProps {
 const PermissionOverview : React.StatelessComponent<PermissionOverviewProps> = props => {
 
   var rows : Permission.Data[] = props.permissions.map((permission : string) => {
-    var row : Permission.Data = [permission.split(':')[0], permission.split(':')[1]];
+    let resource;
+    if(permission.split(':')[2]){
+      resource = `${permission.split(':')[1]} : ${permission.split(':')[2]}`;
+    }
+    else{
+      resource = `${permission.split(':')[1]}`;
+    }
+    var row : Permission.Data = [permission.split(':')[0], resource];
     return row; 
   });
 

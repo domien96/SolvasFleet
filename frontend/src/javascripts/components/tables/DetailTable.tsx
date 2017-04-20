@@ -17,17 +17,12 @@ const DetailTable : React.StatelessComponent<Props> = props => {
       ));
 
     return (
-      <div>
-        <div>
-          <h3>Information</h3>
-        </div>
-        <div className='table-wrap table-responsive'>
-          <table className='table'>
-            <tbody>
-              { tableRows }
-            </tbody>
-          </table>
-        </div>
+      <div className='table-wrap table-responsive'>
+        <table className='table'>
+          <tbody>
+            { tableRows }
+          </tbody>
+        </table>
       </div>
     );
 }

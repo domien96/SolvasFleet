@@ -54,7 +54,7 @@ public class RoleMapperTest {
         ApiRole converted = mapper.convertToApiModel(role);
 
         assertThat(converted.getId(),is(role.getId()));
-        assertThat(converted.getFunction(),is(role.getFunction()));
+        assertThat(converted.getName(),is(role.getFunction()));
         assertThat(converted.getCreatedAt(),is(role.getCreatedAt()));
         assertThat(converted.getUpdatedAt(),is(role.getUpdatedAt()));
         assertThat(converted.getUrl(),is("http://localhost/auth/roles/"+role.getId()));

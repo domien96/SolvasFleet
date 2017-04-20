@@ -21,7 +21,7 @@ public class ApiRoleValidationTest extends ValidationTest {
     @Test
     public void testValid() {
         ApiRole role = new ApiRole();
-        role.setFunction("TEST");
+        role.setName("TEST");
         assertEquals(0, validator.validate(role).size());
     }
 
@@ -30,13 +30,13 @@ public class ApiRoleValidationTest extends ValidationTest {
      */
     @Test
     public void testEmptyAndNoFunction() {
-        final String function = "function";
+        final String function = "name";
         ApiRole role = new ApiRole();
-        role.setFunction("");
+        role.setName("");
         Set<ConstraintViolation<ApiRole>> v = validator.validate(role);
         assertEquals(1, v.size());
         assertEquals(function, v.iterator().next().getPropertyPath().iterator().next().getName());
-        role.setFunction(null);
+        role.setName(null);
         v = validator.validate(role);
         assertEquals(1, v.size());
         assertEquals(function, v.iterator().next().getPropertyPath().iterator().next().getName());

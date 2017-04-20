@@ -82,16 +82,16 @@ const Filter : React.StatelessComponent<Props> = props => {
 	return(
 		<div>
 		<Card>
-				<div className='card-title'>
-					<div className='col-sm-6'>
-					<h3>Filter</h3>
-					</div>
-					<div className='col-sm-6'>
-						<button className='btn btn-default pull-right' onClick={ props.onReset }>Reset filters</button>
-						<button className='btn btn-default pull-right' onClick={ props.onHide }>Hide</button>
-      		</div>
-      		<div className="clearfix" />
+			<div className='card-title'>
+				<div className='col-sm-6'>
+				<h3>Filter</h3>
 				</div>
+				<div className='col-sm-6'>
+					<button className='btn btn-default pull-right' onClick={ props.onReset }>Reset filters</button>
+					<button className='btn btn-default pull-right' onClick={ props.onHide }>Hide</button>
+    		</div>
+    		<div className="clearfix" />
+			</div>
       <div className='card-content'>
         <div className='col-sm-6'>
           <div>
