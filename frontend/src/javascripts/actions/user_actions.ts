@@ -5,8 +5,8 @@ export function fetchUser(id : number, success? : callback, fail? : callback) {
   GET( USER_URL(id), success, fail );
 }
 
-export function fetchUsers(success? : callback, fail? : callback) {
-  GET( USERS_URL, success, fail);
+export function fetchUsers(success? : callback, fail? : callback, query? : any) {
+  GET( USERS_URL, success, fail,query);
 }
 
 export function postUser(body : any, success? : callback, fail? : callback) {

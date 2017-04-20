@@ -36,3 +36,9 @@ export const ACTION_LANG = 'CHANGE_LANG';
 export function INVOICES_URL(fleetId : number) { return `${BASE_API_URL}/fleets/${fleetId}/invoices`; }
 export function INVOICE_URL(fleetId : number, invoiceId : number) { return `${BASE_API_URL}/fleets/${fleetId}/invoices/${invoiceId}`; }
 export function INVOICE_PDF_URL(fleetId : number, invoiceId : number) { return `${BASE_API_URL}/fleets/${fleetId}/invoices/${invoiceId}${'.pdf'}`; }
+
+export const CONTRACTS_URL                = `${BASE_API_URL}/contracts`;
+export function CONTRACT_URL(id : number) { return `${CONTRACTS_URL}/${id}`; }
+
+export const TYPES_URL                = `${BASE_API_URL}/contracts/types`;
+

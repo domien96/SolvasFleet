@@ -1,5 +1,10 @@
 @import './variables.scss';
 
+
+.all-wrapper {
+  height: 100%
+}
+
 .page-wrapper {
   background-color: $gray-lighterer;
   min-height: 100%;

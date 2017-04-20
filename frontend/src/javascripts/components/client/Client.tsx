@@ -5,12 +5,17 @@ import Card         from '../app/Card.tsx';
 import Header       from '../app/Header.tsx';
 import DetailTable  from '../tables/DetailTable.tsx';
 import Fleets       from '../fleets/Fleets.tsx';
+import Contracts    from '../contracts/Contracts.tsx'
 
+
+import { callback } from '../../actions/fetch_json.ts';
 import { fetchFleets } from '../../actions/fleet_actions.ts';
 import { fetchClient, deleteClient } from '../../actions/client_actions.ts';
 import { redirect_to } from'../../routes/router.tsx';
 
 import { th } from '../../utils/utils.ts';
+
+import { fetchContractsByCompany} from '../../actions/contract_actions.ts';
 
 interface Props {
   [ params : string ] : { [ id : string ] : number };
@@ -27,6 +32,7 @@ class Client extends React.Component<Props, State> {
     super();
     this.state = { company : { address: {} }, fleets : [] };
     this.deleteClient = this.deleteClient.bind(this);
+    this.fetchContracts= this.fetchContracts.bind(this);
   }
 
   componentDidMount() {
@@ -40,6 +46,10 @@ class Client extends React.Component<Props, State> {
 
   public deleteClient(){
     deleteClient(this.props.params.id, () => redirect_to('/clients'));
+  }
+
+  fetchContracts(success?:callback,fail?:callback) {
+    fetchContractsByCompany(this.props.params.id,success,fail);
   }
 
   render() {
@@ -57,6 +67,7 @@ class Client extends React.Component<Props, State> {
       th('company.address.city', city),
       th('company.address.country', country)
     ];
+
 
     return (
       <div>
@@ -90,7 +101,8 @@ class Client extends React.Component<Props, State> {
             </div>
             <div className='col-xs-12 col-md-6'>
               <Fleets fleets={ this.state.fleets } company={ this.props.params.id } />
-            </div>
+              <Contracts companyId={ this.props.params.id } vehicleId={null} fleetId={null} fetchMethod={this.fetchContracts}/>
+              </div>
           </div>
         </div>
       </div>
