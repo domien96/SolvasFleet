@@ -75,9 +75,6 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
      */
     private Invoice generateNextBillingInvoice(Fleet fleet) {
         LocalDateTime startDate = getStartDateNextInvoice(fleet);
-        if (startDate==null) {
-            startDate=fleet.getCreatedAt();
-        }
         LocalDateTime endDate = startDate.plusMonths(fleet.getFacturationPeriod());
         Invoice invoice = new Invoice();
         invoice.setStartDate(startDate);
@@ -119,7 +116,11 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
      * @return the start date
      */
     public LocalDateTime getStartDateNextInvoice(Fleet fleet) {
-        return context.getInvoiceDao().latestEndDateByFleet(fleet);
+        LocalDateTime result = context.getInvoiceDao().latestEndDateByFleet(fleet);
+        if (result==null) {
+            return  fleet.getCreatedAt();
+        }
+        return result;
     }
 
 
