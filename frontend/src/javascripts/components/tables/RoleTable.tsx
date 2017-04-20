@@ -5,13 +5,13 @@ import T     from 'i18n-react';
 interface Props {
       head    : Table.Head.Data[];
       roles    : RoleData[];
-      onClick : (e : any) => void;
+      onEdit : (e : any) => void;
       onDelete : (e : any) => void;
 }
 
 const InfoTable : React.StatelessComponent<Props> = props => {
 
-    var { head, roles, onClick, onDelete } = props;
+    var { head, roles, onEdit, onDelete } = props;
  
     const tableHead = head.map((headData : Table.Head.Data) =>
     (
@@ -20,13 +20,19 @@ const InfoTable : React.StatelessComponent<Props> = props => {
 
     const tableRows = roles.map((role : RoleData, i : number) => {
       return(
-        <tr key={ i } onClick={ () => onClick(role.id) } className='table-row'>
+        <tr key={ i } className='table-row'>
           <td>{ role.name }</td>
           
           <td>
-            <button onClick={ onDelete } className='btn btn-danger btn-xs'>
-              <span className='glyphicon glyphicon-remove' /> Delete
-            </button>
+            <div className='actions row'>
+              <button onClick={ () => onEdit(role.id) } className='btn btn-default btn-xs'>
+                <span className='glyphicon glyphicon-edit' /> Edit
+              </button>
+
+              <button onClick={ () => onDelete(role.id) } className='btn btn-danger btn-xs'>
+                <span className='glyphicon glyphicon-remove' /> Delete
+              </button>
+            </div>
           </td>
         </tr>
       );

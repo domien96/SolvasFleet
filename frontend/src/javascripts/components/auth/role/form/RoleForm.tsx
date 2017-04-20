@@ -6,7 +6,7 @@ import Info from './Info.tsx';
 
 interface Props {
   onSubmit     : (e : any) => void;
-  handleChange : (field : Role.Field, e : any) => void;
+  handleChange : (e : any) => void;
   errors       : Form.Error[];
   hasError     : (field : Role.Field) => boolean;
   role         : RoleData;
