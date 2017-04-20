@@ -4,7 +4,14 @@ import org.springframework.security.core.Authentication;
 import solvas.persistence.api.Dao;
 import solvas.service.models.Permission;
 
+/**
+ * Evaluate permissions for permissions.
+ */
 public class PermissionPermissionEvaluator extends AbstractPermissionEvaluator<Permission> {
+
+    /**
+     * @param dao Autowired dao.
+     */
     public PermissionPermissionEvaluator(Dao<Permission> dao) {
         super(dao);
     }

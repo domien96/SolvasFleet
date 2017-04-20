@@ -4,7 +4,14 @@ import org.springframework.security.core.Authentication;
 import solvas.persistence.api.Dao;
 import solvas.service.models.Invoice;
 
+/**
+ * Evaluate permissions related to invoices.
+ */
 public class InvoicePermissionEvaluator extends AbstractPermissionEvaluator<Invoice> {
+
+    /**
+     * @param dao Autowired dao.
+     */
     public InvoicePermissionEvaluator(Dao<Invoice> dao) {
         super(dao);
     }

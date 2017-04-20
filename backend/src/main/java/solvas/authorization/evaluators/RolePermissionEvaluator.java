@@ -4,17 +4,19 @@ import org.springframework.security.core.Authentication;
 import solvas.persistence.api.Dao;
 import solvas.service.models.Role;
 
+/**
+ * Evaluate permissions for roles.
+ */
 public class RolePermissionEvaluator extends AbstractPermissionEvaluator<Role> {
     {
         registerPermissionDecider("LIST_PERMISSIONS", this::canListPermissions);
     }
 
+    /**
+     * @param dao Autowired dao.
+     */
     public RolePermissionEvaluator(Dao<Role> dao) {
         super(dao);
-    }
-
-    public boolean canReadPermissions(Authentication authentication, Role model) {
-        return hasScope(authentication, "read:auth:roles");
     }
 
     @Override
@@ -22,6 +24,14 @@ public class RolePermissionEvaluator extends AbstractPermissionEvaluator<Role> {
         return hasScope(authentication, "read:auth:roles");
     }
 
+    /**
+     * Check if the user can view permissions for a role.
+     *
+     * @param authentication The authentication.
+     * @param model The role.
+     *
+     * @return True if the user has permission.
+     */
     public boolean canListPermissions(Authentication authentication, Role model) {
         return hasScope(authentication, "read:auth:roles");
     }

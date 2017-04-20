@@ -1,11 +1,17 @@
 package solvas.authorization.evaluators;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import solvas.persistence.api.Dao;
 import solvas.service.models.Function;
 
+/**
+ * Evaluate function-related permissions.
+ */
 public class FunctionPermissionEvaluator extends AbstractPermissionEvaluator<Function> {
+
+    /**
+     * @param dao Autowired dao.
+     */
     public FunctionPermissionEvaluator(Dao<Function> dao) {
         super(dao);
     }

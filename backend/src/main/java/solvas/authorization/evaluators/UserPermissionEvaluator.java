@@ -4,17 +4,20 @@ import org.springframework.security.core.Authentication;
 import solvas.persistence.api.Dao;
 import solvas.service.models.User;
 
+/**
+ * Evaluate user-related permissions.
+ */
 public class UserPermissionEvaluator extends AbstractPermissionEvaluator<User> {
+
+    /**
+     * @param dao Autowired dao.
+     */
     public UserPermissionEvaluator(Dao<User> dao) {
         super(dao);
     }
 
     @Override
     public boolean canRead(Authentication authentication, User model) {
-        return hasScope(authentication, "read:users") || model.getEmail().equals(authentication.getName());
-    }
-
-    public boolean canReadRoles(Authentication authentication, User model) {
         return hasScope(authentication, "read:users") || model.getEmail().equals(authentication.getName());
     }
 

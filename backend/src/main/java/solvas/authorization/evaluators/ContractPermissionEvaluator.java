@@ -4,7 +4,14 @@ import org.springframework.security.core.Authentication;
 import solvas.persistence.api.Dao;
 import solvas.service.models.Contract;
 
+/**
+ * Evaluate contract-related permissions.
+ */
 public class ContractPermissionEvaluator extends AbstractPermissionEvaluator<Contract> {
+
+    /**
+     * @param dao Autowired dao.
+     */
     public ContractPermissionEvaluator(Dao<Contract> dao) {
         super(dao);
     }

@@ -9,7 +9,14 @@ import solvas.service.models.Vehicle;
 
 import java.util.stream.Stream;
 
+/**
+ * Evaluate permissions for vehicles.
+ */
 public class VehiclePermissionEvaluator extends AbstractPermissionEvaluator<Vehicle> {
+
+    /**
+     * @param dao Autowired dao.
+     */
     public VehiclePermissionEvaluator(Dao<Vehicle> dao) {
         super(dao);
     }
