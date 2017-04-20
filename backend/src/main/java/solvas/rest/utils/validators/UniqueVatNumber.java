@@ -21,4 +21,14 @@ public @interface UniqueVatNumber {
      * @return  Validation message
      */
     String message() default "{solvas.rest.utils.validators.UniqueVatNumber.message}";
+
+    /**
+     * @return Optional validation group.
+     */
+    Class<?>[] groups() default {};
+
+    /**
+     * @return Optional payload.
+     */
+    Class<? extends Payload>[] payload() default { };
 } 
