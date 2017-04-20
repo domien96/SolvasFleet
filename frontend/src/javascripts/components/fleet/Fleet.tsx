@@ -4,7 +4,7 @@ import Header from '../app/Header.tsx';
 import Card   from '../app/Card.tsx';
 import NestedCheckbox from '../app/NestedCheckbox.tsx';
 import SubfleetRow from './SubfleetRow.tsx';
-import InvoiceActions from './InvoiceActions.tsx'; 
+import InvoiceActions from './InvoiceActions.tsx';
 
 import { fetchFleet }    from '../../actions/fleet_actions.ts';
 import { fetchVehicles } from '../../actions/vehicle_actions.ts';
@@ -84,21 +84,20 @@ class Fleet extends React.Component<fleetProps, fleetState> {
   componentDidMount() {
     var { id } = this.props.params;
     let success = (data : any) => this.setState({ fleet: data });
-    fetchFleet(id, success);
+    //fetchFleet(id, success);
     fetchVehicles((data) => this.setState({ vehicles: data.data }), undefined, { fleet: id.toString() });
   }
 
   render () {
-    var {fleet, vehicles} = this.state;
 
-    let nodes = vehicles.map(({ id, type }) => { return { id, group: type } });
+    let nodes = this.state.vehicles.map(({ id, type }) => { return { id, group: type } });
 
     return (
       <div>
         <Header>
-          <h2>{ fleet.name }</h2>
+          <h2>{ this.state.fleet.name }</h2>
         </Header>
-        <InvoiceActions fleet={ fleet.id }/>
+        <InvoiceActions fleet={ this.props.params.id }/>
         <div className='wrapper'>
           <Card>
             <div className='card-title'>
@@ -107,7 +106,7 @@ class Fleet extends React.Component<fleetProps, fleetState> {
             </div>
             <div className='card-content not-padded'>
               <NestedCheckbox values={ nodes }>
-                <Vehicles vehicles={ group_by(vehicles, 'type') } />
+                <Vehicles vehicles={ group_by(this.state.vehicles, 'type') } />
               </NestedCheckbox>
             </div>
           </Card>
