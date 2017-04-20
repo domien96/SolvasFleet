@@ -107,3 +107,13 @@ task jacocoReport(type: JacocoReport){
     sourceSets sourceSets.main
     executionData test, itest
 }
+
+task seedDatabase(type:Exec) {
+    workingDir 'src/seed/python'
+    commandLine 'python3', 'seed.py'
+}
+
+bootRun {
+   systemProperties System.properties
+}
+
