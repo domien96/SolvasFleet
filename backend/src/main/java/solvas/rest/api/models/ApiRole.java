@@ -18,7 +18,7 @@ public class ApiRole extends ApiModel {
 
     private int user;
 
-    private Set<Integer> permissions = new HashSet<>();
+    private Set<String> permissions = new HashSet<>();
 
     public int getUser() {
         return user;
@@ -28,11 +28,11 @@ public class ApiRole extends ApiModel {
         this.user = user;
     }
 
-    public Set<Integer> getPermissions() {
+    public Set<String> getPermissions() {
         return permissions;
     }
 
-    public void setPermissions(Set<Integer> permissions) {
+    public void setPermissions(Set<String> permissions) {
         this.permissions = permissions;
     }
 

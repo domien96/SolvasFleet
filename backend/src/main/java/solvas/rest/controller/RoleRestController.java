@@ -86,7 +86,7 @@ public class RoleRestController extends AbstractRestController<Role,ApiRole> {
     @RequestMapping(value = "/auth/roles/{roleId}/permissions", method = RequestMethod.PUT)
     @PreAuthorize("hasPermission(#roleId, 'role', 'WRITE')")
     public ResponseEntity<?> putPermissions(@PathVariable int roleId,
-                                            @RequestBody Set<Integer> permissions,
+                                            @RequestBody Set<String> permissions,
                                             BindingResult result) {
         ApiRole r = new ApiRole();
         r.setPermissions(permissions);

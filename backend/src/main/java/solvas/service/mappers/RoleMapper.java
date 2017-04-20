@@ -34,7 +34,7 @@ public class RoleMapper extends AbstractMapper<Role,ApiRole> {
         Role role = api.getId()==0?new Role():daoContext.getRoleDao().find(api.getId());
         copySharedAttributes(role, api);
         role.setFunction(api.getName());
-        role.setPermissions(new HashSet<>(daoContext.getPermissionDao().findAll(api.getPermissions())));
+        role.setPermissions(new HashSet<>(daoContext.getPermissionDao().findByScopeIn(api.getPermissions())));
 
         return role;
     }
@@ -44,8 +44,8 @@ public class RoleMapper extends AbstractMapper<Role,ApiRole> {
         ApiRole apiRole = new ApiRole();
         copyAttributes(apiRole, role, "id", "createdAt", "updatedAt");
         copySharedAttributes(apiRole, role);
-        Set<Integer> apiPermissions = role.getPermissions().stream()
-                .map(Permission::getId).collect(Collectors.toSet());
+        Set<String> apiPermissions = role.getPermissions().stream()
+                .map(Permission::getScope).collect(Collectors.toSet());
         apiRole.setPermissions(apiPermissions);
         apiRole.setName(role.getFunction());
         apiRole.setUrl(SimpleUrlBuilder.buildUrlFromBase(ROOTPATH + "{id}", role.getId()));
