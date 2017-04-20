@@ -1,12 +1,10 @@
 package solvas.persistence.api.dao;
 
-import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.stereotype.Repository;
 import solvas.persistence.api.Dao;
 import solvas.service.models.Fleet;
 import solvas.service.models.Invoice;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
@@ -15,7 +13,7 @@ import java.util.Collection;
  *
  * @author Steven Bastiaens
  */
-@NoRepositoryBean
+@Repository
 public interface InvoiceDao extends Dao<Invoice> {
 
     /**
@@ -32,5 +30,5 @@ public interface InvoiceDao extends Dao<Invoice> {
      * @param fleet
      * @return LocalDateTime
      */
-    LocalDateTime getLatestEndDateByFleet(Fleet fleet);
+    LocalDateTime latestEndDateByFleet(Fleet fleet);
 }

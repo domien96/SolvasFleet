@@ -21,9 +21,18 @@ import java.util.Optional;
  * @author Steven Bastiaens
  * @author David Vandorpe
  */
-@NoRepositoryBean
-public interface FleetSubscriptionDao extends Dao<FleetSubscription> {
+@Repository
+public interface FleetSubscriptionDao extends Dao<FleetSubscription>, FleetSubscriptionDaoCustom {
 
+
+    /**
+     * Get the active subscription for a vehicle.
+     *
+     * @param vehicle The vehicle.
+     *
+     * @return The optional subscription.
+     */
+    Optional<FleetSubscription> activeForVehicle(Vehicle vehicle);
     /**
      * Similar to {@link #activeForVehicle(Vehicle)}, but returns all subscriptions.
      *
@@ -76,26 +85,6 @@ public interface FleetSubscriptionDao extends Dao<FleetSubscription> {
     default Collection<FleetSubscription> fleetSubscriptionByFleetAndVehicleTypeAfterStartDate(Fleet fleet, VehicleType vehicleType, LocalDate startDate) {
         return findAllByFleetAndVehicleTypeAndStartDateGreaterThanEqual(fleet, vehicleType, startDate);
     }
-
-
-    /**
-     * Find all subscription for a fleet in the period start-end
-     * @param fleet
-     * @param start
-     * @param end
-     * @return
-     */
-    Collection<FleetSubscription> findByFleetAndInPeriod(Fleet fleet, LocalDate start, LocalDate end);
-
-
-    /**
-     * Get the active subscription for a vehicle.
-     *
-     * @param vehicle The vehicle.
-     *
-     * @return The optional subscription.
-     */
-    Optional<FleetSubscription> activeForVehicle(Vehicle vehicle);
 
     /**
      * Find all subscriptions of a given fleet, where the vehicle of the subscription is of the given vehicle type and

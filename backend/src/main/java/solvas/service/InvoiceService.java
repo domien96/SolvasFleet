@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
-import solvas.persistence.api.dao.InsuranceTypeDao;
 import solvas.rest.api.models.ApiInvoice;
 import solvas.service.mappers.InvoiceMapper;
 import solvas.service.models.*;
@@ -117,7 +116,7 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
      * @return the start date
      */
     public LocalDateTime getStartDateNextInvoice(Fleet fleet) {
-        return context.getInvoiceDao().getLatestEndDateByFleet(fleet);
+        return context.getInvoiceDao().latestEndDateByFleet(fleet);
     }
 
 
@@ -167,7 +166,7 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
         BigDecimal calculateTotalAmount(Fleet fleet, LocalDateTime startDate) {
             LocalDateTime endDate = startDate.plusMonths(fleet.getFacturationPeriod());
             return context.getFleetSubscriptionDao()
-                    .findByFleetAndInPeriod(fleet, startDate.toLocalDate(), endDate.toLocalDate()).stream()
+                    .findByFleetAndStartDateAndEndDate(fleet, startDate.toLocalDate(), endDate.toLocalDate()).stream()
                     .map(fleetSubscription -> calculatePremium(fleetSubscription, startDate, endDate))
                     .reduce(BigDecimal.ZERO, BigDecimal::add);
         }
