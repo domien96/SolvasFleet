@@ -1,7 +1,7 @@
 import React              from 'react';
 
 import { fetchInvoices } from '../../actions/fleet_actions.ts';
-import { redirect_to } from'../../router.tsx';
+import { redirect_to } from'../../routes/router.tsx';
 import InvoicesView from './InvoicesView.tsx'
 
 interface Props {
