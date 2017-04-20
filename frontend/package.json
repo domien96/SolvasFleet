@@ -44,7 +44,7 @@
     "redux": "^3.6.0",
     "typescript": "^2.2.1",
     "typings": "^2.1.0",
-    "webpack": "^2.2.1",
+    "webpack": "2.2.1",
     "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
@@ -58,7 +58,7 @@
     "sass-loader": "^6.0.2",
     "style-loader": "^0.13.2",
     "ts-loader": "^2.0.1",
-    "webpack": "^2.2.1",
+    "webpack": "2.2.1",
     "yaml-loader": "^0.4.0"
   }
 }
