@@ -1,5 +1,7 @@
 package solvas.persistence.api.dao;
 
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.stereotype.Repository;
 import solvas.service.models.Fleet;
 import solvas.service.models.FleetSubscription;
@@ -19,7 +21,7 @@ import java.util.Optional;
  * @author Steven Bastiaens
  * @author David Vandorpe
  */
-@Repository
+@NoRepositoryBean
 public interface FleetSubscriptionDao extends Dao<FleetSubscription> {
 
     /**
@@ -30,16 +32,6 @@ public interface FleetSubscriptionDao extends Dao<FleetSubscription> {
      * @return The subscriptions.
      */
     Collection<FleetSubscription> findByVehicle(Vehicle vehicle);
-
-
-    /**
-     * Find the fleet subscription which is not archived and (sub.StartDate <= param.startDate || sub.startDate is Null)
-     *
-     * @param vehicle the vehicle of which a subscription needs to be found
-     * @param startDate the startDate
-     * @return a distinct subscription
-     */
-    FleetSubscription findByVehicleAndArchivedFalseAndStartDateLessThanEqualOrStartDateIsNull(Vehicle vehicle, LocalDate startDate);
 
     /**
      * Find all subscriptions of a fleet where the startDate of the subscription >= the startDate in the parameter,
@@ -80,9 +72,7 @@ public interface FleetSubscriptionDao extends Dao<FleetSubscription> {
      *
      * @return The optional subscription.
      */
-    default Optional<FleetSubscription> activeForVehicle(Vehicle vehicle) {
-        return Optional.ofNullable(findByVehicleAndArchivedFalseAndStartDateLessThanEqualOrStartDateIsNull(vehicle, LocalDate.now()));
-    }
+    Optional<FleetSubscription> activeForVehicle(Vehicle vehicle);
 
     /**
      * Find all subscriptions of a given fleet, where the vehicle of the subscription is of the given vehicle type and
