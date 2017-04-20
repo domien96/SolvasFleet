@@ -56,7 +56,7 @@ class CreateRole extends React.Component<{}, State> {
   onSubmit(e : any) : void {
     e.preventDefault();
     let setErrors = (e : Form.Error[]) => this.setState({ errors: e });
-    let success = (data : any) => redirect_to(`/roles/${data.id}`);
+    let success = () => redirect_to(`/auth`);
     let fail = (data : any) => {
       setErrors(data.errors.map(function(e : any) {
         return { field: e, error: 'null' };
