@@ -14,7 +14,14 @@ import java.util.Collection;
  * @author Steven Bastiaens
  */
 @Repository
-public interface InvoiceDao extends Dao<Invoice>, InvoiceDaoCustom {
+public interface InvoiceDao extends Dao<Invoice> {
+    /**
+     * Get latest date for which an invoice was generated for a fleet
+     * @param fleet
+     * @return LocalDateTime
+     */
+    LocalDateTime latestEndDateByFleet(Fleet fleet);
+
     /**
      * Get all the invoices with given fleet
      *

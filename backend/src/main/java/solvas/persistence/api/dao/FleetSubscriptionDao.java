@@ -23,6 +23,7 @@ import java.util.Optional;
  */
 @Repository
 public interface FleetSubscriptionDao extends Dao<FleetSubscription> {
+
     /**
      * Similar to {@link #activeForVehicle(Vehicle)}, but returns all subscriptions.
      *
