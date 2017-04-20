@@ -50,6 +50,13 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
         return super.listAll(pagination, filter, result);
     }
 
+    /**
+     * List all vehicles
+     * @param pagination The pagination information.
+     * @param filter The filters.
+     * @param result The validation results of the filterResult
+     * @return ResponseEntity
+     */
     @PreAuthorize("hasPermission(0, 'vehicle', 'LIST_VEHICLES')")
     @RequestMapping(value = "/vehicles", method = RequestMethod.GET)
     public ResponseEntity<?> listAll(Pageable pagination, VehicleFilter filter, BindingResult result) {
