@@ -18,7 +18,7 @@ const Layout : React.StatelessComponent<Props> = props => {
       <div className='wrapper'>
         <div className='row'>
           <div className='col-xs-12'>
-            <Listing onSelect={props.onClientSelect} addNewRoute='/users/new' fetchModels={props.fetchClients} modelName='company'
+            <Listing onSelect={props.onClientSelect} addNewRoute='/companies/new' fetchModels={props.fetchClients} modelName='company'
               columns={['id','name','vatNumber']} response={props.response}/>
           </div>
         </div>
