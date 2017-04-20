@@ -1,6 +1,8 @@
 package solvas.rest.api.models;
 
 import org.hibernate.validator.constraints.NotBlank;
+import solvas.rest.utils.validators.UniqueVatNumber;
+import solvas.service.models.Company;
 import solvas.service.models.validators.PhoneNumber;
 
 import javax.validation.Valid;
@@ -23,7 +25,12 @@ public class ApiCompany extends ApiModel {
     private String phoneNumber;
 
     @NotBlank
+    @UniqueVatNumber
     private String vatNumber;
+
+    @NotBlank
+    private String type;
+
 
     public ApiAddress getAddress() {
         return address;
@@ -55,5 +62,13 @@ public class ApiCompany extends ApiModel {
 
     public void setVatNumber(String vatNumber) {
         this.vatNumber = vatNumber;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

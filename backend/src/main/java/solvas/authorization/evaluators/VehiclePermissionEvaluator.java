@@ -4,7 +4,6 @@ import org.springframework.security.core.Authentication;
 import solvas.persistence.api.Dao;
 import solvas.service.models.Fleet;
 import solvas.service.models.FleetSubscription;
-import solvas.service.models.SubFleet;
 import solvas.service.models.Vehicle;
 
 import java.util.stream.Stream;
@@ -34,8 +33,7 @@ public class VehiclePermissionEvaluator extends AbstractPermissionEvaluator<Vehi
          return Stream.concat(
                  vehicle.getFleetSubscriptions().stream()
                     .filter(FleetSubscription::isActive)
-                    .map(FleetSubscription::getSubFleet)
-                    .map(SubFleet::getFleet)
+                    .map(FleetSubscription::getFleet)
                     .map(Fleet::getId),
                  Stream.of(vehicle.getLeasingCompany().getId()));
     }
