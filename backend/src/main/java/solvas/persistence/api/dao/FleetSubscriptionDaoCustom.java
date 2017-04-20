@@ -8,6 +8,9 @@ import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Optional;
 
+/**
+ * Custom methods to implement because JPA can't
+ */
 public interface FleetSubscriptionDaoCustom {
 
 

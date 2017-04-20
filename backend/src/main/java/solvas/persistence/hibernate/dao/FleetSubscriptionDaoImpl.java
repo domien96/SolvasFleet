@@ -21,6 +21,10 @@ import java.util.Optional;
 public class FleetSubscriptionDaoImpl implements FleetSubscriptionDaoCustom {
     private final EntityManager entityManager;
 
+    /**
+     * Create instance
+     * @param entityManager to create queries
+     */
     @Autowired
     public FleetSubscriptionDaoImpl(EntityManager entityManager) {
         this.entityManager = entityManager;

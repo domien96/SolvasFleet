@@ -17,6 +17,10 @@ import java.time.LocalDateTime;
 public class InvoiceDaoImpl implements InvoiceDaoCustom {
     private final EntityManager entityManager;
 
+    /**
+     * Create instance
+     * @param entityManager to create queries
+     */
     @Autowired
     public InvoiceDaoImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
