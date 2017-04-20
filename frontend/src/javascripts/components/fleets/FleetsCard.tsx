@@ -29,6 +29,7 @@ interface Props {
   onClick : () => void;
   formIsVisible : boolean;
   fleets : FleetData[];
+  fleet : FleetData;
 }
 
 const FleetsCard : React.StatelessComponent<Props> = props => {
@@ -46,7 +47,7 @@ const FleetsCard : React.StatelessComponent<Props> = props => {
         <div className='fleet-form-wrapper'>
           <Collapse in={ props.formIsVisible }>
             <div>
-              <FleetForm handleChange={ props.handleChange } onSubmit={ props.onSubmit } />
+              <FleetForm handleChange={ props.handleChange } onSubmit={ props.onSubmit } fleet={props.fleet} />
             </div>
           </Collapse>
         </div>

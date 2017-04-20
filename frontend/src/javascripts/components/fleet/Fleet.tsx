@@ -8,7 +8,6 @@ import InvoiceActions from './InvoiceActions.tsx';
 
 import { fetchFleet }    from '../../actions/fleet_actions.ts';
 import { fetchVehicles } from '../../actions/vehicle_actions.ts';
-
 import { group_by } from '../../utils/utils.ts';
 
 interface vehiclesProps {
@@ -40,6 +39,7 @@ class Vehicles extends React.Component<vehiclesProps, vehiclesState> {
   }
 
   render() {
+
     const vehicles = Object.keys(this.props.vehicles).map((k, i) => {
       return (
         <SubfleetRow
@@ -76,7 +76,7 @@ class Fleet extends React.Component<fleetProps, fleetState> {
   constructor(props : fleetProps) {
     super(props);
     this.state = {
-      fleet: {},
+      fleet: {paymentPeriod:0,facturationPeriod:0,name:""},
       vehicles: []
     }
   }
@@ -103,6 +103,7 @@ class Fleet extends React.Component<fleetProps, fleetState> {
           <Card>
             <div className='card-title'>
               <h5>Vehicles</h5>
+
             </div>
             <div className='card-content not-padded'>
               <NestedCheckbox values={ nodes }>
