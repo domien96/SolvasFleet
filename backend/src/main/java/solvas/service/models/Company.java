@@ -18,6 +18,8 @@ public class Company extends Model {
     private String addressStreet;
     private String addressHouseNumber;
     private String addressPostalCode;
+    private CompanyType type;
+
     /**
      * These users represent this company.
      * Remark: this is a subset of the set of all employees!
@@ -99,4 +101,11 @@ public class Company extends Model {
         this.representatives = representatives;
     }
 
+    public CompanyType getType() {
+        return type;
+    }
+
+    public void setType(CompanyType type) {
+        this.type = type;
+    }
 }

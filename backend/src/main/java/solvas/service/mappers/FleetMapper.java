@@ -25,7 +25,7 @@ public class FleetMapper extends AbstractMapper<Fleet, ApiFleet> {
      */
     @Autowired
     public FleetMapper(DaoContext daoContext) {
-        super(daoContext, "name");
+        super(daoContext, "name","facturationPeriod","paymentPeriod");
     }
 
     @Override

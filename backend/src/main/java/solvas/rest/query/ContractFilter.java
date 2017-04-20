@@ -2,7 +2,6 @@ package solvas.rest.query;
 
 import solvas.service.models.Contract;
 import solvas.service.models.FleetSubscription;
-import solvas.service.models.SubFleet;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Join;
@@ -51,10 +50,9 @@ public class ContractFilter extends ArchiveFilter<Contract> {
                 );
             }
             if (fleet >= 0){
-                Join<FleetSubscription, SubFleet> subFleetJoin = subscriptionJoin.join("subFleet");
                  predicates.add(
                         builder.and(
-                                builder.equal(subFleetJoin.get("fleet"), fleet),
+                                builder.equal(subscriptionJoin.get("fleet"), fleet),
                                 start,
                                 end
                         )

@@ -25,6 +25,10 @@ public class ApiCompany extends ApiModel {
     @NotBlank
     private String vatNumber;
 
+    @NotBlank
+    private String type;
+
+
     public ApiAddress getAddress() {
         return address;
     }
@@ -55,5 +59,13 @@ public class ApiCompany extends ApiModel {
 
     public void setVatNumber(String vatNumber) {
         this.vatNumber = vatNumber;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }
