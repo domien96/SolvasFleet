@@ -56,7 +56,7 @@ interface Props {
 const PermissionControlView : React.StatelessComponent<Props> = props => {
 
   return (
-    <div>
+    <div className='row'>
       <div className='col-sm-6'>
         <Card>
           <div className='card-title'>
