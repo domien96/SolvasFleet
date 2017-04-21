@@ -17,9 +17,9 @@ const Info : React.StatelessComponent<Props> = props => {
   let checkboxes;
   if(permissions){
     checkboxes = props.permissions.map((permission : string, i : number) => {
-      let active = "";
+      let active : boolean = false;
       if(permissions.includes(permission)){
-        active = "active";
+        active = true;
       }
       return(<Checkbox key={ i } label={ permission } active={ active } onChange={ props.handleChange }/>);
     });
