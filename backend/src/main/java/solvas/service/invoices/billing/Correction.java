@@ -14,6 +14,8 @@ import java.time.temporal.ChronoUnit;
  */
 public abstract class Correction extends Cost {
 
+    private static final int PERCENTAGE_SCALE = 2;
+
     private long days;
 
     protected long totalPeriod;
@@ -70,7 +72,7 @@ public abstract class Correction extends Cost {
     private BigDecimal percentage() {
         BigDecimal total = new BigDecimal(totalPeriod);
         BigDecimal part = new BigDecimal(days);
-        return part.divide(total, 2, BigDecimal.ROUND_HALF_UP);
+        return part.divide(total, PERCENTAGE_SCALE, BigDecimal.ROUND_HALF_UP);
     }
 
     /**
@@ -81,7 +83,7 @@ public abstract class Correction extends Cost {
     public BigDecimal percentageActive() {
         BigDecimal total = new BigDecimal(totalPeriod);
         BigDecimal part = new BigDecimal(daysActive());
-        return part.divide(total, 2, BigDecimal.ROUND_HALF_UP);
+        return part.divide(total, PERCENTAGE_SCALE, BigDecimal.ROUND_HALF_UP);
     }
 
     /**
