@@ -4,10 +4,10 @@ import org.springframework.stereotype.Component;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.api.models.ApiInvoice;
+import solvas.rest.utils.SimpleUrlBuilder;
 import solvas.service.mappers.exceptions.DependantEntityNotFound;
 import solvas.service.models.Invoice;
 import solvas.service.models.InvoiceType;
-import solvas.service.models.Model;
 
 import java.math.BigDecimal;
 
@@ -17,7 +17,7 @@ import java.math.BigDecimal;
 @Component
 public class InvoiceMapper extends AbstractMapper<Invoice,ApiInvoice> {
 
-    private static final String ROOTPATH="/invoices/";
+    private static final String ROOTPATH="fleets/{id}/invoices/";
 
     /**
      * Create a mapper between invoice and Apiinvoice
@@ -47,8 +47,7 @@ public class InvoiceMapper extends AbstractMapper<Invoice,ApiInvoice> {
         api.setTotalAmount(model.getAmount().longValue());
         api.setType(model.getType().getText());
         api.setFleet(model.getFleet().getId());
-        api.setUrl(ROOTPATH);
+        api.setUrl(SimpleUrlBuilder.buildUrlFromBase(ROOTPATH+"{invoice_id}",model.getFleet().getId(),model.getId()));
         return api;
     }
-
 }
