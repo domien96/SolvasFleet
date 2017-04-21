@@ -37,8 +37,8 @@ public class PaymentPdfView extends InvoicePdfView<PaymentInvoice> {
         p.setAlignment(Element.ALIGN_RIGHT);
         document.add(p);
         p = new Paragraph(String.format("Period of invoice: %s to %s",
-                convertDate(invoice.getInvoice().getStartDate(), "MMM dd, yyyy"),
-                convertDate(invoice.getInvoice().getEndDate(), "MMM dd, yyyy")), font12);
+                convertDate(invoice.getInvoice().getStartDate()),
+                convertDate(invoice.getInvoice().getEndDate())), font12);
         p.setAlignment(Element.ALIGN_RIGHT);
         document.add(p);
 

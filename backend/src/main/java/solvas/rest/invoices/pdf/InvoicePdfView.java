@@ -16,10 +16,8 @@ import java.beans.PropertyDescriptor;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Date;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 /**
@@ -30,10 +28,14 @@ import java.util.Map;
 public abstract class InvoicePdfView<M> extends AbstractITextPdfView {
 
     public final static String MODEL_NAME = InvoicePdfView.class.getCanonicalName();
+    protected final static DateTimeFormatter SHORT_DATE_FORMAT = DateTimeFormatter.ofPattern("MMM dd, yyyy");
 
+    private final static int SMALL_FONT_SIZE = 10;
     private final static int BASE_FONT_SIZE = 12;
-    private Font dataFont = new Font(Font.FontFamily.HELVETICA,BASE_FONT_SIZE,Font.NORMAL);
-    private Font dataFontBold = new Font(Font.FontFamily.HELVETICA,BASE_FONT_SIZE,Font.BOLD);
+    private final static int BIG_FONT_SIZE = 14;
+
+    private Font dataFont = new Font(Font.FontFamily.HELVETICA, BASE_FONT_SIZE, Font.NORMAL);
+    private Font dataFontBold = new Font(Font.FontFamily.HELVETICA, BASE_FONT_SIZE, Font.BOLD);
 
     protected final static int FULL_WIDTH = 100;
 
@@ -60,11 +62,11 @@ public abstract class InvoicePdfView<M> extends AbstractITextPdfView {
      * @throws IOException Other bad things.
      */
     public InvoicePdfView() throws DocumentException, IOException {
-        font10 = new Font(Font.FontFamily.HELVETICA,10,Font.NORMAL);
-        font10b = new Font(Font.FontFamily.HELVETICA,10,Font.BOLD);
-        font12 = new Font(Font.FontFamily.HELVETICA,12,Font.NORMAL);
-        font12b = new Font(Font.FontFamily.HELVETICA,12,Font.BOLD);
-        font14 = new Font(Font.FontFamily.HELVETICA,14,Font.NORMAL);
+        font10 = new Font(Font.FontFamily.HELVETICA, SMALL_FONT_SIZE, Font.NORMAL);
+        font10b = new Font(Font.FontFamily.HELVETICA, SMALL_FONT_SIZE, Font.BOLD);
+        font12 = new Font(Font.FontFamily.HELVETICA, BASE_FONT_SIZE, Font.NORMAL);
+        font12b = new Font(Font.FontFamily.HELVETICA, BASE_FONT_SIZE, Font.BOLD);
+        font14 = new Font(Font.FontFamily.HELVETICA, BIG_FONT_SIZE, Font.NORMAL);
     }
 
     protected abstract void createPdf(M invoice, Document document) throws DocumentException, IOException;
@@ -79,8 +81,7 @@ public abstract class InvoicePdfView<M> extends AbstractITextPdfView {
         return cell;
     }
 
-    protected String convertDate(LocalDateTime d, String newFormat) {
-        SimpleDateFormat sdf = new SimpleDateFormat(newFormat);
-        return sdf.format(Date.from(d.toLocalDate().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+    protected String convertDate(LocalDateTime d) {
+        return SHORT_DATE_FORMAT.format(d);
     }
 }
