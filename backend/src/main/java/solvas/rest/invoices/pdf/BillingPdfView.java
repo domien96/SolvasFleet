@@ -53,7 +53,7 @@ public class BillingPdfView extends InvoicePdfView<BillingInvoice> {
         // grand totals
         //document.add(getTotalsTable(String.valueOf(invoice.getTotalAmount()),"€"));
         PdfPTable table = new PdfPTable(6);
-        table.setWidthPercentage(100);
+        table.setWidthPercentage(FULL_WIDTH);
 
         // Add the title
         table.addCell(getCell("Nummerplaat", Element.ALIGN_LEFT, font12b));

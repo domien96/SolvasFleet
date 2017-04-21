@@ -12,6 +12,9 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+/**
+ * Resolve the views for the PDF's.
+ */
 @Component
 public class InvoiceFileViewResolver implements ViewResolver {
 

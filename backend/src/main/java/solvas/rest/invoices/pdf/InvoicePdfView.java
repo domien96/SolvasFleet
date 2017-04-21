@@ -35,6 +35,8 @@ public abstract class InvoicePdfView<M> extends AbstractITextPdfView {
     private Font dataFont = new Font(Font.FontFamily.HELVETICA,BASE_FONT_SIZE,Font.NORMAL);
     private Font dataFontBold = new Font(Font.FontFamily.HELVETICA,BASE_FONT_SIZE,Font.BOLD);
 
+    protected final static int FULL_WIDTH = 100;
+
     @Override
     protected void buildPdfDocument(Map<String, Object> model, Document document, PdfWriter writer, HttpServletRequest request, HttpServletResponse response) throws Exception {
         createPdf((M) model.get(MODEL_NAME), document);
