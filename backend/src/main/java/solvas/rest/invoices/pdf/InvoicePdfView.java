@@ -23,7 +23,7 @@ import java.util.Date;
 import java.util.Map;
 
 /**
- *Abstract class for generating a PDF from an invoice.
+ * Abstract class for generating a PDF from an invoice.
  *
  * @param <M> The model of the invoice.
  */
@@ -52,6 +52,11 @@ public abstract class InvoicePdfView<M> extends AbstractITextPdfView {
     protected Font font14;
     protected String logoPath = "/main/java/solvas/rest/invoices/logo-solvas-1.png";
 
+    /**
+     * Default constructor.
+     * @throws DocumentException When bad things happen.
+     * @throws IOException Other bad things.
+     */
     public InvoicePdfView() throws DocumentException, IOException {
         font10 = new Font(Font.FontFamily.HELVETICA,10,Font.NORMAL);
         font10b = new Font(Font.FontFamily.HELVETICA,10,Font.BOLD);
