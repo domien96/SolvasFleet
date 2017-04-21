@@ -18,6 +18,11 @@ company:
     postalCode: Postal code
     country: Country
   addNew: Add New Company
+  types: Type 
+  type:
+    LeasingCompany: Leasing company 
+    InsuranceCompany: Insurance company 
+    Customer: Customer
 
 errors:
   null: is empty

@@ -47,12 +47,12 @@ class Client extends React.Component<Props, State> {
     deleteClient(this.props.params.id, () => redirect_to('/clients'));
   }
 
-  fetchContracts(vehicleId:number,companyId:number,fleetId:number,success?:callback,fail?:callback) {
+  fetchContracts(companyId:number,success?:callback,fail?:callback) {
     fetchContractsByCompany(companyId,success,fail);
   }
 
   render() {
-    var { name, vatNumber, phoneNumber, address } = this.state.company;
+    var { name, vatNumber, phoneNumber, address, type } = this.state.company;
     var { street, houseNumber, city, postalCode, country } = address;
 
     var id = this.props.params.id;
@@ -60,6 +60,7 @@ class Client extends React.Component<Props, State> {
     const data = [
       th('company.vatNumber', vatNumber),
       th('company.phoneNumber', phoneNumber),
+      th('company.types', type),
       th('company.address.street', street),
       th('company.address.houseNumber', houseNumber),
       th('company.address.postalCode', postalCode),
@@ -67,6 +68,7 @@ class Client extends React.Component<Props, State> {
       th('company.address.country', country)
     ];
 
+    console.log(this.props.params.id)
 
     return (
       <div>

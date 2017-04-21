@@ -54,7 +54,6 @@ class CreateRole extends React.Component<{}, State> {
 
   onSubmit(e : any) : void {
     e.preventDefault();
-    console.log(this.state);
     let setErrors = (e : Form.Error[]) => this.setState({ errors: e });
     let success = () => redirect_to(`/auth`);
     let fail = (data : any) => {
@@ -68,7 +67,6 @@ class CreateRole extends React.Component<{}, State> {
 
    
   render() {
-    console.log(this.state)
     return (
       <div>
         <Header>
