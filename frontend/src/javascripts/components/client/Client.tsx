@@ -69,8 +69,6 @@ class Client extends React.Component<Props, State> {
       th('company.address.country', country)
     ];
 
-    console.log(this.props.params.id)
-
     return (
       <div>
         <Header>

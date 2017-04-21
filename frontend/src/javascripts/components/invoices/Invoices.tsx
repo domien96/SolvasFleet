@@ -33,7 +33,6 @@ class Invoices extends React.Component<Props, State> {
   }
 
   fetchInvoices(fleetId : number) {
-    console.log(fleetId)
     fetchInvoices(fleetId, ((data : Invoices.Data) => {
       this.setState({ invoices: data.data })
     }));

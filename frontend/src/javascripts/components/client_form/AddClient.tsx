@@ -35,7 +35,6 @@ class AddClient extends React.Component<{}, State> {
   }
 
   public onSubmit(e : any) : void {
-    console.log(this.state.company)
     e.preventDefault();
     let setErrors = (e : Form.Error[]) => this.setState({ errors: e });
     let success = (data : any) => redirect_to(`/clients/${data.id}`);
