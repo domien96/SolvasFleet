@@ -12,7 +12,7 @@ interface Props {
 
 interface State {
   response: ListResponse;
-  isMounted:boolean;
+  isMounted:boolean
 
 }
 
@@ -20,14 +20,15 @@ class Contracts extends React.Component<Props, State> {
 
 	constructor(props : any) {
     super(props);
-    this.state = {  response:{total:0,first : "", last : "", limit : 0, offset : 0, previous : "", next : "",data:[]}};
+    this.state = {  response:{total:0,first : "", last : "", limit : 0, offset : 0, previous : "", next : "",data:[]},isMounted:false};
     this.fetchContracts=this.fetchContracts.bind(this);
     this.fetchContractsWithProps=this.fetchContractsWithProps.bind(this);
   }
 
   fetchContracts(vehicleId:number,companyId:number,fleetId:number){
+    var params : ContractParams = {companyId: companyId, fleetId: fleetId, vehicleId: vehicleId};
     if(this.state.isMounted){
-    this.props.fetchMethod(vehicleId,companyId,fleetId,(data:ListResponse)=> {
+    this.props.fetchMethod(params,(data:ListResponse)=> {
       this.setState({response:data})
     })}
   }

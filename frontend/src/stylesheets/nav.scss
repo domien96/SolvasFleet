@@ -17,13 +17,6 @@
   //
   // Burger menu custom styles
   //
-  .bm-burger-button {
-    position: fixed;
-    width: 36px;
-    height: 30px;
-    left: 10px;
-    top: 10px;
-  }
 
   .bm-burger-bars {
     background: #373a47;
@@ -48,6 +41,14 @@
   }
 }
 
+.bm-burger-button {
+  position: fixed;
+  width: 36px;
+  height: 30px;
+  left: 10px;
+  top: 10px;
+}
+
 
 @media screen and (min-width: $mobile-width) {
 
@@ -62,6 +63,10 @@
     width: $nav-width;
     z-index: 1000;
     height: 100%;
+  }
+
+  .bm-burger-bars {
+    background: transparent;
   }
 
   .page-wrapper {

@@ -65,7 +65,7 @@ public class InvoiceRestController extends AbstractRestController<Invoice, ApiIn
      * @return The response.
      */
     @RequestMapping(value = "/fleets/{id}/invoices/current", method = RequestMethod.GET)
-    @PreAuthorize("hasPermission(#fleetId, 'fleet', 'READ_INVOICES')")
+    @PreAuthorize("hasPermission(#id, 'fleet', 'READ_INVOICES')")
     public ResponseEntity<?> getActiveByFleetId(@PathVariable int id, @RequestParam("type") String type) throws EntityNotFoundException {
         InvoiceType invtype = InvoiceType.fromString(type);
         if(invtype == null) {

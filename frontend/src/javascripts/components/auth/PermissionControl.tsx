@@ -3,9 +3,7 @@ import PermissionControlView from './PermissionControlView.tsx';
 import { fetchPermissions, fetchRoles, deleteRole } from '../../actions/auth_actions.ts';
 import { redirect_to } from'../../routes/router.tsx';
 
-
 interface State{
-  //Sfunctions : SFunctionData[];
   roles: RoleData[];
   permissions: string[];
 }
@@ -17,10 +15,10 @@ class PermissionControl extends React.Component<{}, State> {
   }
 
   componentDidMount() {
-    //this.fetchFunctions();
     this.fetchRoles();
     this.fetchPermissions();
-    this.handleRoleSelect = this.handleRoleSelect.bind(this);
+    this.handleRoleEdit = this.handleRoleEdit.bind(this);
+    this.handleRoleDelete = this.handleRoleDelete.bind(this);
   }
 
   fetchRoles(){
@@ -35,19 +33,18 @@ class PermissionControl extends React.Component<{}, State> {
     });
   }
 
-  handleRoleSelect(id : number){
+  handleRoleEdit(id : number){
     redirect_to(`/auth/roles/${id}/edit`);
   }
 
   handleRoleDelete(id: number){
-    deleteRole(id, this.fetchRoles);
+    deleteRole(id, () => redirect_to('/auth'));
   }
 
   render(){
     var {roles, permissions} = this.state;
-    console.log(this.state)
     return (
-      <PermissionControlView roles={ roles } permissions={ permissions } onRoleSelect={ this.handleRoleSelect } onRoleDelete={ this.handleRoleDelete }/>
+      <PermissionControlView roles={ roles } permissions={ permissions } onRoleEdit={ this.handleRoleEdit } onRoleDelete={ this.handleRoleDelete }/>
     );
   }
 }

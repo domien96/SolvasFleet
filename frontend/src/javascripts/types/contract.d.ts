@@ -17,3 +17,9 @@ interface ContractData{
 	startDate? : string;
 	endDate? : string;
 }
+
+interface ContractParams{
+	companyId : number;
+	fleetId : number;
+	vehicleId : number;
+}

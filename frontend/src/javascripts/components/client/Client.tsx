@@ -7,14 +7,15 @@ import DetailTable  from '../tables/DetailTable.tsx';
 import Fleets       from '../fleets/Fleets.tsx';
 import Contracts    from '../contracts/Contracts.tsx'
 
-import { fetchFleets , fetchFleetsByCompany} from '../../actions/fleet_actions.ts';
+import { fetchFleets } from '../../actions/fleet_actions.ts';
 import { callback } from '../../actions/fetch_json.ts';
 import { fetchClient, deleteClient } from '../../actions/client_actions.ts';
 import { redirect_to } from'../../routes/router.tsx';
+import Confirm from 'react-confirm-bootstrap';
 
 import { th } from '../../utils/utils.ts';
 
-import { fetchContractsByCompany} from '../../actions/contract_actions.ts';
+import { fetchContracts} from '../../actions/contract_actions.ts';
 
 interface Props {
   [ params : string ] : { [ id : string ] : number };
@@ -47,12 +48,12 @@ class Client extends React.Component<Props, State> {
     deleteClient(this.props.params.id, () => redirect_to('/clients'));
   }
 
-  fetchContracts(vehicleId:number,companyId:number,fleetId:number,success?:callback,fail?:callback) {
-    fetchContractsByCompany(companyId,success,fail);
+  fetchContracts(params : ContractParams, success?:callback,fail?:callback) {
+    fetchContracts(success,fail,{company:params.companyId});
   }
 
   render() {
-    var { name, vatNumber, phoneNumber, address } = this.state.company;
+    var { name, vatNumber, phoneNumber, address, type } = this.state.company;
     var { street, houseNumber, city, postalCode, country } = address;
 
     var id = this.props.params.id;
@@ -60,13 +61,13 @@ class Client extends React.Component<Props, State> {
     const data = [
       th('company.vatNumber', vatNumber),
       th('company.phoneNumber', phoneNumber),
+      th('company.types', type),
       th('company.address.street', street),
       th('company.address.houseNumber', houseNumber),
       th('company.address.postalCode', postalCode),
       th('company.address.city', city),
       th('company.address.country', country)
     ];
-
 
     return (
       <div>
@@ -85,9 +86,15 @@ class Client extends React.Component<Props, State> {
                       </Link>
                     </div>
                     <div className='col-sm-6'>
-                      <button onClick = { this.deleteClient } className='btn btn-danger form-control'>
-                        <span className='glyphicon glyphicon-remove' /> Delete
-                      </button>
+                      <Confirm
+                        onConfirm={ this.deleteClient }
+                        body="Are you sure you want to archive this?"
+                        confirmText="Confirm Archive"
+                        title="Archive client">
+                        <button className='btn btn-danger form-control'>
+                          <span className='glyphicon glyphicon-remove' /> Archive
+                        </button>
+                      </Confirm>
                     </div>
                   </div>
                 </div>
