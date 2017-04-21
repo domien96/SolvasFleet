@@ -5,6 +5,8 @@ import Card from '../app/Card.tsx';
 import DetailTable from '../tables/DetailTable.tsx';
 
 import { th } from '../../utils/utils.ts';
+import Confirm from 'react-confirm-bootstrap';
+
 
 
 const EditLink = ({ id } : { id : number }) => {
@@ -20,9 +22,15 @@ const EditLink = ({ id } : { id : number }) => {
 const DeleteLink = ({ handleDelete } : { handleDelete : () => void }) => {
   return (
     <div className='col-sm-6'>
-      <button onClick={ handleDelete } className='btn btn-danger form-control'>
-        <span className='glyphicon glyphicon-remove' /> Delete
-      </button>
+      <Confirm
+        onConfirm={handleDelete}
+        body="Are you sure you want to archive this?"
+        confirmText="Confirm Archive"
+        title="Archive vehicle">
+        <button className='btn btn-danger form-control'>
+          <span className='glyphicon glyphicon-remove' /> Archive
+        </button>
+      </Confirm>
     </div>
   );
 }

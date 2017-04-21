@@ -11,6 +11,7 @@ import { fetchFleets } from '../../actions/fleet_actions.ts';
 import { callback } from '../../actions/fetch_json.ts';
 import { fetchClient, deleteClient } from '../../actions/client_actions.ts';
 import { redirect_to } from'../../routes/router.tsx';
+import Confirm from 'react-confirm-bootstrap';
 
 import { th } from '../../utils/utils.ts';
 
@@ -87,9 +88,15 @@ class Client extends React.Component<Props, State> {
                       </Link>
                     </div>
                     <div className='col-sm-6'>
-                      <button onClick = { this.deleteClient } className='btn btn-danger form-control'>
-                        <span className='glyphicon glyphicon-remove' /> Delete
-                      </button>
+                      <Confirm
+                        onConfirm={ this.deleteClient }
+                        body="Are you sure you want to archive this?"
+                        confirmText="Confirm Archive"
+                        title="Archive client">
+                        <button className='btn btn-danger form-control'>
+                          <span className='glyphicon glyphicon-remove' /> Archive
+                        </button>
+                      </Confirm>
                     </div>
                   </div>
                 </div>

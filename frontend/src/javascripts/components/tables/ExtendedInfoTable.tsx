@@ -1,5 +1,6 @@
 import React from 'react';
 import T     from 'i18n-react';
+import Confirm from 'react-confirm-bootstrap';
 
 interface Props {
       head    : Table.Head.Data[];
@@ -26,9 +27,15 @@ const ExtendedInfoTable : React.StatelessComponent<Props> = props => {
         <tr key={ i } className='table-row'>
           {cells}
           <td>
-            <button onClick={ onDelete } className='btn btn-danger btn-xs'>
-              <span className='glyphicon glyphicon-remove' /> Delete
-            </button>
+            <Confirm
+              onConfirm={ onDelete }
+              body="Are you sure you want to archive this?"
+              confirmText="Confirm Archive"
+              title="Archive">
+              <button className='btn btn-danger btn-xs'>
+                <span className='glyphicon glyphicon-remove' /> Archive
+              </button>
+            </Confirm>
           </td>
         </tr>
       );

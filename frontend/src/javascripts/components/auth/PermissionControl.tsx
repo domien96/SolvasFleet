@@ -38,7 +38,6 @@ class PermissionControl extends React.Component<{}, State> {
   }
 
   handleRoleDelete(id: number){
-    console.log(id);
     deleteRole(id, () => redirect_to('/auth'));
   }
 

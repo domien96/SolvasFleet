@@ -1,6 +1,6 @@
 import React from 'react';
 import T     from 'i18n-react';
-//import SimpleList from './SimpleList.tsx'
+import Confirm from 'react-confirm-bootstrap';
 
 interface Props {
       head    : Table.Head.Data[];
@@ -28,10 +28,15 @@ const InfoTable : React.StatelessComponent<Props> = props => {
               <button onClick={ () => onEdit(role.id) } className='btn btn-default btn-xs'>
                 <span className='glyphicon glyphicon-edit' /> Edit
               </button>
-
-              <button onClick={ () => onDelete(role.id) } className='btn btn-danger btn-xs'>
-                <span className='glyphicon glyphicon-remove' /> Delete
-              </button>
+              <Confirm
+                onConfirm={() => onDelete(role.id)}
+                body="Are you sure you want to archive this?"
+                confirmText="Confirm Archive"
+                title="Archive">
+                <button className='btn btn-danger btn-xs'>
+                  <span className='glyphicon glyphicon-remove' /> Archive
+                </button>
+              </Confirm>
             </div>
           </td>
         </tr>
