@@ -221,8 +221,9 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
             invoice.setEndDate(lastDate.plusMonths(fleet.getPaymentPeriod()).minusDays(1).atStartOfDay());
             invoice.setFleet(fleet);
             invoice.setPaid(false);
+            invoice.setAmount(BigDecimal.ZERO);
             // TODO: is it necessary to save it first?
-            modelDao.save(invoice);
+            invoice = modelDao.save(invoice);
             // Set the total on the invoice.
             generatePaymentInvoice(invoice);
             modelDao.save(invoice);
@@ -321,7 +322,7 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
         // We need all contracts that were not active on the first day, but started in the period of the invoice.
         // This also contains the contracts that start after the start date, but end before the end date.
         Collection<Contract> started = context.getContractDao()
-                .findByFleetSubscriptionFleetAndStartDateAfter(invoice.getFleet(), startLimit.plusDays(1));
+                .findByFleetSubscriptionFleetAndStartDateAfterAndStartDateLessThanEqual(invoice.getFleet(), startLimit.plusDays(1), endLimit);
 
         Collection<RemoveCorrection> removeCorrections = ended.stream()
                 .map(contract -> {
@@ -382,7 +383,7 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
         // Get the last calculated invoice
         LocalDate lastDate = getLatestGeneratedInvoice(fleet, InvoiceType.BILLING);
 
-        for (; lastDate.plusMonths(fleet.getPaymentPeriod()).isBefore(LocalDate.now()); lastDate = lastDate.plusMonths(fleet.getFacturationPeriod())) {
+        for (; lastDate.isBefore(LocalDate.now().minusMonths(fleet.getFacturationPeriod())); lastDate = lastDate.plusMonths(fleet.getFacturationPeriod())) {
             // Generate an invoice.
             Invoice invoice = new Invoice();
             invoice.setType(InvoiceType.BILLING);
@@ -391,7 +392,8 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
             invoice.setFleet(fleet);
             invoice.setAmount(BigDecimal.TEN);
             invoice.setPaid(false);
-            modelDao.save(invoice);
+            invoice.setAmount(BigDecimal.ZERO);
+            invoice = modelDao.save(invoice);
             generateBillingInvoice(invoice);
             modelDao.save(invoice);
         }

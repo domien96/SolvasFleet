@@ -97,13 +97,15 @@ public interface ContractDao extends Dao<Contract> {
      * but this method searches for contracts whose start date is after the given start date.
      *
      * In other words, this returns contracts that were not active on the start date, but began after the start date.
+     * Another way would be: it returns contracts that started in between the given dates.
      *
      * @param fleet The fleet for which contracts are sought.
      * @param startDate The datetime before which the contract must have started.
+     * @param endDate The time before a contract must have started.
      *
      * @return The contracts, or an empty collection if no contracts were found.
      */
-    Collection<Contract> findByFleetSubscriptionFleetAndStartDateAfter(Fleet fleet, LocalDateTime startDate);
+    Collection<Contract> findByFleetSubscriptionFleetAndStartDateAfterAndStartDateLessThanEqual(Fleet fleet, LocalDateTime startDate, LocalDateTime endDate);
 
     /**
      * Find the oldest contract for a fleet.

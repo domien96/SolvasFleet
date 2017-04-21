@@ -69,7 +69,7 @@ public class BillingPdfView extends InvoicePdfView<BillingInvoice> {
 
         for (Correction correction: invoice.getCosts()) {
 
-            table.addCell(correction.getContract().getFleetSubscription().getVehicle().getLicensePlate());
+            table.addCell(correction.getContract().getFleetSubscription().getVehicle().getLicensePlate() + " #" + correction.getContract().getId());
             table.addCell(getCell(euroFormat.format(correction.getContract().getPremium()), Element.ALIGN_RIGHT, font12));
             table.addCell(getCell(formatter.format(correction.getTax().getTax().doubleValue()), Element.ALIGN_RIGHT, font12));
             table.addCell(getCell(correction.getCorrectionName() + " op " + timeFormatter.format(correction.getEventDate()), Element.ALIGN_LEFT, font12));

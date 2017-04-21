@@ -63,7 +63,7 @@ public class PaymentPdfView extends InvoicePdfView<PaymentInvoice> {
 
         for (Cost cost: invoice.getCosts()) {
 
-            table.addCell(cost.getContract().getFleetSubscription().getVehicle().getLicensePlate());
+            table.addCell(cost.getContract().getFleetSubscription().getVehicle().getLicensePlate() + " #" + cost.getContract().getId());
             table.addCell(getCell(euroFormat.format(cost.getContract().getPremium()), Element.ALIGN_RIGHT, font12));
             table.addCell(getCell(formatter.format(cost.getTax().getTax().doubleValue()), Element.ALIGN_RIGHT, font12));
             table.addCell(getCell(euroFormat.format(cost.getTotal().doubleValue()), Element.ALIGN_RIGHT, font12));
