@@ -17,7 +17,7 @@ class AddClient extends React.Component<{}, State> {
     super();
     this.state = {
       errors: [],
-      company: { address: {} }
+      company: { address: {}, type: 'Customer' }
     };
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit     = this.onSubmit.bind(this);

@@ -15,7 +15,7 @@ import Confirm from 'react-confirm-bootstrap';
 
 import { th } from '../../utils/utils.ts';
 
-import { fetchContractsByCompany} from '../../actions/contract_actions.ts';
+import { fetchContracts} from '../../actions/contract_actions.ts';
 
 interface Props {
   [ params : string ] : { [ id : string ] : number };
@@ -49,7 +49,7 @@ class Client extends React.Component<Props, State> {
   }
 
   fetchContracts(params : ContractParams, success?:callback,fail?:callback) {
-    fetchContractsByCompany(params.companyId,success,fail);
+    fetchContracts(success,fail,{company:params.companyId});
   }
 
   render() {
