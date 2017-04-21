@@ -6,7 +6,7 @@ import Invoices  from '../components/invoices/Invoices.tsx'
 import Invoice  from '../components/invoices/Invoice.tsx'
 
 export default [
-  <Route path="fleets/:id" component={ Fleet } />,
-  <Route path="fleets/:fleetId/invoices" component={ Invoices } />,
-  <Route path="fleets/:fleetId/invoices/:invoiceId" component={ Invoice } />
+  <Route key={ 1 } path="fleets/:id" component={ Fleet } />,
+  <Route key={ 2 } path="fleets/:fleetId/invoices" component={ Invoices } />,
+  <Route key={ 3 } path="fleets/:fleetId/invoices/:invoiceId" component={ Invoice } />
 ]
