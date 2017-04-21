@@ -26,8 +26,9 @@ class Contracts extends React.Component<Props, State> {
   }
 
   fetchContracts(vehicleId:number,companyId:number,fleetId:number){
+    var params : ContractParams = {companyId: companyId, fleetId: fleetId, vehicleId: vehicleId};
     if(this.state.isMounted){
-    this.props.fetchMethod(vehicleId,companyId,fleetId,(data:ListResponse)=> {
+    this.props.fetchMethod(params,(data:ListResponse)=> {
       this.setState({response:data})
     })}
   }
