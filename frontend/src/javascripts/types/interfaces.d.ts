@@ -18,3 +18,4 @@
 /// <reference path="pagination.d.ts"/>
 
 declare module 'react-burger-menu';
+declare module 'react-confirm-bootstrap';
