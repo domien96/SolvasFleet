@@ -32,6 +32,7 @@ public class InvoiceRestController extends AbstractRestController<Invoice, ApiIn
      * Default constructor.
      *
      * @param service service class for entities
+     * @param invoiceDao The dao for invoices.
      */
     @Autowired
     public InvoiceRestController(InvoiceService service, InvoiceDao invoiceDao) {

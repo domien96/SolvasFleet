@@ -10,6 +10,9 @@ import solvas.service.models.Invoice;
  */
 public class PaymentInvoice extends AbstractInvoice<Cost> {
 
+    /**
+     * @param invoice The base invoice.
+     */
     public PaymentInvoice(Invoice invoice) {
         super(invoice);
     }
