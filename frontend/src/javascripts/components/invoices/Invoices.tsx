@@ -1,7 +1,7 @@
 import React              from 'react';
 
 import { fetchInvoices } from '../../actions/fleet_actions.ts';
-import { redirect_to } from'../../router.tsx';
+import { redirect_to } from'../../routes/router.tsx';
 import InvoicesView from './InvoicesView.tsx'
 
 interface Props {
@@ -17,21 +17,23 @@ class Invoices extends React.Component<Props, State> {
   constructor(props : {}) {
     super(props);
     this.state = { invoices: [] };
+    this.handleClick=this.handleClick.bind(this);
   }
 
   componentDidMount() {
-    if(this.props.params.id){
-      this.fetchInvoices(this.props.params.id);
+    if(this.props.params.fleetId){
+      this.fetchInvoices(this.props.params.fleetId);
     }
   }
 
   componentWillReceiveProps(nextProps : any){
-    if (nextProps.params.id != this.props.params.id){
-      this.fetchInvoices(nextProps.params.id);
+    if (nextProps.params.id != this.props.params.fleetId){
+      this.fetchInvoices(nextProps.params.fleetIid);
     }
   }
 
   fetchInvoices(fleetId : number) {
+    console.log(fleetId)
     fetchInvoices(fleetId, ((data : Invoices.Data) => {
       this.setState({ invoices: data.data })
     }));
@@ -49,6 +51,7 @@ class Invoices extends React.Component<Props, State> {
     );
 
     return (
+
       <InvoicesView invoices={ this.state.invoices } onInvoiceSelect={ this.handleClick } >
         { children }
       </InvoicesView>

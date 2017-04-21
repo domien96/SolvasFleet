@@ -9,7 +9,7 @@ import EnsureLoggedInContainer from '../components/containers/EnsureLoggedIn.tsx
 import client_routes from './client_routes.tsx';
 import user_routes from './user_routes.tsx';
 import vehicle_routes from './vehicle_routes.tsx';
-import fleet_routes from './vehicle_routes.tsx';
+import fleet_routes from './fleet_routes.tsx';
 import auth_routes from './auth_routes.tsx';
 import contract_routes from './contract_routes.tsx';
 
