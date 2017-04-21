@@ -83,6 +83,8 @@ public class HibernateConfig {
         properties.put(AvailableSettings.CURRENT_SESSION_CONTEXT_CLASS, env.getRequiredProperty("hibernate.current.session.context.class"));
         properties.put(AvailableSettings.STATEMENT_BATCH_SIZE, env.getRequiredProperty("hibernate.batch.size"));
         properties.put(AvailableSettings.ENABLE_LAZY_LOAD_NO_TRANS, true);
+        properties.put(AvailableSettings.SHOW_SQL, true);
+        properties.put(AvailableSettings.FORMAT_SQL, true);
         return properties;
     }
 

@@ -1,16 +1,13 @@
 package solvas.persistence.api.dao;
 
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.stereotype.Repository;
+import solvas.persistence.api.Dao;
 import solvas.service.models.Fleet;
 import solvas.service.models.FleetSubscription;
 import solvas.service.models.Vehicle;
-import solvas.persistence.api.Dao;
 import solvas.service.models.VehicleType;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -94,6 +91,12 @@ public interface FleetSubscriptionDao extends Dao<FleetSubscription> {
      * @return
      */
     Collection<FleetSubscription> findByFleetAndStartDateAndEndDate(Fleet fleet, LocalDate start, LocalDate end);
+
+    Collection<FleetSubscription> findByFleetAndStartDateBeforeAndEndDateAfter(Fleet fleet, LocalDate start, LocalDate start2);
+
+    Collection<FleetSubscription> findByFleetAndStartDateBetween(Fleet fleet, LocalDate startDate, LocalDate end);
+
+    Collection<FleetSubscription> findByFleetAndEndDateBetween(Fleet fleet, LocalDate startDate, LocalDate end);
 
     /**
      * Find all subscriptions of a given fleet, where the vehicle of the subscription is of the given vehicle type and
