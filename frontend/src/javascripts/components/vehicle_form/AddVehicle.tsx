@@ -18,7 +18,7 @@ class AddVehicle extends React.Component<{}, State> {
     super();
     this.state = {
       errors: [],
-      vehicle: { type: 'personalCar' }
+      vehicle: { type: 'PersonalVehicle' }
     };
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit     = this.onSubmit.bind(this);

@@ -30,7 +30,7 @@ class Client extends React.Component<Props, State> {
 
   constructor() {
     super();
-    this.state = { company : { address: {} }, fleets : [] };
+    this.state = { company : { address: {}, type: 'Customer' }, fleets : [] };
     this.deleteClient = this.deleteClient.bind(this);
     this.fetchContracts= this.fetchContracts.bind(this);
   }

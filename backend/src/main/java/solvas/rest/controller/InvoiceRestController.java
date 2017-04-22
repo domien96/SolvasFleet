@@ -74,7 +74,21 @@ public class InvoiceRestController extends AbstractRestController<Invoice, ApiIn
         return new ResponseEntity<>(invoiceService.findActiveInvoiceByType(id,invtype), HttpStatus.OK);
     }
 
-
+     /**
+     * Get the active invoice for a fleet.
+     * @param id The ID of the fleet
+     * @return The response.
+     */
+    @RequestMapping(value = "/fleets/{fleetId}/invoices/current.pdf", method = RequestMethod.GET)
+    @PreAuthorize("hasPermission(#id, 'fleet', 'READ')")
+    public ModelAndView getpdfcurrent(@PathVariable int id, @RequestParam("type") String type) throws EntityNotFoundException {
+        InvoiceType invtype = InvoiceType.fromString(type);
+        if(invtype == null) {
+            return null;
+        }
+        ApiInvoice a = invoiceService.findActiveInvoiceByType(id,invtype);
+        return new ModelAndView("InvoicePdfView", "invoice", a);
+    }
 
     /**
      * Get invoice with id
