@@ -1,5 +1,13 @@
 #Antwoorden op de vragen naar de klant:
 
+
+>Stel dat de verzekering eindigt middenin een vlootinschrijving van een voertuig, bvb de verzekering eindigt op 23 maart en het voertuig is ingeschreven bij een vloot van 1/1/17 tot 1/1/18, moet die premie dan nog steeds volledig betaald worden of slechts deels?
+
+*In voorkomend geval wordt er pro rata een terugbetaling gedaan voor dat voertuig voor de premie die niet "verbruikt" is. 1 dag = 1/365 en in een schrikkeljaar 1/366*
+
+
+---
+
 >Moet er ook een historie bijgehouden worden van veranderingen van gegevens van klanten, gebruikers, etc. Als voorbeeld: moet er bijgehouden worden op welk tijdstip een bedrijf veranderde van naam?
 
 *Als je logboek bijhoudt van alle acties lijkt het mij logisch van wel.  Het is in elk geval noodzakelijk om de historiek van elk voertuig en dus ook vloot bij te houden.*

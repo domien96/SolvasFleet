@@ -1,32 +1,17 @@
 package solvas.service.models;
 
-import java.util.Set;
-
 /**
  * Models a permission
  * @author domien on 4/03/2017.
  */
 public class Permission extends Model {
-    private String name;
+    private String scope;
 
-    /**
-     * The roles which contain this permission.
-     */
-    private Set<Role> roles; //TODO should be removed
-
-    public String getName() {
-        return name;
+    public String getScope() {
+        return scope;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setScope(String scope) {
+        this.scope = scope;
     }
 }

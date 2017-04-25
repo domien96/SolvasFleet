@@ -1,15 +1,5 @@
-
 login:
   submit: 'Login'
-
-addClient:
-  submit: 'Add Client'
-
-addVehicle: 
-  submit: 'Add Vehicle'
-
-addUser: 
-  submit: 'Add User'
 
 addRole:
   submit: 'Add Role to user'
@@ -21,19 +11,25 @@ company:
   name: Name
   vatNumber: VAT number
   phoneNumber: Phone number
-  address: 
+  address:
     street: Street
     houseNumber: House number
     city: City
     postalCode: Postal code
     country: Country
+  addNew: Add New Company
+  types: Type 
+  type:
+    LeasingCompany: Leasing company 
+    InsuranceCompany: Insurance company 
+    Customer: Customer
 
 errors:
   null: is empty
 
 vehicle:
   licensePlate: License plate
-  vin: Vehicle Identification Number 
+  vin: Vehicle Identification Number
   brand: Brand
   model: Model
   type: Type
@@ -49,6 +45,7 @@ vehicle:
     semiTrailer: Semi-trailer
     trailer: Trailer
     truck: Truck
+  addNew: Add New Vehicle
 
 user:
   id: ID
@@ -57,15 +54,17 @@ user:
   address: Address
   firstName: First name
   lastName: Last name
-
-role:
-  permission: Function in company
-  permissionShort: Function
+  addNew: Add New User
 
 fleet:
   id: ID
   name: Name
   size: Size
+  options:
+    yearly: Yearly
+    monthly: Monthly
+    perTrimester: Per Trimester
+    perSemester: Per Semester
 
 subfleet:
   id: ID
@@ -76,3 +75,44 @@ form:
   create: Create
   update: Update
   submit: Submit
+  placeholders:
+    email: Email
+    password: Password
+
+function: 
+  role: Role
+  company: Company
+
+permission:
+  action: Action
+  resource: Resource 
+
+role:
+  name: Name 
+  permissions: Permissions
+
+invoice:
+  id: Invoice ID
+  fleet: Fleet ID 
+  paid: Paid
+  totalAmount: Total amount due 
+  type: Type 
+  startDate: Start date 
+  endDate: End date
+
+contract:
+  id: Contract ID
+  franchise: Franchise
+  insuranceCompany: Insurance Company
+  premium: Premium
+  type: Type of contract
+  vehicle: Vehicle ID
+  startDate: Start date
+  endDate: End date
+  addNew: Add New Contract
+  types:
+    Omnium: Omnium
+    CivilLiability: Civil liability
+    LegalAid: Legal aid
+    DriverInsurance: Driver insurance
+    TravelInsurance: Travel insurance

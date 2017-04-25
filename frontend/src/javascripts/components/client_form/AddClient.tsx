@@ -5,7 +5,7 @@ import ClientForm from './ClientForm.tsx'
 
 import { postClient } from '../../actions/client_actions.ts';
 import { hasError }  from '../../utils/utils.ts';
-import { redirect_to } from'../../router.tsx';
+import { redirect_to } from'../../routes/router.tsx';
 
 interface State {
   errors  : Form.Error[];
@@ -17,7 +17,7 @@ class AddClient extends React.Component<{}, State> {
     super();
     this.state = {
       errors: [],
-      company: { address: {} }
+      company: { address: {}, type: 'Customer' }
     };
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit     = this.onSubmit.bind(this);
@@ -43,7 +43,6 @@ class AddClient extends React.Component<{}, State> {
         return { field: e, error: 'null' };
       }));
     }
-
     postClient(this.state.company, success, fail);
   }
 

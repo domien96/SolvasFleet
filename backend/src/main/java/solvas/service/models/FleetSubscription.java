@@ -3,6 +3,7 @@ package solvas.service.models;
 
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.Set;
 
 /**
@@ -48,6 +49,12 @@ public class FleetSubscription extends Model {
 
     public void setContracts(Set<Contract> contracts) {
         this.contracts = contracts;
+    }
+
+    public boolean isActive() {
+        LocalDate now = LocalDate.now();
+        return startDate.isBefore(now) &&
+                endDate.isAfter(now);
     }
 
     public Fleet getFleet() {

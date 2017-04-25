@@ -5,13 +5,13 @@ import solvas.service.models.Company;
 import solvas.persistence.api.DaoContext;
 import solvas.service.mappers.exceptions.FieldNotFoundException;
 import solvas.persistence.api.EntityNotFoundException;
-import solvas.rest.SimpleUrlBuilder;
+import solvas.rest.utils.SimpleUrlBuilder;
 import solvas.rest.api.models.ApiAddress;
 import solvas.rest.api.models.ApiCompany;
 import solvas.service.models.CompanyType;
 
 /**
- * Mapper between Company and ApiCompany
+ * Class to map {@link Company} in the persistence layer to {@link ApiCompany} in the API layer
  */
 @Component
 public class CompanyMapper extends AbstractMapper<Company,ApiCompany> {

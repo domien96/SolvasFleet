@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Niko Strijbol
+ * Utilities for iterators
  */
 public class IteratorUtils {
 
