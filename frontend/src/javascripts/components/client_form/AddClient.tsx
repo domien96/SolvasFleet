@@ -9,7 +9,7 @@ import { redirect_to } from'../../routes/router.tsx';
 
 interface State {
   errors  : Form.Error[];
-  company : Company;
+  company : CompanyData;
 }
 class AddClient extends React.Component<{}, State> {
 
@@ -17,14 +17,15 @@ class AddClient extends React.Component<{}, State> {
     super();
     this.state = {
       errors: [],
-      company: { address: {}, type: 'Customer' }
+      company: { address: {} }
     };
+    this.state.company['type'] = 'Customer';
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit     = this.onSubmit.bind(this);
   }
 
   public handleChange(field : Company.Field, isAddress : boolean, e : any) : void {
-    var newClient : Company = this.state.company;
+    var newClient : CompanyData = this.state.company;
     if(isAddress){
       newClient['address'][field] = e.target.value;
     }
