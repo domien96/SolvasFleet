@@ -1,5 +1,6 @@
 package solvas.rest.controller;
 
+import org.springframework.beans.TypeMismatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -7,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.servlet.ModelAndView;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.api.models.ApiInvoice;
@@ -14,6 +16,8 @@ import solvas.rest.query.InvoiceFilter;
 import solvas.service.InvoiceService;
 import solvas.service.models.Invoice;
 import solvas.service.models.InvoiceType;
+
+import javax.servlet.http.HttpServletResponse;
 
 
 /**
@@ -74,20 +78,20 @@ public class InvoiceRestController extends AbstractRestController<Invoice, ApiIn
         return new ResponseEntity<>(invoiceService.findActiveInvoiceByType(id,invtype), HttpStatus.OK);
     }
 
-     /**
-     * Get the active invoice for a fleet.
+    /**
+     * Get the pdf version of the active invoice for a fleet.
      * @param id The ID of the fleet
      * @return The response.
      */
-    @RequestMapping(value = "/fleets/{fleetId}/invoices/current.pdf", method = RequestMethod.GET)
-    @PreAuthorize("hasPermission(#id, 'fleet', 'READ')")
-    public ModelAndView getpdfcurrent(@PathVariable int id, @RequestParam("type") String type) throws EntityNotFoundException {
+    @RequestMapping(value = "/fleets/{id}/invoices/current.pdf", method = RequestMethod.GET)
+    @PreAuthorize("hasPermission(#id, 'fleet', 'READ_INVOICES')")
+    public ModelAndView getActiveByFleetIdAsPdf(@PathVariable int id, @RequestParam("type") String type, HttpServletResponse response) throws EntityNotFoundException {
         InvoiceType invtype = InvoiceType.fromString(type);
         if(invtype == null) {
-            return null;
+            throw new TypeMismatchException(type,InvoiceType.class);
         }
-        ApiInvoice a = invoiceService.findActiveInvoiceByType(id,invtype);
-        return new ModelAndView("InvoicePdfView", "invoice", a);
+        ApiInvoice invoice = invoiceService.findActiveInvoiceByType(id,invtype);
+        return new ModelAndView("InvoicePdfView", "invoice", invoice);
     }
 
     /**
