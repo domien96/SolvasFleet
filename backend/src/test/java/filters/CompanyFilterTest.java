@@ -1,8 +1,28 @@
 package filters;
 
-/**
- * All tests that involve the CompanyFilter
- */
-public class CompanyFilterTest {
+import solvas.rest.query.ArchiveFilter;
+import solvas.rest.query.CompanyFilter;
+import solvas.service.models.Company;
 
+public class CompanyFilterTest extends AbstractFilterTest<Company> {
+    private CompanyFilter filter = new CompanyFilter();
+
+    @Override
+    ArchiveFilter<Company> getFilterWithCorrectParameters() {
+        filter.setCity("Ghent");
+        filter.setCountry("Be");
+        filter.setNameContains("AA");
+        filter.setPostalCode("9000");
+        return filter;
+    }
+
+    @Override
+    ArchiveFilter<Company> getFilterWithBadParameters() {
+        return filter;
+    }
+
+    @Override
+    int parameterSize() {
+        return 5;
+    }
 }

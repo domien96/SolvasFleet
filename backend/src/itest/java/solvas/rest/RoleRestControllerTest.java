@@ -17,7 +17,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Integration tests of the RoleRestController
  * It checks HTTP responses and calls to the RoleDao
  */
-@RunWith(MockitoJUnitRunner.class)
 public class RoleRestControllerTest extends AbstractRestControllerTest<Role,ApiRole> {
 
 
