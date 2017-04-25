@@ -1,5 +1,5 @@
 import { GET, POST, PUT, DELETE, callback } from './fetch_json.ts';
-import { CONTRACT_URL, CONTRACTS_URL, CLIENTS_URL, TYPES_URL } from '../constants/constants.ts';
+import { CONTRACT_URL, CONTRACTS_URL, TYPES_URL } from '../constants/constants.ts';
 
 export function fetchContract(id : number, success? : callback, fail? : callback) {
   GET( CONTRACT_URL(id), success, fail );
@@ -7,21 +7,6 @@ export function fetchContract(id : number, success? : callback, fail? : callback
 
 export function fetchContracts(success? : callback, fail? : callback, query? : any) {
   GET( CONTRACTS_URL, success, fail, query );
-}
-
-export function fetchContractsByVehicle(companyId : number, fleetId : number, vehicleId : number, success? : callback, fail? : callback, query? : any) {
-  let url = `${CLIENTS_URL}/${companyId}/fleets/${fleetId}/vehicles/${vehicleId}/contracts`;
-  GET( url, success, fail, query );
-}
-
-export function fetchContractsByFleet(companyId : number, fleetId : number, success? : callback, fail? : callback, query? : any) {
-  let url = `${CLIENTS_URL}/${companyId}/fleets/${fleetId}/contracts`;
-  GET( url, success, fail, query );
-}
-
-export function fetchContractsByCompany(companyId : number, success? : callback, fail? : callback, query? : any) {
-  let url = `${CLIENTS_URL}/${companyId}/contracts`;
-  GET( url, success, fail, query );
 }
 
 export function postContract(body : any, success? : callback, fail? : callback) {

@@ -52,7 +52,7 @@ const Sidebar : React.StatelessComponent<{}> = () => {
       
   return (
     <div>
-      <Menu pageWrapId={'page-wrap'} outerContainerId={'outer-container'} className='mobile-menu'>
+      <Menu className='mobile-menu'>
         {info}
       </Menu>
       <nav className='standard-menu'>

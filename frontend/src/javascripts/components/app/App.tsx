@@ -23,10 +23,10 @@ class App extends React.Component<Props, {}> {
 
   render() {
     return (
-      <div id='wrapper' className='all-wrapper'>
-        <div id='outer-container' className='sidebar-wrapper'>
+      <div className='all-wrapper'>
+        <div className='sidebar-wrapper'>
           <Sidebar />
-          <main id='page-wrap' className='page-wrapper'>
+          <main className='page-wrapper'>
             { this.props.children || <Home /> }
           </main>
         </div>  

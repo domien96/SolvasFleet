@@ -47,8 +47,8 @@ class Vehicle extends React.Component<Props, State> {
     redirect_to('/vehicles');
   }
 
-  fetchContracts(vehicleId:number,companyId:number,fleetId:number,success?:callback,fail?:callback) {
-    fetchContracts(success,fail,{vehicle:vehicleId})
+  fetchContracts(params : ContractParams, success?:callback,fail?:callback) {
+    fetchContracts(success,fail,{vehicle:params.vehicleId})
   }
 
   render() {

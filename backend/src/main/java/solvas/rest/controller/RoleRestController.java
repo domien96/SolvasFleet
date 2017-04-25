@@ -2,20 +2,16 @@ package solvas.rest.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import solvas.persistence.api.EntityNotFoundException;
-import solvas.rest.query.PermissionFilter;
-import solvas.service.models.Role;
 import solvas.rest.api.models.ApiRole;
 import solvas.rest.query.RoleFilter;
 import solvas.service.RoleService;
+import solvas.service.models.Role;
 
 import javax.validation.Valid;
-import java.util.Collection;
 import java.util.Set;
 
 
@@ -61,13 +57,13 @@ public class RoleRestController extends AbstractRestController<Role,ApiRole> {
 
     @Override
     @RequestMapping(value = "/auth/roles", method = RequestMethod.POST)
-    @PreAuthorize("hasPermission(input, 'CREATE')")
+    @PreAuthorize("hasPermission(#input, 'CREATE')")
     public ResponseEntity<?> post(@Valid @RequestBody ApiRole input, BindingResult result) {
         return super.post(input,result);
     }
 
     @Override
-    @RequestMapping(value = "/auth/roles/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/auth/roles/{roleId}", method = RequestMethod.DELETE)
     @PreAuthorize("hasPermission(#roleId, 'role', 'DELETE')")
     public ResponseEntity<?> archiveById(@PathVariable int roleId) {
         return super.archiveById(roleId);
@@ -90,7 +86,7 @@ public class RoleRestController extends AbstractRestController<Role,ApiRole> {
     @RequestMapping(value = "/auth/roles/{roleId}/permissions", method = RequestMethod.PUT)
     @PreAuthorize("hasPermission(#roleId, 'role', 'WRITE')")
     public ResponseEntity<?> putPermissions(@PathVariable int roleId,
-                                            @RequestBody Set<Integer> permissions,
+                                            @RequestBody Set<String> permissions,
                                             BindingResult result) {
         ApiRole r = new ApiRole();
         r.setPermissions(permissions);

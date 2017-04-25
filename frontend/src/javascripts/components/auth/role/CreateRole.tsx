@@ -31,16 +31,15 @@ class CreateRole extends React.Component<{}, State> {
     });
   }
 
-	handleChange(field : Role.Field, e : any) : any {
+	handleChange(e : any) : any {
     var role : RoleData = this.state.role;
     if(e.target.type == 'checkbox'){
-      console.log(e.target.type)
       let permissions = role['permissions'].slice();
       if(e.target.checked){
         permissions.push(e.target.value);
       }
-      else{
-        if(e.target.value in permissions){
+      else{        
+        if(permissions.includes(e.target.value)){
           let index = permissions.indexOf(e.target.value)
           permissions.splice(index, 1);
         }
@@ -48,7 +47,7 @@ class CreateRole extends React.Component<{}, State> {
       role['permissions'] = permissions;
     }
     else{
-      role[field] = e.target.value;
+      role['name'] = e.target.value;
     }
     this.setState({ role });
   }
@@ -56,7 +55,7 @@ class CreateRole extends React.Component<{}, State> {
   onSubmit(e : any) : void {
     e.preventDefault();
     let setErrors = (e : Form.Error[]) => this.setState({ errors: e });
-    let success = (data : any) => redirect_to(`/roles/${data.id}`);
+    let success = () => redirect_to(`/auth`);
     let fail = (data : any) => {
       setErrors(data.errors.map(function(e : any) {
         return { field: e, error: 'null' };
@@ -68,7 +67,6 @@ class CreateRole extends React.Component<{}, State> {
 
    
   render() {
-    console.log(this.state)
     return (
       <div>
         <Header>
