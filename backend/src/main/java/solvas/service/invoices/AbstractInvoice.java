@@ -8,7 +8,8 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * Base extended invoice.
+ * Base extended invoice. This extended invoices wraps a normal {@link Invoice}. This class will calculate the
+ * total for the invoice, and update the contained invoice.
  *
  * @param <E> The type of content in the invoice.
  *
@@ -44,7 +45,7 @@ public abstract class AbstractInvoice<E extends Cost> {
     }
 
     /**
-     * Add costs to the invoice.
+     * Add costs to the invoice. This will also update the total cost on the contained collection.
      *
      * @param collection Collection of costs.
      */

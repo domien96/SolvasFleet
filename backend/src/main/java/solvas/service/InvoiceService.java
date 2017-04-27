@@ -17,7 +17,6 @@ import solvas.service.invoices.billing.RemoveCorrection;
 import solvas.service.mappers.InvoiceMapper;
 import solvas.service.models.*;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -117,7 +116,7 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
                         .orElseThrow(() -> new IllegalStateException("There is no payment billing, which should be impossible."));
                 break;
             case BILLING:
-                invoice = findCurrentInvoice(fleetId).getInvoice();
+                invoice = findCurrentInvoice(fleet).getInvoice();
                 // Calculate the billing for the current period (up until now).
                 break;
             default:
@@ -140,10 +139,20 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
         // fleet is given as parameter
         // Read fleet from database
         Fleet fleet = context.getFleetDao().find(fleetId);
+        return findCurrentInvoice(fleet);
+    }
+
+    /**
+     * Find the extended current billing invoice.
+     *
+     * @param fleet The fleet.
+     *
+     * @return The billing invoice.
+     */
+    public BillingInvoice findCurrentInvoice(Fleet fleet) {
         // if the fleet is not found, it will throw a EntityNotFoundException, which will be caught by
         //the method not found in AbstractController
         generateMissingInvoices(fleet);
-
         return generateCurrentBillingInvoice(fleet);
     }
 
@@ -221,9 +230,6 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
             invoice.setEndDate(lastDate.plusMonths(fleet.getPaymentPeriod()).minusDays(1).atStartOfDay());
             invoice.setFleet(fleet);
             invoice.setPaid(false);
-            invoice.setAmount(BigDecimal.ZERO);
-            // TODO: is it necessary to save it first?
-            invoice = modelDao.save(invoice);
             // Set the total on the invoice.
             generatePaymentInvoice(invoice);
             modelDao.save(invoice);
@@ -390,10 +396,8 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
             invoice.setStartDate(lastDate.atStartOfDay());
             invoice.setEndDate(lastDate.plusMonths(fleet.getFacturationPeriod()).minusDays(1).atStartOfDay());
             invoice.setFleet(fleet);
-            invoice.setAmount(BigDecimal.TEN);
             invoice.setPaid(false);
-            invoice.setAmount(BigDecimal.ZERO);
-            invoice = modelDao.save(invoice);
+            // Set the total on the invoice.
             generateBillingInvoice(invoice);
             modelDao.save(invoice);
         }
