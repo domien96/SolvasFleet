@@ -24,6 +24,8 @@ public class InvoiceFileViewResolver implements ViewResolver {
     private Map<String, View> views = new HashMap<>();
 
     /**
+     * Constructor.
+     *
      * @param invoicePdfView autowired
      * @param billingPdfView autowired
      */

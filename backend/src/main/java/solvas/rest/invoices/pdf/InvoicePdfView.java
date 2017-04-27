@@ -27,6 +27,9 @@ import java.util.Map;
  */
 public abstract class InvoicePdfView<M> extends AbstractITextPdfView {
 
+    /**
+     * The name of this view.
+     */
     public final static String MODEL_NAME = InvoicePdfView.class.getCanonicalName();
     protected final static DateTimeFormatter SHORT_DATE_FORMAT = DateTimeFormatter.ofPattern("MMM dd, yyyy");
 
