@@ -85,8 +85,8 @@ public class Application {
      * @param daoContextAwareConstraintValidatorFactory Factory to build validators that query the database
      * @return Validator
      */
-    @Bean
-    @Autowired
+    //@Bean
+    //@Autowired
     public Validator validator(DaoContextAwareConstraintValidatorFactory daoContextAwareConstraintValidatorFactory) {
         return Validation.byDefaultProvider()
                 .configure()
