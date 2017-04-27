@@ -214,29 +214,6 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
     }
 
     /**
-     * Generate and save missing payment invoices.
-     *
-     * @param fleet The fleet to generate payments for.
-     */
-    private void generateMissingPaymentsFor(Fleet fleet) {
-        // Get the last calculated invoice
-        LocalDate lastDate = getLatestGeneratedInvoice(fleet, InvoiceType.PAYMENT);
-
-        for (; lastDate.isBefore(LocalDate.now()); lastDate = lastDate.plusMonths(fleet.getPaymentPeriod())) {
-            // Generate an invoice.
-            Invoice invoice = new Invoice();
-            invoice.setType(InvoiceType.PAYMENT);
-            invoice.setStartDate(lastDate.atStartOfDay());
-            invoice.setEndDate(lastDate.plusMonths(fleet.getPaymentPeriod()).minusDays(1).atStartOfDay());
-            invoice.setFleet(fleet);
-            invoice.setPaid(false);
-            // Set the total on the invoice.
-            generatePaymentInvoice(invoice);
-            modelDao.save(invoice);
-        }
-    }
-
-    /**
      * Get the newest generated (and saved) invoice of a certain type.
      *
      * @param fleet The fleet.
@@ -386,10 +363,11 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
      * @param fleet The fleet.
      */
     private void generateMissingBillingsFor(Fleet fleet) {
-        // Get the last calculated invoice
-        LocalDate lastDate = getLatestGeneratedInvoice(fleet, InvoiceType.BILLING);
-
-        for (; lastDate.isBefore(LocalDate.now().minusMonths(fleet.getFacturationPeriod())); lastDate = lastDate.plusMonths(fleet.getFacturationPeriod())) {
+        // Start with last calculated invoice.
+        for (LocalDate lastDate = getLatestGeneratedInvoice(fleet, InvoiceType.BILLING);
+             lastDate.isBefore(LocalDate.now().minusMonths(fleet.getFacturationPeriod()));
+             lastDate = lastDate.plusMonths(fleet.getFacturationPeriod()))
+        {
             // Generate an invoice.
             Invoice invoice = new Invoice();
             invoice.setType(InvoiceType.BILLING);
@@ -399,6 +377,30 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
             invoice.setPaid(false);
             // Set the total on the invoice.
             generateBillingInvoice(invoice);
+            modelDao.save(invoice);
+        }
+    }
+
+    /**
+     * Generate and save missing payment invoices.
+     *
+     * @param fleet The fleet to generate payments for.
+     */
+    private void generateMissingPaymentsFor(Fleet fleet) {
+        // Start with last calculated invoice
+        for (LocalDate lastDate = getLatestGeneratedInvoice(fleet, InvoiceType.PAYMENT);
+             lastDate.isBefore(LocalDate.now());
+             lastDate = lastDate.plusMonths(fleet.getPaymentPeriod()))
+        {
+            // Generate an invoice.
+            Invoice invoice = new Invoice();
+            invoice.setType(InvoiceType.PAYMENT);
+            invoice.setStartDate(lastDate.atStartOfDay());
+            invoice.setEndDate(lastDate.plusMonths(fleet.getPaymentPeriod()).minusDays(1).atStartOfDay());
+            invoice.setFleet(fleet);
+            invoice.setPaid(false);
+            // Set the total on the invoice.
+            generatePaymentInvoice(invoice);
             modelDao.save(invoice);
         }
     }
