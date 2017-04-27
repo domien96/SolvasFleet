@@ -22,7 +22,7 @@ interface Props {
 }
 
 interface State {
-  company : Company;
+  company : CompanyData;
   fleets : FleetData[];
 }
 
@@ -31,6 +31,7 @@ class Client extends React.Component<Props, State> {
   constructor() {
     super();
     this.state = { company : { address: {} }, fleets : [] };
+    this.state.company['type'] = 'Customer';
     this.deleteClient = this.deleteClient.bind(this);
     this.fetchContracts= this.fetchContracts.bind(this);
   }
