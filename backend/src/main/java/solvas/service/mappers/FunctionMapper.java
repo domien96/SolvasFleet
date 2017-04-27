@@ -25,7 +25,7 @@ public class FunctionMapper extends AbstractMapper<Function, ApiFunction> {
      */
     @Autowired
     public FunctionMapper(DaoContext daoContext) {
-        super(daoContext,  "endDate");
+        super(daoContext,  "startDate","endDate");
     }
 
     @Override
@@ -68,7 +68,6 @@ public class FunctionMapper extends AbstractMapper<Function, ApiFunction> {
         }
         apiFunction.setRole(model.getRole().getId());
         apiFunction.setUser(model.getUser().getId());
-        apiFunction.setStartDate(model.getStartDate());
 
         return apiFunction;
     }
