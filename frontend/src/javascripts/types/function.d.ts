@@ -15,3 +15,10 @@ namespace SFunctions {
     [ Sfunctions : string ] : any;
   }
 }
+
+namespace Choice {
+	export interface Data {
+    key: string;
+    label: string;
+  }
+}

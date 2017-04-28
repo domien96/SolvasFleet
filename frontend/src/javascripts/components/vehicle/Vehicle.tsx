@@ -20,7 +20,7 @@ class Vehicle extends React.Component<Props, State> {
 
   constructor() {
     super();
-    this.state = { vehicle : { type: 'personalCar' } };
+    this.state = { vehicle : { type: 'PersonalVehicle' } };
     this.deleteVehicle = this.deleteVehicle.bind(this);
     this.fetchContracts= this.fetchContracts.bind(this);
   }

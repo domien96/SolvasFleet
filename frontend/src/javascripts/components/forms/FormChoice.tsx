@@ -3,7 +3,7 @@ import T          from 'i18n-react';
 
 interface Props {
   placeholder : string;
-  choices : Table.Head.Data[];
+  choices : Choice.Data[];
   callback    : (e : any) => void;
   value : any;
 }
