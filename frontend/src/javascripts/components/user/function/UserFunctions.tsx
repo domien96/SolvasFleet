@@ -36,7 +36,8 @@ class UserFunctions extends React.Component<Props, State> {
   }
 
   handleFunctionDelete(functionId : number){
-    deleteFunction(this.props.user.id, functionId, this.fetchFunctions);
+    let success = () => this.fetchFunctions;
+    deleteFunction(this.props.user.id, functionId, success);
   }
 
   render(){
