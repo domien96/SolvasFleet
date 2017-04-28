@@ -11,7 +11,7 @@ interface Props {
   hasError     : (field : SFunction.Field) => boolean;
   Sfunction         : SFunctionData;
   roles  : RoleData[];
-  companies : Company[];
+  companies : CompanyData[];
 }
 
 const FunctionForm : React.StatelessComponent<Props> = props => {

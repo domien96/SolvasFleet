@@ -22,11 +22,11 @@ const Info : React.StatelessComponent<Props> = props => {
   var { licensePlate, vin, fleet, leasingCompany, brand, model, type, mileage, year, value } = props.vehicle;
   
   const choices = [
-    th('personalCar', 'vehicle.options.personalCar'),
-    th('van', 'vehicle.options.van'),
-    th('semiTrailer', 'vehicle.options.semiTrailer'),
-    th('trailer', 'vehicle.options.trailer'),
-    th('truck', 'vehicle.options.truck')
+    th('PersonalVehicle', 'vehicle.options.personalCar'),
+    th('Van', 'vehicle.options.van'),
+    th('SemiHeavyTruck', 'vehicle.options.semiTrailer'),
+    th('Truck+12', 'vehicle.options.trailer'),
+    th('Truck', 'vehicle.options.truck')
   ];
   return (
     <div className='col-xs-12 col-md-7'>

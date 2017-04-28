@@ -63,7 +63,6 @@ public class InvoiceRestController extends AbstractRestController<Invoice, ApiIn
     }
 
 
-
     /**
      * Get the active invoice for a fleet.
      * @param id The ID of the fleet

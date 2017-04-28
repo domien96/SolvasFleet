@@ -9,7 +9,7 @@ import { th } from '../../../utils/utils.ts';
 interface Props {
   handleChange: (field : string, isAddress : boolean, e : any) => void;
   hasError: (e : any) => boolean;
-  company : Company;
+  company : CompanyData;
 }
 
 const Info : React.StatelessComponent<Props> = props => {
