@@ -12,8 +12,17 @@ set :repo_tree, 'backend'
 
 set :linked_files, %w(build/libs/application.properties)
 
-after 'deploy:updated', 'gradle:build'
+after 'deploy:updated', 'systemd:solvas:restart'
 
+namespace :systemd do
+  namespace :solvas do
+    task restart: :'gradle:build' do
+      on roles(:all) do
+        execute :sudo, :systemctl, :restart, :solvasFleet
+      end
+    end
+  end
+end
 namespace :gradle do
   task :build do
     on roles(:all) do
