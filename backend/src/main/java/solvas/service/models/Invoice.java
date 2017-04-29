@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Set;
 
 /**
  * Models an invoice
@@ -16,6 +17,7 @@ public class Invoice extends Model {
     private LocalDateTime endDate;
     private InvoiceType type;
     private boolean paid;
+    private Set<InvoiceItem> items;
 
     private Fleet fleet;
 
@@ -68,5 +70,13 @@ public class Invoice extends Model {
 
     public void setPaid(boolean paid) {
         this.paid = paid;
+    }
+
+    public Set<InvoiceItem> getItems() {
+        return items;
+    }
+
+    public void setItems(Set<InvoiceItem> items) {
+        this.items = items;
     }
 }

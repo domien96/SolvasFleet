@@ -6,6 +6,8 @@ import com.itextpdf.text.pdf.PdfPTable;
 import org.springframework.stereotype.Component;
 import solvas.service.invoices.Cost;
 import solvas.service.invoices.PaymentInvoice;
+import solvas.service.models.Invoice;
+import solvas.service.models.InvoiceItem;
 
 import java.io.IOException;
 import java.text.NumberFormat;
@@ -14,13 +16,13 @@ import java.text.NumberFormat;
  * View for the payment invoice in PDF.
  */
 @Component
-public class PaymentPdfView extends InvoicePdfView<PaymentInvoice> {
+public class PaymentPdfView extends InvoicePdfView {
 
     public PaymentPdfView() throws DocumentException, IOException {
     }
 
     @Override
-    protected void createPdf(PaymentInvoice invoice, Document document) throws DocumentException, IOException {
+    protected void createPdf(Invoice invoice, Document document) throws DocumentException, IOException {
 
         // step 3
         document.open();
@@ -33,16 +35,16 @@ public class PaymentPdfView extends InvoicePdfView<PaymentInvoice> {
         document.add(image);*/
         // header
         Paragraph p;
-        p = new Paragraph("Invoice #" + invoice.getInvoice().getId(), font14);
+        p = new Paragraph("Invoice #" + invoice.getId(), font14);
         p.setAlignment(Element.ALIGN_RIGHT);
         document.add(p);
         p = new Paragraph(String.format("Period of invoice: %s to %s",
-                convertDate(invoice.getInvoice().getStartDate()),
-                convertDate(invoice.getInvoice().getEndDate())), font12);
+                convertDate(invoice.getStartDate()),
+                convertDate(invoice.getEndDate())), font12);
         p.setAlignment(Element.ALIGN_RIGHT);
         document.add(p);
 
-        p = new Paragraph("Invoice type: " + invoice.getInvoice().getType().getText());
+        p = new Paragraph("Invoice type: " + invoice.getType().getText());
         document.add(p);
 
         document.add( Chunk.NEWLINE );
@@ -61,18 +63,23 @@ public class PaymentPdfView extends InvoicePdfView<PaymentInvoice> {
         NumberFormat formatter = NumberFormat.getPercentInstance();
         NumberFormat euroFormat = NumberFormat.getCurrencyInstance();
 
-        for (Cost cost: invoice.getCosts()) {
+        for(InvoiceItem item: invoice.getItems()) {
+            table.addCell(item.getContract().getFleetSubscription().getVehicle().getLicensePlate() + " #" + item.getContract().getId());
+            table.addCell(getCell(euroFormat.format(item.getContract().getPremium()), Element.ALIGN_RIGHT, font12));
 
-            table.addCell(cost.getContract().getFleetSubscription().getVehicle().getLicensePlate() + " #" + cost.getContract().getId());
-            table.addCell(getCell(euroFormat.format(cost.getContract().getPremium()), Element.ALIGN_RIGHT, font12));
-            table.addCell(getCell(formatter.format(cost.getTax().getTax().doubleValue()), Element.ALIGN_RIGHT, font12));
-            table.addCell(getCell(euroFormat.format(cost.getTotal().doubleValue()), Element.ALIGN_RIGHT, font12));
+            table.addCell(getCell("TODO", Element.ALIGN_LEFT, font12b));
+            //table.addCell(getCell(formatter.format(cost.getTax().getTax().doubleValue()), Element.ALIGN_RIGHT, font12));
+
+            table.addCell(getCell("TODO", Element.ALIGN_LEFT, font12b));
+            //table.addCell(getCell(euroFormat.format(cost.getTotal().doubleValue()), Element.ALIGN_RIGHT, font12));
         }
 
         PdfPCell cell = getCell("Totaal:", Element.ALIGN_LEFT, font12);
         cell.setColspan(3);
         table.addCell(cell);
-        table.addCell(getCell(euroFormat.format(invoice.getTotal().doubleValue()), Element.ALIGN_RIGHT, font12b));
+
+        table.addCell(getCell("TODO", Element.ALIGN_LEFT, font12b));
+        //table.addCell(getCell(euroFormat.format(invoice.getTotal().doubleValue()), Element.ALIGN_RIGHT, font12b));
         document.add(table);
 
         // step 5

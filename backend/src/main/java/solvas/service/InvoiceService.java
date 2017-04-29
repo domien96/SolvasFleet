@@ -22,6 +22,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -116,7 +117,7 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
                         .orElseThrow(() -> new IllegalStateException("There is no payment billing, which should be impossible."));
                 break;
             case BILLING:
-                invoice = findCurrentInvoice(fleet).getInvoice();
+                invoice = findCurrentInvoice(fleet);
                 // Calculate the billing for the current period (up until now).
                 break;
             default:
@@ -135,7 +136,7 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
      *
      * @throws EntityNotFoundException If the fleet was not found.
      */
-    public BillingInvoice findCurrentInvoice(int fleetId) throws EntityNotFoundException {
+    public Invoice findCurrentInvoice(int fleetId) throws EntityNotFoundException {
         // fleet is given as parameter
         // Read fleet from database
         Fleet fleet = context.getFleetDao().find(fleetId);
@@ -149,7 +150,7 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
      *
      * @return The billing invoice.
      */
-    public BillingInvoice findCurrentInvoice(Fleet fleet) {
+    public Invoice findCurrentInvoice(Fleet fleet) {
         // if the fleet is not found, it will throw a EntityNotFoundException, which will be caught by
         //the method not found in AbstractController
         generateMissingInvoices(fleet);
@@ -182,7 +183,7 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
      *
      * @return newly generated invoice
      */
-    private BillingInvoice generateCurrentBillingInvoice(Fleet fleet) {
+    private Invoice generateCurrentBillingInvoice(Fleet fleet) {
         LocalDate startDate = getLatestGeneratedInvoice(fleet, InvoiceType.BILLING);
         LocalDateTime now = LocalDateTime.now();
 
@@ -235,13 +236,12 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
     /**
      * Generate an extended invoice, based on the type of the given invoice.
      * <p>
-     * TODO: make this better, without object.
      *
      * @param invoice The invoice.
      *
      * @return The extended invoice.
      */
-    public Object generateInvoiceForView(Invoice invoice) {
+    public Invoice generateInvoiceForView(Invoice invoice) {
         switch (invoice.getType()) {
             case PAYMENT:
                 return generatePaymentInvoice(invoice);
@@ -260,7 +260,7 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
      *
      * @return The invoice with lot's of data.
      */
-    private PaymentInvoice generatePaymentInvoice(Invoice invoice) {
+    private Invoice generatePaymentInvoice(Invoice invoice) {
 
         // We need all active contracts on the start date. This includes contracts that start or end on this day,
         // since contract payments start per running day.
@@ -270,17 +270,22 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
         Collection<Contract> contracts = context.getContractDao()
                 .findByFleetSubscriptionFleetAndStartDateBeforeAndEndDateAfter(invoice.getFleet(), startLimit, endLimit);
 
-        Collection<Cost> costs = contracts.stream()
+        Set<InvoiceItem> items = contracts.stream()
                 .map(contract -> {
-                    Cost cost = new Cost();
-                    cost.setContract(contract);
-                    cost.setTax(context.getTaxDao().findDistinctByVehicleTypeAndInsuranceType(contract.getFleetSubscription().getVehicle().getType(), contract.getInsuranceType()));
-                    return cost;
-                }).collect(Collectors.toList());
-
-        PaymentInvoice paymentInvoice = new PaymentInvoice(invoice);
-        paymentInvoice.addCosts(costs);
-        return paymentInvoice;
+                    InvoiceItem item = new InvoiceItem();
+                    item.setInvoice(invoice);
+                    item.setStartDate(startLimit.toLocalDate());
+                    if(contract.getEndDate() != null && contract.getEndDate().isBefore(endLimit)) {
+                        item.setEndDate(contract.getEndDate().toLocalDate());
+                    } else {
+                        item.setEndDate(endLimit.toLocalDate());
+                    }
+                    item.setInvoiceItemType(InvoiceItemType.PAYMENT);
+                    item.setContract(contract);
+                    return item;
+                }).collect(Collectors.toSet());
+        invoice.setItems(items);
+        return invoice;
     }
 
     /**
@@ -291,52 +296,34 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
      *
      * @return The invoice with lots of data.
      */
-    private BillingInvoice generateBillingInvoice(Invoice invoice) {
+    private Invoice generateBillingInvoice(Invoice invoice) {
 
         // Unlike the payment invoices, for the billing invoices we need all contracts that have been active
         // (no matter how short) in the periode of the invoice.
         LocalDateTime startLimit = invoice.getStartDate().toLocalDate().atStartOfDay();
         LocalDateTime endLimit = invoice.getEndDate().plusDays(1).toLocalDate().atStartOfDay();
 
-        // We need all contracts that were active on the first day, but ended inside the period of the invoice.
-        Collection<Contract> ended = context.getContractDao()
-                .findFleetAndStartDateBeforeAndEndDateBetween(invoice.getFleet(), startLimit, endLimit);
-
         // We need all contracts that were not active on the first day, but started in the period of the invoice.
         // This also contains the contracts that start after the start date, but end before the end date.
         Collection<Contract> started = context.getContractDao()
                 .findByFleetSubscriptionFleetAndStartDateAfterAndStartDateLessThanEqual(invoice.getFleet(), startLimit.plusDays(1), endLimit);
 
-        Collection<RemoveCorrection> removeCorrections = ended.stream()
+        Set<InvoiceItem> items = started.stream()
                 .map(contract -> {
-                    RemoveCorrection correction = new RemoveCorrection();
-                    correction.setContract(contract);
-                    correction.setTax(context.getTaxDao().findDistinctByVehicleTypeAndInsuranceType(contract.getFleetSubscription().getVehicle().getType(), contract.getInsuranceType()));
-                    correction.setDays(numberOfDaysRemoved(contract, invoice));
-                    return correction;
-                })
-                .collect(Collectors.toList());
-
-        Collection<AddCorrection> addCorrections = started.stream()
-                .map(contract -> {
-                    AddCorrection correction = new AddCorrection();
-                    correction.setContract(contract);
-                    correction.setTax(context.getTaxDao().findDistinctByVehicleTypeAndInsuranceType(contract.getFleetSubscription().getVehicle().getType(), contract.getInsuranceType()));
-                    correction.setDays(numberOfDaysAdded(contract, invoice));
-                    return correction;
-                })
-                .collect(Collectors.toList());
-
-        BillingInvoice billingInvoice = new BillingInvoice(invoice);
-        billingInvoice.addCosts(removeCorrections);
-        billingInvoice.addCosts(addCorrections);
-
-        // Since it is useful to know what we are billing for, add the payment invoices from the same period.
-        Collection<Invoice> invoices = context.getInvoiceDao()
-                .findByTypeAndStartDateGreaterThanEqualAndEndDateLessThanEqual(InvoiceType.PAYMENT, invoice.getStartDate(), invoice.getEndDate());
-        billingInvoice.setPayments(invoices);
-
-        return billingInvoice;
+                    InvoiceItem item = new InvoiceItem();
+                    item.setInvoice(invoice);
+                    item.setStartDate(contract.getStartDate().toLocalDate());
+                    if(contract.getEndDate() != null && contract.getEndDate().isBefore(endLimit)) {
+                        item.setEndDate(contract.getEndDate().toLocalDate());
+                    } else {
+                        item.setEndDate(endLimit.toLocalDate());
+                    }
+                    item.setInvoiceItemType(InvoiceItemType.PAYMENT);
+                    item.setContract(contract);
+                    return item;
+                }).collect(Collectors.toSet());
+        invoice.setItems(items);
+        return invoice;
     }
 
     /**
