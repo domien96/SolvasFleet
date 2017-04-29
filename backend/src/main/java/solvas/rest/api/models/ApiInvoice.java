@@ -28,7 +28,7 @@ public class ApiInvoice extends ApiModel {
     private int fleet;
 
     @Min(value = 0)
-    //optional
+    //optional, in cents
     private long totalAmount;
 
     @Min(value = 1)

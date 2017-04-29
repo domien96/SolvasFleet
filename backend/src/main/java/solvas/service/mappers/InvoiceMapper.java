@@ -33,7 +33,7 @@ public class InvoiceMapper extends AbstractMapper<Invoice,ApiInvoice> {
     public Invoice convertToModel(ApiInvoice api) throws DependantEntityNotFound, EntityNotFoundException {
         Invoice invoice = api.getId()==0? new Invoice():daoContext.getInvoiceDao().find(api.getId());
         copySharedAttributes(invoice, api);
-        invoice.setAmount(BigDecimal.valueOf(api.getTotalAmount()));
+        invoice.setAmount(BigDecimal.valueOf(api.getTotalAmount()).divide(BigDecimal.valueOf(100)));
         invoice.setType(InvoiceType.fromString(api.getType()));
         invoice.setFleet(daoContext.getFleetDao().find(api.getFleet()));
         return invoice;
@@ -45,7 +45,7 @@ public class InvoiceMapper extends AbstractMapper<Invoice,ApiInvoice> {
 
         copyAttributes(api, model, "id", "createdAt", "updatedAt");
         copySharedAttributes(api, model);
-        api.setTotalAmount(model.getAmount().longValue());
+        api.setTotalAmount(model.getAmount().multiply(BigDecimal.valueOf(100)).longValue());
         api.setType(model.getType().getText());
         api.setFleet(model.getFleet().getId());
         api.setUrl(SimpleUrlBuilder.buildUrlFromBase(ROOTPATH+"{invoice_id}",model.getFleet().getId(),model.getId()));

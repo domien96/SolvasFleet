@@ -11,7 +11,7 @@ import java.util.Date;
  */
 public class Invoice extends Model {
 
-    private BigDecimal amount; // in cents
+    private BigDecimal amount; // in euro's
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private InvoiceType type;
