@@ -11,6 +11,8 @@ import solvas.service.models.Function;
 import solvas.service.models.Role;
 import solvas.service.models.User;
 
+import java.time.LocalDateTime;
+
 /**
  * Map functions in the persistence layer and functions in the api layer (bidirectionally)
  */
@@ -23,7 +25,7 @@ public class FunctionMapper extends AbstractMapper<Function, ApiFunction> {
      */
     @Autowired
     public FunctionMapper(DaoContext daoContext) {
-        super(daoContext, "startDate", "endDate");
+        super(daoContext,  "startDate","endDate");
     }
 
     @Override
@@ -41,10 +43,11 @@ public class FunctionMapper extends AbstractMapper<Function, ApiFunction> {
             throw new DependantEntityNotFound("Can't find related entity", e);
         }
 
-        Function function = daoContext.getFunctionDao().find(api.getId());
+        Function function = api.getId()==0?new Function():daoContext.getFunctionDao().find(api.getId());
         function.setCompany(company);
         function.setRole(role);
         function.setUser(user);
+        function.setStartDate(api.getStartDate()==null? LocalDateTime.now():api.getStartDate());
 
         copySharedAttributes(function, api);
 
@@ -56,7 +59,7 @@ public class FunctionMapper extends AbstractMapper<Function, ApiFunction> {
         ApiFunction apiFunction = new ApiFunction();
 
         copySharedAttributes(apiFunction, model);
-        copyAttributes(apiFunction, model, "id");
+        copyAttributes(apiFunction, model, "id", "createdAt", "updatedAt");
 
         if(model.getCompany() == null) {
             apiFunction.setCompany(-1);

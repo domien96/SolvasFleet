@@ -10,7 +10,7 @@ interface Props {
   handleChange : (field : Company.Field, isAddress : boolean, e : any) => void;
   errors       : Form.Error[];
   hasError     : (field : Company.Field) => boolean;
-  company      : Company;
+  company      : CompanyData;
 }
 
 const ClientForm : React.StatelessComponent<Props> = props => {

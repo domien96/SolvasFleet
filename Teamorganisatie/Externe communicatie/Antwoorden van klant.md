@@ -1,5 +1,27 @@
 #Antwoorden op de vragen naar de klant:
 
+> antwoord op inloggegevens:
+
+```
+Bedankt Nils, ik gooi het in de groep bij onze experten op kantoor.
+
+Zou het kunnen dat het enkel via Google Chrome lukt om in te loggen?
+
+Dit zijn de features van Milestone 2 ?
+De pdf download lukt nu al wel, het automatisch opstellen van de factuur voor een gekozen afrekeningsperiode mis ik nog wel (=zéér belangrijk)
+
+Probeer dit goed uit te werken:
+Maak meerdere voertuigtypes aan met minstens 2 verzekeringswaarborgen EN de juiste taksen en commissie% en laat er een globale factuur MET detail uitrollen.
+Zou TOP zijn.
+
+Je zou de taal van de applicatie ook afhankelijk kunnen maken aan de user-id.
+
+... telkens je een stap hebt gezet mag je mij updaten.
+
+Met vriendelijke groeten,
+Voor de Solvas-groep, 
+Patrick Oostvogels
+```
 
 >Stel dat de verzekering eindigt middenin een vlootinschrijving van een voertuig, bvb de verzekering eindigt op 23 maart en het voertuig is ingeschreven bij een vloot van 1/1/17 tot 1/1/18, moet die premie dan nog steeds volledig betaald worden of slechts deels?
 
