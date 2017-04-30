@@ -2,13 +2,16 @@ package solvas.rest.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.api.models.ApiRole;
 import solvas.rest.query.RoleFilter;
 import solvas.service.RoleService;
+import solvas.service.exceptions.UndeletableException;
 import solvas.service.models.Role;
 
 import javax.validation.Valid;
@@ -62,11 +65,20 @@ public class RoleRestController extends AbstractRestController<Role,ApiRole> {
         return super.post(input,result);
     }
 
-    @Override
+    /**
+     * Delete a role.
+     *
+     * @param roleId The role's ID.
+     *
+     * @return Nothing, empty response.
+     *
+     * @throws EntityNotFoundException If the role was not found.
+     */
     @RequestMapping(value = "/auth/roles/{roleId}", method = RequestMethod.DELETE)
     @PreAuthorize("hasPermission(#roleId, 'role', 'DELETE')")
-    public ResponseEntity<?> archiveById(@PathVariable int roleId) {
-        return super.archiveById(roleId);
+    public ResponseEntity<?> deleteById(@PathVariable int roleId) throws EntityNotFoundException, UndeletableException {
+        service.destroy(roleId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @Override
