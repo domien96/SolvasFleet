@@ -42,7 +42,7 @@ const FleetsCard : React.StatelessComponent<Props> = props => {
     <Card>
       <div className='card-title'>
         <h2>{ T.translate('fleet.fleets') }</h2>
-        <span className='click' onClick={ props.onClick }>Add a new fleet</span>
+        <span className='click' onClick={ props.onClick }><span className='glyphicon glyphicon-plus' aria-hidden='true'/>{ T.translate('fleet.addNew') }</span>
       </div>
       <div className='card-content fleets'>
         <div className='fleet-form-wrapper'>

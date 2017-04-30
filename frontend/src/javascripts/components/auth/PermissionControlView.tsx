@@ -64,7 +64,7 @@ const PermissionControlView : React.StatelessComponent<Props> = props => {
             <h2>
               { T.translate('role.roles') }
               <Link to={ '/auth/roles/new' } className='btn btn-default pull-right'>
-                <span className='glyphicon glyphicon-plus' aria-hidden='true'/> Add new Role
+                <span className='glyphicon glyphicon-plus' aria-hidden='true'/> { T.translate('role.addNew') }
               </Link>
             </h2>
           </div>

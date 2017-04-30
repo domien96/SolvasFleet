@@ -72,6 +72,7 @@ fleet:
     monthly: Maandelijks
     perTrimester: Per Trimester
     perSemester: Per Semester
+  addNew: Voeg een nieuwe vloot toe
 
 subfleet:
   id: ID

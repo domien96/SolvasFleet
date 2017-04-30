@@ -72,6 +72,7 @@ fleet:
     monthly: Monthly
     perTrimester: Per Trimester
     perSemester: Per Semester
+  addNew: Add a new fleet
 
 subfleet:
   id: ID

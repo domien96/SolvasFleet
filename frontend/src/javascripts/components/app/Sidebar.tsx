@@ -48,6 +48,7 @@ const Sidebar : React.StatelessComponent<{}> = () => {
           </Link>
         </li>
       </ul>
+      <LanguageSwitcher />
     </div>
   );  
       
@@ -59,7 +60,6 @@ const Sidebar : React.StatelessComponent<{}> = () => {
       <nav className='standard-menu'>
         {info}
       </nav>
-      <LanguageSwitcher />
     </div>
   );
 }
