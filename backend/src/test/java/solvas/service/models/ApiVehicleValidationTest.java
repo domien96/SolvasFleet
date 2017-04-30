@@ -1,9 +1,11 @@
 package solvas.service.models;
 
+import org.joda.time.DateTime;
 import org.junit.Test;
 import solvas.rest.api.models.ApiVehicle;
 
 import javax.validation.ConstraintViolation;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
@@ -26,7 +28,7 @@ public class ApiVehicleValidationTest extends ValidationTest {
     public void testValid() {
         ApiVehicle vehicle = random(ApiVehicle.class);
         vehicle.setVin(VALID_VIN);
-        vehicle.setYear(2014);
+        vehicle.setYear(LocalDateTime.of(2014,1,1,0,0));
         vehicle.setMileage(2000);
         vehicle.setValue(10);
 
@@ -40,7 +42,7 @@ public class ApiVehicleValidationTest extends ValidationTest {
     public void testVin() {
         String vinField = "vin";
         ApiVehicle vehicle = random(ApiVehicle.class, vinField);
-        vehicle.setYear(2014);
+        vehicle.setYear(LocalDateTime.of(2014,1,1,0,0));
         vehicle.setMileage(2000);
         vehicle.setValue(10);
         vehicle.setVin(INVALID_VIN);
@@ -66,7 +68,7 @@ public class ApiVehicleValidationTest extends ValidationTest {
     @Test
     public void testNumbers() {
         ApiVehicle vehicle = random(ApiVehicle.class);
-        vehicle.setYear(1500);
+        vehicle.setYear(LocalDateTime.of(1500,1,1,0,0));
         vehicle.setMileage(-50);
         vehicle.setValue(-99693);
         vehicle.setVin(VALID_VIN);
@@ -80,7 +82,7 @@ public class ApiVehicleValidationTest extends ValidationTest {
     @Test
     public void testEmptyAndNull() {
         ApiVehicle vehicle = new ApiVehicle();
-        vehicle.setYear(2000);
+        vehicle.setYear(LocalDateTime.of(2000,1,1,0,0));
         vehicle.setMileage(6565);
         vehicle.setValue(63);
 
