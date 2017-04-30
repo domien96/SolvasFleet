@@ -62,6 +62,9 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
             generateMissingInvoices(f.getFleet());
         } catch (EntityNotFoundException e) {
             // Todo what here?
+
+            // Definitely just not swallowing the exception!
+            throw new RuntimeException(e);
         }
         return super.findAll(pagination, filters);
     }
@@ -393,9 +396,13 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
         }
     }
 
+    public boolean generateCorrectionsFor(int fleetId) throws EntityNotFoundException {
+        return generateCorrectionsFor(context.getFleetDao().find(fleetId));
+    }
+
     // Important TODO: eager load
     // TODO: don't fix stuff the next BillingInvoice will fix (or fix BillingInvoice to not fix this stuff)
-    private void generateCorrectionsFor(Fleet fleet) {
+    public boolean generateCorrectionsFor(Fleet fleet) {
         Set<InvoiceItem> corrections = fleet.getSubscriptions().stream()
                 .map(FleetSubscription::getContracts)
                 .flatMap(Set::stream)
@@ -403,6 +410,9 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
                 .flatMap(Set::stream)
                 .collect(Collectors.toSet());
 
+        if(corrections.isEmpty()) {
+            return false;
+        }
         Invoice invoice = new Invoice();
         invoice.setType(InvoiceType.CORRECTION);
         invoice.setEndDate(LocalDateTime.now());
@@ -410,6 +420,7 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
         invoice.setPaid(false);
         invoice.setItems(corrections);
         modelDao.save(invoice);
+        return true;
     }
 
 
