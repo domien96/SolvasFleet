@@ -40,7 +40,7 @@ public class RoleRestControllerTest extends AbstractRestControllerTest<Role,ApiR
     public void matchJsonModel(ResultActions res,ApiRole role) throws Exception {
         res.andExpect(jsonPath("id").value(role.getId()))
                 .andExpect(jsonPath("url").value(role.getUrl()))
-                .andExpect(jsonPath("function").value(role.getName()))
+                .andExpect(jsonPath("permissions").value(role.getPermissions()))
                 .andExpect(jsonPath("user").value(role.getUser()));
     }
 

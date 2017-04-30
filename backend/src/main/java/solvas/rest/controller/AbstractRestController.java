@@ -16,6 +16,7 @@ import solvas.rest.api.models.ApiModel;
 import solvas.rest.utils.JsonListWrapper;
 import solvas.rest.utils.PagedResult;
 import solvas.service.AbstractService;
+import solvas.service.exceptions.UndeletableException;
 import solvas.service.mappers.exceptions.DependantEntityNotFound;
 import solvas.service.models.Model;
 
@@ -122,6 +123,11 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
         );
 
         return new ResponseEntity<>(wrapper, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(UndeletableException.class)
+    public ResponseEntity<?> handleUndeletableException(UndeletableException e) {
+        return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
     /**
