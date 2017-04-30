@@ -1,33 +1,25 @@
 import React from 'react';
 
-import Overview, { Props } from './Overview.tsx';
 import Header    from '../app/Header.tsx';
-import Card      from '../app/Card.tsx';
-import { Link } from 'react-router';
+import Listing from '../app/Listing.tsx';
 
-const MainCard : React.StatelessComponent<Props> = props => {
-  return (
-    <Card>
-      <div className='card-content'>
-        <Link to='/clients/new' className='btn btn-default pull-right'>
-          <span className='glyphicon glyphicon-plus' aria-hidden='true'></span> Add new client
-        </Link>
-        <Overview clients={ props.clients } onClientSelect={ props.onClientSelect } />
-      </div>
-    </Card>
-  );
+interface Props {
+  response : ListResponse;
+  onClientSelect : (id : number) => void;
+  fetchClients : (query?:any)=>void;
 }
 
 const Layout : React.StatelessComponent<Props> = props => {
   return (
     <div>
       <Header>
-        <h2>clients</h2>
+        <h2>Clients</h2>
       </Header>
       <div className='wrapper'>
         <div className='row'>
           <div className='col-xs-12'>
-            <MainCard clients={ props.clients } onClientSelect={ props.onClientSelect } />
+            <Listing onSelect={props.onClientSelect} addNewRoute='/clients/new' fetchModels={props.fetchClients} modelName='company'
+              columns={['id','name','vatNumber']} response={props.response}/>
           </div>
         </div>
       </div>

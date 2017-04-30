@@ -5,8 +5,8 @@ export function fetchClient(id : number, success? : callback, fail? : callback) 
   GET( CLIENT_URL(id), success, fail );
 }
 
-export function fetchClients(success? : callback, fail? : callback) {
-  GET( CLIENTS_URL, success, fail);
+export function fetchClients(success? : callback, fail? : callback,query?:any) {
+  GET( CLIENTS_URL, success, fail,query);
 }
 
 export function postClient(body : any, success? : callback, fail? : callback) {

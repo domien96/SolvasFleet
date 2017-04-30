@@ -1,7 +1,6 @@
 package solvas.rest.utils;
 
 import org.springframework.data.domain.Page;
-import solvas.rest.SimpleUrlBuilder;
 
 /**
  * Represents an API response that is paged.

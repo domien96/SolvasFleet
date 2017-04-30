@@ -1,9 +1,10 @@
 package solvas.rest.api.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import solvas.service.models.Model;
 
 /**
- * Created by steve on 11/03/2017.
+ * Abstract class for models in the API layer
  */
 public abstract class ApiModel extends Model {
 
@@ -16,5 +17,17 @@ public abstract class ApiModel extends Model {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    @JsonIgnore
+    @Override
+    public boolean isArchived() {
+        return super.isArchived();
+    }
+
+    @JsonIgnore
+    @Override
+    public void setArchived(boolean archived) {
+        super.setArchived(archived);
     }
 }

@@ -5,11 +5,11 @@ import ClientForm from './ClientForm.tsx'
 
 import { postClient } from '../../actions/client_actions.ts';
 import { hasError }  from '../../utils/utils.ts';
-import { redirect_to } from'../../router.tsx';
+import { redirect_to } from'../../routes/router.tsx';
 
 interface State {
   errors  : Form.Error[];
-  company : Company;
+  company : CompanyData;
 }
 class AddClient extends React.Component<{}, State> {
 
@@ -19,12 +19,13 @@ class AddClient extends React.Component<{}, State> {
       errors: [],
       company: { address: {} }
     };
+    this.state.company['type'] = 'Customer';
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit     = this.onSubmit.bind(this);
   }
 
   public handleChange(field : Company.Field, isAddress : boolean, e : any) : void {
-    var newClient : Company = this.state.company;
+    var newClient : CompanyData = this.state.company;
     if(isAddress){
       newClient['address'][field] = e.target.value;
     }
@@ -43,7 +44,6 @@ class AddClient extends React.Component<{}, State> {
         return { field: e, error: 'null' };
       }));
     }
-
     postClient(this.state.company, success, fail);
   }
 

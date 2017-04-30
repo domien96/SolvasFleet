@@ -3,6 +3,7 @@ package solvas.rest.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import solvas.rest.utils.JsonListWrapper;
@@ -38,37 +39,87 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
      * @param pagination The pagination information.
      * @param filter The filters.
      * @param result The validation results of the filterResult
+     * @param fleetId The id of the fleet to display vehicles for
      *
      * @return ResponseEntity
      */
+    @PreAuthorize("hasPermission(#fleetId, 'fleet', 'READ_VEHICLES')")
+    @RequestMapping(value = "/companies/{companyId}/fleets/{fleetId}/vehicles", method = RequestMethod.GET)
+    public ResponseEntity<?> listAll(Pageable pagination, VehicleFilter filter, BindingResult result, @PathVariable int fleetId) {
+        filter.setFleet(fleetId);
+        return super.listAll(pagination, filter, result);
+    }
+
+    /**
+     * List all vehicles
+     * @param pagination The pagination information.
+     * @param filter The filters.
+     * @param result The validation results of the filterResult
+     * @return ResponseEntity
+     */
+    @PreAuthorize("hasPermission(0, 'vehicle', 'LIST_VEHICLES')")
     @RequestMapping(value = "/vehicles", method = RequestMethod.GET)
     public ResponseEntity<?> listAll(Pageable pagination, VehicleFilter filter, BindingResult result) {
         return super.listAll(pagination, filter, result);
     }
 
-    @Override
-    @RequestMapping(value = "/vehicles/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> getById(@PathVariable int id) {
-        return super.getById(id);
+    /**
+     * Get a vehicle by it's ID. This requires a vehicle to have a fleet (and thus also a company). Vehicles that
+     * don't have those, should be accessed using {@link #getById(int)}.
+     *
+     * @param companyId The ID of the company.
+     * @param fleetId The ID of the fleet.
+     * @param vehicleId The ID of the vehicle.
+     *
+     * @return The response.
+     */
+    @RequestMapping(value = "/companies/{companyId}/fleets/{fleetId}/vehicles/{vehicleId}", method = RequestMethod.GET)
+    @PreAuthorize("hasPermission(#vehicleId, 'vehicle', 'READ')")
+    public ResponseEntity<?> getById(@PathVariable int companyId, @PathVariable int fleetId, @PathVariable int vehicleId) {
+        return super.getById(vehicleId);
     }
 
     @Override
+    @RequestMapping(value = "/vehicles/{vehicleId}", method = RequestMethod.GET)
+    @PreAuthorize("hasPermission(#vehicleId, 'vehicle', 'READ')")
+    public ResponseEntity<?> getById(@PathVariable int vehicleId) {
+        return super.getById(vehicleId);
+    }
+
+    /**
+     * Create new vehicle
+     * @param input ApiVehicle to save
+     * @param result Validation result
+     * @return ResponseEntity
+     */
     @RequestMapping(value = "/vehicles", method = RequestMethod.POST)
+    @PreAuthorize("hasPermission(#input, 'CREATE')")
     public ResponseEntity<?> post(@Valid @RequestBody ApiVehicle input,BindingResult result) {
         return super.post(input,result);
     }
 
     @Override
-    @RequestMapping(value = "/vehicles/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> archiveById(@PathVariable int id) {
-        return super.archiveById(id);
+    @RequestMapping(value = "/vehicles/{vehicleId}", method = RequestMethod.DELETE)
+    @PreAuthorize("hasPermission(#vehicleId, 'vehicle', 'DELETE')")
+    public ResponseEntity<?> archiveById(@PathVariable int vehicleId) {
+        return super.archiveById(vehicleId);
     }
 
+    /**
+     * Update vehicle
+     * @param vehicleId Id of vehicle to update
+     * @param input New attributes of the vehicle
+     * @param result Validation result
+     * @return ResponseEntity
+     */
     @Override
-
-    @RequestMapping(value = "/vehicles/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> put(@PathVariable int id, @Valid @RequestBody ApiVehicle input, BindingResult result) {
-        return super.put(id, input,result);
+    @RequestMapping(value = "/vehicles/{vehicleId}", method = RequestMethod.PUT)
+    @PreAuthorize("hasPermission(#vehicleId, 'vehicle', 'EDIT')")
+    public ResponseEntity<?> put(
+            @PathVariable int vehicleId,
+            @Valid @RequestBody ApiVehicle input,
+            BindingResult result) {
+        return super.put(vehicleId, input,result);
     }
 
     /**

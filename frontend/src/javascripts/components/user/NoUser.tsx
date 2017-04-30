@@ -6,7 +6,7 @@ const NoUser : React.StatelessComponent<{}> = () => {
   return (
   	<Card>
 	    <div className='card-content'>
-	      <h2>No User</h2>
+	      <h2>No user selected</h2>
 	    </div>
     </Card>
   );

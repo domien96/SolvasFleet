@@ -5,7 +5,7 @@ import ClientForm from './ClientForm.tsx';
 
 import { fetchClient, putClient }    from '../../actions/client_actions.ts';
 import { hasError } from '../../utils/utils.ts';
-import { redirect_to } from'../../router.tsx';
+import { redirect_to } from'../../routes/router.tsx';
 
 interface Props {
   [ params : string ] : { [ id : string ] : number };
@@ -13,7 +13,7 @@ interface Props {
 
 interface State {
   errors  : Form.Error[];
-  company : Company;
+  company : CompanyData;
 }
 
 class EditClient extends React.Component<Props, State> {
@@ -32,7 +32,7 @@ class EditClient extends React.Component<Props, State> {
   }
 
   handleChange(field : Company.Field, isAddress : boolean, e : any) : any {
-    var newClient : Company = this.state.company;
+    var newClient : CompanyData = this.state.company;
     if(isAddress){
       newClient['address'][field] = e.target.value;
     }

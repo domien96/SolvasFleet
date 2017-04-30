@@ -1,11 +1,9 @@
 import React from 'react';
-import { Link } from'react-router';
-import { Collapse } from 'react-bootstrap';
 
 import FleetsCard from './FleetsCard.tsx';
 import { postFleet } from '../../actions/fleet_actions.ts';
 
-import { redirect_to } from '../../router.tsx';
+import { redirect_to } from '../../routes/router.tsx';
 
 interface Props {
     fleets : FleetData[];
@@ -23,7 +21,7 @@ class Fleets extends React.Component<Props, State> {
     super(props);
     this.state = {
       formVisible: false,
-      fleet: { company: this.props.company },
+      fleet: { company: this.props.company ,facturationPeriod:91 ,paymentPeriod:31},
       errors: []
     };
     this.handleChange = this.handleChange.bind(this);
@@ -51,7 +49,7 @@ class Fleets extends React.Component<Props, State> {
       }));
     }
 
-    postFleet(this.state.fleet, success, fail);
+    postFleet(this.props.company, this.state.fleet, success, fail);
   }
 
   render() {
@@ -62,6 +60,7 @@ class Fleets extends React.Component<Props, State> {
         handleChange={ this.handleChange }
         formIsVisible={ this.state.formVisible }
         onClick={ this.onClick }
+        fleet={this.state.fleet}
       />
     );
   }

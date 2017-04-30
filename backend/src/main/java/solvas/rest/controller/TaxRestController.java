@@ -25,7 +25,7 @@ public class TaxRestController extends AbstractRestController<Tax,ApiTax>{
      *
      * @param service service class for entities
      */
-    protected TaxRestController(TaxService service) {
+    public TaxRestController(TaxService service) {
         super(service);
         taxService = service;
     }

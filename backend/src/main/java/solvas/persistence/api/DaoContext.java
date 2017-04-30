@@ -14,68 +14,74 @@ import solvas.service.models.Model;
 public interface DaoContext {
 
     /**
-     * Get companyDao for this content
+     * Get companyDao for this context
      * @return A CompanyDao
      */
     CompanyDao getCompanyDao();
 
     /**
-     * Get fleetDao for this content
+     * Get fleetDao for this context
      * @return A fleetyDao
      */
     FleetDao getFleetDao();
 
     /**
-     * Get fleetSubscriptionDao for this content
+     * Get fleetSubscriptionDao for this context
      * @return A FleetSubscriptionDao
      */
     FleetSubscriptionDao getFleetSubscriptionDao();
 
     /**
-     * Get roleDao for this content
+     * Get roleDao for this context
      * @return A RoleDao
      */
     RoleDao getRoleDao();
 
     /**
-     * Get subFleetDao for this content
-     * @return A SubFleetDao
-     */
-    SubFleetDao getSubFleetDao();
-
-    /**
-     * Get userDao for this content
+     * Get userDao for this context
      * @return A UserDao
      */
     UserDao getUserDao();
 
     /**
-     * Get vehicleDao for this content
+     * Get vehicleDao for this context
      * @return A VehcielDao
      */
     VehicleDao getVehicleDao();
 
     /**
-     * Get vehicleTypeDao for this content
+     * Get vehicleTypeDao for this context
      * @return A VehicleTypeDao
      */
     VehicleTypeDao getVehicleTypeDao();
 
     /**
-     * Get InsuranceTypeDao for this content
+     * Get InsuranceTypeDao for this context
      * @return A InsuranceTypeDao
      */
     InsuranceTypeDao getInsuranceTypeDao();
 
 
     /**
-     * Get ContractDao for this content
+     * Get ContractDao for this context
      * @return A VehicleTypeDao
      */
     ContractDao getContractDao();
 
     /**
-     * Get InvoiceDao for this content
+     * Get FunctionDao for this content
+     * @return A FunctionDao
+     */
+    FunctionDao getFunctionDao();
+
+    /**
+     * Get PermissionDao for this content
+     * @return A PermissionDao
+     */
+    PermissionDao getPermissionDao();
+
+    /**
+     * Get InvoiceDao for this context
      * @return A InvoiceDao
      */
     InvoiceDao getInvoiceDao();

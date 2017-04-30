@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.Collection;
 
 /**
- * @author Niko Strijbol
+ * Filter for {@link Vehicle}s
  */
 @SuppressWarnings("unused")
 public class VehicleFilter extends ArchiveFilter<Vehicle> {
@@ -49,8 +49,7 @@ public class VehicleFilter extends ArchiveFilter<Vehicle> {
         }
         if (fleet >= 0) {
             Join<Vehicle, FleetSubscription> subscriptionJoin = root.join("fleetSubscriptions");
-            Join<FleetSubscription, SubFleet> subFleetJoin = subscriptionJoin.join("subFleet");
-            Join<SubFleet, Fleet> fleetJoin = subFleetJoin.join("fleet");
+            Join<FleetSubscription, Fleet> fleetJoin = subscriptionJoin.join("fleet");
 
             LocalDate now = LocalDate.now();
             // The start must be before today
