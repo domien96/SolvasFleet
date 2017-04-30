@@ -10,6 +10,7 @@ import solvas.persistence.api.Dao;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.api.models.ApiModel;
 import solvas.service.AbstractService;
+import solvas.service.exceptions.UndeletableException;
 import solvas.service.mappers.AbstractMapper;
 import solvas.service.mappers.exceptions.DependantEntityNotFound;
 import solvas.service.models.Model;
@@ -86,7 +87,7 @@ public abstract class AbstractServiceTest<T extends Model,E extends ApiModel> {
     }
 
     @Test
-    public void destroy() throws EntityNotFoundException {
+    public void destroy() throws EntityNotFoundException, UndeletableException {
         when(getDaoMock().find(anyInt())).thenReturn(getTestModel());
         getService().destroy(3);
         verify(getDaoMock()).destroy(captor.capture());
