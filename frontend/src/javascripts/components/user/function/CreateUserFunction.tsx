@@ -6,6 +6,7 @@ import { fetchClients } from '../../../actions/client_actions.ts';
 import { postFunction } from '../../../actions/user_actions.ts';
 import { hasError } from '../../../utils/utils.ts';
 import { redirect_to } from'../../../routes/router.tsx';
+import T     from 'i18n-react';
 
 import FunctionForm from './form/FunctionForm.tsx'
 
@@ -83,7 +84,7 @@ class CreateUserFunction extends React.Component<Props, State> {
     return (
       <div>
         <Header>
-          <h2>Create a new function</h2>
+          <h2>{ T.translate('function.createNew') }</h2>
         </Header>
         <FunctionForm
           Sfunction={ this.state.Sfunction }

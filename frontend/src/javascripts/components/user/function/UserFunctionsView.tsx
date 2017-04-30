@@ -3,6 +3,7 @@ import React from 'react';
 import { th }    from '../../../utils/utils.ts';
 import ExtendedInfoTable from '../../tables/ExtendedInfoTable.tsx';
 import { Link } from 'react-router';
+import T     from 'i18n-react';
 
 interface OverviewProps {
   Sfunctions : SFunctionData[];
@@ -31,10 +32,10 @@ const UserFunctionsView : React.StatelessComponent<Props> = props => {
   return (
     <div>    
       <Link to={ '/users/'+ props.userId +'/functions/new' } className='btn btn-default pull-right'>
-        <span className='glyphicon glyphicon-plus' aria-hidden='true'/> Add new function
+        <span className='glyphicon glyphicon-plus' aria-hidden='true'/> { T.translate('function.addNew') }
       </Link>
       <h3>
-        Functions
+        { T.translate('function.functions') }
       </h3>
       <Overview Sfunctions={ props.Sfunctions } onFunctionDelete={ props.onFunctionDelete }/>
     </div>

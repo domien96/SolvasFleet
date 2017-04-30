@@ -1,12 +1,12 @@
-login:
-  submit: 'Login'
+app:
+  welcomeMessage: Welcome to Solvas Fleet
+  actions: Actions
 
-addRole:
-  submit: 'Add Role to user'
-  startDate: Start date
-  endDate: End date
+login:
+  submit: Login
 
 company:
+  clients: Clients
   id: ID
   name: Name
   vatNumber: VAT number
@@ -18,16 +18,15 @@ company:
     postalCode: Postal code
     country: Country
   addNew: Add New Company
+  edit: Edit Company
   types: Type 
   type:
     LeasingCompany: Leasing company 
     InsuranceCompany: Insurance company 
     Customer: Customer
 
-errors:
-  null: is empty
-
 vehicle:
+  vehicles: Vehicles
   licensePlate: License plate
   vin: Vehicle Identification Number
   brand: Brand
@@ -40,14 +39,15 @@ vehicle:
   fleet: Fleet ID
   options:
     allVehicles: All vehicles
-    personalCar: Personal car
-    van: Van
-    semiTrailer: Semi-trailer
-    trailer: Trailer
-    truck: Truck
+    PersonalVehicle: Personal vehicle
+    Van: Van
+    Truck+12: Truck+12
+    SemiHeavyTruck: Semi heavy truck
+    Truck: Truck
   addNew: Add New Vehicle
 
 user:
+  users: Users
   id: ID
   email: Email
   password: Password
@@ -57,6 +57,7 @@ user:
   addNew: Add New User
 
 fleet:
+  fleets: Fleets
   id: ID
   name: Name
   size: Size
@@ -71,17 +72,12 @@ subfleet:
   name: Name
   size: Size
 
-form:
-  create: Create
-  update: Update
-  submit: Submit
-  placeholders:
-    email: Email
-    password: Password
-
 function: 
+  functions: Functions
   role: Role
   company: Company
+  addNew: Add New Function
+  createNew: Create a new function
 
 permission:
   action: Action
@@ -99,6 +95,8 @@ invoice:
   type: Type 
   startDate: Start date 
   endDate: End date
+  showCurrent: Show current invoice
+  showAll: Show all invoices
 
 contract:
   id: Contract ID
@@ -116,3 +114,17 @@ contract:
     LegalAid: Legal aid
     DriverInsurance: Driver insurance
     TravelInsurance: Travel insurance
+
+form:
+  create: Create
+  update: Update
+  submit: Submit
+  placeholders:
+    email: Email
+    password: Password
+
+table: 
+  actions: Actions
+
+errors:
+  null: is empty

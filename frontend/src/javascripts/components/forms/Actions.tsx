@@ -28,7 +28,7 @@ const Actions : React.StatelessComponent<Props> = ({ submitLabel, cancelUrl, mod
     <div className='col-xs-12'>
       <Card>
         <div className='card-title'>
-          <h5>Actions</h5>
+          <h5>{ T.translate('app.actions') }</h5>
         </div>
         <div className='card-content actions'>
           <Submit label={ submitLabel } model={ model } />
