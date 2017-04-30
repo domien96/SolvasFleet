@@ -10,6 +10,7 @@ import solvas.persistence.api.Filter;
 import solvas.rest.api.models.ApiInvoice;
 import solvas.rest.query.InvoiceFilter;
 import solvas.service.invoices.Cost;
+import solvas.service.invoices.InvoiceCorrector;
 import solvas.service.invoices.PaymentInvoice;
 import solvas.service.invoices.billing.AddCorrection;
 import solvas.service.invoices.billing.BillingInvoice;
@@ -391,4 +392,25 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
             modelDao.save(invoice);
         }
     }
+
+    // Important TODO: eager load
+    // TODO: don't fix stuff the next BillingInvoice will fix (or fix BillingInvoice to not fix this stuff)
+    private void generateCorrectionsFor(Fleet fleet) {
+        Set<InvoiceItem> corrections = fleet.getSubscriptions().stream()
+                .map(FleetSubscription::getContracts)
+                .flatMap(Set::stream)
+                .map(InvoiceCorrector::correctionItemsForContract)
+                .flatMap(Set::stream)
+                .collect(Collectors.toSet());
+
+        Invoice invoice = new Invoice();
+        invoice.setType(InvoiceType.CORRECTION);
+        invoice.setEndDate(LocalDateTime.now());
+        invoice.setFleet(fleet);
+        invoice.setPaid(false);
+        invoice.setItems(corrections);
+        modelDao.save(invoice);
+    }
+
+
 }

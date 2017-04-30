@@ -18,7 +18,6 @@ public class FleetSubscription extends Model {
 
     private Set<Contract> contracts;
 
-
     public LocalDate getStartDate() {
         return startDate;
     }

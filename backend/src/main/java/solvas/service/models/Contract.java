@@ -1,6 +1,7 @@
 package solvas.service.models;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 /**
  * Models a contract
@@ -15,6 +16,7 @@ public class Contract extends Model {
     private int premium;
     private Company company;
     private InsuranceType insuranceType;
+    private Set<InvoiceItem> invoiceItems;
 
     public Contract() {
     } // Hibernate wants a no-arg constructor
@@ -73,5 +75,13 @@ public class Contract extends Model {
 
     public void setInsuranceType(InsuranceType insuranceType) {
         this.insuranceType = insuranceType;
+    }
+
+    public Set<InvoiceItem> getInvoiceItems() {
+        return invoiceItems;
+    }
+
+    public void setInvoiceItems(Set<InvoiceItem> invoiceItems) {
+        this.invoiceItems = invoiceItems;
     }
 }

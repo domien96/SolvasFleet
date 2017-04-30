@@ -3,7 +3,7 @@ package solvas.service.models;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
-public class InvoiceItem {
+public class InvoiceItem extends Model {
     private Contract contract;
     private Invoice invoice;
     private InvoiceItemType invoiceItemType;
