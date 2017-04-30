@@ -2,6 +2,7 @@ package solvas.persistence.api.dao;
 
 import org.springframework.stereotype.Repository;
 import solvas.persistence.api.Dao;
+import solvas.service.models.Fleet;
 import solvas.service.models.FleetSubscription;
 import solvas.service.models.Vehicle;
 
@@ -25,4 +26,16 @@ public interface FleetSubscriptionDao extends Dao<FleetSubscription>, FleetSubsc
      * @return The subscriptions.
      */
     Collection<FleetSubscription> findByVehicle(Vehicle vehicle);
+
+
+
+    /**
+     * get all subscriptions from a fleet, that are active
+     *
+     * @param Fleet The fleet to find subscriptions for.
+     *
+     * @return The subscriptions.
+     */
+    Collection<FleetSubscription> findByFleetAndEndDateIsNull(Fleet fleet);
+
 }

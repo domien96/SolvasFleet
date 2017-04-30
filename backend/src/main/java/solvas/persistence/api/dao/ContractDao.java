@@ -29,6 +29,15 @@ public interface ContractDao extends Dao<Contract> {
 
 
     /**
+     * Find all contracts with given fleetSubscription
+     *
+     * @param fleetSubscription the fleetSubscription of which the contracts are needed
+     * @return Contracts with given fleetSubscription
+     */
+    Collection<Contract> findByFleetSubscription(FleetSubscription fleetSubscription);
+
+
+    /**
      * Find all contracts for a subscription which overlaps with the period start-end
      * @param fleetSubscription
      * @param start
