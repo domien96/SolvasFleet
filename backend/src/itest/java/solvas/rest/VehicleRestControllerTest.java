@@ -1,5 +1,6 @@
 package solvas.rest;
 
+import org.joda.time.DateTime;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -64,7 +65,7 @@ public class VehicleRestControllerTest extends AbstractRestControllerTest<Vehicl
     {
         ApiVehicle vehicle = super.getTestModel();
         vehicle.setValue(1500);
-        vehicle.setYear(1990);
+        vehicle.setYear(new DateTime(1990,1,1,0,0));
         vehicle.setMileage(10000);
         vehicle.setVin("5NPEB4AC8EH893920");
         return vehicle;

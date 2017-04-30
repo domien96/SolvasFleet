@@ -1,5 +1,6 @@
 package solvas.service.models;
 
+import org.joda.time.DateTime;
 import org.junit.Test;
 import solvas.rest.api.models.ApiVehicle;
 
@@ -26,7 +27,7 @@ public class ApiVehicleValidationTest extends ValidationTest {
     public void testValid() {
         ApiVehicle vehicle = random(ApiVehicle.class);
         vehicle.setVin(VALID_VIN);
-        vehicle.setYear(2014);
+        vehicle.setYear(new DateTime(2014,1,1,0,0));
         vehicle.setMileage(2000);
         vehicle.setValue(10);
 
@@ -40,7 +41,7 @@ public class ApiVehicleValidationTest extends ValidationTest {
     public void testVin() {
         String vinField = "vin";
         ApiVehicle vehicle = random(ApiVehicle.class, vinField);
-        vehicle.setYear(2014);
+        vehicle.setYear(new DateTime(2014,1,1,0,0));
         vehicle.setMileage(2000);
         vehicle.setValue(10);
         vehicle.setVin(INVALID_VIN);
@@ -66,7 +67,7 @@ public class ApiVehicleValidationTest extends ValidationTest {
     @Test
     public void testNumbers() {
         ApiVehicle vehicle = random(ApiVehicle.class);
-        vehicle.setYear(1500);
+        vehicle.setYear(new DateTime(1500,1,1,0,0));
         vehicle.setMileage(-50);
         vehicle.setValue(-99693);
         vehicle.setVin(VALID_VIN);
@@ -80,7 +81,7 @@ public class ApiVehicleValidationTest extends ValidationTest {
     @Test
     public void testEmptyAndNull() {
         ApiVehicle vehicle = new ApiVehicle();
-        vehicle.setYear(2000);
+        vehicle.setYear(new DateTime(2000,1,1,0,0));
         vehicle.setMileage(6565);
         vehicle.setValue(63);
 

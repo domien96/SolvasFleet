@@ -1,6 +1,7 @@
 package solvas.rest.api.models;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.joda.time.DateTime;
 import solvas.service.models.validators.Vin;
 
 import javax.validation.constraints.Min;
@@ -29,7 +30,7 @@ public class ApiVehicle extends ApiModel {
     private int mileage;
 
     @Min(value = FIRST_VIN)
-    private int year;
+    private DateTime year;
 
     private int leasingCompany;
 
@@ -81,11 +82,11 @@ public class ApiVehicle extends ApiModel {
         this.mileage = kilometerCount;
     }
 
-    public int getYear() {
+    public DateTime getYear() {
         return year;
     }
 
-    public void setYear(int year) {
+    public void setYear(DateTime year) {
         this.year = year;
     }
 

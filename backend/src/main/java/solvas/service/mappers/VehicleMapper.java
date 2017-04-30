@@ -1,6 +1,7 @@
 package solvas.service.mappers;
 
 
+import org.joda.time.DateTime;
 import org.springframework.stereotype.Component;
 import solvas.service.models.Fleet;
 import solvas.service.models.FleetSubscription;
@@ -32,7 +33,7 @@ public class VehicleMapper extends AbstractMapper<Vehicle, ApiVehicle> {
      * @param daoContext context for connecting entity's
      */
     public VehicleMapper(DaoContext daoContext) {
-        super(daoContext, "id", "licensePlate", "model", "year", "value", "brand");
+        super(daoContext, "id", "licensePlate", "model", "value", "brand");
     }
 
 
@@ -43,6 +44,7 @@ public class VehicleMapper extends AbstractMapper<Vehicle, ApiVehicle> {
         copySharedAttributes(vehicle, api);
         vehicle.setKilometerCount(api.getMileage()); //Todo replace kilometerCount to mileage so it is a shared Attribute
         vehicle.setChassisNumber(api.getVin());
+        vehicle.setYear(api.getYear().getYear());
 
         if (api.getLeasingCompany() != 0) {
             vehicle.setLeasingCompany(daoContext.getCompanyDao().find(api.getLeasingCompany()));
@@ -118,7 +120,7 @@ public class VehicleMapper extends AbstractMapper<Vehicle, ApiVehicle> {
         copyAttributes( api, vehicle,"createdAt", "updatedAt");
         copySharedAttributes(api, vehicle);
 
-
+        api.setYear(new DateTime(vehicle.getYear(),1,1,0,0));
         api.setMileage(vehicle.getKilometerCount());
         api.setVin(vehicle.getChassisNumber());
         api.setLeasingCompany(vehicle.getLeasingCompany() == null ? 0 : vehicle.getLeasingCompany().getId());
