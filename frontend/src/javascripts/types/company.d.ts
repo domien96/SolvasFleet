@@ -3,7 +3,7 @@ namespace Company {
     'id' | 'name' | 'vatNumber' | 'type' | 'phoneNumber' | 'city' | 'country' | 'houseNumber' | 'postalCode' | 'street';
 }
 
-interface Company {
+interface CompanyData {
   id?           : number
   name?        : string;
   vatNumber?   : string;

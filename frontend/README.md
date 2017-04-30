@@ -7,6 +7,7 @@ Run the following command to install all modules.
 
 `npm install`
 `npm run typings`
+`npm rebuild node-sass`
 
 Om de site te builden in production gebruik je
 `npm run build`
