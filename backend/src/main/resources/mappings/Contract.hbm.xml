@@ -29,6 +29,10 @@
         <many-to-one name="company" column="company_id"
                      class="solvas.service.models.Company" not-null="true"/>
 
+        <set name="invoiceItems" table="invoice_items" lazy="true">
+            <key column="invoice_item_id" />
+            <one-to-many class="solvas.service.models.InvoiceItem"/>
+        </set>
 
         <property name="archived" column="archived" type="boolean" not-null="true"/>
 

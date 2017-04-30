@@ -14,12 +14,12 @@ public class InvoiceCorrector {
     public static Set<InvoiceItem> correctionItemsForContract(Contract contract) {
         Collection<InvoiceItem> invoiceItems = contract.getInvoiceItems();
         Collection<Period> paidPeriods = invoiceItems.stream()
-                .filter(item -> item.getInvoiceItemType().equals(InvoiceItemType.PAYMENT))
+                .filter(item -> item.getType().equals(InvoiceItemType.PAYMENT))
                 .map(item -> new Period(item.getStartDate(), item.getEndDate()))
                 .collect(Collectors.toList());
 
         Collection<Period> repaidPeriods = invoiceItems.stream()
-                .filter(item -> item.getInvoiceItemType().equals(InvoiceItemType.REPAYMENT))
+                .filter(item -> item.getType().equals(InvoiceItemType.REPAYMENT))
                 .map(item -> new Period(item.getStartDate(), item.getEndDate()))
                 .collect(Collectors.toList());
 
@@ -32,7 +32,7 @@ public class InvoiceCorrector {
                     item.setContract(contract);
                     item.setStartDate(item.getStartDate());
                     item.setEndDate(item.getEndDate());
-                    item.setInvoiceItemType(InvoiceItemType.PAYMENT);
+                    item.setType(InvoiceItemType.PAYMENT);
                     return item;
                 })
                 .collect(Collectors.toSet());
@@ -42,7 +42,7 @@ public class InvoiceCorrector {
                     item.setContract(contract);
                     item.setStartDate(item.getStartDate());
                     item.setEndDate(item.getEndDate());
-                    item.setInvoiceItemType(InvoiceItemType.REPAYMENT);
+                    item.setType(InvoiceItemType.REPAYMENT);
                     return item;
                 })
                 .collect(Collectors.toSet()));

@@ -12,7 +12,6 @@ import java.util.Set;
  */
 public class Invoice extends Model {
 
-    private BigDecimal amount; // in cents
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private InvoiceType type;
@@ -33,11 +32,7 @@ public class Invoice extends Model {
     }
 
     public BigDecimal getAmount() {
-        return amount;
-    }
-
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
+        return BigDecimal.ONE; // TODO
     }
 
     public LocalDateTime getStartDate() {

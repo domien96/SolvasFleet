@@ -9,12 +9,7 @@ import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.Filter;
 import solvas.rest.api.models.ApiInvoice;
 import solvas.rest.query.InvoiceFilter;
-import solvas.service.invoices.Cost;
 import solvas.service.invoices.InvoiceCorrector;
-import solvas.service.invoices.PaymentInvoice;
-import solvas.service.invoices.billing.AddCorrection;
-import solvas.service.invoices.billing.BillingInvoice;
-import solvas.service.invoices.billing.RemoveCorrection;
 import solvas.service.mappers.InvoiceMapper;
 import solvas.service.models.*;
 
@@ -284,7 +279,7 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
                     } else {
                         item.setEndDate(endLimit.toLocalDate());
                     }
-                    item.setInvoiceItemType(InvoiceItemType.PAYMENT);
+                    item.setType(InvoiceItemType.PAYMENT);
                     item.setContract(contract);
                     return item;
                 }).collect(Collectors.toSet());
@@ -322,7 +317,7 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
                     } else {
                         item.setEndDate(endLimit.toLocalDate());
                     }
-                    item.setInvoiceItemType(InvoiceItemType.PAYMENT);
+                    item.setType(InvoiceItemType.PAYMENT);
                     item.setContract(contract);
                     return item;
                 }).collect(Collectors.toSet());

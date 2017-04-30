@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="solvas.service.models.InvoiceItem" table="invoice_items">
+        <meta attribute="class-description">
+            This class contains the invoices items.
+        </meta>
+        <id name="id" type="int" column="invoice_item_id">
+            <generator class="identity"/>
+        </id>
+        <property name="amount" column="amount" type="big_decimal" not-null="true"/>
+        <property name="type" column="type" not-null="true">
+            <type name="org.hibernate.type.EnumType" >
+                <param name="enumClass">solvas.service.models.InvoiceItemType</param>
+                <param name="useNamed">true</param>
+            </type>
+        </property>
+        <property name="startDate" column="start_date" type="java.time.LocalDate" not-null="true" />
+        <property name="endDate" column="end_date" type="java.time.LocalDate" not-null="true" />
+
+        <many-to-one name="invoice" column="invoice_id"
+                     class="solvas.service.models.Invoice" not-null="true"/>
+        <many-to-one name="contract" column="contract_id"
+                     class="solvas.service.models.Contract" not-null="true"/>
+
+        <property name="updatedAt" column="updated_at" type="java.time.LocalDateTime" generated="always" insert="false"/>
+        <property name="createdAt" column="created_at" type="java.time.LocalDateTime" generated="insert" insert="false"/>
+    </class>
+</hibernate-mapping>

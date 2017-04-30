@@ -32,7 +32,7 @@ public class InvoiceMapper extends AbstractMapper<Invoice,ApiInvoice> {
     public Invoice convertToModel(ApiInvoice api) throws DependantEntityNotFound, EntityNotFoundException {
         Invoice invoice = api.getId()==0? new Invoice():daoContext.getInvoiceDao().find(api.getId());
         copySharedAttributes(invoice, api);
-        invoice.setAmount(BigDecimal.valueOf(api.getTotalAmount()));
+      //  invoice.setAmount(BigDecimal.valueOf(api.getTotalAmount()));
         invoice.setType(InvoiceType.fromString(api.getType()));
         invoice.setFleet(daoContext.getFleetDao().find(api.getFleet()));
         return invoice;

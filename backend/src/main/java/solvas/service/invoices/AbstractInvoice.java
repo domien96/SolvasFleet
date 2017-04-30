@@ -55,7 +55,7 @@ public abstract class AbstractInvoice<E extends Cost> {
 
             total = total.add(item.getTotal());
         }
-        invoice.setAmount(total);
+       // invoice.setAmount(total);
     }
 
     /**

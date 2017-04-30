@@ -1,0 +1,1 @@
+ALTER TABLE invoice_items ADD COLUMN amount NUMERIC NOT NULL;

@@ -1,14 +1,16 @@
 package solvas.service.models;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 public class InvoiceItem extends Model {
     private Contract contract;
     private Invoice invoice;
-    private InvoiceItemType invoiceItemType;
+    private InvoiceItemType type;
     private LocalDate startDate;
     private LocalDate endDate;
+    private BigDecimal amount;
 
     public Contract getContract() {
         return contract;
@@ -26,12 +28,12 @@ public class InvoiceItem extends Model {
         this.invoice = invoice;
     }
 
-    public InvoiceItemType getInvoiceItemType() {
-        return invoiceItemType;
+    public InvoiceItemType getType() {
+        return type;
     }
 
-    public void setInvoiceItemType(InvoiceItemType invoiceItemType) {
-        this.invoiceItemType = invoiceItemType;
+    public void setType(InvoiceItemType type) {
+        this.type = type;
     }
 
     public LocalDate getStartDate() {
@@ -52,5 +54,13 @@ public class InvoiceItem extends Model {
 
     public long getNumberOfDays() {
         return ChronoUnit.DAYS.between(startDate, endDate);
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
     }
 }
