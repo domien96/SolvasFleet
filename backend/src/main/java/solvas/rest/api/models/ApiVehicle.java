@@ -6,6 +6,7 @@ import solvas.service.models.validators.Vin;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 /**
  * Vehicle in the API layer
@@ -30,7 +31,7 @@ public class ApiVehicle extends ApiModel {
     private int mileage;
 
     @Min(value = FIRST_VIN)
-    private DateTime year;
+    private LocalDateTime year;
 
     private int leasingCompany;
 
@@ -82,11 +83,11 @@ public class ApiVehicle extends ApiModel {
         this.mileage = kilometerCount;
     }
 
-    public DateTime getYear() {
+    public LocalDateTime getYear() {
         return year;
     }
 
-    public void setYear(DateTime year) {
+    public void setYear(LocalDateTime year) {
         this.year = year;
     }
 

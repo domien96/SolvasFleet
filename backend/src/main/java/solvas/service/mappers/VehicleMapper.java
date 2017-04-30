@@ -14,6 +14,7 @@ import solvas.service.mappers.exceptions.FieldNotFoundException;
 import solvas.rest.api.models.ApiVehicle;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -120,7 +121,7 @@ public class VehicleMapper extends AbstractMapper<Vehicle, ApiVehicle> {
         copyAttributes( api, vehicle,"createdAt", "updatedAt");
         copySharedAttributes(api, vehicle);
 
-        api.setYear(new DateTime(vehicle.getYear(),1,1,0,0));
+        api.setYear(LocalDateTime.of(vehicle.getYear(),1,1,0,0));
         api.setMileage(vehicle.getKilometerCount());
         api.setVin(vehicle.getChassisNumber());
         api.setLeasingCompany(vehicle.getLeasingCompany() == null ? 0 : vehicle.getLeasingCompany().getId());
