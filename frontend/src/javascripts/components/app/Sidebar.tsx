@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 import classNames from 'classnames';
 import { slide as Menu } from 'react-burger-menu';
 import LanguageSwitcher from './LanguageSwitcher.tsx';
+import T from 'i18n-react';
 
 interface SProps {
   path: string;
@@ -43,7 +44,7 @@ const Sidebar : React.StatelessComponent<{}> = () => {
         <SidebarLink path='/auth'>Permission Settings</SidebarLink>
         <li>
           <Link to='/sign_out'>
-            Sign out
+            { T.translate('app.signOut') }
           </Link>
         </li>
       </ul>

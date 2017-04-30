@@ -1,6 +1,8 @@
 app:
   welcomeMessage: Welcome to Solvas Fleet
   actions: Actions
+  cancel: Cancel
+  signOut: Sign out
 
 login:
   submit: Login
@@ -27,6 +29,7 @@ company:
 
 vehicle:
   vehicles: Vehicles
+  noVehicle: No vehicle selected
   licensePlate: License plate
   vin: Vehicle Identification Number
   brand: Brand
@@ -45,9 +48,11 @@ vehicle:
     SemiHeavyTruck: Semi heavy truck
     Truck: Truck
   addNew: Add New Vehicle
+  edit: Edit Vehicle
 
 user:
   users: Users
+  noUser: No user selected
   id: ID
   email: Email
   password: Password
@@ -55,6 +60,7 @@ user:
   firstName: First name
   lastName: Last name
   addNew: Add New User
+  edit: Edit User
 
 fleet:
   fleets: Fleets
@@ -80,12 +86,16 @@ function:
   createNew: Create a new function
 
 permission:
+  permissions: Permissions
   action: Action
   resource: Resource 
 
 role:
+  roles: Roles
   name: Name 
   permissions: Permissions
+  addNew: Create New Role 
+  edit: Edit Role
 
 invoice:
   id: Invoice ID
@@ -108,6 +118,7 @@ contract:
   startDate: Start date
   endDate: End date
   addNew: Add New Contract
+  edit: Edit Contract
   types:
     Omnium: Omnium
     CivilLiability: Civil liability
@@ -128,3 +139,5 @@ table:
 
 errors:
   null: is empty
+  404: Something just went wrong!
+  pageNotFound: For Some Reason The Page You Requested Could Not Be Found On Our Server

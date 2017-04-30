@@ -4,6 +4,7 @@ import Card from '../app/Card.tsx';
 import { th }    from '../../utils/utils.ts';
 import RoleTable from '../tables/RoleTable.tsx';
 import SimpleTable from '../tables/SimpleTable.tsx';
+import T from 'i18n-react';
 
 import { Link } from 'react-router';
 
@@ -61,7 +62,7 @@ const PermissionControlView : React.StatelessComponent<Props> = props => {
         <Card>
           <div className='card-title'>
             <h2>
-              Roles
+              { T.translate('role.roles') }
               <Link to={ '/auth/roles/new' } className='btn btn-default pull-right'>
                 <span className='glyphicon glyphicon-plus' aria-hidden='true'/> Add new Role
               </Link>
@@ -76,7 +77,7 @@ const PermissionControlView : React.StatelessComponent<Props> = props => {
         <Card>
           <div className='card-title'>
             <h2>
-              Permissions
+              { T.translate('permission.permissions') }
             </h2>
           </div>
           <div className='card-content'>

@@ -6,6 +6,7 @@ import ContractForm   from './ContractForm.tsx';
 import { postContract, fetchTypes } from '../../actions/contract_actions.ts';
 import { hasError } from '../../utils/utils.ts';
 import { redirect_to } from'../../routes/router.tsx';
+import T from 'i18n-react';
 
 interface State {
   errors : Form.Error[];
@@ -58,7 +59,7 @@ class AddContract extends React.Component<{}, State> {
     return (
       <div>
         <Header>
-          <h2>Add A New Contract</h2>
+          <h2>{ T.translate('contract.addNew') }</h2>
         </Header>
         <ContractForm
           contract={ this.state.contract }

@@ -32,7 +32,7 @@ const Actions : React.StatelessComponent<Props> = ({ submitLabel, cancelUrl, mod
         </div>
         <div className='card-content actions'>
           <Submit label={ submitLabel } model={ model } />
-          <Link to={ cancelUrl } className='btn btn-default'>Cancel</Link>
+          <Link to={ cancelUrl } className='btn btn-default'>{ T.translate('app.cancel') }</Link>
         </div>
       </Card>
     </div>

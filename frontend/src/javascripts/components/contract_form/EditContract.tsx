@@ -6,6 +6,7 @@ import ContractForm   from './ContractForm.tsx';
 import { fetchContract, putContract, fetchTypes } from '../../actions/contract_actions.ts';
 import { hasError } from '../../utils/utils.ts';
 import { redirect_to } from'../../routes/router.tsx';
+import T from 'i18n-react';
 
 interface Props {
   params : { contractId : number };
@@ -64,7 +65,7 @@ class EditContract extends React.Component<Props, State> {
     return (
       <div>
         <Header>
-          <h2>Edit Contract</h2>
+          <h2>{ T.translate('contract.edit') }</h2>
         </Header>
         <ContractForm
           contract={ this.state.contract }
