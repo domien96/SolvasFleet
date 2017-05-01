@@ -57,7 +57,6 @@ public class InvoiceRestController extends AbstractRestController<Invoice, ApiIn
         return new ModelAndView(InvoiceFileViewResolver.BILLING_INVOICE_PDF_VIEW, InvoicePdfView.MODEL_NAME, invoiceService.findCurrentInvoice(id));
     }
 
-
     @RequestMapping(value = "/fleets/{fleetId}/invoices/correct", method = RequestMethod.POST)
     @PreAuthorize("hasPermission(#fleetId, 'fleet', 'WRITE_INVOICES')")
     public ResponseEntity<?> getCorrectInvoiceByFleetId(@PathVariable int fleetId) throws EntityNotFoundException {

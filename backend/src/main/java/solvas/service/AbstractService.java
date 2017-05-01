@@ -8,6 +8,7 @@ import solvas.persistence.api.Dao;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.Filter;
 import solvas.rest.api.models.ApiModel;
+import solvas.service.exceptions.UndeletableException;
 import solvas.service.mappers.AbstractMapper;
 import solvas.service.mappers.exceptions.DependantEntityNotFound;
 import solvas.service.models.Model;
@@ -99,7 +100,7 @@ public abstract class AbstractService<T extends Model,E extends ApiModel> {
      * Destroy a model from the database
      * @param id the id of the entity we want to destroy (or archive)
      */
-    public void destroy(int id) throws EntityNotFoundException {
+    public void destroy(int id) throws EntityNotFoundException, UndeletableException {
         modelDao.destroy(modelDao.find(id));
     }
 

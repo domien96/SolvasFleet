@@ -33,7 +33,10 @@ public class UserPermissionEvaluator extends AbstractPermissionEvaluator<User> {
 
     @Override
     public boolean canRead(Authentication authentication, User model) {
-        return hasScope(authentication, READ_USERS) || model.getEmail().equals(authentication.getName());
+        return hasScope(authentication, READ_USERS) || (
+                model != null &&
+                model.getEmail().equals(authentication.getName())
+        );
     }
 
     @Override
@@ -43,7 +46,10 @@ public class UserPermissionEvaluator extends AbstractPermissionEvaluator<User> {
 
     @Override
     public boolean canEdit(Authentication authentication, User model) {
-        return hasScope(authentication, WRITE_USERS) || model.getEmail().equals(authentication.getName());
+        return hasScope(authentication, WRITE_USERS) || (
+                model != null &&
+                        model.getEmail().equals(authentication.getName())
+        );
     }
 
     @Override
