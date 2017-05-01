@@ -16,6 +16,7 @@
             <type name="org.hibernate.type.EnumType" >
                 <param name="enumClass">solvas.service.models.InvoiceItemType</param>
                 <param name="useNamed">true</param>
+                <param name="type">12</param>
             </type>
         </property>
         <property name="startDate" column="start_date" type="java.time.LocalDate" not-null="true" />

@@ -13,6 +13,7 @@ import solvas.service.invoices.InvoiceCorrector;
 import solvas.service.mappers.InvoiceMapper;
 import solvas.service.models.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -279,6 +280,7 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
                     } else {
                         item.setEndDate(endLimit.toLocalDate());
                     }
+                    item.setAmount(BigDecimal.TEN); // TODO
                     item.setType(InvoiceItemType.PAYMENT);
                     item.setContract(contract);
                     return item;
@@ -312,12 +314,15 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
                     InvoiceItem item = new InvoiceItem();
                     item.setInvoice(invoice);
                     item.setStartDate(contract.getStartDate().toLocalDate());
+                    System.out.println(contract.getEndDate());
+                    System.out.println(endLimit);
                     if(contract.getEndDate() != null && contract.getEndDate().isBefore(endLimit)) {
                         item.setEndDate(contract.getEndDate().toLocalDate());
                     } else {
                         item.setEndDate(endLimit.toLocalDate());
                     }
                     item.setType(InvoiceItemType.PAYMENT);
+                    item.setAmount(BigDecimal.TEN); // TODO
                     item.setContract(contract);
                     return item;
                 }).collect(Collectors.toSet());
@@ -382,6 +387,9 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
             Invoice invoice = new Invoice();
             invoice.setType(InvoiceType.PAYMENT);
             invoice.setStartDate(lastDate.atStartOfDay());
+            System.out.println(lastDate);
+            System.out.println(fleet.getPaymentPeriod());
+            System.out.println(lastDate.plusMonths(fleet.getPaymentPeriod()).minusDays(1).atStartOfDay());
             invoice.setEndDate(lastDate.plusMonths(fleet.getPaymentPeriod()).minusDays(1).atStartOfDay());
             invoice.setFleet(fleet);
             invoice.setPaid(false);

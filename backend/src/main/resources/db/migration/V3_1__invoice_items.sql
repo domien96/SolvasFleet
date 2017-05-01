@@ -4,7 +4,8 @@ CREATE TYPE invoice_item_type AS ENUM ('PAYMENT', 'REPAYMENT');
 
 CREATE TABLE invoice_items (
   invoice_item_id SERIAL NOT NULL,
-  type invoice_item_type NOT NULL,
+  type VARCHAR(255) NOT NULL,
+  amount NUMERIC NOT NULL,
   invoice_id INT NOT NULL,
   contract_id INT NOT NULL,
   start_date DATE NOT NULL ,
