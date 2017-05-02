@@ -1,5 +1,4 @@
-
-import React    from 'react';
+import React from 'react';
 import { Link } from 'react-router';
 import classNames from 'classnames';
 import { slide as Menu } from 'react-burger-menu';
@@ -12,8 +11,8 @@ interface SProps {
 
 class SidebarLink extends React.Component<SProps, {}> {
   static contextTypes = {
-    location: React.PropTypes.object
-  }
+    location: React.PropTypes.object,
+  };
 
   render() {
     const classes = classNames({ active: this.context.location.pathname.includes(this.props.path) });
@@ -24,12 +23,11 @@ class SidebarLink extends React.Component<SProps, {}> {
           { this.props.children }
         </Link>
       </li>
-    )
+    );
   }
 }
 
-const Sidebar : React.StatelessComponent<{}> = () => {
-
+const Sidebar: React.StatelessComponent<{}> = () => {
   const info = (
     <div>
       <div id='logo'>
@@ -50,8 +48,8 @@ const Sidebar : React.StatelessComponent<{}> = () => {
       </ul>
       <LanguageSwitcher />
     </div>
-  );  
-      
+  );
+
   return (
     <div>
       <Menu className='mobile-menu'>
@@ -62,7 +60,6 @@ const Sidebar : React.StatelessComponent<{}> = () => {
       </nav>
     </div>
   );
-}
+};
 
 export default Sidebar;
-

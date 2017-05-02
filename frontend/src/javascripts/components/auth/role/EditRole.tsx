@@ -1,26 +1,26 @@
-import React    from 'react';
-import Header     from '../../app/Header.tsx';
+import React from 'react';
+import Header from '../../app/Header.tsx';
 
 import { putRole, fetchPermissions, fetchRole } from '../../../actions/auth_actions.ts';
 import { hasError } from '../../../utils/utils.ts';
-import { redirect_to } from'../../../routes/router.tsx';
+import { redirect_to } from '../../../routes/router.tsx';
 import T from 'i18n-react';
 
 import RoleForm from './form/RoleForm.tsx'
 
 interface Props {
-  params : { id : number };
-  fetchRoles : () => void;
+  params: { id: number };
+  fetchRoles: () => void;
 }
 
 interface State{
-	errors : Form.Error[];
-	role: RoleData;
+  errors: Form.Error[];
+  role: RoleData;
   permissions: string[];
 }
 
 class EditRole extends React.Component<Props, State> {
-	constructor() {
+  constructor() {
     super();
     this.state = {role: {}, errors: [], permissions: []}
     this.handleChange = this.handleChange.bind(this);
@@ -33,25 +33,25 @@ class EditRole extends React.Component<Props, State> {
   }
 
   fetchPermissions(){
-    fetchPermissions((data : any) => {
+    fetchPermissions((data: any) => {
       this.setState({ permissions: data.data })
     });
   }
 
   fetchRole(id: number){
-    fetchRole(id, (data : any) => {
+    fetchRole(id, (data: any) => {
       this.setState({ role: data })
     });
   }
 
-  handleChange(e : any) : any {
-    var role : RoleData = this.state.role;
+  handleChange(e: any): any {
+    var role: RoleData = this.state.role;
     if(e.target.type == 'checkbox'){
       let permissions = role['permissions'].slice();
       if(e.target.checked){
         permissions.push(e.target.value);
       }
-      else{        
+      else{
         if(permissions.includes(e.target.value)){
           let index = permissions.indexOf(e.target.value)
           permissions.splice(index, 1);
@@ -65,20 +65,19 @@ class EditRole extends React.Component<Props, State> {
     this.setState({ role });
   }
 
-  onSubmit(e : any) : void {
+  onSubmit(e: any): void {
     e.preventDefault();
-    let setErrors = (e : Form.Error[]) => this.setState({ errors: e });
+    let setErrors = (es: Form.Error[]) => this.setState({ errors: es });
     let success = () => redirect_to('/auth');
-    let fail = (data : any) => {
-      setErrors(data.errors.map(function(e : any) {
-        return { field: e, error: 'null' };
+    let fail = (data: any) => {
+      setErrors(data.errors.map(function(es: any) {
+        return { field: es, error: 'null' };
       }));
     }
 
     putRole(this.props.params.id, this.state.role, success, fail);
   }
 
-   
   render() {
     return (
       <div>
@@ -99,4 +98,3 @@ class EditRole extends React.Component<Props, State> {
 }
 
 export default EditRole;
-
