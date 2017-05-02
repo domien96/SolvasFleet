@@ -9,8 +9,12 @@
       "interface-name": false,
       "max-classes-per-file": false,
       "member-access": false,
+      "no-namespace": false,
+      "no-reference": false,
+      "no-var-requires": false,
       "ordered-imports": false,
-      "quotemark": false
+      "quotemark": false,
+      "variable-name": [true, "check-format", "allow-leading-underscore", "allow-pascal-case"]
     },
     "rulesDirectory": []
 }
