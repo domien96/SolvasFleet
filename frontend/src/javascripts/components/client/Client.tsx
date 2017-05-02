@@ -1,16 +1,16 @@
 import React from 'react';
-import { Link } from'react-router';
+import { Link } from 'react-router';
 
-import Card         from '../app/Card.tsx';
-import Header       from '../app/Header.tsx';
-import DetailTable  from '../tables/DetailTable.tsx';
-import Fleets       from '../fleets/Fleets.tsx';
-import Contracts    from '../contracts/Contracts.tsx'
+import Card from '../app/Card.tsx';
+import Header from '../app/Header.tsx';
+import DetailTable from '../tables/DetailTable.tsx';
+import Fleets from '../fleets/Fleets.tsx';
+import Contracts from '../contracts/Contracts.tsx'
 
 import { fetchFleets } from '../../actions/fleet_actions.ts';
 import { callback } from '../../actions/fetch_json.ts';
 import { fetchClient, deleteClient } from '../../actions/client_actions.ts';
-import { redirect_to } from'../../routes/router.tsx';
+import { redirect_to } from '../../routes/router.tsx';
 import Confirm from 'react-confirm-bootstrap';
 
 import { th } from '../../utils/utils.ts';
@@ -18,29 +18,29 @@ import { th } from '../../utils/utils.ts';
 import { fetchContracts} from '../../actions/contract_actions.ts';
 
 interface Props {
-  [ params : string ] : { [ id : string ] : number };
+  [ params: string ]: { [ id: string ]: number };
 }
 
 interface State {
-  company : CompanyData;
-  fleets : FleetData[];
+  company: CompanyData;
+  fleets: FleetData[];
 }
 
 class Client extends React.Component<Props, State> {
 
   constructor() {
     super();
-    this.state = { company : { address: {} }, fleets : [] };
+    this.state = { company: { address: {} }, fleets: [] };
     this.state.company['type'] = 'Customer';
     this.deleteClient = this.deleteClient.bind(this);
     this.fetchContracts= this.fetchContracts.bind(this);
   }
 
   componentDidMount() {
-    fetchClient(this.props.params.id, (data : any) => {
+    fetchClient(this.props.params.id, (data: any) => {
       this.setState({ company: data })
     });
-    fetchFleets(this.props.params.id, (data : any) => {
+    fetchFleets(this.props.params.id, (data: any) => {
       this.setState({ fleets: data.data })
     });
   }
@@ -49,7 +49,7 @@ class Client extends React.Component<Props, State> {
     deleteClient(this.props.params.id, () => redirect_to('/clients'));
   }
 
-  fetchContracts(params : ContractParams, success?:callback,fail?:callback) {
+  fetchContracts(params: ContractParams, success?:callback,fail?:callback) {
     fetchContracts(success,fail,{company:params.companyId});
   }
 
