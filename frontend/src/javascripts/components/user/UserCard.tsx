@@ -8,11 +8,11 @@ import { th } from '../../utils/utils.ts';
 import Confirm from 'react-confirm-bootstrap';
 
 interface Props {
-  user : UserData;
-  handleDelete : () => void;
+  user: UserData;
+  handleDelete: () => void;
 }
 
-const EditLink = ({ id } : { id : number }) => {
+const EditLink = ({ id }: { id: number }) => {
   return (
     <div className='col-sm-6'>
       <Link to={ `/users/${id}/edit` } className='btn btn-default form-control'>
@@ -20,10 +20,9 @@ const EditLink = ({ id } : { id : number }) => {
       </Link>
     </div>
   );
-}
+};
 
-const DeleteLink = ({ handleDelete } : { handleDelete : () => void }) => {
-
+const DeleteLink = ({ handleDelete }: { handleDelete: () => void }) => {
   return (
     <div className='col-sm-6'>
       <Confirm
@@ -37,15 +36,15 @@ const DeleteLink = ({ handleDelete } : { handleDelete : () => void }) => {
       </Confirm>
     </div>
   );
-}
+};
 
-const UserCard : React.StatelessComponent<Props> = props => {
-  var { id, firstName, lastName, email } = props.user;
+const UserCard: React.StatelessComponent<Props> = props => {
+  const { id, firstName, lastName, email } = props.user;
 
   const data = [
     th('user.firstName', firstName),
-    th('user.lastName',  lastName),
-    th('user.email',     email)
+    th('user.lastName', lastName),
+    th('user.email', email),
   ];
 
   return (
@@ -63,6 +62,6 @@ const UserCard : React.StatelessComponent<Props> = props => {
       </div>
     </Card>
   );
-}
+};
 
 export default UserCard;

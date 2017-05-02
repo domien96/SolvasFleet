@@ -10,9 +10,9 @@ import { auth_login } from '../actions/auth_actions.ts';
 import Auth from '../modules/Auth.ts';
 
 interface State {
-  errors : Form.Error[];
-  email : string;
-  password : string;
+  errors: Form.Error[];
+  email: string;
+  password: string;
 }
 
 class Login extends React.Component<{}, State> {
@@ -26,38 +26,34 @@ class Login extends React.Component<{}, State> {
     this.onSubmit             = this.onSubmit.bind(this);
   }
 
-  public handleEmailChange(e : any) : void {
+  public handleEmailChange(e: any): void {
     this.setState({ email: e.target.value });
   }
 
-  public handlePasswordChange(e : any) : void {
+  public handlePasswordChange(e: any): void {
     this.setState({ password: e.target.value });
   }
 
-  public onSubmit(e : any) : void {
+  public onSubmit(e: any): void {
     e.preventDefault();
 
     const { email, password } = this.state;
 
-    let s = (data : any) => {
+    const s = (data: any) => {
       Auth.authenticateUser(
-        data['refreshToken']['token'],
-        data['accessToken']['token']
+        data.accessToken.token,
+        data.refreshToken.token,
       );
 
       redirect_to(SIGNED_IN_URL);
-    }
+    };
 
-    let f = (data : any) => {
-      console.log(data);
-    }
-
-    auth_login(email, password, s, f);
+    auth_login(email, password, s);
   }
 
-  public hasError(k : string) : boolean {
-    const errors = this.state.errors.filter(function(el) { return el.field == k; });
-    return (errors.length != 0);
+  public hasError(k: string): boolean {
+    const errors = this.state.errors.filter((el) => (el.field === k));
+    return (errors.length !== 0);
   }
 
   render() {
@@ -69,8 +65,18 @@ class Login extends React.Component<{}, State> {
               <div className='card-content'>
                 <div className='login-form-wrapper'>
                   <form method='POST' onSubmit={this.onSubmit} className='login-form' >
-                    <FormField value={ this.state.email } placeholder='form.placeholders.email'    type='email'     callback={ this.handleEmailChange    } hasError={ this.hasError('email')}    />
-                    <FormField value={ this.state.password } placeholder='form.placeholders.password' type='password' callback={ this.handlePasswordChange } hasError={ this.hasError('password')} />
+                    <FormField
+                      value={ this.state.email }
+                      placeholder='form.placeholders.email'
+                      type='email'
+                      callback={ this.handleEmailChange }
+                      hasError={ this.hasError('email')} />
+                    <FormField
+                      value={ this.state.password }
+                      placeholder='form.placeholders.password'
+                      type='password'
+                      callback={ this.handlePasswordChange }
+                      hasError={ this.hasError('password')} />
                     <button type='submit' className='btn btn-default' >
                       <T.text tag='span' text='login.submit' />
                     </button>
