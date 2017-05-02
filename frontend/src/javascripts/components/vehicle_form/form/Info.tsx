@@ -22,18 +22,15 @@ const Info : React.StatelessComponent<Props> = props => {
   var { licensePlate, vin, fleet, leasingCompany, brand, model, type, mileage, year, value } = props.vehicle;
   
   const choices = [
-    th('personalCar', 'vehicle.options.personalCar'),
-    th('van', 'vehicle.options.van'),
-    th('semiTrailer', 'vehicle.options.semiTrailer'),
-    th('trailer', 'vehicle.options.trailer'),
-    th('truck', 'vehicle.options.truck')
+    th('PersonalVehicle', 'vehicle.options.PersonalVehicle'),
+    th('Van', 'vehicle.options.Van'),
+    th('SemiHeavyTruck', 'vehicle.options.SemiHeavyTruck'),
+    th('Truck+12', 'vehicle.options.Truck+12'),
+    th('Truck', 'vehicle.options.Truck')
   ];
   return (
     <div className='col-xs-12 col-md-7'>
       <Card>
-        <div className='card-title'>
-          <h5>General info</h5>
-        </div>
         <div className='card-content'>
           <FormField value={ licensePlate }    placeholder='vehicle.licensePlate'     type='text'     callback={ handleChange('licensePlate') }    hasError={ props.hasError('licensePlate')} />
           <FormField value={ vin }             placeholder='vehicle.vin'              type='text'     callback={ handleChange('vin') }             hasError={ props.hasError('vin')}      />

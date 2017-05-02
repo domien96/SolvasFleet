@@ -1,39 +1,37 @@
+app:
+  welcomeMessage: Welcome to Solvas Fleet
+  actions: Actions
+  cancel: Cancel
+  signOut: Sign out
 
 login:
-  submit: 'Login'
-
-addClient:
-  submit: 'Add Client'
-
-addVehicle: 
-  submit: 'Add Vehicle'
-
-addUser: 
-  submit: 'Add User'
-
-addRole:
-  submit: 'Add Role to user'
-  startDate: Start date
-  endDate: End date
+  submit: Login
 
 company:
+  clients: Clients
   id: ID
   name: Name
   vatNumber: VAT number
   phoneNumber: Phone number
-  address: 
+  address:
     street: Street
     houseNumber: House number
     city: City
     postalCode: Postal code
     country: Country
-
-errors:
-  null: is empty
+  addNew: Add New Company
+  edit: Edit Company
+  types: Type 
+  type:
+    LeasingCompany: Leasing company 
+    InsuranceCompany: Insurance company 
+    Customer: Customer
 
 vehicle:
+  vehicles: Vehicles
+  noVehicle: No vehicle selected
   licensePlate: License plate
-  vin: Vehicle Identification Number 
+  vin: Vehicle Identification Number
   brand: Brand
   model: Model
   type: Type
@@ -44,35 +42,103 @@ vehicle:
   fleet: Fleet ID
   options:
     allVehicles: All vehicles
-    personalCar: Personal car
-    van: Van
-    semiTrailer: Semi-trailer
-    trailer: Trailer
-    truck: Truck
+    PersonalVehicle: Personal vehicle
+    Van: Van
+    Truck+12: Truck+12
+    SemiHeavyTruck: Semi heavy truck
+    Truck: Truck
+  addNew: Add New Vehicle
+  edit: Edit Vehicle
 
 user:
+  users: Users
+  noUser: No user selected
   id: ID
   email: Email
   password: Password
   address: Address
   firstName: First name
   lastName: Last name
-
-role:
-  permission: Function in company
-  permissionShort: Function
+  addNew: Add New User
+  edit: Edit User
 
 fleet:
+  fleets: Fleets
   id: ID
   name: Name
   size: Size
+  options:
+    yearly: Yearly
+    monthly: Monthly
+    perTrimester: Per Trimester
+    perSemester: Per Semester
+  addNew: Add a new fleet
 
 subfleet:
   id: ID
   name: Name
   size: Size
 
+function: 
+  functions: Functions
+  role: Role
+  company: Company
+  addNew: Add New Function
+  createNew: Create a new function
+
+permission:
+  permissions: Permissions
+  action: Action
+  resource: Resource 
+
+role:
+  roles: Roles
+  name: Name 
+  permissions: Permissions
+  addNew: Create New Role 
+  edit: Edit Role
+
+invoice:
+  id: Invoice ID
+  fleet: Fleet ID 
+  paid: Paid
+  totalAmount: Total amount due 
+  type: Type 
+  startDate: Start date 
+  endDate: End date
+  showCurrent: Show current invoice
+  showAll: Show all invoices
+
+contract:
+  id: Contract ID
+  franchise: Franchise
+  insuranceCompany: Insurance Company
+  premium: Premium
+  type: Type of contract
+  vehicle: Vehicle ID
+  startDate: Start date
+  endDate: End date
+  addNew: Add New Contract
+  edit: Edit Contract
+  types:
+    Omnium: Omnium
+    CivilLiability: Civil liability
+    LegalAid: Legal aid
+    DriverInsurance: Driver insurance
+    TravelInsurance: Travel insurance
+
 form:
   create: Create
   update: Update
   submit: Submit
+  placeholders:
+    email: Email
+    password: Password
+
+table: 
+  actions: Actions
+
+errors:
+  null: is empty
+  404: Something just went wrong!
+  pageNotFound: For Some Reason The Page You Requested Could Not Be Found On Our Server

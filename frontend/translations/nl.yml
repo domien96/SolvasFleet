@@ -1,12 +1,144 @@
+app:
+  welcomeMessage: Welkom bij Solvas Fleet
+  actions: Acties
+  cancel: Annuleer
+  signOut: Log uit
+
+login:
+  submit: Log in
+
+company:
+  clients: Klanten
+  id: ID
+  name: Naam
+  vatNumber: VAT nummer
+  phoneNumber: Telefoonnummer
+  address:
+    street: Straat
+    houseNumber: Huisnummer
+    city: Stad
+    postalCode: Postcode
+    country: Land
+  addNew: Voeg nieuw bedrijf toe
+  edit: Wijzig bedrijf
+  types: Type 
+  type:
+    LeasingCompany: Leasingmaatschappij 
+    InsuranceCompany: Verzekeringsbedrijf
+    Customer: Klant
+
+vehicle:
+  vehicles: Voertuigen
+  noVehicle: Geen voertuig geselecteerd
+  licensePlate: Nummerplaat
+  vin: Voertuigidentificatienummer
+  brand: Merk
+  model: Model
+  type: Type
+  mileage: Kilometerafstand
+  year: Jaar van productie
+  leasingCompany: ID Leasingmaatschappij
+  value: Geschatte waarde
+  fleet: ID Vloot
+  options:
+    allVehicles: Alle voertuigen
+    PersonalVehicle: Personenwagen
+    Van: Van
+    Truck+12: Truck+12
+    SemiHeavyTruck: Semi heavy truck
+    Truck: Vrachtwagen
+  addNew: Voeg nieuw voertuig toe
+  edit: Wijzig voertuig
+
+user:
+  users: Gebruikers
+  noUser: Geen gebruiker geselecteerd
+  id: ID
+  email: Email
+  password: Wachtwoord
+  address: Adres
+  firstName: Voornaam
+  lastName: Achternaam
+  addNew: Voeg nieuwe gebruiker toe
+  edit: Wijzig gebruiker
+
+fleet:
+  fleets: Vloten
+  id: ID
+  name: Naam
+  size: Grootte
+  options:
+    yearly: Jaarlijks
+    monthly: Maandelijks
+    perTrimester: Per Trimester
+    perSemester: Per Semester
+  addNew: Voeg een nieuwe vloot toe
+
+subfleet:
+  id: ID
+  name: Naam
+  size: Grootte
+
+function: 
+  functions: Functies
+  role: Rol
+  company: Bedrijf
+  addNew: Voeg nieuwe functie toe
+  createNew: Maak nieuwe functie aan
+
+permission:
+  permissions: Permissies
+  action: Actie
+  resource: Bron 
+
+role:
+  roles: Rollen
+  name: Naam 
+  permissions: Permissies
+  addNew: Maak nieuwe rol aan 
+  edit: Wijzig rol
+
+invoice:
+  id: Factuur ID
+  fleet: Vloot ID 
+  paid: Betaald
+  totalAmount: Totaal verschuldigd bedrag 
+  type: Type 
+  startDate: Start datum 
+  endDate: Eind datum
+  showCurrent: Toon huidige factuur
+  showAll: Toon alle facturen
+
+contract:
+  id: Contract ID
+  franchise: Franchise
+  insuranceCompany: Verzekeringsbedrijf
+  premium: Premie
+  type: Type van contract
+  vehicle: Voertuig ID
+  startDate: Start datum 
+  endDate: Eind datum
+  addNew: Maak nieuw contract
+  edit: Wijzig contract
+  types:
+    Omnium: Omnium
+    CivilLiability: Burgerlijke aansprakelijkheid
+    LegalAid: Legale hulp
+    DriverInsurance: Bestuurdersverzekering
+    TravelInsurance: Reisverzekering
+
 form:
+  create: Create
+  update: Update
+  submit: Submit
   placeholders:
     email: Email
     password: Wachtwoord
-    name: Naam
-    vatNumber: VAT nummer 
-    phoneNumber: Telefoonnummer
-    address: Adres
-login:
-  submit: 'Login'
-addCompany:
-  submit: 'Voeg toe'
+
+table: 
+  actions: Actions
+
+errors:
+  null: is niet ingevuld
+  404: Er is iets verkeerd gelopen!
+  pageNotFound: De opgevraagde pagina kan momenteel niet worden gevonden op onze server

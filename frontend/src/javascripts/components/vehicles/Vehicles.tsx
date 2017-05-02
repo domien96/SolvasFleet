@@ -2,19 +2,22 @@ import React from 'react';
 import Layout     from './Layout.tsx'
 import { fetchVehicles } from '../../actions/vehicle_actions.ts';
 
-import { redirect_to } from'../../router.tsx';
+import { redirect_to } from'../../routes/router.tsx';
 
 interface State {
-    vehicles : VehicleData[];
     filter: VehicleFilterData;
+    response: ListResponse;
   }
 
 class Vehicles extends React.Component<{}, State> {
 
   constructor(props : {}) {
     super(props);
-    this.state = { vehicles: [], filter : {fleet : '', type : '', leasingCompany: '', licensePlate: '', vin: '', year: ''} };
+    this.state = {  filter : {fleet : '', type : '', leasingCompany: '', licensePlate: '', vin: '', year: ''},
+      response:{total:0,first : "", last : "", limit : 0, offset : 0, previous : "", next : "",data:[]}
+   };
     this.handleFilter = this.handleFilter.bind(this);
+    this.fetchVehicles = this.fetchVehicles.bind(this);
   }
 
   componentDidMount() {
@@ -28,7 +31,7 @@ class Vehicles extends React.Component<{}, State> {
         delete query[key];
       }
     }
-    fetchVehicles((data) => this.setState({ vehicles: data.data }), undefined, query)
+    fetchVehicles((data) => this.setState({ response: data }), undefined, query)
   }
 
   handleFilter(newFilter: VehicleFilterData){
@@ -47,7 +50,7 @@ class Vehicles extends React.Component<{}, State> {
       })
     );
     return (
-      <Layout vehicles={ this.state.vehicles } onVehicleSelect={ this.handleClick } onFilter={ this.handleFilter }>
+      <Layout response={this.state.response} onVehicleSelect={ this.handleClick } onFilter={ this.handleFilter } fetchVehicles={this.fetchVehicles}>
         { children }
       </Layout>
     );

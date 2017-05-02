@@ -12,8 +12,6 @@
             <generator class="identity"/>
         </id>
 
-         <property name="name" column="name" type="string" not-null="true"/>
-
-
+        <property name="name" column="name" type="string" not-null="true"/>
     </class>
 </hibernate-mapping>

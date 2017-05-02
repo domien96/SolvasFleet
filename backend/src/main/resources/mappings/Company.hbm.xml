@@ -22,12 +22,18 @@
         <property name="addressStreet" column="address_street" type="string" not-null="true"/>
         <property name="archived" column="archived" type="boolean" not-null="true"/>
 
+        <property name="type" column="company_type" not-null="true">
+            <type name="org.hibernate.type.EnumType" >
+                <param name="enumClass">solvas.service.models.CompanyType</param>
+            </type>
+        </property>
+
         <set name="representatives" table="company_users">
             <key column="company_id"/>
             <many-to-many column="user_id" class="solvas.service.models.User" />
         </set>
-        <property name="updatedAt" column="updated_at" type="java.time.LocalDateTime" generated="always" insert="false" not-null="true"/>
-        <property name="createdAt" column="created_at" type="java.time.LocalDateTime" generated="insert" insert="false" not-null="true"/>
+        <property name="updatedAt" column="updated_at" type="java.time.LocalDateTime" generated="always" insert="false"/>
+        <property name="createdAt" column="created_at" type="java.time.LocalDateTime" generated="insert" insert="false"/>
 
     </class>
 </hibernate-mapping>

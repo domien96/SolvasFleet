@@ -7,11 +7,11 @@ import solvas.persistence.api.DaoContext;
 import solvas.service.mappers.exceptions.DependantEntityNotFound;
 import solvas.service.mappers.exceptions.FieldNotFoundException;
 import solvas.persistence.api.EntityNotFoundException;
-import solvas.rest.SimpleUrlBuilder;
+import solvas.rest.utils.SimpleUrlBuilder;
 import solvas.rest.api.models.ApiFleet;
 
 /**
- * @author Niko Strijbol
+ * Class to map {@link Fleet} in the persistence layer to {@link ApiFleet} in the API layer
  */
 @Component
 public class FleetMapper extends AbstractMapper<Fleet, ApiFleet> {
@@ -25,7 +25,7 @@ public class FleetMapper extends AbstractMapper<Fleet, ApiFleet> {
      */
     @Autowired
     public FleetMapper(DaoContext daoContext) {
-        super(daoContext, "name");
+        super(daoContext, "name","facturationPeriod","paymentPeriod");
     }
 
     @Override

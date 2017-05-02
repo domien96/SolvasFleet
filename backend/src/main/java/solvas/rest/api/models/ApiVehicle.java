@@ -7,7 +7,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 /**
- * Created by steve on 11/03/2017.
+ * Vehicle in the API layer
  */
 public class ApiVehicle extends ApiModel {
 

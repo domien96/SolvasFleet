@@ -17,6 +17,8 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -52,6 +54,10 @@ public class HibernateConfig {
         this.rl = resourceLoader;
     }
 
+    /**
+     * Get datasource bean that contains database connection info
+     * @return the datasource
+     */
     @Bean
     @Profile({"default", "debug", "clean"})
     public DataSource getDataSource() {
@@ -76,6 +82,7 @@ public class HibernateConfig {
         properties.put(AvailableSettings.DIALECT, env.getRequiredProperty("hibernate.dialect"));
         properties.put(AvailableSettings.CURRENT_SESSION_CONTEXT_CLASS, env.getRequiredProperty("hibernate.current.session.context.class"));
         properties.put(AvailableSettings.STATEMENT_BATCH_SIZE, env.getRequiredProperty("hibernate.batch.size"));
+        properties.put(AvailableSettings.ENABLE_LAZY_LOAD_NO_TRANS, true);
         return properties;
     }
 
@@ -94,6 +101,12 @@ public class HibernateConfig {
         };
     }
 
+    /**
+     *
+     * @param dataSource The datasource to be used by hibernate
+     * @return Factory to create entity managers
+     * @throws IOException Couldn't load the hibernate configuration/mapping files
+     */
     @Bean
     public EntityManagerFactory entityManagerFactory(DataSource dataSource) throws IOException {
         LocalContainerEntityManagerFactoryBean  entityManager = new LocalContainerEntityManagerFactoryBean();

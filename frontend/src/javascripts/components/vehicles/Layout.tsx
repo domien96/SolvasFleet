@@ -1,46 +1,29 @@
 import React from 'react';
 
-import Overview  from './Overview.tsx';
 import Header    from '../app/Header.tsx';
-import Card      from '../app/Card.tsx';
 import VehicleFilter    from './filters/VehicleFilter.tsx'
-import { Link }  from 'react-router';
+import Listing from '../app/Listing.tsx';
+import T from 'i18n-react';
 
-interface CardProps {
-  vehicles: VehicleData[];
-  onVehicleSelect : (id : number) => void;
-}
-
-interface LayoutProps {
-  vehicles: VehicleData[];
+interface Props {
+  response:ListResponse;
   onVehicleSelect : (id : number) => void;
   onFilter : (filter : VehicleFilterData) => void;
+  fetchVehicles: (query:any) =>void
 }
 
-const MainCard : React.StatelessComponent<CardProps> = props => {
-  return (
-    <Card>
-      <div className='card-content'>
-        <Link to='/vehicles/new' className='btn btn-default pull-right'>
-          <span className='glyphicon glyphicon-plus' aria-hidden='true'></span> Add new vehicle
-        </Link>
-        <Overview vehicles={ props.vehicles } onVehicleSelect={ props.onVehicleSelect } />
-      </div>
-    </Card>
-  );
-}
-
-const Layout : React.StatelessComponent<LayoutProps> = props => {
+const Layout : React.StatelessComponent<Props> = props => {
   return (
     <div>
       <Header>
-        <h2>Vehicles</h2>
+        <h2>{ T.translate('vehicle.vehicles') }</h2>
       </Header>
       <div className='wrapper'>
         <div className='row'>
           <div className='col-xs-12 col-md-7'>
-            <VehicleFilter onFilter = { props.onFilter } vehicles={ props.vehicles }/>
-            <MainCard vehicles={ props.vehicles } onVehicleSelect={ props.onVehicleSelect } />
+            <VehicleFilter onFilter = { props.onFilter } vehicles={ props.response.data }/>
+            <Listing onSelect={props.onVehicleSelect} addNewRoute='/vehicles/new' fetchModels={props.fetchVehicles} modelName='vehicle'
+              columns={['fleet','vin','licensePlate','type']} response={props.response}/>
           </div>
           <div className='col-xs-12 col-md-5'>
             { props.children }

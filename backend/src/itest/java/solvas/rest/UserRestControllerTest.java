@@ -17,7 +17,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Integration tests of the UserRestController
  * It checks HTTP responses and calls to the VehicleDao
  */
-@RunWith(MockitoJUnitRunner.class)
 public class UserRestControllerTest extends AbstractRestControllerTest<User,ApiUser>{
     @Mock
     private UserService userService;

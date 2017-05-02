@@ -29,6 +29,7 @@ namespace :npm do
     on roles(:all) do
       within release_path do
         execute :npm, :run, :typings
+        execute :npm, :rebuild, :'node-sass'
         execute :npm, :run, :build
       end
     end

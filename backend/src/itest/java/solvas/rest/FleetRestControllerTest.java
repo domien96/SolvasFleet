@@ -16,7 +16,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Integration tests of fleetrestcontroller
  */
-@RunWith(MockitoJUnitRunner.class)
 public class FleetRestControllerTest extends AbstractRestControllerTest<Fleet,ApiFleet> {
     @Mock
     private FleetService service;

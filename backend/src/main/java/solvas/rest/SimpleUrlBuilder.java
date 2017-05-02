@@ -16,6 +16,7 @@ public class SimpleUrlBuilder extends UriComponentsBuilder{
      * @param path the path with parameters surrounded by curly braces.
      *             e.g. /users/{id}
      * @param parameters The values for the parameters mentioned in the path in order.
+     * @throws IllegalStateException When a request is not found.
      * @return The builded url which has following format protocol://authentication@domain:port/path
      * with the parameters filled in.
      */
@@ -24,5 +25,15 @@ public class SimpleUrlBuilder extends UriComponentsBuilder{
         builder.replaceQuery(null);
         builder.replacePath(path);
         return builder.buildAndExpand(parameters).toUriString();
+    }
+
+    /**
+     * Get the a uri builder for the current path. This is the full URL, including the full path and all query
+     * parameters.
+     *
+     * @return The builder for the current path.
+     */
+    public static UriComponentsBuilder baseBuilder() {
+        return ServletUriComponentsBuilder.fromCurrentRequestUri();
     }
 }

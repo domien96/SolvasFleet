@@ -17,7 +17,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Integration tests of the RoleRestController
  * It checks HTTP responses and calls to the RoleDao
  */
-@RunWith(MockitoJUnitRunner.class)
 public class RoleRestControllerTest extends AbstractRestControllerTest<Role,ApiRole> {
 
 
@@ -41,7 +40,6 @@ public class RoleRestControllerTest extends AbstractRestControllerTest<Role,ApiR
     public void matchJsonModel(ResultActions res,ApiRole role) throws Exception {
         res.andExpect(jsonPath("id").value(role.getId()))
                 .andExpect(jsonPath("url").value(role.getUrl()))
-                .andExpect(jsonPath("company").value(role.getCompany()))
                 .andExpect(jsonPath("function").value(role.getFunction()))
                 .andExpect(jsonPath("user").value(role.getUser()));
     }
@@ -73,9 +71,6 @@ public class RoleRestControllerTest extends AbstractRestControllerTest<Role,ApiR
     @Override
     public ApiRole getTestModel()
     {
-        int future=30;
-        ApiRole role=super.getTestModel();
-        role.setEndDate(role.getStartDate().plusDays(future));
-        return role;
+        return super.getTestModel();
     }
 }
