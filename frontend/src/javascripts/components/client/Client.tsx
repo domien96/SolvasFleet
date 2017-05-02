@@ -5,7 +5,7 @@ import Card from '../app/Card.tsx';
 import Header from '../app/Header.tsx';
 import DetailTable from '../tables/DetailTable.tsx';
 import Fleets from '../fleets/Fleets.tsx';
-import Contracts from '../contracts/Contracts.tsx'
+import Contracts from '../contracts/Contracts.tsx';
 
 import { fetchFleets } from '../../actions/fleet_actions.ts';
 import { callback } from '../../actions/fetch_json.ts';
@@ -31,33 +31,34 @@ class Client extends React.Component<Props, State> {
   constructor() {
     super();
     this.state = { company: { address: {} }, fleets: [] };
-    this.state.company['type'] = 'Customer';
+    this.state.company.type = 'Customer';
     this.deleteClient = this.deleteClient.bind(this);
-    this.fetchContracts= this.fetchContracts.bind(this);
+    this.fetchContracts = this.fetchContracts.bind(this);
   }
 
   componentDidMount() {
     fetchClient(this.props.params.id, (data: any) => {
-      this.setState({ company: data })
+      this.setState({ company: data });
     });
+
     fetchFleets(this.props.params.id, (data: any) => {
-      this.setState({ fleets: data.data })
+      this.setState({ fleets: data.data });
     });
   }
 
-  public deleteClient(){
+  public deleteClient() {
     deleteClient(this.props.params.id, () => redirect_to('/clients'));
   }
 
-  fetchContracts(params: ContractParams, success?:callback,fail?:callback) {
-    fetchContracts(success,fail,{company:params.companyId});
+  fetchContracts(params: ContractParams, success?: callback, fail?: callback) {
+    fetchContracts(success, fail, { company: params.companyId });
   }
 
   render() {
-    var { name, vatNumber, phoneNumber, address, type } = this.state.company;
-    var { street, houseNumber, city, postalCode, country } = address;
+    const { name, vatNumber, phoneNumber, address, type } = this.state.company;
+    const { street, houseNumber, city, postalCode, country } = address;
 
-    var id = this.props.params.id;
+    const id = this.props.params.id;
 
     const data = [
       th('company.vatNumber', vatNumber),
@@ -67,7 +68,7 @@ class Client extends React.Component<Props, State> {
       th('company.address.houseNumber', houseNumber),
       th('company.address.postalCode', postalCode),
       th('company.address.city', city),
-      th('company.address.country', country)
+      th('company.address.country', country),
     ];
 
     return (
@@ -108,7 +109,11 @@ class Client extends React.Component<Props, State> {
             </div>
             <div className='col-xs-12 col-md-6'>
               <Fleets fleets={ this.state.fleets } company={ this.props.params.id } />
-              <Contracts companyId={ this.props.params.id } vehicleId={null} fleetId={null} fetchMethod={this.fetchContracts}/>
+              <Contracts
+                companyId={ this.props.params.id }
+                vehicleId={ null }
+                fleetId={ null }
+                fetchMethod={this.fetchContracts} />
               </div>
           </div>
         </div>
