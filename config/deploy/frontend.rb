@@ -30,7 +30,7 @@ namespace :npm do
       within release_path do
         execute :npm, :run, :typings
         execute :npm, :rebuild, :'node-sass'
-        execute :npm, :run, :build
+        execute :npm, :run, :build, raise_on_non_zero_exit: false
       end
     end
   end

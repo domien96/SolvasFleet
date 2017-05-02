@@ -28,7 +28,7 @@ const ExtendedInfoTable : React.StatelessComponent<Props> = props => {
           {cells}
           <td>
             <Confirm
-              onConfirm={ onDelete }
+              onConfirm={() => onDelete(item.id)}
               body="Are you sure you want to archive this?"
               confirmText="Confirm Archive"
               title="Archive">

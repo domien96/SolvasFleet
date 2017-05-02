@@ -64,8 +64,6 @@ class CreateUserFunction extends React.Component<Props, State> {
     }
     this.setState({ Sfunction: newSfunction });
 
-    console.log(newSfunction)
-
     e.preventDefault();
     let setErrors = (e : Form.Error[]) => this.setState({ errors: e });
     let success = () => redirect_to(`/users/${this.props.params.id}`);
