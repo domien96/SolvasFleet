@@ -7,7 +7,7 @@ class NoVehicle extends React.Component<{}, {}> {
     return (
     <Card>
       <div className='card-content'>
-        <h2>{ T.translate('vehicle.noVehicle') }}</h2>
+        <h2>{ T.translate('vehicle.noVehicle') }</h2>
       </div>
     </Card>
     );
