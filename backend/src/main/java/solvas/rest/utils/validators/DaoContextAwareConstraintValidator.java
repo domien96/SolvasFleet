@@ -6,7 +6,7 @@ import solvas.persistence.api.DaoContext;
 /**
  * ConstraintValidator that can access the persistence layer
  */
-public class DaoContextAwareConstraintValidator {
+public abstract class DaoContextAwareConstraintValidator {
     private DaoContext daoContext;
 
     public DaoContext getDaoContext() {
