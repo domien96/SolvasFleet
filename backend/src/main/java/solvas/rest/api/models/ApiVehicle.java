@@ -30,7 +30,8 @@ public class ApiVehicle extends ApiModel {
     @Min(value = 0)
     private int mileage;
 
-    @Min(value = FIRST_VIN)
+    // TODO
+   // @Min(value = FIRST_VIN)
     private LocalDateTime year;
 
     private int leasingCompany;

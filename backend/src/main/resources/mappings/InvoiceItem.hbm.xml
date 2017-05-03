@@ -9,7 +9,11 @@
             This class contains the invoices items.
         </meta>
         <id name="id" type="int" column="invoice_item_id">
-            <generator class="identity"/>
+            <generator class="org.hibernate.id.enhanced.SequenceStyleGenerator">
+                <!-- Identity generator doesn't support batch insertions -->
+                <param name="sequence_name">invoice_items_invoice_item_id_seq</param>
+                <param name="optimizer">hilo</param>
+            </generator>
         </id>
         <property name="amount" column="amount" type="big_decimal" not-null="true"/>
         <property name="type" column="type" not-null="true">

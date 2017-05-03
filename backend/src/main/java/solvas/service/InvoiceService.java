@@ -275,10 +275,10 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
                     InvoiceItem item = new InvoiceItem();
                     item.setInvoice(invoice);
                     item.setStartDate(startLimit.toLocalDate());
-                    if(contract.getEndDate() != null && contract.getEndDate().isBefore(endLimit)) {
+                    if(contract.getEndDate() != null && contract.getEndDate().isBefore(invoice.getEndDate())) {
                         item.setEndDate(contract.getEndDate().toLocalDate());
                     } else {
-                        item.setEndDate(endLimit.toLocalDate());
+                        item.setEndDate(invoice.getEndDate().toLocalDate());
                     }
                     item.setAmount(BigDecimal.TEN); // TODO
                     item.setType(InvoiceItemType.PAYMENT);
@@ -314,12 +314,10 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
                     InvoiceItem item = new InvoiceItem();
                     item.setInvoice(invoice);
                     item.setStartDate(contract.getStartDate().toLocalDate());
-                    System.out.println(contract.getEndDate());
-                    System.out.println(endLimit);
-                    if(contract.getEndDate() != null && contract.getEndDate().isBefore(endLimit)) {
+                    if(contract.getEndDate() != null && contract.getEndDate().isBefore(invoice.getEndDate())) {
                         item.setEndDate(contract.getEndDate().toLocalDate());
                     } else {
-                        item.setEndDate(endLimit.toLocalDate());
+                        item.setEndDate(invoice.getEndDate().toLocalDate());
                     }
                     item.setType(InvoiceItemType.PAYMENT);
                     item.setAmount(BigDecimal.TEN); // TODO
@@ -355,6 +353,9 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
      */
     private void generateMissingBillingsFor(Fleet fleet) {
         // Start with last calculated invoice.
+        System.out.println("billing");
+        System.out.println(getLatestGeneratedInvoice(fleet, InvoiceType.BILLING));
+
         for (LocalDate lastDate = getLatestGeneratedInvoice(fleet, InvoiceType.BILLING);
              lastDate.isBefore(LocalDate.now().minusMonths(fleet.getFacturationPeriod()));
              lastDate = lastDate.plusMonths(fleet.getFacturationPeriod()))
@@ -378,9 +379,11 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
      * @param fleet The fleet to generate payments for.
      */
     private void generateMissingPaymentsFor(Fleet fleet) {
+        System.out.println("payments");
+        System.out.println(getLatestGeneratedInvoice(fleet, InvoiceType.PAYMENT));
         // Start with last calculated invoice
         for (LocalDate lastDate = getLatestGeneratedInvoice(fleet, InvoiceType.PAYMENT);
-             lastDate.isBefore(LocalDate.now());
+             lastDate.isBefore(LocalDate.now()) || lastDate.equals(LocalDate.now());
              lastDate = lastDate.plusMonths(fleet.getPaymentPeriod()))
         {
             // Generate an invoice.
