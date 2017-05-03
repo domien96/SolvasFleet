@@ -14,6 +14,10 @@ import javax.validation.ConstraintValidatorContext;
 public class UniqueVatNumberForCompanyValidator extends DaoContextAwareConstraintValidator
         implements ConstraintValidator<UniqueVatNumber, String> {
 
+    /**
+     * Creates this validator
+     * @param context The dao context (Autowired)
+     */
     @Autowired
     public UniqueVatNumberForCompanyValidator(DaoContext context) {
         super(context);

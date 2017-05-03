@@ -17,5 +17,9 @@ public abstract class DaoContextAwareConstraintValidator {
         this.daoContext = daoContext;
     }
 
+    /**
+     * Creates this validator
+     * @param context The dao context (Autowired)
+     */
     public DaoContextAwareConstraintValidator(DaoContext context) { daoContext = context;}
 }
