@@ -1,5 +1,8 @@
 package solvas.rest.utils.validators;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import solvas.persistence.api.DaoContext;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
@@ -8,6 +11,11 @@ import javax.validation.ConstraintValidatorContext;
  */
 public class UniqueVatNumberForCompanyValidator extends DaoContextAwareConstraintValidator
         implements ConstraintValidator<UniqueVatNumber, String> {
+
+    @Autowired
+    public UniqueVatNumberForCompanyValidator(DaoContext context) {
+        super(context);
+    }
 
     @Override
     public void initialize(UniqueVatNumber annotation) { }
