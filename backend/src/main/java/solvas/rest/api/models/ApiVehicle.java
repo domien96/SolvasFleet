@@ -2,6 +2,7 @@ package solvas.rest.api.models;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.joda.time.DateTime;
+import solvas.service.models.validators.AfterLocalDateTime;
 import solvas.service.models.validators.Vin;
 
 import javax.validation.constraints.Min;
@@ -12,8 +13,6 @@ import java.time.LocalDateTime;
  * Vehicle in the API layer
  */
 public class ApiVehicle extends ApiModel {
-
-    private static final int FIRST_VIN = 1981;
 
     private String licensePlate;
 
@@ -30,7 +29,8 @@ public class ApiVehicle extends ApiModel {
     @Min(value = 0)
     private int mileage;
 
-    @Min(value = FIRST_VIN)
+    @NotNull
+    @AfterLocalDateTime(year = 1981,month = 1,dayOfMonth = 1,hour = 0,minute = 0)
     private LocalDateTime year;
 
     private int leasingCompany;
