@@ -216,15 +216,6 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
             return new ResponseEntity<>(saveMethod.run(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(ApiError.from(binding), HttpStatus.BAD_REQUEST);
-            // Return validation errors to user
-//            return new ResponseEntity<Object>(
-//                    new JsonListWrapper<>(
-//                            binding.getFieldErrors().stream().map(FieldError::getField).collect(Collectors.toList()),
-//                            JsonListWrapper.ERROR_KEY
-//                    ),
-//
-//                    HttpStatus.BAD_REQUEST
-//            );
         }
     }
 
