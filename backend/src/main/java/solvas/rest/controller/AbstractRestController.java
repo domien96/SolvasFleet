@@ -131,6 +131,13 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
         return new ResponseEntity<>(wrapper, HttpStatus.CONFLICT);
     }
 
+    /**
+     * Handle the exception when a model could not be deleted.
+     *
+     * @param e The exception.
+     *
+     * @return The response.
+     */
     @ExceptionHandler(UndeletableException.class)
     public ResponseEntity<?> handleUndeletableException(UndeletableException e) {
         return new ResponseEntity<>(HttpStatus.CONFLICT);
