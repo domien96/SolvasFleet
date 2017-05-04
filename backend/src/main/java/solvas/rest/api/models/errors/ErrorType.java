@@ -25,7 +25,8 @@ public enum ErrorType {
     TOO_SMALL,
     TOO_BIG,
     INVALID,
-    NOT_UNIQUE;
+    NOT_UNIQUE,
+    NOT_FOUND;
 
     private static Map<String, ErrorType> annotationToApi;
 

@@ -121,7 +121,7 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
     @ExceptionHandler(DependantEntityNotFound.class)
     public ResponseEntity<?> handleDependantNotFound(DependantEntityNotFound e) {
 
-        ApiError error = new ApiError(ErrorType.INVALID, e.getField(), e.getEntityMessage());
+        ApiError error = new ApiError(ErrorType.NOT_FOUND, e.getField(), e.getEntityMessage());
 
         JsonListWrapper<ApiError> wrapper = new JsonListWrapper<>(
                 Collections.singleton(error),
