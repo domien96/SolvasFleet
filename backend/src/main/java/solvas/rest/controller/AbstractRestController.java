@@ -100,8 +100,10 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      */
     @ExceptionHandler(JsonMappingException.class)
     public ResponseEntity<?> handleJsonMappingException(JsonMappingException ex) {
-        JsonListWrapper<String> wrapper = new JsonListWrapper<>(
-                ex.getPath().stream().map(JsonMappingException.Reference::getFieldName).collect(Collectors.toList()),
+        JsonListWrapper<ApiError> wrapper = new JsonListWrapper<>(
+                ex.getPath().stream().map(JsonMappingException.Reference::getFieldName)
+                        .map(s -> new ApiError(ErrorType.WRONG_TYPE, s, "Wrong type."))
+                        .collect(Collectors.toList()),
                 JsonListWrapper.ERROR_KEY
         );
         return new ResponseEntity<>(wrapper, HttpStatus.UNPROCESSABLE_ENTITY);
