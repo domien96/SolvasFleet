@@ -26,12 +26,15 @@ public class InvoiceCorrector {
         List<Period> positivePeriods = merge(paidPeriods, repaidPeriods);
         Period periodToPay = new Period(contract.getStartDate().toLocalDate(), contract.getEndDate().toLocalDate());
         Pair<List<Period>, List<Period>> corrections = calculateCorrections(positivePeriods, periodToPay);
+        System.out.println(corrections.getFirst());
+        System.out.println(corrections.getSecond());
+        System.out.println("a");
         Set<InvoiceItem> items = corrections.getFirst().stream()
                 .map(period -> {
                     InvoiceItem item = new InvoiceItem();
                     item.setContract(contract);
-                    item.setStartDate(item.getStartDate());
-                    item.setEndDate(item.getEndDate());
+                    item.setStartDate(period.getStartDate());
+                    item.setEndDate(period.getEndDate());
                     item.setType(InvoiceItemType.PAYMENT);
                     return item;
                 })
@@ -40,17 +43,19 @@ public class InvoiceCorrector {
                 .map(period -> {
                     InvoiceItem item = new InvoiceItem();
                     item.setContract(contract);
-                    item.setStartDate(item.getStartDate());
-                    item.setEndDate(item.getEndDate());
+                    item.setStartDate(period.getStartDate());
+                    item.setEndDate(period.getEndDate());
                     item.setType(InvoiceItemType.REPAYMENT);
                     return item;
                 })
                 .collect(Collectors.toSet()));
+        System.out.println(items);
+        System.out.println(items.size());
         return items;
     }
 
     public static List<Period> merge(Collection<Period> paidPeriods,
-                                           Collection<Period> repaidPeriods) {
+                                     Collection<Period> repaidPeriods) {
         // Using tree guarantees log(n) sorted insertion and log(n) popping of first element
         // Possible optimization would be a structure that can add to the front in constant time
         // However, this wouldn't change the complexity in big O-notation, and #lazy
@@ -59,7 +64,6 @@ public class InvoiceCorrector {
                         .thenComparing(Period::getEndDate)
         );
         payments.addAll(paidPeriods);
-
         TreeSet<Period> repayments = new TreeSet<>(
                 Comparator.comparing(Period::getStartDate)
                         .thenComparing(Period::getEndDate)
@@ -105,6 +109,9 @@ public class InvoiceCorrector {
 
         }
 
+        periods.addAll(paidPeriods);
+        periods.sort(Comparator.comparing(Period::getStartDate)
+                .thenComparing(Period::getEndDate));
         // Merge together consecutive periods
         List<Period> mergedPeriods = new ArrayList<>();
 
@@ -128,7 +135,9 @@ public class InvoiceCorrector {
             }
         }
 
-        periods.add(last); // Add last calculated period
+        if (last != null) {
+            mergedPeriods.add(last); // Add last calculated period
+        }
 
         return mergedPeriods;
     }
@@ -136,8 +145,8 @@ public class InvoiceCorrector {
     public static Pair<List<Period>, List<Period>> calculateCorrections(List<Period> paidPeriods, Period periodToPay) {
         List<Period> overPaid = new ArrayList<>(); // Shallow copy for modification
 
-        for(Period period: paidPeriods) {
-            if(period.getEndDate().isBefore(periodToPay.getStartDate())
+        for (Period period : paidPeriods) {
+            if (period.getEndDate().isBefore(periodToPay.getStartDate())
                     || period.getStartDate().isAfter(periodToPay.getEndDate())) {
                 // Period falls before or after period to pay for, so is entirely overpaid
                 overPaid.add(period);
@@ -145,9 +154,9 @@ public class InvoiceCorrector {
             }
 
 
-            if(period.getEndDate().isAfter(periodToPay.getEndDate())) {
+            if (period.getEndDate().isAfter(periodToPay.getEndDate())) {
                 LocalDate start;
-                if(period.getStartDate().isAfter(periodToPay.getStartDate())) {
+                if (period.getStartDate().isAfter(periodToPay.getStartDate())) {
                     start = period.getStartDate();
                 } else {
                     start = periodToPay.getEndDate().plusDays(1);
@@ -157,9 +166,9 @@ public class InvoiceCorrector {
             }
 
 
-            if(period.getStartDate().isBefore(periodToPay.getStartDate())) {
+            if (period.getStartDate().isBefore(periodToPay.getStartDate())) {
                 LocalDate end;
-                if(period.getEndDate().isBefore(periodToPay.getStartDate())) {
+                if (period.getEndDate().isBefore(periodToPay.getStartDate())) {
                     end = period.getEndDate();
                 } else {
                     end = periodToPay.getStartDate().minusDays(1);
@@ -174,20 +183,20 @@ public class InvoiceCorrector {
         // Sort to be sure
         paidPeriods.sort(Comparator.comparing(Period::getStartDate));
 
-        for(Period period: paidPeriods) {
-            if(period.getEndDate().isBefore(periodToPay.getStartDate())) {
+        for (Period period : paidPeriods) {
+            if (period.getEndDate().isBefore(periodToPay.getStartDate())) {
                 // Period too early, keep going
                 continue;
             }
 
-            if(period.getStartDate().isAfter(periodToPay.getEndDate())) {
+            if (period.getStartDate().isAfter(periodToPay.getEndDate())) {
                 break; // Periods are sorted, no need to look further
             }
 
             // We are now sure this is some overlap
-            if(period.getStartDate().equals(periodToPay.getStartDate())) {
-                if(period.getEndDate().isAfter(periodToPay.getEndDate())
-                       || period.getEndDate().equals(periodToPay.getStartDate()) ) {
+            if (period.getStartDate().equals(periodToPay.getStartDate())) {
+                if (period.getEndDate().isAfter(periodToPay.getEndDate())
+                        || period.getEndDate().equals(periodToPay.getStartDate())) {
                     // Fully paid
                     periodToPay = null;
                     break;
@@ -196,11 +205,11 @@ public class InvoiceCorrector {
                 periodToPay = new Period(period.getEndDate().plusDays(1), periodToPay.getEndDate());
             }
 
-            if(period.getStartDate().isAfter(periodToPay.getStartDate())) {
+            if (period.getStartDate().isAfter(periodToPay.getStartDate())) {
                 // Costs for begin of this period aren't covered
                 toPay.add(new Period(periodToPay.getStartDate(), period.getStartDate().minusDays(1)));
 
-                if(period.getEndDate().isBefore(periodToPay.getEndDate())) {
+                if (period.getEndDate().isBefore(periodToPay.getEndDate())) {
                     // We're still looking for payments for the rest of this period
                     periodToPay = new Period(period.getEndDate().plusDays(1), periodToPay.getEndDate());
                 } else {
@@ -208,7 +217,7 @@ public class InvoiceCorrector {
                     periodToPay = null;
                     break;
                 }
-            } else if(period.getEndDate().isBefore(periodToPay.getEndDate())) {
+            } else if (period.getEndDate().isBefore(periodToPay.getEndDate())) {
                 // Paid for first part of period, check for next in next iterations
                 periodToPay = new Period(period.getEndDate().plusDays(1), periodToPay.getEndDate());
             } else {
@@ -217,7 +226,7 @@ public class InvoiceCorrector {
             }
         }
 
-        if(periodToPay != null) {
+        if (periodToPay != null) {
             toPay.add(periodToPay);
         }
 

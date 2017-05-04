@@ -274,7 +274,7 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
                 .map(contract -> {
                     InvoiceItem item = new InvoiceItem();
                     item.setInvoice(invoice);
-                    item.setStartDate(startLimit.toLocalDate());
+                    item.setStartDate(invoice.getStartDate().toLocalDate());
                     if(contract.getEndDate() != null && contract.getEndDate().isBefore(invoice.getEndDate())) {
                         item.setEndDate(contract.getEndDate().toLocalDate());
                     } else {
@@ -353,9 +353,6 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
      */
     private void generateMissingBillingsFor(Fleet fleet) {
         // Start with last calculated invoice.
-        System.out.println("billing");
-        System.out.println(getLatestGeneratedInvoice(fleet, InvoiceType.BILLING));
-
         for (LocalDate lastDate = getLatestGeneratedInvoice(fleet, InvoiceType.BILLING);
              lastDate.isBefore(LocalDate.now().minusMonths(fleet.getFacturationPeriod()));
              lastDate = lastDate.plusMonths(fleet.getFacturationPeriod()))
@@ -379,8 +376,6 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
      * @param fleet The fleet to generate payments for.
      */
     private void generateMissingPaymentsFor(Fleet fleet) {
-        System.out.println("payments");
-        System.out.println(getLatestGeneratedInvoice(fleet, InvoiceType.PAYMENT));
         // Start with last calculated invoice
         for (LocalDate lastDate = getLatestGeneratedInvoice(fleet, InvoiceType.PAYMENT);
              lastDate.isBefore(LocalDate.now()) || lastDate.equals(LocalDate.now());
@@ -390,9 +385,6 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
             Invoice invoice = new Invoice();
             invoice.setType(InvoiceType.PAYMENT);
             invoice.setStartDate(lastDate.atStartOfDay());
-            System.out.println(lastDate);
-            System.out.println(fleet.getPaymentPeriod());
-            System.out.println(lastDate.plusMonths(fleet.getPaymentPeriod()).minusDays(1).atStartOfDay());
             invoice.setEndDate(lastDate.plusMonths(fleet.getPaymentPeriod()).minusDays(1).atStartOfDay());
             invoice.setFleet(fleet);
             invoice.setPaid(false);
@@ -403,6 +395,7 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
     }
 
     public boolean generateCorrectionsFor(int fleetId) throws EntityNotFoundException {
+        System.out.println(fleetId);
         return generateCorrectionsFor(context.getFleetDao().find(fleetId));
     }
 
@@ -419,8 +412,10 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
         if(corrections.isEmpty()) {
             return false;
         }
+        LocalDate firstCorrection = corrections.iterator().next().getStartDate();
         Invoice invoice = new Invoice();
         invoice.setType(InvoiceType.CORRECTION);
+        invoice.setStartDate(firstCorrection.atStartOfDay());
         invoice.setEndDate(LocalDateTime.now());
         invoice.setFleet(fleet);
         invoice.setPaid(false);

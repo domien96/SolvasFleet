@@ -102,14 +102,14 @@ public class ContractRestController extends AbstractRestController<Contract,ApiC
 
     @Override
     @RequestMapping(value = "/contracts/{id}", method = RequestMethod.DELETE)
-    @PreAuthorize("hasPermission(#id, 'contract', 'WRITE')")
+    @PreAuthorize("hasPermission(#id, 'contract', 'DELETE')")
     public ResponseEntity<?> archiveById(@PathVariable int id) {
         return super.archiveById(id);
     }
 
     @Override
     @RequestMapping(value = "/contracts/{id}", method = RequestMethod.PUT)
-    @PreAuthorize("hasPermission(#id, 'contract', 'WRITE')")
+    @PreAuthorize("hasPermission(#id, 'contract', 'EDIT')")
     public ResponseEntity<?> put(@PathVariable int id, @Valid @RequestBody ApiContract input,BindingResult result) {
         return super.put(id, input,result);
     }
