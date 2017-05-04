@@ -1,11 +1,15 @@
 package solvas.rest.controller;
 
+import com.opencsv.CSVReader;
+import com.opencsv.bean.ColumnPositionMappingStrategy;
+import com.opencsv.bean.CsvToBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import solvas.rest.utils.JsonListWrapper;
 import solvas.service.models.Vehicle;
 import solvas.rest.api.models.ApiVehicle;
@@ -13,7 +17,11 @@ import solvas.rest.query.VehicleFilter;
 import solvas.service.VehicleService;
 
 import javax.validation.Valid;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Rest controller for Vehicle
@@ -96,6 +104,42 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
     @PreAuthorize("hasPermission(#input, 'CREATE')")
     public ResponseEntity<?> post(@Valid @RequestBody ApiVehicle input,BindingResult result) {
         return super.post(input,result);
+    }
+
+    /**
+     * Create multiple vehicles using a csv file.
+     * The Csv file must be included within the request.
+     * @param file A CSV file containing the new vehicles
+     * @return ResponseEntity
+     */
+    @PostMapping("/vehicles/upload")
+    @PreAuthorize("hasPermission(#file, 'CREATE')")
+    public ResponseEntity<?> importCSV(@RequestParam("file") MultipartFile file) {
+        CSVReader csvReader = null;
+        try {
+            csvReader = new CSVReader(new InputStreamReader(file.getInputStream()));
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
+        CsvToBean csv = new CsvToBean();
+        //Set column mapping strategy
+        List list = csv.parse(setColumnMapping(), csvReader);
+
+        for (Object object : list) {
+            ApiVehicle vehicle = (ApiVehicle) object;
+            System.out.println(vehicle);
+        }
+        return null;
+    }
+
+    private ColumnPositionMappingStrategy setColumnMapping()
+    {
+        ColumnPositionMappingStrategy strategy = new ColumnPositionMappingStrategy();
+        strategy.setType(ApiVehicle.class);
+        String[] columns = new String[] {"id", "firstName", "lastName", "country", "age"};
+        strategy.setColumnMapping(columns);
+        return strategy;
     }
 
     @Override
