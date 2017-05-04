@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import { Collapse } from 'react-bootstrap';
+import T from 'i18n-react';
 
 import Card from '../app/Card.tsx';
 import FleetForm from '../fleets/FleetForm.tsx';
@@ -40,8 +41,8 @@ const FleetsCard : React.StatelessComponent<Props> = props => {
   return (
     <Card>
       <div className='card-title'>
-        <h2>Fleets</h2>
-        <span className='click' onClick={ props.onClick }>Add a new fleet</span>
+        <h2>{ T.translate('fleet.fleets') }</h2>
+        <span className='click' onClick={ props.onClick }><span className='glyphicon glyphicon-plus' aria-hidden='true'/>{ T.translate('fleet.addNew') }</span>
       </div>
       <div className='card-content fleets'>
         <div className='fleet-form-wrapper'>

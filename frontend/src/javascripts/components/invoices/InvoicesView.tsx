@@ -4,7 +4,7 @@ import Header    from '../app/Header.tsx';
 import Card      from '../app/Card.tsx';
 import { th }    from '../../utils/utils.ts';
 import InfoTable from '../tables/InfoTable.tsx';
-
+import T from 'i18n-react';
 
 interface Props {
   invoices : InvoiceData[];
@@ -38,7 +38,7 @@ const InvoicesView : React.StatelessComponent<Props> = props => {
   return (
     <div>
       <Header>
-        <h2>Invoices</h2>
+        <h2>{ T.translate('invoice.invoices') }</h2>
       </Header>
       <div className='wrapper'>
         <div className='row'>

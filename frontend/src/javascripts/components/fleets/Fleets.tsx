@@ -21,7 +21,7 @@ class Fleets extends React.Component<Props, State> {
     super(props);
     this.state = {
       formVisible: false,
-      fleet: { company: this.props.company ,facturationPeriod:91 ,paymentPeriod:31},
+      fleet: { company: this.props.company ,facturationPeriod:3 ,paymentPeriod:1},
       errors: []
     };
     this.handleChange = this.handleChange.bind(this);

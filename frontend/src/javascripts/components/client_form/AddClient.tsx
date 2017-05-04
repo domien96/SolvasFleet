@@ -2,6 +2,7 @@ import React from 'react';
 
 import Header     from '../app/Header.tsx';
 import ClientForm from './ClientForm.tsx'
+import T from 'i18n-react';
 
 import { postClient } from '../../actions/client_actions.ts';
 import { hasError }  from '../../utils/utils.ts';
@@ -51,7 +52,7 @@ class AddClient extends React.Component<{}, State> {
     return (
       <div>
         <Header>
-          <h2>Add A New Client</h2>
+          <h2>{ T.translate('company.addNew') }</h2>
         </Header>
         <ClientForm
           company={ this.state.company }
