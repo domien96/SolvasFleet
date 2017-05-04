@@ -19,13 +19,21 @@ public class ApiError {
     private final String field;
     private final String message;
 
+    /**
+     * Default constructor to manually create an error. Most of the time you should use {@link #from(BindingResult)}
+     * to directly convert the result of the validations.
+     *
+     * @param type The type of error.
+     * @param field The field on which the error applies.
+     * @param message A default message. This message might be shown to the user.
+     */
     public ApiError(ErrorType type, String field, String message) {
         this.type = type;
         this.field = field;
         this.message = message;
     }
 
-    public ApiError(FieldError error) {
+    private ApiError(FieldError error) {
         this.message = error.getDefaultMessage();
         this.field = error.getField();
         if (error.isBindingFailure()) {
