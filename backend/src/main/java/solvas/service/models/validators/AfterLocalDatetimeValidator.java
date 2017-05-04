@@ -26,7 +26,6 @@ public class AfterLocalDatetimeValidator implements ConstraintValidator<AfterLoc
         if (value == null || (value.isEqual(localDateTime) || value.isAfter(localDateTime))) {
             return true;
         } else {
-            context.disableDefaultConstraintViolation();
             context.buildConstraintViolationWithTemplate(AfterLocalDateTime.MESSAGE)
                     .addConstraintViolation();
             return false;
