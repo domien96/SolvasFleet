@@ -8,11 +8,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.Filter;
 import solvas.rest.api.models.ApiModel;
+import solvas.rest.api.models.errors.ApiError;
+import solvas.rest.api.models.errors.ErrorType;
 import solvas.rest.utils.JsonListWrapper;
 import solvas.rest.utils.PagedResult;
 import solvas.service.AbstractService;
@@ -117,8 +118,11 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      */
     @ExceptionHandler(DependantEntityNotFound.class)
     public ResponseEntity<?> handleDependantNotFound(DependantEntityNotFound e) {
-        JsonListWrapper<String> wrapper = new JsonListWrapper<>(
-                Collections.singleton(e.getField()),
+
+        ApiError error = new ApiError(ErrorType.INVALID, e.getField(), e.getEntityMessage());
+
+        JsonListWrapper<ApiError> wrapper = new JsonListWrapper<>(
+                Collections.singleton(error),
                 JsonListWrapper.ERROR_KEY
         );
 
@@ -209,15 +213,16 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
         if (!binding.hasErrors()) {
             return new ResponseEntity<>(saveMethod.run(), HttpStatus.OK);
         } else {
+            return new ResponseEntity<>(ApiError.from(binding), HttpStatus.BAD_REQUEST);
             // Return validation errors to user
-            return new ResponseEntity<Object>(
-                    new JsonListWrapper<>(
-                            binding.getFieldErrors().stream().map(FieldError::getField).collect(Collectors.toList()),
-                            JsonListWrapper.ERROR_KEY
-                    ),
-
-                    HttpStatus.BAD_REQUEST
-            );
+//            return new ResponseEntity<Object>(
+//                    new JsonListWrapper<>(
+//                            binding.getFieldErrors().stream().map(FieldError::getField).collect(Collectors.toList()),
+//                            JsonListWrapper.ERROR_KEY
+//                    ),
+//
+//                    HttpStatus.BAD_REQUEST
+//            );
         }
     }
 

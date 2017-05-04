@@ -25,4 +25,8 @@ public class DependantEntityNotFound extends Exception {
     public String getField() {
         return field;
     }
+
+    public String getEntityMessage() {
+        return "Entity does not exist.";
+    }
 }
