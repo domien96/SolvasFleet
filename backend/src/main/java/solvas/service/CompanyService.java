@@ -34,7 +34,7 @@ public class CompanyService extends AbstractService<Company,ApiCompany> {
     public void archive(int id) throws EntityNotFoundException {
         Company company = context.getCompanyDao().find(id);
 
-        // stop and archive each contract, when company is of type  insurance company
+        // stop and archive each contract, when company is of type insurance company
         if (company.getType().equals(CompanyType.INSURANCECOMPANY)){
             ContractService contractService = new ContractService(context,new ContractMapper(context));
             for (Contract contract:context.getContractDao().findByCompany(company)){

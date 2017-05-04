@@ -42,6 +42,7 @@ public class FleetService extends AbstractService<Fleet,ApiFleet> {
 
         final LocalDateTime endDate = LocalDateTime.now();
 
+        //Archive fleet subscriptions
         ContractService contractService = new ContractService(context,new ContractMapper(context));
         for (FleetSubscription subs:fleetSubscriptions){
             // archive active contracts
@@ -49,14 +50,15 @@ public class FleetService extends AbstractService<Fleet,ApiFleet> {
             for(Contract contract:contracts) {
                 contractService.archive(contract.getId());
             }
-
             subs.setEndDate(endDate.toLocalDate());
+
             // TODO see if archived field has to be set to true
             context.getFleetSubscriptionDao().save(subs);
         }
 
         //TODO
         // archive invoices
+
 
 
 
