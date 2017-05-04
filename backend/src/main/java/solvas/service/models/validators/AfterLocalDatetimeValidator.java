@@ -23,10 +23,6 @@ public class AfterLocalDatetimeValidator implements ConstraintValidator<AfterLoc
 
     @Override
     public boolean isValid(LocalDateTime value, ConstraintValidatorContext context) {
-        if (value == null || (value.isEqual(localDateTime) || value.isAfter(localDateTime))) {
-            return true;
-        } else {
-            return false;
-        }
+        return value == null || (value.isEqual(localDateTime) || value.isAfter(localDateTime));
     }
 }
