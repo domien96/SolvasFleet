@@ -9,6 +9,7 @@ import solvas.service.models.Tax;
 import solvas.service.models.VehicleType;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 /**
  * Mapper between for Tax
@@ -37,10 +38,15 @@ public class TaxMapper extends AbstractMapper<Tax,ApiTax> {
         // or happen very rarely, so it's better to optimize for the case where there is already a tax.
         if (tax == null) {
             // Verify that both types exist.
-            VehicleType vehicleType = daoContext.getVehicleTypeDao().findByName(api.getVehicleType());
+            Optional<VehicleType> vehicleTypeOpt = daoContext.getVehicleTypeDao().findByName(api.getVehicleType());
+            if (!vehicleTypeOpt.isPresent()){
+                throw new EntityNotFoundException("Could not find vehicle type");
+            }
+            VehicleType vehicleType=vehicleTypeOpt.get();
+
             InsuranceType insuranceType = daoContext.getInsuranceTypeDao().findByName(api.getContractType());
 
-            if (vehicleType == null || insuranceType == null) {
+            if (insuranceType == null) {
                 throw new EntityNotFoundException();
             }
 
