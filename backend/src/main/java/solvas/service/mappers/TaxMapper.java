@@ -1,5 +1,6 @@
 package solvas.service.mappers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
@@ -37,16 +38,11 @@ public class TaxMapper extends AbstractMapper<Tax,ApiTax> {
         // If the tax is not found, the first database request was for nothing. However, this should not happen,
         // or happen very rarely, so it's better to optimize for the case where there is already a tax.
         if (tax == null) {
+
+            VehicleType vehicleType=new VehicleTypeMapper(daoContext).convertToModel(api.getVehicleType());
+            InsuranceType insuranceType = new InsuranceTypeMapper(daoContext).convertToModel(api.getContractType());
             // Verify that both types exist.
-            Optional<VehicleType> vehicleTypeOpt = daoContext.getVehicleTypeDao().findByName(api.getVehicleType());
-            if (!vehicleTypeOpt.isPresent()){
-                throw new EntityNotFoundException("Could not find vehicle type");
-            }
-            VehicleType vehicleType=vehicleTypeOpt.get();
-
-            InsuranceType insuranceType = daoContext.getInsuranceTypeDao().findByName(api.getContractType());
-
-            if (insuranceType == null) {
+            if (insuranceType == null||vehicleType==null) {
                 throw new EntityNotFoundException();
             }
 
