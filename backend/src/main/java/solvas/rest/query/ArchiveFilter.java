@@ -14,7 +14,6 @@ import java.util.List;
  * Filters for a {@link Model}.
  *
  */
-@SuppressWarnings("unused")
 public abstract class ArchiveFilter<T extends Model> implements Filter<T> {
 
     private boolean archived=false;
