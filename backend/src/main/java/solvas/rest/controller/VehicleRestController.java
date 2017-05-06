@@ -3,11 +3,16 @@ package solvas.rest.controller;
 import com.opencsv.CSVReader;
 import com.opencsv.bean.ColumnPositionMappingStrategy;
 import com.opencsv.bean.CsvToBean;
+import com.opencsv.bean.HeaderColumnNameTranslateMappingStrategy;
+import com.opencsv.bean.MappingStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import solvas.rest.utils.JsonListWrapper;
@@ -21,7 +26,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Rest controller for Vehicle
@@ -29,6 +36,9 @@ import java.util.List;
  */
 @RestController
 public class VehicleRestController extends AbstractRestController<Vehicle,ApiVehicle> {
+
+    @Autowired
+    private Validator validator;
 
     /**
      * Rest controller for Vehicle
@@ -109,36 +119,55 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
     /**
      * Create multiple vehicles using a csv file.
      * The Csv file must be included within the request.
-     * @param file A CSV file containing the new vehicles
+     * @param file  A CSV file containing the new vehicles
+     *              The csv column names must match with the column names used in the API.
+     *              The order of the columns does not matter, but the file must have a header line.
      * @return ResponseEntity
      */
     @PostMapping("/vehicles/upload")
-    @PreAuthorize("hasPermission(#file, 'CREATE')")
+  // TODO ADD AGAIN  @PreAuthorize("hasPermission(#file, 'CREATE')")
     public ResponseEntity<?> importCSV(@RequestParam("file") MultipartFile file) {
         CSVReader csvReader = null;
         try {
             csvReader = new CSVReader(new InputStreamReader(file.getInputStream()));
         } catch (IOException e) {
-            e.printStackTrace();
+            e.printStackTrace(); //todo map to correct error code
             throw new RuntimeException();
         }
         CsvToBean csv = new CsvToBean();
         //Set column mapping strategy
         List list = csv.parse(setColumnMapping(), csvReader);
 
+        // maybe use this variable to bundle alle individual validation errors?
+        BindingResult bundledErrors = new BeanPropertyBindingResult(file,"file");
+
         for (Object object : list) {
             ApiVehicle vehicle = (ApiVehicle) object;
-            System.out.println(vehicle);
+            BindingResult errors = new BeanPropertyBindingResult(vehicle,"vehicle");
+            //TODO correct error bundling because now they are ignored (bekijk dit ook eens, david).
+            validator.validate(vehicle, errors);
+            super.post(vehicle,errors);
         }
-        return null;
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    private ColumnPositionMappingStrategy setColumnMapping()
+    private MappingStrategy<ApiVehicle> setColumnMapping()
     {
-        ColumnPositionMappingStrategy strategy = new ColumnPositionMappingStrategy();
+        // Order does not matter for this strategy, but requires a header line with the column names.
+        HeaderColumnNameTranslateMappingStrategy<ApiVehicle> strategy = new HeaderColumnNameTranslateMappingStrategy<>();
         strategy.setType(ApiVehicle.class);
-        String[] columns = new String[] {"id", "firstName", "lastName", "country", "age"};
-        strategy.setColumnMapping(columns);
+        Map<String,String> columnMappings = new HashMap<>();
+        columnMappings.put("licensePlate", "licensePlate");
+        columnMappings.put("leasingCompany", "leasingCompany");
+        columnMappings.put("fleet", "fleet");
+        columnMappings.put("mileage", "mileage");
+        columnMappings.put("type", "type");
+        columnMappings.put("value", "value");
+        columnMappings.put("year", "year");
+        columnMappings.put("vin", "vin");
+        columnMappings.put("model","model");
+        columnMappings.put("brand","brand");
+        strategy.setColumnMapping(columnMappings);
         return strategy;
     }
 
