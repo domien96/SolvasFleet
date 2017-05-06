@@ -9,22 +9,20 @@ interface Props {
   handleChange : (field : SFunction.Field, e : any) => void;
   errors       : Form.Error[];
   hasError     : (field : SFunction.Field) => boolean;
-  Sfunction         : SFunctionData;
-  roles  : RoleData[];
-  companies : CompanyData[];
+  Sfunctions   : SFunctionData[];
 }
 
 const FunctionForm : React.StatelessComponent<Props> = props => {
-  var { Sfunction, roles, companies, onSubmit, handleChange, errors, hasError } = props;
+  var { Sfunctions, onSubmit, handleChange, errors, hasError } = props;
 
-  const submit = Sfunction.id != null ? 'form.update' : 'form.create';
+  const submit = 'form.create';
 
   return (
     <form method='post' onSubmit={ onSubmit } >
       <div className='wrapper'>
         <div className='row'>
           <Errors errors={ errors } />
-          <Info Sfunction={ Sfunction } roles={ roles } companies={ companies } handleChange={ handleChange } hasError={ hasError } />
+          <Info Sfunctions={ Sfunctions } handleChange={ handleChange } hasError={ hasError } />
           <div className='col-xs-12 col-md-5'>
             <div className='row'>
               <Actions submitLabel={ submit } cancelUrl='/auth' model='function' />

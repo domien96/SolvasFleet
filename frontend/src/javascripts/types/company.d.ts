@@ -17,3 +17,8 @@ interface CompanyData {
   [key : string]: string;
 }
 
+interface OptionData {
+  id : number;
+  label : string;
+}
+

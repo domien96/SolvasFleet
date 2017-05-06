@@ -36,7 +36,7 @@ const Info : React.StatelessComponent<Props> = props => {
           <FormField value={ licensePlate }    placeholder='vehicle.licensePlate'     type='text'     callback={ handleChange('licensePlate') }    hasError={ props.hasError('licensePlate')} />
           <FormField value={ vin }             placeholder='vehicle.vin'              type='text'     callback={ handleChange('vin') }             hasError={ props.hasError('vin')}      />
           <FormField value={ fleet }           placeholder='vehicle.fleet'            type='text'     callback={ handleChange('fleet') }           hasError={ props.hasError('fleet')}   />
-          <CompanyInputfield value={ leasingCompany } placeholder='vehicle.leasingCompany'  query={ {type: 'LeasingCompany'} }   callback={ handleChange('leasingCompany') }  hasError={ props.hasError('leasingCompany')} />
+          <CompanyInputfield value={ [leasingCompany] } placeholder='vehicle.leasingCompany'  query={ {type: 'LeasingCompany'} }   callback={ handleChange('leasingCompany') }  hasError={ props.hasError('leasingCompany')} />
           <FormField value={ brand }           placeholder='vehicle.brand'            type='text'     callback={ handleChange('brand') }           hasError={ props.hasError('brand')}      />
           <FormField value={ model }           placeholder='vehicle.model'            type='text'     callback={ handleChange('model') }           hasError={ props.hasError('model')}   />
           <FormChoice value={ type }           placeholder='vehicle.type'         choices={ choices } callback={ handleChange('type') } />

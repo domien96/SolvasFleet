@@ -5,11 +5,12 @@ import { fetchClients } from '../../actions/client_actions.ts';
 import classNames from 'classnames';
 
 interface Props {
-  value : number;
+  value : number[];
   callback : (e : any) => void;
   placeholder : string;
   hasError    : boolean;
-  query       : any;
+  query?      : any;
+  multiple?    : boolean;
 }
 
 interface State {
@@ -37,39 +38,57 @@ class CompanyInputfield extends React.Component<Props, State> {
 
   handleChange(selectedCompanies : string[]) {
     if(selectedCompanies){
-      let e = { target: { value: parseInt(selectedCompanies[0].split(':')[0]) } };
-      this.props.callback(e);
+      let ids : any = [];
+      for (let i = 0; i < selectedCompanies.length; i++){
+        let e = { target: { value: parseInt(selectedCompanies[i].split(':')[0]) } };
+        ids.push(e);
+      }
+      if(ids.length == 1){
+        this.props.callback(ids[0]);
+      }
+      this.props.callback(ids);
     }
   }
 
-  fetchClients(query : any) {
-    console.log(query)
+  fetchClients(query? : any) {
     fetchClients((data : any) => {
-      console.log(data)
       this.setState({ companies: data.data })
     }, undefined, query);
   }
 
   render() {
     let optionList : string[] = [];
-    var selected;
+    var selected : string[] = [];
     if(this.state.companies) {
       optionList = this.state.companies.map((c : CompanyData) => {
         let option = (c.id.toString() + ': ' + c.name);
-        if(c.id == this.props.value){
-          selected = [option];
-        }
+        this.props.value.map((v : number) => {
+          if(c.id == v){
+            selected.push(option);
+          }
+        })
         return option;
       });
+    }
+    if(this.props.multiple){
+      optionList.push("-1: All companies")
+      if (selected.length==0) {selected.push("-1: All companies")}
     }
 
     const label = T.translate(this.props.placeholder);
     const wrapperClasses = classNames('form-group', { 'has-error': this.props.hasError });
+    let typeahead;
+    if(this.props.multiple){
+      typeahead = <Typeahead multiple onChange={ this.handleChange } options={ optionList } selected={ selected }/>
+    }
+    else{
+      typeahead = <Typeahead onChange={ this.handleChange } options={ optionList } selected={ selected }/>
+    }
 
     return(
       <div className={ wrapperClasses }>
         <label>{ label }</label>
-        <Typeahead onChange={ this.handleChange } options={ optionList } selected={ selected }/>
+        {typeahead}
       </div>
     );
   }

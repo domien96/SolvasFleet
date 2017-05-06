@@ -32,7 +32,7 @@ const Info : React.StatelessComponent<Props> = props => {
       <Card>
         <div className='card-content'>
           <FormField value={ franchise }           placeholder='contract.franchise'                type='number' callback={ handleChange('franchise', 'text') }         hasError={ props.hasError('franchise')}         />
-          <CompanyInputfield value={ insuranceCompany } placeholder='contract.insuranceCompany'  query={ {type: 'InsuranceCompany'} }   callback={ handleChange('insuranceCompany', 'text') }  hasError={ props.hasError('insuranceCompany')} />
+          <CompanyInputfield value={ [insuranceCompany] } placeholder='contract.insuranceCompany'  query={ {type: 'InsuranceCompany'} }   callback={ handleChange('insuranceCompany', 'text') }  hasError={ props.hasError('insuranceCompany')} />
           <FormField value={ premium }             placeholder='contract.premium'         type='number'  callback={ handleChange('premium', 'text') }  hasError={ props.hasError('premium')} />
           <FormChoice value={ type }               placeholder='contract.type'       choices={ choices } callback={ handleChange('type', 'text') } />
           <FormField value={ vehicle }             placeholder='contract.vehicle' type='number' callback={ handleChange('vehicle', 'text') }  hasError={ props.hasError('vehicle')}      />
