@@ -8,6 +8,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import shared.AbstractSolvasTest;
 import solvas.service.models.Vehicle;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
@@ -28,26 +29,12 @@ import static org.mockito.Mockito.when;
 /**
  * Tests to check correct mapping of a Vehicle
  */
-public class VehicleMapperTest {
+public class VehicleMapperTest extends AbstractSolvasTest<Vehicle, ApiVehicle> {
     private VehicleMapper mapper;
 
-    @Mock
-    private DaoContext context;
-
-    @Mock
-    private VehicleDao vehicleDao;
-
-    @Mock
-    private CompanyDao companyDao;
-
-    @Mock
-    private VehicleTypeDao vehicleTypeDao;
-
-    @Mock
-    private FleetDao fleetDao;
-
-    @Mock
-    private FleetSubscriptionDao fleetSubscriptionDao;
+    public VehicleMapperTest() {
+        super(Vehicle.class,ApiVehicle.class);
+    }
 
     /**
      * Setting up the tests of VehicleMapper
@@ -55,13 +42,8 @@ public class VehicleMapperTest {
     @Before
     public void setUp()
     {
-        MockitoAnnotations.initMocks(this);
-        mapper=new VehicleMapper(context);
-        when(context.getVehicleDao()).thenReturn(vehicleDao);
-        when(context.getCompanyDao()).thenReturn(companyDao);
-        when(context.getVehicleTypeDao()).thenReturn(vehicleTypeDao);
-        when(context.getFleetDao()).thenReturn(fleetDao);
-        when(context.getFleetSubscriptionDao()).thenReturn(fleetSubscriptionDao);
+        super.setUp();
+        mapper=new VehicleMapper(getDaoContext());
         MockHttpServletRequest request = new MockHttpServletRequest();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
     }
@@ -71,21 +53,16 @@ public class VehicleMapperTest {
      */
     @Test
     public void convertToVehicle() throws EntityNotFoundException, DependantEntityNotFound {
-        ApiVehicle apiVehicle = random(ApiVehicle.class);
-        Vehicle random = random(Vehicle.class);
-        random.setId(apiVehicle.getId());
-        apiVehicle.setFleet(0);
-        when(vehicleDao.find(anyInt())).thenReturn(random);
-        when(fleetSubscriptionDao.activeForVehicle(any(Vehicle.class))).thenReturn(Optional.empty());
-        Vehicle mapped = mapper.convertToModel(apiVehicle);
+        when(getDaoContext().getVehicleDao().find(anyInt())).thenReturn(getModel());
+        
+        when(getDaoContext().getFleetSubscriptionDao().activeForVehicle(any(Vehicle.class))).thenReturn(Optional.empty());
+        Vehicle mapped = mapper.convertToModel(getApiModel());
 
-        assertThat(apiVehicle.getId(),is(mapped.getId()));
-        assertThat(apiVehicle.getValue(),is(mapped.getValue()));
-        assertThat(apiVehicle.getBrand(),is(mapped.getBrand()));
-        //assertThat(apiVehicle.getFleet(),is(mapped.get()));
-        assertThat(apiVehicle.getYear(),is(mapped.getYear()));
-        assertThat(apiVehicle.getMileage(),is(mapped.getKilometerCount()));
-//        assertThat(apiVehicle.getLeasingCompany(),is(mapped.getLeasingCompany().getId()));
+        assertThat(getApiModel().getId(),is(mapped.getId()));
+        assertThat(getApiModel().getValue(),is(mapped.getValue()));
+        assertThat(getApiModel().getBrand(),is(mapped.getBrand()));
+        assertThat(getApiModel().getYear(),is(mapped.getYear()));
+        assertThat(getApiModel().getMileage(),is(mapped.getKilometerCount()));
 
     }
 
@@ -95,8 +72,11 @@ public class VehicleMapperTest {
     @Test
     public void convertToApiVehicle()
     {
-        Vehicle vehicle = random(Vehicle.class);
-        when(fleetSubscriptionDao.activeForVehicle(any(Vehicle.class))).thenReturn(Optional.empty());
+        Vehicle vehicle = getModel();
+        vehicle.setYear(1990);
+
+
+        when(getDaoContext().getFleetSubscriptionDao().activeForVehicle(any(Vehicle.class))).thenReturn(Optional.empty());
         ApiVehicle converted = mapper.convertToApiModel(vehicle);
 
         assertThat(converted.getId(),is(vehicle.getId()));
