@@ -17,8 +17,8 @@ export function humanize(s : string) : string {
     });
 }
 
-export function hasError(this: any, k : string) : boolean {
-  const errors = this.state.errors.filter(function(el : Form.Error) { return el.field == k; });
+export function hasError(t: any, k : string) : boolean {
+  const errors = t.state.errors.filter(function(el : Form.Error) { return el.field == k; });
   return (errors.length != 0);
 }
 
