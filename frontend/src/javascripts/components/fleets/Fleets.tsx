@@ -49,7 +49,6 @@ class Fleets extends React.Component<Props, State> {
     let success = (data : any) => redirect_to(`/fleets/${data.id}`);
     let fail = (data : any) => {
       setErrors(data.errors.map(function(e : any) {
-        console.log(data)
         return { field: e, error: 'null' };
       }));
     }
