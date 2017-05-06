@@ -21,7 +21,11 @@ class Fleets extends React.Component<Props, State> {
     super(props);
     this.state = {
       formVisible: false,
-      fleet: { company: this.props.company ,facturationPeriod:3 ,paymentPeriod:1},
+      fleet: { 
+        company: this.props.company, 
+        facturationPeriod : 3, 
+        paymentPeriod : 1 
+      },
       errors: []
     };
     this.handleChange = this.handleChange.bind(this);
@@ -45,17 +49,19 @@ class Fleets extends React.Component<Props, State> {
     let success = (data : any) => redirect_to(`/fleets/${data.id}`);
     let fail = (data : any) => {
       setErrors(data.errors.map(function(e : any) {
-        return { field: e.field, error: 'null' };
+        console.log(data)
+        return { field: e, error: 'null' };
       }));
     }
 
     postFleet(this.props.company, this.state.fleet, success, fail);
-  }
+}
 
   render() {
     return (
       <FleetsCard
         fleets={ this.props.fleets }
+        errors={ this.state.errors }
         onSubmit={ this.onSubmit }
         handleChange={ this.handleChange }
         formIsVisible={ this.state.formVisible }

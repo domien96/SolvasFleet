@@ -15,7 +15,6 @@ const FleetForm : React.StatelessComponent<Props> = props => {
       props.handleChange(field, e);
     }
   }
-
   return (
     <form method='post' onSubmit={ props.onSubmit } className='fleet-form'>
       <h3><label htmlFor='name'>{ T.translate('fleet.name')+':' }</label></h3>
