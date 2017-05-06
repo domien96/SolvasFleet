@@ -13,7 +13,6 @@ interface Props {
 interface State {
   response: ListResponse;
   isMounted:boolean
-
 }
 
 class Contracts extends React.Component<Props, State> {
@@ -41,14 +40,9 @@ class Contracts extends React.Component<Props, State> {
     this.fetchContracts(nextProps.vehicleId,nextProps.companyId,nextProps.fleetId);
   }
 
-
-
-
   handleClick(id : number) {
     redirect_to(`/contracts/${id}`);
   }
-
-
 
   componentDidMount() {
     this.setState({isMounted:true})
@@ -56,10 +50,9 @@ class Contracts extends React.Component<Props, State> {
   }
 
   render(){
-	  	return(
-          <Listing onSelect={this.handleClick} addNewRoute='/contracts/new' fetchModels={this.fetchContractsWithProps} response={this.state.response} modelName='contract' columns={['id','type','vehicle']}/>
-	  	);
-
+  	return(
+        <Listing onSelect={this.handleClick} addNewRoute='/contracts/new' fetchModels={this.fetchContractsWithProps} response={this.state.response} modelName='contract' columns={['id','type','vehicle']}/>
+  	);
   }
 }
 

@@ -6,6 +6,7 @@ import VehicleForm from './VehicleForm.tsx'
 import { postVehicle } from '../../actions/vehicle_actions.ts';
 import { hasError }  from '../../utils/utils.ts';
 import { redirect_to } from'../../routes/router.tsx';
+import T from 'i18n-react';
 
 interface State {
   errors : Form.Error[];
@@ -18,7 +19,7 @@ class AddVehicle extends React.Component<{}, State> {
     super();
     this.state = {
       errors: [],
-      vehicle: { type: 'personalCar' }
+      vehicle: { type: 'PersonalVehicle' }
     };
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit     = this.onSubmit.bind(this);
@@ -48,7 +49,7 @@ class AddVehicle extends React.Component<{}, State> {
     return (
       <div>
         <Header>
-          <h2>Add A New Vehicle</h2>
+          <h2>{ T.translate('vehicle.addNew') }</h2>
         </Header>
         <VehicleForm
           vehicle={ this.state.vehicle }

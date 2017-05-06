@@ -1,5 +1,6 @@
 package solvas.rest;
 
+import org.joda.time.DateTime;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -10,6 +11,8 @@ import solvas.rest.controller.AbstractRestController;
 import solvas.rest.controller.VehicleRestController;
 import solvas.service.AbstractService;
 import solvas.service.VehicleService;
+
+import java.time.LocalDateTime;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
@@ -64,7 +67,7 @@ public class VehicleRestControllerTest extends AbstractRestControllerTest<Vehicl
     {
         ApiVehicle vehicle = super.getTestModel();
         vehicle.setValue(1500);
-        vehicle.setYear(1990);
+        vehicle.setYear(LocalDateTime.of(1990,1,1,0,0));
         vehicle.setMileage(10000);
         vehicle.setVin("5NPEB4AC8EH893920");
         return vehicle;

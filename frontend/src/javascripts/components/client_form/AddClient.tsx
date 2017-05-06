@@ -2,6 +2,7 @@ import React from 'react';
 
 import Header     from '../app/Header.tsx';
 import ClientForm from './ClientForm.tsx'
+import T from 'i18n-react';
 
 import { postClient } from '../../actions/client_actions.ts';
 import { hasError }  from '../../utils/utils.ts';
@@ -9,7 +10,7 @@ import { redirect_to } from'../../routes/router.tsx';
 
 interface State {
   errors  : Form.Error[];
-  company : Company;
+  company : CompanyData;
 }
 class AddClient extends React.Component<{}, State> {
 
@@ -17,14 +18,15 @@ class AddClient extends React.Component<{}, State> {
     super();
     this.state = {
       errors: [],
-      company: { address: {}, type: 'Customer' }
+      company: { address: {} }
     };
+    this.state.company['type'] = 'Customer';
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit     = this.onSubmit.bind(this);
   }
 
   public handleChange(field : Company.Field, isAddress : boolean, e : any) : void {
-    var newClient : Company = this.state.company;
+    var newClient : CompanyData = this.state.company;
     if(isAddress){
       newClient['address'][field] = e.target.value;
     }
@@ -50,7 +52,7 @@ class AddClient extends React.Component<{}, State> {
     return (
       <div>
         <Header>
-          <h2>Add A New Client</h2>
+          <h2>{ T.translate('company.addNew') }</h2>
         </Header>
         <ClientForm
           company={ this.state.company }

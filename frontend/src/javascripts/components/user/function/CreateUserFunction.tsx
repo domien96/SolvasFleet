@@ -6,17 +6,18 @@ import { fetchClients } from '../../../actions/client_actions.ts';
 import { postFunction } from '../../../actions/user_actions.ts';
 import { hasError } from '../../../utils/utils.ts';
 import { redirect_to } from'../../../routes/router.tsx';
+import T     from 'i18n-react';
 
 import FunctionForm from './form/FunctionForm.tsx'
 
 interface Props{
-  params : { id : number };
+  params : { id : string };
 }
 
 interface State{
 	errors : Form.Error[];
 	roles: RoleData[];
-  companies: Company[];
+  companies: CompanyData[];
   Sfunction: {};
 }
 
@@ -52,16 +53,28 @@ class CreateUserFunction extends React.Component<Props, State> {
   }
 
   onSubmit(e : any) : void {
+
+    var newSfunction : SFunctionData = this.state.Sfunction;
+    newSfunction['user'] = parseInt(this.props.params.id);
+    if(!newSfunction.role){
+      newSfunction['role'] = this.state.roles[0].id;
+    }
+    if(!newSfunction.company){
+      newSfunction['company'] = -1;
+    }
+    this.setState({ Sfunction: newSfunction });
+
     e.preventDefault();
     let setErrors = (e : Form.Error[]) => this.setState({ errors: e });
     let success = () => redirect_to(`/users/${this.props.params.id}`);
     let fail = (data : any) => {
+      console.log(data);
       setErrors(data.errors.map(function(e : any) {
         return { field: e, error: 'null' };
       }));
     }
 
-    postFunction(this.props.params.id, this.state.Sfunction, success, fail);
+    postFunction(parseInt(this.props.params.id), newSfunction, success, fail);
   }
 
    
@@ -69,7 +82,7 @@ class CreateUserFunction extends React.Component<Props, State> {
     return (
       <div>
         <Header>
-          <h2>Create a new function</h2>
+          <h2>{ T.translate('function.createNew') }</h2>
         </Header>
         <FunctionForm
           Sfunction={ this.state.Sfunction }
