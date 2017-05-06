@@ -9,6 +9,7 @@ interface Props {
   callback : (e : any) => void;
   placeholder : string;
   hasError    : boolean;
+  query       : any;
 }
 
 interface State {
@@ -25,12 +26,12 @@ class CompanyInputfield extends React.Component<Props, State> {
   }
 
   componentDidMount(){
-    this.fetchClients();
+    this.fetchClients(this.props.query);
   }
 
   componentWillReceiveProps(nextProps : any) {
     if (nextProps.value != this.props.value) {
-      this.fetchClients();
+      this.fetchClients(nextProps.query);
     }
   }
 
@@ -41,8 +42,10 @@ class CompanyInputfield extends React.Component<Props, State> {
     }
   }
 
-  fetchClients(query?:any) {
+  fetchClients(query : any) {
+    console.log(query)
     fetchClients((data : any) => {
+      console.log(data)
       this.setState({ companies: data.data })
     }, undefined, query);
   }

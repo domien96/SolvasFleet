@@ -4,6 +4,8 @@ import FormField from '../../forms/FormField.tsx';
 import FormChoice from '../../forms/FormChoice.tsx';
 import DateForm from '../../forms/DateForm.tsx';
 import Card from '../../app/Card.tsx';
+import CompanyInputfield from '../../client/CompanyInputfield.tsx'
+
 
 interface Props {
   handleChange: (field : string, e : any, type : string) => void;
@@ -30,7 +32,7 @@ const Info : React.StatelessComponent<Props> = props => {
       <Card>
         <div className='card-content'>
           <FormField value={ franchise }           placeholder='contract.franchise'                type='number' callback={ handleChange('franchise', 'text') }         hasError={ props.hasError('franchise')}         />
-          <FormField value={ insuranceCompany }    placeholder='contract.insuranceCompany'           type='number' callback={ handleChange('insuranceCompany', 'text') }    hasError={ props.hasError('insuranceCompany')}   />
+          <CompanyInputfield value={ insuranceCompany } placeholder='contract.insuranceCompany'  query={ {type: 'InsuranceCompany'} }   callback={ handleChange('insuranceCompany', 'text') }  hasError={ props.hasError('insuranceCompany')} />
           <FormField value={ premium }             placeholder='contract.premium'         type='number'  callback={ handleChange('premium', 'text') }  hasError={ props.hasError('premium')} />
           <FormChoice value={ type }               placeholder='contract.type'       choices={ choices } callback={ handleChange('type', 'text') } />
           <FormField value={ vehicle }             placeholder='contract.vehicle' type='number' callback={ handleChange('vehicle', 'text') }  hasError={ props.hasError('vehicle')}      />
