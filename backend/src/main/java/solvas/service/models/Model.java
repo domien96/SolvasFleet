@@ -2,10 +2,7 @@ package solvas.service.models;
 
 
 //TODO change discription to allow {Id,createdat, .} gets changed by deserializer.
-import org.hibernate.Hibernate;
-
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 /**
  * Abstract model. Contains some common attributes and metadata for the models.
@@ -40,7 +37,6 @@ public abstract class Model {
      *
      * @param id The unique identifier for this model.
      */
-    @SuppressWarnings("unused")
     public void setId(int id) {
         this.id = id;
     }
@@ -64,7 +60,6 @@ public abstract class Model {
      *
      * @param createdAt The date and time at which this model was last updated.
      */
-    @SuppressWarnings("unused")
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
@@ -91,7 +86,6 @@ public abstract class Model {
      *
      * @param updatedAt The time at which this model was last updated.
      */
-    @SuppressWarnings("unused")
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
