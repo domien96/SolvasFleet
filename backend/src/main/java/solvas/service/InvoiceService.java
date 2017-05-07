@@ -400,11 +400,20 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
         }
     }
 
+    /**
+     *
+     * @param fleetId Id of the fleet to generate correction for
+     * @return True of any corrections were generated
+     */
     public boolean generateCorrectionsFor(int fleetId) throws EntityNotFoundException {
         return generateCorrectionsFor(context.getFleetDao().find(fleetId));
     }
 
-    // Important TODO: eager load fleetSubscriptions.contracts.invoiceItems
+    /**
+     *
+     * @param fleet Fleet to generate correction for
+     * @return True of any corrections were generated
+     */
     public boolean generateCorrectionsFor(Fleet fleet) {
         LocalDate lastDate = getLatestGeneratedInvoice(fleet, InvoiceType.BILLING);
         Set<InvoiceItem> corrections = fleet.getSubscriptions().stream()

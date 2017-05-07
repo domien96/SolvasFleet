@@ -16,6 +16,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Class containing logic to correct invoices after retroactive changes
+ */
 @Component
 public class InvoiceCorrector {
     private final DaoContext daoContext;
@@ -26,6 +29,13 @@ public class InvoiceCorrector {
         this.daoContext = daoContext;
     }
 
+    /**
+     * Generate correction items for a contract
+     * @param contract Contract to generate corrections for
+     * @param correctBefore Corrections at or after this date are ignored
+     * @param facturationPeriod Duration of the facturation period
+     * @return Set of generated invoiceitems to correct
+     */
     public Set<InvoiceItem> correctionItemsForContract(Contract contract, LocalDate correctBefore, int facturationPeriod) {
         Collection<InvoiceItem> invoiceItems = contract.getInvoiceItems();
         Collection<Period> paidPeriods = invoiceItems.stream()
@@ -81,10 +91,22 @@ public class InvoiceCorrector {
                 });
     }
 
+    /**
+     * Calculate the amount to pay in a given period
+     * @param invoiceItem Item to calculate for
+     * @param totalPeriod The standard facturation period
+     * @return The amount to pay or repay
+     */
     public BigDecimal calculateTotal(InvoiceItem invoiceItem, int totalPeriod) {
         return calculateTotal(invoiceItem, new BigDecimal(totalPeriod));
     }
 
+    /**
+     * Calculate the amount to pay in a given period
+     * @param invoiceItem Item to calculate for
+     * @param totalPeriod The standard facturation period
+     * @return The amount to pay or repay
+     */
     public BigDecimal calculateTotal(InvoiceItem invoiceItem, BigDecimal totalPeriod) {
         Contract contract = invoiceItem.getContract();
         Tax tax = daoContext.getTaxDao()
@@ -105,7 +127,7 @@ public class InvoiceCorrector {
         return premium.multiply(commissionPercentage).multiply(taxPercentage).multiply(dayMultiplier);
     }
 
-    public List<Period> merge(Collection<Period> paidPeriods,
+    private List<Period> merge(Collection<Period> paidPeriods,
                               Collection<Period> repaidPeriods) {
         // Using tree guarantees log(n) sorted insertion and log(n) popping of first element
         // Possible optimization would be a structure that can add to the front in constant time
@@ -122,18 +144,11 @@ public class InvoiceCorrector {
         repayments.addAll(repaidPeriods);
 
         List<Period> periods = new ArrayList<>();
-        System.out.println("merged");
-        System.out.println(payments);
-        System.out.println(repayments);
-
         while (repayments.size() > 0) {
             if (payments.size() == 0) {
                 throw new InvalidInvoiceItems("Day with more repayments than payments");
             }
 
-            System.out.println("iteration");
-            System.out.println(repayments);
-            System.out.println(payments);
             Period payment = payments.pollFirst();
             Period repayment = repayments.pollFirst();
             if (repayment.getStartDate().isBefore(payment.getStartDate())) {
@@ -171,8 +186,6 @@ public class InvoiceCorrector {
         periods.sort(Comparator.comparing(Period::getStartDate)
                 .thenComparing(Period::getEndDate));
         // Merge together consecutive periods
-        System.out.println("pre-merge");
-        System.out.println(periods);
         List<Period> mergedPeriods = new ArrayList<>();
 
         Period last = null;
@@ -204,9 +217,6 @@ public class InvoiceCorrector {
 
     public Pair<List<Period>, List<Period>> calculateCorrections(List<Period> paidPeriods, Period periodToPay) {
         List<Period> overPaid = new ArrayList<>(); // Shallow copy for modification
-        System.out.println("paid");
-        System.out.println(paidPeriods);
-        System.out.println(periodToPay);
         for (Period period : paidPeriods) {
             if (period.getEndDate().isBefore(periodToPay.getStartDate())
                     || period.getStartDate().isAfter(periodToPay.getEndDate())) {
