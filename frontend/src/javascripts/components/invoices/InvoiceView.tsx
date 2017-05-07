@@ -2,22 +2,8 @@ import React from 'react';
 
 import Card from '../app/Card.tsx';
 import DetailTable from '../tables/DetailTable.tsx';
-
+import DownloadButton from '../buttons/DownloadButton.tsx'
 import { th } from '../../utils/utils.ts';
-
-interface DownloadButtonProps {
-  onDownload : () => void;
-}
-
-const DownloadButton : React.StatelessComponent<DownloadButtonProps> = props => {
-  return (
-    <div className='col-sm-6'>
-      <button onClick={ props.onDownload } className='btn btn-default form-control'>
-        <span className='glyphicon glyphicon glyphicon-download-alt' /> Download PDF
-      </button>
-    </div>
-  );
-}
 
 interface Props {
   invoice : InvoiceData;
@@ -41,7 +27,7 @@ const InvoiceView : React.StatelessComponent<Props> = props => {
     <Card>
       <div className='card-content invoice'>
         <div className='row actions'>
-          <DownloadButton onDownload={ props.onDownload } />
+          <DownloadButton onDownload={ props.onDownload } label='Download PDF'/>
         </div>
       </div>
       <div className='card-content'>
