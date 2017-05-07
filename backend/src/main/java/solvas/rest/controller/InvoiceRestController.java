@@ -58,7 +58,7 @@ public class InvoiceRestController extends AbstractRestController<Invoice, ApiIn
     }
 
     @RequestMapping(value = "/fleets/{fleetId}/invoices/correct", method = RequestMethod.POST)
-    //@PreAuthorize("hasPermission(#fleetId, 'fleet', 'WRITE_INVOICES')")
+    @PreAuthorize("hasPermission(#fleetId, 'fleet', 'WRITE_INVOICES')")
     public ResponseEntity<?> getCorrectInvoiceByFleetId(@PathVariable int fleetId) throws EntityNotFoundException {
         boolean corrected = invoiceService.generateCorrectionsFor(fleetId);
         return new ResponseEntity<>(new HashMap<String, Object>() {{
