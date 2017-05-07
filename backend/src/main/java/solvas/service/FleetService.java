@@ -42,17 +42,17 @@ public class FleetService extends AbstractService<Fleet,ApiFleet> {
 
         final LocalDateTime endDate = LocalDateTime.now();
 
-        //Archive fleet subscriptions
-        ContractService contractService = new ContractService(context,new ContractMapper(context));
+        //Stop all active fleet subscriptions
         for (FleetSubscription subs:fleetSubscriptions){
-            // archive active contracts
+            //Stop all active contracts
             Collection<Contract> contracts = context.getContractDao().findByFleetSubscription(subs);
-            for(Contract contract:contracts) {
-                contractService.archive(contract.getId());
-            }
+            contracts.stream()
+                    .filter(c->c.getEndDate()!=null && c.getEndDate().isAfter(endDate))
+                    .forEach(c->{
+                        c.setEndDate(endDate);
+                        context.getContractDao().save(c);
+                    });
             subs.setEndDate(endDate.toLocalDate());
-
-            // TODO see if archived field has to be set to true
             context.getFleetSubscriptionDao().save(subs);
         }
 

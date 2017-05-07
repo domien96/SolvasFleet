@@ -13,6 +13,8 @@ import solvas.service.models.CompanyType;
 import solvas.service.models.Contract;
 import solvas.service.models.Fleet;
 
+import java.time.LocalDateTime;
+
 /**
  * CompanyService class
  */
@@ -33,24 +35,18 @@ public class CompanyService extends AbstractService<Company,ApiCompany> {
     @Override
     public void archive(int id) throws EntityNotFoundException {
         Company company = context.getCompanyDao().find(id);
-
-        // stop and archive each contract, when company is of type insurance company
-        if (company.getType().equals(CompanyType.INSURANCECOMPANY)){
-            ContractService contractService = new ContractService(context,new ContractMapper(context));
-            for (Contract contract:context.getContractDao().findByCompany(company)){
-                contractService.archive(contract.getId());
-            }
+        LocalDateTime now = LocalDateTime.now();
+        // stop each active contract
+        for (Contract contract:context.getContractDao().findByCompany(company)){
+            contract.setEndDate(now);
+            context.getContractDao().save(contract);
         }
 
-        // archive each fleet when the company is a customer
-        if (company.getType().equals(CompanyType.CUSTOMER)) {
-            FleetService fleetService = new FleetService(context, new FleetMapper(context));
-            for (Fleet fleet : context.getFleetDao().findByCompany(company)) {
-                fleetService.archive(fleet.getId());
-            }
+        // archive each fleet
+        FleetService fleetService = new FleetService(context, new FleetMapper(context));
+        for (Fleet fleet : context.getFleetDao().findByCompany(company)) {
+            fleetService.archive(fleet.getId());
         }
-
-        //TODO when company is leasing company
 
         super.archive(id);
     }
