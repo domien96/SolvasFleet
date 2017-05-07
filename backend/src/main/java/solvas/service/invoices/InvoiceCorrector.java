@@ -1,18 +1,32 @@
 package solvas.service.invoices;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
+import org.springframework.stereotype.Component;
+import solvas.persistence.api.DaoContext;
 import solvas.service.models.Contract;
 import solvas.service.models.InvoiceItem;
 import solvas.service.models.InvoiceItemType;
+import solvas.service.models.Tax;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+@Component
 public class InvoiceCorrector {
+    private final DaoContext daoContext;
+    private static final int PERCENTAGE_SCALE = 2;
 
-    public static Set<InvoiceItem> correctionItemsForContract(Contract contract) {
+    @Autowired
+    public InvoiceCorrector(DaoContext daoContext) {
+        this.daoContext = daoContext;
+    }
+
+    public Set<InvoiceItem> correctionItemsForContract(Contract contract, LocalDate correctBefore, int facturationPeriod) {
         Collection<InvoiceItem> invoiceItems = contract.getInvoiceItems();
         Collection<Period> paidPeriods = invoiceItems.stream()
                 .filter(item -> item.getType().equals(InvoiceItemType.PAYMENT))
@@ -27,36 +41,72 @@ public class InvoiceCorrector {
         List<Period> positivePeriods = merge(paidPeriods, repaidPeriods);
         Period periodToPay = new Period(contract.getStartDate().toLocalDate(), contract.getEndDate().toLocalDate());
         Pair<List<Period>, List<Period>> corrections = calculateCorrections(positivePeriods, periodToPay);
-        corrections.getFirst().forEach(System.out::println);
-        corrections.getSecond().forEach(System.out::println);
 
-        Set<InvoiceItem> items = corrections.getFirst().stream()
+        Set<InvoiceItem> items = limitPeriods(corrections.getFirst().stream(), correctBefore)
                 .map(period -> {
                     InvoiceItem item = new InvoiceItem();
                     item.setContract(contract);
                     item.setStartDate(period.getStartDate());
                     item.setEndDate(period.getEndDate());
                     item.setType(InvoiceItemType.REPAYMENT);
-                    item.setAmount(BigDecimal.TEN);//TODO
+                    item.setAmount(calculateTotal(item, facturationPeriod).negate());//TODO
                     return item;
                 })
                 .collect(Collectors.toSet());
-        items.addAll(corrections.getSecond().stream()
+
+        items.addAll(limitPeriods(corrections.getSecond().stream(), correctBefore)
                 .map(period -> {
                     InvoiceItem item = new InvoiceItem();
                     item.setContract(contract);
                     item.setStartDate(period.getStartDate());
                     item.setEndDate(period.getEndDate());
                     item.setType(InvoiceItemType.PAYMENT);
-                    item.setAmount(BigDecimal.ONE);//TODO
+                    item.setAmount(calculateTotal(item, facturationPeriod));
                     return item;
                 })
                 .collect(Collectors.toSet()));
         return items;
     }
 
-    public static List<Period> merge(Collection<Period> paidPeriods,
-                                     Collection<Period> repaidPeriods) {
+    private Stream<Period> limitPeriods(Stream<Period> unlimited, LocalDate correctBefore) {
+        LocalDate lastDay = correctBefore.minusDays(1);
+        return unlimited.filter(period -> period.getStartDate().isBefore(correctBefore))
+                .map(period -> {
+                    // Limit periods
+                    if (period.getEndDate().isAfter(lastDay)) {
+                        period = new Period(period.getStartDate(), lastDay);
+                    }
+
+                    return period;
+                });
+    }
+
+    public BigDecimal calculateTotal(InvoiceItem invoiceItem, int totalPeriod) {
+        return calculateTotal(invoiceItem, new BigDecimal(totalPeriod));
+    }
+
+    public BigDecimal calculateTotal(InvoiceItem invoiceItem, BigDecimal totalPeriod) {
+        Contract contract = invoiceItem.getContract();
+        Tax tax = daoContext.getTaxDao()
+                .findDistinctByVehicleTypeAndInsuranceType(
+                        contract.getFleetSubscription().getVehicle().getType(),
+                        contract.getInsuranceType());
+        BigDecimal taxPercentage = BigDecimal.ONE.add(tax.getTax());
+
+        long itemPeriod = ChronoUnit.DAYS.between(invoiceItem.getStartDate(), invoiceItem.getEndDate());
+
+        BigDecimal dayMultiplier = new BigDecimal(itemPeriod)
+                .divide(totalPeriod, PERCENTAGE_SCALE, BigDecimal.ROUND_HALF_UP);
+
+
+        // TODO: commission
+        BigDecimal commissionPercentage = BigDecimal.ONE; //.add(BigDecimal.valueOf(commission));
+        BigDecimal premium = BigDecimal.valueOf(contract.getPremium());
+        return premium.multiply(commissionPercentage).multiply(taxPercentage).multiply(dayMultiplier);
+    }
+
+    public List<Period> merge(Collection<Period> paidPeriods,
+                              Collection<Period> repaidPeriods) {
         // Using tree guarantees log(n) sorted insertion and log(n) popping of first element
         // Possible optimization would be a structure that can add to the front in constant time
         // However, this wouldn't change the complexity in big O-notation, and #lazy
@@ -152,7 +202,7 @@ public class InvoiceCorrector {
         return mergedPeriods;
     }
 
-    public static Pair<List<Period>, List<Period>> calculateCorrections(List<Period> paidPeriods, Period periodToPay) {
+    public Pair<List<Period>, List<Period>> calculateCorrections(List<Period> paidPeriods, Period periodToPay) {
         List<Period> overPaid = new ArrayList<>(); // Shallow copy for modification
         System.out.println("paid");
         System.out.println(paidPeriods);

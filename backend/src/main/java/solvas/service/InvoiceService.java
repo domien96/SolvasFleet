@@ -31,6 +31,8 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
     //Dao context
     protected DaoContext context;
 
+    private final InvoiceCorrector invoiceCorrector;
+
     /**
      * Construct an abstract service
      *
@@ -38,9 +40,10 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
      * @param mapper  the mapper between the api model and the model
      */
     @Autowired
-    public InvoiceService(DaoContext context, InvoiceMapper mapper) {
+    public InvoiceService(DaoContext context, InvoiceMapper mapper, InvoiceCorrector invoiceCorrector) {
         super(context.getInvoiceDao(), mapper);
         this.context = context;
+        this.invoiceCorrector = invoiceCorrector;
     }
 
 
@@ -59,7 +62,7 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
         } catch (EntityNotFoundException e) {
             // Todo what here?
 
-            // Definitely just not swallowing the exception!
+            // Definitely not just swallowing the exception!
             throw new RuntimeException(e);
         }
         return super.findAll(pagination, filters);
@@ -78,6 +81,9 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
             generateMissingInvoices(f.getFleet());
         } catch (EntityNotFoundException e) {
             // Todo what here?
+
+            // Definitely not just swallowing the exception!
+            throw new RuntimeException(e);
         }
         return super.findAll(filters);
     }
@@ -280,7 +286,7 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
                     } else {
                         item.setEndDate(invoice.getEndDate().toLocalDate());
                     }
-                    item.setAmount(BigDecimal.TEN); // TODO
+                    item.setAmount(invoiceCorrector.calculateTotal(item, invoice.getFleet().getFacturationPeriod()));
                     item.setType(InvoiceItemType.PAYMENT);
                     item.setContract(contract);
                     return item;
@@ -320,7 +326,7 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
                         item.setEndDate(invoice.getEndDate().toLocalDate());
                     }
                     item.setType(InvoiceItemType.PAYMENT);
-                    item.setAmount(BigDecimal.TEN); // TODO
+                    item.setAmount(invoiceCorrector.calculateTotal(item, invoice.getFleet().getFacturationPeriod()));
                     item.setContract(contract);
                     return item;
                 }).collect(Collectors.toSet());
@@ -395,18 +401,29 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
     }
 
     public boolean generateCorrectionsFor(int fleetId) throws EntityNotFoundException {
-        System.out.println(fleetId);
         return generateCorrectionsFor(context.getFleetDao().find(fleetId));
     }
 
-    // Important TODO: eager load
-    // TODO: don't fix stuff the next BillingInvoice will fix (or fix BillingInvoice to not fix this stuff)
+    // Important TODO: eager load fleetSubscriptions.contracts.invoiceItems
     public boolean generateCorrectionsFor(Fleet fleet) {
+        LocalDate lastDate = getLatestGeneratedInvoice(fleet, InvoiceType.BILLING);
         Set<InvoiceItem> corrections = fleet.getSubscriptions().stream()
                 .map(FleetSubscription::getContracts)
                 .flatMap(Set::stream)
-                .map(InvoiceCorrector::correctionItemsForContract)
+                .map(contract -> invoiceCorrector.correctionItemsForContract(
+                        contract,
+                        lastDate,
+                        fleet.getFacturationPeriod()))
                 .flatMap(Set::stream)
+                // Don't correct irregularities that have no billing invoice yet
+                .filter(item -> item.getStartDate().isBefore(lastDate))
+                .map(item -> {
+                    if(! item.getEndDate().isBefore(lastDate)) {
+                        // The check in filter will guarantee that endDate is still after or equal to startDate
+                        item.setEndDate(lastDate.minusDays(1));
+                    }
+                    return item;
+                })
                 .collect(Collectors.toSet());
 
         if(corrections.isEmpty()) {
@@ -420,9 +437,7 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
         invoice.setFleet(fleet);
         invoice.setPaid(false);
         invoice.setItems(corrections);
-        corrections.forEach(item -> {
-            item.setInvoice(invoice);
-        });
+        corrections.forEach(item -> item.setInvoice(invoice));
         modelDao.save(invoice);
 
         return true;

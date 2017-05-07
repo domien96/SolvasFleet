@@ -31,8 +31,12 @@ public class Invoice extends Model {
         this.fleet = fleet;
     }
 
+    /**
+     * Get sum of amount of all associated items
+     * @return The amount
+     */
     public BigDecimal getAmount() {
-        return BigDecimal.ONE; // TODO
+        return items.stream().map(InvoiceItem::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     public LocalDateTime getStartDate() {
