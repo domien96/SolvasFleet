@@ -69,20 +69,27 @@ public class InvoiceCorrector {
                 Comparator.comparing(Period::getStartDate)
                         .thenComparing(Period::getEndDate)
         );
-        payments.addAll(repaidPeriods);
+        repayments.addAll(repaidPeriods);
 
         List<Period> periods = new ArrayList<>();
+        System.out.println("merged");
+        System.out.println(payments);
+        System.out.println(repayments);
 
         while (repayments.size() > 0) {
             if (payments.size() == 0) {
                 throw new InvalidInvoiceItems("Day with more repayments than payments");
             }
 
+            System.out.println("iteration");
+            System.out.println(repayments);
+            System.out.println(payments);
             Period payment = payments.pollFirst();
             Period repayment = repayments.pollFirst();
             if (repayment.getStartDate().isBefore(payment.getStartDate())) {
                 throw new InvalidInvoiceItems("Day with more repayments than payments");
             }
+
 
             if (repayment.getStartDate().equals(payment.getStartDate())) {
                 if (repayment.getEndDate().equals(payment.getEndDate())) {
@@ -98,8 +105,8 @@ public class InvoiceCorrector {
             } else {
                 // First part of payment won't be cancelled out, so we are add it to the result collection
                 if (payment.getEndDate().isBefore(repayment.getStartDate())) {
-                    // payment ends before repayment starts, not sure if this can happen but it doesn't break the algorithm
                     periods.add(payment);
+                    repayments.add(repayment);
                 } else {
                     // Split in the part that won't be cancelled out and the part that will be cancelled out on the next iteration
                     periods.add(new Period(payment.getStartDate(), repayment.getStartDate().minusDays(1)));
@@ -110,10 +117,12 @@ public class InvoiceCorrector {
 
         }
 
-        periods.addAll(paidPeriods);
+        periods.addAll(payments);
         periods.sort(Comparator.comparing(Period::getStartDate)
                 .thenComparing(Period::getEndDate));
         // Merge together consecutive periods
+        System.out.println("pre-merge");
+        System.out.println(periods);
         List<Period> mergedPeriods = new ArrayList<>();
 
         Period last = null;
@@ -145,9 +154,9 @@ public class InvoiceCorrector {
 
     public static Pair<List<Period>, List<Period>> calculateCorrections(List<Period> paidPeriods, Period periodToPay) {
         List<Period> overPaid = new ArrayList<>(); // Shallow copy for modification
-
-        System.out.println(periodToPay);
+        System.out.println("paid");
         System.out.println(paidPeriods);
+        System.out.println(periodToPay);
         for (Period period : paidPeriods) {
             if (period.getEndDate().isBefore(periodToPay.getStartDate())
                     || period.getStartDate().isAfter(periodToPay.getEndDate())) {

@@ -420,11 +420,9 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
         invoice.setFleet(fleet);
         invoice.setPaid(false);
         invoice.setItems(corrections);
-        System.out.println(corrections.size());
         corrections.forEach(item -> {
             item.setInvoice(invoice);
         });
-        //corrections.forEach(corr-> System.out.println(corr.getId()));*/
         modelDao.save(invoice);
 
         return true;
