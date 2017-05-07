@@ -24,6 +24,10 @@ public class InvoiceCorrector {
     private final DaoContext daoContext;
     private static final int PERCENTAGE_SCALE = 2;
 
+    /**
+     * Create instance
+     * @param daoContext DaoContext
+     */
     @Autowired
     public InvoiceCorrector(DaoContext daoContext) {
         this.daoContext = daoContext;
@@ -215,7 +219,7 @@ public class InvoiceCorrector {
         return mergedPeriods;
     }
 
-    public Pair<List<Period>, List<Period>> calculateCorrections(List<Period> paidPeriods, Period periodToPay) {
+    private Pair<List<Period>, List<Period>> calculateCorrections(List<Period> paidPeriods, Period periodToPay) {
         List<Period> overPaid = new ArrayList<>(); // Shallow copy for modification
         for (Period period : paidPeriods) {
             if (period.getEndDate().isBefore(periodToPay.getStartDate())

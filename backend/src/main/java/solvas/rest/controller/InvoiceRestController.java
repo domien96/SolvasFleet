@@ -57,9 +57,15 @@ public class InvoiceRestController extends AbstractRestController<Invoice, ApiIn
         return new ModelAndView(InvoiceFileViewResolver.BILLING_INVOICE_PDF_VIEW, InvoicePdfView.MODEL_NAME, invoiceService.findCurrentInvoice(id));
     }
 
+    /**
+     * Find all correction and put them in one invoice
+     * @param fleetId Id of fleet to correct for
+     * @return ResponseEntity
+     * @throws EntityNotFoundException An entity (probably the fleet) wasn't found
+     */
     @RequestMapping(value = "/fleets/{fleetId}/invoices/correct", method = RequestMethod.POST)
     @PreAuthorize("hasPermission(#fleetId, 'fleet', 'WRITE_INVOICES')")
-    public ResponseEntity<?> getCorrectInvoiceByFleetId(@PathVariable int fleetId) throws EntityNotFoundException {
+    public ResponseEntity<?> getCorrectionInvoiceByFleetId(@PathVariable int fleetId) throws EntityNotFoundException {
         boolean corrected = invoiceService.generateCorrectionsFor(fleetId);
         return new ResponseEntity<>(new HashMap<String, Object>() {{
             put("corrections", corrected);
