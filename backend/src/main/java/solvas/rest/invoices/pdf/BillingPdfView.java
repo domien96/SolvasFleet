@@ -4,16 +4,12 @@ import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import org.springframework.stereotype.Component;
-import solvas.service.invoices.billing.BillingInvoice;
-import solvas.service.invoices.billing.Correction;
 import solvas.service.models.Invoice;
 import solvas.service.models.InvoiceItem;
 
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.time.format.DateTimeFormatter;
-import java.util.Collection;
-import java.util.stream.Collectors;
 
 /**
  * View for the billing invoice in PDF.

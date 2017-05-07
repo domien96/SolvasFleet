@@ -4,8 +4,6 @@ import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import org.springframework.stereotype.Component;
-import solvas.service.invoices.Cost;
-import solvas.service.invoices.PaymentInvoice;
 import solvas.service.models.Invoice;
 import solvas.service.models.InvoiceItem;
 

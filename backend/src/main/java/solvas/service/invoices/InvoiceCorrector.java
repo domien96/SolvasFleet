@@ -23,6 +23,7 @@ import java.util.stream.Stream;
 public class InvoiceCorrector {
     private final DaoContext daoContext;
     private static final int PERCENTAGE_SCALE = 2;
+    private final String TOO_MANY_REPAYMENT_MESSAGE = "Day with more repayments than payments";
 
     /**
      * Create instance
@@ -150,13 +151,13 @@ public class InvoiceCorrector {
         List<Period> periods = new ArrayList<>();
         while (repayments.size() > 0) {
             if (payments.size() == 0) {
-                throw new InvalidInvoiceItems("Day with more repayments than payments");
+                throw new InvalidInvoiceItems(TOO_MANY_REPAYMENT_MESSAGE);
             }
 
             Period payment = payments.pollFirst();
             Period repayment = repayments.pollFirst();
             if (repayment.getStartDate().isBefore(payment.getStartDate())) {
-                throw new InvalidInvoiceItems("Day with more repayments than payments");
+                throw new InvalidInvoiceItems(TOO_MANY_REPAYMENT_MESSAGE);
             }
 
 

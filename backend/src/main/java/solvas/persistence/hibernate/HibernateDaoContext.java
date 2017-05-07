@@ -14,19 +14,20 @@ public class HibernateDaoContext implements DaoContext {
 
     /**
      * Create DaoContext with Dao's
-     * @param companyDao
-     * @param fleetDao
-     * @param fleetSubscriptionDao
-     * @param roleDao
-     * @param userDao
-     * @param vehicleDao
-     * @param vehicleTypeDao
-     * @param contractDao
-     * @param insuranceTypeDao
-     * @param functionDao
-     * @param permissionDao
-     * @param invoiceDao
-     * @param taxDao
+     * @param companyDao Dao for companies
+     * @param fleetDao Dao for fleets
+     * @param fleetSubscriptionDao Dao for fleet subscriptions
+     * @param roleDao Dao for roles
+     * @param userDao Dao for users
+     * @param vehicleDao Dao for vehicles
+     * @param vehicleTypeDao Dao for vehicle types
+     * @param contractDao Dao for contracts
+     * @param insuranceTypeDao Dao for insurance types
+     * @param functionDao Dao for functions
+     * @param permissionDao Dao for permissions
+     * @param invoiceDao Dao for invoices
+     * @param taxDao Dao for taxes
+     * @param invoiceItemDao Dao for invoice items
      */
     @Autowired
     public HibernateDaoContext(CompanyDao companyDao, FleetDao fleetDao, FleetSubscriptionDao fleetSubscriptionDao,
