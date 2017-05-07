@@ -27,7 +27,9 @@ const InvoiceView : React.StatelessComponent<Props> = props => {
     <Card>
       <div className='card-content invoice'>
         <div className='row actions'>
-          <DownloadButton onDownload={ props.onDownload } label='Download PDF'/>
+          <div className='col-sm-6'>
+            <DownloadButton onDownload={ props.onDownload } label='Download PDF'/>
+          </div>
         </div>
       </div>
       <div className='card-content'>

@@ -7,7 +7,7 @@ interface DownloadButtonProps {
 
 const DownloadButton : React.StatelessComponent<DownloadButtonProps> = props => {
   return (
-    <div className='col-sm-6'>
+    <div>
       <button onClick={ props.onDownload } className='btn btn-default form-control'>
         <span className='glyphicon glyphicon glyphicon-download-alt' /> { props.label }
       </button>
