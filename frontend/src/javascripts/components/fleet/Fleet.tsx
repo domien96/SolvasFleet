@@ -5,6 +5,7 @@ import Card   from '../app/Card.tsx';
 import NestedCheckbox from '../app/NestedCheckbox.tsx';
 import SubfleetRow from './SubfleetRow.tsx';
 import InvoiceActions from './InvoiceActions.tsx';
+import FleetActions from './FleetActions.tsx';
 import T from 'i18n-react';
 
 import { fetchVehicles } from '../../actions/vehicle_actions.ts';
@@ -97,6 +98,7 @@ class Fleet extends React.Component<fleetProps, fleetState> {
           <h2>{ this.state.fleet.name }</h2>
         </Header>
         <InvoiceActions fleet={ this.props.params.id }/>
+        <FleetActions/>
         <div className='wrapper'>
           <Card>
             <div className='card-title'>
