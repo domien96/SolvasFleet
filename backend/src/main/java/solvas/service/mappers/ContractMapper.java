@@ -37,13 +37,17 @@ public class ContractMapper extends AbstractMapper<Contract,ApiContract> {
         contract.setCompany(daoContext.getCompanyDao().find(api.getInsuranceCompany()));
 
         Collection<FleetSubscription> sub = daoContext.getFleetSubscriptionDao().findByVehicle(
-                daoContext.getVehicleDao().find(api.getVehicle())).stream().filter(fleetSubscription -> {
-                    return true;/* //TODO remove as this is test
-                    return ((fleetSubscription.getStartDate().compareTo(api.getStartDate().toLocalDate()) <=0)
-                            && ((fleetSubscription.getEndDate()==null)  || (fleetSubscription.getEndDate().compareTo(api.getEndDate().toLocalDate()) >= 0 )));*/
-                }).collect(Collectors.toSet());
+                daoContext.getVehicleDao().find(api.getVehicle())).stream().filter(fleetSubscription ->
+                        (fleetSubscription.getStartDate().isBefore(api.getStartDate().toLocalDate())
+                                || fleetSubscription.getStartDate().isEqual(api.getStartDate().toLocalDate())
+                        )   &&
+                        ((fleetSubscription.getEndDate()==null)
+                                || (fleetSubscription.getEndDate().isAfter(api.getEndDate().toLocalDate()) )
+                                || (fleetSubscription.getEndDate().isEqual(api.getEndDate().toLocalDate()) )
+                        )
+                ).collect(Collectors.toSet());
 
-        if (sub.size()!=1) {throw new EntityNotFoundException(); }// TODO make beter exception
+        if (sub.size()!=1) {throw new EntityNotFoundException("Contract: Matched 2 fleet subscriptions"); }
 
         //Size of sub always = 1 see previous line, since a collection doesn't have a get method, a loop will do the trick
         sub.forEach(contract::setFleetSubscription);
