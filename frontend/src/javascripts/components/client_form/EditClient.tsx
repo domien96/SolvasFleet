@@ -6,6 +6,7 @@ import ClientForm from './ClientForm.tsx';
 import { fetchClient, putClient }    from '../../actions/client_actions.ts';
 import { hasError } from '../../utils/utils.ts';
 import { redirect_to } from'../../routes/router.tsx';
+import T from 'i18n-react';
 
 interface Props {
   [ params : string ] : { [ id : string ] : number };
@@ -59,7 +60,7 @@ class EditClient extends React.Component<Props, State> {
     return (
       <div>
         <Header>
-          <h2>Edit Client</h2>
+          <h2>{ T.translate('company.edit') }</h2>
         </Header>
         <ClientForm
           company={ this.state.company }

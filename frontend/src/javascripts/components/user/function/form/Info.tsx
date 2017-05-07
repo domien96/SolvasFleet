@@ -36,9 +36,6 @@ const Info : React.StatelessComponent<Props> = props => {
   return (
     <div className='col-xs-12 col-md-7'>
       <Card>
-        <div className='card-title'>
-          <h5>Role form</h5>
-        </div>
         <div className='card-content'>
           <FormChoice value={ role }      placeholder='function.role'      choices={ roleChoices }     callback={ handleChange('role') } />
           <FormChoice value={ company }   placeholder='function.company'   choices={ companyChoices }  callback={ handleChange('company') } />

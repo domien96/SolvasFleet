@@ -49,7 +49,7 @@ const InfoTable : React.StatelessComponent<Props> = props => {
         <thead className='thead-default'>
           <tr>
             {tableHead}
-            <th className='table-row'>Actions</th>
+            <th className='table-row'>{ T.translate('app.actions') }</th>
           </tr>
         </thead>
         <tbody>

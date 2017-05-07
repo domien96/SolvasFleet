@@ -5,6 +5,7 @@ import Card   from '../app/Card.tsx';
 import NestedCheckbox from '../app/NestedCheckbox.tsx';
 import SubfleetRow from './SubfleetRow.tsx';
 import InvoiceActions from './InvoiceActions.tsx';
+import T from 'i18n-react';
 
 import { fetchVehicles } from '../../actions/vehicle_actions.ts';
 import { group_by } from '../../utils/utils.ts';
@@ -99,8 +100,7 @@ class Fleet extends React.Component<fleetProps, fleetState> {
         <div className='wrapper'>
           <Card>
             <div className='card-title'>
-              <h5>Vehicles</h5>
-
+              <h5>{ T.translate('vehicle.vehicles') }</h5>
             </div>
             <div className='card-content not-padded'>
               <NestedCheckbox values={ nodes }>

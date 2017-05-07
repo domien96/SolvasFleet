@@ -37,7 +37,6 @@ class Invoice extends React.Component<Props, State> {
     var { fleetId, invoiceId } = this.props.params;
     let fail = (data : any) => console.log(data);
     fetchInvoicePdf(fleetId, invoiceId, ((data : any) => {
-      console.log(data);
       FileSaver.saveAs(data, `invoice${invoiceId}.${'pdf'}`);
     }), fail, {type:'billing'});
   }

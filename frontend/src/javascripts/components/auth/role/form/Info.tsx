@@ -28,9 +28,6 @@ const Info : React.StatelessComponent<Props> = props => {
   return (
     <div className='col-xs-12 col-md-7'>
       <Card>
-        <div className='card-title'>
-          <h5>Role form</h5>
-        </div>
         <div className='card-content'>
           <FormField value={ name }  placeholder='role.name'  type='text'  callback={ props.handleChange }  hasError={ props.hasError('name')} />
           { checkboxes }

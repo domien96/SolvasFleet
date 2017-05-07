@@ -6,6 +6,7 @@ import UserForm from './UserForm.tsx';
 import { fetchUser, putUser } from '../../actions/user_actions.ts';
 import { hasError } from '../../utils/utils.ts';
 import { redirect_to } from'../../routes/router.tsx';
+import T from 'i18n-react';
 
 interface Props {
   params : { id : number };
@@ -55,7 +56,7 @@ class EditUser extends React.Component<Props, State> {
     return (
       <div>
         <Header>
-          <h2>Edit User</h2>
+          <h2>{ T.translate('user.edit') }</h2>
         </Header>
         <UserForm
           user={ this.state.user }

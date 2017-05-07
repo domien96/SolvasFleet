@@ -3,6 +3,7 @@ import React from 'react';
 import Header    from '../app/Header.tsx';
 import VehicleFilter    from './filters/VehicleFilter.tsx'
 import Listing from '../app/Listing.tsx';
+import T from 'i18n-react';
 
 interface Props {
   response:ListResponse;
@@ -15,7 +16,7 @@ const Layout : React.StatelessComponent<Props> = props => {
   return (
     <div>
       <Header>
-        <h2>Vehicles</h2>
+        <h2>{ T.translate('vehicle.vehicles') }</h2>
       </Header>
       <div className='wrapper'>
         <div className='row'>
