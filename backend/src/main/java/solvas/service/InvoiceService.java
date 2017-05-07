@@ -442,6 +442,4 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
 
         return true;
     }
-
-
 }

@@ -29,7 +29,7 @@
         <many-to-one name="company" column="company_id"
                      class="solvas.service.models.Company" not-null="true"/>
 
-        <set name="invoiceItems" table="invoice_items" lazy="true">
+        <set name="invoiceItems" table="invoice_items" lazy="false">
             <key column="contract_id" />
             <one-to-many class="solvas.service.models.InvoiceItem"/>
         </set>
