@@ -278,22 +278,25 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
                 .findByFleetSubscriptionFleetAndStartDateBeforeAndEndDateAfter(invoice.getFleet(), startLimit, endLimit);
 
         Set<InvoiceItem> items = contracts.stream()
-                .map(contract -> {
-                    InvoiceItem item = new InvoiceItem();
-                    item.setInvoice(invoice);
-                    item.setStartDate(invoice.getStartDate().toLocalDate());
-                    if(contract.getEndDate() != null && contract.getEndDate().isBefore(invoice.getEndDate())) {
-                        item.setEndDate(contract.getEndDate().toLocalDate());
-                    } else {
-                        item.setEndDate(invoice.getEndDate().toLocalDate());
-                    }
-                    item.setAmount(invoiceCorrector.calculateTotal(item, invoice.getFleet().getFacturationPeriod()));
-                    item.setType(InvoiceItemType.PAYMENT);
-                    item.setContract(contract);
-                    return item;
-                }).collect(Collectors.toSet());
+                .map(contract -> buildInvoiceItem(contract, invoice))
+                .collect(Collectors.toSet());
         invoice.setItems(items);
         return invoice;
+    }
+
+    private InvoiceItem buildInvoiceItem(Contract contract, Invoice invoice) {
+        InvoiceItem item = new InvoiceItem();
+        item.setInvoice(invoice);
+        item.setStartDate(invoice.getStartDate().toLocalDate());
+        if(contract.getEndDate() != null && contract.getEndDate().isBefore(invoice.getEndDate())) {
+            item.setEndDate(contract.getEndDate().toLocalDate());
+        } else {
+            item.setEndDate(invoice.getEndDate().toLocalDate());
+        }
+        item.setContract(contract);
+        item.setType(InvoiceItemType.PAYMENT);
+        item.setAmount(invoiceCorrector.calculateTotal(item, invoice.getFleet().getFacturationPeriod()));
+        return item;
     }
 
     /**
@@ -317,20 +320,8 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
                 .findByFleetSubscriptionFleetAndStartDateAfterAndStartDateLessThanEqual(invoice.getFleet(), startLimit.plusDays(1), endLimit);
 
         Set<InvoiceItem> items = started.stream()
-                .map(contract -> {
-                    InvoiceItem item = new InvoiceItem();
-                    item.setInvoice(invoice);
-                    item.setStartDate(contract.getStartDate().toLocalDate());
-                    if(contract.getEndDate() != null && contract.getEndDate().isBefore(invoice.getEndDate())) {
-                        item.setEndDate(contract.getEndDate().toLocalDate());
-                    } else {
-                        item.setEndDate(invoice.getEndDate().toLocalDate());
-                    }
-                    item.setType(InvoiceItemType.PAYMENT);
-                    item.setAmount(invoiceCorrector.calculateTotal(item, invoice.getFleet().getFacturationPeriod()));
-                    item.setContract(contract);
-                    return item;
-                }).collect(Collectors.toSet());
+                .map(contract -> buildInvoiceItem(contract, invoice))
+                .collect(Collectors.toSet());
         invoice.setItems(items);
         return invoice;
     }
