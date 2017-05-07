@@ -5,6 +5,7 @@ import solvas.service.models.Contract;
 import solvas.service.models.InvoiceItem;
 import solvas.service.models.InvoiceItemType;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -26,16 +27,17 @@ public class InvoiceCorrector {
         List<Period> positivePeriods = merge(paidPeriods, repaidPeriods);
         Period periodToPay = new Period(contract.getStartDate().toLocalDate(), contract.getEndDate().toLocalDate());
         Pair<List<Period>, List<Period>> corrections = calculateCorrections(positivePeriods, periodToPay);
-        System.out.println(corrections.getFirst());
-        System.out.println(corrections.getSecond());
-        System.out.println("a");
+        corrections.getFirst().forEach(System.out::println);
+        corrections.getSecond().forEach(System.out::println);
+
         Set<InvoiceItem> items = corrections.getFirst().stream()
                 .map(period -> {
                     InvoiceItem item = new InvoiceItem();
                     item.setContract(contract);
                     item.setStartDate(period.getStartDate());
                     item.setEndDate(period.getEndDate());
-                    item.setType(InvoiceItemType.PAYMENT);
+                    item.setType(InvoiceItemType.REPAYMENT);
+                    item.setAmount(BigDecimal.TEN);//TODO
                     return item;
                 })
                 .collect(Collectors.toSet());
@@ -45,12 +47,11 @@ public class InvoiceCorrector {
                     item.setContract(contract);
                     item.setStartDate(period.getStartDate());
                     item.setEndDate(period.getEndDate());
-                    item.setType(InvoiceItemType.REPAYMENT);
+                    item.setType(InvoiceItemType.PAYMENT);
+                    item.setAmount(BigDecimal.ONE);//TODO
                     return item;
                 })
                 .collect(Collectors.toSet()));
-        System.out.println(items);
-        System.out.println(items.size());
         return items;
     }
 
@@ -145,6 +146,8 @@ public class InvoiceCorrector {
     public static Pair<List<Period>, List<Period>> calculateCorrections(List<Period> paidPeriods, Period periodToPay) {
         List<Period> overPaid = new ArrayList<>(); // Shallow copy for modification
 
+        System.out.println(periodToPay);
+        System.out.println(paidPeriods);
         for (Period period : paidPeriods) {
             if (period.getEndDate().isBefore(periodToPay.getStartDate())
                     || period.getStartDate().isAfter(periodToPay.getEndDate())) {
@@ -196,16 +199,14 @@ public class InvoiceCorrector {
             // We are now sure this is some overlap
             if (period.getStartDate().equals(periodToPay.getStartDate())) {
                 if (period.getEndDate().isAfter(periodToPay.getEndDate())
-                        || period.getEndDate().equals(periodToPay.getStartDate())) {
+                        || period.getEndDate().equals(periodToPay.getEndDate())) {
                     // Fully paid
                     periodToPay = null;
                     break;
                 }
 
                 periodToPay = new Period(period.getEndDate().plusDays(1), periodToPay.getEndDate());
-            }
-
-            if (period.getStartDate().isAfter(periodToPay.getStartDate())) {
+            } else if (period.getStartDate().isAfter(periodToPay.getStartDate())) {
                 // Costs for begin of this period aren't covered
                 toPay.add(new Period(periodToPay.getStartDate(), period.getStartDate().minusDays(1)));
 
@@ -221,8 +222,8 @@ public class InvoiceCorrector {
                 // Paid for first part of period, check for next in next iterations
                 periodToPay = new Period(period.getEndDate().plusDays(1), periodToPay.getEndDate());
             } else {
-                // This should never happen, this is a security measure so a possible bug doesn't go undetected
-                throw new RuntimeException("A bug occured");
+                periodToPay = null; // We overpaid this period, but this is already calculated
+                break;
             }
         }
 

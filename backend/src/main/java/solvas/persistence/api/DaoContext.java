@@ -92,5 +92,9 @@ public interface DaoContext {
      */
     TaxDao getTaxDao();
 
-
+    /**
+     * Get InvoiceItemDao for this content
+     * @return An InvoiceItemDao
+     */
+    InvoiceItemDao getInvoiceItemDao();
 }

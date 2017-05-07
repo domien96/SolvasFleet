@@ -9,29 +9,29 @@
             This class contains the invoices items.
         </meta>
         <id name="id" type="int" column="invoice_item_id">
+            <!-- Identity generator doesn't support batch insertions -->
+
             <generator class="org.hibernate.id.enhanced.SequenceStyleGenerator">
-                <!-- Identity generator doesn't support batch insertions -->
-                <param name="sequence_name">invoice_items_invoice_item_id_seq</param>
-                <param name="optimizer">hilo</param>
-            </generator>
-        </id>
-        <property name="amount" column="amount" type="big_decimal" not-null="true"/>
-        <property name="type" column="type" not-null="true">
-            <type name="org.hibernate.type.EnumType" >
-                <param name="enumClass">solvas.service.models.InvoiceItemType</param>
-                <param name="useNamed">true</param>
-                <param name="type">12</param>
-            </type>
-        </property>
-        <property name="startDate" column="start_date" type="java.time.LocalDate" not-null="true" />
-        <property name="endDate" column="end_date" type="java.time.LocalDate" not-null="true" />
+                 <param name="sequence_name">invoice_items_invoice_item_id_seq</param>
+             </generator>
+         </id>
+         <property name="amount" column="amount" type="big_decimal" not-null="true"/>
+         <property name="type" column="type" not-null="true">
+             <type name="org.hibernate.type.EnumType" >
+                 <param name="enumClass">solvas.service.models.InvoiceItemType</param>
+                 <param name="useNamed">true</param>
+                 <param name="type">12</param>
+             </type>
+         </property>
+         <property name="startDate" column="start_date" type="java.time.LocalDate" not-null="true" />
+         <property name="endDate" column="end_date" type="java.time.LocalDate" not-null="true" />
 
-        <many-to-one name="invoice" column="invoice_id"
-                     class="solvas.service.models.Invoice" not-null="true"/>
-        <many-to-one name="contract" column="contract_id"
-                     class="solvas.service.models.Contract" not-null="true"/>
+         <many-to-one name="invoice" column="invoice_id"
+                      class="solvas.service.models.Invoice" not-null="true"/>
+         <many-to-one name="contract" column="contract_id"
+                      class="solvas.service.models.Contract" not-null="true"/>
 
-        <property name="updatedAt" column="updated_at" type="java.time.LocalDateTime" generated="always" insert="false"/>
-        <property name="createdAt" column="created_at" type="java.time.LocalDateTime" generated="insert" insert="false"/>
-    </class>
-</hibernate-mapping>
+         <property name="updatedAt" column="updated_at" type="java.time.LocalDateTime" generated="always" insert="false"/>
+         <property name="createdAt" column="created_at" type="java.time.LocalDateTime" generated="insert" insert="false"/>
+     </class>
+ </hibernate-mapping>
