@@ -29,13 +29,38 @@ public class PdfPCellBuilder {
         return this;
     }
 
+    public PdfPCellBuilder setRowSpan(int x) {
+        c.setRowspan(x);
+        return this;
+    }
+
     public PdfPCellBuilder setFixedheight(float x) {
         c.setFixedHeight(x);
         return this;
     }
 
+    public PdfPCellBuilder setMinimumHeight(float x) {
+        c.setMinimumHeight(x);
+        return this;
+    }
+
+    public PdfPCellBuilder setVerticalAlignment(int x) {
+        c.setVerticalAlignment(x);
+        return this;
+    }
+
+    public PdfPCellBuilder setHorizontalAlignment(int x) {
+        c.setHorizontalAlignment(x);
+        return this;
+    }
+
     public PdfPCellBuilder addElement(Element e) {
         c.addElement(e);
+        return this;
+    }
+
+    public PdfPCellBuilder setBorder(int border) {
+        c.setBorder(border);
         return this;
     }
 

@@ -8,6 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import solvas.persistence.api.EntityNotFoundException;
+import solvas.persistence.api.dao.VehicleDao;
 import solvas.rest.greencard.GreenCardViewResolver;
 import solvas.rest.greencard.pdf.GreenCardPdfView;
 import solvas.rest.utils.JsonListWrapper;
@@ -25,6 +26,9 @@ import java.util.Collection;
  */
 @RestController
 public class VehicleRestController extends AbstractRestController<Vehicle,ApiVehicle> {
+
+    @Autowired
+    private VehicleDao dao;
 
     /**
      * Rest controller for Vehicle
@@ -98,7 +102,7 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
     @RequestMapping(value = "/vehicles/{vehicleId}/greencard.pdf", method = RequestMethod.GET)
     @PreAuthorize("hasPermission(#vehicleId, 'vehicle', 'READ')")
     public ModelAndView getByFleetAndInvoiceIdWithExtension(@PathVariable int vehicleId) throws EntityNotFoundException {
-        ApiVehicle v = service.getById(vehicleId);
+        Vehicle v = dao.find(vehicleId);
         return new ModelAndView(GreenCardViewResolver.GREEN_CARD_PDF_VIEW, GreenCardPdfView.class.getCanonicalName(), v);
     }
 
