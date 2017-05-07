@@ -95,7 +95,9 @@ public class VehicleMapperTest {
     @Test
     public void convertToApiVehicle()
     {
+        final int year= 1800;
         Vehicle vehicle = random(Vehicle.class);
+        vehicle.setYear(year); // Year cannot be that random
         when(fleetSubscriptionDao.activeForVehicle(any(Vehicle.class))).thenReturn(Optional.empty());
         ApiVehicle converted = mapper.convertToApiModel(vehicle);
 
