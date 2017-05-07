@@ -38,6 +38,7 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
      *
      * @param context the DAO context
      * @param mapper  the mapper between the api model and the model
+     * @param invoiceCorrector Correct to retroactively correct invoices
      */
     @Autowired
     public InvoiceService(DaoContext context, InvoiceMapper mapper, InvoiceCorrector invoiceCorrector) {
