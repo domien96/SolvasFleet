@@ -125,7 +125,7 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
      * @return ResponseEntity
      */
     @PostMapping("/vehicles/upload")
-  // TODO ADD AGAIN  @PreAuthorize("hasPermission(#file, 'CREATE')")
+    @PreAuthorize("hasPermission(0, 'vehicle', 'IMPORT_VEHICLES')")
     public ResponseEntity<?> importCSV(@RequestParam("file") MultipartFile file) {
         CSVReader csvReader = null;
         try {
