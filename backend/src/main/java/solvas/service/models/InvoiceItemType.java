@@ -1,11 +1,8 @@
 package solvas.service.models;
 
+/**
+ * Enum representing invoice item type
+ */
 public enum InvoiceItemType {
-    PAYMENT(1),REPAYMENT(-1);
-
-    private final int factor;
-
-    InvoiceItemType(int factor) {
-        this.factor = factor;
-    }
+    PAYMENT(), REPAYMENT()
 }

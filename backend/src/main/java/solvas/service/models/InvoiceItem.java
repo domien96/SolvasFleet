@@ -4,6 +4,9 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
+/**
+ * Model representing an item on an {@link Invoice}
+ */
 public class InvoiceItem extends Model {
     private Contract contract;
     private Invoice invoice;
