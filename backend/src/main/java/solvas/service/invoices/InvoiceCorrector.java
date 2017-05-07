@@ -42,15 +42,15 @@ public class InvoiceCorrector {
      */
     public Set<InvoiceItem> correctionItemsForContract(Contract contract, LocalDate correctBefore, int facturationPeriod) {
         Collection<InvoiceItem> invoiceItems = contract.getInvoiceItems();
-        Collection<Period> paidPeriods = invoiceItems.stream()
-                .filter(item -> item.getType().equals(InvoiceItemType.PAYMENT))
-                .map(item -> new Period(item.getStartDate(), item.getEndDate()))
-                .collect(Collectors.toList());
 
-        Collection<Period> repaidPeriods = invoiceItems.stream()
-                .filter(item -> item.getType().equals(InvoiceItemType.REPAYMENT))
-                .map(item -> new Period(item.getStartDate(), item.getEndDate()))
-                .collect(Collectors.toList());
+        Map<InvoiceItemType, List<Period>> groupedItems = invoiceItems.stream()
+                .collect(Collectors.groupingBy(
+                        InvoiceItem::getType,
+                        Collectors.mapping(t -> new Period(t.getStartDate(), t.getEndDate()), Collectors.toList())
+                ));
+
+        Collection<Period> paidPeriods = groupedItems.get(InvoiceItemType.PAYMENT);
+        Collection<Period> repaidPeriods = groupedItems.get(InvoiceItemType.REPAYMENT);
 
         List<Period> positivePeriods = merge(paidPeriods, repaidPeriods);
         Period periodToPay = new Period(contract.getStartDate().toLocalDate(), contract.getEndDate().toLocalDate());
