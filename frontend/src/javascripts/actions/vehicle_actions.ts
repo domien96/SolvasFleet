@@ -23,5 +23,5 @@ export function deleteVehicle( id : number, success? : callback, fail? : callbac
 }
 
 export function fetchGreencardPdf(id : number, success? : callback, fail? : callback, query? : any) {
-  GETPDF( VEHICLE_PDF_URL(id), success, fail, query );
+  GETPDF( VEHICLE_GREENCARD_PDF_URL(id), success, fail, query );
 }
