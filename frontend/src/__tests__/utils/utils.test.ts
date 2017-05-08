@@ -15,10 +15,12 @@ test('test pluck',()=>{
 });
 
 test('test hasError',()=>{
+
   var s = {"state":{"errors":[{"field":"error1","error":"a"},{"field":"error2","error":"b"}]}};
-  expect(hasError(s,"error1")).toBeTruthy();
-  expect(hasError(s,"")).toBeFalsy();
-  expect(hasError(s,"erro3")).toBeFalsy();
+  var h =hasError.bind(s);
+  expect(h("error1")).toBeTruthy();
+  expect(h("")).toBeFalsy();
+  expect(h("erro3")).toBeFalsy();
 })
 
 test('group_by',()=>{
