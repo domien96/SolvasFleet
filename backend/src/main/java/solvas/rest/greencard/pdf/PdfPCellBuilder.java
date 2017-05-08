@@ -34,7 +34,7 @@ public class PdfPCellBuilder {
         return this;
     }
 
-    public PdfPCellBuilder setFixedheight(float x) {
+    public PdfPCellBuilder setFixedHeight(float x) {
         c.setFixedHeight(x);
         return this;
     }

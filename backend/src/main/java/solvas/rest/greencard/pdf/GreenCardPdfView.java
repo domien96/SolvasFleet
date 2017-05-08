@@ -1,7 +1,6 @@
 package solvas.rest.greencard.pdf;
 
 import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -9,9 +8,7 @@ import com.itextpdf.text.pdf.draw.VerticalPositionMark;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import solvas.persistence.api.dao.FleetSubscriptionDao;
-import solvas.persistence.api.dao.VehicleDao;
 import solvas.rest.invoices.pdf.AbstractITextPdfView;
-import solvas.service.VehicleService;
 import solvas.service.models.Company;
 import solvas.service.models.FleetSubscription;
 import solvas.service.models.Vehicle;
@@ -20,8 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
 
@@ -51,9 +46,11 @@ public class GreenCardPdfView extends AbstractITextPdfView {
         document.add(card);
     }
 
-    private Font normal = new Font(Font.FontFamily.HELVETICA,8);
-    private Font normalB = new Font(Font.FontFamily.HELVETICA,8, Font.BOLD);
-    private Font largeB = new Font(Font.FontFamily.HELVETICA,11, Font.BOLD);
+    private static final int normalSize = 8;
+    private static final Font normal = new Font(Font.FontFamily.HELVETICA,normalSize);
+    private static final Font normalB = new Font(Font.FontFamily.HELVETICA,normalSize, Font.BOLD);
+    private static final int largeSize = 11;
+    private static final Font largeB = new Font(Font.FontFamily.HELVETICA,largeSize, Font.BOLD);
 
     /*********************************************************************************
      * Each section on a green card has a number.
@@ -106,7 +103,7 @@ public class GreenCardPdfView extends AbstractITextPdfView {
 
     /**
      * Retrieves dates of active subscription for this vehicle.
-     * If no active subscription is present then allarray values will be a slash.
+     * If no active subscription is present then all array values will be a slash.
      * @return array of length 6 with format : startday,startmonth,startyear,endday,endmonth,endyear
      */
     private String[] getSubscriptionDates() {
@@ -121,9 +118,9 @@ public class GreenCardPdfView extends AbstractITextPdfView {
                 res[2] = String.valueOf(start.getYear());
             }
             if(end!= null) {
-                res[1] = String.valueOf(end.getDayOfMonth());
-                res[2] = String.valueOf(end.getMonth().getValue());
-                res[3] = String.valueOf(end.getYear());
+                res[3] = String.valueOf(end.getDayOfMonth());
+                res[4] = String.valueOf(end.getMonth().getValue());
+                res[5] = String.valueOf(end.getYear());
             }
         }
         return res;
@@ -156,12 +153,12 @@ public class GreenCardPdfView extends AbstractITextPdfView {
         countries.setWidthPercentage(100);
         for(String code : "BE,BG,CZ,DK,DE,EE,IE,EL,ES,FR,HR,IT,CY,LV,LT,LU,HU,MT,NL,AT,PL,PT,RO,SI,SK,FI,SE,UK,IS,NO,LI".split(",")) {
             countries.addCell(new PdfPCellBuilder(new Paragraph(code,largeB)).setBorder(Rectangle.NO_BORDER)
-                    .setFixedheight(Utilities.millimetersToPoints(10)).build());
+                    .setFixedHeight(Utilities.millimetersToPoints(10)).build());
         }
-        c.addCell(new PdfPCellBuilder().addElement(countries).setFixedheight(Utilities.millimetersToPoints(10))
+        c.addCell(new PdfPCellBuilder().addElement(countries).setFixedHeight(Utilities.millimetersToPoints(10))
                 .setVerticalAlignment(Element.ALIGN_MIDDLE).build());
         c.setWidthPercentage(100);
-        card.addCell(new PdfPCellBuilder().setColSpan(4).setFixedheight(Utilities.millimetersToPoints(35))
+        card.addCell(new PdfPCellBuilder().setColSpan(4).setFixedHeight(Utilities.millimetersToPoints(35))
                 .addElement(c).build()); // table wrapped in cell to be able to set some layout constraints.
     }
 
