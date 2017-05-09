@@ -1,5 +1,6 @@
 package solvas.persistence.api.dao;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  * @author Sjabasti
  */
+@Ignore
 public class ContractDaoTest extends DaoTest {
 
     @Autowired
