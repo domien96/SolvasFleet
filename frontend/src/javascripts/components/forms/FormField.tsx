@@ -8,6 +8,7 @@ interface Props {
   hasError: boolean;
   callback: (e: any) => void;
   value: any;
+  name?: string
 }
 
 const FormField: React.StatelessComponent<Props> = props => {
@@ -22,6 +23,7 @@ const FormField: React.StatelessComponent<Props> = props => {
         placeholder={ label }
         className='form-control'
         onChange= { props.callback }
+        name={props.name ||  ''}
         value={ props.value || '' }/>
     </div>
   );

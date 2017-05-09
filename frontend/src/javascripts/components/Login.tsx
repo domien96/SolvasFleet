@@ -58,23 +58,29 @@ class Login extends React.Component<{}, State> {
 
   render() {
     return (
-      <div className='container'>
-        <div className='row'>
-          <div className='col-xs-12 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4'>
+      <div className='container vertical-center'>
+          <div className='center-block'>
             <Card>
               <div className='card-content'>
+                <div className='center-block'>
+                  <img className='login-logo' src="http://www.solvas.be/images/logo.png"/>
+                </div>
+                <div className="error">
+                </div>
                 <div className='login-form-wrapper'>
                   <form method='POST' onSubmit={this.onSubmit} className='login-form' >
                     <FormField
                       value={ this.state.email }
                       placeholder='form.placeholders.email'
                       type='email'
+                      name='email'
                       callback={ this.handleEmailChange }
                       hasError={ this.hasError('email')} />
                     <FormField
                       value={ this.state.password }
                       placeholder='form.placeholders.password'
                       type='password'
+                      name='password'
                       callback={ this.handlePasswordChange }
                       hasError={ this.hasError('password')} />
                     <button type='submit' className='btn btn-default' >
@@ -84,7 +90,6 @@ class Login extends React.Component<{}, State> {
                 </div>
               </div>
             </Card>
-          </div>
         </div>
       </div>
     );

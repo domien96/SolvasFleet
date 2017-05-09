@@ -50,12 +50,13 @@ class Fleets extends React.Component<Props, State> {
     };
 
     postFleet(this.props.company, this.state.fleet, success, fail);
-  }
+}
 
   render() {
     return (
       <FleetsCard
         fleets={ this.props.fleets }
+        errors={ this.state.errors }
         onSubmit={ this.onSubmit }
         handleChange={ this.handleChange }
         formIsVisible={ this.state.formVisible }

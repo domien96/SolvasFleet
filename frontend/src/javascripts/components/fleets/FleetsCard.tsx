@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import { Collapse } from 'react-bootstrap';
 import T from 'i18n-react';
-
+import Errors     from '../app/Errors.tsx';
 import Card from '../app/Card.tsx';
 import FleetForm from '../fleets/FleetForm.tsx';
 
@@ -31,6 +31,7 @@ interface Props {
   formIsVisible: boolean;
   fleets: FleetData[];
   fleet: FleetData;
+  errors: Form.Error[];
 }
 
 const FleetsCard: React.StatelessComponent<Props> = props => {
@@ -51,7 +52,8 @@ const FleetsCard: React.StatelessComponent<Props> = props => {
         <div className='fleet-form-wrapper'>
           <Collapse in={ props.formIsVisible }>
             <div>
-              <FleetForm handleChange={ props.handleChange } onSubmit={ props.onSubmit } fleet={props.fleet} />
+              <Errors errors={ props.errors } />
+              <FleetForm handleChange={ props.handleChange } onSubmit={ props.onSubmit } fleet={ props.fleet }/>
             </div>
           </Collapse>
         </div>
