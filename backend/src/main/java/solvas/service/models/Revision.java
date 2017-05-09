@@ -1,0 +1,58 @@
+package solvas.service.models;
+
+import org.hibernate.type.EnumType;
+
+import java.time.LocalDateTime;
+
+/**
+ * Created by steve on 09/05/2017.
+ */
+public class Revision extends Model {
+    private Model entity;
+    private EntityType entityType;
+    private LocalDateTime logDate;
+    private User user;
+    private MethodType method;
+
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public LocalDateTime getLogDate() {
+        return logDate;
+    }
+
+    public void setLogDate(LocalDateTime logDate) {
+        this.logDate = logDate;
+    }
+
+    public Model getEntity() {
+        return entity;
+    }
+
+    public void setEntity(Model entity) {
+        this.entity = entity;
+
+    }
+
+    public EntityType getEntityType() {
+        return entityType;
+    }
+
+    public void setEntityType(EntityType entityType) {
+        this.entityType = entityType;
+    }
+
+    public MethodType getMethod() {
+        return method;
+    }
+
+    public void setMethod(MethodType method) {
+        this.method = method;
+    }
+}
