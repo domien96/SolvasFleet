@@ -15,6 +15,7 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import solvas.service.AuditInterceptor;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
@@ -108,10 +109,13 @@ public class HibernateConfig {
      * @throws IOException Couldn't load the hibernate configuration/mapping files
      */
     @Bean
-    public EntityManagerFactory entityManagerFactory(DataSource dataSource) throws IOException {
+    @DependsOn("auditInterceptor") //HibernateInterceptor, no capital letter at the beginning of the word
+    public EntityManagerFactory entityManagerFactory(DataSource dataSource,AuditInterceptor hibernateInterceptor) throws IOException {
         LocalContainerEntityManagerFactoryBean  entityManager = new LocalContainerEntityManagerFactoryBean();
         entityManager.setDataSource(dataSource);
-        entityManager.setJpaProperties(getHibernateProperties());
+        Properties properties = getHibernateProperties();
+        properties.put("hibernate.ejb.interceptor", hibernateInterceptor);
+        entityManager.setJpaProperties(properties);
         Resource[] resources = loadResources();
         String[] paths = new String[resources.length];
         for (int i = 0; i < resources.length; i++) {
@@ -120,7 +124,9 @@ public class HibernateConfig {
         String[] pr = Arrays.stream(paths).map(p -> "/mappings/" + p).toArray(String[]::new);
         entityManager.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         entityManager.setMappingResources(pr);
+
         entityManager.afterPropertiesSet();
         return entityManager.getObject();
     }
+
 }
