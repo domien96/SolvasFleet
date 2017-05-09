@@ -29,8 +29,8 @@
         </property>
 
         <any name="entity" id-type="int" meta-type="string">
-            <meta-value value="VEHICLES" class="solvas.service.models.Vehicle"/>
-            <meta-value value="USERS" class="solvas.service.models.User"/>
+            <meta-value value="VEHICLE" class="solvas.service.models.Vehicle"/>
+            <meta-value value="USER" class="solvas.service.models.User"/>
             <meta-value value="company" class="solvas.service.models.Company"/>
             <column name="entity_type" />
             <column name="entity_id"/>

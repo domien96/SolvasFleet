@@ -5,7 +5,7 @@ package solvas.service.models;
  */
 public enum EntityType {
 
-    VEHICLES("vehicles"),USERS("users");
+    VEHICLE("vehicles"),USER("users");
 
 
     private String text;

@@ -1,6 +1,8 @@
+
+DROP TABLE IF EXISTS revisions;
 CREATE TABLE revisions (
   revision_id SERIAL NOT NULL,
-  entity_type INT NOT NULL, -- enum in java, example Vehicle Company
+  entity_type VARCHAR NOT NULL, -- enum in java, example Vehicle Company
   user_id INT NOT NULL REFERENCES users(user_id),
   entity_id INT NOT NULL,
   logDate TIMESTAMP , -- trigger?
