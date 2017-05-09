@@ -31,9 +31,6 @@ const Info : React.StatelessComponent<Props> = props => {
   return (
     <div className='col-xs-12 col-md-7'>
       <Card>
-        <div className='card-title'>
-          <h5>General info</h5>
-        </div>
         <div className='card-content'>
           <FormField value={ name }         placeholder='company.name'                type='text' callback={ handleChange('name', false) }         hasError={ props.hasError('name')}         />
           <FormField value={ vatNumber }    placeholder='company.vatNumber'           type='text' callback={ handleChange('vatNumber', false) }    hasError={ props.hasError('vatNumber')}   />

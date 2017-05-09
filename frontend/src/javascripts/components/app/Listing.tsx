@@ -15,8 +15,6 @@ interface Props {
   response:ListResponse
 }
 
-
-
 const Listing : React.StatelessComponent<Props>  = props =>  {
 
   const tablehead = props.columns.map(function(c){

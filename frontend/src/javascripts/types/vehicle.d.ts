@@ -14,7 +14,7 @@ interface VehicleData {
   type?           : string;
   mileage?        : number;
   year?           : number;
-  leasingCompany? : string;
+  leasingCompany? : number;
   value?          : number;
   fleet?          : number
   [key : string]  : string;

@@ -9,7 +9,6 @@ import java.util.Collection;
 /**
  * Filter for {@link Vehicle}s
  */
-@SuppressWarnings("unused")
 public class VehicleFilter extends ArchiveFilter<Vehicle> {
 
     private String vin;

@@ -47,7 +47,7 @@ const ExtendedInfoTable : React.StatelessComponent<Props> = props => {
         <thead className='thead-default'>
           <tr>
             {tableHead}
-            <th className='table-row'>Actions</th>
+            <th className='table-row'>{ T.translate('table.actions') }</th>
           </tr>
         </thead>
         <tbody>

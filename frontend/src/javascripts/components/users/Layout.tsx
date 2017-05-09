@@ -1,5 +1,5 @@
 import React from 'react';
-
+import T     from 'i18n-react';
 import Header    from '../app/Header.tsx';
 import Listing from '../app/Listing.tsx';
 
@@ -13,7 +13,7 @@ const Layout : React.StatelessComponent<Props> = props => {
   return (
     <div>
       <Header>
-        <h2>Users</h2>
+        <h2>{ T.translate('user.users') }</h2>
       </Header>
       <div className='wrapper'>
         <div className='row'>

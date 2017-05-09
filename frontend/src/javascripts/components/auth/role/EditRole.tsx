@@ -4,6 +4,7 @@ import Header     from '../../app/Header.tsx';
 import { putRole, fetchPermissions, fetchRole } from '../../../actions/auth_actions.ts';
 import { hasError } from '../../../utils/utils.ts';
 import { redirect_to } from'../../../routes/router.tsx';
+import T from 'i18n-react';
 
 import RoleForm from './form/RoleForm.tsx'
 
@@ -82,7 +83,7 @@ class EditRole extends React.Component<Props, State> {
     return (
       <div>
         <Header>
-          <h2>Edit role {this.state.role.name}</h2>
+          <h2>{ T.translate('role.edit') }: {this.state.role.name}</h2>
         </Header>
         <RoleForm
           role={ this.state.role }
