@@ -153,7 +153,7 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
         }
 
         if (bundledErrors.isEmpty()) {
-            list.forEach(v -> super.post(v, new BeanPropertyBindingResult("", "")));
+            list.forEach(v -> super.post(v, new BeanPropertyBindingResult("", ""))); // dummy bindingresult
             return ResponseEntity.noContent().build();
         } else {
             return new ResponseEntity<>(
