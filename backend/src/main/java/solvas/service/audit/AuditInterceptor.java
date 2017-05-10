@@ -56,8 +56,8 @@ public class AuditInterceptor extends EmptyInterceptor {
         for(int i=0; i < currentState.length;i++) { //currentState, previousState, propertyNames, types: all have same indices
             if (!previousState[i].equals(currentState[i])){
                 list.add(objectMapper.createObjectNode().put("field",propertyNames[i])
-                        .putPOJO("Old",previousState[i])
-                        .putPOJO("New",currentState[i])
+                        .putPOJO("old",previousState[i])
+                        .putPOJO("new",currentState[i])
                 );
             }
         }

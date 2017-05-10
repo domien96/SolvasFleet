@@ -7,6 +7,7 @@ CREATE TABLE revisions (
   entity_id INT NOT NULL,
   logDate TIMESTAMP , -- trigger?
   method INT NOT NULL, -- enum in java, example Insert, update,...
+  payload VARCHAR,
   PRIMARY KEY (revision_id)
 );
 

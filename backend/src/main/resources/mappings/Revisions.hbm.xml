@@ -19,6 +19,7 @@
 
 
         <property name="entity" column="entity_id" type="int" not-null="true" />
+        <property name="payload" column="payload" type="string" />
 
 
 
