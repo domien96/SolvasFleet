@@ -13,6 +13,8 @@ import java.time.LocalDateTime;
  * The extra types for which mappings are defined:
  *  LocalDateTime
  *
+ * @param <T> see CsvToBean
+ *
  * Created by domien on 11/05/2017.
  */
 public class MyCsvToBean<T> extends CsvToBean<T> {
