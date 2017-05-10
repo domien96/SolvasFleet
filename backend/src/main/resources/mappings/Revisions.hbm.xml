@@ -15,12 +15,16 @@
         <property name="logDate" column="logDate" type="java.time.LocalDateTime" not-null="true" /> <!-- perhaps update using a trigger-->
 
 
-        <!--<property name="entityType" column="entity_type">
+        <property name="entityType" column="entity_type">
             <type name="org.hibernate.type.EnumType">
                 <param name="enumClass">solvas.service.models.EntityType</param>
                 <param name="type">12</param>
             </type>
-        </property>-->
+        </property>
+
+        <property name="entity" column="entity_id" type="int" not-null="true" />
+
+
 
         <property name="method" column="method" not-null="true">
             <type name="org.hibernate.type.EnumType" >
@@ -28,13 +32,14 @@
             </type>
         </property>
 
-        <any name="entity" id-type="int" meta-type="string">
+        <!--
+        <any name="entityType"  id-type="int" meta-type="string">
             <meta-value value="VEHICLE" class="solvas.service.models.Vehicle"/>
             <meta-value value="USER" class="solvas.service.models.User"/>
-            <meta-value value="company" class="solvas.service.models.Company"/>
+            <meta-value value="COMPANY" class="solvas.service.models.Company"/>
             <column name="entity_type" />
             <column name="entity_id"/>
-        </any>
+        </any>-->
 
         <many-to-one name="user" column="user_id"
                      class="solvas.service.models.User" not-null="true"/>

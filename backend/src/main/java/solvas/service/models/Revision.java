@@ -8,11 +8,12 @@ import java.time.LocalDateTime;
  * Created by steve on 09/05/2017.
  */
 public class Revision extends Model {
-    private Model entity;
+    private int entity;
     private EntityType entityType;
     private LocalDateTime logDate;
     private User user;
     private MethodType method;
+    private String payload;
 
 
     public User getUser() {
@@ -31,11 +32,11 @@ public class Revision extends Model {
         this.logDate = logDate;
     }
 
-    public Model getEntity() {
+    public int getEntity() {
         return entity;
     }
 
-    public void setEntity(Model entity) {
+    public void setEntity(int entity) {
         this.entity = entity;
 
     }
@@ -54,5 +55,13 @@ public class Revision extends Model {
 
     public void setMethod(MethodType method) {
         this.method = method;
+    }
+
+    public void setPayload(String payload) {
+        this.payload = payload;
+    }
+
+    public String getPayload() {
+        return payload;
     }
 }
