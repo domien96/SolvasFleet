@@ -17,7 +17,6 @@ import solvas.service.models.Vehicle;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.lang.reflect.Method;
 import java.time.LocalDate;
 import java.util.Map;
 import java.util.Optional;
@@ -62,11 +61,11 @@ public class GreenCardPdfView extends AbstractITextPdfView {
         document.add(card);
     }
 
-    private static final int normalSize = 8;
-    private static final Font normal = new Font(Font.FontFamily.HELVETICA,normalSize);
-    private static final Font normalB = new Font(Font.FontFamily.HELVETICA,normalSize, Font.BOLD);
-    private static final int largeSize = 11;
-    private static final Font largeB = new Font(Font.FontFamily.HELVETICA,largeSize, Font.BOLD);
+    private static final int NORMAL_SIZE = 8;
+    private static final Font NORMAL = new Font(Font.FontFamily.HELVETICA, NORMAL_SIZE);
+    private static final Font NORMAL_B = new Font(Font.FontFamily.HELVETICA, NORMAL_SIZE, Font.BOLD);
+    private static final int LARGE_SIZE = 11;
+    private static final Font LARGE_B = new Font(Font.FontFamily.HELVETICA, LARGE_SIZE, Font.BOLD);
 
     /*********************************************************************************
      * Each section on a green card has a number.
@@ -77,20 +76,20 @@ public class GreenCardPdfView extends AbstractITextPdfView {
 
     private void make1(PdfPTable card) {
         PdfPCell c = new PdfPCellBuilder().setColSpan(2).build();
-        c.addElement(new Paragraph("1. INTERNATIONALE MOTORRIJTUIGVERZEKERINGSKAART",normalB));
-        c.addElement(new Paragraph("1. INTERNATIONAL MOTOR INSURANCE CARD",normalB));
-        c.addElement(new Paragraph("1. CARTE INTERNATIONALE D'ASSURANCE AUTOMOBILE",normalB));
+        c.addElement(new Paragraph("1. INTERNATIONALE MOTORRIJTUIGVERZEKERINGSKAART", NORMAL_B));
+        c.addElement(new Paragraph("1. INTERNATIONAL MOTOR INSURANCE CARD", NORMAL_B));
+        c.addElement(new Paragraph("1. CARTE INTERNATIONALE D'ASSURANCE AUTOMOBILE", NORMAL_B));
         card.addCell(c);
 
     }
 
     private void make2(PdfPTable card) {
-        card.addCell(new PdfPCellBuilder(new Paragraph("2. UITGEGEVEN OP HET GEZAG VAN HET BELGISCH BUREAU VAN DE AUTOVERZEKERAARS",normalB))
+        card.addCell(new PdfPCellBuilder(new Paragraph("2. UITGEGEVEN OP HET GEZAG VAN HET BELGISCH BUREAU VAN DE AUTOVERZEKERAARS", NORMAL_B))
                 .setColSpan(2).build());
     }
 
     private void make3(PdfPTable card) {
-        Paragraph p = new Paragraph("3.",normalB);
+        Paragraph p = new Paragraph("3.", NORMAL_B);
         p.add(new Chunk(new VerticalPositionMark())); // glue
         p.add("GELDIG");
         p.add(new Chunk(new VerticalPositionMark())); // glue
@@ -98,17 +97,17 @@ public class GreenCardPdfView extends AbstractITextPdfView {
                 .setBorder(Rectangle.NO_BORDER).build();
 
         PdfPTable data = new PdfPTable(6);
-        data.addCell(new PdfPCellBuilder(new Paragraph("VAN", normal)).setColSpan(3).setBorder(Rectangle.NO_BORDER)
+        data.addCell(new PdfPCellBuilder(new Paragraph("VAN", NORMAL)).setColSpan(3).setBorder(Rectangle.NO_BORDER)
                 .setHorizontalAlignment(Element.ALIGN_CENTER).build());
-        data.addCell(new PdfPCellBuilder(new Paragraph("TOT", normal)).setColSpan(3).setBorder(Rectangle.NO_BORDER)
+        data.addCell(new PdfPCellBuilder(new Paragraph("TOT", NORMAL)).setColSpan(3).setBorder(Rectangle.NO_BORDER)
                 .setHorizontalAlignment(Element.ALIGN_CENTER).build());
         String[] dates = getSubscriptionDates();
-        data.addCell(new PdfPCell(new Paragraph("Dag\n" + dates[0],normal)));
-        data.addCell(new PdfPCell(new Paragraph("Maand\n" + dates[1],normal)));
-        data.addCell(new PdfPCell(new Paragraph("Jaar\n" + dates[2],normal)));
-        data.addCell(new PdfPCell(new Paragraph("Dag\n" + dates[3],normal)));
-        data.addCell(new PdfPCell(new Paragraph("Maand\n" + dates[4],normal)));
-        data.addCell(new PdfPCell(new Paragraph("Jaar\n" + dates[5],normal)));
+        data.addCell(new PdfPCell(new Paragraph("Dag\n" + dates[0], NORMAL)));
+        data.addCell(new PdfPCell(new Paragraph("Maand\n" + dates[1], NORMAL)));
+        data.addCell(new PdfPCell(new Paragraph("Jaar\n" + dates[2], NORMAL)));
+        data.addCell(new PdfPCell(new Paragraph("Dag\n" + dates[3], NORMAL)));
+        data.addCell(new PdfPCell(new Paragraph("Maand\n" + dates[4], NORMAL)));
+        data.addCell(new PdfPCell(new Paragraph("Jaar\n" + dates[5], NORMAL)));
         PdfPTable c = new PdfPTable(1);
         c.getDefaultCell().setBorder(Rectangle.NO_BORDER);
         c.addCell(title);
@@ -164,12 +163,12 @@ public class GreenCardPdfView extends AbstractITextPdfView {
 
     private void make8(PdfPTable card) {
         PdfPTable c = new PdfPTable(1);
-        c.addCell(new PdfPCellBuilder(new Paragraph("8. Dekkingsgebied\n",normalB))
+        c.addCell(new PdfPCellBuilder(new Paragraph("8. Dekkingsgebied\n", NORMAL_B))
                 .setBorder(Rectangle.NO_BORDER).build());
         PdfPTable countries = new PdfPTable(18);
         countries.setWidthPercentage(100);
         for(String code : "BE,BG,CZ,DK,DE,EE,IE,EL,ES,FR,HR,IT,CY,LV,LT,LU,HU,MT,NL,AT,PL,PT,RO,SI,SK,FI,SE,UK,IS,NO,LI".split(",")) {
-            countries.addCell(new PdfPCellBuilder(new Paragraph(code,largeB)).setBorder(Rectangle.NO_BORDER)
+            countries.addCell(new PdfPCellBuilder(new Paragraph(code, LARGE_B)).setBorder(Rectangle.NO_BORDER)
                     .setFixedHeight(Utilities.millimetersToPoints(10)).build());
         }
         c.addCell(new PdfPCellBuilder().addElement(countries).setFixedHeight(Utilities.millimetersToPoints(10))
@@ -195,12 +194,12 @@ public class GreenCardPdfView extends AbstractITextPdfView {
     }
 
     private void make11(PdfPTable card) {
-        card.addCell(new PdfPCellBuilder(new Paragraph("11. Ondertekening van de verzekeraar\n",normal))
+        card.addCell(new PdfPCellBuilder(new Paragraph("11. Ondertekening van de verzekeraar\n", NORMAL))
                 .setColSpan(2).setMinimumHeight(Utilities.millimetersToPoints(35)).build());
     }
 
     private void make12(PdfPTable card) {
-        card.addCell(new PdfPCellBuilder(new Paragraph("Nuttige inlichtingen",normal))
+        card.addCell(new PdfPCellBuilder(new Paragraph("Nuttige inlichtingen", NORMAL))
                 .setColSpan(4).setBorder(Rectangle.NO_BORDER).build());
     }
 
@@ -213,8 +212,8 @@ public class GreenCardPdfView extends AbstractITextPdfView {
      */
     private Paragraph simpleFieldAndValue(String field, String value) {
         Paragraph p = new Paragraph();
-        p.add(new Chunk(field, normalB));
-        p.add(new Chunk(value,normal));
+        p.add(new Chunk(field, NORMAL_B));
+        p.add(new Chunk(value, NORMAL));
         return p;
     }
 
