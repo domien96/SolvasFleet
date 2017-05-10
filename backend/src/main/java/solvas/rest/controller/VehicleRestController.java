@@ -44,6 +44,7 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
      * Rest controller for Vehicle
      *
      * @param service service class for vehicles
+     * @param validator The validator, used for validating the csv import
      */
     @Autowired
     public VehicleRestController(VehicleService service,  @Qualifier("mvcValidator") Validator validator) {
