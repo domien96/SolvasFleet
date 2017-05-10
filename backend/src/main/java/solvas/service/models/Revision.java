@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
  */
 public class Revision extends Model {
     private int entity;
-    private EntityType entityType;
+    private String entityType;
     private LocalDateTime logDate;
     private User user;
     private MethodType method;
@@ -41,11 +41,11 @@ public class Revision extends Model {
 
     }
 
-    public EntityType getEntityType() {
+    public String getEntityType() {
         return entityType;
     }
 
-    public void setEntityType(EntityType entityType) {
+    public void setEntityType(String entityType) {
         this.entityType = entityType;
     }
 

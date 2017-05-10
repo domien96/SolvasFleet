@@ -15,12 +15,8 @@
         <property name="logDate" column="logDate" type="java.time.LocalDateTime" not-null="true" /> <!-- perhaps update using a trigger-->
 
 
-        <property name="entityType" column="entity_type">
-            <type name="org.hibernate.type.EnumType">
-                <param name="enumClass">solvas.service.models.EntityType</param>
-                <param name="type">12</param>
-            </type>
-        </property>
+        <property name="entityType" column="entity_type" type="string" not-null="true" />
+
 
         <property name="entity" column="entity_id" type="int" not-null="true" />
 
