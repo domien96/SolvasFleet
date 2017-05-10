@@ -66,6 +66,7 @@ class Auth {
             data['accessToken']['token']
           )
         });
+        resolve(Auth.getLocalAccessToken());
       } else {
         resolve(Auth.getLocalAccessToken());
       }

@@ -39,8 +39,7 @@ function request (
         } else {
           if (fail) { fail(data); }
         }
-      }).catch((e : any) => {
-        console.log(e);
+      }).catch(() => {
         if (r.ok) {
           if (success) { success(); }
         } else {
@@ -48,8 +47,7 @@ function request (
         }
       });
     });
-  }, (e) => {
-    console.log(e);
+  }, () => {
     Auth.deauthenticateUser();
     redirect_to('/');
   });

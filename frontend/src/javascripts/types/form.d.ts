@@ -1,6 +1,7 @@
 namespace Form {
   export interface Error {
     field : string;
-    error : string;
+    message : string;
+    type: string;
   }
 }

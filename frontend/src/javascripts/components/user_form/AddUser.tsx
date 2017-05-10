@@ -6,6 +6,7 @@ import UserForm   from './UserForm.tsx';
 import { postUser } from '../../actions/user_actions.ts';
 import { hasError } from '../../utils/utils.ts';
 import { redirect_to } from'../../routes/router.tsx';
+import Errors from '../../modules/Errors.ts';
 
 interface State {
   errors : Form.Error[];
@@ -32,15 +33,10 @@ class AddUser extends React.Component<{}, State> {
 
   public onSubmit(e : any) : void {
     e.preventDefault();
-    let setErrors = (e : Form.Error[]) => this.setState({ errors: e });
     let success = (data : any) => redirect_to(`/users/${data.id}`);
-    let fail = (data : any) => {
-      setErrors(data.errors.map(function(e : any) {
-        return { field: e, error: 'null' };
-      }));
-    }
+    let setErrors = (e : Form.Error[]) => this.setState({ errors: e });
 
-    postUser(this.state.user, success, fail);
+    postUser(this.state.user, success, Errors.handle(setErrors));
   }
 
   render() {

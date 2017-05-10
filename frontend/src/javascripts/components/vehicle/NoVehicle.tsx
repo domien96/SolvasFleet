@@ -7,7 +7,8 @@ class NoVehicle extends React.Component<{}, {}> {
     return (
     <Card>
       <div className='card-content'>
-        <h2>{ T.translate('vehicle.noVehicle') }</h2>
+        <h2>{ T.translate('vehicle.none.title') }</h2>
+        <p>{ T.translate('table.none.information', { subject: 'vehicle' }) }</p>
       </div>
     </Card>
     );
