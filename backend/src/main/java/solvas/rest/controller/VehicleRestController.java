@@ -1,5 +1,8 @@
 package solvas.rest.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.opencsv.CSVReader;
 import com.opencsv.bean.ColumnPositionMappingStrategy;
 import com.opencsv.bean.CsvToBean;
@@ -12,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,10 +29,8 @@ import javax.validation.Valid;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Rest controller for Vehicle
@@ -126,7 +128,7 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
      */
     @PostMapping("/vehicles/upload")
     @PreAuthorize("hasPermission(0, 'vehicle', 'IMPORT_VEHICLES')")
-    public ResponseEntity<?> importCSV(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<?> importCSV(@RequestParam("file") MultipartFile file) throws JsonProcessingException {
         CSVReader csvReader = null;
         try {
             csvReader = new CSVReader(new InputStreamReader(file.getInputStream()));
@@ -139,16 +141,41 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
         List list = csv.parse(setColumnMapping(), csvReader);
 
         // maybe use this variable to bundle alle individual validation errors?
-        BindingResult bundledErrors = new BeanPropertyBindingResult(file,"file");
-
+        Map<Integer,Object> bundledErrors = new HashMap();
+        // Row counting starts at 1 (not zero)
+        int row = 1;
         for (Object object : list) {
             ApiVehicle vehicle = (ApiVehicle) object;
             BindingResult errors = new BeanPropertyBindingResult(vehicle,"vehicle");
             //TODO correct error bundling because now they are ignored (bekijk dit ook eens, david).
             validator.validate(vehicle, errors);
-            super.post(vehicle,errors);
+            if(errors.hasErrors()) {
+                bundledErrors.put(row,errors.getFieldErrors().stream().map(FieldError::getField).collect(Collectors.toList()));
+            }
+            row++;
         }
-        return ResponseEntity.ok(HttpStatus.OK);
+        if(bundledErrors.size()==0) {
+            for (Object object : list) {
+                super.post((ApiVehicle) object, new BeanPropertyBindingResult("","")); // dummy bindingresult
+            }
+            return ResponseEntity.ok(HttpStatus.OK);
+        } else {
+            // Each element from this list represents the errors from a single record in the csv file.
+            // Each elemnt (a json object) has format : { rowNumber : [list of errors] }
+            List<JSONPObject> errorTuples = new ArrayList<>();
+            for (int errorRow : bundledErrors.keySet()) {
+                errorTuples.add(new JSONPObject(String.valueOf(errorRow),
+                        bundledErrors.get(errorRow)));
+            }
+            // Wrap all these objects in a global error field
+            return new ResponseEntity<Object>(
+                    new JsonListWrapper<>(
+                            errorTuples,
+                            JsonListWrapper.ERROR_KEY
+                    ),
+                    HttpStatus.BAD_REQUEST
+            );
+        }
     }
 
     private MappingStrategy<ApiVehicle> setColumnMapping()
