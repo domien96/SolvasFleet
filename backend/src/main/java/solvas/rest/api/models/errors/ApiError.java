@@ -67,10 +67,19 @@ public class ApiError {
      * @return The object.
      */
     public static JsonListWrapper<ApiError> from(BindingResult result) {
-        List<ApiError> errors = result.getFieldErrors().stream()
+        return new JsonListWrapper<>(convertToApiErrors(result), JsonListWrapper.ERROR_KEY);
+    }
+
+    /**
+     * Convert a binding result to a list of errors in the API format.
+     *
+     * @param result The binding result.
+     *
+     * @return The list with the errors.
+     */
+    public static List<ApiError> convertToApiErrors(BindingResult result) {
+        return result.getFieldErrors().stream()
                 .map(ApiError::new)
                 .collect(Collectors.toList());
-
-        return new JsonListWrapper<>(errors, JsonListWrapper.ERROR_KEY);
     }
 }

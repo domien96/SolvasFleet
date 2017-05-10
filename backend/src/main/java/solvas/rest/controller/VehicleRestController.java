@@ -1,36 +1,35 @@
 package solvas.rest.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.opencsv.CSVReader;
-import com.opencsv.bean.ColumnPositionMappingStrategy;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.HeaderColumnNameTranslateMappingStrategy;
 import com.opencsv.bean.MappingStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import solvas.rest.utils.JsonListWrapper;
-import solvas.service.models.Vehicle;
 import solvas.rest.api.models.ApiVehicle;
+import solvas.rest.api.models.errors.ApiError;
 import solvas.rest.query.VehicleFilter;
+import solvas.rest.utils.JsonListWrapper;
 import solvas.service.VehicleService;
+import solvas.service.models.Vehicle;
 
 import javax.validation.Valid;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Rest controller for Vehicle
@@ -39,8 +38,7 @@ import java.util.stream.Collectors;
 @RestController
 public class VehicleRestController extends AbstractRestController<Vehicle,ApiVehicle> {
 
-    @Autowired
-    private Validator validator;
+    private final Validator validator;
 
     /**
      * Rest controller for Vehicle
@@ -48,8 +46,9 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
      * @param service service class for vehicles
      */
     @Autowired
-    public VehicleRestController(VehicleService service) {
+    public VehicleRestController(VehicleService service,  @Qualifier("mvcValidator") Validator validator) {
         super(service);
+        this.validator = validator;
     }
 
     /**
@@ -128,53 +127,38 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
      */
     @PostMapping("/vehicles/upload")
     @PreAuthorize("hasPermission(0, 'vehicle', 'IMPORT_VEHICLES')")
-    public ResponseEntity<?> importCSV(@RequestParam("file") MultipartFile file) throws JsonProcessingException {
-        CSVReader csvReader = null;
+    public ResponseEntity<?> importCSV(@RequestParam MultipartFile file) throws JsonProcessingException {
+        CSVReader csvReader;
         try {
             csvReader = new CSVReader(new InputStreamReader(file.getInputStream()));
         } catch (IOException e) {
             e.printStackTrace(); //todo map to correct error code
             throw new RuntimeException();
         }
-        CsvToBean csv = new CsvToBean();
+        CsvToBean<ApiVehicle> csv = new CsvToBean<>();
         //Set column mapping strategy
-        List list = csv.parse(setColumnMapping(), csvReader);
+        List<ApiVehicle> list = csv.parse(setColumnMapping(), csvReader);
 
-        // maybe use this variable to bundle alle individual validation errors?
-        Map<Integer,Object> bundledErrors = new HashMap();
-        // Row counting starts at 1 (not zero)
-        int row = 1;
-        for (Object object : list) {
-            ApiVehicle vehicle = (ApiVehicle) object;
+        // Maps the row to a potential list of errors.
+        Map<Integer, List<ApiError>> bundledErrors = new HashMap<>();
+
+        for (int i = 0; i < list.size(); i++) {
+            ApiVehicle vehicle = list.get(i);
             BindingResult errors = new BeanPropertyBindingResult(vehicle,"vehicle");
-            //TODO correct error bundling because now they are ignored (bekijk dit ook eens, david).
             validator.validate(vehicle, errors);
-            if(errors.hasErrors()) {
-                bundledErrors.put(row,errors.getFieldErrors().stream().map(FieldError::getField).collect(Collectors.toList()));
+            if (errors.hasErrors()) {
+                // Row counting starts at 1 (not zero)
+                bundledErrors.put(i + 1, ApiError.convertToApiErrors(errors));
             }
-            row++;
         }
-        if(bundledErrors.size()==0) {
-            for (Object object : list) {
-                super.post((ApiVehicle) object, new BeanPropertyBindingResult("","")); // dummy bindingresult
-            }
-            return ResponseEntity.ok(HttpStatus.OK);
+
+        if (bundledErrors.isEmpty()) {
+            list.forEach(v -> super.post(v, new BeanPropertyBindingResult("", "")));
+            return ResponseEntity.noContent().build();
         } else {
-            // Each element from this list represents the errors from a single record in the csv file.
-            // Each elemnt (a json object) has format : { rowNumber : [list of errors] }
-            List<JSONPObject> errorTuples = new ArrayList<>();
-            for (int errorRow : bundledErrors.keySet()) {
-                errorTuples.add(new JSONPObject(String.valueOf(errorRow),
-                        bundledErrors.get(errorRow)));
-            }
-            // Wrap all these objects in a global error field
-            return new ResponseEntity<Object>(
-                    new JsonListWrapper<>(
-                            errorTuples,
-                            JsonListWrapper.ERROR_KEY
-                    ),
-                    HttpStatus.BAD_REQUEST
-            );
+            return new ResponseEntity<>(
+                    new JsonListWrapper<>(bundledErrors.entrySet(), JsonListWrapper.ERROR_KEY),
+                    HttpStatus.BAD_REQUEST);
         }
     }
 
