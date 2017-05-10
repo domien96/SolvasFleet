@@ -12,7 +12,6 @@ import java.util.Collection;
  *
  * @author Niko Strijbol
  */
-@SuppressWarnings("unused")
 public class CompanyFilter extends ArchiveFilter<Company> {
 
     private String city;
