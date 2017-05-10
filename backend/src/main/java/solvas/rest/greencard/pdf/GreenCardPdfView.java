@@ -8,6 +8,8 @@ import com.itextpdf.text.pdf.draw.VerticalPositionMark;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import solvas.persistence.api.dao.FleetSubscriptionDao;
+import solvas.persistence.api.dao.VehicleDao;
+import solvas.rest.api.models.ApiVehicle;
 import solvas.rest.invoices.pdf.AbstractITextPdfView;
 import solvas.service.models.Company;
 import solvas.service.models.FleetSubscription;
@@ -28,21 +30,35 @@ import java.util.Optional;
 public class GreenCardPdfView extends AbstractITextPdfView {
 
     @Autowired
-    private FleetSubscriptionDao fsdao;
+    private FleetSubscriptionDao fleetSubscriptionDao;
+
+    @Autowired
+    private VehicleDao vehicleDao;
 
     private Vehicle vehicle;
 
     @Override
     protected void buildPdfDocument(Map<String, Object> model, Document document, PdfWriter writer, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        vehicle = (Vehicle) model.get(GreenCardPdfView.class.getCanonicalName());
+        int id = ((ApiVehicle) model.get(GreenCardPdfView.class.getCanonicalName())).getId();
+        vehicle = vehicleDao.find(id);
+        if(vehicle == null) {
+            buildErrorPdfDocument(document,"Voertuig met id "+id+" is onbestaand\n Groene kaart werd niet gegenereerd.");
+            return;
+        }
         PdfPTable card = new PdfPTable(4);
         card.setWidthPercentage(100);
-        for(int i=1;i<=12;i++) {
-            Method m = getClass().getDeclaredMethod("make"+i, PdfPTable.class);
-            m.setAccessible(true);
-            m.invoke(this,card);
-            m.setAccessible(false);
-        }
+        make1(card);
+        make2(card);
+        make3(card);
+        make4(card);
+        make5(card);
+        make6(card);
+        make7(card);
+        make8(card);
+        make9(card);
+        make10(card);
+        make11(card);
+        make12(card);
         document.add(card);
     }
 
@@ -108,10 +124,11 @@ public class GreenCardPdfView extends AbstractITextPdfView {
      */
     private String[] getSubscriptionDates() {
         String[] res = new String[] {"/","/","/","/","/","/"};
-        Optional<FleetSubscription> fsOpt = fsdao.activeForVehicle(vehicle);
+        Optional<FleetSubscription> fsOpt = fleetSubscriptionDao.activeForVehicle(vehicle);
         if (fsOpt.isPresent()) {
             FleetSubscription fs = fsOpt.get();
-            LocalDate start = fs.getStartDate(), end = fs.getEndDate();
+            LocalDate start = fs.getStartDate(),
+                    end = fs.getEndDate();
             if(start!= null) {
                 res[0] = String.valueOf(start.getDayOfMonth());
                 res[1] = String.valueOf(start.getMonth().getValue());
@@ -163,9 +180,8 @@ public class GreenCardPdfView extends AbstractITextPdfView {
     }
 
     private void make9(PdfPTable card) {
-        Optional<FleetSubscription> fsOpt = fsdao.activeForVehicle(vehicle);
-        String value;
-        value = fsOpt.map(fleetSubscription -> buildAddressParagraph(fleetSubscription.getFleet().getCompany())).orElse("Dit voertuig is niet aangesloten bij een vloot");
+        Optional<FleetSubscription> fsOpt = fleetSubscriptionDao.activeForVehicle(vehicle);
+        String value = fsOpt.map(fleetSubscription -> buildAddressParagraph(fleetSubscription.getFleet().getCompany())).orElse("Dit voertuig is niet aangesloten bij een vloot");
         card.addCell(new PdfPCellBuilder(simpleFieldAndValue("9. Naam en adres van verzekeringsnemer\n",value))
                 .setColSpan(4).setMinimumHeight(Utilities.millimetersToPoints(35)).build());
     }
