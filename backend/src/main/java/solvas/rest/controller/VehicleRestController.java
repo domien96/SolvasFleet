@@ -20,6 +20,7 @@ import solvas.rest.api.models.ApiVehicle;
 import solvas.rest.api.models.errors.ApiError;
 import solvas.rest.query.VehicleFilter;
 import solvas.rest.utils.JsonListWrapper;
+import solvas.rest.utils.MyCsvToBean;
 import solvas.service.VehicleService;
 import solvas.service.models.Vehicle;
 
@@ -136,9 +137,10 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
             e.printStackTrace(); //todo map to correct error code
             throw new RuntimeException();
         }
-        CsvToBean<ApiVehicle> csv = new CsvToBean<>();
+        CsvToBean<ApiVehicle> csv = new MyCsvToBean<>();
         //Set column mapping strategy
         List<ApiVehicle> list = csv.parse(setColumnMapping(), csvReader);
+        //todo parse exception correct afhandelen
 
         // Maps the row to a potential list of errors.
         Map<Integer, List<ApiError>> bundledErrors = new HashMap<>();
