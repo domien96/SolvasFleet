@@ -13,5 +13,5 @@ export default [
   <Route key={ 3 } path="vehicles" component={ Vehicles }>
     <IndexRoute component={ NoVehicle } />
     <Route path=":id" component={ Vehicle } />
-  </Route>
-]
+  </Route>,
+];

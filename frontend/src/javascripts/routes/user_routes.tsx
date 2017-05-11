@@ -6,7 +6,7 @@ import AddUser from '../components/user_form/AddUser.tsx';
 import EditUser from '../components/user_form/EditUser.tsx';
 import User from '../components/user/User.tsx';
 import NoUser from '../components/user/NoUser.tsx';
-import CreateUserFunction from '../components/user/function/CreateUserFunction.tsx'
+import CreateUserFunction from '../components/user/function/CreateUserFunction.tsx';
 
 export default [
   <Route key={ 1 } path="users/new" component={ AddUser } />,
@@ -15,5 +15,5 @@ export default [
     <IndexRoute component={ NoUser } />
     <Route path=":id" component={ User } />
   </Route>,
-  <Route key={ 4 } path="users/:id/functions/new" component={ CreateUserFunction } />
-]
+  <Route key={ 4 } path="users/:id/functions/new" component={ CreateUserFunction } />,
+];

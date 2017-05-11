@@ -30,12 +30,12 @@ class LanguageSwitcher extends React.Component<Props, State> {
     return () => {
       this.setState({ visible: false });
       this.props.change(lang);
-    }
+    };
   }
 
-  render () {
-    let { visible } = this.state;
-    let { lang } = this.props;
+  render() {
+    const { visible } = this.state;
+    const { lang } = this.props;
 
     const options = Object.keys(languages).map((l, i) => {
       return (
@@ -63,12 +63,12 @@ class LanguageSwitcher extends React.Component<Props, State> {
 
 const mapStateToProps = ({ lang }: AppState) => {
   return { lang };
-}
+};
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    change: (lang: string) => dispatch(changeLanguage(lang))
+    change: (lang: string) => dispatch(changeLanguage(lang)),
   };
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(LanguageSwitcher);

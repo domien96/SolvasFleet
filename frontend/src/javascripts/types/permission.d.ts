@@ -1,3 +1,3 @@
 namespace Permission {
-	export type Data = [string, string];
+  export type Data = [string, string];
 }

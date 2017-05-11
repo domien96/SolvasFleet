@@ -6,12 +6,12 @@ import DownloadButton from '../buttons/DownloadButton.tsx'
 import { th } from '../../utils/utils.ts';
 
 interface Props {
-  invoice : InvoiceData;
-  onDownload : () => void;
+  invoice: InvoiceData;
+  onDownload: () => void;
 }
 
-const InvoiceView : React.StatelessComponent<Props> = props => {
-  var { id, fleet, paid, totalAmount, type, startDate, endDate } = props.invoice;
+const InvoiceView: React.StatelessComponent<Props> = props => {
+  const { id, fleet, paid, totalAmount, type, startDate, endDate } = props.invoice;
 
   const data = [
     th('invoice.id', id),
@@ -20,7 +20,7 @@ const InvoiceView : React.StatelessComponent<Props> = props => {
     th('invoice.totalAmount', totalAmount),
     th('invoice.type', type),
     th('invoice.startDate', startDate),
-    th('invoice.endDate', endDate)
+    th('invoice.endDate', endDate),
   ];
 
   return (
@@ -37,6 +37,6 @@ const InvoiceView : React.StatelessComponent<Props> = props => {
       </div>
     </Card>
   );
-}
+};
 
 export default InvoiceView;

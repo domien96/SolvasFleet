@@ -5,25 +5,25 @@ import { Link } from 'react-router';
 import Card from '../app/Card.tsx';
 
 interface SProps {
-  label : string;
-  model : string;
+  label: string;
+  model: string;
 }
 
-const Submit : React.StatelessComponent<SProps> = ({ label, model }) => {
+const Submit: React.StatelessComponent<SProps> = ({ label, model }) => {
   return (
     <button type='submit' className='btn btn-success'>
       <T.text tag='span' text={ label || 'form.submit' } /> { model }
     </button>
-  )
-}
+  );
+};
 
 interface Props {
-  submitLabel? : string;
-  cancelUrl : string;
-  model : string;
+  submitLabel?: string;
+  cancelUrl: string;
+  model: string;
 }
 
-const Actions : React.StatelessComponent<Props> = ({ submitLabel, cancelUrl, model }) => {
+const Actions: React.StatelessComponent<Props> = ({ submitLabel, cancelUrl, model }) => {
   return (
     <div className='col-xs-12'>
       <Card>
@@ -37,6 +37,6 @@ const Actions : React.StatelessComponent<Props> = ({ submitLabel, cancelUrl, mod
       </Card>
     </div>
   );
-}
+};
 
 export default Actions;

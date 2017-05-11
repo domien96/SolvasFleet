@@ -7,9 +7,7 @@ import DownloadButton from '../buttons/DownloadButton.tsx'
 import { th } from '../../utils/utils.ts';
 import Confirm from 'react-confirm-bootstrap';
 
-
-
-const EditLink = ({ id } : { id : number }) => {
+const EditLink = ({ id }: { id: number }) => {
   return (
     <div className='col-sm-6'>
       <Link to={ '/vehicles/' + id + '/edit' } className='btn btn-default form-control'>
@@ -17,9 +15,9 @@ const EditLink = ({ id } : { id : number }) => {
       </Link>
     </div>
   );
-}
+};
 
-const DeleteLink = ({ handleDelete } : { handleDelete : () => void }) => {
+const DeleteLink = ({ handleDelete }: { handleDelete: () => void }) => {
   return (
     <div className='col-sm-6'>
       <Confirm
@@ -33,16 +31,16 @@ const DeleteLink = ({ handleDelete } : { handleDelete : () => void }) => {
       </Confirm>
     </div>
   );
-}
+};
 
 interface Props {
-  handleDelete : () => void;
-  vehicle : VehicleData
+  handleDelete: () => void;
+  vehicle: VehicleData
   onDownloadGreencard: () => void;
 }
 
-const VehicleView : React.StatelessComponent<Props> = props => {
-	var { id, licensePlate, vin, brand, model, type, mileage, year, leasingCompany, value, fleet } = props.vehicle;
+const VehicleView: React.StatelessComponent<Props> = props => {
+  const { id, licensePlate, vin, brand, model, type, mileage, year, leasingCompany, value, fleet } = props.vehicle;
 
   const data = [
     th('vehicle.fleet', fleet),
@@ -78,6 +76,6 @@ const VehicleView : React.StatelessComponent<Props> = props => {
     </div>
   </Card>
   );
-}
+};
 
 export default VehicleView;

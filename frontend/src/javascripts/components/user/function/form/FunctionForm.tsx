@@ -1,21 +1,21 @@
-import React    from 'react';
+import React from 'react';
 
 import Actions from '../../../forms/Actions.tsx';
 import Errors from '../../../app/Errors.tsx';
 import Info from './Info.tsx';
 
 interface Props {
-  onSubmit     : (e : any) => void;
-  handleChange : (field : SFunction.Field, e : any) => void;
-  errors       : Form.Error[];
-  hasError     : (field : SFunction.Field) => boolean;
-  Sfunction         : SFunctionData;
-  roles  : RoleData[];
-  companies : CompanyData[];
+  onSubmit: (e: any) => void;
+  handleChange: (field: SFunction.Field, e: any) => void;
+  errors: Form.Error[];
+  hasError: (field: SFunction.Field) => boolean;
+  Sfunction: SFunctionData;
+  roles: RoleData[];
+  companies: CompanyData[];
 }
 
-const FunctionForm : React.StatelessComponent<Props> = props => {
-  var { Sfunction, roles, companies, onSubmit, handleChange, errors, hasError } = props;
+const FunctionForm: React.StatelessComponent<Props> = props => {
+  const { Sfunction, roles, companies, onSubmit, handleChange, errors, hasError } = props;
 
   const submit = Sfunction.id != null ? 'form.update' : 'form.create';
 
@@ -24,7 +24,12 @@ const FunctionForm : React.StatelessComponent<Props> = props => {
       <div className='wrapper'>
         <div className='row'>
           <Errors errors={ errors } />
-          <Info Sfunction={ Sfunction } roles={ roles } companies={ companies } handleChange={ handleChange } hasError={ hasError } />
+          <Info
+            Sfunction={ Sfunction }
+            roles={ roles }
+            companies={ companies }
+            handleChange={ handleChange }
+            hasError={ hasError } />
           <div className='col-xs-12 col-md-5'>
             <div className='row'>
               <Actions submitLabel={ submit } cancelUrl='/auth' model='function' />
@@ -34,6 +39,6 @@ const FunctionForm : React.StatelessComponent<Props> = props => {
       </div>
     </form>
   );
-}
+};
 
 export default FunctionForm;
