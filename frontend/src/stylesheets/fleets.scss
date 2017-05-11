@@ -1,6 +1,10 @@
 @import './variables.scss';
 
 $fleet-height: 60px;
+$green: #1ECD97;
+$gray: #bbbbbb;
+
+
 
 .card-content.fleets {
   padding: 0;
@@ -10,12 +14,14 @@ $fleet-height: 60px;
     width: 100%;
     color: $body-color;
     height: $fleet-height;
-    border-bottom: 1px solid $gray-lighter;
     padding-left: 30px;
+
 
     h3 {
       display: inline-block;
     }
+
+
 
     .actions {
       padding-right: 20px;
@@ -23,6 +29,13 @@ $fleet-height: 60px;
       color: $gray-lighter;
     }
   }
+
+
+  .has-border {
+    border-bottom: 1px solid $gray-lighter;
+  }
+
+
 
   .fleet {
     padding-top: 15px;
@@ -58,6 +71,8 @@ $fleet-height: 60px;
       }
     }
 
+
+
     h3 label {
       font-weight: 200;
     }
@@ -73,5 +88,53 @@ $fleet-height: 60px;
         outline: none;
       }
     }
+    .form-actions {
+      display:table-row-group;
+    }
+  }
+}
+
+
+.fleet-archive {
+  display: inline;
+  height: 60px;
+}
+
+.fleet-title {
+  vertical-align: middle;
+}
+
+.fleet-addvehicle {
+  height: 150px;
+  button {
+    margin-top: 20px;
+  }
+
+}
+
+.invoice-actions {
+  margin-top: 30px;
+
+}
+
+.fleet-actions {
+  h3 {
+    display: inline-block;
+  }
+}
+
+.settings {
+  h3 {
+    display: inline-block;
+  }
+
+  &:hover {
+    background: lighten(#000, 98.5%);
+    cursor: pointer;
+  }
+
+  .actions {
+    padding-right: 20px;
+    font-size: 120;
   }
 }
