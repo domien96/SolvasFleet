@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 
 import Card from '../app/Card.tsx';
 import DetailTable from '../tables/DetailTable.tsx';
-import DownloadButton from '../buttons/DownloadButton.tsx'
+import DownloadButton from '../buttons/DownloadButton.tsx';
 import { th } from '../../utils/utils.ts';
 import Confirm from 'react-confirm-bootstrap';
 

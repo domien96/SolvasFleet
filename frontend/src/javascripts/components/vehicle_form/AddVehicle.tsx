@@ -44,20 +44,20 @@ class AddVehicle extends React.Component<{}, State> {
     postVehicle(this.changeDateFormat(this.state.vehicle), success, fail);
   }
 
-  changeDateFormat(oldVehicle : VehicleData){
-    const {id, licensePlate, vin, brand, model, type, mileage, year, leasingCompany, value, fleet} = oldVehicle;
-    var vehicle = {
-      id             : id,
-      licensePlate   : licensePlate,
-      vin            : vin,
-      brand          : brand,
-      model          : model,
-      type           : type,
-      mileage        : mileage,
-      year           : new Date(year),
-      leasingCompany : leasingCompany,
-      value          : value,
-      fleet          : fleet
+  changeDateFormat(oldVehicle : VehicleData) {
+    const { id, licensePlate, vin, brand, model, type, mileage, year, leasingCompany, value, fleet } = oldVehicle;
+    let vehicle = {
+      id: id,
+      licensePlate: licensePlate,
+      vin: vin,
+      brand: brand,
+      model: model,
+      type: type,
+      mileage: mileage,
+      year: new Date(year),
+      leasingCompany: leasingCompany,
+      value: value,
+      fleet: fleet
     };
     return vehicle;
   }

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { fetchVehicle, deleteVehicle, fetchGreencardPdf }  from '../../actions/vehicle_actions.ts';
+import { fetchVehicle, deleteVehicle, fetchGreencardPdf } from '../../actions/vehicle_actions.ts';
 import { redirect_to } from'../../routes/router.tsx';
 import { fetchContracts} from '../../actions/contract_actions.ts';
 import FileSaver from 'file-saver';
@@ -53,10 +53,10 @@ class Vehicle extends React.Component<Props, State> {
     fetchContracts(success, fail, { vehicle: params.vehicleId });
   }
 
-  handleDownloadGreencard(){
-    var { id } = this.props.params;
-    let fail = (data : any) => console.log(data);
-    fetchGreencardPdf(id, ((data : any) => {
+  handleDownloadGreencard() {
+    const { id } = this.props.params;
+    let fail = (data: any) => console.log(data);
+    fetchGreencardPdf(id, ((data: any) => {
       FileSaver.saveAs(data, `greencard_${id}.${'pdf'}`);
     }), fail);
   }

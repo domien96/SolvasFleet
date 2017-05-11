@@ -13,6 +13,7 @@ const DownloadButton: React.StatelessComponent<DownloadButtonProps> = props => {
       </button>
     </div>
   );
-}
+};
+
 
 export default DownloadButton;
