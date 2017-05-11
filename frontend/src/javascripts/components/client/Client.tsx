@@ -12,10 +12,8 @@ import { callback } from '../../actions/fetch_json.ts';
 import { fetchClient, deleteClient } from '../../actions/client_actions.ts';
 import { redirect_to } from '../../routes/router.tsx';
 import Confirm from 'react-confirm-bootstrap';
-
 import { th } from '../../utils/utils.ts';
-
-import { fetchContracts} from '../../actions/contract_actions.ts';
+import { fetchContractsForCompany } from '../../actions/contract_actions.ts';
 
 interface Props {
   [ params: string ]: { [ id: string ]: number };
@@ -51,7 +49,7 @@ class Client extends React.Component<Props, State> {
   }
 
   fetchContracts(params: ContractParams, success?: callback, fail?: callback) {
-    fetchContracts(success, fail, { company: params.companyId });
+    fetchContractsForCompany(params.companyId, success, fail);
   }
 
   render() {

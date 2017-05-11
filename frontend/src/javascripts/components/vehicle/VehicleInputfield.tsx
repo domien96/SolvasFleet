@@ -1,7 +1,7 @@
 import React from 'react';
 import T from 'i18n-react';
 import { Typeahead } from 'react-bootstrap-typeahead';
-import { fetchRoles } from '../../../actions/auth_actions.ts';
+import { fetchVehicles } from '../../actions/vehicle_actions.ts';
 import classNames from 'classnames';
 
 interface Props {
@@ -12,45 +12,45 @@ interface Props {
 }
 
 interface State {
-  roles: RoleData[];
+  vehicles: VehicleData[];
 }
 
-class RoleInputfield extends React.Component<Props, State> {
+class VehicleInputfield extends React.Component<Props, State> {
   constructor(props: any) {
     super(props);
-    this.state = { roles: [] };
-    this.fetchRoles = this.fetchRoles.bind(this);
+    this.state = { vehicles: [] };
+    this.fetchVehicles = this.fetchVehicles.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
-    this.fetchRoles();
+    this.fetchVehicles();
   }
 
   componentWillReceiveProps(nextProps: any) {
     if (nextProps.value !== this.props.value) {
-      this.fetchRoles();
+      this.fetchVehicles();
     }
   }
 
-  handleChange(selectedRoles: string[]) {
-    if (selectedRoles) {
-      this.props.callback({ target: { value: parseInt(selectedRoles[0].split(':')[0], 10) } });
+  handleChange(selectedVehicles: string[]) {
+    if (selectedVehicles) {
+      this.props.callback({ target: { value: parseInt(selectedVehicles[0].split(':')[0], 10) } });
     }
   }
 
-  fetchRoles() {
-    fetchRoles((data: any) => {
-      this.setState({ roles: data.data })
+  fetchVehicles() {
+    fetchVehicles((data: any) => {
+      this.setState({ vehicles: data.data })
     });
   }
 
   render() {
     let optionList: string[] = [];
     let selected: string[] = [];
-    if (this.state.roles) {
-      optionList = this.state.roles.map((c: RoleData) => {
-        let option = `${c.id.toString()}: ${c.name}`;
+    if (this.state.vehicles) {
+      optionList = this.state.vehicles.map((c: VehicleData) => {
+        let option = `${c.id.toString()}: ${c.licensePlate} - ${c.vin}`;
         if (c.id === this.props.value) {
           selected.push(option);
         }
@@ -70,4 +70,4 @@ class RoleInputfield extends React.Component<Props, State> {
   }
 }
 
-export default RoleInputfield;
+export default VehicleInputfield;

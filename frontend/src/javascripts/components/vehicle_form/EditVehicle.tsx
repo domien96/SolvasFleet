@@ -30,7 +30,11 @@ class EditVehicle extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    fetchVehicle(this.props.params.id, (data: any) => this.setState({ vehicle: data }));
+    fetchVehicle(this.props.params.id, (data: any) => {
+      const vehicle: VehicleData = data;
+      vehicle['year'] = vehicle.year.split('-')[0];
+      this.setState({ vehicle: vehicle });
+    });
   }
 
   handleChange(field: Vehicle.Field, e: any): any {
@@ -42,13 +46,30 @@ class EditVehicle extends React.Component<Props, State> {
   onSubmit(e: any): void {
     e.preventDefault();
     const setErrors = (es: Form.Error[]) => this.setState({ errors: es });
-
     const success = () => redirect_to(`/vehicles/${this.state.vehicle.id}`);
     const fail = (data: any) => {
       setErrors(data.errors.map((es: any) => ({ field: es.field, error: 'null' })));
     };
+    console.log(this.state);
+    putVehicle(this.state.vehicle.id, this.changeDateFormat(this.state.vehicle), success, fail);
+  }
 
-    putVehicle(this.state.vehicle.id, this.state.vehicle, success, fail);
+  changeDateFormat(oldVehicle : VehicleData) {
+    const { id, licensePlate, vin, brand, model, type, mileage, year, leasingCompany, value, fleet } = oldVehicle;
+    let vehicle = {
+      id: id,
+      licensePlate: licensePlate,
+      vin: vin,
+      brand: brand,
+      model: model,
+      type: type,
+      mileage: mileage,
+      year: new Date(year),
+      leasingCompany: leasingCompany,
+      value: value,
+      fleet: fleet
+    };
+    return vehicle;
   }
 
   render() {

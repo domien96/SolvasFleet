@@ -5,6 +5,7 @@ import FormChoice from '../../forms/FormChoice.tsx';
 import DateForm from '../../forms/DateForm.tsx';
 import Card from '../../app/Card.tsx';
 import CompanyInputfield from '../../client/CompanyInputfield.tsx';
+import VehicleInputfield from '../../vehicle/VehicleInputfield.tsx';
 
 
 interface Props {
@@ -54,10 +55,9 @@ const Info: React.StatelessComponent<Props> = props => {
             placeholder='contract.type'
             choices={ choices }
             callback={ handleChange('type', 'text') } />
-          <FormField
+          <VehicleInputfield
             value={ vehicle }
             placeholder='contract.vehicle'
-            type='number'
             callback={ handleChange('vehicle', 'text') }
             hasError={ props.hasError('vehicle') } />
           <DateForm

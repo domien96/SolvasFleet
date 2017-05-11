@@ -37,13 +37,25 @@ interface Props {
   handleDelete: () => void;
   vehicle: VehicleData
   onDownloadGreencard: () => void;
+  onGetFleetName: (id: number) => string;
+  onGetCompanyName: (id: number) => any;
 }
 
 const VehicleView: React.StatelessComponent<Props> = props => {
   const { id, licensePlate, vin, brand, model, type, mileage, year, leasingCompany, value, fleet } = props.vehicle;
 
+  let fleetName : number | string = fleet;
+  if (fleet) {
+    fleetName = `${fleet}: ${props.onGetFleetName(fleet)}`;
+  }
+
+  let companyName : number | string = leasingCompany;
+  if (leasingCompany) {
+    companyName = `${leasingCompany}: ${props.onGetCompanyName(leasingCompany)}`;
+  }
+
   const data = [
-    th('vehicle.fleet', fleet),
+    th('vehicle.fleet', fleetName),
     th('vehicle.vin', vin),
     th('vehicle.licensePlate', licensePlate),
     th('vehicle.brand', brand),
@@ -52,7 +64,7 @@ const VehicleView: React.StatelessComponent<Props> = props => {
     th('vehicle.mileage', mileage),
     th('vehicle.year', year),
     th('vehicle.value', value),
-    th('vehicle.leasingCompany', leasingCompany),
+    th('vehicle.leasingCompany', companyName)
   ];
 
   return (

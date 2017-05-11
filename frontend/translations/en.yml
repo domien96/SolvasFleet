@@ -8,7 +8,8 @@ login:
   submit: Login
 
 company:
-  clients: Clients
+  allCompanies: All companies
+  clients: Companies
   id: ID
   name: Name
   vatNumber: VAT number
