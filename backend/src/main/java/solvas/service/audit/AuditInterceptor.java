@@ -43,7 +43,6 @@ public class AuditInterceptor extends EmptyInterceptor {
     }
 
 
-
     @Override
     public boolean onFlushDirty(Object entity, Serializable id, Object[] currentState, Object[] previousState, String[] propertyNames, Type[] types) {
         // Make sure there is no infinite loop
@@ -90,7 +89,7 @@ public class AuditInterceptor extends EmptyInterceptor {
         // Generate payload
         ObjectNode obj =objectMapper.createObjectNode();
         for(int i=0; i < propertyNames.length;i++) { //state propertyNames, types: all have same indices
-           obj.putPOJO(propertyNames[i],state[i]);
+           obj.putPOJO(propertyNames[i],state[i]); // TODO if pojo = model store only id
         }
 
         // Make revision
@@ -109,6 +108,37 @@ public class AuditInterceptor extends EmptyInterceptor {
         // Connect revision with a entity
         transactionRevisions.put(entity,revision);
         return false; // We do not make changes
+    }
+
+
+    @Override
+    public void onDelete(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
+        // Make sure there is no infinite loop
+        if (entity instanceof Revision) {
+            return;
+        }
+
+        // Generate payload
+        ObjectNode obj =objectMapper.createObjectNode();
+        for(int i=0; i < propertyNames.length;i++) { //state propertyNames, types: all have same indices
+            obj.putPOJO(propertyNames[i],state[i]);
+        }
+
+        // Make revision
+        Revision revision = new Revision();
+        revision.setLogDate(LocalDateTime.now());
+        revision.setEntityType(EntityType.fromClass(entity.getClass()));
+        revision.setMethod(MethodType.DELETE);
+
+        // Add payload to revision
+        try {
+            revision.setPayload(objectMapper.writeValueAsString(obj));
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e); // Can we even catch an exception at this point
+        }
+
+        // Connect revision with a entity
+        transactionRevisions.put(entity,revision);
     }
 
     @Override

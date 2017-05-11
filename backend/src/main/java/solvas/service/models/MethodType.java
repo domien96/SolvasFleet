@@ -5,7 +5,7 @@ package solvas.service.models;
  */
 public enum MethodType {
 
-    INSERT("inser"),UPDATE("update"),ARCHIVE("archive");
+    INSERT("insert"),UPDATE("update"),DELETE("delete");
 
 
     private String text;
