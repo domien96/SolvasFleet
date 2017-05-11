@@ -2,7 +2,10 @@ package solvas.service.mappers;
 
 import org.springframework.stereotype.Component;
 import solvas.persistence.api.DaoContext;
+import solvas.persistence.api.EntityNotFoundException;
 import solvas.service.models.VehicleType;
+
+import java.util.Optional;
 
 /**
  * Mapper between VehicleType and it's String representation
@@ -11,24 +14,21 @@ import solvas.service.models.VehicleType;
 public class VehicleTypeMapper extends AbstractMapper<VehicleType,String> {
 
     /**
-     * TODO document
+     * Create a mapper between Vehicle type and vehicle type in the api as a string
      *
-     * @param daoContext
+     * @param daoContext The context for Dao's
      */
     public VehicleTypeMapper(DaoContext daoContext) {
         super(daoContext);
     }
 
     @Override
-    public VehicleType convertToModel(String api) {
-        VehicleType type = daoContext.getVehicleTypeDao().findByName(api);
-        if (type == null) {
-            type = new VehicleType();
-            type.setId(0);
-            type.setName(api);
-            return daoContext.getVehicleTypeDao().save(type);
+    public VehicleType convertToModel(String api) throws EntityNotFoundException {
+        Optional<VehicleType> type = daoContext.getVehicleTypeDao().findByName(api);
+        if (type.isPresent()) {
+            return type.get();
         } else {
-            return type;
+            throw new EntityNotFoundException("Could not find vehicle type");
         }
     }
 
