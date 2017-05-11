@@ -10,8 +10,6 @@ interface Props {
 const InvoiceActions: React.StatelessComponent<Props> = props => {
   const { fleet } = props;
 
-	var { fleet } = props;
-
 	return(
 	  <Card>
 	    <div className='card-content invoice-actions'>
