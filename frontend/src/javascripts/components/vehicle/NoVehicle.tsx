@@ -1,5 +1,5 @@
 import React from 'react';
-import Card      from '../app/Card.tsx';
+import Card from '../app/Card.tsx';
 import T from 'i18n-react';
 
 class NoVehicle extends React.Component<{}, {}> {

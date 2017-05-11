@@ -6,10 +6,10 @@ import DetailTable from '../tables/DetailTable.tsx';
 import { th } from '../../utils/utils.ts';
 
 interface DownloadButtonProps {
-  onDownload : () => void;
+  onDownload: () => void;
 }
 
-const DownloadButton : React.StatelessComponent<DownloadButtonProps> = props => {
+const DownloadButton: React.StatelessComponent<DownloadButtonProps> = props => {
   return (
     <div className='col-sm-6'>
       <button onClick={ props.onDownload } className='btn btn-default form-control'>
@@ -17,15 +17,15 @@ const DownloadButton : React.StatelessComponent<DownloadButtonProps> = props => 
       </button>
     </div>
   );
-}
+};
 
 interface Props {
-  invoice : InvoiceData;
-  onDownload : () => void;
+  invoice: InvoiceData;
+  onDownload: () => void;
 }
 
-const InvoiceView : React.StatelessComponent<Props> = props => {
-  var { id, fleet, paid, totalAmount, type, startDate, endDate } = props.invoice;
+const InvoiceView: React.StatelessComponent<Props> = props => {
+  const { id, fleet, paid, totalAmount, type, startDate, endDate } = props.invoice;
 
   const data = [
     th('invoice.id', id),
@@ -34,7 +34,7 @@ const InvoiceView : React.StatelessComponent<Props> = props => {
     th('invoice.totalAmount', totalAmount),
     th('invoice.type', type),
     th('invoice.startDate', startDate),
-    th('invoice.endDate', endDate)
+    th('invoice.endDate', endDate),
   ];
 
   return (
@@ -49,6 +49,6 @@ const InvoiceView : React.StatelessComponent<Props> = props => {
       </div>
     </Card>
   );
-}
+};
 
 export default InvoiceView;
