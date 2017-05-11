@@ -40,13 +40,15 @@ class CompanyInputfield extends React.Component<Props, State> {
     if (selectedCompanies) {
       let ids: any = [];
       for (let i = 0; i < selectedCompanies.length; i++){
-        let e = { target: { value: parseInt(selectedCompanies[i].split(':')[0]) } };
+        const e = { target: { value: parseInt(selectedCompanies[i].split(':')[0]) } };
         ids.push(e);
       }
-      if (ids.length === 1) {
+      if (ids.length === 1) {;
         this.props.callback(ids[0]);
       }
-      this.props.callback(ids);
+      else{
+        this.props.callback(ids);
+      }
     }
   }
 
@@ -71,9 +73,11 @@ class CompanyInputfield extends React.Component<Props, State> {
       });
     }
     if (this.props.multiple) {
-      optionList.push("-1: All companies");
+      const allCompaniesTranslated = T.translate('companies.allCompanies');
+      const allCompanies = `-1: ${allCompaniesTranslated}`
+      optionList.push(allCompanies);
       if (selected.length === 0) {
-        selected.push("-1: All companies");
+        selected.push(allCompanies);
       }
     }
 
