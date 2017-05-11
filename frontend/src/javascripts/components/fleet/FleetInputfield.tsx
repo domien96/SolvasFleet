@@ -78,7 +78,7 @@ class FleetInputfield extends React.Component<Props, State> {
     let selected;
     if (this.state.fleets) {
       optionList = this.state.fleets.map((f: FleetData) => {
-        let option = `${this.getCompanyName(f.company)} - ${f.id.toString()}: ${f.name}`;
+        let option = `${f.id.toString()}: ${this.getCompanyName(f.company)} - ${f.name}`;
         if (f.id === this.props.value) {
           selected = [option];
         }

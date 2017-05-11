@@ -16,7 +16,7 @@ export function CLIENT_URL(id: number) { return `${CLIENTS_URL}/${id}`; }
 export const VEHICLES_URL                = `${BASE_API_URL}/vehicles`;
 export function VEHICLE_URL(id: number) { return `${VEHICLES_URL}/${id}`; }
 export function VEHICLE_GREENCARD_PDF_URL(id : number) { 
-	return `${BASE_API_URL}/vehicles/${id}/greencard.pdf'`; 
+	return `${BASE_API_URL}/vehicles/${id}/greencard.pdf`; 
 }
 
 export function FLEETS_URL(id: number) { return `${BASE_API_URL}/companies/${id}/fleets`; }
