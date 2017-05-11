@@ -100,5 +100,4 @@ class UserFunctions extends React.Component<Props, State> {
   }
 }
 
-
 export default UserFunctions;

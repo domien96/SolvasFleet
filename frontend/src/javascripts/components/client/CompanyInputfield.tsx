@@ -43,10 +43,9 @@ class CompanyInputfield extends React.Component<Props, State> {
         const e = { target: { value: parseInt(selectedCompanies[i].split(':')[0], 10) } };
         ids.push(e);
       }
-      if (ids.length === 1) {;
+      if (ids.length === 1) {
         this.props.callback(ids[0]);
-      }
-      else{
+      } else {
         this.props.callback(ids);
       }
     }

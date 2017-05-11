@@ -35,7 +35,6 @@ class AddUser extends React.Component<{}, State> {
     e.preventDefault();
     const setErrors = (es: Form.Error[]) => this.setState({ errors: es });
     const success = (data: any) => redirect_to(`/users/${data.id}`);
-
     postUser(this.state.user, success, Errors.handle(setErrors));
   }
 
