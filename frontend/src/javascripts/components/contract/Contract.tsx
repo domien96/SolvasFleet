@@ -54,8 +54,7 @@ class Contract extends React.Component<Props, State> {
         return c.id === id;
       });
       return companiesFiltered[0].name;
-    }
-    else {
+    } else {
       return id;
     }
   }
