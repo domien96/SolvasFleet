@@ -59,7 +59,7 @@ class Vehicle extends React.Component<Props, State> {
     const { id } = this.props.params;
     let fail = (data: any) => console.log(data);
     fetchGreencardPdf(id, ((data: any) => {
-      FileSaver.saveAs(data, `greencard_${id}.${'pdf'}`);
+      FileSaver.saveAs(data, `greencard_${id}.pdf`);
     }), fail);
   }
 

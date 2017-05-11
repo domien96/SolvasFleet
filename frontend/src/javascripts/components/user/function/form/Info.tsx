@@ -28,7 +28,7 @@ const Info: React.StatelessComponent<Props> = props => {
       <Card>
         <div className='card-content'>
           <RoleInputfield 
-            value={ [selectedRole] } 
+            value={ selectedRole } 
             placeholder='function.role' 
             callback={ handleChange('role') } 
             hasError={ false } />
