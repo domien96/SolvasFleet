@@ -71,7 +71,7 @@ class Vehicles extends React.Component<{}, State> {
   handleSubmit(e: any): void {
     e.preventDefault();
     const setErrors = (es: Form.Error[]) => this.setState({ errors: es });
-    const success = (data: any) => redirect_to(`/vehicles/${data.id}`);
+    const success = () => { this.fetchVehicles(this.state.filter) };
     const fail = (data: any) => {
       setErrors(data.errors.map((es: any) => {
         return { field: es, error: 'null' };
