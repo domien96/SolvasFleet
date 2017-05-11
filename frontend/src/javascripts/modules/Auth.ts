@@ -1,20 +1,20 @@
 import { auth_token } from '../actions/auth_actions.ts';
 
-export function parseClaims(token : string) {
+export function parseClaims(token: string) {
   return (
     JSON.parse(
       atob(
-        token.split('.')[1]
-      )
+        token.split('.')[1],
+      ),
     )
   );
 }
 
-function date_from(timestamp : number) {
+function date_from(timestamp: number) {
   return new Date(timestamp * 1000);
 }
 
-function isExpired(date : Date) {
+function isExpired(date: Date) {
   return date <= new Date();
 }
 
@@ -22,7 +22,7 @@ class Auth {
   /**
    * Authenticate a user. Save a accessToken and refreshToken string in Local Storage
    */
-  static authenticateUser(refreshToken : string, accessToken : string) {
+  static authenticateUser(refreshToken: string, accessToken: string) {
     localStorage.setItem('refreshToken', refreshToken);
     localStorage.setItem('accessToken', accessToken);
   }
@@ -43,9 +43,8 @@ class Auth {
     localStorage.removeItem('refreshToken');
   }
 
-
   static getLocalAccessToken() {
-    return localStorage.getItem('accessToken')
+    return localStorage.getItem('accessToken');
   }
 
   static getLocalRefreshToken() {
@@ -62,9 +61,9 @@ class Auth {
       } else if (Auth.isAccessTokenExpired()) {
         auth_token((data) => {
           Auth.authenticateUser(
-            data['refreshToken']['token'],
-            data['accessToken']['token']
-          )
+            data.accessToken.token,
+            data.refreshToken.token,
+          );
         });
       } else {
         resolve(Auth.getLocalAccessToken());
@@ -82,8 +81,8 @@ class Auth {
     });
   }
 
-  static isTokenExpired(token : string) {
-    return isExpired(date_from(parseClaims(token)['exp']));
+  static isTokenExpired(token: string) {
+    return isExpired(date_from(parseClaims(token).exp));
   }
 
   static isAccessTokenExpired() {

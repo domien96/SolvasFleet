@@ -1,16 +1,16 @@
-import React      from 'react';
+import React from 'react';
 import classNames from 'classnames';
-import T          from 'i18n-react';
+import T from 'i18n-react';
 import DatePicker from 'react-bootstrap-date-picker';
 
 interface Props {
-  label : string;
-  hasError    : boolean;
-  callback    : (e : any) => void;
-  value       : any;
+  label: string;
+  hasError: boolean;
+  callback: (e: any) => void;
+  value: any;
 }
 
-const DateForm : React.StatelessComponent<Props> = props => {
+const DateForm: React.StatelessComponent<Props> = props => {
   const label = T.translate(props.label);
   const wrapperClasses = classNames('form-group', { 'has-error': props.hasError });
   return (
@@ -22,7 +22,7 @@ const DateForm : React.StatelessComponent<Props> = props => {
         value={ props.value || new Date().toISOString() }
       />
     </div>
-  )
-}
+  );
+};
 
 export default DateForm;

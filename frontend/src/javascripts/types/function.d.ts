@@ -4,20 +4,20 @@ namespace SFunction {
 }
 
 interface SFunctionData {
-	id? 			: number;	
-  company?  : number;
-  role? 		: number;
-  user? 		: number;
+  id?: number;
+  company?: number;
+  role?: number;
+  user?: number;
 }
 
 namespace SFunctions {
   export interface Data {
-    [ Sfunctions : string ] : any;
+    [ Sfunctions: string ]: any;
   }
 }
 
 namespace Choice {
-	export interface Data {
+  export interface Data {
     key: string;
     label: string;
   }
