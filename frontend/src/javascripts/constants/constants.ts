@@ -50,5 +50,6 @@ export function INVOICE_PDF_URL(fleetId: number, invoiceId: number) {
 
 export const CONTRACTS_URL                = `${BASE_API_URL}/contracts`;
 export function CONTRACT_URL(id: number) { return `${CONTRACTS_URL}/${id}`; }
+export function CONTRACTS_COMPANY_URL(id: number) { return `${CLIENTS_URL}/${id}/contracts`; }
 
 export const TYPES_URL                = `${BASE_API_URL}/contracts/types`;

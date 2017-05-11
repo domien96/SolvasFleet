@@ -1,4 +1,4 @@
-import { CONTRACT_URL, CONTRACTS_URL, TYPES_URL } from '../constants/constants.ts';
+import { CONTRACT_URL, CONTRACTS_URL, TYPES_URL, CONTRACTS_COMPANY_URL } from '../constants/constants.ts';
 import { callback, DELETE, GET, POST, PUT } from './fetch_json.ts';
 
 export function fetchContract(id: number, success?: callback, fail?: callback) {
@@ -7,6 +7,10 @@ export function fetchContract(id: number, success?: callback, fail?: callback) {
 
 export function fetchContracts(success?: callback, fail?: callback, query?: any) {
   GET( CONTRACTS_URL, success, fail, query );
+}
+
+export function fetchContractsForCompany(companyId: number, success?: callback, fail?: callback, query?: any) {
+  GET( CONTRACTS_COMPANY_URL(companyId), success, fail, query );
 }
 
 export function postContract(body: any, success?: callback, fail?: callback) {
