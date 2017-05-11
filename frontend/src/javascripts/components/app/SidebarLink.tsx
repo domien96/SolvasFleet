@@ -8,8 +8,8 @@ interface Props {
 
 class SidebarLink extends React.Component<Props, {}> {
   static contextTypes = {
-    location: React.PropTypes.object
-  }
+    location: React.PropTypes.object,
+  };
 
   render() {
     const classes = classNames({ active: this.context.location.pathname.includes(this.props.path) });
@@ -20,7 +20,7 @@ class SidebarLink extends React.Component<Props, {}> {
           { this.props.children }
         </Link>
       </li>
-    )
+    );
   }
 }
 

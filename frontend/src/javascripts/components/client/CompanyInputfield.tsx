@@ -5,23 +5,23 @@ import { fetchClients } from '../../actions/client_actions.ts';
 import classNames from 'classnames';
 
 interface Props {
-  value : number[];
-  callback : (e : any) => void;
-  placeholder : string;
-  hasError    : boolean;
-  query?      : any;
-  multiple?    : boolean;
+  value: number[];
+  callback: (e: any) => void;
+  placeholder: string;
+  hasError: boolean;
+  query?: any;
+  multiple?: boolean;
 }
 
 interface State {
-  companies : CompanyData[];
+  companies: CompanyData[];
 }
 
 class CompanyInputfield extends React.Component<Props, State> {
 
-  constructor(props : any) {
+  constructor(props: any) {
     super(props);
-    this.state = { companies : [] };
+    this.state = { companies: [] };
     this.fetchClients = this.fetchClients.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
@@ -30,62 +30,64 @@ class CompanyInputfield extends React.Component<Props, State> {
     this.fetchClients(this.props.query);
   }
 
-  componentWillReceiveProps(nextProps : any) {
-    if (nextProps.value != this.props.value) {
+  componentWillReceiveProps(nextProps: any) {
+    if (nextProps.value !== this.props.value) {
       this.fetchClients(nextProps.query);
     }
   }
 
-  handleChange(selectedCompanies : string[]) {
-    if(selectedCompanies){
-      let ids : any = [];
+  handleChange(selectedCompanies: string[]) {
+    if (selectedCompanies) {
+      let ids: any = [];
       for (let i = 0; i < selectedCompanies.length; i++){
         let e = { target: { value: parseInt(selectedCompanies[i].split(':')[0]) } };
         ids.push(e);
       }
-      if(ids.length == 1){
+      if (ids.length === 1) {
         this.props.callback(ids[0]);
       }
       this.props.callback(ids);
     }
   }
 
-  fetchClients(query? : any) {
-    fetchClients((data : any) => {
+  fetchClients(query?: any) {
+    fetchClients((data: any) => {
       this.setState({ companies: data.data })
     }, undefined, query);
   }
 
   render() {
-    let optionList : string[] = [];
-    var selected : string[] = [];
-    if(this.state.companies) {
-      optionList = this.state.companies.map((c : CompanyData) => {
-        let option = (c.id.toString() + ': ' + c.name);
-        this.props.value.map((v : number) => {
-          if(c.id == v){
+    let optionList: string[] = [];
+    let selected: string[] = [];
+    if (this.state.companies) {
+      optionList = this.state.companies.map((c: CompanyData) => {
+        const option = (c.id.toString() + ': ' + c.name);
+        this.props.value.map((v: number) => {
+          if (c.id === v) {
             selected.push(option);
           }
-        })
+        });
         return option;
       });
     }
-    if(this.props.multiple){
-      optionList.push("-1: All companies")
-      if (selected.length==0) {selected.push("-1: All companies")}
+    if (this.props.multiple) {
+      optionList.push("-1: All companies");
+      if (selected.length === 0) {
+        selected.push("-1: All companies");
+      }
     }
 
     const label = T.translate(this.props.placeholder);
     const wrapperClasses = classNames('form-group', { 'has-error': this.props.hasError });
     let typeahead;
     if(this.props.multiple){
-      typeahead = <Typeahead multiple onChange={ this.handleChange } options={ optionList } selected={ selected }/>
+      typeahead = <Typeahead multiple onChange={ this.handleChange } options={ optionList } selected={ selected }/>;
     }
     else{
-      typeahead = <Typeahead onChange={ this.handleChange } options={ optionList } selected={ selected }/>
+      typeahead = <Typeahead onChange={ this.handleChange } options={ optionList } selected={ selected }/>;
     }
 
-    return(
+    return (
       <div className={ wrapperClasses }>
         <label>{ label }</label>
         {typeahead}

@@ -1,74 +1,65 @@
-import React    from 'react';
-import Header     from '../../app/Header.tsx';
+import React from 'react';
+import Header from '../../app/Header.tsx';
 
 import { postFunction } from '../../../actions/user_actions.ts';
 import { hasError } from '../../../utils/utils.ts';
-import { redirect_to } from'../../../routes/router.tsx';
-import T     from 'i18n-react';
-import FunctionForm from './form/FunctionForm.tsx'
+import { redirect_to } from '../../../routes/router.tsx';
+import T from 'i18n-react';
+import FunctionForm from './form/FunctionForm.tsx';
 
-interface Props{
-  params : { id : string };
+interface Props {
+  params: { id: string };
 }
 
 interface State{
-	errors : Form.Error[];
+	errors: Form.Error[];
   Sfunctions: SFunctionData[];
 }
 
 class CreateUserFunction extends React.Component<Props, State> {
-	constructor() {
+  constructor() {
     super();
-    this.state = {Sfunctions: [{role: 1, company: -1}], errors: []}
+    this.state = { Sfunctions: [{role: 1, company: -1}], errors: [] };
     this.handleChange = this.handleChange.bind(this);
-    this.onSubmit     = this.onSubmit.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
-	handleChange(field : SFunction.Field, e : any) : void {
-    if(field == "role"){
-      var newSfunctions : SFunctionData[] = this.state.Sfunctions.map((Sfunction : SFunctionData) => {
+	handleChange(field: SFunction.Field, e: any) {
+    if (field === "role"){
+      var newSfunctions: SFunctionData[] = this.state.Sfunctions.map((Sfunction: SFunctionData) => {
         return { role: e.target.value, company: Sfunction.company };
       });
       this.setState({ Sfunctions: newSfunctions });
     }
-    if(field == "company"){
-      var newSfunctions : SFunctionData[] = []
+    if (field === "company"){
+      var newSfunctions: SFunctionData[] = []
       for(let i = 0; i < e.length; i++){
-        let newSfunction : SFunctionData = { role: this.state.Sfunctions[0].role, company: e[i].target.value }
+        let newSfunction: SFunctionData = { role: this.state.Sfunctions[0].role, company: e[i].target.value };
         newSfunctions.push(newSfunction);
       }
-      if(newSfunctions.length == 0) newSfunctions.push({role: this.state.Sfunctions[0].role, company: -1});
+      if (newSfunctions.length === 0) {
+        newSfunctions.push({role: this.state.Sfunctions[0].role, company: -1});
+      }
       this.setState({ Sfunctions: newSfunctions });
     }
   }
 
-  onSubmit(e : any) : void {
-
-    this.state.Sfunctions.map((Sfunction : SFunctionData) => {
-      let newSfunction : SFunctionData = Sfunction;
-      newSfunction['user'] = parseInt(this.props.params.id);
-      if(!newSfunction.role){
-        newSfunction['role'] = 1; //admin
-      }
-      if(!newSfunction.company){
-        newSfunction['company'] = -1;
-      }
-
+  onSubmit(e: any) {
+    this.state.Sfunctions.map((Sfunction: SFunctionData) => {
       e.preventDefault();
-      let setErrors = (e : Form.Error[]) => this.setState({ errors: e });
+      let newSfunction: SFunctionData = Sfunction;
+      newSfunction['user'] = parseInt(this.props.params.id, 10);
+      let setErrors = (e: Form.Error[]) => this.setState({ errors: e });
       let success = () => redirect_to(`/users/${this.props.params.id}`);
-      let fail = (data : any) => {
-        console.log(data);
-        setErrors(data.errors.map(function(e : any) {
+      let fail = (data: any) => {
+        setErrors(data.errors.map(function(e: any) {
           return { field: e, error: 'null' };
         }));
       }
-
-      postFunction(parseInt(this.props.params.id), newSfunction, success, fail);
+      postFunction(parseInt(this.props.params.id, 10), newSfunction, success, fail);
     })
   }
 
-   
   render() {
     return (
       <div>
@@ -88,4 +79,3 @@ class CreateUserFunction extends React.Component<Props, State> {
 }
 
 export default CreateUserFunction;
-

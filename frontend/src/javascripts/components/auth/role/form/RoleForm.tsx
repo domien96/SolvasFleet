@@ -1,20 +1,20 @@
-import React    from 'react';
+import React from 'react';
 
 import Actions from '../../../forms/Actions.tsx';
 import Errors from '../../../app/Errors.tsx';
 import Info from './Info.tsx';
 
 interface Props {
-  onSubmit     : (e : any) => void;
-  handleChange : (e : any) => void;
-  errors       : Form.Error[];
-  hasError     : (field : Role.Field) => boolean;
-  role         : RoleData;
-  permissions  : string[];
+  onSubmit: (e: any) => void;
+  handleChange: (e: any) => void;
+  errors: Form.Error[];
+  hasError: (field: Role.Field) => boolean;
+  role: RoleData;
+  permissions: string[];
 }
 
-const RoleForm : React.StatelessComponent<Props> = props => {
-  var { role, permissions, onSubmit, handleChange, errors, hasError } = props;
+const RoleForm: React.StatelessComponent<Props> = props => {
+  const { role, permissions, onSubmit, handleChange, errors, hasError } = props;
 
   const submit = role.id != null ? 'form.update' : 'form.create';
 
@@ -33,6 +33,6 @@ const RoleForm : React.StatelessComponent<Props> = props => {
       </div>
     </form>
   );
-}
+};
 
 export default RoleForm;

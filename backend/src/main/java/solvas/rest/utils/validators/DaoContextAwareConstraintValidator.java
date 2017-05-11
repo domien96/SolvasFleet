@@ -1,5 +1,6 @@
 package solvas.rest.utils.validators;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import solvas.persistence.api.DaoContext;
 
 /**
@@ -15,4 +16,10 @@ public abstract class DaoContextAwareConstraintValidator {
     public void setDaoContext(DaoContext daoContext) {
         this.daoContext = daoContext;
     }
+
+    /**
+     * Creates this validator
+     * @param context The dao context (Autowired)
+     */
+    public DaoContextAwareConstraintValidator(DaoContext context) { daoContext = context;}
 }
