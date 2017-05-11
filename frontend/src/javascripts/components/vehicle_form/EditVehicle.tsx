@@ -30,7 +30,11 @@ class EditVehicle extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    fetchVehicle(this.props.params.id, (data: any) => this.setState({ vehicle: data }));
+    fetchVehicle(this.props.params.id, (data: any) => {
+      const vehicle: VehicleData = data;
+      vehicle['year'] = vehicle.year.split('-')[0];
+      this.setState({ vehicle: vehicle });
+    });
   }
 
   handleChange(field: Vehicle.Field, e: any): any {

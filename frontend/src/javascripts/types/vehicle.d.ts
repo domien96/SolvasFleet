@@ -13,7 +13,7 @@ interface VehicleData {
   model?: string;
   type?: string;
   mileage?: number;
-  year?: number;
+  year?: string;
   leasingCompany?: number;
   value?: number;
   fleet?: number;

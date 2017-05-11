@@ -29,7 +29,9 @@ class Vehicle extends React.Component<Props, State> {
 
   fetchVehicle(id: number) {
     fetchVehicle(id, ((data: any) => {
-      this.setState({ vehicle: data });
+      const vehicle: VehicleData = data;
+      vehicle['year'] = vehicle.year.split('-')[0];
+      this.setState({ vehicle: vehicle });
     }));
   }
 

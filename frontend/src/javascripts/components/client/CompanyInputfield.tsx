@@ -40,7 +40,7 @@ class CompanyInputfield extends React.Component<Props, State> {
     if (selectedCompanies) {
       let ids: any = [];
       for (let i = 0; i < selectedCompanies.length; i++){
-        const e = { target: { value: parseInt(selectedCompanies[i].split(':')[0]) } };
+        const e = { target: { value: parseInt(selectedCompanies[i].split(':')[0], 10) } };
         ids.push(e);
       }
       if (ids.length === 1) {;
