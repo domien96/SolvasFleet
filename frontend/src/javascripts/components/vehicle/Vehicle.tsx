@@ -9,6 +9,7 @@ import FileSaver from 'file-saver';
 import VehicleView from './VehicleView.tsx'
 import Contracts from '../contracts/Contracts.tsx'
 import { callback } from '../../actions/fetch_json.ts';
+import T from 'i18n-react';
 
 interface Props {
   params: { id: number };
@@ -34,6 +35,7 @@ class Vehicle extends React.Component<Props, State> {
     this.fetchContracts = this.fetchContracts.bind(this);
     this.handleDownloadGreencard = this.handleDownloadGreencard.bind(this);
     this.handleGetFleetName = this.handleGetFleetName.bind(this);
+    this.handleGetCompanyName = this.handleGetCompanyName.bind(this);
   }
 
   fetchVehicle(id: number) {
@@ -105,6 +107,21 @@ class Vehicle extends React.Component<Props, State> {
     return id.toString();
   }
 
+  handleGetCompanyName(id: number) {
+    if (id === -1) {
+      return T.translate('company.allCompanies');
+    }
+    if (this.state.companies.length > 0) {
+      const companiesFiltered = this.state.companies.filter((c: CompanyData) => {
+        return c.id === id;
+      });
+      return companiesFiltered[0].name;
+    }
+    else {
+      return id.toString();
+    }
+  }
+
   render() {
     return(
       <div>
@@ -112,6 +129,7 @@ class Vehicle extends React.Component<Props, State> {
           vehicle={ this.state.vehicle } 
           handleDelete={ this.deleteVehicle }
           onDownloadGreencard={ this.handleDownloadGreencard }
+          onGetCompanyName={ this.handleGetCompanyName }
           onGetFleetName={ this.handleGetFleetName } />
         <Contracts
           vehicleId={ this.props.params.id }

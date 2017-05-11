@@ -40,6 +40,7 @@ class Login extends React.Component<{}, State> {
     const { email, password } = this.state;
 
     const s = (data: any) => {
+      console.log(data);
       Auth.authenticateUser(
         data.refreshToken.token,
         data.accessToken.token
