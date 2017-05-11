@@ -58,8 +58,9 @@ const Info: React.StatelessComponent<Props> = props => {
             callback={ handleChange('fleet') }  
             hasError={ props.hasError('fleet') } />
           <CompanyInputfield
-            value={ leasingCompany }
+            value={ [leasingCompany] }
             placeholder='vehicle.leasingCompany'
+            query={ {type: 'LeasingCompany'} }
             callback={ handleChange('leasingCompany') }
             hasError={ props.hasError('leasingCompany') } />
           <FormField

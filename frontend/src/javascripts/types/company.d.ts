@@ -16,3 +16,9 @@ interface CompanyData {
                         [ houseNumber: string ]: string };
   [key: string]: string;
 }
+
+interface OptionData {
+  id : number;
+  label : string;
+}
+
