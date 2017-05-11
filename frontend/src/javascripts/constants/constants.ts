@@ -17,7 +17,7 @@ export const VEHICLES_URL                = `${BASE_API_URL}/vehicles`;
 export function VEHICLE_URL(id : number) { return `${VEHICLES_URL}/${id}`; }
 
 export function FLEETS_URL(id: number) { return `${BASE_API_URL}/companies/${id}/fleets`; }
-export function FLEET_URL(id : number) { return `${FLEETS_URL}/${id}`; }
+export function FLEET_URL(id : number,companyId :number) { return `${BASE_API_URL}/companies/${companyId}/fleets/${id}`; }
 
 export const AUTH_LOGIN_URL = `${BASE_API_URL}/auth/login`;
 export const AUTH_TOKEN_URL = `${BASE_API_URL}/auth/token`;
@@ -41,4 +41,3 @@ export const CONTRACTS_URL                = `${BASE_API_URL}/contracts`;
 export function CONTRACT_URL(id : number) { return `${CONTRACTS_URL}/${id}`; }
 
 export const TYPES_URL                = `${BASE_API_URL}/contracts/types`;
-
