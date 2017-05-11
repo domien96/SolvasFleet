@@ -4,13 +4,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hibernate.EmptyInterceptor;
 import org.hibernate.type.Type;
-import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
+import solvas.rest.api.models.ApiModel;
 import solvas.service.models.*;
 
 import java.io.Serializable;
@@ -116,8 +117,7 @@ public class AuditInterceptor extends EmptyInterceptor {
             // Set logged in user
             value.setUser(getAuthenticatedUser());
             // Set type of entity
-            value.setEntityType(
-                    EntityType.fromClass(value.getClass()));
+            value.setEntityType(EntityType.fromClass(key.getClass()));
             // Set current time
             value.setLogDate(transactionDateTime);
 
@@ -137,9 +137,11 @@ public class AuditInterceptor extends EmptyInterceptor {
      */
     @EventListener
     public void handleContextRefresh(ContextRefreshedEvent event) {
-        BeanFactory factory = event.getApplicationContext().getAutowireCapableBeanFactory();
+        AutowireCapableBeanFactory factory = event.getApplicationContext().getAutowireCapableBeanFactory();
         daoContext = factory.getBean(DaoContext.class);
         mapperContext = factory.getBean(MapperContext.class);
-        objectMapper = factory.getBean(ObjectMapper.class);
+        // We want a fresh bean, since we need it to behave differently.
+        objectMapper = factory.createBean(ObjectMapper.class);
+        objectMapper.addMixIn(ApiModel.class, IgnoreDataMixin.class);
     }
 }
