@@ -8,7 +8,8 @@ login:
   submit: Login
 
 company:
-  clients: Clients
+  allCompanies: All companies
+  clients: Companies
   id: ID
   name: Name
   vatNumber: VAT number
@@ -49,6 +50,8 @@ vehicle:
     Truck: Truck
   addNew: Add New Vehicle
   edit: Edit Vehicle
+  none:
+    title: Vehicle Overview
 
 user:
   users: Users
@@ -61,6 +64,8 @@ user:
   lastName: Last name
   addNew: Add New User
   edit: Edit User
+  none:
+    title: Users Overview
 
 fleet:
   fleets: Fleets
@@ -137,6 +142,10 @@ form:
 
 table: 
   actions: Actions
+  none:
+    information: In the left section you can see all the {subject}s registered in this application. By clicking on one, you can select it, whereby this section will be replaced by this {subject}'s information. You will also receive the possibility to edit or remove the {subject}.
+  users:
+    extra_information: You can also change functions for this user.
 
 errors:
   null: is empty

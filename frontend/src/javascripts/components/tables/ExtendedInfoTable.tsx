@@ -1,48 +1,46 @@
 import React from 'react';
-import T     from 'i18n-react';
+import T from 'i18n-react';
 import Confirm from 'react-confirm-bootstrap';
 
 interface Props {
-      head    : Table.Head.Data[];
-      data    : any;
-      onDelete : (e : any) => void;
+  head: Table.Head.Data[];
+  data: any;
+  onDelete: (e: any) => void;
 }
 
-const ExtendedInfoTable : React.StatelessComponent<Props> = props => {
+const ExtendedInfoTable: React.StatelessComponent<Props> = props => {
+  const { head, data, onDelete } = props;
 
-    var { head, data, onDelete } = props;
- 
-    const tableHead = head.map((headData : Table.Head.Data) =>
-    (
-      <th key={ headData.key } scope='row' className='table-row' >{ T.translate(headData.label) }</th>
-    ));
+  const tableHead = head.map((headData: Table.Head.Data) => (
+    <th key={ headData.key } scope='row' className='table-row' >{ T.translate(headData.label) }</th>
+  ));
 
-    const tableRows = data.map((item : any, i : number) => {
-      const cells = head.map((headData : Table.Head.Data, j : number) => {
-        return (
-          <td key={ j }>{ item[headData.key] }</td>
-        );
-      });
+  const tableRows = data.map((item: any, i: number) => {
+    const cells = head.map((headData: Table.Head.Data, j: number) => {
       return (
-        <tr key={ i } className='table-row'>
-          {cells}
-          <td>
-            <Confirm
-              onConfirm={() => onDelete(item.id)}
-              body="Are you sure you want to archive this?"
-              confirmText="Confirm Archive"
-              title="Archive">
-              <button className='btn btn-danger btn-xs'>
-                <span className='glyphicon glyphicon-remove' /> Archive
-              </button>
-            </Confirm>
-          </td>
-        </tr>
+        <td key={ j }>{ item[headData.key] }</td>
       );
     });
-
     return (
-      <div className='table-wrap'>
+      <tr key={ i } className='table-row'>
+        {cells}
+        <td>
+          <Confirm
+            onConfirm={() => onDelete(item.id)}
+            body="Are you sure you want to archive this?"
+            confirmText="Confirm Archive"
+            title="Archive">
+            <button className='btn btn-danger btn-xs'>
+              <span className='glyphicon glyphicon-remove' /> Archive
+            </button>
+          </Confirm>
+        </td>
+      </tr>
+    );
+  });
+
+  return (
+    <div className='table-wrap'>
       <table className='table table-striped'>
         <thead className='thead-default'>
           <tr>
@@ -54,8 +52,8 @@ const ExtendedInfoTable : React.StatelessComponent<Props> = props => {
           {tableRows}
         </tbody>
       </table>
-      </div>
-    );
-}
+    </div>
+  );
+};
 
 export default ExtendedInfoTable;

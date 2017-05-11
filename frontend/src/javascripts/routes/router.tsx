@@ -17,32 +17,33 @@ import NoMatch from '../components/NoMatch.tsx';
 import App from '../components/app/App.tsx';
 import Login from '../components/Login.tsx';
 
-declare var ENVIRONMENT : string;
-const SUB_URI : string = (ENVIRONMENT == 'development' ? '' : '/app');
+declare const ENVIRONMENT: string;
+const SUB_URI: string = (ENVIRONMENT === 'development' ? '' : '/app');
 
-export function redirect_to(path : string) : void {
-  let sep = path[0] == '/' ? '' : '/';
+export function redirect_to(path: string): void {
+  const sep = path[0] === '/' ? '' : '/';
   browserHistory.push(`${SUB_URI}${sep}${path}`);
 }
 
-let sign_out_and_redirect = (_state : RouterState, re : RedirectFunction) => {
+const signOutAndRedirect = (_state: RouterState, re: RedirectFunction) => {
   Auth.deauthenticateUser();
   re('/');
-}
+};
 
-const SolvasRouter : React.StatelessComponent<{}> = () => {
+const SolvasRouter: React.StatelessComponent<{}> = () => {
   const history = useBasename(() => browserHistory)({
-    basename: SUB_URI
+    basename: SUB_URI,
   });
 
   return (
     <Router history={ history } >
-      <Route path="/">
-        <IndexRoute getComponent={ (_s, callback) => { return Auth.isAuthenticated() ? callback(null, App) : callback(null, Login) } } />
+      <Route path='/'>
+        <IndexRoute
+          getComponent={ (_s, callback) => (Auth.isAuthenticated() ? callback(null, App) : callback(null, Login)) } />
 
         <Route component={ EnsureLoggedInContainer }>
           <Route component={ App } >
-            <Route path="sign_out" onEnter={ sign_out_and_redirect } />
+            <Route path='sign_out' onEnter={ signOutAndRedirect } />
 
             { user_routes }
             { client_routes }
@@ -53,10 +54,10 @@ const SolvasRouter : React.StatelessComponent<{}> = () => {
 
           </Route>
         </Route>
-        <Route path="*" component={ NoMatch } />
+        <Route path='*' component={ NoMatch } />
       </Route>
     </Router>
   );
-}
+};
 
 export default SolvasRouter;

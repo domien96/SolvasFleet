@@ -6,16 +6,16 @@ namespace Vehicle {
 }
 
 interface VehicleData {
-  id?             : number;
-  licensePlate?   : string;
-  vin?            : string; //VIN: vehicle identification number
-  brand?          : string;
-  model?          : string;
-  type?           : string;
-  mileage?        : number;
-  year?           : number;
-  leasingCompany? : number;
-  value?          : number;
-  fleet?          : number
-  [key : string]  : string;
+  id?: number;
+  licensePlate?: string;
+  vin?: string; // VIN: vehicle identification number
+  brand?: string;
+  model?: string;
+  type?: string;
+  mileage?: number;
+  year?: string;
+  leasingCompany?: number;
+  value?: number;
+  fleet?: number;
+  [key: string]: string;
 }

@@ -43,7 +43,7 @@ public class VehicleMapper extends AbstractMapper<Vehicle, ApiVehicle> {
             FieldNotFoundException, EntityNotFoundException {
         final Vehicle vehicle=api.getId()==0 ? new Vehicle() : daoContext.getVehicleDao().find(api.getId());
         copySharedAttributes(vehicle, api);
-        vehicle.setKilometerCount(api.getMileage()); //Todo replace kilometerCount to mileage so it is a shared Attribute
+        vehicle.setKilometerCount(api.getMileage());
         vehicle.setChassisNumber(api.getVin());
         vehicle.setYear(api.getYear().getYear());
 
@@ -58,11 +58,9 @@ public class VehicleMapper extends AbstractMapper<Vehicle, ApiVehicle> {
 
             LocalDate now = LocalDate.now();
 
-            // TODO: do this without saving vehicle twice.
+            //This will save the vehicle twice. If we want to avoid this, we have to set all relations in memory and perform
+            //  cascade saving of these relation, which performs worse that saving twice
             daoContext.getVehicleDao().save(vehicle);
-
-            // TODO: split up the method below
-            // TODO: improve error handling
 
             // Get active subscriptions
             Optional<FleetSubscription> present = daoContext.getFleetSubscriptionDao().activeForVehicle(vehicle);
