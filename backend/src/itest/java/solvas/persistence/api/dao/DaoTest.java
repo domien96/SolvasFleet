@@ -23,6 +23,7 @@ import solvas.persistence.hibernate.HibernateConfig;
 public abstract class DaoTest {
 
     @Autowired
+    protected
     TestEntityManager manager;
 
 }
