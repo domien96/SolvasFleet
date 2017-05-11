@@ -22,9 +22,13 @@ class Auth {
   /**
    * Authenticate a user. Save a accessToken and refreshToken string in Local Storage
    */
-  static authenticateUser(refreshToken: string, accessToken: string) {
+  static authenticateUser(refreshToken: string, accessToken: string, sub?: string) {
     localStorage.setItem('refreshToken', refreshToken);
     localStorage.setItem('accessToken', accessToken);
+
+    if (sub) {
+      localStorage.setItem('sub', sub);
+    }
   }
 
   /**
@@ -41,6 +45,7 @@ class Auth {
   static deauthenticateUser() {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
+    localStorage.removeItem('sub');
   }
 
   static getLocalAccessToken() {
@@ -49,6 +54,10 @@ class Auth {
 
   static getLocalRefreshToken() {
     return localStorage.getItem('refreshToken');
+  }
+
+  static getLocalSub() {
+    return localStorage.getItem('sub');
   }
 
   /**
@@ -62,7 +71,8 @@ class Auth {
         auth_token((data) => {
           Auth.authenticateUser(
             data.refreshToken.token,
-            data.accessToken.token
+            data.accessToken.token,
+            data.accessToken.claims.sub
           );
         });
       } else {

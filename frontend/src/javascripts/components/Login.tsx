@@ -42,7 +42,8 @@ class Login extends React.Component<{}, State> {
     const s = (data: any) => {
       Auth.authenticateUser(
         data.refreshToken.token,
-        data.accessToken.token
+        data.accessToken.token,
+        data.accessToken.claims.sub
       );
 
       redirect_to(SIGNED_IN_URL);
