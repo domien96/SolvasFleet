@@ -1,14 +1,14 @@
 import React from 'react';
-import T     from 'i18n-react';
+import T from 'i18n-react';
 
 import { humanize } from '../../utils/utils.ts';
 
 interface Props {
-  errors : Form.Error[];
+  errors: Form.Error[];
 }
 
-const Errors : React.StatelessComponent<Props> = props => {
-  if (props.errors.length == 0) {
+const Errors: React.StatelessComponent<Props> = props => {
+  if (props.errors.length === 0) {
     return null;
   }
 
@@ -34,6 +34,6 @@ const Errors : React.StatelessComponent<Props> = props => {
       </div>
     </div>
   );
-}
+};
 
 export default Errors;

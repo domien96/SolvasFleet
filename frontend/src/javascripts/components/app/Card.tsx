@@ -5,10 +5,10 @@ interface Props {
   className?: string;
 }
 
-const Card : React.StatelessComponent<Props> = props => {
+const Card: React.StatelessComponent<Props> = props => {
   const classes = classNames(
     'card',
-    props.className
+    props.className,
   );
 
   return (
@@ -16,6 +16,6 @@ const Card : React.StatelessComponent<Props> = props => {
       { props.children }
     </div>
   );
-}
+};
 
 export default Card;
