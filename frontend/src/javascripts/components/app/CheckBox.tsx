@@ -1,20 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-class Checkbox extends React.Component<any,{}> {
+class Checkbox extends React.Component<any, {}> {
   componentDidMount() {
     if (this.props.indeterminate === true) {
       this._setIndeterminate(true);
     }
   }
 
-  componentDidUpdate(previousProps : any) {
+  componentDidUpdate(previousProps: any) {
     if (previousProps.indeterminate !== this.props.indeterminate) {
       this._setIndeterminate(this.props.indeterminate);
     }
   }
 
-  _setIndeterminate(indeterminate : boolean) {
+  _setIndeterminate(indeterminate: boolean) {
     const node = ReactDOM.findDOMNode<HTMLInputElement>(this);
     node.indeterminate = indeterminate;
   }

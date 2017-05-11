@@ -1,25 +1,25 @@
 interface Choice {
-  name: any; //TODO change to ReactNode or string (translations)
+  name: any; // TODO change to ReactNode or string (translations)
   eventKey: string;
-  callback : (value : string) => void;
+  callback: (value: string) => void;
 }
 
 interface Selectionfield {
   name: string;
   title: string;
-  choices : Choice[];
+  choices: Choice[];
 }
 
 interface Inputfield {
-  name: any; //TODO change to ReactNode or string (translations)
+  name: any; // TODO change to ReactNode or string (translations)
   value: string | number;
   type: string;
-  callback: (value : any) => void;
+  callback: (value: any) => void;
 }
 
 interface Typeaheadfield {
   name: any;
   data: string[];
   selected: string[];
-  callback: (value : any) => void;
+  callback: (value: any) => void;
 }
