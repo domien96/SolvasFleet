@@ -68,16 +68,14 @@ public class PaymentPdfView extends InvoicePdfView {
             table.addCell(getCell("TODO", Element.ALIGN_LEFT, font12b));
             //table.addCell(getCell(formatter.format(cost.getTax().getTax().doubleValue()), Element.ALIGN_RIGHT, font12));
 
-            table.addCell(getCell("TODO", Element.ALIGN_LEFT, font12b));
-            //table.addCell(getCell(euroFormat.format(cost.getTotal().doubleValue()), Element.ALIGN_RIGHT, font12));
+            table.addCell(getCell(item.getAmount().toString(), Element.ALIGN_LEFT, font12b));
         }
 
         PdfPCell cell = getCell("Totaal:", Element.ALIGN_LEFT, font12);
         cell.setColspan(3);
         table.addCell(cell);
 
-        table.addCell(getCell("TODO", Element.ALIGN_LEFT, font12b));
-        //table.addCell(getCell(euroFormat.format(invoice.getTotal().doubleValue()), Element.ALIGN_RIGHT, font12b));
+        table.addCell(getCell(invoice.getAmount().toString(), Element.ALIGN_LEFT, font12b));
         document.add(table);
 
         // step 5
