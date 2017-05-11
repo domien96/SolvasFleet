@@ -61,8 +61,8 @@ class Auth {
       } else if (Auth.isAccessTokenExpired()) {
         auth_token((data) => {
           Auth.authenticateUser(
-            data.accessToken.token,
             data.refreshToken.token,
+            data.accessToken.token
           );
         });
       } else {
