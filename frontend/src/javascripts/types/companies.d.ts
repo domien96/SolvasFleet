@@ -1,5 +1,5 @@
 namespace Companies {
   export interface Data {
-    [ companies : string ] : any;
+    [ companies: string ]: any;
   }
 }

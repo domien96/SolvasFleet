@@ -1,8 +1,8 @@
 import React from 'react';
-import T     from 'i18n-react';
+import T from 'i18n-react';
 import Card from './app/Card.tsx';
 
-const Home : React.StatelessComponent<{}> = () => {
+const Home: React.StatelessComponent<{}> = () => {
   return (
     <div className='wrapper'>
       <div className='row'>
@@ -14,6 +14,6 @@ const Home : React.StatelessComponent<{}> = () => {
       </div>
     </div>
   );
-}
+};
 
 export default Home;

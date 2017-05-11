@@ -1,11 +1,7 @@
 package solvas.rest.api.models;
 
 import org.hibernate.validator.constraints.NotBlank;
-import solvas.service.models.validators.StartBeforeEnd;
 
-import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 

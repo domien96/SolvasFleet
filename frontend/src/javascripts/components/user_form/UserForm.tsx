@@ -1,20 +1,19 @@
-import React    from 'react';
+import React from 'react';
 
 import Actions from '../forms/Actions.tsx';
 import Errors from '../app/Errors.tsx';
 import Info from './form/Info.tsx';
 
-
 interface Props {
-  onSubmit     : (e : any) => void;
-  handleChange : (field : User.Field, e : any) => void;
-  errors       : Form.Error[];
-  hasError     : (field : User.Field) => boolean;
-  user         : UserData;
+  onSubmit: (e: any) => void;
+  handleChange: (field: User.Field, e: any) => void;
+  errors: Form.Error[];
+  hasError: (field: User.Field) => boolean;
+  user: UserData;
 }
 
-const UserForm : React.StatelessComponent<Props> = props => {
-  var { user, onSubmit, handleChange, errors, hasError } = props;
+const UserForm: React.StatelessComponent<Props> = props => {
+  const { user, onSubmit, handleChange, errors, hasError } = props;
 
   const submit = user.id != null ? 'form.update' : 'form.create';
 
@@ -33,6 +32,6 @@ const UserForm : React.StatelessComponent<Props> = props => {
       </div>
     </form>
   );
-}
+};
 
 export default UserForm;

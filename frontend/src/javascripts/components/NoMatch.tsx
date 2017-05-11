@@ -1,7 +1,7 @@
-import React      from 'react';
+import React from 'react';
 import T from 'i18n-react';
 
-const NoMatch : React.StatelessComponent<{}> = () => {
+const NoMatch: React.StatelessComponent<{}> = () => {
   return (
     <div className='row'>
       <div className='col-lg-12 fof text-center'>
@@ -13,6 +13,6 @@ const NoMatch : React.StatelessComponent<{}> = () => {
       </div>
     </div>
   );
-}
+};
 
 export default NoMatch;
