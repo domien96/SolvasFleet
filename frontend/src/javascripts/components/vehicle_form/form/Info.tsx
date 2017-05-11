@@ -16,7 +16,6 @@ interface Props {
 const Info: React.StatelessComponent<Props> = props => {
   const handleChange = (field: Vehicle.Field) => {
     return (e: any) => {
-      console.log(e);
       props.handleChange(field, e);
     };
   };
