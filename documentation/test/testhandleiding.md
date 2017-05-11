@@ -1,7 +1,6 @@
-# Testhandleiding
+# Testhandleiding - Backend
 
 ### Inleiding
-Omdat we voor deze milestone eerst een goede testomgeving wouden opstellen voor de backend wordt de frontend nog niet getest. De infrastructuur bij het testen van de frontend krijgt een grotere focus bij de tweede milestone.
 
 De tests kunnen we in twee grote categoriën opdelen:
 1. Integration tests
@@ -20,9 +19,22 @@ De reden voor de opsplitsing is dat er bij de integration tests aparte resources
 - MockMVC voor het mocken van de Spring webserver
 - random-beans voor het creëren van random objecten
 - JaCoCo als code coverage tool
-- H2 als test databank
+- **Postgresql** als testdatabank (dit is nieuw, de reden hiervan is dat het moeilijk begon te worden omdat H2 niet alle functionaliteit van postgresql kan gebruiken)
+
+### Opstellen van de testdatabank
+
+Voordat we de tests kunnen uitvoeren zullen we de testdatabank eerst moeten aanmaken.
+Dit gebeurt gelijkaardig aan het aanmaken van de databank voor het opstellen van de backend. We gebruiken hier ook de user "vop", die al zou moeten bestaan door het opstellen van de backend.
+
+```
+$ psql
+$ CREATE DATABASE test_vop;
+$ GRANT ALL PRIVILEGES ON DATABASE "test_vop" TO vop;
+```
 
 ### Uitvoeren van de tests
+
+
 Via gradle kunnen we de tests apart uitvoeren. Met de volgende commando's:
 
 ```
@@ -120,9 +132,9 @@ Specifieke tests op de json doen we aan de hand van `jsonpath`, maar dit besprek
 
 ## Integration tests: Data access layer (DAO)
 
-Bij de integratietests van de data access layer maken we gebruik van een test databank. De databank die we gebruiken is h2. Dit is een embedded databank, wat het dus mogelijk maakt om een databank op te stellen zonder enige configuratie. De databank wordt automatisch aan de start van de tests aangemaakt.
+Bij de integratietests van de data access layer maken we gebruik van een test databank. De databank die we gebruiken is ook postgresql, omdat er anders te veel problemen ontstonden met de migrations.
 
-Aan de databank wordt er testdata toegevoegd. Deze kan gevonden worden in: `/backend/src/itest/resources/schema.sql`
+Aan de databank wordt er testdata toegevoegd. Deze kan gevonden worden in: `/backend/src/itest/resources/seed_data.sql`
 
 Elke testklasse van de DAO laag moet starten met volgende annotaties:
 ```java
