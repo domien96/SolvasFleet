@@ -51,7 +51,8 @@ public class CompanyFilter extends ArchiveFilter<Company> {
         }
 
         if (type != null) {
-            // The company type can be null. If that's the case it will match no company.
+            // We don't need to check if the type actually exists. If it doesn't exist, CompanyType.fromString(type)
+            // will return null, which in turn will not match with any company and thus return no companies.
             // This behaviour is allowed by the API.
             predicates.add(builder.equal(
                     root.get("type"),
