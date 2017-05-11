@@ -13,6 +13,7 @@ public class CompanyFilterTest extends AbstractFilterTest<Company> {
         filter.setCountry("Be");
         filter.setNameContains("AA");
         filter.setPostalCode("9000");
+        filter.setType("TestCompany");
         return filter;
     }
 
@@ -23,6 +24,6 @@ public class CompanyFilterTest extends AbstractFilterTest<Company> {
 
     @Override
     int parameterSize() {
-        return 5;
+        return 6;
     }
 }
