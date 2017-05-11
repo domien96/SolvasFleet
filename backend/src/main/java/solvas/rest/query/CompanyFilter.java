@@ -1,6 +1,7 @@
 package solvas.rest.query;
 
 import solvas.service.models.Company;
+import solvas.service.models.CompanyType;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;
@@ -18,6 +19,7 @@ public class CompanyFilter extends ArchiveFilter<Company> {
     private String country;
     private String nameContains;
     private String postalCode;
+    private String type;
 
     @Override
     public Collection<Predicate> asPredicates(CriteriaBuilder builder, Root<Company> root) {
@@ -48,6 +50,15 @@ public class CompanyFilter extends ArchiveFilter<Company> {
             ));
         }
 
+        if (type != null) {
+            // The company type can be null. If that's the case it will match no company.
+            // This behaviour is allowed by the API.
+            predicates.add(builder.equal(
+                    root.get("type"),
+                    CompanyType.fromString(type)
+            ));
+        }
+
         return predicates;
     }
 
@@ -65,5 +76,9 @@ public class CompanyFilter extends ArchiveFilter<Company> {
 
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }
