@@ -2,10 +2,9 @@ package solvas.service.audit;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.hibernate.Transaction;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
@@ -16,31 +15,33 @@ import java.util.Iterator;
 
 import org.hibernate.EmptyInterceptor;
 import org.hibernate.type.Type;
+import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
-import solvas.persistence.api.dao.RevisionDao;
-import solvas.persistence.api.dao.UserDao;
 import solvas.service.models.*;
 
 @Component
-public class AuditInterceptor extends EmptyInterceptor {
+public class AuditInterceptor extends EmptyInterceptor  implements BeanFactoryAware{
 
-    @Autowired
-    private RevisionDao revisionDao;
 
-    @Autowired
-    private UserDao userDao;
+    private DaoContext daoContext;
+
+
+    private BeanFactory beanFactory;
+
+    private MapperContext mapperContext;
 
     private HashMap<Object,Revision> transactionRevisions = new HashMap<>();
 
-    private static ObjectMapper objectMapper = new ObjectMapper();
+    private ObjectMapper objectMapper;
 
     private User getAuthenticatedUser(){
         try {
-            return userDao.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+            return daoContext.getUserDao().findByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         } catch (EntityNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
+
 
 
     @Override
@@ -50,29 +51,11 @@ public class AuditInterceptor extends EmptyInterceptor {
             return false;
         }
 
-        // Generate payload
-        ArrayNode list =objectMapper.createArrayNode();
-        for(int i=0; i < currentState.length;i++) { //currentState, previousState, propertyNames, types: all have same indices
-            if (!previousState[i].equals(currentState[i])){
-                list.add(objectMapper.createObjectNode().put("field",propertyNames[i])
-                        .putPOJO("old",previousState[i])
-                        .putPOJO("new",currentState[i])
-                );
-            }
-        }
 
         //make revision
         Revision revision = new Revision();
-        revision.setLogDate(LocalDateTime.now());
-        revision.setEntityType(EntityType.fromClass(entity.getClass()));
         revision.setMethod(MethodType.UPDATE);
 
-        // Add payload to revision
-        try {
-            revision.setPayload(objectMapper.writeValueAsString(list));
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e); // Can we even catch an exception at this point
-        }
 
         // Connect revision with a entity
         transactionRevisions.put(entity,revision);
@@ -86,24 +69,10 @@ public class AuditInterceptor extends EmptyInterceptor {
             return false;
         }
 
-        // Generate payload
-        ObjectNode obj =objectMapper.createObjectNode();
-        for(int i=0; i < propertyNames.length;i++) { //state propertyNames, types: all have same indices
-           obj.putPOJO(propertyNames[i],state[i]); // TODO if pojo = model store only id
-        }
-
         // Make revision
         Revision revision = new Revision();
-        revision.setLogDate(LocalDateTime.now());
-        revision.setEntityType(EntityType.fromClass(entity.getClass()));
         revision.setMethod(MethodType.INSERT);
 
-        // Add payload to revision
-        try {
-            revision.setPayload(objectMapper.writeValueAsString(obj));
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e); // Can we even catch an exception at this point
-        }
 
         // Connect revision with a entity
         transactionRevisions.put(entity,revision);
@@ -118,43 +87,67 @@ public class AuditInterceptor extends EmptyInterceptor {
             return;
         }
 
-        // Generate payload
-        ObjectNode obj =objectMapper.createObjectNode();
-        for(int i=0; i < propertyNames.length;i++) { //state propertyNames, types: all have same indices
-            obj.putPOJO(propertyNames[i],state[i]);
-        }
-
         // Make revision
         Revision revision = new Revision();
-        revision.setLogDate(LocalDateTime.now());
-        revision.setEntityType(EntityType.fromClass(entity.getClass()));
         revision.setMethod(MethodType.DELETE);
-
-        // Add payload to revision
-        try {
-            revision.setPayload(objectMapper.writeValueAsString(obj));
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e); // Can we even catch an exception at this point
-        }
 
         // Connect revision with a entity
         transactionRevisions.put(entity,revision);
     }
 
+    private Revision getPayloadAndId(Object entity, Revision revision){
+        Object about = entity;
+        if (entity instanceof FleetSubscription) {
+            about =  ((FleetSubscription) entity).getVehicle();
+            revision.setMethod(MethodType.UPDATE); // Fleet subscriptions are updates to the vehicle
+        }
+        try {
+            revision.setPayload(objectMapper.writeValueAsString(mapperContext.getMapperForClass(about.getClass()).convertToApiModel((Model) about)));
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e); // Can we even catch an exception at this point
+        }
+        revision.setEntity(((Model)entity).getId());
+        return revision;
+
+    }
+
+
     @Override
     public void postFlush(Iterator entities) {
+        // Break dependency cycle
+        if (daoContext==null) {
+            daoContext= beanFactory.getBean(DaoContext.class);
+        }
+        if (mapperContext==null) {
+            mapperContext = beanFactory.getBean(MapperContext.class);
+        }
+        if (objectMapper==null){
+            objectMapper = beanFactory.getBean(ObjectMapper.class);
+        }
+
+        final LocalDateTime transactionDateTime =LocalDateTime.now();
+
         transactionRevisions.entrySet().forEach(objectRevisionEntry -> {
-            objectRevisionEntry.getValue().setUser(getAuthenticatedUser()); // User cannot be set before flush
-            objectRevisionEntry.getValue().setEntity(((Model) objectRevisionEntry.getKey()).getId()); // Id cannot be set before flush
-            revisionDao.save(objectRevisionEntry.getValue()); // Create new revision
+            // No dao operations can be made before flush
+            // Set logged in user
+            objectRevisionEntry.getValue().setUser(getAuthenticatedUser());
+            // Set type of entity
+            objectRevisionEntry.getValue().setEntityType(
+                    EntityType.fromClass(objectRevisionEntry.getValue().getClass()));
+            // Set current time
+            objectRevisionEntry.getValue().setLogDate(transactionDateTime);
+
+            getPayloadAndId(objectRevisionEntry.getKey(),objectRevisionEntry.getValue()); // Id cannot be set before flush
+            daoContext.getRevisionDao().save(objectRevisionEntry.getValue()); // Create new revision
         });
         transactionRevisions.clear(); // Clean used map, as the same interceptor is used while running spring
     }
 
 
+    // Cycle in the loading of hibernate/ spring beans, this method solves it
     @Override
-    public void beforeTransactionCompletion(Transaction tx) {
+    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+        this.beanFactory = beanFactory;
 
-        super.beforeTransactionCompletion(tx);
     }
 }
