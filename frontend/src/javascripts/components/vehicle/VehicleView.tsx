@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 
 import Card from '../app/Card.tsx';
 import DetailTable from '../tables/DetailTable.tsx';
-
+import DownloadButton from '../buttons/DownloadButton.tsx';
 import { th } from '../../utils/utils.ts';
 import Confirm from 'react-confirm-bootstrap';
 
@@ -35,7 +35,8 @@ const DeleteLink = ({ handleDelete }: { handleDelete: () => void }) => {
 
 interface Props {
   handleDelete: () => void;
-  vehicle: VehicleData;
+  vehicle: VehicleData
+  onDownloadGreencard: () => void;
 }
 
 const VehicleView: React.StatelessComponent<Props> = props => {
@@ -66,6 +67,11 @@ const VehicleView: React.StatelessComponent<Props> = props => {
       </div>
       <div className='card-content'>
         <DetailTable data={ data }/>
+      </div>
+      <div className='card-content'>
+        <div className='row actions'>
+          <DownloadButton onDownload={ props.onDownloadGreencard } label='Download Greencard'/>
+        </div>
       </div>
     </div>
   </Card>

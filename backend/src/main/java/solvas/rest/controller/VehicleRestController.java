@@ -6,6 +6,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import solvas.persistence.api.EntityNotFoundException;
+import solvas.persistence.api.dao.VehicleDao;
+import solvas.rest.greencard.GreenCardViewResolver;
+import solvas.rest.greencard.pdf.GreenCardPdfView;
 import solvas.rest.utils.JsonListWrapper;
 import solvas.service.models.Vehicle;
 import solvas.rest.api.models.ApiVehicle;
@@ -84,6 +89,18 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
     @PreAuthorize("hasPermission(#vehicleId, 'vehicle', 'READ')")
     public ResponseEntity<?> getById(@PathVariable int vehicleId) {
         return super.getById(vehicleId);
+    }
+
+    /**
+     * Get green card of a vehicle as pdf.
+     * @param vehicleId Id of vehicle
+     * @return ResponseEntity
+     */
+    @RequestMapping(value = "/vehicles/{vehicleId}/greencard.pdf", method = RequestMethod.GET)
+    @PreAuthorize("hasPermission(#vehicleId, 'vehicle', 'READ')")
+    public ModelAndView getByFleetAndInvoiceIdWithExtension(@PathVariable int vehicleId) throws EntityNotFoundException {
+        ApiVehicle v = service.getById(vehicleId);
+        return new ModelAndView(GreenCardViewResolver.GREEN_CARD_PDF_VIEW, GreenCardPdfView.class.getCanonicalName(), v);
     }
 
     /**
