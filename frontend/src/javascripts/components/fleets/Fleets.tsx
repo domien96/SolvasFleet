@@ -21,10 +21,10 @@ class Fleets extends React.Component<Props, State> {
     super(props);
     this.state = {
       formVisible: false,
-      fleet: { 
-        company: this.props.company, 
-        facturationPeriod : 3, 
-        paymentPeriod : 1 
+      fleet: {
+        company: this.props.company,
+        facturationPeriod : 3,
+        paymentPeriod : 1
       },
       errors: []
     };
@@ -40,7 +40,7 @@ class Fleets extends React.Component<Props, State> {
   }
 
   onClick() {
-    this.setState({ formVisible: true })
+    this.setState({ formVisible: !this.state.formVisible })
   }
 
   onSubmit(e : any) {

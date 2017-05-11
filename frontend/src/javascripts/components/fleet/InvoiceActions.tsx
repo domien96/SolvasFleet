@@ -13,7 +13,7 @@ const InvoiceActions : React.StatelessComponent<Props> = props => {
 
 	return(
 	  <Card>
-	    <div className='card-content'>
+	    <div className='card-content invoice-actions'>
 	      <div className='row actions'>
 	        <div className='col-sm-6'>
 	          <Link to={ '/fleets/' + fleet + '/invoices/current' } className='btn btn-default form-control'>

@@ -13,7 +13,7 @@ interface FProps {
 
 const FleetLink : React.StatelessComponent<FProps> = ({ id, name }) => {
   return (
-    <Link to={ `/fleets/${id}` } key={ id } className='fleet'>
+    <Link to={ `/fleets/${id}` } key={ id } className='fleet has-border'>
       <h3>{ name }</h3>
       <div className='actions pull-right'>
         <h3>
@@ -50,7 +50,7 @@ const FleetsCard : React.StatelessComponent<Props> = props => {
           <Collapse in={ props.formIsVisible }>
             <div>
               <Errors errors={ props.errors } />
-              <FleetForm handleChange={ props.handleChange } onSubmit={ props.onSubmit } fleet={ props.fleet }/>
+              <FleetForm handleChange={ props.handleChange } onSubmit={ props.onSubmit } fleet={ props.fleet } className='has-border'/>
             </div>
           </Collapse>
         </div>
