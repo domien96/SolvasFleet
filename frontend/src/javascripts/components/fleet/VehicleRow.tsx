@@ -2,32 +2,32 @@ import React from 'react';
 import { Link } from 'react-router';
 
 interface LProps {
-  id : number | string;
-  span : string;
-  value : string | number;
+  id: number | string;
+  span: string;
+  value: string | number;
 }
 
-const VehicleLink : React.StatelessComponent<LProps> = ({ id, span, value }) => {
+const VehicleLink: React.StatelessComponent<LProps> = ({ id, span, value }) => {
   return (
     <Link to={ `vehicles/${id}` } className='td'>
       <span>{ span }:</span>
       <span>{ value }</span>
     </Link>
   );
-}
+};
 
 interface Props {
-  vehicle : VehicleData;
+  vehicle: VehicleData;
 }
 
 class VehicleRow extends React.Component<Props, {}> {
   static contextTypes = {
-    childIsChecked:    React.PropTypes.func,
-    childHandleChange: React.PropTypes.func
-  }
+    childHandleChange: React.PropTypes.func,
+    childIsChecked: React.PropTypes.func,
+  };
 
-  render () {
-    var { id, vin, brand, model, mileage } = this.props.vehicle;
+  render() {
+    const { id, vin, brand, model, mileage } = this.props.vehicle;
 
     return (
       <div className='tr'>
