@@ -8,6 +8,7 @@ interface Props {
   onSubmit : (e : any) => void;
   fleet : FleetData;
   icon : string;
+  className : string;
 }
 
 const FleetForm: React.StatelessComponent<Props> = props => {
@@ -25,7 +26,7 @@ const FleetForm: React.StatelessComponent<Props> = props => {
 
 
   return (
-    <form method='post' onSubmit={ props.onSubmit } className={'dark-form fleet-form '+className}>
+    <form method='post' onSubmit={ props.onSubmit } className={'fleet-form '+className}>
       <h3><label htmlFor='name'>{ T.translate('fleet.name')+':' }</label></h3>
       <span>
         <input type='text' id='name' onChange={ handleChange('name') } value={(props.fleet.name||'').toString()}/>

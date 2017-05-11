@@ -53,7 +53,7 @@ const FleetsCard: React.StatelessComponent<Props> = props => {
           <Collapse in={ props.formIsVisible }>
             <div>
               <Errors errors={ props.errors } />
-              <FleetForm handleChange={ props.handleChange } onSubmit={ props.onSubmit } fleet={ props.fleet } className='has-border'/>
+              <FleetForm handleChange={ props.handleChange } onSubmit={ props.onSubmit } fleet={ props.fleet } className='has-border' icon='glyphicon-plus'/>
             </div>
           </Collapse>
         </div>

@@ -1,15 +1,12 @@
 import React from 'react';
-import deleteVehicle from '../../actions/vehicle_actions.ts';
 import Card   from '../app/Card.tsx';
 import T from 'i18n-react';
 import { Typeahead } from 'react-bootstrap-typeahead';
-import { redirect_to } from'../../routes/router.tsx';
 
-import { fetchVehicles , fetchVehicle, putVehicle} from '../../actions/vehicle_actions.ts';
+import { fetchVehicles , putVehicle} from '../../actions/vehicle_actions.ts';
 import { Collapse } from 'react-bootstrap';
 
 interface Props {
-  addvehicle : VehicleData => void ;
   fleet : number;
 }
 
@@ -27,7 +24,7 @@ class FleetVehicleAdd extends React.Component<Props, State>{
 	constructor(){
 		super();
 		this.state = {
-      vehicles: [],currentVin:'',typeaheadFields:[], submitDisabled:' disabled', vehicle:null, show:false;
+      vehicles: [],currentVin:'',typeaheadFields:[], submitDisabled:' disabled', vehicle:null, show:false
 		};
     this.onTypeAheadChange=this.onTypeAheadChange.bind(this);
     this.getAllVehicles=this.getAllVehicles.bind(this);
@@ -38,8 +35,7 @@ class FleetVehicleAdd extends React.Component<Props, State>{
 
   getAllVehicles() {
     fetchVehicles((data)=>{
-      console.log(data);
-      this.setTypeaheadOptions(data.data.filter(a=>a.fleet===0));
+      this.setTypeaheadOptions(data.data.filter((a:VehicleData)=>a.fleet===0));
     });
   }
 
@@ -65,7 +61,7 @@ class FleetVehicleAdd extends React.Component<Props, State>{
         this.setState({vehicle:data.data[0],submitDisabled:''});
       else
         this.setState({submitDisabled:' disabled'});
-    },(data)=>{
+    },()=>{
         this.setState({submitDisabled:' disabled'});
     },{vin:result});
   }
@@ -73,8 +69,7 @@ class FleetVehicleAdd extends React.Component<Props, State>{
   onSubmit(){
     var veh=this.state.vehicle;
     veh.fleet=this.props.fleet;
-    const url = '/fleets/'+this.props.fleet.toString();
-    putVehicle(veh.id,veh,(data)=>
+    putVehicle(veh.id,veh,()=>
       //TODO REPLACE REFRESH
     {}
     );

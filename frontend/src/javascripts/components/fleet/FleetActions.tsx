@@ -1,5 +1,4 @@
 import React from 'react';
-import deleteVehicle from '../../actions/vehicle_actions.ts';
 import Card   from '../app/Card.tsx';
 import T from 'i18n-react';
 

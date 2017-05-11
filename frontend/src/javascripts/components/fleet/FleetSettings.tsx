@@ -1,5 +1,4 @@
 import React from 'react';
-import deleteVehicle from '../../actions/vehicle_actions.ts';
 import Card   from '../app/Card.tsx';
 import T from 'i18n-react';
 import FleetForm from '../fleets/FleetForm.tsx';
@@ -27,7 +26,7 @@ const FleetSettings : React.StatelessComponent<Props> = props => {
     <Card>
       <div className='card-content fleets'>
           <div>
-            <FleetForm handleChange={ props.handleChange } onSubmit={ props.onSubmit } fleet={ props.fleet } icon='glyphicon-floppy-disk'/>
+            <FleetForm handleChange={ props.handleChange } onSubmit={ props.onSubmit } fleet={ props.fleet } icon='glyphicon-floppy-disk' className=''/>
           </div>
       </div>
     </Card>

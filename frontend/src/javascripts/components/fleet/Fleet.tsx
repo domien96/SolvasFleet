@@ -5,14 +5,11 @@ import Card from '../app/Card.tsx';
 import NestedCheckbox from '../app/NestedCheckbox.tsx';
 import SubfleetRow from './SubfleetRow.tsx';
 import InvoiceActions from './InvoiceActions.tsx';
-import FleetActions from './FleetActions.tsx';
 import T from 'i18n-react';
 
 import { fetchVehicles } from '../../actions/vehicle_actions.ts';
 import { fetchFleet, putFleet } from '../../actions/fleet_actions.ts';
 import { group_by } from '../../utils/utils.ts';
-import FleetForm from '../fleets/FleetForm.tsx';
-import { Collapse } from 'react-bootstrap';
 import Confirm from 'react-confirm-bootstrap';
 import FleetActions from './FleetActions.tsx';
 import FleetSettings from './FleetSettings.tsx';
@@ -75,7 +72,7 @@ interface FleetProps {
   [ params: string ]: { [ id: string ]: number, companyId: number };
 }
 
-interface fleetState {
+interface FleetState {
   fleet    : FleetData;
   vehicles : VehicleData[];
   showSettings : boolean;
@@ -130,6 +127,8 @@ class Fleet extends React.Component<FleetProps, FleetState> {
   }
 
   render () {
+    let nodes = this.state.vehicles.map(({ id, type }) => { return { id, group: type } });
+
 
     return (
       <div>
@@ -157,7 +156,7 @@ class Fleet extends React.Component<FleetProps, FleetState> {
 
 
               <div className='col-xs-12 col-md-4'>
-                <FleetActions isDisabled={true} callToArchive={this.test}/>
+                <FleetActions isDisabled={true} callToArchive={null}/>
               </div>
 
             <div className='col-xs-12 col-md-4'>
