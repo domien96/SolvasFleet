@@ -1,10 +1,11 @@
 import React from 'react';
-import { fetchVehicle, deleteVehicle } from '../../actions/vehicle_actions.ts';
 
-import { redirect_to } from '../../routes/router.tsx';
+import { fetchVehicle, deleteVehicle, fetchGreencardPdf } from '../../actions/vehicle_actions.ts';
+import { redirect_to } from'../../routes/router.tsx';
 import { fetchContracts} from '../../actions/contract_actions.ts';
-import VehicleView from './VehicleView.tsx';
-import Contracts from '../contracts/Contracts.tsx';
+import FileSaver from 'file-saver';
+import VehicleView from './VehicleView.tsx'
+import Contracts from '../contracts/Contracts.tsx'
 import { callback } from '../../actions/fetch_json.ts';
 
 interface Props {
@@ -23,6 +24,7 @@ class Vehicle extends React.Component<Props, State> {
     this.state = { vehicle: { type: 'PersonalVehicle' } };
     this.deleteVehicle = this.deleteVehicle.bind(this);
     this.fetchContracts = this.fetchContracts.bind(this);
+    this.handleDownloadGreencard = this.handleDownloadGreencard.bind(this);
   }
 
   fetchVehicle(id: number) {
@@ -51,10 +53,21 @@ class Vehicle extends React.Component<Props, State> {
     fetchContracts(success, fail, { vehicle: params.vehicleId });
   }
 
+  handleDownloadGreencard() {
+    const { id } = this.props.params;
+    let fail = (data: any) => console.log(data);
+    fetchGreencardPdf(id, ((data: any) => {
+      FileSaver.saveAs(data, `greencard_${id}.${'pdf'}`);
+    }), fail);
+  }
+
   render() {
     return(
       <div>
-        <VehicleView vehicle={ this.state.vehicle } handleDelete={ this.deleteVehicle }/>
+        <VehicleView 
+          vehicle={ this.state.vehicle } 
+          handleDelete={ this.deleteVehicle }
+          onDownloadGreencard={ this.handleDownloadGreencard } />
         <Contracts
           vehicleId={ this.props.params.id }
           companyId={ null }
