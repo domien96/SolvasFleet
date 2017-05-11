@@ -1,5 +1,5 @@
 import React from 'react';
-import FormChoice from '../forms/FormChoice.tsx'
+import FormChoice from '../forms/FormChoice.tsx';
 import { th } from '../../utils/utils.ts';
 import T from 'i18n-react';
 
@@ -10,9 +10,9 @@ interface Props {
   icon : string;
 }
 
-const FleetForm : React.StatelessComponent<Props> = props => {
-  let handleChange = (field : Fleet.Field) => {
-    return (e : any) => {
+const FleetForm: React.StatelessComponent<Props> = props => {
+  const handleChange = (field: Fleet.Field) => {
+    return (e: any) => {
       props.handleChange(field, e);
     }
   }
@@ -46,7 +46,7 @@ const FleetForm : React.StatelessComponent<Props> = props => {
       </div>
 
     </form>
-  )
-}
+  );
+};
 
 export default FleetForm;

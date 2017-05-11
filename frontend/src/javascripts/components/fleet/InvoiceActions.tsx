@@ -4,10 +4,11 @@ import Card from '../app/Card.tsx';
 import T from 'i18n-react';
 
 interface Props {
-  fleet : number;
+  fleet: number;
 }
 
-const InvoiceActions : React.StatelessComponent<Props> = props => {
+const InvoiceActions: React.StatelessComponent<Props> = props => {
+  const { fleet } = props;
 
 	var { fleet } = props;
 
@@ -16,19 +17,19 @@ const InvoiceActions : React.StatelessComponent<Props> = props => {
 	    <div className='card-content invoice-actions'>
 	      <div className='row actions'>
 	        <div className='col-sm-6'>
-	          <Link to={ '/fleets/' + fleet + '/invoices/current' } className='btn btn-default form-control'>
-	            <span className='glyphicon glyphicon glyphicon-file' /> { T.translate('invoice.showCurrent') }
-	          </Link>
-	        </div>
-	        <div className='col-sm-6'>
-	          <Link to={ '/fleets/' + fleet + '/invoices' } className='btn btn-default form-control'>
-	            <span className='glyphicon glyphicon glyphicon-folder-open' /> { T.translate('invoice.showAll') }
-	          </Link>
-	        </div>
-	      </div>
-	    </div>
-	  </Card>
+            <Link to={ `/fleets/${fleet}/invoices/current` } className='btn btn-default form-control'>
+              <span className='glyphicon glyphicon glyphicon-file' /> { T.translate('invoice.showCurrent') }
+            </Link>
+          </div>
+          <div className='col-sm-6'>
+            <Link to={ `/fleets/${fleet}/invoices` } className='btn btn-default form-control'>
+              <span className='glyphicon glyphicon glyphicon-folder-open' /> { T.translate('invoice.showAll') }
+            </Link>
+        </div>
+          </div>
+      </div>
+    </Card>
   );
-}
+};
 
 export default InvoiceActions;
