@@ -8,6 +8,8 @@ import T from 'i18n-react';
 interface OverviewProps {
   Sfunctions: SFunctionData[];
   onFunctionDelete: (id: number) => void;
+  onGetCompanyName: (id: number) => void;
+  onGetRoleName: (id: number) => void;
 }
 
 const Overview: React.StatelessComponent<OverviewProps> = props => {
@@ -16,8 +18,17 @@ const Overview: React.StatelessComponent<OverviewProps> = props => {
     th('company', 'function.company'),
   ];
 
+  const data = props.Sfunctions.map((f: SFunctionData) => {
+    return {
+      id: f.id, 
+      company: props.onGetCompanyName(f.company), 
+      role: props.onGetRoleName(f.role),
+      user: f.user
+    }
+  });
+
   return (
-    <ExtendedInfoTable head={ tableHead } data={ props.Sfunctions } onDelete={ props.onFunctionDelete } />
+    <ExtendedInfoTable head={ tableHead } data={ data } onDelete={ props.onFunctionDelete } />
   );
 };
 
@@ -25,6 +36,8 @@ interface Props {
   userId: number;
   Sfunctions: SFunctionData[];
   onFunctionDelete: (id: number) => void;
+  onGetCompanyName: (id: number) => void;
+  onGetRoleName: (id: number) => void;
 }
 
 const UserFunctionsView: React.StatelessComponent<Props> = props => {
@@ -36,7 +49,11 @@ const UserFunctionsView: React.StatelessComponent<Props> = props => {
       <h3>
         { T.translate('function.functions') }
       </h3>
-      <Overview Sfunctions={ props.Sfunctions } onFunctionDelete={ props.onFunctionDelete }/>
+      <Overview 
+        Sfunctions={ props.Sfunctions } 
+        onFunctionDelete={ props.onFunctionDelete }
+        onGetCompanyName={ props.onGetCompanyName }
+        onGetRoleName={ props.onGetRoleName } />
     </div>
   );
 };
