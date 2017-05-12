@@ -7,8 +7,8 @@ import SubfleetRow from './SubfleetRow.tsx';
 import InvoiceActions from './InvoiceActions.tsx';
 import T from 'i18n-react';
 
-import { fetchVehicles } from '../../actions/vehicle_actions.ts';
-import { fetchFleet, putFleet } from '../../actions/fleet_actions.ts';
+import { fetchVehicles, deleteVehicle } from '../../actions/vehicle_actions.ts';
+import { fetchFleet, putFleet} from '../../actions/fleet_actions.ts';
 import { group_by } from '../../utils/utils.ts';
 import Confirm from 'react-confirm-bootstrap';
 import FleetActions from './FleetActions.tsx';
@@ -77,6 +77,8 @@ interface FleetState {
   vehicles : VehicleData[];
   showSettings : boolean;
   showAddVehicle : boolean;
+
+  checkedVehicles : number[];
 }
 
 class Fleet extends React.Component<FleetProps, FleetState> {
@@ -86,12 +88,15 @@ class Fleet extends React.Component<FleetProps, FleetState> {
       fleet: {paymentPeriod:0,facturationPeriod:0,name:""},
       vehicles: [],
       showSettings : false,
-      showAddVehicle : false
+      showAddVehicle : false,
+      checkedVehicles : []
     }
     this.onSettingsClick=this.onSettingsClick.bind(this);
     this.handleChange=this.handleChange.bind(this);
     this.onSubmit=this.onSubmit.bind(this);
     this.showAddVehicle=this.showAddVehicle.bind(this);
+    this.cb=this.cb.bind(this);
+    this.archiveCheckedVehicles=this.archiveCheckedVehicles.bind(this);
   }
 
   componentDidMount() {
@@ -122,8 +127,26 @@ class Fleet extends React.Component<FleetProps, FleetState> {
     putFleet(this.state.fleet.id,this.state.fleet.company,this.state.fleet,success);
   }
 
-  showAddVehicle() {
+showAddVehicle() {
     this.setState({showAddVehicle:!this.state.showAddVehicle});
+  }
+
+  cb(n:Node[]){
+    const checked : number[] = n.filter(node=>node.checked===true).map(node=>node.id);
+    console.log(checked);
+
+    this.setState({checkedVehicles:checked});
+  }
+
+  archiveCheckedVehicles() {
+    for(var i=0;i<this.state.checkedVehicles.length;i++)
+    {
+      deleteVehicle(this.state.checkedVehicles[i],undefined,undefined);
+    }
+  }
+
+  archiveFleet() {
+
   }
 
   render () {
@@ -135,7 +158,7 @@ class Fleet extends React.Component<FleetProps, FleetState> {
         <Header>
           <h2 className='fleet-archive'>{ this.state.fleet.name }</h2>
           <Confirm
-            onConfirm={ null }
+            onConfirm={this.archiveFleet}
             body="Are you sure you want to archive this?"
             confirmText="Confirm Archive"
             title="Archive fleet">
@@ -156,7 +179,7 @@ class Fleet extends React.Component<FleetProps, FleetState> {
 
 
               <div className='col-xs-12 col-md-4'>
-                <FleetActions isDisabled={true} callToArchive={null}/>
+                <FleetActions isDisabled={this.state.checkedVehicles.length==0} callToArchive={this.archiveCheckedVehicles}/>
               </div>
 
             <div className='col-xs-12 col-md-4'>
@@ -170,10 +193,9 @@ class Fleet extends React.Component<FleetProps, FleetState> {
             <Card>
               <div className='card-title'>
                 <h4 >{ T.translate('vehicle.vehicles') }</h4>
-
               </div>
               <div className='card-content'>
-                <NestedCheckbox values={ nodes }>
+                <NestedCheckbox values={ nodes } cb={this.cb}>
                   <Vehicles vehicles={ group_by(this.state.vehicles, 'type') } />
                 </NestedCheckbox>
               </div>

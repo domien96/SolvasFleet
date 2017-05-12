@@ -3,6 +3,7 @@ import React from 'react';
 namespace NestedCheckbox {
   export interface Props {
     values: Node[];
+    cb: any;
   }
   export interface Node {
     group: string;
@@ -54,6 +55,7 @@ class NestedCheckbox extends React.Component<NestedCheckbox.Props, NestedCheckbo
       return n;
     });
     this.setState({ values });
+    this.props.cb(values);
   }
 
   isChecked(group: string): boolean {
@@ -74,7 +76,7 @@ class NestedCheckbox extends React.Component<NestedCheckbox.Props, NestedCheckbo
       return n;
     });
     this.setState({ values });
-  }
+    }
 
   getChildContext() {
     return {
