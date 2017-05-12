@@ -33,7 +33,6 @@ class AddVehicle extends React.Component<{}, State> {
   public onSubmit(e: any): void {
     e.preventDefault();
     const setErrors = (es: Form.Error[]) => this.setState({ errors: es });
-
     const success = (data: any) => redirect_to(`/vehicles/${data.id}`);
     const fail = (data: any) => {
       setErrors(data.errors.map((es: any) => {
