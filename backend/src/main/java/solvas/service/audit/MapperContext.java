@@ -2,14 +2,15 @@ package solvas.service.audit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import solvas.rest.api.models.ApiInvoice;
 import solvas.service.mappers.*;
 import solvas.service.models.*;
 
 import java.util.HashMap;
 
 /**
- * Created by steve on 11/05/2017.
+ * A single point of access to all mappers
+ *  allows search by class
+ *  mappers are autowired by spring
  */
 @Component
 public class MapperContext {
@@ -49,6 +50,9 @@ public class MapperContext {
         fillMapperForClass();
     }
 
+    /**
+     * Helper function to fill the hash map with correct data
+     */
     private void fillMapperForClass(){
         mapperForClass.put(Company.class,companyMapper);
         mapperForClass.put(Contract.class,contractMapper);
@@ -68,56 +72,101 @@ public class MapperContext {
         return mapperForClass.get(clazz);
     }
 
-
+    /**
+     * Get CompanyMapper for this context
+     * @return A CompanyMapper
+     */
     public CompanyMapper getCompanyMapper() {
         return companyMapper;
     }
 
+    /**
+     * Get ContractMapper for this context
+     * @return A ContractMapper
+     */
     public ContractMapper getContractMapper() {
         return contractMapper;
     }
 
+    /**
+     * Get FleetMapper for this context
+     * @return A FleetMapper
+     */
     public FleetMapper getFleetMapper() {
         return fleetMapper;
     }
 
+    /**
+     * Get FunctionMapper for this context
+     * @return A FunctionMapper
+     */
     public FunctionMapper getFunctionMapper() {
         return functionMapper;
     }
 
+    /**
+     * Get InsuranceTypeMapper for this context
+     * @return A InsuranceTypeMapper
+     */
     public InsuranceTypeMapper getInsuranceTypeMapper() {
         return insuranceTypeMapper;
     }
 
+    /**
+     * Get InvoiceMapper for this context
+     * @return A InvoiceMapper
+     */
     public InvoiceMapper getInvoiceMapper() {
         return invoiceMapper;
     }
 
+    /**
+     * Get PermissionMapper for this context
+     * @return A PermissionMapper
+     */
     public PermissionMapper getPermissionMapper() {
         return permissionMapper;
     }
 
+    /**
+     * Get RoleMapper for this context
+     * @return A RoleMapper
+     */
     public RoleMapper getRoleMapper() {
         return roleMapper;
     }
 
+    /**
+     * Get TaxMapper for this context
+     * @return A TaxMapper
+     */
     public TaxMapper getTaxMapper() {
         return taxMapper;
     }
 
+    /**
+     * Get UserMapper for this context
+     * @return A UserMapper
+     */
     public UserMapper getUserMapper() {
         return userMapper;
     }
 
+    /**
+     * Get VehicleMapper for this context
+     * @return A VehicleMapper
+     */
     public VehicleMapper getVehicleMapper() {
         return vehicleMapper;
     }
 
+    /**
+     * Get VehicleTypeMapper for this context
+     * @return A VehicleTypeMapper
+     */
     public VehicleTypeMapper getVehicleTypeMapper() {
         return vehicleTypeMapper;
     }
 
-    public HashMap<Class, AbstractMapper> getMapperForClass() {
-        return mapperForClass;
-    }
+
 }

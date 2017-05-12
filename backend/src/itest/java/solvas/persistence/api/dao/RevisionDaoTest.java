@@ -3,13 +3,7 @@ package solvas.persistence.api.dao;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import solvas.persistence.api.EntityNotFoundException;
-import solvas.service.models.Company;
-import solvas.service.models.EntityType;
 import solvas.service.models.Revision;
-import solvas.service.models.Vehicle;
-
-import java.util.List;
-import java.util.NoSuchElementException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;

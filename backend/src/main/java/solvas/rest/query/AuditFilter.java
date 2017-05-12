@@ -97,7 +97,7 @@ public class AuditFilter implements Filter<Revision> {
     }
 
     /**
-     * Set methode to filter revisions for
+     * Set method to filter revisions for
      * @param method type of method
      */
     public void setMethod(String method) {

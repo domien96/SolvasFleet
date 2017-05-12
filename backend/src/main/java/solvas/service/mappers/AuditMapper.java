@@ -15,7 +15,7 @@ public class AuditMapper extends AbstractMapper<Revision,ApiRevision> {
     private static final String ROOTPATH ="/audit/";
 
     /**
-     * Create a mapper between Company and ApiCompany
+     * Create a mapper between Revision  and ApiRevision
      *
      * @param daoContext The context for Dao's
      */
