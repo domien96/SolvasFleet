@@ -18,12 +18,12 @@ const VehicleUpload: React.StatelessComponent<UProps>  = props =>  {
     <form method='post' onSubmit={ props.onSubmit } >
       <div className='wrapper'>
         <Errors errors={ props.errors } />
-        <div className=''>
-          <div className=''>
-            <input onChange={ props.handleChange } type="file" name="File Upload" id="csvFileUpload" accept=".csv" /> 
+        <div>
+          <div>
+            <input onChange={ props.handleChange } type='file' name='File Upload' id='csvFileUpload' accept='.csv' />
           </div>
-          <div className=''>
-            <button onClick={ props.onSubmit } className="btn btn-default pull-right">
+          <div>
+            <button onClick={ props.onSubmit } className='btn btn-default pull-right'>
               <span className='glyphicon glyphicon-upload' aria-hidden='true'></span>
               Upload Vehicles (CSV)
             </button>
@@ -62,7 +62,7 @@ const VehicleListing: React.StatelessComponent<Props>  = props =>  {
               { T.translate(props.modelName + '.addNew') }
             </Link>
             <InfoTable head={ tablehead } data={ props.response.data } onClick={ props.onSelect } />
-            <Pagination onClick={props.fetchModels} response={props.response}/>
+            <Pagination onClick={ props.fetchModels } response={ props.response }/>
           </div>
         </Card>
       </div>

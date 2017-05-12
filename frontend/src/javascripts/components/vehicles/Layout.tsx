@@ -26,14 +26,14 @@ const Layout: React.StatelessComponent<Props> = props => {
           <div className='col-xs-12 col-md-7'>
             <VehicleFilter onFilter = { props.onFilter } vehicles={ props.response.data } />
             <VehicleListing
-              onSelect={props.onVehicleSelect}
+              onSelect={ props.onVehicleSelect }
               addNewRoute='/vehicles/new'
-              fetchModels={props.fetchVehicles}
+              fetchModels={ props.fetchVehicles }
               modelName='vehicle'
-              columns={[ 'fleet', 'vin', 'licensePlate', 'type' ]}
-              response={props.response} 
-              onSubmit={ props.onSubmit } 
-              errors={ props.errors } 
+              columns={ ['fleet', 'vin', 'licensePlate', 'type'] }
+              response={ props.response }
+              onSubmit={ props.onSubmit }
+              errors={ props.errors }
               handleChange={ props.handleChange } />
           </div>
           <div className='col-xs-12 col-md-5'>
