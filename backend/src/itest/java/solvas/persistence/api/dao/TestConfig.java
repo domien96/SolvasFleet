@@ -38,7 +38,7 @@ public class TestConfig {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         //Build datasource from properties
         Properties prop = new Properties();
-        prop.load(new ClassPathResource("/test.properties").getInputStream());
+        prop.load(new ClassPathResource("test.properties").getInputStream());
         dataSource.setDriverClassName(prop.getProperty("datasource.driver"));
         dataSource.setUrl(prop.getProperty("datasource.url"));
         dataSource.setUsername(prop.getProperty("datasource.username"));
