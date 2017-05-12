@@ -43,14 +43,14 @@ public class AuditFilter implements Filter<Revision> {
         }
         if (before!=null) {
             LocalDateTime beforeDate = LocalDateTime.parse(before);
-            predicates.add(builder.lessThan(
+            predicates.add(builder.lessThanOrEqualTo(
                     root.get("logDate"),
                     beforeDate
             ));
         }
         if (after!=null) {
             LocalDateTime afterDate = LocalDateTime.parse(after);
-            predicates.add(builder.greaterThan(
+            predicates.add(builder.greaterThanOrEqualTo(
                     root.get("logDate"),
                     afterDate
             ));

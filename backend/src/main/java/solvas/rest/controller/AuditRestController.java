@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -47,11 +48,11 @@ public class AuditRestController extends AbstractRestController<Revision,ApiRevi
     }
 
 
-    //@Override
-    //@RequestMapping(value = "/companies/{id}", method = RequestMethod.GET)
-    //@PreAuthorize("hasPermission(#id, 'company', 'READ')")
-    //public ResponseEntity<?> getById(@PathVariable int id) {
-    //    return super.getById(id);
-    //}
+    @Override
+    @RequestMapping(value = "/audit/{id}", method = RequestMethod.GET)
+    //@PreAuthorize("hasPermission(#id, 'company', 'READ')") // TODO authorization
+    public ResponseEntity<?> getById(@PathVariable int id) {
+        return super.getById(id);
+    }
 
 }

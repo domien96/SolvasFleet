@@ -3,6 +3,7 @@ package solvas.service.mappers;
 import org.springframework.stereotype.Component;
 import solvas.persistence.api.DaoContext;
 import solvas.rest.api.models.ApiRevision;
+import solvas.rest.utils.SimpleUrlBuilder;
 import solvas.service.models.Revision;
 
 /**
@@ -36,6 +37,7 @@ public class AuditMapper extends AbstractMapper<Revision,ApiRevision> {
         copySharedAttributes(api, revision);
         api.setUser(revision.getUser().getId());
         api.setMethod(revision.getMethod().getText());
+        api.setUrl(SimpleUrlBuilder.buildUrlFromBase(ROOTPATH + "{id}", api.getId()));
 
         return api;
     }

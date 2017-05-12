@@ -1,5 +1,6 @@
 package solvas.rest.api.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import solvas.service.models.MethodType;
 import solvas.service.models.User;
 
@@ -64,5 +65,17 @@ public class ApiRevision extends ApiModel {
 
     public String getPayload() {
         return payload;
+    }
+
+    @JsonIgnore
+    @Override
+    public LocalDateTime getCreatedAt() {
+        return super.getCreatedAt();
+    }
+
+    @JsonIgnore
+    @Override
+    public LocalDateTime getUpdatedAt() {
+        return super.getUpdatedAt();
     }
 }

@@ -24,6 +24,8 @@ public class RevisionDaoTest extends DaoTest {
     @Autowired
     private RevisionDao revisionDao;
 
+    @Autowired
+    private VehicleDao vehicleDao;
 
     /**
      * Test finding revisions with a certain name.
@@ -41,9 +43,9 @@ public class RevisionDaoTest extends DaoTest {
     public void mappingTestId0() throws EntityNotFoundException {
         Revision revision = revisionDao.find(1);
         assertThat(revision.getId(),is(1));
-//        assertThat(revision.getEntityType().getText(), is("VEHICLE"));
+        assertThat(revision.getEntityType(), is("VEHICLE"));
         assertThat(revision.getUser().getFirstName(), is("Sierra"));
-        assertThat(((Vehicle) revision.getEntity()).getLicensePlate(), is("1-IKR-795"));
+        assertThat(vehicleDao.find((revision.getEntity())).getLicensePlate(), is("1-IKR-795"));
         assertThat(revision.getMethod().ordinal(), is(1));
 
     }
