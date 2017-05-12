@@ -8,5 +8,5 @@ import EditRole from '../components/auth/role/EditRole.tsx';
 export default [
   { path: 'auth', component: PermissionControl },
   { path: 'auth/roles/new', component: CreateRole },
-  { path: 'auth/roles/:id/edit', component: EditRole }
+  { path: 'auth/roles/:id/edit', component: EditRole },
 ].map((props, i) => <Route key={ i } { ...props } />);

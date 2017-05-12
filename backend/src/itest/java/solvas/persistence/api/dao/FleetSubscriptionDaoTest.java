@@ -32,11 +32,11 @@ public class FleetSubscriptionDaoTest extends DaoTest {
     public void testCustomBehaviour()
     {
         // Find all subscriptions
-        Vehicle vehicle = manager.find(Vehicle.class, 75);
+        Vehicle vehicle = manager.find(Vehicle.class, 3);
         Collection<FleetSubscription> subscriptions = fleetSubscriptionDao.findByVehicle(vehicle);
 
         // Test that we have all of them
-        assertThat(subscriptions, hasSize(3));
+        assertThat(subscriptions, hasSize(2));
 
         // Make sure only one is active
         LocalDate now = LocalDate.now();

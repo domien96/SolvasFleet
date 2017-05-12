@@ -1,19 +1,19 @@
-import React    from 'react';
+import React from 'react';
 
-import Errors     from '../app/Errors.tsx';
+import Errors from '../app/Errors.tsx';
 import Actions from '../forms/Actions.tsx';
 
 import Info from './form/Info.tsx';
 
 interface Props {
-  onSubmit     : (e : any) => void;
-  handleChange : (field : Vehicle.Field, e : any) => void;
-  errors       : Form.Error[];
-  hasError     : (field : Vehicle.Field) => boolean;
-  vehicle      : VehicleData;
+  onSubmit: (e: any) => void;
+  handleChange: (field: Vehicle.Field, e: any) => void;
+  errors: Form.Error[];
+  hasError: (field: Vehicle.Field) => boolean;
+  vehicle: VehicleData;
 }
 
-const VehicleForm : React.StatelessComponent<Props> = props => {
+const VehicleForm: React.StatelessComponent<Props> = props => {
   const submit = props.vehicle.id != null ? 'form.update' : 'form.create';
 
   return (
@@ -31,6 +31,6 @@ const VehicleForm : React.StatelessComponent<Props> = props => {
       </div>
     </form>
   );
-}
+};
 
 export default VehicleForm;
