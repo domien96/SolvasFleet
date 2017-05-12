@@ -5,6 +5,8 @@ import { slide as Menu } from 'react-burger-menu';
 import LanguageSwitcher from './LanguageSwitcher.tsx';
 import T from 'i18n-react';
 
+import Auth from '../../modules/Auth.ts';
+
 interface SProps {
   path: string;
 }
@@ -40,6 +42,11 @@ const Sidebar: React.StatelessComponent<{}> = () => {
         <SidebarLink path='/clients'>Clients</SidebarLink>
         <SidebarLink path='/vehicles'>Vehicles</SidebarLink>
         <SidebarLink path='/auth'>Permission Settings</SidebarLink>
+      </ul>
+      <ul className='nav session-actions'>
+        <li className='plain'>
+          Signed in as <p>{ Auth.getLocalSub() }</p>
+        </li>
         <li>
           <Link to='/sign_out'>
             { T.translate('app.signOut') }
