@@ -2,6 +2,7 @@ import React from 'react';
 import Layout from './Layout.tsx';
 import { fetchVehicles, postVehiclesFile } from '../../actions/vehicle_actions.ts';
 import { redirect_to } from '../../routes/router.tsx';
+import Errors from '../../modules/Errors.ts';
 
 interface State {
     filter: VehicleFilterData;
@@ -72,13 +73,8 @@ class Vehicles extends React.Component<{}, State> {
     e.preventDefault();
     const setErrors = (es: Form.Error[]) => this.setState({ errors: es });
     const success = () => { this.fetchVehicles(this.state.filter) };
-    const fail = (data: any) => {
-      setErrors(data.errors.map((es: any) => {
-        return { field: es, error: 'null' };
-      }));
-    };
-    console.log(this.state.file);
-    postVehiclesFile(this.state.file, success, fail);
+
+    postVehiclesFile(this.state.file, success, Errors.handle(setErrors));
   }
 
   render() {

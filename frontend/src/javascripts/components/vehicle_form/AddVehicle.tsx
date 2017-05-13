@@ -7,6 +7,7 @@ import { postVehicle } from '../../actions/vehicle_actions.ts';
 import { hasError } from '../../utils/utils.ts';
 import { redirect_to } from '../../routes/router.tsx';
 import T from 'i18n-react';
+import Errors from '../../modules/Errors.ts';
 
 interface State {
   errors: Form.Error[];
@@ -34,13 +35,8 @@ class AddVehicle extends React.Component<{}, State> {
     e.preventDefault();
     const setErrors = (es: Form.Error[]) => this.setState({ errors: es });
     const success = (data: any) => redirect_to(`/vehicles/${data.id}`);
-    const fail = (data: any) => {
-      setErrors(data.errors.map((es: any) => {
-        return { field: es, error: 'null' };
-      }));
-    };
 
-    postVehicle(this.changeDateFormat(this.state.vehicle), success, fail);
+    postVehicle(this.changeDateFormat(this.state.vehicle), success, Errors.handle(setErrors));
   }
 
   changeDateFormat(oldVehicle : VehicleData) {

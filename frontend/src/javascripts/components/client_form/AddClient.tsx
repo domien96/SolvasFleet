@@ -7,6 +7,7 @@ import T from 'i18n-react';
 import { postClient } from '../../actions/client_actions.ts';
 import { hasError } from '../../utils/utils.ts';
 import { redirect_to } from '../../routes/router.tsx';
+import Errors from '../../modules/Errors.ts';
 
 interface State {
   errors: Form.Error[];
@@ -39,11 +40,7 @@ class AddClient extends React.Component<{}, State> {
     e.preventDefault();
     const setErrors = (es: Form.Error[]) => this.setState({ errors: es });
     const success = (data: any) => redirect_to(`/clients/${data.id}`);
-    const fail = (data: any) => {
-      setErrors(data.errors.map((es: any) => ({ field: es, error: 'null' })));
-    };
-
-    postClient(this.state.company, success, fail);
+    postClient(this.state.company, success, Errors.handle(setErrors));
   }
 
   render() {
