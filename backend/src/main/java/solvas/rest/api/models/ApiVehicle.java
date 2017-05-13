@@ -1,7 +1,7 @@
 package solvas.rest.api.models;
 
 import org.hibernate.validator.constraints.NotBlank;
-import org.joda.time.DateTime;
+import solvas.rest.utils.validators.UniqueVin;
 import solvas.service.models.validators.AfterLocalDateTime;
 import solvas.service.models.validators.Vin;
 
@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 /**
  * Vehicle in the API layer
  */
+@UniqueVin
 public class ApiVehicle extends ApiModel {
 
     private String licensePlate;
