@@ -8,7 +8,6 @@ import T from 'i18n-react';
 import Errors from '../app/Errors.tsx'
 
 interface UProps {
-  onSubmit: (e: any) => void;
   errors: Form.Error[];
   handleChange: (e: any) => void;
   addNewRoute: string;
@@ -17,7 +16,7 @@ interface UProps {
 
 const VehicleUpload: React.StatelessComponent<UProps>  = props =>  {
   return (
-    <form method='post' onSubmit={ props.onSubmit } encType="multipart/form-data">
+    <form method='post' encType="multipart/form-data">
       <div className='wrapper'>
         <Errors errors={ props.errors } />
           <div className='pull-right'>
@@ -41,7 +40,6 @@ interface Props {
   modelName: string;
   columns: string[];
   response: ListResponse;
-  onSubmit: (e: any) => void;
   errors: Form.Error[];
   handleChange: (e: any) => void;
 }
@@ -57,7 +55,6 @@ const VehicleListing: React.StatelessComponent<Props>  = props =>  {
         <Card>
           <div className='card-content'>
             <VehicleUpload 
-              onSubmit={ props.onSubmit } 
               errors={ props.errors } 
               handleChange={ props.handleChange } 
               modelName={ props.modelName }

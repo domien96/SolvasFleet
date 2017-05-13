@@ -38,7 +38,6 @@ class Vehicles extends React.Component<{}, State> {
    };
     this.handleFilter = this.handleFilter.bind(this);
     this.fetchVehicles = this.fetchVehicles.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -73,11 +72,6 @@ class Vehicles extends React.Component<{}, State> {
     postVehiclesFile(file, success, Errors.handle(setErrors));
   }
 
-  handleSubmit(e: any): void {
-    e.preventDefault();
-    console.log('submitting')
-  }
-
   render() {
     const children = React.Children.map(this.props.children,
       (child: any) => React.cloneElement(child, {
@@ -90,7 +84,6 @@ class Vehicles extends React.Component<{}, State> {
         onVehicleSelect={ this.handleClick }
         onFilter={ this.handleFilter }
         fetchVehicles={ this.fetchVehicles } 
-        onSubmit={ this.handleSubmit }
         errors={ this.state.errors }
         handleChange={ this.handleChange } >
         { children }
