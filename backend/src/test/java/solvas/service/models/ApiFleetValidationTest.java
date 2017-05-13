@@ -17,6 +17,8 @@ public class ApiFleetValidationTest extends ValidationTest {
     @Test
     public void testValid() {
         ApiFleet fleet = random(ApiFleet.class);
+        fleet.setPaymentPeriod(10);
+        fleet.setFacturationPeriod(10);
         assertEquals(0, validator.validate(fleet).size());
     }
 
@@ -26,8 +28,10 @@ public class ApiFleetValidationTest extends ValidationTest {
     @Test
     public void testNoneAndEmpty() {
         ApiFleet fleet = new ApiFleet();
-        assertEquals(1, validator.validate(fleet).size());
+        assertEquals(3, validator.validate(fleet).size());
         fleet.setName("");
-        assertEquals(1, validator.validate(fleet).size());
+        fleet.setFacturationPeriod(-1);
+        fleet.setPaymentPeriod(-1);
+        assertEquals(3, validator.validate(fleet).size());
     }
 }

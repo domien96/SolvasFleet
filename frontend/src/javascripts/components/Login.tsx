@@ -53,7 +53,8 @@ class Login extends React.Component<{}, State> {
     const s = (data: any) => {
       Auth.authenticateUser(
         data.refreshToken.token,
-        data.accessToken.token
+        data.accessToken.token,
+        data.accessToken.claims.sub
       );
 
       redirect_to(SIGNED_IN_URL);
@@ -92,7 +93,7 @@ class Login extends React.Component<{}, State> {
                       type='password'
                       name='password'
                       callback={ this.handlePasswordChange } />
-                    <button type='submit' className='btn btn-default' >
+                    <button type='submit' className='btn btn-default btn-primary center-block login-button' >
                       <T.text tag='span' text='login.submit' />
                     </button>
                   </form>

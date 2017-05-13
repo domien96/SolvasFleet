@@ -83,7 +83,7 @@ public class VehicleMapperTest {
         assertThat(apiVehicle.getValue(),is(mapped.getValue()));
         assertThat(apiVehicle.getBrand(),is(mapped.getBrand()));
         //assertThat(apiVehicle.getFleet(),is(mapped.get()));
-        assertThat(apiVehicle.getYear(),is(mapped.getYear()));
+        assertThat(apiVehicle.getYear().getYear(),is(mapped.getYear()));
         assertThat(apiVehicle.getMileage(),is(mapped.getKilometerCount()));
 //        assertThat(apiVehicle.getLeasingCompany(),is(mapped.getLeasingCompany().getId()));
 
@@ -95,7 +95,9 @@ public class VehicleMapperTest {
     @Test
     public void convertToApiVehicle()
     {
+        final int year= 1800;
         Vehicle vehicle = random(Vehicle.class);
+        vehicle.setYear(year); // Year cannot be that random
         when(fleetSubscriptionDao.activeForVehicle(any(Vehicle.class))).thenReturn(Optional.empty());
         ApiVehicle converted = mapper.convertToApiModel(vehicle);
 
@@ -104,7 +106,7 @@ public class VehicleMapperTest {
         assertThat(converted.getValue(),is(vehicle.getValue()));
         assertThat(converted.getUrl(),is("http://localhost/vehicles/"+vehicle.getId()));
         assertThat(converted.getMileage(),is(vehicle.getKilometerCount()));
-        assertThat(converted.getYear(),is(vehicle.getYear()));
+        assertThat(converted.getYear().getYear(),is(vehicle.getYear()));
         assertThat(converted.getBrand(),is(vehicle.getBrand()));
         assertThat(converted.getLicensePlate(),is(vehicle.getLicensePlate()));
         assertThat(converted.getModel(),is(vehicle.getModel()));
