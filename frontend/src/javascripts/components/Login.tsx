@@ -68,7 +68,7 @@ class Login extends React.Component<{}, State> {
                 <div className="error">
                 </div>
                 <div className='login-form-wrapper'>
-                  <form method='POST' onSubmit={this.onSubmit} className='login-form' >
+                  <form method='POST' onSubmit={this.onSubmit} className='login-form clearfix' >
                     <FormField
                       value={ this.state.email }
                       placeholder='form.placeholders.email'
@@ -83,7 +83,7 @@ class Login extends React.Component<{}, State> {
                       name='password'
                       callback={ this.handlePasswordChange }
                       hasError={ this.hasError('password')} />
-                    <button type='submit' className='btn btn-default' >
+                    <button type='submit' className='btn btn-default btn-primary center-block login-button' >
                       <T.text tag='span' text='login.submit' />
                     </button>
                   </form>

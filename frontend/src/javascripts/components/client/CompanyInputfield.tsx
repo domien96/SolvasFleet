@@ -38,6 +38,7 @@ class CompanyInputfield extends React.Component<Props, State> {
 
   handleChange(selectedCompanies: string[]) {
     if (selectedCompanies) {
+      console.log(selectedCompanies);
       let ids: any = [];
       for (let i = 0; i < selectedCompanies.length; i++){
         const e = { target: { value: parseInt(selectedCompanies[i].split(':')[0], 10) } };
@@ -62,7 +63,7 @@ class CompanyInputfield extends React.Component<Props, State> {
     let selected: string[] = [];
     if (this.state.companies) {
       optionList = this.state.companies.map((c: CompanyData) => {
-        const option = (c.id.toString() + ': ' + c.name);
+        const option = `${c.id.toString()}: ${c.name}`;
         this.props.value.map((v: number) => {
           if (c.id === v) {
             selected.push(option);
@@ -72,7 +73,7 @@ class CompanyInputfield extends React.Component<Props, State> {
       });
     }
     if (this.props.multiple) {
-      const allCompaniesTranslated = T.translate('companies.allCompanies');
+      const allCompaniesTranslated = T.translate('company.allCompanies');
       const allCompanies = `-1: ${allCompaniesTranslated}`
       optionList.push(allCompanies);
       if (selected.length === 0) {

@@ -33,12 +33,18 @@ class CreateUserFunction extends React.Component<Props, State> {
     }
     if (field === "company"){
       var newSfunctions: SFunctionData[] = []
-      for(let i = 0; i < e.length; i++){
-        let newSfunction: SFunctionData = { role: this.state.Sfunctions[0].role, company: e[i].target.value };
-        newSfunctions.push(newSfunction);
+      if (e.length > 1) {
+        newSfunctions = e.map((elem: any) => {
+          return { role: this.state.Sfunctions[0].role, company: elem.target.value };
+        });
+        newSfunctions = newSfunctions.filter((elem: any) => {
+          return elem.company !== -1;
+        });
+      } else if (e.length !== 0) {
+        newSfunctions = [{ role: this.state.Sfunctions[0].role, company: e.target.value }];
       }
       if (newSfunctions.length === 0) {
-        newSfunctions.push({role: this.state.Sfunctions[0].role, company: -1});
+        newSfunctions = [{ role: this.state.Sfunctions[0].role, company: -1 }];
       }
       this.setState({ Sfunctions: newSfunctions });
     }
