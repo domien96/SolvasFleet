@@ -45,3 +45,9 @@ SELECT setval('companies_company_id_seq', (SELECT MAX(company_id) FROM companies
 SELECT setval('vehicles_vehicle_id_seq', (SELECT MAX(vehicle_id) FROM vehicles));
 SELECT setval('fleets_fleet_id_seq', (SELECT MAX(fleet_id) FROM fleets));
 SELECT setval('fleet_subscriptions_fleet_subscription_id_seq', (SELECT MAX(fleet_subscription_id) FROM fleet_subscriptions));
+
+
+INSERT INTO roles (role_id, function) VALUES (1, 'administrator');
+INSERT INTO role_permissions (role_id, permission_id) SELECT role_id, permission_id FROM roles FULL JOIN permissions ON 1=1 WHERE function = 'administrator';
+
+INSERT INTO functions (user_id, role_id, start_date) VALUES (1,1,now());
