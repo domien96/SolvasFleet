@@ -8,6 +8,8 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import solvas.service.models.Fleet;
+import solvas.service.models.FleetSubscription;
 import solvas.service.models.Vehicle;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
@@ -15,6 +17,7 @@ import solvas.persistence.api.dao.*;
 import solvas.service.mappers.VehicleMapper;
 import solvas.service.mappers.exceptions.DependantEntityNotFound;
 import solvas.rest.api.models.ApiVehicle;
+import solvas.service.models.VehicleType;
 
 import java.util.Optional;
 
@@ -23,6 +26,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
 /**
@@ -73,19 +77,23 @@ public class VehicleMapperTest {
     public void convertToVehicle() throws EntityNotFoundException, DependantEntityNotFound {
         ApiVehicle apiVehicle = random(ApiVehicle.class);
         Vehicle random = random(Vehicle.class);
+        VehicleType vehicleType = random(VehicleType.class);
         random.setId(apiVehicle.getId());
+        apiVehicle.setType(vehicleType.getName());
         apiVehicle.setFleet(0);
         when(vehicleDao.find(anyInt())).thenReturn(random);
-        when(fleetSubscriptionDao.activeForVehicle(any(Vehicle.class))).thenReturn(Optional.empty());
+        FleetSubscription fleetSubscription = random(FleetSubscription.class);
+        when(fleetSubscriptionDao.activeForVehicle(any(Vehicle.class))).thenReturn(Optional.of(fleetSubscription));
+        when(vehicleTypeDao.findByName(anyString())).thenReturn(Optional.of(vehicleType));
         Vehicle mapped = mapper.convertToModel(apiVehicle);
 
         assertThat(apiVehicle.getId(),is(mapped.getId()));
         assertThat(apiVehicle.getValue(),is(mapped.getValue()));
         assertThat(apiVehicle.getBrand(),is(mapped.getBrand()));
-        //assertThat(apiVehicle.getFleet(),is(mapped.get()));
+        // fix assertThat(apiVehicle.getFleet(),is(fleetSubscriptionDao.activeForVehicle(mapped).isPresent()));
         assertThat(apiVehicle.getYear().getYear(),is(mapped.getYear()));
         assertThat(apiVehicle.getMileage(),is(mapped.getKilometerCount()));
-//        assertThat(apiVehicle.getLeasingCompany(),is(mapped.getLeasingCompany().getId()));
+        // assertThat(apiVehicle.getLeasingCompany(),is(mapped.getLeasingCompany().getId()));
 
     }
 

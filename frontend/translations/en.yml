@@ -151,3 +151,5 @@ errors:
   null: is empty
   404: Something just went wrong!
   pageNotFound: For Some Reason The Page You Requested Could Not Be Found On Our Server
+  MISSING: is empty, please enter a value
+  WRONG_FORMAT: does not have the right format

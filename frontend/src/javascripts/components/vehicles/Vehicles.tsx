@@ -1,11 +1,14 @@
 import React from 'react';
 import Layout from './Layout.tsx';
-import { fetchVehicles } from '../../actions/vehicle_actions.ts';
+import { fetchVehicles, postVehiclesFile } from '../../actions/vehicle_actions.ts';
 import { redirect_to } from '../../routes/router.tsx';
+import Errors from '../../modules/Errors.ts';
 
 interface State {
     filter: VehicleFilterData;
     response: ListResponse;
+    errors: Form.Error[];
+    file: any;
   }
 
 class Vehicles extends React.Component<{}, State> {
@@ -30,9 +33,12 @@ class Vehicles extends React.Component<{}, State> {
         previous: '',
         total: 0,
       },
+      errors: [],
+      file: null
    };
     this.handleFilter = this.handleFilter.bind(this);
     this.fetchVehicles = this.fetchVehicles.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
@@ -58,6 +64,13 @@ class Vehicles extends React.Component<{}, State> {
     redirect_to(`/vehicles/${id}`);
   }
 
+  handleChange(e: any) {
+    const file = e.target.files[0];
+    const setErrors = (es: Form.Error[]) => this.setState({ errors: es });
+    const success = () => { this.fetchVehicles(this.state.filter) };
+    postVehiclesFile(file, success, Errors.handle(setErrors));
+  }
+
   render() {
     const children = React.Children.map(this.props.children,
       (child: any) => React.cloneElement(child, {
@@ -69,7 +82,9 @@ class Vehicles extends React.Component<{}, State> {
         response={this.state.response}
         onVehicleSelect={ this.handleClick }
         onFilter={ this.handleFilter }
-        fetchVehicles={this.fetchVehicles} >
+        fetchVehicles={ this.fetchVehicles } 
+        errors={ this.state.errors }
+        handleChange={ this.handleChange } >
         { children }
       </Layout>
     );

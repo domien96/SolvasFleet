@@ -1,6 +1,7 @@
 import { GET, POST, PUT, DELETE, callback } from './fetch_json.ts';
-import { VEHICLE_URL, VEHICLES_URL, VEHICLE_GREENCARD_PDF_URL } from '../constants/constants.ts';
+import { VEHICLE_URL, VEHICLES_URL, VEHICLE_GREENCARD_PDF_URL, VEHICLES_UPLOAD } from '../constants/constants.ts';
 import { GETPDF } from './fetch_pdf.ts';
+import { POSTFILE } from './upload_file.ts';
 
 export function fetchVehicle(id: number, success?: callback, fail?: callback) {
   GET( VEHICLE_URL(id), success, fail );
@@ -24,4 +25,8 @@ export function deleteVehicle( id: number, success?: callback, fail?: callback) 
 
 export function fetchGreencardPdf(id: number, success?: callback, fail?: callback, query?: any) {
   GETPDF( VEHICLE_GREENCARD_PDF_URL(id), success, fail, query );
+}
+
+export function postVehiclesFile(body: any, success?: callback, fail?: callback) {
+  POSTFILE( VEHICLES_UPLOAD, body, success, fail );
 }
