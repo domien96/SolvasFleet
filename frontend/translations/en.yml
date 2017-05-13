@@ -3,6 +3,7 @@ app:
   actions: Actions
   cancel: Cancel
   signOut: Sign out
+  signedInStatus: Signed in as
 
 login:
   submit: Login
@@ -103,6 +104,9 @@ role:
   addNew: Create New Role 
   edit: Edit Role
 
+auth:
+  permissionSettings: Permission Settings
+
 invoice:
   id: Invoice ID
   fleet: Fleet ID 
@@ -131,6 +135,12 @@ contract:
     LegalAid: Legal aid
     DriverInsurance: Driver insurance
     TravelInsurance: Travel insurance
+
+log:
+  log: Log    
+  entry: Log Entry
+  none:
+    title: Application Log
 
 form:
   create: Create
