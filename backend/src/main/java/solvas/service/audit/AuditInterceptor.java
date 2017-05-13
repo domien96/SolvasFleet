@@ -70,7 +70,12 @@ public class AuditInterceptor extends EmptyInterceptor {
 
         // Make revision
         Revision revision = new Revision();
-        revision.setMethod(MethodType.INSERT);
+        if (((Model) entity).isArchived()){
+            revision.setMethod(MethodType.ARCHIVE);
+        } else {
+            revision.setMethod(MethodType.INSERT);
+        }
+
 
 
         // Connect revision with a entity
