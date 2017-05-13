@@ -1,12 +1,15 @@
-login:
-  submit: 'Login'
+app:
+  welcomeMessage: Welcome to Solvas Fleet
+  actions: Actions
+  cancel: Cancel
+  signOut: Sign out
 
-addRole:
-  submit: 'Add Role to user'
-  startDate: Start date
-  endDate: End date
+login:
+  submit: Login
 
 company:
+  allCompanies: All companies
+  clients: Companies
   id: ID
   name: Name
   vatNumber: VAT number
@@ -18,16 +21,16 @@ company:
     postalCode: Postal code
     country: Country
   addNew: Add New Company
+  edit: Edit Company
   types: Type 
   type:
     LeasingCompany: Leasing company 
     InsuranceCompany: Insurance company 
     Customer: Customer
 
-errors:
-  null: is empty
-
 vehicle:
+  vehicles: Vehicles
+  noVehicle: No vehicle selected
   licensePlate: License plate
   vin: Vehicle Identification Number
   brand: Brand
@@ -40,14 +43,19 @@ vehicle:
   fleet: Fleet ID
   options:
     allVehicles: All vehicles
-    personalCar: Personal car
-    van: Van
-    semiTrailer: Semi-trailer
-    trailer: Trailer
-    truck: Truck
+    PersonalVehicle: Personal vehicle
+    Van: Van
+    Truck+12: Truck+12
+    SemiHeavyTruck: Semi heavy truck
+    Truck: Truck
   addNew: Add New Vehicle
+  edit: Edit Vehicle
+  none:
+    title: Vehicle Overview
 
 user:
+  users: Users
+  noUser: No user selected
   id: ID
   email: Email
   password: Password
@@ -55,8 +63,12 @@ user:
   firstName: First name
   lastName: Last name
   addNew: Add New User
+  edit: Edit User
+  none:
+    title: Users Overview
 
 fleet:
+  fleets: Fleets
   id: ID
   name: Name
   size: Size
@@ -65,31 +77,31 @@ fleet:
     monthly: Monthly
     perTrimester: Per Trimester
     perSemester: Per Semester
+  addNew: Add a new fleet
 
 subfleet:
   id: ID
   name: Name
   size: Size
 
-form:
-  create: Create
-  update: Update
-  submit: Submit
-  placeholders:
-    email: Email
-    password: Password
-
 function: 
+  functions: Functions
   role: Role
   company: Company
+  addNew: Add New Function
+  createNew: Create a new function
 
 permission:
+  permissions: Permissions
   action: Action
   resource: Resource 
 
 role:
+  roles: Roles
   name: Name 
   permissions: Permissions
+  addNew: Create New Role 
+  edit: Edit Role
 
 invoice:
   id: Invoice ID
@@ -99,6 +111,8 @@ invoice:
   type: Type 
   startDate: Start date 
   endDate: End date
+  showCurrent: Show current invoice
+  showAll: Show all invoices
 
 contract:
   id: Contract ID
@@ -110,9 +124,32 @@ contract:
   startDate: Start date
   endDate: End date
   addNew: Add New Contract
+  edit: Edit Contract
   types:
     Omnium: Omnium
     CivilLiability: Civil liability
     LegalAid: Legal aid
     DriverInsurance: Driver insurance
     TravelInsurance: Travel insurance
+
+form:
+  create: Create
+  update: Update
+  submit: Submit
+  placeholders:
+    email: Email
+    password: Password
+
+table: 
+  actions: Actions
+  none:
+    information: In the left section you can see all the {subject}s registered in this application. By clicking on one, you can select it, whereby this section will be replaced by this {subject}'s information. You will also receive the possibility to edit or remove the {subject}.
+  users:
+    extra_information: You can also change functions for this user.
+
+errors:
+  null: is empty
+  404: Something just went wrong!
+  pageNotFound: For Some Reason The Page You Requested Could Not Be Found On Our Server
+  MISSING: is empty, please enter a value
+  WRONG_FORMAT: does not have the right format

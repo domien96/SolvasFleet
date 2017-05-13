@@ -4,15 +4,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
-import solvas.service.models.Model;
 import solvas.persistence.api.Dao;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.Filter;
+import solvas.rest.api.models.ApiModel;
+import solvas.service.exceptions.UndeletableException;
 import solvas.service.mappers.AbstractMapper;
 import solvas.service.mappers.exceptions.DependantEntityNotFound;
-import solvas.rest.api.models.ApiModel;
+import solvas.service.models.Model;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,8 +56,7 @@ public abstract class AbstractService<T extends Model,E extends ApiModel> {
      * @param filters the filters, provided by frontend.
      * @return the paged representation of the specific models.
      */
-    public Page<E> findAll(Pageable pagination, Filter<T> filters)
-    {
+    public Page<E> findAll(Pageable pagination, Filter<T> filters) {
         return modelDao.findAll(filters,pagination).map(s -> mapper.convertToApiModel(s));
     }
 
@@ -66,12 +65,9 @@ public abstract class AbstractService<T extends Model,E extends ApiModel> {
      * @param filters the filters, provided by frontend.
      * @return the filtered representation of the specific models.
      */
-    public List<E> findAll(Filter<T> filters)
-    {
+    public List<E> findAll(Filter<T> filters) {
         return modelDao.findAll(filters).stream().map(s -> mapper.convertToApiModel(s)).collect(Collectors.toList());
     }
-
-
 
     /**
      * @param spec the specifications/filters
@@ -104,7 +100,7 @@ public abstract class AbstractService<T extends Model,E extends ApiModel> {
      * Destroy a model from the database
      * @param id the id of the entity we want to destroy (or archive)
      */
-    public void destroy(int id) throws EntityNotFoundException {
+    public void destroy(int id) throws EntityNotFoundException, UndeletableException {
         modelDao.destroy(modelDao.find(id));
     }
 

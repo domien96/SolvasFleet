@@ -1,15 +1,19 @@
 package solvas.rest;
 
+import org.joda.time.DateTime;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.validation.Validator;
 import solvas.service.models.Vehicle;
 import solvas.rest.api.models.ApiVehicle;
 import solvas.rest.controller.AbstractRestController;
 import solvas.rest.controller.VehicleRestController;
 import solvas.service.AbstractService;
 import solvas.service.VehicleService;
+
+import java.time.LocalDateTime;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
@@ -20,6 +24,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class VehicleRestControllerTest extends AbstractRestControllerTest<Vehicle,ApiVehicle>{
     @Mock
     private VehicleService vehicleService;
+
+    @Mock
+    private Validator validator;
 
 
     /**
@@ -56,7 +63,7 @@ public class VehicleRestControllerTest extends AbstractRestControllerTest<Vehicl
      */
     @Override
     AbstractRestController getController() {
-        return new VehicleRestController(vehicleService);
+        return new VehicleRestController(vehicleService, validator);
     }
 
     @Override
@@ -64,7 +71,7 @@ public class VehicleRestControllerTest extends AbstractRestControllerTest<Vehicl
     {
         ApiVehicle vehicle = super.getTestModel();
         vehicle.setValue(1500);
-        vehicle.setYear(1990);
+        vehicle.setYear(LocalDateTime.of(1990,1,1,0,0));
         vehicle.setMileage(10000);
         vehicle.setVin("5NPEB4AC8EH893920");
         return vehicle;

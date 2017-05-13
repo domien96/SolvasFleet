@@ -2,6 +2,8 @@ package solvas.service.models;
 
 import org.hibernate.validator.HibernateValidator;
 import org.junit.Before;
+import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import javax.validation.Validator;

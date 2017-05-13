@@ -8,14 +8,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.Filter;
 import solvas.rest.api.models.ApiModel;
+import solvas.rest.api.models.errors.ApiError;
+import solvas.rest.api.models.errors.ErrorType;
 import solvas.rest.utils.JsonListWrapper;
 import solvas.rest.utils.PagedResult;
 import solvas.service.AbstractService;
+import solvas.service.exceptions.UndeletableException;
 import solvas.service.mappers.exceptions.DependantEntityNotFound;
 import solvas.service.models.Model;
 
@@ -98,8 +100,10 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      */
     @ExceptionHandler(JsonMappingException.class)
     public ResponseEntity<?> handleJsonMappingException(JsonMappingException ex) {
-        JsonListWrapper<String> wrapper = new JsonListWrapper<>(
-                ex.getPath().stream().map(JsonMappingException.Reference::getFieldName).collect(Collectors.toList()),
+        JsonListWrapper<ApiError> wrapper = new JsonListWrapper<>(
+                ex.getPath().stream().map(JsonMappingException.Reference::getFieldName)
+                        .map(s -> new ApiError(ErrorType.WRONG_TYPE, s, "Wrong type."))
+                        .collect(Collectors.toList()),
                 JsonListWrapper.ERROR_KEY
         );
         return new ResponseEntity<>(wrapper, HttpStatus.UNPROCESSABLE_ENTITY);
@@ -116,12 +120,27 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      */
     @ExceptionHandler(DependantEntityNotFound.class)
     public ResponseEntity<?> handleDependantNotFound(DependantEntityNotFound e) {
-        JsonListWrapper<String> wrapper = new JsonListWrapper<>(
-                Collections.singleton(e.getField()),
+
+        ApiError error = new ApiError(ErrorType.NOT_FOUND, e.getField(), e.getEntityMessage());
+
+        JsonListWrapper<ApiError> wrapper = new JsonListWrapper<>(
+                Collections.singleton(error),
                 JsonListWrapper.ERROR_KEY
         );
 
         return new ResponseEntity<>(wrapper, HttpStatus.CONFLICT);
+    }
+
+    /**
+     * Handle the exception when a model could not be deleted.
+     *
+     * @param e The exception.
+     *
+     * @return The response.
+     */
+    @ExceptionHandler(UndeletableException.class)
+    public ResponseEntity<?> handleUndeletableException(UndeletableException e) {
+        return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
     /**
@@ -203,15 +222,7 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
         if (!binding.hasErrors()) {
             return new ResponseEntity<>(saveMethod.run(), HttpStatus.OK);
         } else {
-            // Return validation errors to user
-            return new ResponseEntity<Object>(
-                    new JsonListWrapper<>(
-                            binding.getFieldErrors().stream().map(FieldError::getField).collect(Collectors.toList()),
-                            JsonListWrapper.ERROR_KEY
-                    ),
-
-                    HttpStatus.BAD_REQUEST
-            );
+            return new ResponseEntity<>(ApiError.from(binding), HttpStatus.BAD_REQUEST);
         }
     }
 

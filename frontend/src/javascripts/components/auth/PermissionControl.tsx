@@ -1,15 +1,15 @@
 import React from 'react';
 import PermissionControlView from './PermissionControlView.tsx';
 import { fetchPermissions, fetchRoles, deleteRole } from '../../actions/auth_actions.ts';
-import { redirect_to } from'../../routes/router.tsx';
+import { redirect_to } from '../../routes/router.tsx';
 
-interface State{
+interface State {
   roles: RoleData[];
   permissions: string[];
 }
 
 class PermissionControl extends React.Component<{}, State> {
-  constructor(props : any){
+  constructor(props: any) {
     super(props);
     this.state = { roles: [], permissions: [] };
   }
@@ -21,31 +21,35 @@ class PermissionControl extends React.Component<{}, State> {
     this.handleRoleDelete = this.handleRoleDelete.bind(this);
   }
 
-  fetchRoles(){
-    fetchRoles((data : Roles.Data) => {
-      this.setState({ roles: data.data })
+  fetchRoles() {
+    fetchRoles((data: Roles.Data) => {
+      this.setState({ roles: data.data });
     });
   }
 
-  fetchPermissions(){
-    fetchPermissions((data : any) => {
-      this.setState({ permissions: data.data })
+  fetchPermissions() {
+    fetchPermissions((data: any) => {
+      this.setState({ permissions: data.data });
     });
   }
 
-  handleRoleEdit(id : number){
+  handleRoleEdit(id: number) {
     redirect_to(`/auth/roles/${id}/edit`);
   }
 
-  handleRoleDelete(id: number){
+  handleRoleDelete(id: number) {
     deleteRole(id, () => this.fetchRoles);
     redirect_to('/auth');
   }
 
-  render(){
-    var {roles, permissions} = this.state;
+  render() {
+    const { roles, permissions } = this.state;
     return (
-      <PermissionControlView roles={ roles } permissions={ permissions } onRoleEdit={ this.handleRoleEdit } onRoleDelete={ this.handleRoleDelete }/>
+      <PermissionControlView
+        roles={ roles }
+        permissions={ permissions }
+        onRoleEdit={ this.handleRoleEdit }
+        onRoleDelete={ this.handleRoleDelete } />
     );
   }
 }

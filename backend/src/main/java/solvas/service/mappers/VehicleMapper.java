@@ -1,6 +1,7 @@
 package solvas.service.mappers;
 
 
+import org.joda.time.DateTime;
 import org.springframework.stereotype.Component;
 import solvas.service.models.Fleet;
 import solvas.service.models.FleetSubscription;
@@ -13,6 +14,7 @@ import solvas.service.mappers.exceptions.FieldNotFoundException;
 import solvas.rest.api.models.ApiVehicle;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -32,7 +34,7 @@ public class VehicleMapper extends AbstractMapper<Vehicle, ApiVehicle> {
      * @param daoContext context for connecting entity's
      */
     public VehicleMapper(DaoContext daoContext) {
-        super(daoContext, "id", "licensePlate", "model", "year", "value", "brand");
+        super(daoContext, "id", "licensePlate", "model", "value", "brand");
     }
 
 
@@ -41,8 +43,9 @@ public class VehicleMapper extends AbstractMapper<Vehicle, ApiVehicle> {
             FieldNotFoundException, EntityNotFoundException {
         final Vehicle vehicle=api.getId()==0 ? new Vehicle() : daoContext.getVehicleDao().find(api.getId());
         copySharedAttributes(vehicle, api);
-        vehicle.setKilometerCount(api.getMileage()); //Todo replace kilometerCount to mileage so it is a shared Attribute
+        vehicle.setKilometerCount(api.getMileage());
         vehicle.setChassisNumber(api.getVin());
+        vehicle.setYear(api.getYear().getYear());
 
         if (api.getLeasingCompany() != 0) {
             vehicle.setLeasingCompany(daoContext.getCompanyDao().find(api.getLeasingCompany()));
@@ -55,11 +58,9 @@ public class VehicleMapper extends AbstractMapper<Vehicle, ApiVehicle> {
 
             LocalDate now = LocalDate.now();
 
-            // TODO: do this without saving vehicle twice.
+            //This will save the vehicle twice. If we want to avoid this, we have to set all relations in memory and perform
+            //  cascade saving of these relation, which performs worse that saving twice
             daoContext.getVehicleDao().save(vehicle);
-
-            // TODO: split up the method below
-            // TODO: improve error handling
 
             // Get active subscriptions
             Optional<FleetSubscription> present = daoContext.getFleetSubscriptionDao().activeForVehicle(vehicle);
@@ -118,7 +119,7 @@ public class VehicleMapper extends AbstractMapper<Vehicle, ApiVehicle> {
         copyAttributes( api, vehicle,"createdAt", "updatedAt");
         copySharedAttributes(api, vehicle);
 
-
+        api.setYear(LocalDateTime.of(vehicle.getYear(),1,1,0,0));
         api.setMileage(vehicle.getKilometerCount());
         api.setVin(vehicle.getChassisNumber());
         api.setLeasingCompany(vehicle.getLeasingCompany() == null ? 0 : vehicle.getLeasingCompany().getId());

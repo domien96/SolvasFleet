@@ -1,30 +1,30 @@
 import React from 'react';
 
-import Header    from '../app/Header.tsx';
-import Card      from '../app/Card.tsx';
-import { th }    from '../../utils/utils.ts';
+import Header from '../app/Header.tsx';
+import Card from '../app/Card.tsx';
+import { th } from '../../utils/utils.ts';
 import InfoTable from '../tables/InfoTable.tsx';
-
+import T from 'i18n-react';
 
 interface Props {
-  invoices : InvoiceData[];
-  onInvoiceSelect : (id : number) => void;
+  invoices: InvoiceData[];
+  onInvoiceSelect: (id: number) => void;
 }
 
-const Overview : React.StatelessComponent<Props> = props => {
+const Overview: React.StatelessComponent<Props> = props => {
   const tableHead = [
-    th('id',        'invoice.id'),
+    th('id', 'invoice.id'),
     th('startDate', 'invoice.startDate'),
-    th('endDate',   'invoice.endDate'),
-    th('paid',     'invoice.paid')
+    th('endDate', 'invoice.endDate'),
+    th('paid', 'invoice.paid'),
   ];
 
   return (
     <InfoTable head={ tableHead } data={ props.invoices } onClick={ props.onInvoiceSelect } />
   );
-}
+};
 
-const MainCard : React.StatelessComponent<Props> = props => {
+const MainCard: React.StatelessComponent<Props> = props => {
   return (
     <Card>
       <div className='card-content'>
@@ -32,13 +32,13 @@ const MainCard : React.StatelessComponent<Props> = props => {
       </div>
     </Card>
   );
-}
+};
 
-const InvoicesView : React.StatelessComponent<Props> = props => {
+const InvoicesView: React.StatelessComponent<Props> = props => {
   return (
     <div>
       <Header>
-        <h2>Invoices</h2>
+        <h2>{ T.translate('invoice.invoices') }</h2>
       </Header>
       <div className='wrapper'>
         <div className='row'>
@@ -49,6 +49,6 @@ const InvoicesView : React.StatelessComponent<Props> = props => {
       </div>
     </div>
   );
-}
+};
 
 export default InvoicesView;

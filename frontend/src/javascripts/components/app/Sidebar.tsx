@@ -1,9 +1,11 @@
-
-import React    from 'react';
+import React from 'react';
 import { Link } from 'react-router';
 import classNames from 'classnames';
 import { slide as Menu } from 'react-burger-menu';
 import LanguageSwitcher from './LanguageSwitcher.tsx';
+import T from 'i18n-react';
+
+import Auth from '../../modules/Auth.ts';
 
 interface SProps {
   path: string;
@@ -11,8 +13,8 @@ interface SProps {
 
 class SidebarLink extends React.Component<SProps, {}> {
   static contextTypes = {
-    location: React.PropTypes.object
-  }
+    location: React.PropTypes.object,
+  };
 
   render() {
     const classes = classNames({ active: this.context.location.pathname.includes(this.props.path) });
@@ -23,12 +25,11 @@ class SidebarLink extends React.Component<SProps, {}> {
           { this.props.children }
         </Link>
       </li>
-    )
+    );
   }
 }
 
-const Sidebar : React.StatelessComponent<{}> = () => {
-
+const Sidebar: React.StatelessComponent<{}> = () => {
   const info = (
     <div>
       <div id='logo'>
@@ -41,15 +42,21 @@ const Sidebar : React.StatelessComponent<{}> = () => {
         <SidebarLink path='/clients'>Clients</SidebarLink>
         <SidebarLink path='/vehicles'>Vehicles</SidebarLink>
         <SidebarLink path='/auth'>Permission Settings</SidebarLink>
+      </ul>
+      <ul className='nav session-actions'>
+        <li className='plain'>
+          Signed in as <p>{ Auth.getLocalSub() }</p>
+        </li>
         <li>
           <Link to='/sign_out'>
-            Sign out
+            { T.translate('app.signOut') }
           </Link>
         </li>
       </ul>
+      <LanguageSwitcher />
     </div>
-  );  
-      
+  );
+
   return (
     <div>
       <Menu className='mobile-menu'>
@@ -58,10 +65,8 @@ const Sidebar : React.StatelessComponent<{}> = () => {
       <nav className='standard-menu'>
         {info}
       </nav>
-      <LanguageSwitcher />
     </div>
   );
-}
+};
 
 export default Sidebar;
-
