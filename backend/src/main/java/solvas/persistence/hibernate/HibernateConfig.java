@@ -1,7 +1,6 @@
 package solvas.persistence.hibernate;
 
 import org.hibernate.cfg.AvailableSettings;
-import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.flyway.FlywayMigrationStrategy;
 import org.springframework.context.annotation.*;
@@ -10,22 +9,16 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.ResourcePatternUtils;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.orm.hibernate5.HibernateTransactionManager;
-import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import solvas.service.audit.AuditInterceptor;
 
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
 import javax.sql.DataSource;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Properties;
-import java.util.stream.Collectors;
 
 /**
  * Hibernate configuration class.
@@ -108,10 +101,13 @@ public class HibernateConfig {
      * @throws IOException Couldn't load the hibernate configuration/mapping files
      */
     @Bean
-    public EntityManagerFactory entityManagerFactory(DataSource dataSource) throws IOException {
+    @DependsOn("auditInterceptor") //HibernateInterceptor, no capital letter at the beginning of the word
+    public EntityManagerFactory entityManagerFactory(DataSource dataSource,AuditInterceptor hibernateInterceptor) throws IOException {
         LocalContainerEntityManagerFactoryBean  entityManager = new LocalContainerEntityManagerFactoryBean();
         entityManager.setDataSource(dataSource);
-        entityManager.setJpaProperties(getHibernateProperties());
+        Properties properties = getHibernateProperties();
+        properties.put("hibernate.ejb.interceptor", hibernateInterceptor);
+        entityManager.setJpaProperties(properties);
         Resource[] resources = loadResources();
         String[] paths = new String[resources.length];
         for (int i = 0; i < resources.length; i++) {
@@ -120,7 +116,9 @@ public class HibernateConfig {
         String[] pr = Arrays.stream(paths).map(p -> "/mappings/" + p).toArray(String[]::new);
         entityManager.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         entityManager.setMappingResources(pr);
+
         entityManager.afterPropertiesSet();
         return entityManager.getObject();
     }
+
 }
