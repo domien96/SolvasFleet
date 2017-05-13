@@ -5,7 +5,7 @@ import T from 'i18n-react';
 interface Props {
   placeholder: string;
   type: string;
-  hasError: boolean;
+  hasError?: boolean;
   callback: (e: any) => void;
   value: any;
   name?: string
@@ -13,7 +13,7 @@ interface Props {
 
 const FormField: React.StatelessComponent<Props> = props => {
   const label = T.translate(props.placeholder);
-  const wrapperClasses = classNames('form-group', { 'has-error': props.hasError });
+  const wrapperClasses = classNames('form-group', { 'has-error': props.hasError || false });
   return (
     <div className={ wrapperClasses }>
       <label>{ label }</label>
