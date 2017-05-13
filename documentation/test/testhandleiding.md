@@ -27,7 +27,7 @@ Voordat we de tests kunnen uitvoeren zullen we de testdatabank eerst moeten aanm
 Dit gebeurt gelijkaardig aan het aanmaken van de databank voor het opstellen van de backend. We gebruiken hier ook de user "vop", die al zou moeten bestaan door het opstellen van de backend.
 
 ```
-$ psql
+$ psql -U vop
 $ CREATE DATABASE test_vop;
 $ GRANT ALL PRIVILEGES ON DATABASE "test_vop" TO vop;
 ```
