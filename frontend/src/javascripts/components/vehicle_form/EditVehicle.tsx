@@ -7,6 +7,7 @@ import { fetchVehicle, putVehicle } from '../../actions/vehicle_actions.ts';
 import { hasError } from '../../utils/utils.ts';
 import { redirect_to } from '../../routes/router.tsx';
 import T from 'i18n-react';
+import Errors from '../../modules/Errors.ts';
 
 interface Props {
   params: { id: number };
@@ -47,11 +48,8 @@ class EditVehicle extends React.Component<Props, State> {
     e.preventDefault();
     const setErrors = (es: Form.Error[]) => this.setState({ errors: es });
     const success = () => redirect_to(`/vehicles/${this.state.vehicle.id}`);
-    const fail = (data: any) => {
-      setErrors(data.errors.map((es: any) => ({ field: es.field, error: 'null' })));
-    };
-    console.log(this.state);
-    putVehicle(this.state.vehicle.id, this.changeDateFormat(this.state.vehicle), success, fail);
+    
+    putVehicle(this.state.vehicle.id, this.changeDateFormat(this.state.vehicle), success, Errors.handle(setErrors));
   }
 
   changeDateFormat(oldVehicle : VehicleData) {

@@ -8,27 +8,26 @@ import T from 'i18n-react';
 import Errors from '../app/Errors.tsx'
 
 interface UProps {
-  onSubmit: (e: any) => void;
   errors: Form.Error[];
   handleChange: (e: any) => void;
+  addNewRoute: string;
+  modelName: string;
 }
 
 const VehicleUpload: React.StatelessComponent<UProps>  = props =>  {
   return (
-    <form method='post' onSubmit={ props.onSubmit } >
+    <form method='post' encType='multipart/form-data'>
       <div className='wrapper'>
         <Errors errors={ props.errors } />
-        <div>
-          <div>
-            <input onChange={ props.handleChange } type='file' name='File Upload' id='csvFileUpload' accept='.csv' />
+          <div className='pull-right'>
+            <span className='glyphicon glyphicon-upload' aria-hidden='true'></span>
+            Upload Vehicles (CSV)
+            <input onChange={ props.handleChange } type='file' name='File Upload' id='csvFileUpload' accept='.csv' className='btn btn-default' />
+            <Link to={props.addNewRoute} className='btn btn-default lab-margin pull-right'>
+              <span className='glyphicon glyphicon-plus' aria-hidden='true'></span>
+              { T.translate(props.modelName + '.addNew') }
+            </Link>
           </div>
-          <div>
-            <button onClick={ props.onSubmit } className='btn btn-default pull-right'>
-              <span className='glyphicon glyphicon-upload' aria-hidden='true'></span>
-              Upload Vehicles (CSV)
-            </button>
-          </div>
-        </div>
       </div>
     </form>
   );
@@ -41,7 +40,6 @@ interface Props {
   modelName: string;
   columns: string[];
   response: ListResponse;
-  onSubmit: (e: any) => void;
   errors: Form.Error[];
   handleChange: (e: any) => void;
 }
@@ -56,11 +54,11 @@ const VehicleListing: React.StatelessComponent<Props>  = props =>  {
       <div className='col-xs-12'>
         <Card>
           <div className='card-content'>
-            <VehicleUpload onSubmit={ props.onSubmit } errors={ props.errors } handleChange={ props.handleChange } />
-            <Link to={props.addNewRoute} className='btn btn-default pull-right'>
-              <span className='glyphicon glyphicon-plus' aria-hidden='true'></span>
-              { T.translate(props.modelName + '.addNew') }
-            </Link>
+            <VehicleUpload 
+              errors={ props.errors } 
+              handleChange={ props.handleChange } 
+              modelName={ props.modelName }
+              addNewRoute={ props.addNewRoute } />
             <InfoTable head={ tablehead } data={ props.response.data } onClick={ props.onSelect } />
             <Pagination onClick={ props.fetchModels } response={ props.response }/>
           </div>

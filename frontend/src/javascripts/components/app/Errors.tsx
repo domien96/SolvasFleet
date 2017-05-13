@@ -15,7 +15,7 @@ const Errors: React.StatelessComponent<Props> = props => {
   const errors = props.errors.map((e, i) => {
     return (
       <li key={ i }>
-        { humanize(e.field) } { T.translate('errors.' + e.message) }
+        { humanize(e.field) } { <T.text text={ 'errors.' + e.type } notFound={ e.message } /> }
       </li>
     );
   });

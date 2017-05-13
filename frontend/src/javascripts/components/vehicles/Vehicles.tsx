@@ -2,6 +2,7 @@ import React from 'react';
 import Layout from './Layout.tsx';
 import { fetchVehicles, postVehiclesFile } from '../../actions/vehicle_actions.ts';
 import { redirect_to } from '../../routes/router.tsx';
+import Errors from '../../modules/Errors.ts';
 
 interface State {
     filter: VehicleFilterData;
@@ -33,11 +34,10 @@ class Vehicles extends React.Component<{}, State> {
         total: 0,
       },
       errors: [],
-      file: {}
+      file: null
    };
     this.handleFilter = this.handleFilter.bind(this);
     this.fetchVehicles = this.fetchVehicles.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -65,20 +65,10 @@ class Vehicles extends React.Component<{}, State> {
   }
 
   handleChange(e: any) {
-    this.setState({ file: e.target.value });
-  }
-
-  handleSubmit(e: any): void {
-    e.preventDefault();
+    const file = e.target.files[0];
     const setErrors = (es: Form.Error[]) => this.setState({ errors: es });
     const success = () => { this.fetchVehicles(this.state.filter) };
-    const fail = (data: any) => {
-      setErrors(data.errors.map((es: any) => {
-        return { field: es, error: 'null' };
-      }));
-    };
-    console.log(this.state.file);
-    postVehiclesFile(this.state.file, success, fail);
+    postVehiclesFile(file, success, Errors.handle(setErrors));
   }
 
   render() {
@@ -93,7 +83,6 @@ class Vehicles extends React.Component<{}, State> {
         onVehicleSelect={ this.handleClick }
         onFilter={ this.handleFilter }
         fetchVehicles={ this.fetchVehicles } 
-        onSubmit={ this.handleSubmit }
         errors={ this.state.errors }
         handleChange={ this.handleChange } >
         { children }

@@ -2,7 +2,7 @@ import React from 'react';
 
 import FleetsCard from './FleetsCard.tsx';
 import { postFleet } from '../../actions/fleet_actions.ts';
-
+import Errors from '../../modules/Errors.ts';
 import { redirect_to } from '../../routes/router.tsx';
 
 interface Props {
@@ -43,13 +43,8 @@ class Fleets extends React.Component<Props, State> {
     e.preventDefault();
     const setErrors = (es: Form.Error[]) => this.setState({ errors: es });
     const success = (data: any) => redirect_to(`/fleets/${data.id}`);
-    const fail = (data: any) => {
-      setErrors(data.errors.map((es: any) => {
-        return { field: es.field, error: 'null' };
-      }));
-    };
 
-    postFleet(this.props.company, this.state.fleet, success, fail);
+    postFleet(this.props.company, this.state.fleet, success, Errors.handle(setErrors));
 }
 
   render() {
@@ -61,7 +56,7 @@ class Fleets extends React.Component<Props, State> {
         handleChange={ this.handleChange }
         formIsVisible={ this.state.formVisible }
         onClick={ this.onClick }
-        fleet={this.state.fleet}
+        fleet={ this.state.fleet }
       />
     );
   }

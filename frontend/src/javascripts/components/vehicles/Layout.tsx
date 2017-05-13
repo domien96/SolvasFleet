@@ -10,7 +10,6 @@ interface Props {
   onVehicleSelect: (id: number) => void;
   onFilter: (filter: VehicleFilterData) => void;
   fetchVehicles: (query: any) => void;
-  onSubmit: (e: any) => void;
   errors: Form.Error[];
   handleChange: (e: any) => void;
 }
@@ -32,7 +31,6 @@ const Layout: React.StatelessComponent<Props> = props => {
               modelName='vehicle'
               columns={ ['fleet', 'vin', 'licensePlate', 'type'] }
               response={ props.response }
-              onSubmit={ props.onSubmit }
               errors={ props.errors }
               handleChange={ props.handleChange } />
           </div>
