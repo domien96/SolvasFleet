@@ -10,6 +10,7 @@ interface Props {
   modelName: string;
   columns: string[];
   response: ListResponse;
+  tableData: any;
 }
 
 const LogListing: React.StatelessComponent<Props>  = props =>  {
@@ -23,8 +24,8 @@ const LogListing: React.StatelessComponent<Props>  = props =>  {
       <div className='col-xs-12'>
         <Card>
           <div className='card-content'>
-            <InfoTable head={ tablehead } data={ props.response.data } onClick={ props.onSelect } />
-            <Pagination onClick={props.fetchModels} response={props.response}/>
+            <InfoTable head={ tablehead } data={ props.tableData } onClick={ props.onSelect } />
+            <Pagination onClick={ props.fetchModels } response={ props.response }/>
           </div>
         </Card>
       </div>

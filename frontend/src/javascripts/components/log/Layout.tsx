@@ -7,6 +7,7 @@ interface Props {
   response: ListResponse;
   onLogSelect: (id: number) => void;
   fetchLog: (query?: any) => void;
+  tableData: any;
 }
 
 const Layout: React.StatelessComponent<Props> = props => {
@@ -17,13 +18,14 @@ const Layout: React.StatelessComponent<Props> = props => {
       </Header>
       <div className='wrapper'>
         <div className='row'>
-          <div className='col-xs-12 col-md-7'>
+          <div className='col-xs-12'>
             <LogListing
               onSelect={ props.onLogSelect }
               fetchModels={ props.fetchLog }
               modelName='log'
-              columns={ ['id', 'user', 'logDate'] }
-              response={ props.response } />
+              columns={ ['logDate', 'method', 'entityType', 'user'] }
+              response={ props.response } 
+              tableData={ props.tableData } />
           </div>
           <div className='col-xs-12 col-md-5'>
             { props.children }

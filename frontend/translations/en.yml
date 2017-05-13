@@ -139,6 +139,12 @@ contract:
 log:
   log: Log    
   entry: Log Entry
+  id: Entry ID 
+  user: By User 
+  method: Method
+  entityType: Type
+  entity: Entity ID
+  logDate: Entry Date 
   none:
     title: Application Log
 
