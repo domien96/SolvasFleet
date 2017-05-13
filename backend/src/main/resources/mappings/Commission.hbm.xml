@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="solvas.service.models.Commission" table="commissions">
+        <meta attribute="class-description">
+            This class contains the Commission detail.
+        </meta>
+        <id name="id" type="int" column="commission_id">
+            <generator class="identity"/>
+        </id>
+
+        <property name="value" column="value" type="big_decimal" not-null="true"/>
+
+
+
+        <many-to-one name="company" column="company_id"
+                     class="solvas.service.models.Company" not-null="false"/>
+
+        <many-to-one name="vehicleType" column="vehicle_type_id"
+                     class="solvas.service.models.VehicleType" not-null="false"/>
+
+        <many-to-one name="vehicle" column="vehicle_id"
+                     class="solvas.service.models.Vehicle" not-null="false"/>
+
+        <many-to-one name="fleet" column="fleet_id"
+                     class="solvas.service.models.Fleet" not-null="false"/>
+
+
+        <property name="updatedAt" column="updated_at" type="java.time.LocalDateTime" generated="always"/>
+        <property name="createdAt" column="created_at" type="java.time.LocalDateTime" generated="insert"/>
+        <property name="archived" column="archived" type="boolean" not-null="true"/>
+
+
+    </class>
+</hibernate-mapping>
