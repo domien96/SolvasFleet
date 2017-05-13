@@ -68,7 +68,6 @@ class Vehicles extends React.Component<{}, State> {
     const file = e.target.files[0];
     const setErrors = (es: Form.Error[]) => this.setState({ errors: es });
     const success = () => { this.fetchVehicles(this.state.filter) };
-    console.log(file)
     postVehiclesFile(file, success, Errors.handle(setErrors));
   }
 

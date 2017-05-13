@@ -24,9 +24,7 @@ function request(
     fd.append('file', body);
     params.body = fd;
     
-    // TODO fix a bit
     fetch(url, params).then((r) => {
-      console.log(r);
       r.json().then((data) => {
         if (r.ok) {
           if (success) { success(data); }

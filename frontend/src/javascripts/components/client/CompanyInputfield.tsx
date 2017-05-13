@@ -38,7 +38,6 @@ class CompanyInputfield extends React.Component<Props, State> {
 
   handleChange(selectedCompanies: string[]) {
     if (selectedCompanies) {
-      console.log(selectedCompanies);
       let ids: any = [];
       for (let i = 0; i < selectedCompanies.length; i++){
         const e = { target: { value: parseInt(selectedCompanies[i].split(':')[0], 10) } };
