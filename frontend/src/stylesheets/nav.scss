@@ -83,7 +83,7 @@
   margin-top: 25px;
 
   li {
-    &.active {  
+    &.active {
       background: $gray-darkest;
 
       a {
@@ -105,5 +105,11 @@
         background-color: transparent !important;
       }
     }
+  }
+
+  li.plain {
+    padding: 14px 20px 0 25px;
+    color: #a7b1c2;
+    font-weight: 600;
   }
 }

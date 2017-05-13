@@ -4,36 +4,36 @@ import Checkbox from '../app/CheckBox.tsx';
 import VehicleRow from './VehicleRow.tsx';
 
 interface VProps {
-  vehicles : VehicleData[];
+  vehicles: VehicleData[];
 }
 
-const Vehicles : React.StatelessComponent<VProps> = props => {
-  const vehicles = props.vehicles.map((v : VehicleData, i : number) => {
+const Vehicles: React.StatelessComponent<VProps> = props => {
+  const vehicles = props.vehicles.map((v: VehicleData, i: number) => {
     return (<VehicleRow key={ i } vehicle={ v } />);
-  })
+  });
 
   return (
     <div className='vehicles table'>
       { vehicles }
     </div>
   );
-}
+};
 
 interface Props {
-  type : string;
-  isChecked : (key : string) => boolean;
-  isIndeterminate : (key : string) => boolean;
-  handleChange : (key : string) => void;
-  onClick : (key : string) => void;
-  vehicles : VehicleData[]
-  showVehicles : boolean;
+  type: string;
+  isChecked: (key: string) => boolean;
+  isIndeterminate: (key: string) => boolean;
+  handleChange: (key: string) => void;
+  onClick: (key: string) => void;
+  vehicles: VehicleData[];
+  showVehicles: boolean;
 }
 
-const Subfleet : React.StatelessComponent<Props> = props => {
-  var { type: k } = props;
+const Subfleet: React.StatelessComponent<Props> = props => {
+  const { type: k } = props;
 
-  var vehicles = null;
-  if(props.showVehicles) {
+  let vehicles = null;
+  if (props.showVehicles) {
     vehicles = (<Vehicles vehicles={ props.vehicles } />);
   }
 
@@ -55,6 +55,6 @@ const Subfleet : React.StatelessComponent<Props> = props => {
         { vehicles }
       </div>
   );
-}
+};
 
 export default Subfleet;

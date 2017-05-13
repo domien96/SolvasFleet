@@ -4,6 +4,8 @@ import org.springframework.stereotype.Repository;
 import solvas.persistence.api.Dao;
 import solvas.service.models.VehicleType;
 
+import java.util.Optional;
+
 /**
  * Dao for vehicleTypes
  *
@@ -20,5 +22,5 @@ public interface VehicleTypeDao extends Dao<VehicleType> {
      *
      * @return The vehicle type.
      */
-    VehicleType findByName(String type);
+    Optional<VehicleType> findByName(String type);
 }

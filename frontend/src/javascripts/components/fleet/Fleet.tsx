@@ -1,37 +1,38 @@
 import React from 'react';
 
 import Header from '../app/Header.tsx';
-import Card   from '../app/Card.tsx';
+import Card from '../app/Card.tsx';
 import NestedCheckbox from '../app/NestedCheckbox.tsx';
 import SubfleetRow from './SubfleetRow.tsx';
 import InvoiceActions from './InvoiceActions.tsx';
+import FleetActions from './FleetActions.tsx';
 import T from 'i18n-react';
 
 import { fetchVehicles } from '../../actions/vehicle_actions.ts';
 import { group_by } from '../../utils/utils.ts';
 
-interface vehiclesProps {
-  vehicles : any;
+interface VehiclesProps {
+  vehicles: any;
 }
-interface vehiclesState {
-  type : string;
-  mappings : any;
+interface VehiclesState {
+  type: string;
+  mappings: any;
 }
-class Vehicles extends React.Component<vehiclesProps, vehiclesState> {
+class Vehicles extends React.Component<VehiclesProps, VehiclesState> {
   static contextTypes = {
-    isChecked:       React.PropTypes.func,
+    handleChange: React.PropTypes.func,
+    isChecked: React.PropTypes.func,
     isIndeterminate: React.PropTypes.func,
-    handleChange:    React.PropTypes.func
-  }
+  };
 
-  constructor(props : vehiclesProps) {
+  constructor(props: VehiclesProps) {
     super(props);
     this.state = { type: null, mappings: [] };
   }
 
-  onClick(newType : string) : void {
-    var { type } = this.state;
-    if (newType == type) {
+  onClick(newType: string): void {
+    const { type } = this.state;
+    if (newType === type) {
       this.setState({ type: null });
     } else {
       this.setState({ type: newType });
@@ -50,7 +51,7 @@ class Vehicles extends React.Component<vehiclesProps, vehiclesState> {
           handleChange={ this.context.handleChange }
           onClick={ this.onClick.bind(this) }
           vehicles={ this.props.vehicles[k] }
-          showVehicles={ this.state.type == k }
+          showVehicles={ this.state.type === k }
           />
       );
     });
@@ -63,33 +64,32 @@ class Vehicles extends React.Component<vehiclesProps, vehiclesState> {
   }
 }
 
-interface fleetProps {
-  [ params : string ] : { [ id : string ] : number, companyId : number };
+interface FleetProps {
+  [ params: string ]: { [ id: string ]: number, companyId: number };
 }
 
-interface fleetState {
-  fleet    : FleetData;
-  vehicles : VehicleData[];
+interface FleetState {
+  fleet: FleetData;
+  vehicles: VehicleData[];
 }
 
-class Fleet extends React.Component<fleetProps, fleetState> {
-  constructor(props : fleetProps) {
+class Fleet extends React.Component<FleetProps, FleetState> {
+  constructor(props: FleetProps) {
     super(props);
     this.state = {
-      fleet: {paymentPeriod:0,facturationPeriod:0,name:""},
-      vehicles: []
-    }
+      fleet: { paymentPeriod: 0, facturationPeriod: 0, name: '' },
+      vehicles: [],
+    };
   }
 
   componentDidMount() {
-    var { id } = this.props.params;
-    //fetchFleet(id, success);
+    const { id } = this.props.params;
+    // fetchFleet(id, success);
     fetchVehicles((data) => this.setState({ vehicles: data.data }), undefined, { fleet: id.toString() });
   }
 
-  render () {
-
-    let nodes = this.state.vehicles.map(({ id, type }) => { return { id, group: type } });
+  render() {
+    const nodes = this.state.vehicles.map(({ id, type }) => ({ id, group: type }));
 
     return (
       <div>
@@ -97,6 +97,7 @@ class Fleet extends React.Component<fleetProps, fleetState> {
           <h2>{ this.state.fleet.name }</h2>
         </Header>
         <InvoiceActions fleet={ this.props.params.id }/>
+        <FleetActions/>
         <div className='wrapper'>
           <Card>
             <div className='card-title'>
@@ -110,7 +111,7 @@ class Fleet extends React.Component<fleetProps, fleetState> {
           </Card>
           </div>
       </div>
-    )
+    );
   }
 }
 

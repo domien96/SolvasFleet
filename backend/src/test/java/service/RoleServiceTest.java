@@ -5,6 +5,7 @@ import org.mockito.Mock;
 import solvas.persistence.api.Dao;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
+import solvas.persistence.api.dao.FunctionDao;
 import solvas.persistence.api.dao.RoleDao;
 import solvas.rest.api.models.ApiRole;
 import solvas.service.AbstractService;
@@ -24,12 +25,17 @@ public class RoleServiceTest extends AbstractServiceTest<Role,ApiRole> {
     private RoleDao roleDao;
 
     @Mock
+    private FunctionDao functionDao;
+
+    @Mock
     private RoleMapper roleMapper;
 
     @Before
     public void setUp() throws DependantEntityNotFound, EntityNotFoundException {
         super.setUp();
         when(daoContextMock.getRoleDao()).thenReturn(roleDao);
+        when(daoContextMock.getFunctionDao()).thenReturn(functionDao);
+
     }
 
     public RoleServiceTest() {
