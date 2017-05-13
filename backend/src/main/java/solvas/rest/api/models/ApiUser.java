@@ -5,8 +5,6 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import solvas.service.models.validators.Password;
 
-import javax.validation.constraints.NotNull;
-
 /**
  * User in the API layer
  */
@@ -14,7 +12,7 @@ import javax.validation.constraints.NotNull;
 public class ApiUser extends ApiModel {
 
     @Email
-    @NotNull
+    @NotBlank
     private String email;
 
     @NotBlank
