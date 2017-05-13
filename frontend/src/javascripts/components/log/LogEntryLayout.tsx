@@ -31,14 +31,13 @@ const Layout: React.StatelessComponent<Props> = props => {
   var entityInfo: any = [];
 
   for (var key in entity) {
-    /*if (entity[key] !== null && typeof entity[key] === 'object') {
-      const address = JSON.parse(entity[key]);
-      for (var k in address) {
-        entityInfo.push(th(k, address[k]));
+    if (entity[key] !== null && (typeof entity[key] === 'string' || typeof entity[key] === 'number')) {
+      entityInfo.push(th(key, entity[key]));
+    } else {
+      for (var k in entity[key]) {
+        entityInfo.push(th(k, entity[key][k]));
       }
-    } else {*/
-    entityInfo.push(th(key, entity[key]));
-    //}
+    }
   }
 
   return (
