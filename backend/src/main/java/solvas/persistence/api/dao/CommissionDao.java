@@ -51,6 +51,6 @@ public interface CommissionDao extends Dao<Commission> {
      *
      * @return The Commissions.
      */
-    Collection<Commission> findByCompanyAndVehicleIsNullAndVehicleTypeIsNullAndFleetTypeIsNull(Company company);
+    Collection<Commission> findByCompanyAndVehicleIsNullAndVehicleTypeIsNullAndFleetIsNull(Company company);
 
 }

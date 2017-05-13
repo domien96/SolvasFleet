@@ -10,10 +10,27 @@ import java.math.BigDecimal;
  */
 public class Commission extends Model{
     private Company company;
-    private VehicleType vehicleType;
     private Fleet fleet;
     private Vehicle vehicle;
     private BigDecimal value;
+    private InsuranceType insuranceType;
+    private VehicleType vehicleType;
+
+    public VehicleType getVehicleType() {
+        return vehicleType;
+    }
+
+    public void setVehicleType(VehicleType vehicleType) {
+        this.vehicleType = vehicleType;
+    }
+
+    public InsuranceType getInsuranceType() {
+        return insuranceType;
+    }
+
+    public void setInsuranceType(InsuranceType insuranceType) {
+        this.insuranceType = insuranceType;
+    }
 
     public Company getCompany() {
         return company;
@@ -23,13 +40,6 @@ public class Commission extends Model{
         this.company = company;
     }
 
-    public VehicleType getVehicleType() {
-        return vehicleType;
-    }
-
-    public void setVehicleType(VehicleType vehicleType) {
-        this.vehicleType = vehicleType;
-    }
 
     public Fleet getFleet() {
         return fleet;

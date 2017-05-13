@@ -88,9 +88,18 @@ public interface DaoContext {
 
     /**
      * Get TaxDao for this content
-     * @return A InvoiceDao
+     * @return A TaxDao
      */
     TaxDao getTaxDao();
+
+
+    /**
+     * Get CommissionDao for this content
+     * @return A CommissionDao
+     */
+    CommissionDao getCommissionDao();
+
+
 
 
 }
