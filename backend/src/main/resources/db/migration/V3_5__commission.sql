@@ -11,7 +11,6 @@ CREATE TABLE commissions (
   value NUMERIC NOT NULL,
   created_at TIMESTAMP ,
   updated_at TIMESTAMP ,
-  archived BOOLEAN DEFAULT FALSE ,
   PRIMARY KEY (commission_id) ,
   FOREIGN KEY (company_id) REFERENCES companies(company_id),
   FOREIGN KEY (vehicle_type_id) REFERENCES vehicle_types(vehicle_type_id),

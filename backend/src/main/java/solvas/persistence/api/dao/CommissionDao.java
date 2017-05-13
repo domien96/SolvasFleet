@@ -16,13 +16,13 @@ import java.util.Optional;
 public interface CommissionDao extends Dao<Commission> {
 
     /**
-     * Find all Commissions with a certain vehicle.
+     * Find the Commissions of a certain vehicle.
      *
      * @param vehicle The name.
      *
      * @return The Commissions.
      */
-    Collection<Company> findByVehicleAndArchiveNotNull(Vehicle vehicle);
+    Optional<Commission> findByVehicle(Vehicle vehicle);
 
 
     /**
@@ -33,7 +33,7 @@ public interface CommissionDao extends Dao<Commission> {
      *
      * @return The Commissions.
      */
-    Collection<Company> findByFleetAndVehicleTypeAndArchiveNotNull(Fleet fleet, VehicleType vehicleType);
+    Optional<Commission> findByFleetAndVehicleTypeAndVehicleIsNull(Fleet fleet, VehicleType vehicleType);
 
     /**
      * Find all Commissions with a certain fleet.
@@ -42,7 +42,7 @@ public interface CommissionDao extends Dao<Commission> {
      *
      * @return The Commissions.
      */
-    Collection<Company> findByFleetAndArchiveNotNull(Fleet fleet);
+    Optional<Commission> findByFleetAndVehicleIsNullAndVehicleTypeIsNull(Fleet fleet);
 
     /**
      * Find all Commissions with a certain company.
@@ -51,6 +51,6 @@ public interface CommissionDao extends Dao<Commission> {
      *
      * @return The Commissions.
      */
-    Collection<Company> findByCompanyAndArchiveNotNull(Company company);
+    Collection<Commission> findByCompanyAndVehicleIsNullAndVehicleTypeIsNullAndFleetTypeIsNull(Company company);
 
 }
