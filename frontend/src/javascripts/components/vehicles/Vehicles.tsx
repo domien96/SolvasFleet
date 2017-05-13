@@ -34,7 +34,7 @@ class Vehicles extends React.Component<{}, State> {
         total: 0,
       },
       errors: [],
-      file: {}
+      file: null
    };
     this.handleFilter = this.handleFilter.bind(this);
     this.fetchVehicles = this.fetchVehicles.bind(this);
@@ -66,15 +66,16 @@ class Vehicles extends React.Component<{}, State> {
   }
 
   handleChange(e: any) {
-    this.setState({ file: e.target.value });
+    const file = e.target.files[0];
+    const setErrors = (es: Form.Error[]) => this.setState({ errors: es });
+    const success = () => { this.fetchVehicles(this.state.filter) };
+    console.log(file)
+    postVehiclesFile(file, success, Errors.handle(setErrors));
   }
 
   handleSubmit(e: any): void {
     e.preventDefault();
-    const setErrors = (es: Form.Error[]) => this.setState({ errors: es });
-    const success = () => { this.fetchVehicles(this.state.filter) };
-
-    postVehiclesFile(this.state.file, success, Errors.handle(setErrors));
+    console.log('submitting')
   }
 
   render() {
