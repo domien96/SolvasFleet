@@ -2,7 +2,7 @@ import React from 'react';
 
 import Header from '../app/Header.tsx';
 import VehicleFilter from './filters/VehicleFilter.tsx';
-import Listing from '../app/Listing.tsx';
+import VehicleListing from './VehicleListing.tsx';
 import T from 'i18n-react';
 
 interface Props {
@@ -10,6 +10,9 @@ interface Props {
   onVehicleSelect: (id: number) => void;
   onFilter: (filter: VehicleFilterData) => void;
   fetchVehicles: (query: any) => void;
+  onSubmit: (e: any) => void;
+  errors: Form.Error[];
+  handleChange: (e: any) => void;
 }
 
 const Layout: React.StatelessComponent<Props> = props => {
@@ -22,13 +25,16 @@ const Layout: React.StatelessComponent<Props> = props => {
         <div className='row'>
           <div className='col-xs-12 col-md-7'>
             <VehicleFilter onFilter = { props.onFilter } vehicles={ props.response.data } />
-            <Listing
-              onSelect={props.onVehicleSelect}
+            <VehicleListing
+              onSelect={ props.onVehicleSelect }
               addNewRoute='/vehicles/new'
-              fetchModels={props.fetchVehicles}
+              fetchModels={ props.fetchVehicles }
               modelName='vehicle'
-              columns={[ 'fleet', 'vin', 'licensePlate', 'type' ]}
-              response={props.response} />
+              columns={ ['fleet', 'vin', 'licensePlate', 'type'] }
+              response={ props.response }
+              onSubmit={ props.onSubmit }
+              errors={ props.errors }
+              handleChange={ props.handleChange } />
           </div>
           <div className='col-xs-12 col-md-5'>
             { props.children }
