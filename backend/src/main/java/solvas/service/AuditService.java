@@ -8,15 +8,15 @@ import solvas.persistence.api.DaoContext;
 import solvas.service.models.Revision;
 
 /**
- * CompanyService class
+ * AuditService class
  */
 @Service
 public class AuditService extends AbstractService<Revision,ApiRevision> {
 
     /**
-     * Construct a CcmpanyService
+     * Construct a AuditService
      * @param context the daocontext
-     * @param mapper the mapper to map ApiCompany and Company
+     * @param mapper the mapper to map ApiRevision and Revision
      */
     @Autowired
     public AuditService(DaoContext context, AuditMapper mapper) {

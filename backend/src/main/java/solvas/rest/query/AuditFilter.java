@@ -7,6 +7,8 @@ import solvas.service.models.Revision;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -21,6 +23,8 @@ public class AuditFilter implements Filter<Revision> {
     private String entityType;
     private int entity = -1;
     private String method;
+    private String before;
+    private String after;
 
     @Override
     public Collection<Predicate> asPredicates(CriteriaBuilder builder, Root<Revision> root) {
@@ -37,6 +41,21 @@ public class AuditFilter implements Filter<Revision> {
                     entityType
             ));
         }
+        if (before!=null) {
+            LocalDateTime beforeDate = LocalDateTime.parse(before);
+            predicates.add(builder.lessThanOrEqualTo(
+                    root.get("logDate"),
+                    beforeDate
+            ));
+        }
+        if (after!=null) {
+            LocalDateTime afterDate = LocalDateTime.parse(after);
+            predicates.add(builder.greaterThanOrEqualTo(
+                    root.get("logDate"),
+                    afterDate
+            ));
+        }
+
         if (method!=null) {
             try {
                 predicates.add(builder.equal(
@@ -44,7 +63,10 @@ public class AuditFilter implements Filter<Revision> {
                         EntityType.toClass(method)
                 ));
             } catch (ClassNotFoundException e) {
-                new RuntimeException(e);
+                predicates.add(builder.equal(
+                        root.get("method"),
+                        null // Return nothing, method does not exist
+                ));
             }
         }
         return predicates;
@@ -75,10 +97,30 @@ public class AuditFilter implements Filter<Revision> {
     }
 
     /**
-     * Set methode to filter revisions for
+     * Set method to filter revisions for
      * @param method type of method
      */
     public void setMethod(String method) {
         this.method = method;
     }
+
+
+    /**
+     * return revisions before a date
+     * @param before date
+     */
+    public void setBefore(String before) {
+        this.before = before;
+    }
+
+
+    /**
+     * return revisions after a date
+     * @param after date
+     */
+    public void setAfter(String after) {
+        this.after = after;
+    }
+
+
 }

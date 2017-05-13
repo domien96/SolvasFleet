@@ -32,6 +32,10 @@ public class AuditInterceptor extends EmptyInterceptor {
     private HashMap<Object, Revision> transactionRevisions = new HashMap<>();
     private ObjectMapper objectMapper;
 
+    /**
+     * Gets the current authenticated user (from spring security context)
+     * @return current authenticated user
+     */
     private User getAuthenticatedUser() {
         try {
             return daoContext.getUserDao().findByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
@@ -46,7 +50,6 @@ public class AuditInterceptor extends EmptyInterceptor {
         if (entity instanceof Revision) {
             return false;
         }
-
 
         //make revision
         Revision revision = new Revision();
@@ -91,6 +94,12 @@ public class AuditInterceptor extends EmptyInterceptor {
         transactionRevisions.put(entity, revision);
     }
 
+    /**
+     * Updates a revision with the entity id and the payload
+     * @param entity entity to be audited
+     * @param revision revision to be completed
+     * @return revision given as parameter
+     */
     private Revision getPayloadAndId(Object entity, Revision revision) {
         Object about = entity;
         if (entity instanceof FleetSubscription) {
@@ -102,7 +111,7 @@ public class AuditInterceptor extends EmptyInterceptor {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e); // Can we even catch an exception at this point
         }
-        revision.setEntity(((Model) entity).getId());
+        revision.setEntity(((Model) about).getId());
         return revision;
 
     }

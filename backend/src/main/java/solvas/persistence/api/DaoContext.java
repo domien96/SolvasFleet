@@ -95,7 +95,7 @@ public interface DaoContext {
 
     /**
      * Get RevisionDao for this content
-     * @return A InvoiceDao
+     * @return A RevisionDao
      */
     RevisionDao getRevisionDao();
 
