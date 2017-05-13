@@ -20,7 +20,9 @@ function request(
 
     const params: any = { method, headers };
 
-    params.body = body;
+    let fd = new FormData();
+    fd.append('file', body);
+    params.body = fd;
     
     // TODO fix a bit
     fetch(url, params).then((r) => {

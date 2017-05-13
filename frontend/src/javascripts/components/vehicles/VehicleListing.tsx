@@ -16,7 +16,7 @@ interface UProps {
 
 const VehicleUpload: React.StatelessComponent<UProps>  = props =>  {
   return (
-    <form method='post' encType="multipart/form-data">
+    <form method='post' encType='multipart/form-data'>
       <div className='wrapper'>
         <Errors errors={ props.errors } />
           <div className='pull-right'>
