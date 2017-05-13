@@ -33,7 +33,7 @@ const Layout: React.StatelessComponent<Props> = props => {
   for (var key in entity) {
     if (entity[key] !== null && (typeof entity[key] === 'string' || typeof entity[key] === 'number')) {
       entityInfo.push(th(key, entity[key]));
-    } else {
+    } else { //TODO better parsing! 
       for (var k in entity[key]) {
         entityInfo.push(th(k, entity[key][k]));
       }
@@ -50,7 +50,7 @@ const Layout: React.StatelessComponent<Props> = props => {
           <DetailTable data={ entryInfo }/>
         </div>
         <div className='card-title'>
-          <h3>Current status entity</h3>
+          <h3>Current status</h3>
         </div>
         <div className='card-content'>
           <DetailTable data={ entityInfo }/>
