@@ -41,21 +41,24 @@ class Log extends React.Component<{}, State> {
   fetchLog(query?: any) {
     fetchLog((data: any) => {
       this.setState({ response: data });
-      this.setTableData(data.data);
+      this.setTableData(data.data, this.state.users);
     }, undefined, query);
   }
 
   fetchUsers() {
-    fetchUsers((data: any) => this.setState({ users: data.data }));
+    fetchUsers((data: any) => {
+      this.setState({ users: data.data });
+      this.setTableData(this.state.response.data, data.data);
+    });
   }
 
   handleClick(id: number) {
     redirect_to(`/log/${id}`);
   }
 
-  getUser(id: number) {
-    if (this.state.users.length > 0) {
-      const usersFiltered = this.state.users.filter((r: UserData) => {
+  getUser(users: UserData[], id: number) {
+    if (users.length > 0) {
+      const usersFiltered = users.filter((r: UserData) => {
         return r.id === id;
       });
       return `${usersFiltered[0].firstName} ${usersFiltered[0].lastName}`;
@@ -65,7 +68,7 @@ class Log extends React.Component<{}, State> {
     }
   }
 
-  setTableData(entries: LogEntryData[]){
+  setTableData(entries: LogEntryData[], users: UserData[]){
     const data = entries.map((entry: LogEntryData) => {
       const entityTypeSplit = entry.entityType.split('.');
       const newEntityType = entityTypeSplit[entityTypeSplit.length - 1];
@@ -78,7 +81,7 @@ class Log extends React.Component<{}, State> {
         entityType: newEntityType,
         logDate: newLogDate,
         method: entry.method,
-        user: this.getUser(entry.user)
+        user: this.getUser(users, entry.user)
       }
     }); 
 
