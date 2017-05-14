@@ -295,7 +295,7 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
         }
         item.setContract(contract);
         item.setType(InvoiceItemType.PAYMENT);
-        item.setAmount(invoiceCorrector.calculateTotal(item, invoice.getFleet().getFacturationPeriod()));
+        invoiceCorrector.setTotalAndTax(item, invoice.getFleet().getPaymentPeriod());
         return item;
     }
 

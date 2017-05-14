@@ -68,19 +68,21 @@ public class BillingPdfView extends InvoicePdfView {
         for(InvoiceItem item: invoice.getItems()) {
             table.addCell(item.getContract().getFleetSubscription().getVehicle().getLicensePlate() + " #" + item.getContract().getId());
             table.addCell(getCell(euroFormat.format(item.getContract().getPremium()), Element.ALIGN_RIGHT, font12));
-            table.addCell(getCell("TODO", Element.ALIGN_LEFT, font12));
-            // table.addCell(getCell(formatter.format(item.getTax().getTax().doubleValue()), Element.ALIGN_RIGHT, font12));
+            table.addCell(getCell(euroFormat.format(item.getTax()), Element.ALIGN_LEFT, font12));
             table.addCell(getCell(item.getType().toString(), Element.ALIGN_LEFT, font12));
-            //table.addCell(getCell(correction.getCorrectionName() + " op " + timeFormatter.format(correction.getEventDate()), Element.ALIGN_LEFT, font12));
             table.addCell(getCell(String.valueOf(item.getNumberOfDays()), Element.ALIGN_RIGHT, font12));
-            table.addCell(getCell(item.getAmount().toString(), Element.ALIGN_LEFT, font12));
-            //table.addCell(getCell(euroFormat.format(correction.getTotal().doubleValue()), Element.ALIGN_RIGHT, font12));
+            table.addCell(getCell(euroFormat.format(item.getAmount()), Element.ALIGN_LEFT, font12));
         }
 
-        PdfPCell cell = getCell("Totaal:", Element.ALIGN_LEFT, font12);
+        PdfPCell cell = getCell("Tax:", Element.ALIGN_LEFT, font12);
+        cell.setColspan(3);
+        table.addCell(cell);
+        table.addCell(getCell(euroFormat.format(invoice.getTax()), Element.ALIGN_LEFT, font12b));
+
+        cell = getCell("Totaal:", Element.ALIGN_LEFT, font12);
         cell.setColspan(5);
         table.addCell(cell);
-        table.addCell(getCell(invoice.getAmount().toString(), Element.ALIGN_LEFT, font12b));
+        table.addCell(getCell(euroFormat.format(invoice.getAmount()), Element.ALIGN_LEFT, font12b));
         //table.addCell(getCell(euroFormat.format(invoice.getTotal().doubleValue()), Element.ALIGN_RIGHT, font12b));
         document.add(table);
 

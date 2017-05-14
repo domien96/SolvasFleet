@@ -14,6 +14,7 @@ public class InvoiceItem extends Model {
     private LocalDate startDate;
     private LocalDate endDate;
     private BigDecimal amount;
+    private BigDecimal tax;
 
     public Contract getContract() {
         return contract;
@@ -65,5 +66,13 @@ public class InvoiceItem extends Model {
 
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
+    }
+
+    public BigDecimal getTax() {
+        return tax;
+    }
+
+    public void setTax(BigDecimal tax) {
+        this.tax = tax;
     }
 }

@@ -23,10 +23,11 @@ import java.util.stream.Stream;
 public class InvoiceCorrector {
     private final DaoContext daoContext;
     private static final int PERCENTAGE_SCALE = 2;
-    private final String TOO_MANY_REPAYMENT_MESSAGE = "Day with more repayments than payments";
+    private static final String TOO_MANY_REPAYMENT_MESSAGE = "Day with more repayments than payments";
 
     /**
      * Create instance
+     *
      * @param daoContext DaoContext
      */
     @Autowired
@@ -36,8 +37,9 @@ public class InvoiceCorrector {
 
     /**
      * Generate correction items for a contract
-     * @param contract Contract to generate corrections for
-     * @param correctBefore Corrections at or after this date are ignored
+     *
+     * @param contract          Contract to generate corrections for
+     * @param correctBefore     Corrections at or after this date are ignored
      * @param facturationPeriod Duration of the facturation period
      * @return Set of generated invoiceitems to correct
      */
@@ -64,7 +66,7 @@ public class InvoiceCorrector {
                     item.setStartDate(period.getStartDate());
                     item.setEndDate(period.getEndDate());
                     item.setType(InvoiceItemType.REPAYMENT);
-                    item.setAmount(calculateTotal(item, facturationPeriod).negate());//TODO
+                    setTotalAndTax(item, facturationPeriod, true);
                     return item;
                 })
                 .collect(Collectors.toSet());
@@ -76,7 +78,7 @@ public class InvoiceCorrector {
                     item.setStartDate(period.getStartDate());
                     item.setEndDate(period.getEndDate());
                     item.setType(InvoiceItemType.PAYMENT);
-                    item.setAmount(calculateTotal(item, facturationPeriod));
+                    setTotalAndTax(item, facturationPeriod);
                     return item;
                 })
                 .collect(Collectors.toSet()));
@@ -98,42 +100,81 @@ public class InvoiceCorrector {
 
     /**
      * Calculate the amount to pay in a given period
+     *
      * @param invoiceItem Item to calculate for
      * @param totalPeriod The standard facturation period
      * @return The amount to pay or repay
      */
-    public BigDecimal calculateTotal(InvoiceItem invoiceItem, int totalPeriod) {
-        return calculateTotal(invoiceItem, new BigDecimal(totalPeriod));
+    public BigDecimal setTotalAndTax(InvoiceItem invoiceItem, int totalPeriod) {
+        return setTotalAndTax(invoiceItem, new BigDecimal(totalPeriod), false);
+    }
+
+    public BigDecimal setTotalAndTax(InvoiceItem invoiceItem, int totalPeriod, boolean negate) {
+        return setTotalAndTax(invoiceItem, new BigDecimal(totalPeriod), negate);
+    }
+
+
+    public BigDecimal setTotalAndTax(InvoiceItem invoiceItem, BigDecimal totalPeriod) {
+        return setTotalAndTax(invoiceItem, totalPeriod, false);
     }
 
     /**
      * Calculate the amount to pay in a given period
+     *
      * @param invoiceItem Item to calculate for
      * @param totalPeriod The standard facturation period
      * @return The amount to pay or repay
      */
-    public BigDecimal calculateTotal(InvoiceItem invoiceItem, BigDecimal totalPeriod) {
+    public BigDecimal setTotalAndTax(InvoiceItem invoiceItem, BigDecimal totalPeriod, boolean negate) {
         Contract contract = invoiceItem.getContract();
         Tax tax = daoContext.getTaxDao()
                 .findDistinctByVehicleTypeAndInsuranceType(
                         contract.getFleetSubscription().getVehicle().getType(),
                         contract.getInsuranceType());
-        BigDecimal taxPercentage = BigDecimal.ONE.add(tax.getTax());
+        BigDecimal taxPercentage = tax.getTax();
 
-        long itemPeriod = ChronoUnit.DAYS.between(invoiceItem.getStartDate(), invoiceItem.getEndDate());
 
-        BigDecimal dayMultiplier = new BigDecimal(itemPeriod)
-                .divide(totalPeriod, PERCENTAGE_SCALE, BigDecimal.ROUND_HALF_UP);
-
+        BigDecimal dayMultiplier = getDayMultiplier(invoiceItem, totalPeriod);
 
         // TODO: commission
         BigDecimal commissionPercentage = BigDecimal.ONE; //.add(BigDecimal.valueOf(commission));
         BigDecimal premium = BigDecimal.valueOf(contract.getPremium());
-        return premium.multiply(commissionPercentage).multiply(taxPercentage).multiply(dayMultiplier);
+        BigDecimal total = premium.multiply(commissionPercentage)
+                .multiply(dayMultiplier);
+        System.out.println("daymultiplier");
+        System.out.println(dayMultiplier);
+        if(negate) {
+            total = total.negate();
+        }
+        BigDecimal taxCost = total.multiply(taxPercentage);
+        invoiceItem.setTax(taxCost);
+        total = total.add(taxCost);
+        invoiceItem.setAmount(total);
+        return total;
+    }
+
+    private BigDecimal getDayMultiplier(InvoiceItem invoiceItem, BigDecimal totalPeriod) {
+        long itemPeriod = ChronoUnit.DAYS.between(invoiceItem.getStartDate(), invoiceItem.getEndDate());
+        long totalPeriodInDays = ChronoUnit.DAYS.between(invoiceItem.getStartDate(),
+                invoiceItem.getStartDate().plusMonths(totalPeriod.longValue()));
+
+        System.out.println(String.format("Periods: %d %d", itemPeriod, totalPeriodInDays));
+        return new BigDecimal(itemPeriod)
+                .divide(new BigDecimal(totalPeriodInDays), PERCENTAGE_SCALE, BigDecimal.ROUND_HALF_UP);
+    }
+
+    public BigDecimal getTaxPercentage(InvoiceItem invoiceItem) {
+        Contract contract = invoiceItem.getContract();
+
+        Tax tax = daoContext.getTaxDao()
+                .findDistinctByVehicleTypeAndInsuranceType(
+                        contract.getFleetSubscription().getVehicle().getType(),
+                        contract.getInsuranceType());
+        return tax.getTax();
     }
 
     private List<Period> merge(Collection<Period> paidPeriods,
-                              Collection<Period> repaidPeriods) {
+                               Collection<Period> repaidPeriods) {
         // Using tree guarantees log(n) sorted insertion and log(n) popping of first element
         // Possible optimization would be a structure that can add to the front in constant time
         // However, this wouldn't change the complexity in big O-notation, and #lazy

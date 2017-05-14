@@ -16,7 +16,8 @@
              </generator>
          </id>
          <property name="amount" column="amount" type="big_decimal" not-null="true"/>
-         <property name="type" column="type" not-null="true">
+        <property name="tax" column="tax" type="big_decimal" not-null="true"/>
+        <property name="type" column="type" not-null="true">
              <type name="org.hibernate.type.EnumType" >
                  <param name="enumClass">solvas.service.models.InvoiceItemType</param>
                  <param name="useNamed">true</param>
