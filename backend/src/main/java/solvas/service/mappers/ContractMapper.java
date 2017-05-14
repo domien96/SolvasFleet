@@ -3,14 +3,12 @@ package solvas.service.mappers;
 import org.springframework.stereotype.Component;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
-import solvas.rest.utils.SimpleUrlBuilder;
 import solvas.rest.api.models.ApiContract;
+import solvas.rest.utils.SimpleUrlBuilder;
 import solvas.service.mappers.exceptions.DependantEntityNotFound;
 import solvas.service.models.Contract;
 import solvas.service.models.FleetSubscription;
-
-import java.util.Collection;
-import java.util.stream.Collectors;
+import solvas.service.models.Vehicle;
 
 /**
  * Mapper between Contract & Insurance and ApiContract
@@ -36,21 +34,14 @@ public class ContractMapper extends AbstractMapper<Contract,ApiContract> {
         contract.setInsuranceType(new InsuranceTypeMapper(daoContext).convertToModel(api.getType()));
         contract.setCompany(daoContext.getCompanyDao().find(api.getInsuranceCompany()));
 
-        Collection<FleetSubscription> sub = daoContext.getFleetSubscriptionDao().findByVehicle(
-                daoContext.getVehicleDao().find(api.getVehicle())).stream().filter(fleetSubscription ->
-                        (fleetSubscription.getStartDate().isBefore(api.getStartDate().toLocalDate())
-                                || fleetSubscription.getStartDate().isEqual(api.getStartDate().toLocalDate())
-                        )   &&
-                        ((fleetSubscription.getEndDate()==null)
-                                || (fleetSubscription.getEndDate().isAfter(api.getEndDate().toLocalDate()) )
-                                || (fleetSubscription.getEndDate().isEqual(api.getEndDate().toLocalDate()) )
-                        )
-                ).collect(Collectors.toSet());
+        Vehicle vehicle = daoContext.getVehicleDao().find(api.getVehicle());
 
-        if (sub.size()!=1) {throw new EntityNotFoundException("Contract: Matched 2 fleet subscriptions"); }
+        FleetSubscription subscription = daoContext.getFleetSubscriptionDao()
+                .activeForVehicleBetween(vehicle, api.getStartDate().toLocalDate(), api.getEndDate().toLocalDate())
+                .orElseThrow(() -> new EntityNotFoundException("Contract: Matched 2 fleet subscriptions"));
 
-        //Size of sub always = 1 see previous line, since a collection doesn't have a get method, a loop will do the trick
-        sub.forEach(contract::setFleetSubscription);
+        contract.setFleetSubscription(subscription);
+
         return contract;
     }
 
