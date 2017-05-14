@@ -38,7 +38,7 @@ public class ContractMapper extends AbstractMapper<Contract,ApiContract> {
 
         FleetSubscription subscription = daoContext.getFleetSubscriptionDao()
                 .activeForVehicleBetween(vehicle, api.getStartDate().toLocalDate(), api.getEndDate().toLocalDate())
-                .orElseThrow(() -> new EntityNotFoundException("Contract: Matched 2 fleet subscriptions"));
+                .orElseThrow(() -> new EntityNotFoundException("The contract doesn't have any subscriptions."));
 
         contract.setFleetSubscription(subscription);
 
