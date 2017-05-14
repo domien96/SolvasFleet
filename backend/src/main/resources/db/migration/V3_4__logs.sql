@@ -13,7 +13,7 @@ CREATE TABLE revisions (
 
 
 -- Insert scope for logs
-INSERT INTO permissions(scope) VALUES ('read:logs');
+INSERT INTO permissions(scope) VALUES ('read:revisions');
 
 -- Add permission for administrator
 INSERT INTO role_permissions (role_id, permission_id)
