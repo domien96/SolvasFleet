@@ -104,6 +104,7 @@ jacocoTestReport {
         csv.enabled false
         html.destination "${buildDir}/jacocoHtml"
     }
+    executionData test, itest
 }
 
 task jacocoReport(type: JacocoReport){
