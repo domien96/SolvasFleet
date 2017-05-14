@@ -21,10 +21,10 @@ import java.util.HashSet;
 public class CommissionFilter implements Filter<Commission> {
 
     private int company=-1;
-    private String insuranceType=null;
+    private int insuranceType=-1;
     private int fleet=-1;
     private int vehicle=-1;
-    private String vehicleType=null;
+    private int vehicleType=-1;
 
 
     @Override
@@ -32,47 +32,37 @@ public class CommissionFilter implements Filter<Commission> {
         Collection<Predicate> predicates= new HashSet<>();
 
         predicates.add(builder.equal(
-                builder.lower(root.get("vehicleType")),
-                insuranceType!=null?insuranceType.toLowerCase():null
-        )); // if
+                (root.get("insuranceType")),
+                insuranceType!=-1?insuranceType:null
+        ));
+        // From most specific criterium to most general
         if (vehicle >0) {
             predicates.add(builder.equal(
-                    builder.lower(root.get("vehicle")),
+                    root.get("vehicle"),
                     vehicle
             ));
-        } else {
-            if (fleet > 0) {
-                predicates.add(builder.equal(
-                        builder.lower(root.get("fleet")),
-                        fleet
-                ));
-                if (vehicleType != null) {
-                    predicates.add(builder.equal(
-                            builder.lower(root.get("insuranceType")),
-                            vehicleType.toLowerCase()
-                    ));
-                }
-
-            } else {
-                if (company > 0){
-                    predicates.add(builder.equal(
-                            builder.lower(root.get("insuranceType")),
-                            company
-                    ));
-
-                }
-
-
-            }
+            return predicates;
         }
+        if (fleet > 0) {
+            predicates.add(builder.equal(
+                    root.get("fleet"),
+                    fleet
+            ));
+            if (vehicleType > 0) {
+                predicates.add(builder.equal(
+                        (root.get("vehicleType")),
+                        vehicleType
+                ));
+            }
+            return predicates;
+        }
+        if (company > 0){
+            predicates.add(builder.equal(
+                    root.get("company"),
+                    company
+            ));
 
-
-
-
-
-
-
-
+        }
         return predicates;
     }
 
@@ -81,7 +71,7 @@ public class CommissionFilter implements Filter<Commission> {
         this.company = company;
     }
 
-    public void setInsuranceType(String insuranceType) {
+    public void setInsuranceType(int insuranceType) {
         this.insuranceType = insuranceType;
     }
 
