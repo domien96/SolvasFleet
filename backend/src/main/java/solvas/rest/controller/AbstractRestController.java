@@ -222,7 +222,7 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
         if (!binding.hasErrors()) {
             return new ResponseEntity<>(saveMethod.run(), HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(ApiError.from(binding), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(ApiError.from(binding), HttpStatus.UNPROCESSABLE_ENTITY);
         }
     }
 
