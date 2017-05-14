@@ -3,6 +3,7 @@ package solvas.rest.api.models;
 import org.hibernate.validator.constraints.NotBlank;
 import org.joda.time.DateTime;
 import solvas.service.models.validators.AfterLocalDateTime;
+import solvas.service.models.validators.IsValidVehicleType;
 import solvas.service.models.validators.Vin;
 
 import javax.validation.constraints.Min;
@@ -24,6 +25,7 @@ public class ApiVehicle extends ApiModel {
     private String model;
 
     @NotBlank
+    @IsValidVehicleType
     private String type;
 
     @Min(value = 0)
