@@ -17,6 +17,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -28,8 +29,7 @@ import solvas.authorization.MethodSecurityConfig;
 import solvas.persistence.api.dao.TestConfig;
 import solvas.persistence.hibernate.HibernateConfig;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -62,21 +62,54 @@ public class AuthorizationTest {
     }
 
     @Test
-    public void testAnonymous() throws Exception {
-        mockMvc.perform(get("/api/user/account")).andExpect(status().isUnauthorized());
+    public void testAnonymousUserHasNoPermissions() throws Exception {
+        testAllDenied(null);
+    }
+
+    @Test
+    public void testUserWithoutPermission() throws Exception {
+        testAllDenied(UserFixtures.NO_PERMISSIONS);
     }
 
     @Test
     public void testUserAccessForAccount() throws Exception {
-        mockMvc.perform(authenticate(get("/companies"), UserFixtures.ADMINISTRATOR))
+        mockMvc.perform(authenticate(get("/users"), UserFixtures.ADMINISTRATOR))
                 .andExpect(status().isOk());
     }
 
     private MockHttpServletRequestBuilder authenticate(MockHttpServletRequestBuilder builder, LoginRequest user) throws Exception {
-        ObjectMapper mapper=new ObjectMapper();
+        ObjectMapper mapper = new ObjectMapper();
         mapper.findAndRegisterModules();
         String response = mockMvc.perform(post("/auth/login").contentType(MediaType.APPLICATION_JSON_UTF8).content(mapper.writeValueAsString(user))).andReturn().getResponse().getContentAsString();
         String token = JsonPath.read(response, "accessToken.token");
         return builder.header("X-Authorization", "Bearer " + token);
+    }
+
+    private void testAllDenied(LoginRequest user) throws Exception {
+        testDenied(get("/users"), user);
+
+        testDenied(post("/companies").contentType(MediaType.APPLICATION_JSON_UTF8).content("{}"), user);
+        testDenied(put("/companies/1").contentType(MediaType.APPLICATION_JSON_UTF8).content("{}"), user);
+        testDenied(delete("/companies/1"), user);
+        testDenied(get("/companies/1"), user);
+        testDenied(get("/companies/1/contracts"), user);
+
+       /* testDenied(get("/contracts/1"), user);
+        testDenied(put("/contracts/1").contentType(MediaType.APPLICATION_JSON_UTF8).content("{}"), user);
+        testDenied(delete("/contracts/1"), user);
+        testDenied(post("/contracts").contentType(MediaType.APPLICATION_JSON_UTF8).content("{}"), user);
+    */
+    }
+
+    private void testDenied(MockHttpServletRequestBuilder b, LoginRequest user) throws Exception {
+        ResultMatcher r = status().isUnauthorized();
+        if (user != null) {
+            b = authenticate(b, user);
+            r = status().isForbidden();
+        }
+        System.out.println(mockMvc.perform(b).andReturn().getResponse().getContentAsString());
+        mockMvc.perform(b)
+                .andExpect(r);
+
     }
 }
