@@ -83,7 +83,7 @@ public class CommissionFilter implements Filter<Commission> {
         this.vehicle = vehicle;
     }
 
-    public void setVehicleType(String vehicleType) {
+    public void setVehicleType(int vehicleType) {
         this.vehicleType = vehicleType;
     }
 }
