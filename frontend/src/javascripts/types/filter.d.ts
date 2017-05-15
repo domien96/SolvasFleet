@@ -23,3 +23,9 @@ interface Typeaheadfield {
   selected: string[];
   callback: (value: any) => void;
 }
+
+interface Datefield {
+  name: string;
+  data: string;
+  callback: (value: any) => void;
+}

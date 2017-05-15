@@ -7,3 +7,11 @@ interface LogEntryData {
   user?: number;
   payload?: any;
 }
+
+interface LogFilterData {
+  [after: string]: string;
+	[before: string]: string;
+	[method: string]: string;
+  [type: string]: string;
+  [user: string]: string;
+}

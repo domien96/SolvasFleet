@@ -8,6 +8,7 @@ interface State {
   response: ListResponse;
   users: UserData[];
   tableData: any;
+  filter: LogFilterData;
 }
 
 class Log extends React.Component<{}, State> {
@@ -22,8 +23,15 @@ class Log extends React.Component<{}, State> {
         next: null,
         offset: 0,
         previous: null,
-        total: 0,
+        total: 0
       }, 
+      filter: {
+        after: '',
+        before: '',
+        method: '',
+        type: '',
+        user: ''
+      },
       users: [],
       tableData: []
     };
@@ -31,18 +39,45 @@ class Log extends React.Component<{}, State> {
     this.getUser = this.getUser.bind(this);
     this.fetchUsers = this.fetchUsers.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.handleFilter = this.handleFilter.bind(this);
+    this.getUser = this.getUser.bind(this);
   }
 
   componentDidMount() {
-    this.fetchLog();
+    this.fetchLog(undefined, this.state.filter);
     this.fetchUsers();
   }
 
-  fetchLog(query?: any) {
+  fetchLog(query?: any, filter?: LogFilterData) {
+    const queryFilter = filter;
+    let newQuery: any;
+    if (query) {
+      newQuery = query;
+      if (filter) {
+        for (const key in queryFilter) {
+          if (queryFilter[key] === null || queryFilter[key] === undefined || queryFilter[key] === '') {
+            delete queryFilter[key];
+          } 
+        }
+        for (const key in queryFilter) {
+          newQuery[key] = queryFilter[key];
+        }
+      }
+    } else { // no query
+      for (const key in queryFilter) {
+        if (queryFilter[key] === null || queryFilter[key] === undefined || queryFilter[key] === '') {
+          delete queryFilter[key];
+        }
+        console.log(queryFilter)
+      }
+      newQuery = queryFilter;
+    }
+    console.log(newQuery);
+
     fetchLog((data: any) => {
       this.setState({ response: data });
       this.setTableData(data.data, this.state.users);
-    }, undefined, query);
+    }, undefined, newQuery);
   }
 
   fetchUsers() {
@@ -56,7 +91,16 @@ class Log extends React.Component<{}, State> {
     redirect_to(`/log/${id}`);
   }
 
-  getUser(users: UserData[], id: number) {
+  handleFilter(newFilter: LogFilterData) {
+    this.setState({ filter: newFilter });
+    this.fetchLog(undefined, newFilter);
+  }
+
+  getUser(inputUsers: UserData[], id: number, init?: boolean) {
+    let users: UserData[] = inputUsers;
+    if (init) {
+      users = this.state.users;
+    }
     if (users.length > 0) {
       const usersFiltered = users.filter((r: UserData) => {
         return r.id === id;
@@ -94,7 +138,9 @@ class Log extends React.Component<{}, State> {
         response={this.state.response} 
         onLogSelect={ this.handleClick } 
         fetchLog={this.fetchLog} 
-        tableData={ this.state.tableData } />
+        tableData={ this.state.tableData } 
+        onFilter={ this.handleFilter } 
+        getUser={ this.getUser } />
     );
   }
 }

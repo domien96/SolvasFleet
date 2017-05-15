@@ -16,12 +16,16 @@ const InfoTable: React.StatelessComponent<Props> = props => {
 
   const tableRows = data.map((item: any, i: number) => {
     const cells = head.map((headData: Table.Head.Data, j: number) => {
+      let cell = '';
+      if (item[headData.key]) {
+        cell = (item[headData.key]).toString();
+      }
       return (
-        <td key={ j }>{ (item[headData.key]).toString() }</td>
+        <td key={ j }>{ cell }</td>
       );
     });
     return (
-      <tr key={ i } onClick={ () => onClick(item.id) } className='table-row'>{cells}</tr>
+      <tr key={ i } onClick={ () => onClick(item.id) } className='table-row'>{ cells }</tr>
     );
   });
 
@@ -29,10 +33,10 @@ const InfoTable: React.StatelessComponent<Props> = props => {
     <div className='table-wrap'>
       <table className='table table-striped table-hover'>
         <thead className='thead-default'>
-          <tr>{tableHead}</tr>
+          <tr>{ tableHead }</tr>
         </thead>
         <tbody>
-          {tableRows}
+          { tableRows }
         </tbody>
       </table>
     </div>

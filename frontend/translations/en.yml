@@ -147,6 +147,25 @@ log:
   logDate: Entry Date 
   none:
     title: Application Log
+  options:
+    types:
+      allTypes: All types
+    solvas:
+      service:
+        models:
+          Function: Function
+          Company: Company 
+          User: User 
+          Vehicle: Vehicle 
+          Contract: Contract 
+          Invoice: Invoice
+          Role: Role
+    methods:
+      allMethods: All methods 
+    insert: Insert 
+    update: Update 
+    archive: Archive 
+    delete: Delete
 
 form:
   create: Create

@@ -34,9 +34,7 @@ const Layout: React.StatelessComponent<Props> = props => {
     if (entity[key] !== null && (typeof entity[key] === 'string' || typeof entity[key] === 'number')) {
       entityInfo.push(th(key, entity[key]));
     } else { //TODO better parsing! 
-      for (var k in entity[key]) {
-        entityInfo.push(th(k, entity[key][k]));
-      }
+      entityInfo.push(th(key, ""));
     }
   }
 
