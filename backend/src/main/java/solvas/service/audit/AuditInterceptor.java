@@ -9,6 +9,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import solvas.Application;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.api.models.ApiModel;
@@ -154,8 +155,9 @@ public class AuditInterceptor extends EmptyInterceptor {
         AutowireCapableBeanFactory factory = event.getApplicationContext().getAutowireCapableBeanFactory();
         daoContext = factory.getBean(DaoContext.class);
         mapperContext = factory.getBean(MapperContext.class);
-        // We want a fresh bean, since we need it to behave differently.
-        objectMapper = factory.createBean(ObjectMapper.class);
+        // We cannot use the application-level bean, since we need it to behave differently.
+        objectMapper = Application.defaultObjectMapper();
+        // Ignore some fields.
         objectMapper.addMixIn(ApiModel.class, IgnoreDataMixin.class);
     }
 }
