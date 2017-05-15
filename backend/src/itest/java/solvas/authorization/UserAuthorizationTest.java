@@ -15,10 +15,16 @@ public class UserAuthorizationTest extends AbstractAuthorizationTest {
     }
 
     @Override
+    public String getModelJson() {
+        return "{\"id\":\"1\",\"email\":\"ea@a.be\",\"firstName\":\"aa\",\"lastName\":\"bb\",\"password\":\"secret\"}";
+    }
+
+    @Override
     public ApiModel getModel() {
         ApiUser user = new ApiUser();
-        user.setPassword("ab");
-        user.setEmail("ea@a.be");
-        return user ;
+        user.setLastName("bob");
+        user.setLastName("ra");
+        user.setEmail("bob@ra.be");
+        return user;
     }
 }

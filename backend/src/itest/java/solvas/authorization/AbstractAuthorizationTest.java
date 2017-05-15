@@ -1,17 +1,15 @@
 package solvas.authorization;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.jayway.jsonpath.JsonPath;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
 import org.springframework.security.web.FilterChainProxy;
 import org.springframework.test.context.ActiveProfiles;
@@ -19,20 +17,16 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import solvas.Application;
 import solvas.authentication.WebSecurityConfig;
-import solvas.authentication.ajax.LoginRequest;
 import solvas.authentication.jwt.JwtSettings;
-import solvas.authorization.MethodSecurityConfig;
 import solvas.persistence.api.dao.TestConfig;
 import solvas.persistence.hibernate.HibernateConfig;
 import solvas.rest.api.models.ApiModel;
-import solvas.service.models.Model;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -59,94 +53,108 @@ public abstract class AbstractAuthorizationTest {
     @Autowired
     private FilterChainProxy filterChainProxy;
 
+    protected static String adminToken;
+    protected static String nopermissionToken;
+
+    private static boolean setUpIsDone = false;
+
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
+        if (setUpIsDone)
+            return;
+
         mockMvc = MockMvcBuilders
                 .webAppContextSetup(context)
                 .apply(SecurityMockMvcConfigurers.springSecurity())
                 .build();
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.findAndRegisterModules();
+
+        String response = mockMvc.perform(post("/auth/login").contentType(MediaType.APPLICATION_JSON_UTF8).content(mapper.writeValueAsString(UserFixtures.ADMINISTRATOR))).andReturn().getResponse().getContentAsString();
+        adminToken = JsonPath.read(response, "accessToken.token");
+        response = mockMvc.perform(post("/auth/login").contentType(MediaType.APPLICATION_JSON_UTF8).content(mapper.writeValueAsString(UserFixtures.NO_PERMISSIONS))).andReturn().getResponse().getContentAsString();
+        nopermissionToken = JsonPath.read(response,"accessToken.token");
+        setUpIsDone = true;
     }
 
     public MockMvc getMockMvc()
     {
-        return mockMvc;
+        return MockMvcBuilders
+                .webAppContextSetup(context)
+                .alwaysDo(MockMvcResultHandlers.print())
+                .apply(SecurityMockMvcConfigurers.springSecurity())
+                .build();
     }
 
     public abstract String getUrl();
 
-    @Test
-    public void testAnonymousUserHasNoPermissions() throws Exception {
-        testAllDenied(null);
+    protected MockHttpServletRequestBuilder auth(MockHttpServletRequestBuilder builder, String token) {
+        return builder.header("X-Authorization","Bearer "+token);
     }
-
-    @Test
-    public void testUserWithoutPermission() throws Exception {
-        testAllDenied(UserFixtures.NO_PERMISSIONS);
-    }
-
-    @Test
-    public void testUserAccessForAccount() throws Exception {
-        mockMvc.perform(authenticate(get("/users"), UserFixtures.ADMINISTRATOR))
-                .andExpect(status().isOk());
-    }
-
-    private MockHttpServletRequestBuilder authenticate(MockHttpServletRequestBuilder builder, LoginRequest user) throws Exception {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.findAndRegisterModules();
-        String response = mockMvc.perform(post("/auth/login").contentType(MediaType.APPLICATION_JSON_UTF8).content(mapper.writeValueAsString(user))).andReturn().getResponse().getContentAsString();
-        String token = JsonPath.read(response, "accessToken.token");
-        return builder.header("X-Authorization", "Bearer " + token);
-    }
-
-    private void testAllDenied(LoginRequest user) throws Exception {
-        testDenied(get("/users"), user);
-
-        testDenied(post("/companies").contentType(MediaType.APPLICATION_JSON_UTF8).content("{}"), user);
-        testDenied(put("/companies/1").contentType(MediaType.APPLICATION_JSON_UTF8).content("{}"), user);
-        testDenied(delete("/companies/1"), user);
-        testDenied(get("/companies/1"), user);
-        testDenied(get("/companies/1/contracts"), user);
-
-        /*testDenied(get("/contracts/1"), user);
-        testDenied(put("/contracts/1").contentType(MediaType.APPLICATION_JSON_UTF8).content("{}"), user);
-        testDenied(delete("/contracts/1"), user);
-        testDenied(post("/contracts").contentType(MediaType.APPLICATION_JSON_UTF8).content("{}"), user);
-*/
-    }
-
-    private void testDenied(MockHttpServletRequestBuilder b, LoginRequest user) throws Exception {
-        ResultMatcher r = status().isUnauthorized();
-        if (user != null) {
-            b = authenticate(b, user);
-            r = status().isForbidden();
-        }
-        System.out.println(mockMvc.perform(b).andReturn().getResponse().getContentAsString());
-        mockMvc.perform(b)
-                .andExpect(r);
-
-    }
-
 
     @Test
     public void userCanReadModel() throws Exception {
-        getMockMvc().perform(authenticate(get(getUrl()),UserFixtures.ADMINISTRATOR)).andExpect(status().isOk()).andDo(MockMvcResultHandlers.print());
-
-    }
-
-    @Test
-    public void userCanPostModel() throws Exception {
-        getMockMvc().perform(authenticate(post(getUrl()).contentType(MediaType.APPLICATION_JSON_UTF8).content(new ObjectMapper().writeValueAsString(getModel())),UserFixtures.ADMINISTRATOR)).andExpect(status().isOk());
-    }
-
-    @Test
-    public void userCanPutModel() throws Exception {
-        getMockMvc().perform(authenticate(put(getUrl()+'1'),UserFixtures.ADMINISTRATOR)).andExpect(status().isOk());
+        getMockMvc().perform(auth(get(getIdUrl()),adminToken))
+                .andExpect(status().isOk());
     }
 
     @Test
     public void userCantReadModel() throws Exception {
-        testDenied(get(getUrl()),UserFixtures.NO_PERMISSIONS);
+        getMockMvc().perform(auth(get(getIdUrl()),nopermissionToken))
+                .andExpect(status().isForbidden());
+    }
+
+
+    @Test
+    public void userCanReadModels() throws Exception {
+        getMockMvc().perform(auth(get(getUrl()),adminToken))
+                .andExpect(status().isOk()).andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
+    public void userCantReadModels() throws Exception {
+        getMockMvc().perform(auth(get(getUrl()),nopermissionToken)).andExpect(status().isForbidden());
+    }
+
+    @Test
+    public void userCanPostModel() throws Exception {
+        getMockMvc().perform(auth(post(getUrl()).contentType(MediaType.APPLICATION_JSON_UTF8).content(getModelJson()),adminToken)).andDo(MockMvcResultHandlers.print()).andExpect(status().isOk());
+    }
+
+    @Test
+    public void userCantPostModel() throws Exception {
+        getMockMvc().perform(auth(post(getUrl()).contentType(MediaType.APPLICATION_JSON_UTF8).content(getModelJson()),nopermissionToken)).andExpect(status().isForbidden()).andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
+    public void userCanPutModel() throws Exception {
+        getMockMvc().perform(auth(put(getIdUrl()),adminToken).contentType(MediaType.APPLICATION_JSON_UTF8).content(getModelJson())).andExpect(status().isOk()).andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
+    public void userCantPutModel() throws Exception {
+        getMockMvc().perform(auth(put(getIdUrl()),nopermissionToken).contentType(MediaType.APPLICATION_JSON_UTF8).content(getModelJson())).andExpect(status().isForbidden());
+    }
+
+    @Test public void userCanDeleteModel() throws Exception {
+        getMockMvc().perform(auth(delete(getIdUrl()),adminToken)).andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void userCantDeleteModel() throws Exception {
+        getMockMvc().perform(auth(delete(getIdUrl()),nopermissionToken)).andExpect(status().isForbidden());
+    }
+
+    public String getModelJson() throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.findAndRegisterModules();
+        return mapper.writeValueAsString(getModel());
     }
 
     public abstract ApiModel getModel();
+
+    public String getIdUrl()
+    {
+        return getUrl()+"/1";
+    }
 }
