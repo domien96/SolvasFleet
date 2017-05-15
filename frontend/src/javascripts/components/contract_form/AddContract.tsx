@@ -7,6 +7,7 @@ import { postContract, fetchTypes } from '../../actions/contract_actions.ts';
 import { hasError } from '../../utils/utils.ts';
 import { redirect_to } from '../../routes/router.tsx';
 import T from 'i18n-react';
+import Errors from '../../modules/Errors.ts';
 
 interface State {
   errors: Form.Error[];
@@ -45,11 +46,8 @@ class AddContract extends React.Component<{}, State> {
     e.preventDefault();
     const setErrors = (es: Form.Error[]) => this.setState({ errors: es });
     const success = (data: any) => redirect_to(`/contracts/${data.id}`);
-    const fail = (data: any) => {
-      setErrors(data.errors.map((es: any) => ({ field: es, error: 'null' })));
-    };
 
-    postContract(this.state.contract, success, fail);
+    postContract(this.state.contract, success, Errors.handle(setErrors));
   }
 
   render() {

@@ -7,6 +7,7 @@ import { fetchClient, putClient } from '../../actions/client_actions.ts';
 import { hasError } from '../../utils/utils.ts';
 import { redirect_to } from '../../routes/router.tsx';
 import T from 'i18n-react';
+import Errors from '../../modules/Errors.ts';
 
 interface Props {
   [ params: string ]: { [ id: string ]: number };
@@ -46,13 +47,8 @@ class EditClient extends React.Component<Props, State> {
     e.preventDefault();
     const setErrors = (es: Form.Error[]) => this.setState({ errors: es });
     const success = () => redirect_to(`/clients/${this.state.company.id}`);
-    const fail = (data: any) => {
-      setErrors(data.errors.map((es: any) => {
-        return { field: es.field, error: 'null' };
-      }));
-    };
 
-    putClient(this.state.company.id, this.state.company, success, fail);
+    putClient(this.state.company.id, this.state.company, success, Errors.handle(setErrors));
   }
 
   render() {

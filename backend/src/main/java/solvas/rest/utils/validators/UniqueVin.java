@@ -11,17 +11,20 @@ import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Ensure vat number is unique for a company.
+ * Ensures that a VIN is unique in the database.
+ *
+ * @author Niko Strijbol
  */
-@Documented  
-@Constraint(validatedBy = { UniqueVatNumberForCompanyValidator.class })
-@Target({ TYPE, ANNOTATION_TYPE })
-@Retention(RUNTIME)  
-public @interface UniqueVatNumber {
+@Documented
+@Constraint(validatedBy = {UniqueVinForVehicleValidator.class})
+@Target({TYPE, ANNOTATION_TYPE})
+@Retention(RUNTIME)
+public @interface UniqueVin {
+
     /**
-     * @return  Validation message
+     * @return Validation message
      */
-    String message() default "{solvas.rest.utils.validators.UniqueVatNumber.message}";
+    String message() default "{solvas.rest.utils.validators.UniqueVin.message}";
 
     /**
      * @return Optional validation group.
@@ -31,5 +34,5 @@ public @interface UniqueVatNumber {
     /**
      * @return Optional payload.
      */
-    Class<? extends Payload>[] payload() default { };
-} 
+    Class<? extends Payload>[] payload() default {};
+}
