@@ -10,6 +10,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 
 /**
+ * Bean field for {@link LocalDateTime}.
+ *
  * @author Niko Strijbol
  */
 public class LocalDateTimeBeanField extends AbstractBeanField<LocalDateTime> {
@@ -17,8 +19,8 @@ public class LocalDateTimeBeanField extends AbstractBeanField<LocalDateTime> {
     @Override
     protected Object convert(String value) throws CsvDataTypeMismatchException, CsvRequiredFieldEmptyException, CsvConstraintViolationException {
 
-        // We don't handle the constraint violations here, as constraints are checked by the validations on the model.
-        // We do handle the empty value here.
+        // Throw a more specific message if the field is empty. Otherwise it will also result in a
+        // DateTimeParseException.
         if (StringUtils.isEmpty(value)) {
             throw new CsvRequiredFieldEmptyException();
         }
