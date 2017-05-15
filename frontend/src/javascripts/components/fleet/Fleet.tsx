@@ -15,10 +15,10 @@ import FleetActions from './FleetActions.tsx';
 import FleetSettings from './FleetSettings.tsx';
 import deleteFleet from '../../actions/fleet_actions.ts';
 import FleetVehicleAdd from './FleetVehicleAdd.tsx';
+import { redirect_to } from '../../routes/router.tsx';
 
 interface VehiclesProps {
   vehicles: any;
-  firstType: string;
 }
 interface VehiclesState {
   type: string;
@@ -46,8 +46,11 @@ class Vehicles extends React.Component<VehiclesProps, VehiclesState> {
   }
 
   componentWillReceiveProps(props: VehiclesProps) {
-    if(props.type!=this.props.type)
-    this.setState({type: props.firstType});
+    if(props.vehicles!=this.props.vehicles && props.vehicles.length!=0)
+    {
+      this.setState({type: Object.keys(props.vehicles)[0]});
+    }
+
   }
 
   render() {
@@ -85,9 +88,6 @@ interface FleetState {
   showSettings : boolean;
   showAddVehicle : boolean;
   nodes: Node[];
-
-  openedType:string;
-
   checkedVehicles : number[];
 }
 
@@ -100,8 +100,7 @@ class Fleet extends React.Component<FleetProps, FleetState> {
       showSettings : false,
       showAddVehicle : false,
       checkedVehicles : [],
-      nodes: [],
-      openedType: ''
+      nodes: []
     }
     this.onSettingsClick=this.onSettingsClick.bind(this);
     this.handleChange=this.handleChange.bind(this);
@@ -142,7 +141,7 @@ class Fleet extends React.Component<FleetProps, FleetState> {
 
   refresh() {
     fetchVehicles((data) =>
-      this.setState({ checkedVehicles: [],vehicles: data.data , openedType: data.data[0].type, nodes: data.data.map(({ id, type }) => { return { id, group: type } })})
+      this.setState({ checkedVehicles: [],vehicles: data.data, nodes: data.data.map(({ id, type }) => { return { id, group: type } })})
        , undefined, { fleet: this.props.params.id.toString() });
   }
 
@@ -210,7 +209,7 @@ class Fleet extends React.Component<FleetProps, FleetState> {
               </div>
               <div className='card-content'>
                 <NestedCheckbox values={ this.state.nodes } cb={this.cb}>
-                  <Vehicles vehicles={ group_by(this.state.vehicles, 'type') } firstType={this.state.openedType} />
+                  <Vehicles vehicles={ group_by(this.state.vehicles, 'type') } />
                 </NestedCheckbox>
               </div>
             </Card>
