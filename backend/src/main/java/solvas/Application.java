@@ -33,21 +33,12 @@ public class Application {
     }
 
     /**
-     * We need a custimozid version of the object mapper.
+     * We need a customized version of the object mapper.
      *
      * @return The general object mapper for the application.
      */
     @Bean
     public ObjectMapper jacksonObjectMapper() {
-        return defaultObjectMapper();
-    }
-
-    /**
-     * Creates an {@link ObjectMapper} that has been configured for this application.
-     *
-     * @return The object mapper.
-     */
-    public static ObjectMapper defaultObjectMapper() {
         return new ObjectMapper()
                 .findAndRegisterModules()
                 .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
