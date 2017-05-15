@@ -6,17 +6,41 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
- * Models an invoice
+ * Models an invoice of a fleet for a specific period.
  * Created by domien on 15/04/2017.
  */
 public class Invoice extends Model {
 
+    /**
+     * The total amount of the invoice.
+     */
     private BigDecimal amount; // in cents
+
+    /**
+     * The start date of the period this invoice is for.
+     */
     private LocalDateTime startDate;
+
+    /**
+     * The end date of the period this invoice is for.
+     */
     private LocalDateTime endDate;
+
+    /**
+     * The type of the invoice.
+     * @see InvoiceType
+     */
     private InvoiceType type;
+
+    /**
+     * Holds whether the invoice is already paid or not.
+     * Payment of invoices is done outside the whole application.
+     */
     private boolean paid;
 
+    /**
+     * The fleet this invoice is made for.
+     */
     private Fleet fleet;
 
     public Invoice() {

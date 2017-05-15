@@ -6,9 +6,25 @@ package solvas.service.models;
  * @author domien on 04/03/2017
  */
 public class Fleet extends Model {
+
+    /**
+     * The company who owns this fleet. (and thus all the vehicles of this fleet)
+     */
     private Company company;
+
+    /**
+     * The name of the fleet.
+     */
     private String name;
+
+    /**
+     * Period of facturation.
+     */
     private int facturationPeriod; // In months
+
+    /**
+     * Period of payment.
+     */
     private int paymentPeriod; // In months
 
 

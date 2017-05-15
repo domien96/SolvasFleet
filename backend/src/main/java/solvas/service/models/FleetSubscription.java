@@ -11,11 +11,31 @@ import java.util.Set;
  * @author domien on 4/03/2017.
  */
 public class FleetSubscription extends Model {
+
+    /**
+     * Date when the vehicle has been part of the fleet.
+     */
     private LocalDate startDate;
+
+    /**
+     * The vehicle belongs to the fleet until this datE.
+     */
     private LocalDate endDate;
+
+    /**
+     * The vehicle which is been linked with the fleet.
+     */
     private Vehicle vehicle;
+
+    /**
+     * The fleet where the vehicle is subscribed to.
+     */
     private Fleet fleet;
 
+    /**
+     * The set of contracts of the vehicles. A vehicle can have multiple contracts of multiple insurance types.
+     * e.g. omnium, driver insurance, ..
+     */
     private Set<Contract> contracts;
 
 

@@ -8,8 +8,20 @@ import java.time.LocalDateTime;
  */
 public class Function extends Model implements Serializable {
 
+    /**
+     * The user which this function is given to.
+     */
     private User user;
+
+    /**
+     * The company where this function is valid.
+     */
     private Company company;
+
+    /**
+     * The role (which is a set of permissions) this function has.
+     * e.g. admin, company administrative
+     */
     private Role role;
 
 
