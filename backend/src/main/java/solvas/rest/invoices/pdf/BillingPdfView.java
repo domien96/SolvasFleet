@@ -10,6 +10,7 @@ import solvas.service.models.InvoiceItem;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 /**
  * View for the billing invoice in PDF.
@@ -62,22 +63,23 @@ public class BillingPdfView extends InvoicePdfView {
         table.addCell(getCell("Totaal", Element.ALIGN_LEFT, font12b));
 
         NumberFormat formatter = NumberFormat.getPercentInstance();
-        NumberFormat euroFormat = NumberFormat.getCurrencyInstance();
+        formatter.setMaximumFractionDigits(2);
+        NumberFormat euroFormat = NumberFormat.getCurrencyInstance(new Locale("nl", "BE"));
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         for(InvoiceItem item: invoice.getItems()) {
             table.addCell(item.getContract().getFleetSubscription().getVehicle().getLicensePlate() + " #" + item.getContract().getId());
             table.addCell(getCell(euroFormat.format(item.getContract().getPremium()), Element.ALIGN_RIGHT, font12));
-            table.addCell(getCell(euroFormat.format(item.getTax()), Element.ALIGN_LEFT, font12));
+            table.addCell(getCell(formatter.format(item.getTax()), Element.ALIGN_LEFT, font12));
             table.addCell(getCell(item.getType().toString(), Element.ALIGN_LEFT, font12));
             table.addCell(getCell(String.valueOf(item.getNumberOfDays()), Element.ALIGN_RIGHT, font12));
             table.addCell(getCell(euroFormat.format(item.getAmount()), Element.ALIGN_LEFT, font12));
         }
 
-        PdfPCell cell = getCell("Tax:", Element.ALIGN_LEFT, font12);
+        PdfPCell cell = getCell("Netto totaal", Element.ALIGN_LEFT, font12);
         cell.setColspan(3);
         table.addCell(cell);
-        table.addCell(getCell(euroFormat.format(invoice.getTax()), Element.ALIGN_LEFT, font12b));
+        table.addCell(getCell(euroFormat.format(invoice.getNetAmount()), Element.ALIGN_LEFT, font12b));
 
         cell = getCell("Totaal:", Element.ALIGN_LEFT, font12);
         cell.setColspan(5);

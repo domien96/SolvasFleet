@@ -36,15 +36,17 @@ public class Invoice extends Model {
      * @return The amount
      */
     public BigDecimal getAmount() {
-        return items.stream().map(InvoiceItem::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add);
+        return items.stream().map(
+                item -> item.getAmount().multiply(item.getTax().add(BigDecimal.ONE))
+        ).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     /**
      * Get sum of taxes of all associated items
      * @return The total taxes
      */
-    public BigDecimal getTax() {
-        return items.stream().map(InvoiceItem::getTax).reduce(BigDecimal.ZERO, BigDecimal::add);
+    public BigDecimal getNetAmount() {
+        return items.stream().map(InvoiceItem::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     public LocalDateTime getStartDate() {

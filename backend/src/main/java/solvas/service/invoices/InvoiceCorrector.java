@@ -141,24 +141,21 @@ public class InvoiceCorrector {
         BigDecimal premium = BigDecimal.valueOf(contract.getPremium());
         BigDecimal total = premium.multiply(commissionPercentage)
                 .multiply(dayMultiplier);
-        System.out.println("daymultiplier");
-        System.out.println(dayMultiplier);
         if(negate) {
             total = total.negate();
         }
-        BigDecimal taxCost = total.multiply(taxPercentage);
-        invoiceItem.setTax(taxCost);
-        total = total.add(taxCost);
+       // BigDecimal taxCost = total.multiply(taxPercentage);
+        invoiceItem.setTax(tax.getTax());
+        //total = total.add(taxCost);
         invoiceItem.setAmount(total);
         return total;
     }
 
     private BigDecimal getDayMultiplier(InvoiceItem invoiceItem, BigDecimal totalPeriod) {
-        long itemPeriod = ChronoUnit.DAYS.between(invoiceItem.getStartDate(), invoiceItem.getEndDate());
+        long itemPeriod = ChronoUnit.DAYS.between(invoiceItem.getStartDate(), invoiceItem.getEndDate()) + 1;
         long totalPeriodInDays = ChronoUnit.DAYS.between(invoiceItem.getStartDate(),
                 invoiceItem.getStartDate().plusMonths(totalPeriod.longValue()));
 
-        System.out.println(String.format("Periods: %d %d", itemPeriod, totalPeriodInDays));
         return new BigDecimal(itemPeriod)
                 .divide(new BigDecimal(totalPeriodInDays), PERCENTAGE_SCALE, BigDecimal.ROUND_HALF_UP);
     }
