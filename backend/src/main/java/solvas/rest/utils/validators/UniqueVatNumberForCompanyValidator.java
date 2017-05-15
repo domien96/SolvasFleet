@@ -41,10 +41,9 @@ public class UniqueVatNumberForCompanyValidator extends DaoContextAwareConstrain
                 .orElse(true); // The VAT does not exist.
 
         // This is a class constraint, but we want to report is a field error
-        context.disableDefaultConstraintViolation();
-        context.buildConstraintViolationWithTemplate(context.getDefaultConstraintMessageTemplate())
-                .addPropertyNode("vatNumber")
-                .addConstraintViolation();
+        if (!isValid) {
+            registerFieldError("vatNumber", context);
+        }
         return isValid;
     }
 }
