@@ -142,7 +142,6 @@ class VehicleFilter extends React.Component<FilterProps, FilterState> {
 
   render() {
     const { filter, typeDisplay, licensePlateData, vinData } = this.state;
-    console.log(this.state);
     if (this.state.hidden || this.props.vehicles === []) {
       return(
         <HiddenFilter onReset={ this.handleReset } onShow={ this.handleShow }/>

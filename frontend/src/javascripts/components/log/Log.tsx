@@ -63,16 +63,14 @@ class Log extends React.Component<{}, State> {
           newQuery[key] = queryFilter[key];
         }
       }
-    } else { // no query
+    } else { 
       for (const key in queryFilter) {
         if (queryFilter[key] === null || queryFilter[key] === undefined || queryFilter[key] === '') {
           delete queryFilter[key];
         }
-        console.log(queryFilter)
       }
       newQuery = queryFilter;
     }
-    console.log(newQuery);
 
     fetchLog((data: any) => {
       this.setState({ response: data });

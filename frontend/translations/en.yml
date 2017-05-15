@@ -30,6 +30,8 @@ company:
     Customer: Customer
 
 vehicle:
+  vehicle: Vehicle
+  id: Vehicle ID
   vehicles: Vehicles
   noVehicle: No vehicle selected
   licensePlate: License plate
@@ -86,8 +88,11 @@ subfleet:
   size: Size
 
 function: 
+  function: Function
+  id: Function ID
   functions: Functions
   role: Role
+  user: User
   company: Company
   addNew: Add New Function
   createNew: Create a new function
