@@ -112,6 +112,7 @@ class Fleet extends React.Component<FleetProps, FleetState> {
     this.cb=this.cb.bind(this);
     this.archiveCheckedVehicles=this.archiveCheckedVehicles.bind(this);
     this.refresh=this.refresh.bind(this);
+    this.archiveFleet=this.archiveFleet.bind(this);
   }
 
   componentDidMount() {
