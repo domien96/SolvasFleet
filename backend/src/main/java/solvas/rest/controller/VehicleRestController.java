@@ -163,7 +163,8 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
         } catch (RuntimeException e) {
             // Something went wrong while parsing the CSV file. This is probably a date in the wrong format.
             return new ResponseEntity<>(
-                    new ApiError(ErrorType.WRONG_FORMAT, "csv", "The CSV file is not formatted correctly."),
+                    new ApiError(ErrorType.WRONG_FORMAT, "csv", "The CSV file is not formatted correctly. " +
+                            "Error message: " + e.getMessage()),
                     HttpStatus.BAD_REQUEST);
         }
 
