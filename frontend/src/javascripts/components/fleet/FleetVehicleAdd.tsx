@@ -38,6 +38,7 @@ class FleetVehicleAdd extends React.Component<Props, State>{
     fetchVehicles((data)=>{
       this.setTypeaheadOptions(data.data.filter((a:VehicleData)=>a.fleet===0));
     });
+    this.refs.typeahead.getInstance().clear();
   }
 
 	componentDidMount(){
@@ -73,6 +74,7 @@ class FleetVehicleAdd extends React.Component<Props, State>{
     putVehicle(veh.id,veh,()=> {
       this.props.refresh();
       this.onShowClick();
+      this.getAllVehicles();
     });
   }
 
@@ -95,7 +97,7 @@ class FleetVehicleAdd extends React.Component<Props, State>{
         <Card>
           <div className='card-content fleets fleet-addvehicle'>
             <label>Choose VIN</label>
-            <Typeahead onInputChange={ this.onTypeAheadChange } options={ this.state.typeaheadFields }/>
+            <Typeahead onInputChange={ this.onTypeAheadChange } options={ this.state.typeaheadFields } ref="typeahead"/>
             <button className={'btn btn-success pull-right'+this.state.submitDisabled} onClick={this.onSubmit}>
               <span className='glyphicon glyphicon-plus' /> Add to fleet
             </button>

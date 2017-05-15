@@ -46,6 +46,7 @@ class Vehicles extends React.Component<VehiclesProps, VehiclesState> {
   }
 
   componentWillReceiveProps(props: VehiclesProps) {
+    if(props.type!=this.props.type)
     this.setState({type: props.firstType});
   }
 
@@ -85,6 +86,8 @@ interface FleetState {
   showAddVehicle : boolean;
   nodes: Node[];
 
+  openedType:string;
+
   checkedVehicles : number[];
 }
 
@@ -97,7 +100,8 @@ class Fleet extends React.Component<FleetProps, FleetState> {
       showSettings : false,
       showAddVehicle : false,
       checkedVehicles : [],
-      nodes: []
+      nodes: [],
+      openedType: ''
     }
     this.onSettingsClick=this.onSettingsClick.bind(this);
     this.handleChange=this.handleChange.bind(this);
@@ -105,6 +109,7 @@ class Fleet extends React.Component<FleetProps, FleetState> {
     this.showAddVehicle=this.showAddVehicle.bind(this);
     this.cb=this.cb.bind(this);
     this.archiveCheckedVehicles=this.archiveCheckedVehicles.bind(this);
+    this.refresh=this.refresh.bind(this);
   }
 
   componentDidMount() {
@@ -137,8 +142,8 @@ class Fleet extends React.Component<FleetProps, FleetState> {
 
   refresh() {
     fetchVehicles((data) =>
-      this.setState({ vehicles: data.data , nodes: data.data.map(({ id, type }) => { return { id, group: type } })})
-       , undefined, { fleet: id.toString() });
+      this.setState({ checkedVehicles: [],vehicles: data.data , openedType: data.data[0].type, nodes: data.data.map(({ id, type }) => { return { id, group: type } })})
+       , undefined, { fleet: this.props.params.id.toString() });
   }
 
   showAddVehicle() {
@@ -153,10 +158,12 @@ class Fleet extends React.Component<FleetProps, FleetState> {
   }
 
   archiveCheckedVehicles() {
-    for(var i=0;i<this.state.checkedVehicles.length;i++)
+    for(var i=0;i<this.state.checkedVehicles.length-1;i++)
     {
       deleteVehicle(this.state.checkedVehicles[i],undefined,undefined);
     }
+    //Refresh on last request
+    deleteVehicle(this.state.checkedVehicles[this.state.checkedVehicles.length-1],()=>{this.refresh()});
   }
 
   archiveFleet() {
@@ -164,9 +171,6 @@ class Fleet extends React.Component<FleetProps, FleetState> {
   }
 
   render () {
-
-    const openedType : string = this.state.vehicles.length == 0 ? '' : this.state.vehicles[0].type;
-
 
     return (
       <div>
@@ -206,7 +210,7 @@ class Fleet extends React.Component<FleetProps, FleetState> {
               </div>
               <div className='card-content'>
                 <NestedCheckbox values={ this.state.nodes } cb={this.cb}>
-                  <Vehicles vehicles={ group_by(this.state.vehicles, 'type') } firstType={openedType} />
+                  <Vehicles vehicles={ group_by(this.state.vehicles, 'type') } firstType={this.state.openedType} />
                 </NestedCheckbox>
               </div>
             </Card>
