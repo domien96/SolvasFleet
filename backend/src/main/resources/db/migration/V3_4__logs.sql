@@ -12,3 +12,9 @@ CREATE TABLE revisions (
 );
 
 
+-- Insert scope for logs
+INSERT INTO permissions(scope) VALUES ('read:revisions');
+
+-- Add permission for administrator
+INSERT INTO role_permissions (role_id, permission_id)
+  SELECT role_id, permission_id FROM roles FULL JOIN permissions ON permissions.scope = 'read:revisions' WHERE function = 'administrator';

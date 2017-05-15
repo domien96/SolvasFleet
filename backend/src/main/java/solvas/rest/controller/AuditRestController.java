@@ -4,6 +4,7 @@ package solvas.rest.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,6 +44,7 @@ public class AuditRestController extends AbstractRestController<Revision,ApiRevi
      * @return ResponseEntity
      */
     @RequestMapping(value = "/audit", method = RequestMethod.GET)
+    @PreAuthorize("hasPermission(0, 'revision', 'READ')")
     public ResponseEntity<?> listAll(Pageable pagination, AuditFilter filter, BindingResult result) {
         return super.listAll(pagination, filter, result);
     }
@@ -50,9 +52,8 @@ public class AuditRestController extends AbstractRestController<Revision,ApiRevi
 
     @Override
     @RequestMapping(value = "/audit/{id}", method = RequestMethod.GET)
-    //@PreAuthorize("hasPermission(#id, 'company', 'READ')") // TODO authorization
+    @PreAuthorize("hasPermission(#id, 'revision', 'READ')")
     public ResponseEntity<?> getById(@PathVariable int id) {
         return super.getById(id);
     }
-
 }
