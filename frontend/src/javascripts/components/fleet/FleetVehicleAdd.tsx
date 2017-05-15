@@ -8,6 +8,7 @@ import { Collapse } from 'react-bootstrap';
 
 interface Props {
   fleet : number;
+  refresh : void;
 }
 
 interface State {
@@ -69,12 +70,10 @@ class FleetVehicleAdd extends React.Component<Props, State>{
   onSubmit(){
     var veh=this.state.vehicle;
     veh.fleet=this.props.fleet;
-    putVehicle(veh.id,veh,()=>
-      //TODO REPLACE REFRESH
-    {}
-    );
-
-
+    putVehicle(veh.id,veh,()=> {
+      this.props.refresh();
+      this.onShowClick();
+    });
   }
 
   onShowClick(){

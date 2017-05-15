@@ -110,9 +110,7 @@ class Fleet extends React.Component<FleetProps, FleetState> {
   componentDidMount() {
     var { id, companyId} = this.props.params;
     fetchFleet(id,companyId, (data)=> {this.setState({fleet:data})});
-    fetchVehicles((data) =>
-      this.setState({ vehicles: data.data , nodes: data.data.map(({ id, type }) => { return { id, group: type } })})
-       , undefined, { fleet: id.toString() });
+    this.refresh();
   }
 
   onSettingsClick() {
@@ -137,7 +135,13 @@ class Fleet extends React.Component<FleetProps, FleetState> {
     putFleet(this.state.fleet.id,this.state.fleet.company,this.state.fleet,success);
   }
 
-showAddVehicle() {
+  refresh() {
+    fetchVehicles((data) =>
+      this.setState({ vehicles: data.data , nodes: data.data.map(({ id, type }) => { return { id, group: type } })})
+       , undefined, { fleet: id.toString() });
+  }
+
+  showAddVehicle() {
     this.setState({showAddVehicle:!this.state.showAddVehicle});
   }
 
@@ -183,7 +187,7 @@ showAddVehicle() {
         <div className='wrapper'>
           <div className='row'>
               <div className='col-md-12 col-lg-3'>
-              <FleetVehicleAdd fleet={this.props.params.id}/>
+              <FleetVehicleAdd fleet={this.props.params.id} refresh={this.refresh}/>
               </div>
               <div className='col-md-12 col-lg-4'>
                 <FleetActions isDisabled={this.state.checkedVehicles.length==0} callToArchive={this.archiveCheckedVehicles}/>
