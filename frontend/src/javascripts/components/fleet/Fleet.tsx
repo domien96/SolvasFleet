@@ -142,10 +142,9 @@ showAddVehicle() {
   }
 
 
+  /*Callback function to obtain checked vehicles*/
   cb(n:Node[]){
     const checked : number[] = n.filter(node=>node.checked===true).map(node=>node.id);
-    console.log(checked);
-
     this.setState({checkedVehicles:checked});
   }
 
@@ -183,18 +182,13 @@ showAddVehicle() {
 
         <div className='wrapper'>
           <div className='row'>
-
-
-              <div className='col-xs-12 col-md-4'>
+              <div className='col-md-12 col-lg-3'>
               <FleetVehicleAdd fleet={this.props.params.id}/>
               </div>
-
-
-              <div className='col-xs-12 col-md-4'>
+              <div className='col-md-12 col-lg-4'>
                 <FleetActions isDisabled={this.state.checkedVehicles.length==0} callToArchive={this.archiveCheckedVehicles}/>
               </div>
-
-            <div className='col-xs-12 col-md-4'>
+            <div className='col-md-12 col-lg-5'>
               <FleetSettings onSettingsClick={this.onSettingsClick} showSettings={this.state.showSettings} fleet={this.state.fleet} handleChange={ this.handleChange } onSubmit = {this.onSubmit}/>
             </div>
           </div>
