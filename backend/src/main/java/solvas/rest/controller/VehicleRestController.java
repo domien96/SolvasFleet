@@ -3,7 +3,7 @@ package solvas.rest.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.opencsv.CSVReader;
 import com.opencsv.bean.CsvToBean;
-import com.opencsv.bean.HeaderColumnNameTranslateMappingStrategy;
+import com.opencsv.bean.HeaderColumnNameMappingStrategy;
 import com.opencsv.bean.MappingStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -25,7 +25,6 @@ import solvas.rest.greencard.GreenCardViewResolver;
 import solvas.rest.greencard.pdf.GreenCardPdfView;
 import solvas.rest.query.VehicleFilter;
 import solvas.rest.utils.JsonListWrapper;
-import solvas.rest.utils.MyCsvToBean;
 import solvas.service.VehicleService;
 import solvas.service.models.Vehicle;
 
@@ -154,7 +153,7 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
             // This is an unexpected error on the server, so 500 is appropriate.
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        CsvToBean<ApiVehicle> csv = new MyCsvToBean<>();
+        CsvToBean<ApiVehicle> csv = new CsvToBean<>();
 
         List<ApiVehicle> list;
         try {
@@ -191,23 +190,10 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
         }
     }
 
-    private MappingStrategy<ApiVehicle> setColumnMapping()
-    {
+    private MappingStrategy<ApiVehicle> setColumnMapping() {
         // Order does not matter for this strategy, but requires a header line with the column names.
-        HeaderColumnNameTranslateMappingStrategy<ApiVehicle> strategy = new HeaderColumnNameTranslateMappingStrategy<>();
+        HeaderColumnNameMappingStrategy<ApiVehicle> strategy = new HeaderColumnNameMappingStrategy<>();
         strategy.setType(ApiVehicle.class);
-        Map<String,String> columnMappings = new HashMap<>();
-        columnMappings.put("licensePlate", "licensePlate");
-        columnMappings.put("leasingCompany", "leasingCompany");
-        columnMappings.put("fleet", "fleet");
-        columnMappings.put("mileage", "mileage");
-        columnMappings.put("type", "type");
-        columnMappings.put("value", "value");
-        columnMappings.put("year", "year");
-        columnMappings.put("vin", "vin");
-        columnMappings.put("model","model");
-        columnMappings.put("brand","brand");
-        strategy.setColumnMapping(columnMappings);
         return strategy;
     }
 
