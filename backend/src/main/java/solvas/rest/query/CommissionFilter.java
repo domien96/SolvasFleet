@@ -29,11 +29,13 @@ public class CommissionFilter implements Filter<Commission> {
     public Collection<Predicate> asPredicates(CriteriaBuilder builder, Root<Commission> root) {
         Collection<Predicate> predicates= new HashSet<>();
 
-        Join<Commission,InsuranceType> join = root.join("insuranceType");
-        predicates.add(builder.equal(
-                builder.lower(join.get("name")),
-                insuranceType==null? null : insuranceType.toLowerCase()
-        ));
+        if (insuranceType != null) {
+            Join<Commission,InsuranceType> join = root.join("insuranceType");
+            predicates.add(builder.equal(
+                    builder.lower(join.get("name")),
+                    insuranceType==null? null : insuranceType.toLowerCase()
+            ));
+        }
         // From most specific criterium to most general
         if (vehicle >0) {
             predicates.add(builder.equal(
