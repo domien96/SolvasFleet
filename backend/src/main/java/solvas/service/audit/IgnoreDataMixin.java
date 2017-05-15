@@ -9,11 +9,11 @@ import java.time.LocalDateTime;
  *
  * @author Niko Strijbol
  */
-public abstract class IgnoreDataMixin {
+abstract class IgnoreDataMixin {
     @JsonIgnore
-    public LocalDateTime createdAt;
+    LocalDateTime createdAt;
     @JsonIgnore
-    public LocalDateTime updatedAt;
+    LocalDateTime updatedAt;
     @JsonIgnore
-    public String url;
+    String url;
 }

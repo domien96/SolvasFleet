@@ -154,8 +154,9 @@ public class AuditInterceptor extends EmptyInterceptor {
         AutowireCapableBeanFactory factory = event.getApplicationContext().getAutowireCapableBeanFactory();
         daoContext = factory.getBean(DaoContext.class);
         mapperContext = factory.getBean(MapperContext.class);
-        // We want a fresh bean, since we need it to behave differently.
-        objectMapper = factory.createBean(ObjectMapper.class);
+        // We need of copy of the bean, since we need it to behave differently.
+        objectMapper = factory.getBean(ObjectMapper.class).copy();
+        // Ignore some fields.
         objectMapper.addMixIn(ApiModel.class, IgnoreDataMixin.class);
     }
 }
