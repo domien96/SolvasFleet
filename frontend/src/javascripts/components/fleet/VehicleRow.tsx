@@ -10,7 +10,7 @@ interface LProps {
 
 const VehicleLink: React.StatelessComponent<LProps> = ({ id, span, value }) => {
   return (
-    <Link to={ `vehicles/${id}` } className='td'>
+    <Link to={ `/vehicles/${id}` } className='td'>
       <span>{ span }:</span>
       <span>{ value }</span>
     </Link>
