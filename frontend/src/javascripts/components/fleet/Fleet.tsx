@@ -89,6 +89,8 @@ interface FleetState {
   showAddVehicle : boolean;
   nodes: NestedCheckbox.Node[];
   checkedVehicles : number[];
+
+  unsavedFleet : FleetData;
 }
 
 class Fleet extends React.Component<FleetProps, FleetState> {
@@ -96,6 +98,7 @@ class Fleet extends React.Component<FleetProps, FleetState> {
     super(props);
     this.state = {
       fleet: {paymentPeriod:0,facturationPeriod:0,name:""},
+      unsavedFleet: {paymentPeriod:0,facturationPeriod:0,name:""},
       vehicles: [],
       showSettings : false,
       showAddVehicle : false,
@@ -113,7 +116,6 @@ class Fleet extends React.Component<FleetProps, FleetState> {
 
   componentDidMount() {
     var { id, companyId} = this.props.params;
-    fetchFleet(id,companyId, (data)=> {this.setState({fleet:data})});
     this.refresh();
   }
 
@@ -122,24 +124,30 @@ class Fleet extends React.Component<FleetProps, FleetState> {
   }
 
   handleChange(field : Fleet.Field, e : any) : any {
-    var fleet : FleetData = this.state.fleet;
+    var fleet : FleetData = this.state.unsavedFleet;
     fleet[field] = e.target.value;
-    this.setState({ fleet });
+    this.setState({ unsavedFleet:fleet });
   }
 
   onSubmit(e : any) : void {
     e.preventDefault();
     //let setErrors = (e : Form.Error[]) => this.setState({ errors: e });
-    let success = () => this.onSettingsClick();
+    let success = () => {
+      this.onSettingsClick();
+      this.refresh();
+    }
     /*let fail = (data : any) => {
       setErrors(data.errors.map(function(e : any) {
         return { field: e, error: 'null' };
       }));*/
     //}
-    putFleet(this.state.fleet.id,this.state.fleet.company,this.state.fleet,success);
+    putFleet(this.state.fleet.id,this.state.fleet.company,this.state.unsavedFleet,success);
   }
 
   refresh() {
+    fetchFleet(this.props.params.id,this.props.params.companyId, (data)=> {
+      const clone = JSON.parse(JSON.stringify(data));
+      this.setState({fleet:data,unsavedFleet:clone})});
     fetchVehicles((data) =>
       this.setState({ checkedVehicles: [],vehicles: data.data, nodes: data.data.map( (d:VehicleData) => { return { id:d.id, group: d.type } })})
        , undefined, { fleet: this.props.params.id.toString() });
@@ -196,7 +204,7 @@ class Fleet extends React.Component<FleetProps, FleetState> {
                 <FleetActions isDisabled={this.state.checkedVehicles.length==0} callToArchive={this.archiveCheckedVehicles}/>
               </div>
             <div className='col-md-12 col-lg-5'>
-              <FleetSettings onSettingsClick={this.onSettingsClick} showSettings={this.state.showSettings} fleet={this.state.fleet} handleChange={ this.handleChange } onSubmit = {this.onSubmit}/>
+              <FleetSettings onSettingsClick={this.onSettingsClick} showSettings={this.state.showSettings} fleet={this.state.unsavedFleet} handleChange={ this.handleChange } onSubmit = {this.onSubmit}/>
             </div>
           </div>
 
