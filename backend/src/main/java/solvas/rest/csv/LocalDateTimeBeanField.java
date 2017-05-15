@@ -12,6 +12,8 @@ import java.time.format.DateTimeParseException;
 /**
  * Bean field for {@link LocalDateTime}.
  *
+ * This converter will throw an exception if the field is not present, but will not check any constraints.
+ *
  * @author Niko Strijbol
  */
 public class LocalDateTimeBeanField extends AbstractBeanField<LocalDateTime> {
