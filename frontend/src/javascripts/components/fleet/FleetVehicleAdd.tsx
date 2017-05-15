@@ -8,7 +8,7 @@ import { Collapse } from 'react-bootstrap';
 
 interface Props {
   fleet : number;
-  refresh : void;
+  refresh : ()=>void;
 }
 
 interface State {
@@ -21,6 +21,11 @@ interface State {
 }
 
 class FleetVehicleAdd extends React.Component<Props, State>{
+
+  refs: {
+    [string: string]: any;
+    typeahead:any;
+}
 
 	constructor(){
 		super();
@@ -95,7 +100,7 @@ class FleetVehicleAdd extends React.Component<Props, State>{
             </div>
           </div>
         </Card>
-        
+
         <Collapse in={ this.state.show }>
           <Card>
             <div className='card-content fleets fleet-addvehicle'>

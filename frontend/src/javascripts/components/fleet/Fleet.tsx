@@ -13,7 +13,7 @@ import { group_by } from '../../utils/utils.ts';
 import Confirm from 'react-confirm-bootstrap';
 import FleetActions from './FleetActions.tsx';
 import FleetSettings from './FleetSettings.tsx';
-import deleteFleet from '../../actions/fleet_actions.ts';
+import {deleteFleet} from '../../actions/fleet_actions.ts';
 import FleetVehicleAdd from './FleetVehicleAdd.tsx';
 import { redirect_to } from '../../routes/router.tsx';
 
@@ -87,7 +87,7 @@ interface FleetState {
   vehicles : VehicleData[];
   showSettings : boolean;
   showAddVehicle : boolean;
-  nodes: Node[];
+  nodes: NestedCheckbox.Node[];
   checkedVehicles : number[];
 }
 
@@ -141,7 +141,7 @@ class Fleet extends React.Component<FleetProps, FleetState> {
 
   refresh() {
     fetchVehicles((data) =>
-      this.setState({ checkedVehicles: [],vehicles: data.data, nodes: data.data.map(({ id, type }) => { return { id, group: type } })})
+      this.setState({ checkedVehicles: [],vehicles: data.data, nodes: data.data.map( (d:VehicleData) => { return { id:d.id, group: d.type } })})
        , undefined, { fleet: this.props.params.id.toString() });
   }
 
@@ -151,7 +151,7 @@ class Fleet extends React.Component<FleetProps, FleetState> {
 
 
   /*Callback function to obtain checked vehicles*/
-  cb(n:Node[]){
+  cb(n:NestedCheckbox.Node[]){
     const checked : number[] = n.filter(node=>node.checked===true).map(node=>node.id);
     this.setState({checkedVehicles:checked});
   }
@@ -166,7 +166,7 @@ class Fleet extends React.Component<FleetProps, FleetState> {
   }
 
   archiveFleet() {
-    deleteFleet(this.state.fleet.id,()=>redirect_to('/clients/'+this.state.fleet.company));
+    deleteFleet(this.state.fleet.id,this.state.fleet.company,()=>{redirect_to('/clients/'+this.state.fleet.company)});
   }
 
   render () {
