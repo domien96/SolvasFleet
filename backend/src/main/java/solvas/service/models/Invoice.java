@@ -35,18 +35,19 @@ public class Invoice extends Model {
      * Get sum of amount of all associated items
      * @return The amount
      */
-    public BigDecimal getAmount() {
-        return items.stream().map(
-                item -> item.getAmount().multiply(item.getTax().add(BigDecimal.ONE))
-        ).reduce(BigDecimal.ZERO, BigDecimal::add);
+    public BigDecimal getTotalAmount() {
+        return items.stream()
+                .map(InvoiceItem::getTotalAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     /**
-     * Get sum of taxes of all associated items
-     * @return The total taxes
+     * @return Net amount of all associated items (before taxes)
      */
     public BigDecimal getNetAmount() {
-        return items.stream().map(InvoiceItem::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add);
+        return items.stream()
+                .map(InvoiceItem::getNetAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     public LocalDateTime getStartDate() {

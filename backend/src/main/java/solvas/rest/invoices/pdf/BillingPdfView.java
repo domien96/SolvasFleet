@@ -84,7 +84,7 @@ public class BillingPdfView extends InvoicePdfView {
         cell = getCell("Totaal:", Element.ALIGN_LEFT, font12);
         cell.setColspan(5);
         table.addCell(cell);
-        table.addCell(getCell(euroFormat.format(invoice.getAmount()), Element.ALIGN_LEFT, font12b));
+        table.addCell(getCell(euroFormat.format(invoice.getTotalAmount()), Element.ALIGN_LEFT, font12b));
         //table.addCell(getCell(euroFormat.format(invoice.getTotal().doubleValue()), Element.ALIGN_RIGHT, font12b));
         document.add(table);
 

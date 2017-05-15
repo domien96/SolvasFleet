@@ -75,4 +75,18 @@ public class InvoiceItem extends Model {
     public void setTax(BigDecimal tax) {
         this.tax = tax;
     }
+
+    /**
+     * @return The net amount to pay for this invoice item
+     */
+    public BigDecimal getNetAmount() {
+        return getAmount();
+    }
+
+    /**
+     * @return The total amount (after taxes) to pay for this invoice item
+     */
+    public BigDecimal getTotalAmount() {
+        return getAmount().multiply(getTax().add(BigDecimal.ONE));
+    }
 }
