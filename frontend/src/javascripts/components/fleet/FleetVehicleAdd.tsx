@@ -86,24 +86,28 @@ class FleetVehicleAdd extends React.Component<Props, State>{
     return (
       <div>
         <Card>
-        <div className='card-content settings' onClick={this.onShowClick}>
-        <h3><label>{ T.translate('fleet.addVehicle') }</label></h3>
-        <div className='actions pull-right'>
-          <h3>
-            <span className='glyphicon glyphicon-plus'/>
-          </h3>
-        </div></div></Card>
-        <Collapse in={ this.state.show }>
-        <Card>
-          <div className='card-content fleets fleet-addvehicle'>
-            <label>Choose VIN</label>
-            <Typeahead onInputChange={ this.onTypeAheadChange } options={ this.state.typeaheadFields } ref="typeahead"/>
-            <button className={'btn btn-success pull-right'+this.state.submitDisabled} onClick={this.onSubmit}>
-              <span className='glyphicon glyphicon-plus' /> Add to fleet
-            </button>
+          <div className='card-content settings' onClick={this.onShowClick}>
+          <h3><label>{ T.translate('fleet.addVehicle') }</label></h3>
+            <div className='actions pull-right'>
+              <h3>
+                <span className='glyphicon glyphicon-plus'/>
+              </h3>
+            </div>
           </div>
         </Card>
-        </Collapse></div>
+        
+        <Collapse in={ this.state.show }>
+          <Card>
+            <div className='card-content fleets fleet-addvehicle'>
+              <label>Choose VIN</label>
+              <Typeahead onInputChange={ this.onTypeAheadChange } options={ this.state.typeaheadFields } ref="typeahead"/>
+              <button className={'btn btn-success pull-right'+this.state.submitDisabled} onClick={this.onSubmit}>
+                <span className='glyphicon glyphicon-plus' /> Add to fleet
+              </button>
+            </div>
+          </Card>
+        </Collapse>
+      </div>
     );
   }
 
