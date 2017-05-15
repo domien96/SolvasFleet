@@ -2,12 +2,10 @@
 package solvas.rest.query;
 
 import solvas.persistence.api.Filter;
-import solvas.service.models.Commission;
-import solvas.service.models.Company;
-import solvas.service.models.CompanyType;
-import solvas.service.models.Permission;
+import solvas.service.models.*;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.Collection;
@@ -21,19 +19,20 @@ import java.util.HashSet;
 public class CommissionFilter implements Filter<Commission> {
 
     private int company=-1;
-    private int insuranceType=-1;
+    private String insuranceType= null;
     private int fleet=-1;
     private int vehicle=-1;
-    private int vehicleType=-1;
+    private String vehicleType= null;
 
 
     @Override
     public Collection<Predicate> asPredicates(CriteriaBuilder builder, Root<Commission> root) {
         Collection<Predicate> predicates= new HashSet<>();
 
+        Join<Commission,InsuranceType> join = root.join("insuranceType");
         predicates.add(builder.equal(
-                (root.get("insuranceType")),
-                insuranceType!=-1?insuranceType:null
+                builder.lower(join.get("name")),
+                insuranceType==null? null : insuranceType.toLowerCase()
         ));
         // From most specific criterium to most general
         if (vehicle >0) {
@@ -48,10 +47,11 @@ public class CommissionFilter implements Filter<Commission> {
                     root.get("fleet"),
                     fleet
             ));
-            if (vehicleType > 0) {
+            if (vehicleType != null) {
+                Join<Commission,VehicleType> joinVehicleType = root.join("vehicleType");
                 predicates.add(builder.equal(
-                        (root.get("vehicleType")),
-                        vehicleType
+                        builder.lower(joinVehicleType.get("name")),
+                        vehicleType.toLowerCase()
                 ));
             }
             return predicates;
@@ -71,7 +71,7 @@ public class CommissionFilter implements Filter<Commission> {
         this.company = company;
     }
 
-    public void setInsuranceType(int insuranceType) {
+    public void setInsuranceType(String insuranceType) {
         this.insuranceType = insuranceType;
     }
 
@@ -83,7 +83,7 @@ public class CommissionFilter implements Filter<Commission> {
         this.vehicle = vehicle;
     }
 
-    public void setVehicleType(int vehicleType) {
+    public void setVehicleType(String vehicleType) {
         this.vehicleType = vehicleType;
     }
 }

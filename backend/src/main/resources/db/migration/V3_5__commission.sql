@@ -28,8 +28,8 @@ CREATE TRIGGER update_created_at BEFORE INSERT
 
 
 INSERT INTO commissions (company_id,insurance_type_id,vehicle_type_id,fleet_id,vehicle_id,value) VALUES
-  (0,1,0,0,0,0.17),
-  (0,5,0,0,0,0.19),
-  (0,2,0,0,0,0.25),
-  (0,3,0,0,0,0.25),
-  (0,4,0,0,0,0.19);
+  (null,1,null,null,null,0.17),
+  (null,5,null,null,null,0.19),
+  (null,2,null,null,null,0.25),
+  (null,3,null,null,null,0.25),
+  (null,4,null,null,null,0.19);
