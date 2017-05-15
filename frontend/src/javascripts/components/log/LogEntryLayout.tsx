@@ -51,7 +51,7 @@ const getVehicle = (entity: any) => {
     th('vehicle.fleet', vehicle.fleet),
     th('vehicle.leasingCompany', vehicle.leasingCompany),
     th('vehicle.value', vehicle.value),
-    th('vehicle.year', vehicle.year)
+    th('vehicle.year', vehicle.year.year)
   ];
   return data;
 };
