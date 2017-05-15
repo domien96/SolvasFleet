@@ -95,13 +95,15 @@ $gray: #bbbbbb;
 }
 
 
+
+.invoice-actions {
+  margin-top: 30px;
+}
+
+
 .fleet-archive {
   display: inline;
   height: 60px;
-}
-
-.fleet-title {
-  vertical-align: middle;
 }
 
 .fleet-addvehicle {
@@ -109,13 +111,9 @@ $gray: #bbbbbb;
   button {
     margin-top: 20px;
   }
-
 }
 
-.invoice-actions {
-  margin-top: 30px;
 
-}
 
 .fleet-actions {
   h3 {
@@ -123,7 +121,7 @@ $gray: #bbbbbb;
   }
 }
 
-.settings {
+.fleet-action-card {
   h3 {
     display: inline-block;
   }

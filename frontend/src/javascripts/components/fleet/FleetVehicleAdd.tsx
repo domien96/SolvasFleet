@@ -91,7 +91,7 @@ class FleetVehicleAdd extends React.Component<Props, State>{
     return (
       <div>
         <Card>
-          <div className='card-content settings' onClick={this.onShowClick}>
+          <div className='card-content fleet-action-card' onClick={this.onShowClick}>
           <h3><label>{ T.translate('fleet.addVehicle') }</label></h3>
             <div className='actions pull-right'>
               <h3>
