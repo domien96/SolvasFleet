@@ -82,7 +82,7 @@ class Vehicles extends React.Component<{}, State> {
         response={this.state.response}
         onVehicleSelect={ this.handleClick }
         onFilter={ this.handleFilter }
-        fetchVehicles={ this.fetchVehicles } 
+        fetchVehicles={ this.fetchVehicles }
         errors={ this.state.errors }
         handleChange={ this.handleChange } >
         { children }
