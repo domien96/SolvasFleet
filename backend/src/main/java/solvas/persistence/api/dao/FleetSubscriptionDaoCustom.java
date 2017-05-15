@@ -33,6 +33,8 @@ public interface FleetSubscriptionDaoCustom {
      * @param vehicle The vehicle.
      * @param start The start date. Inclusive.
      * @param end The end date. Inclusive.
+     *
+     * @return The optional fleet subscription.
      */
     Optional<FleetSubscription> activeForVehicleBetween(Vehicle vehicle, LocalDate start, LocalDate end);
 }
