@@ -81,6 +81,8 @@ fleet:
   settings: Fleet settings
   addVehicle: Add a vehicle
   actions: Fleet actions
+  addToFleet: Add to fleet
+  chooseVin: Choose VIN
 
 subfleet:
   id: ID

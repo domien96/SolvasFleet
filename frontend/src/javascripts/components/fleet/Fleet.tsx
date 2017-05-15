@@ -13,7 +13,7 @@ import { group_by } from '../../utils/utils.ts';
 import Confirm from 'react-confirm-bootstrap';
 import FleetActions from './FleetActions.tsx';
 import FleetSettings from './FleetSettings.tsx';
-import {deleteFleet} from '../../actions/fleet_actions.ts';
+import { deleteFleet } from '../../actions/fleet_actions.ts';
 import FleetVehicleAdd from './FleetVehicleAdd.tsx';
 import { redirect_to } from '../../routes/router.tsx';
 
@@ -24,6 +24,7 @@ interface VehiclesState {
   type: string;
   mappings: any;
 }
+
 class Vehicles extends React.Component<VehiclesProps, VehiclesState> {
   static contextTypes = {
     handleChange: React.PropTypes.func,
@@ -46,11 +47,9 @@ class Vehicles extends React.Component<VehiclesProps, VehiclesState> {
   }
 
   componentWillReceiveProps(props: VehiclesProps) {
-    if(props.vehicles!=this.props.vehicles && props.vehicles.length!=0)
-    {
+    if(props.vehicles!=this.props.vehicles && props.vehicles.length!=0) {
       this.setState({type: Object.keys(props.vehicles)[0]});
     }
-
   }
 
   render() {
@@ -83,12 +82,12 @@ interface FleetProps {
 }
 
 interface FleetState {
-  fleet    : FleetData;
-  vehicles : VehicleData[];
-  showSettings : boolean;
-  showAddVehicle : boolean;
+  fleet: FleetData;
+  vehicles: VehicleData[];
+  showSettings: boolean;
+  showAddVehicle: boolean;
   nodes: NestedCheckbox.Node[];
-  checkedVehicles : number[];
+  checkedVehicles: number[];
 
   unsavedFleet : FleetData;
 }
@@ -97,85 +96,78 @@ class Fleet extends React.Component<FleetProps, FleetState> {
   constructor(props: FleetProps) {
     super(props);
     this.state = {
-      fleet: {paymentPeriod:0,facturationPeriod:0,name:""},
-      unsavedFleet: {paymentPeriod:0,facturationPeriod:0,name:""},
+      fleet: { paymentPeriod: 0, facturationPeriod: 0, name: "" },
+      unsavedFleet: { paymentPeriod: 0, facturationPeriod: 0, name: "" },
       vehicles: [],
-      showSettings : false,
-      showAddVehicle : false,
-      checkedVehicles : [],
+      showSettings: false,
+      showAddVehicle: false,
+      checkedVehicles: [],
       nodes: []
     }
-    this.onSettingsClick=this.onSettingsClick.bind(this);
-    this.handleChange=this.handleChange.bind(this);
-    this.onSubmit=this.onSubmit.bind(this);
-    this.showAddVehicle=this.showAddVehicle.bind(this);
-    this.cb=this.cb.bind(this);
-    this.archiveCheckedVehicles=this.archiveCheckedVehicles.bind(this);
-    this.refresh=this.refresh.bind(this);
-    this.archiveFleet=this.archiveFleet.bind(this);
+    this.onSettingsClick = this.onSettingsClick.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.showAddVehicle = this.showAddVehicle.bind(this);
+    this.cb = this.cb.bind(this);
+    this.archiveCheckedVehicles = this.archiveCheckedVehicles.bind(this);
+    this.refresh = this.refresh.bind(this);
+    this.archiveFleet = this.archiveFleet.bind(this);
   }
 
   componentDidMount() {
-    var { id, companyId} = this.props.params;
     this.refresh();
   }
 
   onSettingsClick() {
-    this.setState({showSettings:!this.state.showSettings});
+    this.setState({ showSettings: !this.state.showSettings });
   }
 
-  handleChange(field : Fleet.Field, e : any) : any {
-    var fleet : FleetData = this.state.unsavedFleet;
+  handleChange(field: Fleet.Field, e: any) : any {
+    const fleet: FleetData = this.state.unsavedFleet;
     fleet[field] = e.target.value;
-    this.setState({ unsavedFleet:fleet });
+    this.setState({ unsavedFleet: fleet });
   }
 
-  onSubmit(e : any) : void {
+  onSubmit(e: any) : void {
     e.preventDefault();
-    //let setErrors = (e : Form.Error[]) => this.setState({ errors: e });
     let success = () => {
       this.onSettingsClick();
       this.refresh();
     }
-    /*let fail = (data : any) => {
-      setErrors(data.errors.map(function(e : any) {
-        return { field: e, error: 'null' };
-      }));*/
-    //}
-    putFleet(this.state.fleet.id,this.state.fleet.company,this.state.unsavedFleet,success);
+    putFleet(this.state.fleet.id, this.state.fleet.company, this.state.unsavedFleet, success);
   }
 
   refresh() {
-    fetchFleet(this.props.params.id,this.props.params.companyId, (data)=> {
+    fetchFleet(this.props.params.id, this.props.params.companyId, (data)=> {
       const clone = JSON.parse(JSON.stringify(data));
-      this.setState({fleet:data,unsavedFleet:clone})});
-    fetchVehicles((data) =>
-      this.setState({ checkedVehicles: [],vehicles: data.data, nodes: data.data.map( (d:VehicleData) => { return { id:d.id, group: d.type } })})
-       , undefined, { fleet: this.props.params.id.toString() });
+      this.setState({ fleet: data,unsavedFleet: clone }) });
+
+    fetchVehicles((data) => {
+        const nodes = data.data.map((d: VehicleData) => { return { id: d.id, group: d.type } });
+        this.setState({ checkedVehicles: [],vehicles: data.data, nodes: nodes });
+      }, undefined, { fleet: this.props.params.id.toString() });
   }
 
   showAddVehicle() {
-    this.setState({showAddVehicle:!this.state.showAddVehicle});
+    this.setState({ showAddVehicle: !this.state.showAddVehicle });
   }
 
-
-  /*Callback function to obtain checked vehicles*/
-  cb(n:NestedCheckbox.Node[]){
+  /* Callback function to obtain checked vehicles */
+  cb(n: NestedCheckbox.Node[]){
     const checked : number[] = n.filter(node=>node.checked===true).map(node=>node.id);
     this.setState({checkedVehicles:checked});
   }
 
   archiveCheckedVehicles() {
-    for(var i=0;i<this.state.checkedVehicles.length-1;i++)
-    {
-      deleteVehicle(this.state.checkedVehicles[i],undefined,undefined);
+    for(let i=0; i<this.state.checkedVehicles.length-1; i++) {
+      deleteVehicle(this.state.checkedVehicles[i]);
     }
-    //Refresh on last request
-    deleteVehicle(this.state.checkedVehicles[this.state.checkedVehicles.length-1],()=>{this.refresh()});
+    // Refresh on last request
+    deleteVehicle(this.state.checkedVehicles[this.state.checkedVehicles.length-1], ()=>{this.refresh()});
   }
 
   archiveFleet() {
-    deleteFleet(this.state.fleet.id,this.state.fleet.company,()=>{redirect_to('/clients/'+this.state.fleet.company)});
+    deleteFleet(this.state.fleet.id, this.state.fleet.company, ()=>{redirect_to(`/clients/${this.state.fleet.company}`)});
   }
 
   render () {
@@ -185,7 +177,7 @@ class Fleet extends React.Component<FleetProps, FleetState> {
         <Header>
           <h2 className='fleet-archive'>{ this.state.fleet.name }</h2>
           <Confirm
-            onConfirm={this.archiveFleet}
+            onConfirm={ this.archiveFleet }
             body="Are you sure you want to archive this?"
             confirmText="Confirm Archive"
             title="Archive fleet">
@@ -199,16 +191,15 @@ class Fleet extends React.Component<FleetProps, FleetState> {
         <div className='wrapper'>
           <div className='row'>
               <div className='col-md-12 col-lg-3'>
-                <FleetVehicleAdd fleet={this.props.params.id} refresh={this.refresh}/>
+                <FleetVehicleAdd fleet={ this.props.params.id } refresh={ this.refresh }/>
               </div>
               <div className='col-md-12 col-lg-4'>
-                <FleetActions isDisabled={this.state.checkedVehicles.length==0} callToArchive={this.archiveCheckedVehicles}/>
+                <FleetActions isDisabled={ this.state.checkedVehicles.length==0 } callToArchive={ this.archiveCheckedVehicles }/>
               </div>
             <div className='col-md-12 col-lg-5'>
-              <FleetSettings onSettingsClick={this.onSettingsClick} showSettings={this.state.showSettings} fleet={this.state.unsavedFleet} handleChange={ this.handleChange } onSubmit = {this.onSubmit}/>
+              <FleetSettings onSettingsClick={ this.onSettingsClick } showSettings={ this.state.showSettings } fleet={ this.state.unsavedFleet } handleChange={ this.handleChange } onSubmit = { this.onSubmit }/>
             </div>
           </div>
-
 
         <div className='row'>
           <div className='col-md-12'>
@@ -217,18 +208,16 @@ class Fleet extends React.Component<FleetProps, FleetState> {
                 <h4 >{ T.translate('vehicle.vehicles') }</h4>
               </div>
               <div className='card-content'>
-                <NestedCheckbox values={ this.state.nodes } cb={this.cb}>
+                <NestedCheckbox values={ this.state.nodes } cb={ this.cb }>
                   <Vehicles vehicles={ group_by(this.state.vehicles, 'type') } />
                 </NestedCheckbox>
               </div>
             </Card>
           </div>
-
-
         </div>
       </div>
     </div>
-    )
+  );
   }
 }
 

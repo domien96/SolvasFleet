@@ -8,7 +8,7 @@ import {
   INVOICE_URL,
 } from '../constants/constants.ts';
 
-export function fetchFleet(id : number, companyId : number, success? : callback, fail? : callback) {
+export function fetchFleet(id: number, companyId: number, success?: callback, fail?: callback) {
   GET( FLEET_URL(id,companyId), success, fail );
 }
 
@@ -20,11 +20,11 @@ export function postFleet(companyId: number, body: any, success?: callback, fail
   POST( FLEETS_URL(companyId), body, success, fail );
 }
 
-export function putFleet(id : number, companyId : number, body : any, success? : callback, fail? : callback) {
+export function putFleet(id: number, companyId: number, body: any, success?: callback, fail?: callback) {
   PUT( FLEET_URL(id,companyId), body, success, fail );
 }
 
-export function deleteFleet(id : number, companyId : number, success? : callback, fail? : callback) {
+export function deleteFleet(id: number, companyId: number, success?: callback, fail?: callback) {
   DELETE( FLEET_URL(id,companyId), success, fail );
 }
 

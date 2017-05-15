@@ -10,21 +10,21 @@ interface Props {
 const InvoiceActions: React.StatelessComponent<Props> = props => {
   const { fleet } = props;
 
-	return(
-	  <Card>
-	    <div className='card-content invoice-actions'>
-	      <div className='row actions'>
-	        <div className='col-sm-6'>
+  return (
+    <Card>
+      <div className='card-content invoice-actions'>
+        <div className='row actions'>
+          <div className='col-sm-6'>
             <Link to={ `/fleets/${fleet}/invoices/current` } className='btn btn-default form-control'>
-              <span className='glyphicon glyphicon glyphicon-file' /> { T.translate('invoice.showCurrent') }
+              <span className='glyphicon glyphicon-file' /> { T.translate('invoice.showCurrent') }
             </Link>
           </div>
           <div className='col-sm-6'>
             <Link to={ `/fleets/${fleet}/invoices` } className='btn btn-default form-control'>
-              <span className='glyphicon glyphicon glyphicon-folder-open' /> { T.translate('invoice.showAll') }
+              <span className='glyphicon glyphicon-folder-open' /> { T.translate('invoice.showAll') }
             </Link>
-        </div>
           </div>
+        </div>
       </div>
     </Card>
   );

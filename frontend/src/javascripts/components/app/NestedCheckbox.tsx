@@ -31,9 +31,10 @@ class NestedCheckbox extends React.Component<NestedCheckbox.Props, NestedCheckbo
   }
 
   componentWillReceiveProps({ values }: NestedCheckbox.Props) {
-    if(this.props.values.length==0||this.props.values!=values){
-    const s = values.map((p) => ({ ...p, checked: false }));
-    this.setState({ values: s });}
+    if(this.props.values.length == 0 || this.props.values != values) {
+      const s = values.map((p) => ({ ...p, checked: false }));
+      this.setState({ values: s });
+    }
   }
 
   filterGroup(group: string): boolean[] {

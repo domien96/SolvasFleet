@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
-import {fetchContracts} from '../../actions/contract_actions.ts';
+import { fetchContracts } from '../../actions/contract_actions.ts';
 
 interface LProps {
   id: number | string;
@@ -22,37 +22,30 @@ interface Props {
 }
 
 interface State {
-  premium: number
+  premium: number;
 }
 
 class VehicleRow extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
-    this.state = {
-      premium: 0
-    }
+    this.state = { premium: 0 }
   }
 
   componentDidMount() {
-    this.fetchPremiumsofVehicle();
+    this.fetchPremiumsOfVehicle();
   }
 
-
-    fetchPremiumsofVehicle() {
-      fetchContracts(
-        (data)=>{
-          var premium :number= 0;
-          for(var i=0;i<data.data.length;i++){
-            premium+=data.data[i].premium;
-      }
-      this.setState({premium:premium});
-    }, undefined, {vehicle:this.props.vehicle.id});
-
-    }
-
-
-
+  fetchPremiumsOfVehicle() {
+    fetchContracts(
+      data => {
+        var premium :number= 0;
+        for(let i=0; i < data.data.length; i++) {
+          premium+= data.data[i].premium;
+        }
+        this.setState({ premium: premium });
+      }, undefined, { vehicle: this.props.vehicle.id });
+  }
 
   static contextTypes = {
     childHandleChange: React.PropTypes.func,
