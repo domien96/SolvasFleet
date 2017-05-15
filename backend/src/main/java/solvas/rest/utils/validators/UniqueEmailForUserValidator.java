@@ -11,9 +11,9 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 /**
- * Validate that a VIN is unique in the database.
+ * Validate that an emailis unique in the database.
  *
- * This will not validate if the VIN is correctly formatted, it will just check to see if it exists in the database.
+ * This will not validate if the email is correctly formatted, it will just check to see if it exists in the database.
  *
  * @author Niko Strijbol
  */
