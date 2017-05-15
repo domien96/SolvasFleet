@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.itextpdf.text.Paragraph;
 import org.springframework.web.servlet.view.AbstractView;
 
 import com.itextpdf.text.Document;
@@ -70,6 +71,10 @@ public abstract class AbstractITextPdfView extends AbstractView {
     }
      
     protected void buildPdfMetadata(Map<String, Object> model, Document document, HttpServletRequest request) {
+    }
+
+    protected void buildErrorPdfDocument(Document document, String s) throws DocumentException {
+        document.add(new Paragraph(s));
     }
      
     protected abstract void buildPdfDocument(Map<String, Object> model, Document document, PdfWriter writer,

@@ -13,5 +13,5 @@ export default [
   { path: 'clients/new', component: AddClient },
   { path: 'clients/:id', component: Client },
   { path: 'clients/:id/edit', component: EditClient },
-  { path: 'clients/:id/fleets', component: Fleets }
+  { path: 'clients/:id/fleets', component: Fleets },
 ].map((props, i) => <Route key={ i} { ...props } />);

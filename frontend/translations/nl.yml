@@ -8,7 +8,8 @@ login:
   submit: Log in
 
 company:
-  clients: Klanten
+  allCompanies: Alle bedrijven
+  clients: Bedrijven
   id: ID
   name: Naam
   vatNumber: VAT nummer

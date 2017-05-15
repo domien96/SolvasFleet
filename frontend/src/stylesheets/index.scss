@@ -16,7 +16,7 @@
 
 body {
   font-size: 13px;
-  color: $body-color;
+  color: $solvas-gray;
   background-color: $gray;
 }
 
@@ -82,3 +82,7 @@ a:hover, a:focus {
 .table { display: table; }
 .tr    { display: table-row; }
 .td    { display: table-cell; }
+
+.bg-danger {
+  padding: 15px;
+}

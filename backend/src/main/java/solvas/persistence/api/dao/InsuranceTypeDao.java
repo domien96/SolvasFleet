@@ -5,6 +5,8 @@ import org.springframework.stereotype.Repository;
 import solvas.persistence.api.Dao;
 import solvas.service.models.InsuranceType;
 
+import java.util.Optional;
+
 /**
  * Dao for InsuranceTypeDao
  *
@@ -20,5 +22,5 @@ public interface InsuranceTypeDao extends Dao<InsuranceType> {
      *
      * @return The insurance type.
      */
-    InsuranceType findByName(String type);
+    Optional<InsuranceType> findByName(String type);
 }
