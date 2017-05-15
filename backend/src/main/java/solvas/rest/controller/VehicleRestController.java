@@ -15,16 +15,14 @@ import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import solvas.persistence.api.EntityNotFoundException;
-import solvas.persistence.api.dao.VehicleDao;
-import solvas.rest.greencard.GreenCardViewResolver;
-import solvas.rest.greencard.pdf.GreenCardPdfView;
-import solvas.rest.utils.JsonListWrapper;
-import solvas.service.models.Vehicle;
-import org.springframework.web.multipart.MultipartFile;
 import solvas.rest.api.models.ApiVehicle;
 import solvas.rest.api.models.errors.ApiError;
+import solvas.rest.api.models.errors.ErrorType;
+import solvas.rest.greencard.GreenCardViewResolver;
+import solvas.rest.greencard.pdf.GreenCardPdfView;
 import solvas.rest.query.VehicleFilter;
 import solvas.rest.utils.JsonListWrapper;
 import solvas.rest.utils.MyCsvToBean;
@@ -153,13 +151,22 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
         try {
             csvReader = new CSVReader(new InputStreamReader(file.getInputStream()));
         } catch (IOException e) {
-            e.printStackTrace(); //todo map to correct error code
-            throw new RuntimeException();
+            // This is an unexpected error on the server, so 500 is appropriate.
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         CsvToBean<ApiVehicle> csv = new MyCsvToBean<>();
-        //Set column mapping strategy
-        List<ApiVehicle> list = csv.parse(setColumnMapping(), csvReader);
-        //todo parse exception correct afhandelen
+
+        List<ApiVehicle> list;
+        try {
+            //Set column mapping strategy
+            list = csv.parse(setColumnMapping(), csvReader);
+        } catch (RuntimeException e) {
+            // Something went wrong while parsing the CSV file. This is probably a date in the wrong format.
+            return new ResponseEntity<>(
+                    new ApiError(ErrorType.WRONG_FORMAT, "csv", "The CSV file is not formatted correctly. " +
+                            "Error message: " + e.getMessage()),
+                    HttpStatus.BAD_REQUEST);
+        }
 
         // Maps the row to a potential list of errors.
         Map<Integer, List<ApiError>> bundledErrors = new HashMap<>();
