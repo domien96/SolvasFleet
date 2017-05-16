@@ -13,6 +13,11 @@ CREATE TABLE commissions (
   created_at TIMESTAMP ,
   updated_at TIMESTAMP ,
   PRIMARY KEY (commission_id) ,
+  FOREIGN KEY (company_id) REFERENCES companies(company_id),
+  FOREIGN KEY (vehicle_type_id) REFERENCES vehicle_types(vehicletype_id),
+  FOREIGN KEY (fleet_id) REFERENCES fleets(fleet_id),
+  FOREIGN KEY (vehicle_id) REFERENCES vehicles(vehicle_id),
+  FOREIGN KEY (insurance_type_id) REFERENCES insurance_types(insurance_type_id),
   -- no references as these may not be null
   UNIQUE (company_id,vehicle_type_id,fleet_id,vehicle_id,insurance_type_id)
 

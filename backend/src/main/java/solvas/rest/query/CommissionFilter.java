@@ -33,7 +33,7 @@ public class CommissionFilter implements Filter<Commission> {
             Join<Commission,InsuranceType> join = root.join("insuranceType");
             predicates.add(builder.equal(
                     builder.lower(join.get("name")),
-                    insuranceType==null? null : insuranceType.toLowerCase()
+                    insuranceType.toLowerCase()
             ));
         }
         // From most specific criterium to most general
