@@ -22,7 +22,7 @@
         <many-to-one name="insuranceType" column="insurance_type_id"
                      class="solvas.service.models.InsuranceType" not-null="false"/>
 
-        <many-to-one name="vehicleType" column="vehicle_type_id"
+        <many-to-one name="vehicleType" column="vehicletype_id"
                      class="solvas.service.models.VehicleType" not-null="false"/>
 
         <many-to-one name="vehicle" column="vehicle_id"
