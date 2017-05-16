@@ -37,8 +37,8 @@ public class AuditFilter implements Filter<Revision> {
         }
         if (entityType!=null) {
             predicates.add(builder.equal(
-                    root.get("entityType"),
-                    entityType
+                    builder.lower(root.get("entityType")),
+                    entityType.toLowerCase()
             ));
         }
         if (before!=null) {
@@ -62,7 +62,7 @@ public class AuditFilter implements Filter<Revision> {
                         root.get("method"),
                         EntityType.toClass(method)
                 ));
-            } catch (ClassNotFoundException e) {
+            } catch (ClassNotFoundException ignored) {
                 predicates.add(builder.equal(
                         root.get("method"),
                         null // Return nothing, method does not exist

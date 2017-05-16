@@ -1,13 +1,19 @@
 package solvas.service.models;
 
 /**
- * Created by steve on 09/05/2017.
+ * This is a helper class when auditing. It shows all methods that could have
+ *  changed a model.
  */
 public enum MethodType {
 
-    INSERT("insert"),UPDATE("update"),DELETE("delete"), ARCHIVE("archive");
+    INSERT("insert"),
+    UPDATE("update"),
+    DELETE("delete"),
+    ARCHIVE("archive");
 
-
+    /**
+     * Keep a text representation as a object needs to be parsed to json later on.
+     */
     private String text;
 
     MethodType(String text) {
@@ -16,7 +22,7 @@ public enum MethodType {
 
     /**
      * returns string value of a enum element
-     * @return
+     * @return string value of a enum element
      */
     public String getText() {
         return this.text;
