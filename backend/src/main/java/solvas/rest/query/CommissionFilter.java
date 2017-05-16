@@ -2,12 +2,10 @@
 package solvas.rest.query;
 
 import solvas.persistence.api.Filter;
-import solvas.service.models.Commission;
-import solvas.service.models.Company;
-import solvas.service.models.CompanyType;
-import solvas.service.models.Permission;
+import solvas.service.models.*;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.Collection;
@@ -21,58 +19,52 @@ import java.util.HashSet;
 public class CommissionFilter implements Filter<Commission> {
 
     private int company=-1;
-    private String insuranceType=null;
+    private String insuranceType= null;
     private int fleet=-1;
     private int vehicle=-1;
-    private String vehicleType=null;
+    private String vehicleType= null;
 
 
     @Override
     public Collection<Predicate> asPredicates(CriteriaBuilder builder, Root<Commission> root) {
         Collection<Predicate> predicates= new HashSet<>();
 
-        predicates.add(builder.equal(
-                builder.lower(root.get("vehicleType")),
-                insuranceType!=null?insuranceType.toLowerCase():null
-        )); // if
+        if (insuranceType != null) {
+            Join<Commission,InsuranceType> join = root.join("insuranceType");
+            predicates.add(builder.equal(
+                    builder.lower(join.get("name")),
+                    insuranceType.toLowerCase()
+            ));
+        }
+        // From most specific criterium to most general
         if (vehicle >0) {
             predicates.add(builder.equal(
-                    builder.lower(root.get("vehicle")),
+                    root.get("vehicle"),
                     vehicle
             ));
-        } else {
-            if (fleet > 0) {
-                predicates.add(builder.equal(
-                        builder.lower(root.get("fleet")),
-                        fleet
-                ));
-                if (vehicleType != null) {
-                    predicates.add(builder.equal(
-                            builder.lower(root.get("insuranceType")),
-                            vehicleType.toLowerCase()
-                    ));
-                }
-
-            } else {
-                if (company > 0){
-                    predicates.add(builder.equal(
-                            builder.lower(root.get("insuranceType")),
-                            company
-                    ));
-
-                }
-
-
-            }
+            return predicates;
         }
+        if (fleet > 0) {
+            predicates.add(builder.equal(
+                    root.get("fleet"),
+                    fleet
+            ));
+            if (vehicleType != null) {
+                Join<Commission,VehicleType> joinVehicleType = root.join("vehicleType");
+                predicates.add(builder.equal(
+                        builder.lower(joinVehicleType.get("name")),
+                        vehicleType.toLowerCase()
+                ));
+            }
+            return predicates;
+        }
+        if (company > 0){
+            predicates.add(builder.equal(
+                    root.get("company"),
+                    company
+            ));
 
-
-
-
-
-
-
-
+        }
         return predicates;
     }
 
