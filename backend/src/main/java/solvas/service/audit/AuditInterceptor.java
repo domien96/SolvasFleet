@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.api.models.ApiModel;
+import solvas.service.mappers.MapperContext;
 import solvas.service.models.*;
 
 import java.io.Serializable;
