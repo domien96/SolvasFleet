@@ -3,6 +3,7 @@ package solvas.service.audit;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hibernate.EmptyInterceptor;
+import org.hibernate.Transaction;
 import org.hibernate.type.Type;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -138,7 +139,7 @@ public class AuditInterceptor extends EmptyInterceptor {
             getPayloadAndId(key, value); // Id cannot be set before flush
             daoContext.getRevisionDao().save(value); // Create new revision
         });
-        transactionRevisions.clear(); // Clean used map, as the same interceptor is used while running spring
+
     }
 
     /**
@@ -159,4 +160,12 @@ public class AuditInterceptor extends EmptyInterceptor {
         // Ignore some fields.
         objectMapper.addMixIn(ApiModel.class, IgnoreDataMixin.class);
     }
+
+
+    @Override
+    public void afterTransactionCompletion(Transaction tx) {
+        transactionRevisions.clear(); // Clean used map, as the same interceptor is used while running spring
+    }
+
+
 }
