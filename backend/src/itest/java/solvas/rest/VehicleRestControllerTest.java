@@ -36,6 +36,10 @@ public class VehicleRestControllerTest extends AbstractRestControllerTest<Vehicl
     @Mock
     private Validator validator;
 
+    private final static int VEHICLE_VALUE = 1500;
+    private final static int VEHICLE_MILEAGE = 10000;
+    private final static int VEHICLE_YEAR = 1990;
+
 
     /**
      * Constructor for specific VehicleController tests
@@ -44,6 +48,9 @@ public class VehicleRestControllerTest extends AbstractRestControllerTest<Vehicl
         super(ApiVehicle.class);
     }
 
+    /**
+     * Setup to make sure the vehicleservice returns some types
+     */
     @Before
     public void setUp(){
         when(vehicleService.findAllVehicleTypes()).thenReturn(Arrays.asList("a","b"));
@@ -61,12 +68,9 @@ public class VehicleRestControllerTest extends AbstractRestControllerTest<Vehicl
     ApiVehicle getTestModel()
     {
         ApiVehicle vehicle = super.getTestModel();
-        int value = 1500;
-        int mileage = 10000;
-        int year = 1990;
-        vehicle.setValue(value);
-        vehicle.setYear(LocalDateTime.of(year,1,1,0,0));
-        vehicle.setMileage(mileage);
+        vehicle.setValue(VEHICLE_VALUE);
+        vehicle.setYear(LocalDateTime.of(VEHICLE_YEAR,1,1,0,0));
+        vehicle.setMileage(VEHICLE_MILEAGE);
         vehicle.setVin("5NPEB4AC8EH893920");
         return vehicle;
     }

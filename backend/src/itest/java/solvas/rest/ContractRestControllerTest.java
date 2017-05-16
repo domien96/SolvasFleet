@@ -91,10 +91,9 @@ public class ContractRestControllerTest extends AbstractRestControllerTest<Contr
      * @param url: The rest endpoint
      */
     private void getContractsOnSpecifiedUrl(String url) throws Exception {
-        List<ApiContract> list = randomListOf(100,ApiContract.class);
-        when(service.findAll(any(),any())).thenReturn(new PageImpl<>(list));
+        when(service.findAll(any(),any())).thenReturn(new PageImpl(getTestModelList()));
         getMockMvc().perform(get(url))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("data",org.hamcrest.Matchers.hasToString(getObjectMapper().writeValueAsString(list))));
+                .andExpect(jsonPath("data",org.hamcrest.Matchers.hasToString(getObjectMapper().writeValueAsString(getTestModelList()))));
     }
 }

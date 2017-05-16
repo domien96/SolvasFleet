@@ -33,6 +33,8 @@ public abstract class AbstractBasicRestControllerTest<T extends Model, E extends
 
         abstract AbstractRestController getController();
 
+        private final static int LIST_SIZE = 100;
+
         private E apiModel;
         private List<? extends E> apiModelList;
         private Class<? extends E> clazz;
@@ -57,7 +59,7 @@ public abstract class AbstractBasicRestControllerTest<T extends Model, E extends
         @Before
         public void config() throws JsonProcessingException {
             apiModel = random(clazz);
-            apiModelList = randomListOf(100,clazz);
+            apiModelList = randomListOf(LIST_SIZE,clazz);
         }
 
         /**
