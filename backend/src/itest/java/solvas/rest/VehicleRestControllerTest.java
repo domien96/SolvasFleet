@@ -61,9 +61,12 @@ public class VehicleRestControllerTest extends AbstractRestControllerTest<Vehicl
     ApiVehicle getTestModel()
     {
         ApiVehicle vehicle = super.getTestModel();
-        vehicle.setValue(1500);
-        vehicle.setYear(LocalDateTime.of(1990,1,1,0,0));
-        vehicle.setMileage(10000);
+        int value = 1500;
+        int mileage = 10000;
+        int year = 1990;
+        vehicle.setValue(value);
+        vehicle.setYear(LocalDateTime.of(year,1,1,0,0));
+        vehicle.setMileage(mileage);
         vehicle.setVin("5NPEB4AC8EH893920");
         return vehicle;
     }
