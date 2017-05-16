@@ -29,6 +29,22 @@ public class MapperContext {
     private VehicleTypeMapper vehicleTypeMapper;
     private HashMap<Class,AbstractMapper> mapperForClass = new HashMap<>();
 
+
+    /**
+     * Create MapperContext with mappers
+     * @param companyMapper
+     * @param contractMapper
+     * @param fleetMapper
+     * @param functionMapper
+     * @param insuranceTypeMapper
+     * @param invoiceMapper
+     * @param permissionMapper
+     * @param roleMapper
+     * @param taxMapper
+     * @param userMapper
+     * @param vehicleMapper
+     * @param vehicleTypeMapper
+     */
     @Autowired
     public MapperContext(CompanyMapper companyMapper, ContractMapper contractMapper, FleetMapper fleetMapper,
                          FunctionMapper functionMapper, InsuranceTypeMapper insuranceTypeMapper,
@@ -68,6 +84,11 @@ public class MapperContext {
         mapperForClass.put(VehicleType.class,vehicleTypeMapper);
     }
 
+    /**
+     * Gets the mapper for a class
+     * @param clazz class to get the mapper for
+     * @return mapper for the given class
+     */
     public AbstractMapper getMapperForClass(Class clazz){
         return mapperForClass.get(clazz);
     }

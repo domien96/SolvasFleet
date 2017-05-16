@@ -97,6 +97,7 @@ public class HibernateConfig {
     /**
      *
      * @param dataSource The datasource to be used by hibernate
+     * @param hibernateInterceptor A hibernate interceptor which is called when hibernate performs actions
      * @return Factory to create entity managers
      * @throws IOException Couldn't load the hibernate configuration/mapping files
      */
