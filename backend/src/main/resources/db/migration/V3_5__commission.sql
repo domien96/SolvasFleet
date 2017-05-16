@@ -6,7 +6,7 @@ CREATE TABLE commissions (
   commission_id SERIAL NOT NULL,
   company_id INT,
   insurance_type_id INT,
-  vehicle_type_id INT,
+  vehicletype_id INT,
   fleet_id INT,
   vehicle_id INT,
   value NUMERIC NOT NULL,
@@ -14,7 +14,7 @@ CREATE TABLE commissions (
   updated_at TIMESTAMP ,
   PRIMARY KEY (commission_id) ,
   -- no references as these may not be null
-  UNIQUE (company_id,vehicle_type_id,fleet_id,vehicle_id,insurance_type_id)
+  UNIQUE (company_id,vehicletype_id,fleet_id,vehicle_id,insurance_type_id)
 
 );
 
@@ -27,7 +27,7 @@ CREATE TRIGGER update_created_at BEFORE INSERT
 
 
 
-INSERT INTO commissions (company_id,insurance_type_id,vehicle_type_id,fleet_id,vehicle_id,value) VALUES
+INSERT INTO commissions (company_id,insurance_type_id,vehicletype_id,fleet_id,vehicle_id,value) VALUES
   (0,1,0,0,0,0.17),
   (0,5,0,0,0,0.19),
   (0,2,0,0,0,0.25),
