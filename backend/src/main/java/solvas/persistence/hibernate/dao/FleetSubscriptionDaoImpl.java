@@ -9,17 +9,23 @@ import solvas.service.models.Vehicle;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import java.time.LocalDate;
 import java.util.Optional;
 
 /**
- * Interface containing queries for some methods JPA couldn't interpret
+ * Interface containing queries for some methods JPA couldn't interpret.
+ *
+ * @author Niko Strijbol
+ * @author David Vandorpe
  */
 @Component
 public class FleetSubscriptionDaoImpl implements FleetSubscriptionDaoCustom {
+
     private final EntityManager entityManager;
 
     /**
      * Create instance
+     *
      * @param entityManager to create queries
      */
     @Autowired
@@ -29,8 +35,20 @@ public class FleetSubscriptionDaoImpl implements FleetSubscriptionDaoCustom {
 
     @Override
     public Optional<FleetSubscription> activeForVehicle(Vehicle vehicle) {
-        TypedQuery<FleetSubscription> q = entityManager.createQuery("select s from FleetSubscription s where s.vehicle = ?1 and s.startDate <= current_date and (s.endDate is null or s.endDate >= current_date) and s.archived = false", FleetSubscription.class)
-                .setParameter(1, vehicle);
-        return Optional.ofNullable(DataAccessUtils.singleResult(q.getResultList()));
+        LocalDate now = LocalDate.now();
+        return activeForVehicleBetween(vehicle, now, now);
+    }
+
+    @Override
+    public Optional<FleetSubscription> activeForVehicleBetween(Vehicle vehicle, LocalDate start, LocalDate end) {
+
+        TypedQuery<FleetSubscription> query = entityManager.createQuery(
+                "select s from FleetSubscription s where s.vehicle = ?1 and s.startDate <= ?2 and (s.endDate is null or s.endDate >= ?3) and s.archived = false",
+                FleetSubscription.class)
+                .setParameter(1, vehicle)
+                .setParameter(2, start)
+                .setParameter(3, end);
+
+        return Optional.ofNullable(DataAccessUtils.singleResult(query.getResultList()));
     }
 }
