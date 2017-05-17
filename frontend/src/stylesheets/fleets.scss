@@ -78,6 +78,7 @@ $fleet-height: 60px;
         outline: none;
       }
     }
+
     .form-actions {
       display:table-row-group;
     }
@@ -88,7 +89,6 @@ $fleet-height: 60px;
   margin-top: 30px;
 }
 
-
 .fleet-archive {
   display: inline;
   height: 60px;
@@ -96,6 +96,7 @@ $fleet-height: 60px;
 
 .fleet-addvehicle {
   height: 150px;
+
   button {
     margin-top: 20px;
   }
