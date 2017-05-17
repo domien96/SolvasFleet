@@ -139,7 +139,7 @@ class Fleet extends React.Component<FleetProps, FleetState> {
   }
 
   refresh() {
-    fetchFleet(this.props.params.id, this.props.params.companyId, (data)=> {
+    fetchFleet(this.props.params.id, this.props.params.companyId, (data) => {
       const clone = { ...data };
       this.setState({ fleet: data, unsavedFleet: clone })
     });
@@ -161,7 +161,7 @@ class Fleet extends React.Component<FleetProps, FleetState> {
       deleteVehicle(this.state.checkedVehicles[i]);
     }
     // Refresh on last request
-    deleteVehicle(this.state.checkedVehicles[this.state.checkedVehicles.length-1], () =>  this.refresh());
+    deleteVehicle(this.state.checkedVehicles[this.state.checkedVehicles.length-1], () => this.refresh());
   }
 
   archiveFleet() {

@@ -3,7 +3,7 @@ import React from 'react';
 namespace NestedCheckbox {
   export interface Props {
     values: Node[];
-    cb: (nodes?:Node[]) => void;
+    cb: (nodes?: Node[]) => void;
   }
   export interface Node {
     group: string;
