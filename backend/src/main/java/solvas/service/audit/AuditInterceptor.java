@@ -3,6 +3,7 @@ package solvas.service.audit;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hibernate.EmptyInterceptor;
+import org.hibernate.Transaction;
 import org.hibernate.type.Type;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Component;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.api.models.ApiModel;
+import solvas.service.mappers.MapperContext;
 import solvas.service.models.*;
 
 import java.io.Serializable;
@@ -138,7 +140,7 @@ public class AuditInterceptor extends EmptyInterceptor {
             getPayloadAndId(key, value); // Id cannot be set before flush
             daoContext.getRevisionDao().save(value); // Create new revision
         });
-        transactionRevisions.clear(); // Clean used map, as the same interceptor is used while running spring
+
     }
 
     /**
@@ -154,8 +156,17 @@ public class AuditInterceptor extends EmptyInterceptor {
         AutowireCapableBeanFactory factory = event.getApplicationContext().getAutowireCapableBeanFactory();
         daoContext = factory.getBean(DaoContext.class);
         mapperContext = factory.getBean(MapperContext.class);
-        // We want a fresh bean, since we need it to behave differently.
-        objectMapper = factory.createBean(ObjectMapper.class);
+        // We need of copy of the bean, since we need it to behave differently.
+        objectMapper = factory.getBean(ObjectMapper.class).copy();
+        // Ignore some fields.
         objectMapper.addMixIn(ApiModel.class, IgnoreDataMixin.class);
     }
+
+
+    @Override
+    public void afterTransactionCompletion(Transaction tx) {
+        transactionRevisions.clear(); // Clean used map, as the same interceptor is used while running spring
+    }
+
+
 }

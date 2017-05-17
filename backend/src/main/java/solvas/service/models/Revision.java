@@ -1,18 +1,47 @@
 package solvas.service.models;
 
-import org.hibernate.type.EnumType;
 
 import java.time.LocalDateTime;
 
 /**
- * Created by steve on 09/05/2017.
+ * Models a Revision
+ *
+ * @author Steven
  */
 public class Revision extends Model {
+    /**
+     * Every mutable model is has a unique identifier (in the scope of his class).
+     * This id is stored during auditing. Together with the the class of the model,
+     *  a unique reference is stored.
+     */
     private int entity;
+
+    /**
+     * This stores the class of a model of which a log is stored.
+     *  Together with the entity id (model id), the model can be uniquely identified.
+     */
     private String entityType;
+
+    /**
+     * When logging the time and date of the change are stored as well.
+     */
     private LocalDateTime logDate;
+    /**
+     * When logging actions, the authenticated user is stored in the logs as well.
+     * @see User
+     */
     private User user;
+    /**
+     * To easier identify what the action was that caused the auditing mechanise
+     *  to be activated is kept.
+     *  @see MethodType
+     */
     private MethodType method;
+    /**
+     * The exact object which was changes is kept in json representation.
+     * The representation should be of a ApiModel as the mappers contain
+     *  some reference logic.
+     */
     private String payload;
 
 
