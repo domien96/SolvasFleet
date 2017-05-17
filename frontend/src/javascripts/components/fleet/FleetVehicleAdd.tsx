@@ -11,11 +11,16 @@ interface Props {
   refresh: () => void;
 }
 
+interface TypeaheadField {
+  id: string;
+  label: string;
+}
+
 interface State {
   show: boolean;
   vehicles: VehicleData[];
   currentVin: string;
-  typeaheadFields: string[];
+  typeaheadFields: TypeaheadField[];
   submitDisabled: boolean;
   vehicle: VehicleData;
 }
@@ -27,53 +32,55 @@ class FleetVehicleAdd extends React.Component<Props, State> {
     typeahead: any;
   }
 
-	constructor() {
-		super();
-		this.state = { vehicles: [], currentVin: '', typeaheadFields: [], submitDisabled: true, vehicle: null, show: false };
+  constructor() {
+    super();
+    this.state = { vehicles: [], currentVin: '', typeaheadFields: [], submitDisabled: true, vehicle: null, show: false };
     this.onTypeAheadChange = this.onTypeAheadChange.bind(this);
     this.getAllVehicles = this.getAllVehicles.bind(this);
     this.checkValidVin = this.checkValidVin.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onShowClick = this.onShowClick.bind(this);
-	}
+  }
 
   getAllVehicles() {
     fetchVehicles((data) => this.setTypeaheadOptions(data.data.filter((a: VehicleData) => a.fleet === 0)));
     this.refs.typeahead.getInstance().clear();
   }
 
-	componentDidMount() {
+  componentDidMount() {
     this.getAllVehicles();
-	}
+  }
 
-  setTypeaheadOptions(vehicles: VehicleData[]){
-    const vins: any[] = vehicles.map( veh => { return { id: veh.id.toString(), label: veh.vin } });
+  setTypeaheadOptions(vehicles: VehicleData[]) {
+    const vins: TypeaheadField[] = vehicles.map( veh => ({ id: veh.id.toString(), label: veh.vin }));
     this.setState({ typeaheadFields: vins });
   }
 
-  onTypeAheadChange(result: string){
+  onTypeAheadChange(result: string) {
     this.setState({ currentVin: result, submitDisabled: true });
     this.checkValidVin(result);
   }
 
-  checkValidVin(result: string){
+  checkValidVin(result: string) {
     const vinSize = 17;
 
     // There should exist 1 vehicle with that specific VIN in the database
-    if(result.length == vinSize) {
-      fetchVehicles( data => {
-        if(data.data.length == 1)
+    if(result.length === vinSize) {
+      fetchVehicles(data => {
+        if(data.data.length === 1) {
           this.setState({ vehicle: data.data[0], submitDisabled: false });
-        else
+        }
+        else {
           this.setState({ submitDisabled: true });
+        }
       }, undefined, { vin: result });
     }
   }
 
-  onSubmit(){
+  onSubmit() {
     const veh = this.state.vehicle;
     veh.fleet = this.props.fleet;
-    putVehicle(veh.id, veh, ()=> {
+    putVehicle(veh.id, veh, () => {
       this.props.refresh();
       this.onShowClick();
       this.getAllVehicles();
@@ -85,9 +92,7 @@ class FleetVehicleAdd extends React.Component<Props, State> {
   }
 
   render() {
-    const disabled: string = this.state.submitDisabled ? 'disabled' : '';
-    const buttonClass: string = classNames('btn', 'btn-success', 'pull-right', disabled);
-
+    const buttonClass: string = classNames('btn', 'btn-success', 'pull-right', {disabled: this.state.submitDisabled});
 
     return (
       <div>

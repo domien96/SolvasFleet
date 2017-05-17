@@ -18,11 +18,12 @@ import FleetVehicleAdd from './FleetVehicleAdd.tsx';
 import { redirect_to } from '../../routes/router.tsx';
 
 interface VehiclesProps {
-  vehicles: any;
+  vehicles: VehicleData[];
 }
 interface VehiclesState {
   type: string;
   mappings: any;
+  groupedVehicles: any;
 }
 
 class Vehicles extends React.Component<VehiclesProps, VehiclesState> {
@@ -34,7 +35,7 @@ class Vehicles extends React.Component<VehiclesProps, VehiclesState> {
 
   constructor(props: VehiclesProps) {
     super(props);
-    this.state = { type: '', mappings: [] };
+    this.state = { type: '', mappings: [], groupedVehicles: {} };
   }
 
   onClick(newType: string): void {
@@ -47,14 +48,15 @@ class Vehicles extends React.Component<VehiclesProps, VehiclesState> {
   }
 
   componentWillReceiveProps(props: VehiclesProps) {
-    if(props.vehicles!=this.props.vehicles && props.vehicles.length!=0) {
-      this.setState({type: Object.keys(props.vehicles)[0]});
+    if(props.vehicles !== this.props.vehicles) {
+      const groupedVehicles = group_by(props.vehicles, 'type');
+      this.setState({ type: Object.keys(groupedVehicles)[0], groupedVehicles });
     }
   }
 
   render() {
 
-    const vehicles = Object.keys(this.props.vehicles).map((k, i) => {
+    const vehicles = Object.keys(this.state.groupedVehicles).map((k, i) => {
       return (
         <SubfleetRow
           key={ i }
@@ -63,7 +65,7 @@ class Vehicles extends React.Component<VehiclesProps, VehiclesState> {
           isIndeterminate={ this.context.isIndeterminate }
           handleChange={ this.context.handleChange }
           onClick={ this.onClick.bind(this) }
-          vehicles={ this.props.vehicles[k] }
+          vehicles={ this.state.groupedVehicles[k] }
           showVehicles={ this.state.type === k }
           />
       );
@@ -104,10 +106,9 @@ class Fleet extends React.Component<FleetProps, FleetState> {
       checkedVehicles: [],
       nodes: []
     }
-    this.onSettingsClick = this.onSettingsClick.bind(this);
+    this.toggleShowSettings = this.toggleShowSettings.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-    this.showAddVehicle = this.showAddVehicle.bind(this);
     this.cb = this.cb.bind(this);
     this.archiveCheckedVehicles = this.archiveCheckedVehicles.bind(this);
     this.refresh = this.refresh.bind(this);
@@ -118,20 +119,20 @@ class Fleet extends React.Component<FleetProps, FleetState> {
     this.refresh();
   }
 
-  onSettingsClick() {
+  toggleShowSettings() {
     this.setState({ showSettings: !this.state.showSettings });
   }
 
-  handleChange(field: Fleet.Field, e: any) : any {
+  handleChange(field: Fleet.Field, e: any): any {
     const fleet: FleetData = this.state.unsavedFleet;
     fleet[field] = e.target.value;
     this.setState({ unsavedFleet: fleet });
   }
 
-  onSubmit(e: any) : void {
+  onSubmit(e: any): void {
     e.preventDefault();
     let success = () => {
-      this.onSettingsClick();
+      this.toggleShowSettings();
       this.refresh();
     }
     putFleet(this.state.fleet.id, this.state.fleet.company, this.state.unsavedFleet, success);
@@ -139,35 +140,34 @@ class Fleet extends React.Component<FleetProps, FleetState> {
 
   refresh() {
     fetchFleet(this.props.params.id, this.props.params.companyId, (data)=> {
-      const clone = JSON.parse(JSON.stringify(data));
-      this.setState({ fleet: data,unsavedFleet: clone }) });
+      const clone = { ...data };
+      this.setState({ fleet: data, unsavedFleet: clone })
+    });
 
     fetchVehicles((data) => {
-        const nodes = data.data.map((d: VehicleData) => { return { id: d.id, group: d.type } });
-        this.setState({ checkedVehicles: [],vehicles: data.data, nodes: nodes });
+        const nodes = data.data.map((d: VehicleData) => ({ id: d.id, group: d.type }));
+        this.setState({ checkedVehicles: [], vehicles: data.data, nodes });
       }, undefined, { fleet: this.props.params.id.toString() });
   }
 
-  showAddVehicle() {
-    this.setState({ showAddVehicle: !this.state.showAddVehicle });
-  }
-
   /* Callback function to obtain checked vehicles */
-  cb(n: NestedCheckbox.Node[]){
-    const checked : number[] = n.filter(node=>node.checked===true).map(node=>node.id);
-    this.setState({checkedVehicles:checked});
+  cb(n: NestedCheckbox.Node[]) {
+    const checked : number[] = n.filter(node => node.checked === true).map(node => node.id);
+    this.setState({checkedVehicles: checked});
   }
 
   archiveCheckedVehicles() {
-    for(let i=0; i<this.state.checkedVehicles.length-1; i++) {
+    for(let i = 0; i < this.state.checkedVehicles.length-1; i++) {
       deleteVehicle(this.state.checkedVehicles[i]);
     }
     // Refresh on last request
-    deleteVehicle(this.state.checkedVehicles[this.state.checkedVehicles.length-1], ()=>{this.refresh()});
+    deleteVehicle(this.state.checkedVehicles[this.state.checkedVehicles.length-1], () =>  this.refresh());
   }
 
   archiveFleet() {
-    deleteFleet(this.state.fleet.id, this.state.fleet.company, ()=>{redirect_to(`/clients/${this.state.fleet.company}`)});
+    deleteFleet(this.state.fleet.id, this.state.fleet.company, () => {
+      redirect_to(`/clients/${this.state.fleet.company}`)
+    });
   }
 
   render () {
@@ -194,10 +194,11 @@ class Fleet extends React.Component<FleetProps, FleetState> {
                 <FleetVehicleAdd fleet={ this.props.params.id } refresh={ this.refresh }/>
               </div>
               <div className='col-md-12 col-lg-4'>
-                <FleetActions isDisabled={ this.state.checkedVehicles.length==0 } callToArchive={ this.archiveCheckedVehicles }/>
+                <FleetActions isDisabled={ this.state.checkedVehicles.length == 0 } callToArchive={ this.archiveCheckedVehicles }/>
               </div>
             <div className='col-md-12 col-lg-5'>
-              <FleetSettings onSettingsClick={ this.onSettingsClick } showSettings={ this.state.showSettings } fleet={ this.state.unsavedFleet } handleChange={ this.handleChange } onSubmit = { this.onSubmit }/>
+              <FleetSettings onSettingsClick={ this.toggleShowSettings } showSettings={ this.state.showSettings }
+                fleet={ this.state.unsavedFleet } handleChange={ this.handleChange } onSubmit = { this.onSubmit }/>
             </div>
           </div>
 
@@ -209,7 +210,7 @@ class Fleet extends React.Component<FleetProps, FleetState> {
               </div>
               <div className='card-content'>
                 <NestedCheckbox values={ this.state.nodes } cb={ this.cb }>
-                  <Vehicles vehicles={ group_by(this.state.vehicles, 'type') } />
+                  <Vehicles vehicles={ this.state.vehicles } />
                 </NestedCheckbox>
               </div>
             </Card>

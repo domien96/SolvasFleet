@@ -5,13 +5,12 @@ import T from 'i18n-react';
 import classNames from 'classnames';
 
 interface Props {
-  callToArchive: any;
+  callToArchive: (e: any) => void;
   isDisabled: boolean;
 }
 
 const FleetActions: React.StatelessComponent<Props> = props => {
-  const disableButton: string = props.isDisabled ? ' disabled':'';
-  const buttonclass = classNames('btn', 'btn-danger', disableButton);
+  const buttonclass = classNames('btn', 'btn-danger', { disabled: props.isDisabled });
 
   return (
     <Card>

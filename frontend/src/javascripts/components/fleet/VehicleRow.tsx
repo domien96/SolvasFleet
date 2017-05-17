@@ -29,7 +29,7 @@ class VehicleRow extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
-    this.state = { premium: 0 }
+    this.state = { premium: 0 };
   }
 
   componentDidMount() {
@@ -39,9 +39,9 @@ class VehicleRow extends React.Component<Props, State> {
   fetchPremiumsOfVehicle() {
     fetchContracts(
       data => {
-        var premium :number= 0;
-        for(let i=0; i < data.data.length; i++) {
-          premium+= data.data[i].premium;
+        let premium: number = 0;
+        for(let i = 0; i < data.data.length; i++) {
+          premium += data.data[i].premium;
         }
         this.setState({ premium: premium });
       }, undefined, { vehicle: this.props.vehicle.id });
