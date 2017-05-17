@@ -16,7 +16,7 @@ test('isTokenExpired tested with real tokens', () => {
 
 test('puttokensafterfetch', () => {
   var init = { status: 200, statusText: "ok!" };
-  fetch.mockResponseOnce(JSON.stringify({ refreshToken: { token: "123" }, accessToken: { token: "456" } }),init);
+  fetch.mockResponseOnce(JSON.stringify({ refreshToken: { token: "123" }, accessToken: { token: "456" } }), init);
   const s = (data : any) => {
     Auth.authenticateUser(data.refreshToken.token, data.accessToken.token);
     expect(localStorage.getItem('refreshToken')).toBe("123");
