@@ -88,6 +88,8 @@ public abstract class AbstractAuthorizationTest {
 
     public abstract String getUrl();
 
+    public abstract String getIdUrl();
+
     protected MockHttpServletRequestBuilder auth(MockHttpServletRequestBuilder builder, String token) {
         return builder.header("X-Authorization","Bearer "+token);
     }
@@ -152,9 +154,4 @@ public abstract class AbstractAuthorizationTest {
     }
 
     public abstract ApiModel getModel();
-
-    public String getIdUrl()
-    {
-        return getUrl()+"/1";
-    }
 }

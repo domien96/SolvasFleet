@@ -11,6 +11,11 @@ public class PermissionAuthorizationTest extends AbstractAuthorizationTest {
     }
 
     @Override
+    public String getIdUrl() {
+        return "";
+    }
+
+    @Override
     public ApiModel getModel() {
         ApiPermission permission = new ApiPermission();
         permission.setId(1);

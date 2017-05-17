@@ -7,9 +7,15 @@ import solvas.rest.api.models.ApiModel;
 import java.time.LocalDateTime;
 
 public class InvoiceAuthorizationTest extends AbstractAuthorizationTest {
+
     @Override
     public String getUrl() {
         return RestTestFixtures.INVOICE_ROOT_URL;
+    }
+
+    @Override
+    public String getIdUrl() {
+        return RestTestFixtures.INVOICE_ID_URL;
     }
 
     @Override

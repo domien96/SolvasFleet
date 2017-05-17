@@ -7,6 +7,9 @@ import solvas.rest.api.models.ApiRole;
 import java.util.Arrays;
 import java.util.HashSet;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 public class RoleAuthorizationTest extends AbstractAuthorizationTest {
 
     @Override
@@ -16,7 +19,7 @@ public class RoleAuthorizationTest extends AbstractAuthorizationTest {
 
     @Override
     public String getIdUrl() {
-        return RestTestFixtures.ROLE_ROOT_URL+"/2";
+        return RestTestFixtures.ROLE_ID_URL;
     }
 
     @Override
@@ -27,5 +30,12 @@ public class RoleAuthorizationTest extends AbstractAuthorizationTest {
         role.setId(1);
         role.setPermissions(new HashSet<>(Arrays.asList("RCompany")));
         return role;
+    }
+
+
+
+    @Override
+    public void userCanDeleteModel() throws Exception {
+        getMockMvc().perform(auth(delete(getUrl()+"/2"),adminToken)).andExpect(status().isNoContent());
     }
 }

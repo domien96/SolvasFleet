@@ -15,6 +15,11 @@ public class CompanyAuthorizationTest extends AbstractAuthorizationTest{
     }
 
     @Override
+    public String getIdUrl() {
+        return RestTestFixtures.COMPANY_ID_URL;
+    }
+
+    @Override
     public ApiModel getModel() {
         ApiCompany company = random(ApiCompany.class);
         company.setId(1);

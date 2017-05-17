@@ -14,6 +14,11 @@ public class ContractAuthorizationTest extends AbstractAuthorizationTest {
     }
 
     @Override
+    public String getIdUrl() {
+        return RestTestFixtures.CONTRACT_ID_URL;
+    }
+
+    @Override
     public ApiModel getModel() {
         ApiContract c = new ApiContract();
         c.setInsuranceCompany(1);

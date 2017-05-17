@@ -15,6 +15,11 @@ public class UserAuthorizationTest extends AbstractAuthorizationTest {
     }
 
     @Override
+    public String getIdUrl() {
+        return RestTestFixtures.USER_ID_URL;
+    }
+
+    @Override
     public String getModelJson() {
         return "{\"id\":\"1\",\"email\":\"ea@a.be\",\"firstName\":\"aa\",\"lastName\":\"bb\",\"password\":\"secret\"}";
     }

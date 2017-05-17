@@ -16,6 +16,11 @@ public class VehicleAuthorizationTest extends AbstractAuthorizationTest {
     }
 
     @Override
+    public String getIdUrl() {
+        return RestTestFixtures.VEHICLE_ID_URL;
+    }
+
+    @Override
     public ApiModel getModel() {
         ApiVehicle vehicle = random(ApiVehicle.class);
         vehicle.setMileage(100);

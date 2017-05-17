@@ -12,9 +12,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
 
 public class FleetAuthorizationTest extends AbstractAuthorizationTest {
+
     @Override
     public String getUrl() {
         return RestTestFixtures.FLEET_ROOT_URL;
+    }
+
+    @Override
+    public String getIdUrl() {
+        return RestTestFixtures.FLEET_ID_URL;
     }
 
     @Override

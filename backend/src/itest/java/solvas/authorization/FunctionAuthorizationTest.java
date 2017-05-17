@@ -1,5 +1,6 @@
 package solvas.authorization;
 
+import com.sun.org.apache.regexp.internal.RE;
 import solvas.rest.RestTestFixtures;
 import solvas.rest.api.models.ApiFunction;
 import solvas.rest.api.models.ApiModel;
@@ -7,9 +8,15 @@ import solvas.rest.api.models.ApiModel;
 import java.time.LocalDateTime;
 
 public class FunctionAuthorizationTest extends AbstractAuthorizationTest {
+
     @Override
     public String getUrl() {
         return RestTestFixtures.FUNCTION_ROOT_URL;
+    }
+
+    @Override
+    public String getIdUrl() {
+        return RestTestFixtures.FUNCTION_ID_URL;
     }
 
     @Override
@@ -33,4 +40,10 @@ public class FunctionAuthorizationTest extends AbstractAuthorizationTest {
 
     @Override
     public void userCantPutModel() {}
+
+    @Override
+    public void userCanReadModel() {}
+
+    @Override
+    public void userCantReadModel() {}
 }
