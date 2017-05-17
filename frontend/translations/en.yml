@@ -153,3 +153,7 @@ errors:
   pageNotFound: For Some Reason The Page You Requested Could Not Be Found On Our Server
   MISSING: is empty, please enter a value
   WRONG_FORMAT: does not have the right format
+
+csv:
+  import:
+    success: Your csv file has successfully been imported.

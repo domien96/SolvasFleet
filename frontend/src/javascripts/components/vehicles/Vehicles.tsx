@@ -2,13 +2,13 @@ import React from 'react';
 import Layout from './Layout.tsx';
 import { fetchVehicles, postVehiclesFile } from '../../actions/vehicle_actions.ts';
 import { redirect_to } from '../../routes/router.tsx';
-import Errors from '../../modules/Errors.ts';
 
 interface State {
     filter: VehicleFilterData;
     response: ListResponse;
-    errors: Form.Error[];
+    errors: any[];
     file: any;
+    csvsuccess: boolean;
   }
 
 class Vehicles extends React.Component<{}, State> {
@@ -34,7 +34,8 @@ class Vehicles extends React.Component<{}, State> {
         total: 0,
       },
       errors: [],
-      file: null
+      file: null,
+      csvsuccess: false
    };
     this.handleFilter = this.handleFilter.bind(this);
     this.fetchVehicles = this.fetchVehicles.bind(this);
@@ -66,9 +67,22 @@ class Vehicles extends React.Component<{}, State> {
 
   handleChange(e: any) {
     const file = e.target.files[0];
-    const setErrors = (es: Form.Error[]) => this.setState({ errors: es });
-    const success = () => { this.fetchVehicles(this.state.filter) };
-    postVehiclesFile(file, success, Errors.handle(setErrors));
+    const setErrors = (es: any) => {
+      const errors = es.errors.map((row: any) => {
+        return Object.keys(row).map(index => {
+          return {
+            row: index,
+            errors: row[index].map((er: any) => ({ field: er.field, error: er.type }))
+          }
+        })
+      });
+      this.setState({ errors: [].concat.apply([], errors) });
+    }
+    const success = () => {
+      this.fetchVehicles(this.state.filter)
+      this.setState({ csvsuccess: true });
+    };
+    postVehiclesFile(file, success, setErrors);
   }
 
   render() {
@@ -84,7 +98,8 @@ class Vehicles extends React.Component<{}, State> {
         onFilter={ this.handleFilter }
         fetchVehicles={ this.fetchVehicles }
         errors={ this.state.errors }
-        handleChange={ this.handleChange } >
+        handleChange={ this.handleChange }
+        csvsuccess={ this.state.csvsuccess } >
         { children }
       </Layout>
     );
