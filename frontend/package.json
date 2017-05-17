@@ -4,6 +4,9 @@
   "description": "Vak Overschrijdend Project",
   "main": "src/index.tsx",
   "scripts": {
+    "dev": "webpack -d --watch",
+    "build": "webpack -p",
+    "typings": "typings i",    
     "test": "jest"
   },
   "repository": {
