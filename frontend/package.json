@@ -84,7 +84,8 @@
     ],
     "collectCoverageFrom": [
       "**/src/**/*.tsx",
-      "**/src/**/*.ts"
+      "**/src/**/*.ts",
+      "!**/src/**/*.d.ts"
     ],
     "testResultsProcessor": "<rootDir>/node_modules/ts-jest/coverageprocessor.js",
     "globals": {
