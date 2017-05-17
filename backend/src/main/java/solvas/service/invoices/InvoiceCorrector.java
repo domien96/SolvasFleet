@@ -53,7 +53,9 @@ public class InvoiceCorrector {
                 ));
 
         Collection<Period> paidPeriods = groupedItems.get(InvoiceItemType.PAYMENT);
+        paidPeriods = paidPeriods == null ? new ArrayList<>() : paidPeriods;
         Collection<Period> repaidPeriods = groupedItems.get(InvoiceItemType.REPAYMENT);
+        repaidPeriods = repaidPeriods == null ? new ArrayList<>() : repaidPeriods;
 
         List<Period> positivePeriods = merge(paidPeriods, repaidPeriods);
         Period periodToPay = new Period(contract.getStartDate().toLocalDate(), contract.getEndDate().toLocalDate());
