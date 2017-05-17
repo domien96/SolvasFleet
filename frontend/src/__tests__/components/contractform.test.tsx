@@ -4,6 +4,8 @@ import FormField from '../../javascripts/components/forms/FormField.tsx';
 import FormChoice from '../../javascripts/components/forms/FormChoice.tsx';
 import DateForm from '../../javascripts/components/forms/DateForm.tsx';
 import Info from '../../javascripts/components/contract_form/form/Info.tsx';
+import CompanyInputfield from '../../javascripts/components/client/CompanyInputfield.tsx';
+import VehicleInputfield from '../..//javascripts/components/vehicle/VehicleInputfield.tsx';
 
 var contract = { id: "10", insuranceCompany: "1", vehicle: "1", type: "billing", franchise: "100", premium: "200", startDate: "2016-05-19T12:00:00.000Z", endDate: "2017-05-19T12:00:00.000Z" }
 
@@ -11,11 +13,11 @@ test('Info of ContractForm', () => {
   const info = mount(<Info contract={ contract } types={ ['billing', 'payment'] } hasError={ jest.fn() }/>);
 
   expect(info.containsMatchingElement(<FormField value={ contract.franchise } placeholder='contract.franchise'/>)).toBeTruthy();
-  expect(info.containsMatchingElement(<FormField value={ contract.insuranceCompany } placeholder='contract.insuranceCompany'/>)).toBeTruthy();
+  expect(info.containsMatchingElement(<CompanyInputfield value={ [contract.insuranceCompany] } placeholder='contract.insuranceCompany'/>)).toBeTruthy();
   expect(info.containsMatchingElement(<FormField value={ contract.premium } placeholder='contract.premium'/>)).toBeTruthy();
   expect(info.containsMatchingElement(<FormChoice value={ contract.type } placeholder='contract.type'
     choices={ [{ key: "billing", label: "contract.types.billing" }, { key: "payment", label: "contract.types.payment" }] }/>)).toBeTruthy();
-  expect(info.containsMatchingElement(<FormField value={ contract.vehicle } placeholder='contract.vehicle'/>)).toBeTruthy();
+  expect(info.containsMatchingElement(<VehicleInputfield value={ contract.vehicle } placeholder='contract.vehicle'/>)).toBeTruthy();
   expect(info.containsMatchingElement(<DateForm value={ contract.startDate } label='contract.startDate'/>)).toBeTruthy();
   expect(info.containsMatchingElement(<DateForm value={ contract.endDate } label='contract.endDate'/>)).toBeTruthy();
 });

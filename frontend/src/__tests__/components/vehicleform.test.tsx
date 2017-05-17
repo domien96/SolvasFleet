@@ -4,14 +4,17 @@ import FormField from '../../javascripts/components/forms/FormField.tsx';
 import FormChoice from '../../javascripts/components/forms/FormChoice.tsx';
 import DateForm from '../../javascripts/components/forms/DateForm.tsx';
 import CompanyInputfield from '../../javascripts/components/client/CompanyInputfield.tsx'
+import FleetInputfield from '../../javascripts/components/fleet/FleetInputfield.tsx'
 
 import Info from '../../javascripts/components/vehicle_form/form/Info.tsx';
 
-var vehicle = { id: "1", licensePlate: "AA", brand: "volvo", vin: "EE", model: "R", type: "T", mileage: 1000, year: 1990, leasingCompany: 1, fleet: 2, value: 3000 };
+var vehicle = { id: "1", licensePlate: "AA", brand: "volvo", vin: "EE", model: "R", type: "T", mileage: 1000, year:  new Date('1970-01-01T00:00:01.990Z')
+              , leasingCompany: 1, fleet: 2, value: 3000 };
 
-test('Info of vehicleform renders correctly', () => {
+describe('Info of vehicleform renders correctly', () => {
   var info = shallow(<Info vehicle={ vehicle } hasError={ jest.fn() }/>);
 
+  test('render formfield', () => {
   expect(info.containsMatchingElement(<FormField value={ vehicle.licensePlate } placeholder='vehicle.licensePlate'/>)).toBeTruthy();
   expect(info.containsMatchingElement(<FormField value={ vehicle.vin } placeholder='vehicle.vin'/>)).toBeTruthy();
   expect(info.containsMatchingElement(<FormField value={ vehicle.model } placeholder='vehicle.model'/>)).toBeTruthy();
@@ -27,12 +30,15 @@ test('Info of vehicleform renders correctly', () => {
         { key: "Truck", label: "vehicle.options.Truck" }
       ]
     }/>)).toBeTruthy();
+    expect(info.containsMatchingElement(<FormField value={ vehicle.mileage } placeholder='vehicle.mileage'/>)).toBeTruthy();
+    expect(info.containsMatchingElement(<FormField value={ vehicle.year } placeholder='vehicle.year'/>)).toBeTruthy();
+    expect(info.containsMatchingElement(<FormField value={ vehicle.value } placeholder='vehicle.value'/>)).toBeTruthy();
+  });
 
-  expect(info.containsMatchingElement(<FormField value={ vehicle.mileage } placeholder='vehicle.mileage'/>)).toBeTruthy();
-  expect(info.containsMatchingElement(<FormField value={ vehicle.year } placeholder='vehicle.year'/>)).toBeTruthy();
-  expect(info.containsMatchingElement(<CompanyInputfield value={ vehicle.leasingCompany } placeholder='vehicle.leasingCompany'/>)).toBeTruthy();
-  expect(info.containsMatchingElement(<FormField value={ vehicle.fleet } placeholder='vehicle.fleet'/>)).toBeTruthy();
-  expect(info.containsMatchingElement(<FormField value={ vehicle.value } placeholder='vehicle.value'/>)).toBeTruthy();
+  test('render specialInputfields',() => {
+  expect(info.containsMatchingElement(<CompanyInputfield value={ [vehicle.leasingCompany] } placeholder='vehicle.leasingCompany'/>)).toBeTruthy();
+  expect(info.containsMatchingElement(<FleetInputfield value={ vehicle.fleet } placeholder='vehicle.fleet'/>)).toBeTruthy();
+  });
 });
 
 import VehicleForm from '../../javascripts/components/vehicle_form/VehicleForm.tsx';

@@ -18,7 +18,7 @@ import FleetsCard from '../../javascripts/components/fleets/FleetsCard.tsx';
 test('render FleetsCard correctly', () => {
   var onSubmit = jest.fn();
 
-  var fleetsCard = mount(<FleetsCard onSubmit={ onSubmit } formIsVisible={ false } fleets={ fleetsData } fleet={ fleetsData[0] }/>);
+  var fleetsCard = mount(<FleetsCard onSubmit={ onSubmit } formIsVisible={ false } fleets={ fleetsData } fleet={ fleetsData[0] } errors={ [] }/>);
   expect(fleetsCard.find('Collapse').prop('in')).toBeFalsy();
 
   fleetsCard.setProps({ formIsVisible: true });

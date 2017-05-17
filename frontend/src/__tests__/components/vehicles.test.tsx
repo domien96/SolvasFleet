@@ -2,13 +2,12 @@ import React from 'react';
 import { mount, shallow } from 'enzyme';
 
 import Layout from '../../javascripts/components/vehicles/Layout.tsx';
-global.requestAnimationFrame = function(){ };
 
 test('Layout of vehicles renders correctly', () => {
   var layout = shallow(<Layout response="test" />);
-  expect(layout.find('Listing').prop('addNewRoute')).toEqual('/vehicles/new');
-  expect(layout.find('Listing').prop('response')).toEqual("test");
-  expect(layout.find('Listing').prop('modelName')).toEqual('vehicle');
+  expect(layout.find('VehicleListing').prop('addNewRoute')).toEqual('/vehicles/new');
+  expect(layout.find('VehicleListing').prop('response')).toEqual("test");
+  expect(layout.find('VehicleListing').prop('modelName')).toEqual('vehicle');
   expect(layout.find('h2').text()).toEqual('vehicle.vehicles');
 });
 
