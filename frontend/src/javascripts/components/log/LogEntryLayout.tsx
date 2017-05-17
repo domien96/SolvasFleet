@@ -7,6 +7,7 @@ import DetailTable from '../tables/DetailTable.tsx';
 
 interface Props {
   entry: LogEntryData;
+  oldEntry: LogEntryData;
   getUser: (id: number) => string;
 }
 
@@ -51,7 +52,7 @@ const getVehicle = (entity: any) => {
     th('vehicle.fleet', vehicle.fleet),
     th('vehicle.leasingCompany', vehicle.leasingCompany),
     th('vehicle.value', vehicle.value),
-    th('vehicle.year', vehicle.year.year)
+    th('vehicle.year', vehicle.year.split('-')[0].toString())
   ];
   return data;
 };
@@ -110,7 +111,7 @@ const getInvoice = (entity: any) => {
 
 const Layout: React.StatelessComponent<Props> = props => {
 
-  const { entry } = props;
+  const { entry, oldEntry } = props;
 
   const entityTypeSplit = entry.entityType.split('.');
   const newEntityType = entityTypeSplit[entityTypeSplit.length - 1];
@@ -128,26 +129,55 @@ const Layout: React.StatelessComponent<Props> = props => {
   const entity = JSON.parse(entry.payload);
   let entityInfo: any;
 
+  let oldEntity;
+  let oldEntityInfo: any;
+  if(oldEntry) {
+    oldEntity = JSON.parse(oldEntry.payload);
+  }
+
   if (newEntityType == "Company") {
     entityInfo = getCompany(entity);
+    if(oldEntry) oldEntityInfo = getCompany(oldEntity);
   }
   if (newEntityType == "Function") {
     entityInfo = getFunction(entity);
+    if(oldEntry) oldEntityInfo = getFunction(oldEntity);
   }
   if (newEntityType == "Vehicle") {
     entityInfo = getVehicle(entity);
+    if(oldEntry) oldEntityInfo = getVehicle(oldEntity);
   }
   if (newEntityType == "Role") {
     entityInfo = getRole(entity);
+    if(oldEntry) oldEntityInfo = getRole(oldEntity);
   }
   if (newEntityType == "User") {
     entityInfo = getUser(entity);
+    if(oldEntry) oldEntityInfo = getUser(oldEntity);
   }
   if (newEntityType == "Contract") {
     entityInfo = getContract(entity);
+    if(oldEntry) oldEntityInfo = getContract(oldEntity);
   }
   if (newEntityType == "Invoice") {
     entityInfo = getInvoice(entity);
+    if(oldEntry) oldEntityInfo = getInvoice(oldEntity);
+  }
+
+  let oldEntityDisplay = (<div></div>);
+  if(oldEntry) {
+    oldEntityDisplay = (
+      <div className='col-sm-6'>
+        <Card>
+          <div className='card-title'>
+            <h3>Before {entry.method}</h3>
+          </div>
+          <div className='card-content'>
+            <DetailTable data={ oldEntityInfo }/>
+          </div>
+        </Card>
+      </div>
+    );
   }
 
   return (
@@ -160,16 +190,7 @@ const Layout: React.StatelessComponent<Props> = props => {
         <DetailTable data={ entryInfo }/>
       </div>
       </Card>
-      <div className='col-sm-6'>
-        <Card>
-          <div className='card-title'>
-            <h3>Before {entry.method} TODO (WIP)</h3>
-          </div>
-          <div className='card-content'>
-            <DetailTable data={ entityInfo }/>
-          </div>
-        </Card>
-      </div>
+      { oldEntityDisplay }
       <div className='col-sm-6'>
         <Card>
           <div className='card-title'>
