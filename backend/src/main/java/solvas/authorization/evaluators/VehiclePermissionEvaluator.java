@@ -17,6 +17,7 @@ public class VehiclePermissionEvaluator extends AbstractPermissionEvaluator<Vehi
 
     {
         registerPermissionDecider("LIST_VEHICLES", this::canListAll);
+        registerPermissionDecider("IMPORT_VEHICLES", this::canImport);
     }
 
     /**
@@ -61,6 +62,10 @@ public class VehiclePermissionEvaluator extends AbstractPermissionEvaluator<Vehi
         return hasScope(authentication, WRITE_COMPANIES_FLEETS)
                 || getIds(model).anyMatch(id -> hasScope(authentication, WRITE_COMPANY_FLEETS)
         );
+    }
+
+    public boolean canImport(Authentication authentication, Vehicle model) {
+        return canCreate(authentication, model);
     }
 
     @Override

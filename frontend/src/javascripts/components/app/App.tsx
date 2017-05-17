@@ -1,24 +1,21 @@
-import React    from 'react';
+import React from 'react';
 
 import Sidebar from './Sidebar.tsx';
 import Home from '../Home.tsx';
-
 
 interface Props {
   location: any;
 }
 
 class App extends React.Component<Props, {}> {
-
- 
   static childContextTypes = {
-    location: React.PropTypes.object
-  }
+    location: React.PropTypes.object,
+  };
 
   getChildContext() {
     return {
-      location: this.props.location
-    }
+      location: this.props.location,
+    };
   }
 
   render() {
@@ -29,7 +26,7 @@ class App extends React.Component<Props, {}> {
           <main className='page-wrapper'>
             { this.props.children || <Home /> }
           </main>
-        </div>  
+        </div>
       </div>
     );
   }
