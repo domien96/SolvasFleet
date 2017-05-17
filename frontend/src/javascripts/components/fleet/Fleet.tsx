@@ -96,7 +96,7 @@ class Fleet extends React.Component<fleetProps, fleetState> {
         <Header>
           <h2>{ this.state.fleet.name }</h2>
         </Header>
-        <InvoiceActions fleet={ this.props.params.id }/>
+        <InvoiceActions fleet={ this.props.params.id } companyId={ this.props.params.companyId }/>
         <div className='wrapper'>
           <Card>
             <div className='card-title'>

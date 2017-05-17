@@ -42,7 +42,7 @@ class Fleets extends React.Component<Props, State> {
   onSubmit(e : any) {
     e.preventDefault();
     let setErrors = (e : Form.Error[]) => this.setState({ errors: e });
-    let success = (data : any) => redirect_to(`/fleets/${data.id}`);
+    let success = (data : any) => redirect_to(`/clients/${this.props.company}/fleets/${data.id}`);
     let fail = (data : any) => {
       setErrors(data.errors.map(function(e : any) {
         return { field: e.field, error: 'null' };
@@ -60,7 +60,8 @@ class Fleets extends React.Component<Props, State> {
         handleChange={ this.handleChange }
         formIsVisible={ this.state.formVisible }
         onClick={ this.onClick }
-        fleet={this.state.fleet}
+        fleet={ this.state.fleet }
+        companyId={ this.props.company }
       />
     );
   }
