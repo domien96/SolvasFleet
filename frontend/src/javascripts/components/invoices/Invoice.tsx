@@ -10,7 +10,7 @@ interface Props {
 }
 
 interface State {
-  invoice : InvoiceData;
+  invoice: InvoiceData;
 }
 
 class Invoice extends React.Component<Props, State> {
@@ -25,19 +25,18 @@ class Invoice extends React.Component<Props, State> {
     this.fetchInvoice(this.props.params.companyId, this.props.params.fleetId, this.props.params.invoiceId);
   }
 
+
   fetchInvoice(companyId: number, fleetId: number, invoiceId: number) {
-    const fail = (data: any) => console.log(data);
     fetchInvoice(companyId, fleetId, invoiceId, ((data: any) => {
       this.setState({ invoice: data })
-    }), fail, {type:'billing'});
+    }), undefined, {type:'billing'});
   }
 
   handleDownload(){
     const { companyId, fleetId, invoiceId } = this.props.params;
-    const fail = (data : any) => console.log(data);
     fetchInvoicePdf(companyId, fleetId, invoiceId, ((data: any) => {
-      FileSaver.saveAs(data, `invoice${invoiceId}.${'pdf'}`);
-    }), fail, {type:'billing'});
+      FileSaver.saveAs(data, `invoice${invoiceId}.pdf`);
+    }), undefined, { type: 'billing' });
   }
 
   render() {

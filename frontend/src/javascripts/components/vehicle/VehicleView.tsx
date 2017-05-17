@@ -3,13 +3,11 @@ import { Link } from 'react-router';
 
 import Card from '../app/Card.tsx';
 import DetailTable from '../tables/DetailTable.tsx';
-
+import DownloadButton from '../buttons/DownloadButton.tsx';
 import { th } from '../../utils/utils.ts';
 import Confirm from 'react-confirm-bootstrap';
 
-
-
-const EditLink = ({ id } : { id : number }) => {
+const EditLink = ({ id }: { id: number }) => {
   return (
     <div className='col-sm-6'>
       <Link to={ '/vehicles/' + id + '/edit' } className='btn btn-default form-control'>
@@ -17,9 +15,9 @@ const EditLink = ({ id } : { id : number }) => {
       </Link>
     </div>
   );
-}
+};
 
-const DeleteLink = ({ handleDelete } : { handleDelete : () => void }) => {
+const DeleteLink = ({ handleDelete }: { handleDelete: () => void }) => {
   return (
     <div className='col-sm-6'>
       <Confirm
@@ -33,18 +31,31 @@ const DeleteLink = ({ handleDelete } : { handleDelete : () => void }) => {
       </Confirm>
     </div>
   );
-}
+};
 
 interface Props {
-  handleDelete : () => void;
-  vehicle : VehicleData
+  handleDelete: () => void;
+  vehicle: VehicleData
+  onDownloadGreencard: () => void;
+  onGetFleetName: (id: number) => string;
+  onGetCompanyName: (id: number) => any;
 }
 
-const VehicleView : React.StatelessComponent<Props> = props => {
-	var { id, licensePlate, vin, brand, model, type, mileage, year, leasingCompany, value, fleet } = props.vehicle;
+const VehicleView: React.StatelessComponent<Props> = props => {
+  const { id, licensePlate, vin, brand, model, type, mileage, year, leasingCompany, value, fleet } = props.vehicle;
+
+  let fleetName : number | string = fleet;
+  if (fleet) {
+    fleetName = `${fleet}: ${props.onGetFleetName(fleet)}`;
+  }
+
+  let companyName : number | string = leasingCompany;
+  if (leasingCompany) {
+    companyName = `${leasingCompany}: ${props.onGetCompanyName(leasingCompany)}`;
+  }
 
   const data = [
-    th('vehicle.fleet', fleet),
+    th('vehicle.fleet', fleetName),
     th('vehicle.vin', vin),
     th('vehicle.licensePlate', licensePlate),
     th('vehicle.brand', brand),
@@ -53,7 +64,7 @@ const VehicleView : React.StatelessComponent<Props> = props => {
     th('vehicle.mileage', mileage),
     th('vehicle.year', year),
     th('vehicle.value', value),
-    th('vehicle.leasingCompany', leasingCompany),
+    th('vehicle.leasingCompany', companyName)
   ];
 
   return (
@@ -69,9 +80,14 @@ const VehicleView : React.StatelessComponent<Props> = props => {
       <div className='card-content'>
         <DetailTable data={ data }/>
       </div>
+      <div className='card-content'>
+        <div className='row actions'>
+          <DownloadButton onDownload={ props.onDownloadGreencard } label='Download Greencard'/>
+        </div>
+      </div>
     </div>
   </Card>
   );
-}
+};
 
 export default VehicleView;

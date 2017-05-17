@@ -5,6 +5,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.validation.Validator;
 import solvas.service.models.Vehicle;
 import solvas.rest.api.models.ApiVehicle;
 import solvas.rest.controller.AbstractRestController;
@@ -23,6 +24,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class VehicleRestControllerTest extends AbstractRestControllerTest<Vehicle,ApiVehicle>{
     @Mock
     private VehicleService vehicleService;
+
+    @Mock
+    private Validator validator;
 
 
     /**
@@ -59,7 +63,7 @@ public class VehicleRestControllerTest extends AbstractRestControllerTest<Vehicl
      */
     @Override
     AbstractRestController getController() {
-        return new VehicleRestController(vehicleService);
+        return new VehicleRestController(vehicleService, validator);
     }
 
     @Override

@@ -6,6 +6,8 @@ import solvas.service.mappers.exceptions.DependantEntityNotFound;
 import solvas.service.mappers.exceptions.FieldNotFoundException;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
+
 import solvas.persistence.api.EntityNotFoundException;
 
 /**
@@ -21,19 +23,23 @@ public abstract class AbstractMapper<T extends Model, E> {
     protected final DaoContext daoContext;
 
     /**
+     * Archived field is added as a shared attribute.
      * @param daoContext DaoContext
      */
     public AbstractMapper(DaoContext daoContext) {
-        this(daoContext, new String[0]);
+        this(daoContext, new String[0]); // archived field added in other constructor
     }
 
     /**
+     * Archived field is added as a shared attribute.
      * @param daoContext DaoContext
      * @param sharedAttributes Varargs of attributes that can safely be copied when mapping in both ways
      */
     public AbstractMapper(DaoContext daoContext, String ...sharedAttributes) {
         this.daoContext = daoContext;
-        this.sharedAttributes = sharedAttributes;
+        String[] attributes = Arrays.copyOf(sharedAttributes,sharedAttributes.length+1);
+        attributes[sharedAttributes.length] = "archived";
+        this.sharedAttributes = attributes;
     }
 
     /**
