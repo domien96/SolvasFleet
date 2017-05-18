@@ -6,6 +6,7 @@ import Header from '../app/Header.tsx';
 import DetailTable from '../tables/DetailTable.tsx';
 import Fleets from '../fleets/Fleets.tsx';
 import Contracts from '../contracts/Contracts.tsx';
+import LogLink from '../app/LogLink.tsx';
 
 import { fetchFleets } from '../../actions/fleet_actions.ts';
 import { callback } from '../../actions/fetch_json.ts';
@@ -80,12 +81,12 @@ class Client extends React.Component<Props, State> {
               <Card>
                 <div className='card-content'>
                   <div className='row actions'>
-                    <div className='col-sm-6'>
+                    <div className='col-sm-4'>
                       <Link to={ '/clients/' + id + '/edit' } className='btn btn-default form-control'>
                         <span className='glyphicon glyphicon-edit' /> Edit
                       </Link>
                     </div>
-                    <div className='col-sm-6'>
+                    <div className='col-sm-4'>
                       <Confirm
                         onConfirm={ this.deleteClient }
                         body="Are you sure you want to archive this?"
@@ -96,6 +97,7 @@ class Client extends React.Component<Props, State> {
                         </button>
                       </Confirm>
                     </div>
+                    <LogLink id={ id } />
                   </div>
                 </div>
               </Card>

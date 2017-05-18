@@ -13,5 +13,6 @@ interface LogFilterData {
   [before: string]: string;
   [method: string]: string;
   [entityType: string]: string;
+  [entity: string]: string;
   [user: string]: string;
 }

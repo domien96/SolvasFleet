@@ -4,6 +4,10 @@ import { fetchLog } from '../../actions/audit_actions.ts';
 import { fetchUsers } from '../../actions/user_actions.ts';
 import { redirect_to } from '../../routes/router.tsx';
 
+interface Props {
+  location: any;
+}
+
 interface State {
   response: ListResponse;
   users: UserData[];
@@ -11,8 +15,8 @@ interface State {
   filter: LogFilterData;
 }
 
-class Log extends React.Component<{}, State> {
-  constructor(props: {}) {
+class Log extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       response: {
@@ -30,6 +34,7 @@ class Log extends React.Component<{}, State> {
         before: '',
         method: '',
         entityType: '',
+        entity: '',
         user: ''
       },
       users: [],
@@ -44,7 +49,12 @@ class Log extends React.Component<{}, State> {
   }
 
   componentDidMount() {
-    this.fetchLog(undefined, this.state.filter);
+    let newfilter = this.state.filter;
+    if (this.props.location.query.entity) {
+      newfilter = { ...this.state.filter, entity: this.props.location.query.entity };
+      this.setState({ filter: newfilter });
+    }
+    this.fetchLog(undefined, newfilter);
     this.fetchUsers();
   }
 
