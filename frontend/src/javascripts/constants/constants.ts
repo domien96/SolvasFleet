@@ -15,6 +15,7 @@ export function CLIENT_URL(id: number) { return `${CLIENTS_URL}/${id}`; }
 
 export const VEHICLES_URL                = `${BASE_API_URL}/vehicles`;
 export function VEHICLE_URL(id: number) { return `${VEHICLES_URL}/${id}`; }
+
 export function VEHICLE_GREENCARD_PDF_URL(id : number) { 
 	return `${VEHICLES_URL}/${id}/greencard.pdf`; 
 }
@@ -39,14 +40,14 @@ export function FUNCTION_URL(userId: number, functionId: number) {
 
 export const ACTION_LANG = 'CHANGE_LANG';
 
-export function INVOICES_URL(fleetId: number) { 
-	return `${BASE_API_URL}/fleets/${fleetId}/invoices`; 
+export function INVOICES_URL(companyId: number, fleetId: number) { 
+	return `${BASE_API_URL}/companies/${companyId}/fleets/${fleetId}/invoices`; 
 }
-export function INVOICE_URL(fleetId: number, invoiceId: number) {
-  return `${BASE_API_URL}/fleets/${fleetId}/invoices/${invoiceId}`;
+export function INVOICE_URL(companyId: number, fleetId: number, invoiceId: number) { 
+	return `${BASE_API_URL}/companies/${companyId}/fleets/${fleetId}/invoices/${invoiceId}`; 
 }
-export function INVOICE_PDF_URL(fleetId: number, invoiceId: number) {
-  return `${BASE_API_URL}/fleets/${fleetId}/invoices/${invoiceId}.pdf`;
+export function INVOICE_PDF_URL(companyId: number, fleetId: number, invoiceId: number) { 
+	return `${BASE_API_URL}/companies/${companyId}/fleets/${fleetId}/invoices/${invoiceId}${'.pdf'}`; 
 }
 
 export const CONTRACTS_URL                = `${BASE_API_URL}/contracts`;
