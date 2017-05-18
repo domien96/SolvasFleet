@@ -27,7 +27,7 @@ public class Vehicle extends Model {
     private String model;
 
     /**
-     * The typpe of the vehicle.
+     * The type of the vehicle.
      */
     private VehicleType type;
 
@@ -52,7 +52,7 @@ public class Vehicle extends Model {
     private int value;
 
     /**
-     * The brand which produced this vehicle.
+     * The brand of this vehicle.
      */
     private String brand;
 

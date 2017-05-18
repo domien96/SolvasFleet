@@ -14,7 +14,7 @@ public class Function extends Model implements Serializable {
     private User user;
 
     /**
-     * The company where this function is valid.
+     * The company where this function is applied.
      */
     private Company company;
 

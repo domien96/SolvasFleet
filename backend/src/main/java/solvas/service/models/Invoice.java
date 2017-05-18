@@ -12,7 +12,7 @@ import java.util.Date;
 public class Invoice extends Model {
 
     /**
-     * The total amount of the invoice.
+     * The netto amount of the invoice.
      */
     private BigDecimal amount; // in cents
 
@@ -33,7 +33,7 @@ public class Invoice extends Model {
     private InvoiceType type;
 
     /**
-     * Holds whether the invoice is already paid or not.
+     * Holds track whether the invoice is already paid or not.
      * Payment of invoices is done outside the whole application.
      */
     private boolean paid;

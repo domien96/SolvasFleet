@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 /**
  * Models a contract
  * A contract has a type, a insuranceCompany a Vehicle(fleet sub), a franchise and a premium
- * A contract links a (@see vehicle) with the insurance company.
+ * A contract links a {@link vehicle} with the insurance company.
  * @author Sjabasti.
  */
 public class Contract extends Model {
@@ -33,6 +33,7 @@ public class Contract extends Model {
 
     /**
      * The cost of the contract. This is the price the owner of the vehicle has to pay to the insurance company.
+     * This is a fixed amount.
      */
     private int premium;
 

@@ -19,13 +19,15 @@ public class Fleet extends Model {
 
     /**
      * Period of facturation.
+     * In months
      */
-    private int facturationPeriod; // In months
+    private int facturationPeriod;
 
     /**
      * Period of payment.
+     * In months
      */
-    private int paymentPeriod; // In months
+    private int paymentPeriod;
 
 
     public Company getCompany() {

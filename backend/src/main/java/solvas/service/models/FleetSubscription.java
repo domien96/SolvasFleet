@@ -18,12 +18,12 @@ public class FleetSubscription extends Model {
     private LocalDate startDate;
 
     /**
-     * The vehicle belongs to the fleet until this datE.
+     * The vehicle belongs to the fleet until this date.
      */
     private LocalDate endDate;
 
     /**
-     * The vehicle which is been linked with the fleet.
+     * The vehicle which is linked with the fleet.
      */
     private Vehicle vehicle;
 
