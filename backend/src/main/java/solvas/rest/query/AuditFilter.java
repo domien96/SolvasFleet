@@ -60,7 +60,7 @@ public class AuditFilter implements Filter<Revision> {
         if (method!=null) {
             predicates.add(builder.equal(
                     root.get("method"),
-                    MethodType.fromString(method)
+                    MethodType.fromString(method.toLowerCase())
             ));
 
         }
