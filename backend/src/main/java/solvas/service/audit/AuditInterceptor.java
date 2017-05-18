@@ -18,6 +18,7 @@ import solvas.service.models.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -114,6 +115,10 @@ public class AuditInterceptor extends EmptyInterceptor {
             revision.setMethod(MethodType.UPDATE); // Fleet subscriptions are updates to the vehicle
         }
         try {
+            // Set type of entity
+
+            String[] className = EntityType.fromClass(about.getClass()).split("\\.");
+            revision.setEntityType(className[className.length-1]);
             revision.setPayload(objectMapper.writeValueAsString(mapperContext.getMapperForClass(about.getClass()).convertToApiModel((Model) about)));
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e); // Can we even catch an exception at this point
@@ -132,8 +137,6 @@ public class AuditInterceptor extends EmptyInterceptor {
             // No dao operations can be made before flush
             // Set logged in user
             value.setUser(getAuthenticatedUser());
-            // Set type of entity
-            value.setEntityType(EntityType.fromClass(key.getClass()));
             // Set current time
             value.setLogDate(transactionDateTime);
 
