@@ -40,10 +40,10 @@ public class InvoiceCorrector {
      *
      * @param contract          Contract to generate corrections for
      * @param correctBefore     Corrections at or after this date are ignored
-     * @param facturationPeriod Duration of the facturation period
+     * @param paymentPeriod Duration of the facturation period
      * @return Set of generated invoiceitems to correct
      */
-    public Set<InvoiceItem> correctionItemsForContract(Contract contract, LocalDate correctBefore, int facturationPeriod) {
+    public Set<InvoiceItem> correctionItemsForContract(Contract contract, LocalDate correctBefore, int paymentPeriod) {
         Collection<InvoiceItem> invoiceItems = contract.getInvoiceItems();
 
         Map<InvoiceItemType, List<Period>> groupedItems = invoiceItems.stream()
@@ -66,7 +66,7 @@ public class InvoiceCorrector {
                     item.setStartDate(period.getStartDate());
                     item.setEndDate(period.getEndDate());
                     item.setType(InvoiceItemType.REPAYMENT);
-                    setTotalAndTax(item, facturationPeriod, true);
+                    setTotalAndTax(item, paymentPeriod, true);
                     return item;
                 })
                 .collect(Collectors.toSet());
@@ -78,7 +78,7 @@ public class InvoiceCorrector {
                     item.setStartDate(period.getStartDate());
                     item.setEndDate(period.getEndDate());
                     item.setType(InvoiceItemType.PAYMENT);
-                    setTotalAndTax(item, facturationPeriod);
+                    setTotalAndTax(item, paymentPeriod);
                     return item;
                 })
                 .collect(Collectors.toSet()));
