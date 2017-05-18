@@ -21,9 +21,10 @@ import java.util.stream.Stream;
  */
 @Component
 public class InvoiceCorrector {
-    private final DaoContext daoContext;
+
     private static final int PERCENTAGE_SCALE = 2;
     private static final String TOO_MANY_REPAYMENT_MESSAGE = "Day with more repayments than payments";
+    private final DaoContext daoContext;
 
     /**
      * Create instance
@@ -38,10 +39,11 @@ public class InvoiceCorrector {
     /**
      * Generate correction items for a contract
      *
-     * @param contract          Contract to generate corrections for
-     * @param correctBefore     Corrections at or after this date are ignored
-     * @param paymentPeriod Duration of the facturation period
-     * @return Set of generated invoiceitems to correct
+     * @param contract      Contract to generate corrections for
+     * @param correctBefore Corrections at or after this date are ignored
+     * @param paymentPeriod Duration of the payment period in months.
+     *
+     * @return Set of generated invoice items to correct
      */
     public Set<InvoiceItem> correctionItemsForContract(Contract contract, LocalDate correctBefore, int paymentPeriod) {
         Collection<InvoiceItem> invoiceItems = contract.getInvoiceItems();
@@ -102,7 +104,7 @@ public class InvoiceCorrector {
      * Calculate the amount to pay in a given period
      *
      * @param invoiceItem Item to calculate for
-     * @param totalPeriod The standard payment period
+     * @param totalPeriod The payment period in months.
      *
      * @return The amount to pay or repay
      */
@@ -114,8 +116,8 @@ public class InvoiceCorrector {
      * Calculate the amount to pay in a given period
      *
      * @param invoiceItem Item to calculate for
-     * @param totalPeriod The standard payment period
-     * @param negate Negate the total.
+     * @param totalPeriod The standard payment period in months.
+     * @param negate      Negate the total.
      *
      * @return The amount to pay or repay
      */
@@ -127,7 +129,9 @@ public class InvoiceCorrector {
      * Calculate the amount to pay in a given period
      *
      * @param invoiceItem Item to calculate for
-     * @param totalPeriod The standard facturation period
+     * @param totalPeriod The standard payment period in months.
+     * @param negate      Negate the total.
+     *
      * @return The amount to pay or repay
      */
     public BigDecimal setTotalAndTax(InvoiceItem invoiceItem, BigDecimal totalPeriod, boolean negate) {
@@ -136,8 +140,6 @@ public class InvoiceCorrector {
                 .findDistinctByVehicleTypeAndInsuranceType(
                         contract.getFleetSubscription().getVehicle().getType(),
                         contract.getInsuranceType());
-        BigDecimal taxPercentage = tax.getTax();
-
 
         BigDecimal dayMultiplier = getDayMultiplier(invoiceItem, totalPeriod);
 
@@ -146,16 +148,24 @@ public class InvoiceCorrector {
         BigDecimal premium = BigDecimal.valueOf(contract.getPremium());
         BigDecimal total = premium.multiply(commissionPercentage)
                 .multiply(dayMultiplier);
-        if(negate) {
+        if (negate) {
             total = total.negate();
         }
-       // BigDecimal taxCost = total.multiply(taxPercentage);
+        // BigDecimal taxCost = total.multiply(taxPercentage);
         invoiceItem.setTax(tax.getTax());
         //total = total.add(taxCost);
         invoiceItem.setAmount(total);
         return total;
     }
 
+    /**
+     * Get the multiplier for the amount, based on the period.
+     *
+     * @param invoiceItem The invoice item.
+     * @param totalPeriod The payment period in months.
+     *
+     * @return A multiplier.
+     */
     private BigDecimal getDayMultiplier(InvoiceItem invoiceItem, BigDecimal totalPeriod) {
         long itemPeriod;
         if (invoiceItem.getStartDate().equals(invoiceItem.getEndDate())) {
@@ -168,16 +178,6 @@ public class InvoiceCorrector {
 
         return new BigDecimal(itemPeriod)
                 .divide(new BigDecimal(totalPeriodInDays), PERCENTAGE_SCALE, BigDecimal.ROUND_HALF_UP);
-    }
-
-    public BigDecimal getTaxPercentage(InvoiceItem invoiceItem) {
-        Contract contract = invoiceItem.getContract();
-
-        Tax tax = daoContext.getTaxDao()
-                .findDistinctByVehicleTypeAndInsuranceType(
-                        contract.getFleetSubscription().getVehicle().getType(),
-                        contract.getInsuranceType());
-        return tax.getTax();
     }
 
     private List<Period> merge(Collection<Period> paidPeriods,
@@ -211,7 +211,7 @@ public class InvoiceCorrector {
 
             if (repayment.getStartDate().equals(payment.getStartDate())) {
                 if (repayment.getEndDate().equals(payment.getEndDate())) {
-                    continue; // Both cancel eachother out, discard them
+                    continue; // Both cancel each other out, discard them
                 }
                 if (repayment.getEndDate().isAfter(payment.getEndDate())) {
                     // repayment cancels out a part of the payment, split up and readd to repayments
