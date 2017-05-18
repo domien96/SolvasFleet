@@ -26,12 +26,6 @@ class Log extends React.Component<Props, State> {
     this.fetchLogEntry(this.props.params.id);
   }
 
-  componentWillReceiveProps(nextProps: Props) {
-    if (nextProps.params.id !== this.props.params.id) {
-      //this.fetchLogEntry(nextProps.params.id);
-    }
-  }
-
   fetchLogEntry(id: number) {
     fetchLogEntry(id, (data: any) => {
       if (data) {
