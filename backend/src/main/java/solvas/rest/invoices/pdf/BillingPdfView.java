@@ -73,7 +73,7 @@ public class BillingPdfView extends InvoicePdfView {
             table.addCell(getCell(formatter.format(item.getTax()), Element.ALIGN_LEFT, font12));
             table.addCell(getCell(item.getType().toString(), Element.ALIGN_LEFT, font12));
             table.addCell(getCell(String.valueOf(item.getNumberOfDays()), Element.ALIGN_RIGHT, font12));
-            table.addCell(getCell(euroFormat.format(item.getAmount()), Element.ALIGN_LEFT, font12));
+            table.addCell(getCell(euroFormat.format(item.getTotalAmount()), Element.ALIGN_LEFT, font12));
         }
 
         PdfPCell cell = getCell("Netto totaal", Element.ALIGN_LEFT, font12);
@@ -82,7 +82,7 @@ public class BillingPdfView extends InvoicePdfView {
         table.addCell(getCell(euroFormat.format(invoice.getNetAmount()), Element.ALIGN_LEFT, font12b));
 
         cell = getCell("Totaal:", Element.ALIGN_LEFT, font12);
-        cell.setColspan(5);
+        cell.setColspan(1);
         table.addCell(cell);
         table.addCell(getCell(euroFormat.format(invoice.getTotalAmount()), Element.ALIGN_LEFT, font12b));
         //table.addCell(getCell(euroFormat.format(invoice.getTotal().doubleValue()), Element.ALIGN_RIGHT, font12b));
