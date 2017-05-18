@@ -135,7 +135,6 @@ public abstract class AbstractAuthorizationTest {
 
     @Test
     public void userCantPutModel() throws Exception {
-        System.out.println(getIdUrl());
         getMockMvc().perform(auth(put(getIdUrl()),nopermissionToken).contentType(MediaType.APPLICATION_JSON_UTF8).content(getModelJson())).andExpect(status().isForbidden());
     }
 
