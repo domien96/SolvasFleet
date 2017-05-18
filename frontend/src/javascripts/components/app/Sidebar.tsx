@@ -42,6 +42,7 @@ const Sidebar: React.StatelessComponent<{}> = () => {
         <SidebarLink path='/clients'>Clients</SidebarLink>
         <SidebarLink path='/vehicles'>Vehicles</SidebarLink>
         <SidebarLink path='/auth'>Permission Settings</SidebarLink>
+        <SidebarLink path='/commissions'>Commissions</SidebarLink>
       </ul>
       <ul className='nav session-actions'>
         <li className='plain'>
