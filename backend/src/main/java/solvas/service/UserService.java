@@ -1,13 +1,20 @@
 package solvas.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+<<<<<<< HEAD
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.service.models.Function;
 import solvas.service.models.User;
+=======
+>>>>>>> master
 import solvas.persistence.api.DaoContext;
-import solvas.service.mappers.UserMapper;
+import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.api.models.ApiUser;
+import solvas.service.exceptions.UnarchivableException;
+import solvas.service.mappers.UserMapper;
+import solvas.service.models.User;
 
 /**
  * Service class of user
@@ -28,14 +35,21 @@ public class UserService extends AbstractService<User,ApiUser> {
         super(context.getUserDao(),context, mapper);
     }
 
-
     @Override
-    public void archive(int id) throws EntityNotFoundException {
-        super.archive(id);
-        User user = context.getUserDao().find(id);
+    public void archive(int id) throws EntityNotFoundException, UnarchivableException {
+
+        User user = context.getUserDao().findByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+
+        // You cannot delete yourself.
+        if (user.getId() == id) {
+            throw new UnarchivableException();
+        }
+
         // Archive each function associated with this user
         for (Function function :  context.getFunctionDao().findByUserAndArchivedFalse(user)) {
             functionService.archive(function.getId());
         }
+
+        super.archive(id);
     }
 }

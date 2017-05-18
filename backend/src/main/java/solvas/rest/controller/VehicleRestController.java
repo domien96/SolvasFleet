@@ -26,6 +26,7 @@ import solvas.rest.greencard.pdf.GreenCardPdfView;
 import solvas.rest.query.VehicleFilter;
 import solvas.rest.utils.JsonListWrapper;
 import solvas.service.VehicleService;
+import solvas.service.exceptions.UnarchivableException;
 import solvas.service.models.Vehicle;
 
 import javax.validation.Valid;
@@ -200,7 +201,7 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
     @Override
     @RequestMapping(value = "/vehicles/{vehicleId}", method = RequestMethod.DELETE)
     @PreAuthorize("hasPermission(#vehicleId, 'vehicle', 'DELETE')")
-    public ResponseEntity<?> archiveById(@PathVariable int vehicleId) {
+    public ResponseEntity<?> archiveById(@PathVariable int vehicleId) throws EntityNotFoundException, UnarchivableException {
         return super.archiveById(vehicleId);
     }
 
