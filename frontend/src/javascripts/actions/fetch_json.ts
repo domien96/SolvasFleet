@@ -26,8 +26,7 @@ function request(
     if (body) {
       params.body = JSON.stringify(body);
     }
-    console.log(url);
-    // TODO fix a bit
+
     fetch(url, params).then((r) => {
       r.json().then((data) => {
         if (r.ok) {

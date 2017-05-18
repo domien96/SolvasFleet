@@ -7,7 +7,7 @@ interface Props {
 }
 
 const classNames = (i: number, changedList: number[]) => {
-  if (i in changedList) {
+  if (changedList.includes(i)) {
     return 'table-row-left changed'
   }
   else {

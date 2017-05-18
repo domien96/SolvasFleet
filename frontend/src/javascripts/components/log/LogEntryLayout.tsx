@@ -113,7 +113,7 @@ const getInvoice = (entity: any) => {
 const getChangedValues = (oldEntity: any, newEntity: any) => {
   const changed: number[] = [];
   for (let i = 0; i < oldEntity.length; i++) {
-    if (oldEntity.label !== newEntity.label) {
+    if (oldEntity[i].label !== newEntity[i].label) {
       changed.push(i);
     }
   }
@@ -175,18 +175,45 @@ const Layout: React.StatelessComponent<Props> = props => {
     if (oldEntry) oldEntityInfo = getInvoice(oldEntity);
   }
 
-  let oldEntityDisplay = (<div></div>);
+  let entityDisplay = null;
   if (oldEntry) {
-    oldEntityDisplay = (
+    entityDisplay = (
+      <div>
+        <div className='col-sm-6'>
+          <Card>
+            <div className='card-title'>
+              <h3>Before {entry.method}</h3>
+            </div>
+            <div className='card-content'>
+              <LogEntryTable 
+                data={ oldEntityInfo } 
+                changed={ getChangedValues(oldEntityInfo, entityInfo) } />
+            </div>
+          </Card>
+        </div>
+        <div className='col-sm-6'>
+          <Card>
+            <div className='card-title'>
+              <h3>After {entry.method}</h3>
+            </div>
+            <div className='card-content'>
+              <LogEntryTable 
+                data={ entityInfo }
+                changed={ getChangedValues(oldEntityInfo, entityInfo) } />
+            </div>
+          </Card>
+        </div>
+      </div>
+    );
+  } else {
+    entityDisplay = (
       <div className='col-sm-6'>
         <Card>
           <div className='card-title'>
-            <h3>Before {entry.method}</h3>
+            <h3>After {entry.method}</h3>
           </div>
           <div className='card-content'>
-            <LogEntryTable 
-              data={ oldEntityInfo } 
-              changed={ getChangedValues(oldEntityInfo, entityInfo) } />
+            <DetailTable data={ entityInfo } />
           </div>
         </Card>
       </div>
@@ -203,17 +230,7 @@ const Layout: React.StatelessComponent<Props> = props => {
         <DetailTable data={ entryInfo }/>
       </div>
       </Card>
-      { oldEntityDisplay }
-      <div className='col-sm-6'>
-        <Card>
-          <div className='card-title'>
-            <h3>After {entry.method}</h3>
-          </div>
-          <div className='card-content'>
-            <DetailTable data={ entityInfo }/>
-          </div>
-        </Card>
-      </div>
+      { entityDisplay }
     </div>
   );
 };

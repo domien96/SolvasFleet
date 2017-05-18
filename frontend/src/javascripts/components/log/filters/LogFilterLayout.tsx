@@ -49,8 +49,9 @@ const LogFilterLayout: React.StatelessComponent<Props> = props => {
   const typeContract: Choice = createChoice(onFilterType, 'Contract', 'log.options.solvas.service.models.Contract');
   const typeInvoice: Choice = createChoice(onFilterType, 'Invoice', 'log.options.solvas.service.models.Invoice');
   const typeRole: Choice = createChoice(onFilterType, 'Role', 'log.options.solvas.service.models.Role');
+  const typeFleet: Choice = createChoice(onFilterType, 'Fleet', 'log.options.solvas.service.models.Fleet');
 
-  const types: Choice[] = [ typeAllTypes, typeUser, typeFunction, typeCompany, typeVehicle, typeContract, typeInvoice, typeRole ];
+  const types: Choice[] = [ typeAllTypes, typeUser, typeFunction, typeCompany, typeVehicle, typeContract, typeInvoice, typeRole, typeFleet ];
   const typeSelection: Selectionfield = { name: 'Entry type', title: typeDisplay, choices: types };
 
   // Different choices for each method 
