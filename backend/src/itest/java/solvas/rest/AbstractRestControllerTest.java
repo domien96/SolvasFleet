@@ -9,11 +9,21 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import solvas.Application;
+import solvas.authentication.WebSecurityConfig;
+import solvas.authentication.jwt.JwtSettings;
+import solvas.authorization.MethodSecurityConfig;
+import solvas.persistence.api.dao.TestConfig;
+import solvas.persistence.hibernate.HibernateConfig;
 import solvas.rest.greencard.GreenCardViewResolver;
 import solvas.rest.greencard.pdf.GreenCardPdfView;
 import solvas.rest.invoices.InvoiceFileViewResolver;
@@ -39,7 +49,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @param <E> The ApiModel
  * @param <T> The Model
  */
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
 public abstract class AbstractRestControllerTest<T extends Model, E extends ApiModel> {
     abstract AbstractRestController getController();
 

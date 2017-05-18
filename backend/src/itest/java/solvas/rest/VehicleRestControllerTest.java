@@ -7,17 +7,22 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.validation.Validator;
 import org.springframework.web.servlet.ViewResolver;
+import solvas.Application;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.dao.FleetSubscriptionDao;
 import solvas.persistence.api.dao.VehicleDao;
+import solvas.persistence.hibernate.HibernateConfig;
 import solvas.rest.greencard.GreenCardViewResolver;
 import solvas.rest.greencard.pdf.GreenCardPdfView;
 import solvas.service.mappers.exceptions.DependantEntityNotFound;
@@ -47,14 +52,6 @@ public class VehicleRestControllerTest extends AbstractRestControllerTest<Vehicl
     @Mock
     private Validator validator;
 
-    @Mock
-    private DaoContext daoContext;
-
-    @Mock
-    private FleetSubscriptionDao fleetSubscriptionDao;
-
-    @Mock
-    private VehicleDao vehicleDao;
     /**
      * Constructor for specific VehicleController tests
      */
@@ -62,20 +59,13 @@ public class VehicleRestControllerTest extends AbstractRestControllerTest<Vehicl
         super(ApiVehicle.class);
     }
 
-    @Override
-    MockMvc getMockMvc() {
-        ViewResolver greenCardViewResolver = new GreenCardViewResolver(new GreenCardPdfView(daoContext));
-        return MockMvcBuilders
-                .standaloneSetup(getController())
-                .setViewResolvers(greenCardViewResolver)
-                .build();
-    }
-
     @Before
     public void setUp() throws DependantEntityNotFound, EntityNotFoundException {
       //  super.setUp();
-        when(daoContext.getFleetSubscriptionDao()).thenReturn(fleetSubscriptionDao);
-        when(daoContext.getVehicleDao()).thenReturn(vehicleDao);
+      //  when(daoContext.getFleetSubscriptionDao()).thenReturn(fleetSubscriptionDao);
+      //  when(daoContext.getVehicleDao()).thenReturn(vehicleDao);
+        //when(vehicleDao.find(anyInt())).thenReturn(getTestModel());
+
     }
 
     /**
@@ -130,12 +120,5 @@ public class VehicleRestControllerTest extends AbstractRestControllerTest<Vehicl
     @Override
     public String getIdUrl() {
         return RestTestFixtures.VEHICLE_ID_URL;
-    }
-
-    @Test
-    public void greenCardDoesNotError() throws Exception {
-        when(getService().getById(anyInt())).thenReturn(getTestModel());
-        getMockMvc().perform(get(RestTestFixtures.VEHICLE_ID_URL+"/greencard.pdf"))
-                .andExpect(status().is2xxSuccessful());
     }
 }
