@@ -3,6 +3,7 @@ package solvas.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import solvas.persistence.api.EntityNotFoundException;
+import solvas.service.exceptions.UnarchivableException;
 import solvas.service.mappers.ContractMapper;
 import solvas.service.mappers.FleetMapper;
 import solvas.service.models.*;
@@ -36,7 +37,7 @@ public class CompanyService extends AbstractService<Company,ApiCompany> {
 
 
     @Override
-    public void archive(int id) throws EntityNotFoundException {
+    public void archive(int id) throws EntityNotFoundException, UnarchivableException {
         Company company = context.getCompanyDao().find(id);
         LocalDateTime now = LocalDateTime.now();
 

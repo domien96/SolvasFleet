@@ -6,6 +6,7 @@ import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.dao.InsuranceTypeDao;
 import solvas.rest.api.models.ApiContract;
+import solvas.service.exceptions.UnarchivableException;
 import solvas.service.mappers.ContractMapper;
 import solvas.service.models.Contract;
 import solvas.service.models.InsuranceType;
@@ -47,7 +48,7 @@ public class ContractService extends AbstractService<Contract,ApiContract> {
     }
 
     @Override
-    public void archive(int id) throws EntityNotFoundException {
+    public void archive(int id) throws EntityNotFoundException, UnarchivableException {
         Contract contract = context.getContractDao().find(id);
         // set endDate of contract
         contract.setEndDate(LocalDateTime.now()); // TODO ask patrick if this is the right way

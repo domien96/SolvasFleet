@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.query.VehicleFilter;
+import solvas.service.exceptions.UnarchivableException;
 import solvas.service.mappers.ContractMapper;
 import solvas.service.models.*;
 import solvas.persistence.api.DaoContext;
@@ -32,35 +33,21 @@ public class FleetService extends AbstractService<Fleet,ApiFleet> {
     }
 
 
+    @Autowired
+    private VehicleService vehicleService;
+
     @Override
-    public void archive(int id) throws EntityNotFoundException {
+    public void archive(int id) throws EntityNotFoundException, UnarchivableException {
         Fleet fleet = context.getFleetDao().find(id);
 
         //Stop all active fleet subscriptions
         Collection<FleetSubscription> fleetSubscriptions
                 = context.getFleetSubscriptionDao().findByFleetAndEndDateIsNull(fleet);
 
-        final LocalDateTime endDate = LocalDateTime.now();
-
         //Stop all active fleet subscriptions
         for (FleetSubscription subs:fleetSubscriptions){
-            //Stop all active contracts
-            Collection<Contract> contracts = context.getContractDao().findByFleetSubscription(subs);
-            contracts.stream()
-                    .filter(c->c.getEndDate()!=null && c.getEndDate().isAfter(endDate))
-                    .forEach(c->{
-                        c.setEndDate(endDate);
-                        context.getContractDao().save(c);
-                    });
-            subs.setEndDate(endDate.toLocalDate());
-            context.getFleetSubscriptionDao().save(subs);
+            vehicleService.archive(subs.getVehicle().getId());
         }
-
-        //TODO
-        // archive invoices
-
-
-
 
 
         super.archive(id);

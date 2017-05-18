@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.dao.VehicleTypeDao;
+import solvas.service.exceptions.UnarchivableException;
 import solvas.service.mappers.ContractMapper;
 import solvas.service.models.*;
 import solvas.persistence.api.DaoContext;
@@ -45,7 +46,7 @@ public class VehicleService extends AbstractService<Vehicle,ApiVehicle>{
 
 
     @Override
-    public void archive(int id) throws EntityNotFoundException {
+    public void archive(int id) throws EntityNotFoundException, UnarchivableException {
         Vehicle vehicle = context.getVehicleDao().find(id);
 
         //Stop all active fleet subscriptions
@@ -69,5 +70,6 @@ public class VehicleService extends AbstractService<Vehicle,ApiVehicle>{
         }
 
         super.archive(id);
+
     }
 }
