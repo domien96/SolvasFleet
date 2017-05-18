@@ -5,6 +5,7 @@ import solvas.persistence.api.Dao;
 import solvas.service.models.Company;
 import solvas.service.models.Function;
 import solvas.service.models.Role;
+import solvas.service.models.User;
 
 import java.util.Collection;
 
@@ -29,4 +30,11 @@ public interface FunctionDao extends Dao<Function> {
      * @return the functions
      */
     Collection<Function> findByCompanyAndArchivedFalse(Company company);
+
+    /**
+     * Find al active functions for a certain user
+     * @param user the company
+     * @return the functions
+     */
+    Collection<Function> findByUserAndArchivedFalse(User user);
 }
