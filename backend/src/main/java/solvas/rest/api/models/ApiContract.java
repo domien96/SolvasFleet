@@ -19,7 +19,7 @@ public class ApiContract extends ApiModel{
     //required
     private LocalDateTime startDate;
 
-    //optional
+    @Min(value = 0)
     private int franchise;
 
     @Min(value = 1)

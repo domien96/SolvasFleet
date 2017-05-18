@@ -2,7 +2,6 @@ package solvas;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -13,10 +12,6 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import solvas.rest.utils.PagedResult;
-import solvas.rest.utils.validators.DaoContextAwareConstraintValidatorFactory;
-
-import javax.validation.Validation;
-import javax.validation.Validator;
 
 
 /**
@@ -38,19 +33,15 @@ public class Application {
     }
 
     /**
-     * Automatically let Jackson convert CamelCase attributes to snake_case.
+     * We need a customized version of the object mapper.
      *
-     * @return The Jackson object mapper.
+     * @return The general object mapper for the application.
      */
     @Bean
     public ObjectMapper jacksonObjectMapper() {
-
         return new ObjectMapper()
                 .findAndRegisterModules()
                 .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-
-
-
     }
 
     @Bean
@@ -78,19 +69,5 @@ public class Application {
                 return resolver;
             }
         };
-    }
-
-    /**
-     * Configure validators
-     * @param daoContextAwareConstraintValidatorFactory Factory to build validators that query the database
-     * @return Validator
-     */
-    @Bean
-    @Autowired
-    public Validator validator(DaoContextAwareConstraintValidatorFactory daoContextAwareConstraintValidatorFactory) {
-        return Validation.byDefaultProvider()
-                .configure()
-                .constraintValidatorFactory( daoContextAwareConstraintValidatorFactory )
-                .buildValidatorFactory().getValidator();
     }
 }

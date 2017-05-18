@@ -1,19 +1,19 @@
-import React      from 'react';
+import React from 'react';
 import classNames from 'classnames';
-import T          from 'i18n-react';
+import T from 'i18n-react';
 
 interface Props {
-  placeholder : string;
-  type        : string;
-  hasError    : boolean;
-  callback    : (e : any) => void;
-  value       : any;
-  name?        : string;
+  placeholder: string;
+  type: string;
+  hasError?: boolean;
+  callback: (e: any) => void;
+  value: any;
+  name?: string
 }
 
-const FormField : React.StatelessComponent<Props> = props => {
+const FormField: React.StatelessComponent<Props> = props => {
   const label = T.translate(props.placeholder);
-  const wrapperClasses = classNames('form-group', { 'has-error': props.hasError });
+  const wrapperClasses = classNames('form-group', { 'has-error': props.hasError || false });
   return (
     <div className={ wrapperClasses }>
       <label>{ label }</label>
@@ -26,7 +26,7 @@ const FormField : React.StatelessComponent<Props> = props => {
         name={props.name ||  ''}
         value={ props.value || '' }/>
     </div>
-  )
-}
+  );
+};
 
 export default FormField;

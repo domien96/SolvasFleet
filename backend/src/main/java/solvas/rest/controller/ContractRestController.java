@@ -121,9 +121,7 @@ public class ContractRestController extends AbstractRestController<Contract,ApiC
      */
     @RequestMapping(value = "/contracts/types", method = RequestMethod.GET)
     public JsonListWrapper<String> listAllTypes() {
-        Collection<String> page = ((ContractService) service).findAllInsuranceTypes();
-        JsonListWrapper<String> wrapper = new JsonListWrapper<>(page);
-        wrapper.put("total", page.size());
-        return wrapper;
+        Collection<String> items = ((ContractService) service).findAllInsuranceTypes();
+        return JsonListWrapper.withTotal(items);
     }
 }

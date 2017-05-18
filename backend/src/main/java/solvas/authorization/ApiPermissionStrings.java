@@ -30,4 +30,7 @@ public final class ApiPermissionStrings {
     public static final String READ_USERS = "read:users";
     public static final String CREATE_USERS = "create:users";
     public static final String WRITE_USERS = "write:users";
+
+    // Permissions for the third milestone
+    public static final String READ_REVISIONS = "read:revisions";
 }
