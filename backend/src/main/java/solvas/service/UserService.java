@@ -3,18 +3,13 @@ package solvas.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-<<<<<<< HEAD
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.service.models.Function;
 import solvas.service.models.User;
-=======
->>>>>>> master
 import solvas.persistence.api.DaoContext;
-import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.api.models.ApiUser;
 import solvas.service.exceptions.UnarchivableException;
 import solvas.service.mappers.UserMapper;
-import solvas.service.models.User;
 
 /**
  * Service class of user
