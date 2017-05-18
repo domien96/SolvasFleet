@@ -6,6 +6,10 @@ import solvas.rest.api.models.ApiModel;
 
 import java.time.LocalDateTime;
 
+
+/**
+ * Test Invoice routes authorization
+ */
 public class InvoiceAuthorizationTest extends AbstractAuthorizationTest {
 
     @Override

@@ -6,6 +6,9 @@ import solvas.rest.api.models.ApiModel;
 
 import java.time.LocalDateTime;
 
+/**
+ * Test Function routes authorization
+ */
 public class FunctionAuthorizationTest extends AbstractAuthorizationTest {
 
     @Override

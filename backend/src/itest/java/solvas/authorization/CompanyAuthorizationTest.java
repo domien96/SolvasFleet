@@ -1,17 +1,22 @@
 package solvas.authorization;
 
-import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import solvas.persistence.api.dao.CompanyDao;
 import solvas.rest.RestTestFixtures;
 import solvas.rest.api.models.ApiCompany;
 import solvas.rest.api.models.ApiModel;
 
-import java.util.ArrayList;
-
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
+import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
-public class CompanyAuthorizationTest extends AbstractAuthorizationTest{
+/**
+ * Test authorization on company rest controller.
+ */
+public class CompanyAuthorizationTest extends AbstractAuthorizationTest {
+    @Autowired
+    private CompanyDao companyDao;
 
     @Override
     public String getUrl() {
@@ -33,9 +38,25 @@ public class CompanyAuthorizationTest extends AbstractAuthorizationTest{
         return company;
     }
 
+    /**
+     * User has no permission on any company, expect empty list.
+     * @throws Exception When test fails
+     */
     @Override
     public void userCantReadModels() throws Exception {
-        getMockMvc().perform(auth(get(getUrl()),nopermissionToken))
-                .andExpect(jsonPath("data").value(new ArrayList<ApiCompany>()));
+        getMockMvc().perform(auth(get(getUrl()), nopermissionToken))
+                .andExpect(jsonPath("data", hasSize(0)));
     }
+
+    /**
+     * User has permission on every company, expect all companies
+     * @throws Exception When test fails
+     */
+    @Override
+    public void userCanReadModels() throws Exception {
+        System.out.println(companyDao.count());
+        getMockMvc().perform(auth(get(getUrl()),adminToken))
+                .andExpect(jsonPath("data", hasSize((int) companyDao.count())));
+    }
+
 }

@@ -6,6 +6,9 @@ import solvas.rest.api.models.ApiModel;
 
 import java.time.LocalDateTime;
 
+/**
+ * Test contract routes authorization
+ */
 public class ContractAuthorizationTest extends AbstractAuthorizationTest {
 
     @Override

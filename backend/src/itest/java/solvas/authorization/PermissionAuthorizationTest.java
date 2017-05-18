@@ -4,6 +4,9 @@ import solvas.rest.RestTestFixtures;
 import solvas.rest.api.models.ApiModel;
 import solvas.rest.api.models.ApiPermission;
 
+/**
+ * Test Permission routes authorization
+ */
 public class PermissionAuthorizationTest extends AbstractAuthorizationTest {
     @Override
     public String getUrl() {

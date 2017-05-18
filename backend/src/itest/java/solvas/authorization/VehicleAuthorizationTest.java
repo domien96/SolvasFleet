@@ -8,6 +8,9 @@ import java.time.LocalDateTime;
 
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
 
+/**
+ * Test Vehicle routes authorization
+ */
 public class VehicleAuthorizationTest extends AbstractAuthorizationTest {
 
     @Override

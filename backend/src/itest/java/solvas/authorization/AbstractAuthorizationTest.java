@@ -45,13 +45,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @EnableWebSecurity
 @ActiveProfiles("debug")
 @WebAppConfiguration
+/**
+ * Abstract class to test authorization on rest controllers
+ */
 public abstract class AbstractAuthorizationTest {
 
     @Autowired
     private WebApplicationContext context;
     private MockMvc mockMvc;
-    @Autowired
-    private FilterChainProxy filterChainProxy;
 
     protected static String adminToken;
     protected static String nopermissionToken;
@@ -77,6 +78,10 @@ public abstract class AbstractAuthorizationTest {
         setUpIsDone = true;
     }
 
+    /**
+     * Configure MockMVC to use Spring Security
+     * @return MockMVC
+     */
     public MockMvc getMockMvc()
     {
         return MockMvcBuilders
@@ -86,62 +91,116 @@ public abstract class AbstractAuthorizationTest {
                 .build();
     }
 
+    /**
+     * Get URL to POST/GET to
+     * @return The url
+     */
     public abstract String getUrl();
 
+    /**
+     * Get URL to PUT/DESTROY to
+     * @return The url
+     */
     public abstract String getIdUrl();
 
+    /**
+     * Authenticate a request
+     * @param builder Request builder
+     * @param token Access token
+     * @return Builder that will generate an authenticated request
+     */
     protected MockHttpServletRequestBuilder auth(MockHttpServletRequestBuilder builder, String token) {
         return builder.header("X-Authorization","Bearer "+token);
     }
 
+    /**
+     * Expect admin user to be able to read this model
+     * @throws Exception When test fails
+     */
     @Test
     public void userCanReadModel() throws Exception {
         getMockMvc().perform(auth(get(getIdUrl()),adminToken))
                 .andExpect(status().isOk());
     }
 
+    /**
+     * Expect user without permissions to be unable to read this model
+     * @throws Exception When test fails
+     */
     @Test
     public void userCantReadModel() throws Exception {
         getMockMvc().perform(auth(get(getIdUrl()),nopermissionToken))
                 .andExpect(status().isForbidden());
     }
 
-
+    /**
+     * Expect admin user to be able to read all models
+     * @throws Exception When test fails
+     */
     @Test
     public void userCanReadModels() throws Exception {
         getMockMvc().perform(auth(get(getUrl()),adminToken))
                 .andExpect(status().isOk()).andDo(MockMvcResultHandlers.print());
     }
 
+    /**
+     * Expect user without permissions to be unable to read any model
+     * @throws Exception When test fails
+     */
     @Test
     public void userCantReadModels() throws Exception {
         getMockMvc().perform(auth(get(getUrl()),nopermissionToken)).andExpect(status().isForbidden());
     }
 
+    /**
+     * Expect admin user to be able to create new instance
+     * @throws Exception When test fails
+     */
     @Test
     public void userCanPostModel() throws Exception {
         getMockMvc().perform(auth(post(getUrl()).contentType(MediaType.APPLICATION_JSON_UTF8).content(getModelJson()),adminToken)).andDo(MockMvcResultHandlers.print()).andExpect(status().isOk());
     }
 
+    /**
+     * Expect user without permissions to be unable to create any instance
+     * @throws Exception When test fails
+     */
     @Test
     public void userCantPostModel() throws Exception {
         getMockMvc().perform(auth(post(getUrl()).contentType(MediaType.APPLICATION_JSON_UTF8).content(getModelJson()),nopermissionToken)).andExpect(status().isForbidden()).andDo(MockMvcResultHandlers.print());
     }
 
+    /**
+     * Expect admin user to be able to alter any instance
+     * @throws Exception When test fails
+     */
     @Test
     public void userCanPutModel() throws Exception {
-        getMockMvc().perform(auth(put(getIdUrl()),adminToken).contentType(MediaType.APPLICATION_JSON_UTF8).content(getModelJson())).andExpect(status().isOk()).andDo(MockMvcResultHandlers.print());
+        getMockMvc().perform(auth(put(getIdUrl()), adminToken).contentType(MediaType.APPLICATION_JSON_UTF8).content(getModelJson())).andExpect(status().isOk()).andDo(MockMvcResultHandlers.print());
     }
 
+    /**
+     * Expect user without permissions to be unable to alter any instance
+     * @throws Exception When test fails
+     */
     @Test
     public void userCantPutModel() throws Exception {
-        getMockMvc().perform(auth(put(getIdUrl()),nopermissionToken).contentType(MediaType.APPLICATION_JSON_UTF8).content(getModelJson())).andExpect(status().isForbidden());
+        getMockMvc().perform(auth(put(getIdUrl()), nopermissionToken).contentType(MediaType.APPLICATION_JSON_UTF8).content(getModelJson())).andExpect(status().isForbidden());
     }
 
-    @Test public void userCanDeleteModel() throws Exception {
+    /**
+     * Expect admin user to be able to archive any instance
+     * @throws Exception When test fails
+     */
+    @Test
+    public void userCanDeleteModel() throws Exception {
         getMockMvc().perform(auth(delete(getIdUrl()),adminToken)).andExpect(status().isNoContent());
     }
 
+    /**
+     * Expect user without permissions to be unable to archive any instance
+     * @throws Exception When test fails
+     */
     @Test
     public void userCantDeleteModel() throws Exception {
         getMockMvc().perform(auth(delete(getIdUrl()),nopermissionToken)).andExpect(status().isForbidden());
@@ -153,5 +212,8 @@ public abstract class AbstractAuthorizationTest {
         return mapper.writeValueAsString(getModel());
     }
 
+    /**
+     * @return An instance of ApiModel
+     */
     public abstract ApiModel getModel();
 }

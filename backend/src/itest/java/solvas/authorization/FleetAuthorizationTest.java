@@ -11,6 +11,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
 
+/**
+ * Test Fleet routes authorization
+ */
 public class FleetAuthorizationTest extends AbstractAuthorizationTest {
 
     @Override
@@ -33,11 +36,19 @@ public class FleetAuthorizationTest extends AbstractAuthorizationTest {
         return fleet;
     }
 
+    /**
+     * Expect admin to be able to read vehicles from fleet
+     * @throws Exception If test fails
+     */
     @Test
     public void canReadVehicles() throws Exception {
         getMockMvc().perform(auth(get(RestTestFixtures.VEHICLES_FROM_FLEET_URL),adminToken)).andExpect(status().isOk());
     }
 
+    /**
+     * Expect user without permissions to be unable to read vehicles from fleet
+     * @throws Exception If test fails
+     */
     @Test
     public void cantReadVehicles() throws Exception {
         getMockMvc().perform(auth(get(RestTestFixtures.VEHICLES_FROM_FLEET_URL),nopermissionToken)).andExpect(status().isForbidden());

@@ -10,6 +10,9 @@ import java.util.HashSet;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+/**
+ * Test Role routes authorization
+ */
 public class RoleAuthorizationTest extends AbstractAuthorizationTest {
 
     @Override
