@@ -91,9 +91,9 @@ const Filter: React.StatelessComponent<Props> = props => {
     );
   });
 
-  const datefields = props.datefields.map((datefield: Datefield, i: number) => {
+  const datefields = props.datefields.map((datefield, i) => {
     const { name, data, callback } = datefield;
-    return(
+    return (
       <div key={ i }>
         <DateForm callback={ callback } value={ data } label={ name } hasError={ false } />
       </div>

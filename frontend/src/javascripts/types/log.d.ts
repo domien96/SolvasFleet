@@ -10,8 +10,8 @@ interface LogEntryData {
 
 interface LogFilterData {
   [after: string]: string;
-	[before: string]: string;
-	[method: string]: string;
+  [before: string]: string;
+  [method: string]: string;
   [entityType: string]: string;
   [user: string]: string;
 }

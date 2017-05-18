@@ -6,5 +6,5 @@ import LogEntry from '../components/log/LogEntry.tsx';
 
 export default [
   <Route key={ 1 } path="log" component={ Log } />,
-  <Route key={ 1 } path="log/:id" component={ LogEntry } />,
+  <Route key={ 2 } path="log/:id" component={ LogEntry } />,
 ];

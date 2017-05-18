@@ -15,9 +15,9 @@ interface State {
 }
 
 class Log extends React.Component<Props, State> {
-  constructor(props: any) {
+  constructor(props: Props) {
     super(props);
-    this.state = { entry: undefined, oldEntry: undefined, users: [] }
+    this.state = { entry: undefined, oldEntry: undefined, users: [] };
     this.getUser = this.getUser.bind(this);
   }
 
@@ -30,8 +30,8 @@ class Log extends React.Component<Props, State> {
     fetchLogEntry(id, (data: any) => {
       if (data) {
         this.fetchOldLogEntry(data);
-        this.setState({ entry: data });    
-      }  
+        this.setState({ entry: data });
+      }
     });
   }
 
@@ -71,10 +71,15 @@ class Log extends React.Component<Props, State> {
 
   getUser(id: number) {
     if (this.state.users.length > 0) {
-      const usersFiltered = this.state.users.filter((r: UserData) => {
+      const userFiltered = this.state.users.find((r: UserData) => {
         return r.id === id;
       });
-      return `${usersFiltered[0].firstName} ${usersFiltered[0].lastName}`;
+
+      if (!userFiltered) {
+        return '<empty>';
+      }
+
+      return `${userFiltered.firstName} ${userFiltered.lastName}`;
     }
     else {
       return id.toString();
@@ -82,15 +87,16 @@ class Log extends React.Component<Props, State> {
   }
 
   render() {
-    if (this.state.entry) {
-      return (
-        <LogEntryLayout 
-          entry={ this.state.entry }
-          oldEntry={ this.state.oldEntry }
-          getUser={ this.getUser } />
-      );
+    if (!this.state.entry) {
+      return null;
     }
-    return null;
+
+    return (
+      <LogEntryLayout
+        entry={ this.state.entry }
+        oldEntry={ this.state.oldEntry }
+        getUser={ this.getUser } />
+    );
   }
 }
 

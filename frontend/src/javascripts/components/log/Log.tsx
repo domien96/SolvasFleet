@@ -14,7 +14,7 @@ interface State {
 class Log extends React.Component<{}, State> {
   constructor(props: {}) {
     super(props);
-    this.state = { 
+    this.state = {
       response: {
         data: [],
         first: null,
@@ -24,7 +24,7 @@ class Log extends React.Component<{}, State> {
         offset: 0,
         previous: null,
         total: 0
-      }, 
+      },
       filter: {
         after: '',
         before: '',
@@ -57,13 +57,13 @@ class Log extends React.Component<{}, State> {
         for (const key in queryFilter) {
           if (queryFilter[key] === null || queryFilter[key] === undefined || queryFilter[key] === '') {
             delete queryFilter[key];
-          } 
+          }
         }
         for (const key in queryFilter) {
           newQuery[key] = queryFilter[key];
         }
       }
-    } else { 
+    } else {
       for (const key in queryFilter) {
         if (queryFilter[key] === null || queryFilter[key] === undefined || queryFilter[key] === '') {
           delete queryFilter[key];
@@ -100,17 +100,22 @@ class Log extends React.Component<{}, State> {
       users = this.state.users;
     }
     if (users.length > 0) {
-      const usersFiltered = users.filter((r: UserData) => {
+      const userFiltered = users.find((r: UserData) => {
         return r.id === id;
       });
-      return `${usersFiltered[0].firstName} ${usersFiltered[0].lastName}`;
+
+      if (!userFiltered) {
+        return '<empty>';
+      }
+
+      return `${userFiltered.firstName} ${userFiltered.lastName}`;
     }
     else {
       return id.toString();
     }
   }
 
-  setTableData(entries: LogEntryData[], users: UserData[]){
+  setTableData(entries: LogEntryData[], users: UserData[]) {
     const data = entries.map((entry: LogEntryData) => {
       const entityTypeSplit = entry.entityType.split('.');
       const newEntityType = entityTypeSplit[entityTypeSplit.length - 1];
@@ -125,19 +130,19 @@ class Log extends React.Component<{}, State> {
         method: entry.method,
         user: this.getUser(users, entry.user)
       }
-    }); 
+    });
 
     this.setState({ tableData: data });
   }
 
   render() {
     return (
-      <Layout 
-        response={this.state.response} 
-        onLogSelect={ this.handleClick } 
-        fetchLog={this.fetchLog} 
-        tableData={ this.state.tableData } 
-        onFilter={ this.handleFilter } 
+      <Layout
+        response={this.state.response}
+        onLogSelect={ this.handleClick }
+        fetchLog={this.fetchLog}
+        tableData={ this.state.tableData }
+        onFilter={ this.handleFilter }
         getUser={ this.getUser } />
     );
   }
