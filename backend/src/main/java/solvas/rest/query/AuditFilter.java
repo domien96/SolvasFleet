@@ -2,6 +2,7 @@ package solvas.rest.query;
 
 import solvas.persistence.api.Filter;
 import solvas.service.models.EntityType;
+import solvas.service.models.MethodType;
 import solvas.service.models.Revision;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -57,17 +58,11 @@ public class AuditFilter implements Filter<Revision> {
         }
 
         if (method!=null) {
-            try {
-                predicates.add(builder.equal(
-                        root.get("method"),
-                        EntityType.toClass(method)
-                ));
-            } catch (ClassNotFoundException ignored) {
-                predicates.add(builder.equal(
-                        root.get("method"),
-                        null // Return nothing, method does not exist
-                ));
-            }
+            predicates.add(builder.equal(
+                    root.get("method"),
+                    MethodType.fromString(method.toLowerCase())
+            ));
+
         }
         return predicates;
     }

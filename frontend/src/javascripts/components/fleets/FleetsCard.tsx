@@ -9,11 +9,12 @@ import FleetForm from '../fleets/FleetForm.tsx';
 interface FProps {
   id: number;
   name: string;
+  companyId: number;
 }
 
-const FleetLink: React.StatelessComponent<FProps> = ({ id, name }) => {
+const FleetLink : React.StatelessComponent<FProps> = ({ id, companyId, name }) => {
   return (
-    <Link to={ `/fleets/${id}` } key={ id } className='fleet'>
+    <Link to={ `/clients/${companyId}/fleets/${id}` } key={ id } className='fleet'>
       <h3>{ name }</h3>
       <div className='actions pull-right'>
         <h3>
@@ -32,11 +33,12 @@ interface Props {
   fleets: FleetData[];
   fleet: FleetData;
   errors: Form.Error[];
+  companyId: number;
 }
 
 const FleetsCard: React.StatelessComponent<Props> = props => {
   const fleets = props.fleets.map(({ id, name }) => {
-    return <FleetLink key={id} id={ id } name={ name } />;
+    return <FleetLink key={ id } id={ id } companyId={ props.companyId } name={ name } />
   });
 
   return (
