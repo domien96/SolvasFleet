@@ -5,21 +5,22 @@ import org.springframework.stereotype.Service;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.service.mappers.ContractMapper;
 import solvas.service.mappers.FleetMapper;
-import solvas.service.models.Company;
+import solvas.service.models.*;
 import solvas.persistence.api.DaoContext;
 import solvas.service.mappers.CompanyMapper;
 import solvas.rest.api.models.ApiCompany;
-import solvas.service.models.CompanyType;
-import solvas.service.models.Contract;
-import solvas.service.models.Fleet;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 /**
  * CompanyService class
  */
 @Service
 public class CompanyService extends AbstractService<Company,ApiCompany> {
+
+    @Autowired
+    private FunctionService functionService;
 
     /**
      * Construct a CompanyService
@@ -32,20 +33,28 @@ public class CompanyService extends AbstractService<Company,ApiCompany> {
     }
 
 
+
+
     @Override
     public void archive(int id) throws EntityNotFoundException {
         Company company = context.getCompanyDao().find(id);
         LocalDateTime now = LocalDateTime.now();
+
         // stop each active contract
         for (Contract contract:context.getContractDao().findByCompany(company)){
             contract.setEndDate(now);
             context.getContractDao().save(contract);
         }
 
-        // archive each fleet
+        // Archive each fleet associated with this company
         FleetService fleetService = new FleetService(context, new FleetMapper(context));
         for (Fleet fleet : context.getFleetDao().findByCompany(company)) {
             fleetService.archive(fleet.getId());
+        }
+
+        // Archive each function associated with this company
+        for (Function function :  context.getFunctionDao().findByCompanyAndArchivedFalse(company)) {
+            functionService.archive(function.getId());
         }
 
         super.archive(id);

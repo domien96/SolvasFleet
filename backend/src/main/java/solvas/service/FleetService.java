@@ -28,7 +28,7 @@ public class FleetService extends AbstractService<Fleet,ApiFleet> {
      */
     @Autowired
     public FleetService(DaoContext context, FleetMapper mapper) {
-        super(context.getFleetDao(), mapper);
+        super(context.getFleetDao(),context, mapper);
     }
 
 
