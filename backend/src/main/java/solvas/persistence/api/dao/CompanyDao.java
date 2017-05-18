@@ -27,8 +27,6 @@ public interface CompanyDao extends Dao<Company> {
      */
     Collection<Company> findByName(String name);
 
-    Page<Company> findByIdIn(Pageable pagination, Collection<Integer> ids);
-
     /**
      * Find the company with a certain vat number.
      *
