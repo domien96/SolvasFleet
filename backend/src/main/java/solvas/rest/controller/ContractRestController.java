@@ -6,10 +6,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.api.models.ApiContract;
 import solvas.rest.query.ContractFilter;
 import solvas.rest.utils.JsonListWrapper;
 import solvas.service.ContractService;
+import solvas.service.exceptions.UnarchivableException;
 import solvas.service.models.Contract;
 
 import javax.validation.Valid;
@@ -103,7 +105,7 @@ public class ContractRestController extends AbstractRestController<Contract,ApiC
     @Override
     @RequestMapping(value = "/contracts/{id}", method = RequestMethod.DELETE)
     @PreAuthorize("hasPermission(#id, 'contract', 'WRITE')")
-    public ResponseEntity<?> archiveById(@PathVariable int id) {
+    public ResponseEntity<?> archiveById(@PathVariable int id) throws EntityNotFoundException, UnarchivableException {
         return super.archiveById(id);
     }
 

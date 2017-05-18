@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import solvas.persistence.api.EntityNotFoundException;
+import solvas.service.exceptions.UnarchivableException;
 import solvas.service.models.Fleet;
 import solvas.rest.api.models.ApiFleet;
 import solvas.rest.query.FleetFilter;
@@ -73,7 +75,7 @@ public class FleetRestController extends AbstractRestController<Fleet, ApiFleet>
     @Override
     @RequestMapping(value = "/companies/{companyId}/fleets/{fleetId}", method = RequestMethod.DELETE)
     @PreAuthorize("hasPermission(#fleetId, 'fleet', 'DELETE')")
-    public ResponseEntity<?> archiveById(@PathVariable int fleetId) {
+    public ResponseEntity<?> archiveById(@PathVariable int fleetId) throws EntityNotFoundException, UnarchivableException {
         return super.archiveById(fleetId);
     }
 
