@@ -102,20 +102,25 @@ public class InvoiceCorrector {
      * Calculate the amount to pay in a given period
      *
      * @param invoiceItem Item to calculate for
-     * @param totalPeriod The standard facturation period
+     * @param totalPeriod The standard payment period
+     *
      * @return The amount to pay or repay
      */
     public BigDecimal setTotalAndTax(InvoiceItem invoiceItem, int totalPeriod) {
         return setTotalAndTax(invoiceItem, new BigDecimal(totalPeriod), false);
     }
 
+    /**
+     * Calculate the amount to pay in a given period
+     *
+     * @param invoiceItem Item to calculate for
+     * @param totalPeriod The standard payment period
+     * @param negate Negate the total.
+     *
+     * @return The amount to pay or repay
+     */
     public BigDecimal setTotalAndTax(InvoiceItem invoiceItem, int totalPeriod, boolean negate) {
         return setTotalAndTax(invoiceItem, new BigDecimal(totalPeriod), negate);
-    }
-
-
-    public BigDecimal setTotalAndTax(InvoiceItem invoiceItem, BigDecimal totalPeriod) {
-        return setTotalAndTax(invoiceItem, totalPeriod, false);
     }
 
     /**
