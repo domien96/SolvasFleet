@@ -50,7 +50,7 @@ public class PaymentPdfView extends InvoicePdfView {
 
         // grand totals
         //document.add(getTotalsTable(String.valueOf(invoice.getTotalAmount()),"€"));
-        PdfPTable table = new PdfPTable(4);
+        PdfPTable table = new PdfPTable(5);
         table.setWidthPercentage(FULL_WIDTH);
 
         // Add the title
