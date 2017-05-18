@@ -1,10 +1,15 @@
 package solvas.authorization;
 
+import org.junit.Test;
 import solvas.rest.RestTestFixtures;
 import solvas.rest.api.models.ApiCompany;
 import solvas.rest.api.models.ApiModel;
 
+import java.util.ArrayList;
+
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 public class CompanyAuthorizationTest extends AbstractAuthorizationTest{
 
@@ -28,4 +33,9 @@ public class CompanyAuthorizationTest extends AbstractAuthorizationTest{
         return company;
     }
 
+    @Override
+    public void userCantReadModels() throws Exception {
+        getMockMvc().perform(auth(get(getUrl()),nopermissionToken))
+                .andExpect(jsonPath("data").value(new ArrayList<ApiCompany>()));
+    }
 }
