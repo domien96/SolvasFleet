@@ -8,15 +8,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import solvas.authorization.ApiPermissionStrings;
 import solvas.authorization.CompanyExtractor;
-import solvas.rest.utils.PagedResult;
-import solvas.service.models.Company;
 import solvas.rest.api.models.ApiCompany;
-import solvas.rest.query.CompanyFilter;
-import solvas.service.CompanyService;
+import solvas.rest.query.CompanyInListFilter;
 import solvas.rest.utils.PagedResult;
-
+import solvas.service.CompanyService;
+import solvas.service.models.Company;
 
 import javax.validation.Valid;
 import java.util.Collection;
@@ -55,7 +52,7 @@ public class CompanyRestController extends AbstractRestController<Company,ApiCom
      * @return ResponseEntity
      */
     @RequestMapping(value = "/companies", method = RequestMethod.GET)
-    public ResponseEntity<?> listAll(Pageable pagination, CompanyFilter filter, BindingResult result) {
+    public ResponseEntity<?> listAll(Pageable pagination, CompanyInListFilter filter, BindingResult result) {
         // If there are errors in the filtering, send bad request.
         if (result.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -66,7 +63,8 @@ public class CompanyRestController extends AbstractRestController<Company,ApiCom
         if(companyIds == null) {
             pagedResult = new PagedResult<>(service.findAll(pagination, filter));
         } else {
-            pagedResult = new PagedResult<>(service.findAll(pagination, filter, companyIds));
+            filter.setIds(companyIds);
+            pagedResult = new PagedResult<>(service.findAll(pagination, filter));
         }
 
         return new ResponseEntity<>(pagedResult, HttpStatus.OK);
