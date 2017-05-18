@@ -31,7 +31,7 @@ public class VehicleService extends AbstractService<Vehicle,ApiVehicle>{
      */
     @Autowired
     public VehicleService(DaoContext context, VehicleMapper mapper) {
-        super(context.getVehicleDao(), mapper);
+        super(context.getVehicleDao(),context, mapper);
         this.vehicleTypesDao = context.getVehicleTypeDao();
     }
 

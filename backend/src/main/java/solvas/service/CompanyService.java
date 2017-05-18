@@ -33,8 +33,8 @@ public class CompanyService extends AbstractService<Company,ApiCompany> {
         super(context.getCompanyDao(),context, mapper);
     }
 
-
-
+    @Autowired
+    private FleetService fleetService;
 
     @Override
     public void archive(int id) throws EntityNotFoundException, UnarchivableException {
@@ -48,7 +48,6 @@ public class CompanyService extends AbstractService<Company,ApiCompany> {
         }
 
         // Archive each fleet associated with this company
-        FleetService fleetService = new FleetService(context, new FleetMapper(context));
         for (Fleet fleet : context.getFleetDao().findByCompany(company)) {
             fleetService.archive(fleet.getId());
         }

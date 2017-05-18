@@ -114,7 +114,7 @@ public class AuditInterceptor extends EmptyInterceptor {
             revision.setMethod(MethodType.UPDATE); // Fleet subscriptions are updates to the vehicle
         }
         try {
-            revision.setPayload(objectMapper.writeValueAsString(mapperContext.getMapperForClass(about.getClass()).convertToApiModel((Model) about)));
+            revision.setPayload(objectMapper.writeValueAsString(mapperContext.getMapperForClass(entity.getClass()).convertToApiModel((Model) about)));
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e); // Can we even catch an exception at this point
         }
