@@ -1,6 +1,5 @@
 package solvas.authorization;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import solvas.rest.RestTestFixtures;
 import solvas.rest.api.models.ApiCompany;
 import solvas.rest.api.models.ApiModel;

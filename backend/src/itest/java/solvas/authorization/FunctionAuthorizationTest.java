@@ -1,6 +1,5 @@
 package solvas.authorization;
 
-import com.sun.org.apache.regexp.internal.RE;
 import solvas.rest.RestTestFixtures;
 import solvas.rest.api.models.ApiFunction;
 import solvas.rest.api.models.ApiModel;
