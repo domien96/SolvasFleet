@@ -32,4 +32,7 @@ public final class ApiPermissionStrings {
     public static final String WRITE_USERS = "write:users";
     public static final String WRITE_COMPANY_INVOICES = "write:company:invoices";
     public static final String WRITE_COMPANIES_INVOICES = "write:companies:invoices";
+
+    // Permissions for the third milestone
+    public static final String READ_REVISIONS = "read:revisions";
 }

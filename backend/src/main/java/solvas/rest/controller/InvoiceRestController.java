@@ -51,7 +51,7 @@ public class InvoiceRestController extends AbstractRestController<Invoice, ApiIn
      * @param id The ID of the fleet.
      * @return The response.
      */
-    @RequestMapping(value = "/fleets/{id}/invoices/current.pdf", method = RequestMethod.GET)
+    @RequestMapping(value = "/companies/{companyId}/fleets/{id}/invoices/current.pdf", method = RequestMethod.GET)
     @PreAuthorize("hasPermission(#id, 'fleet', 'READ_INVOICES')")
     public Object getCurrentPdfByFleetId(@PathVariable int id) throws EntityNotFoundException {
         return new ModelAndView(InvoiceFileViewResolver.BILLING_INVOICE_PDF_VIEW, InvoicePdfView.MODEL_NAME, invoiceService.findCurrentInvoice(id));
@@ -79,7 +79,7 @@ public class InvoiceRestController extends AbstractRestController<Invoice, ApiIn
      * @param type The type of invoice.
      * @return The response.
      */
-    @RequestMapping(value = "/fleets/{id}/invoices/current", method = RequestMethod.GET)
+    @RequestMapping(value = "/companies/{companyId}/fleets/{id}/invoices/current", method = RequestMethod.GET)
     @PreAuthorize("hasPermission(#id, 'fleet', 'READ_INVOICES')")
     public ResponseEntity<?> getActiveByFleetId(@PathVariable int id, @RequestParam("type") String type) throws EntityNotFoundException {
         InvoiceType invtype = InvoiceType.fromString(type);
@@ -95,7 +95,7 @@ public class InvoiceRestController extends AbstractRestController<Invoice, ApiIn
      * @param id The ID of the invoice.
      * @return The response.
      */
-    @RequestMapping(value = "/fleets/{fleetId}/invoices/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/companies/{companyId}/fleets/{fleetId}/invoices/{id}", method = RequestMethod.GET)
     @PreAuthorize("hasPermission(#id, 'invoice', 'READ')")
     public ResponseEntity<?> getByFleetAndInvoiceId(@PathVariable int id) {
         return super.getById(id);
@@ -108,7 +108,7 @@ public class InvoiceRestController extends AbstractRestController<Invoice, ApiIn
      * @param id      The ID of the invoice.
      * @return The response.
      */
-    @RequestMapping(value = "/fleets/{fleetId}/invoices/{id}.pdf", method = RequestMethod.GET)
+    @RequestMapping(value = "/companies/{companyId}/fleets/{fleetId}/invoices/{id}.pdf", method = RequestMethod.GET)
     @PreAuthorize("hasPermission(#id, 'invoice', 'READ')")
     public ModelAndView getByFleetAndInvoiceIdWithExtension(@PathVariable int fleetId, @PathVariable int id) throws EntityNotFoundException {
         Invoice invoice = invoiceDao.find(id);
@@ -125,7 +125,7 @@ public class InvoiceRestController extends AbstractRestController<Invoice, ApiIn
      * @param result     The validation results.
      * @return The response.
      */
-    @RequestMapping(value = "/fleets/{id}/invoices", method = RequestMethod.GET)
+    @RequestMapping(value = "/companies/{companyId}/fleets/{id}/invoices", method = RequestMethod.GET)
     @PreAuthorize("hasPermission(#id, 'fleet', 'READ_INVOICES')")
     public ResponseEntity<?> getByFleetId(@PathVariable int id, Pageable pagination, InvoiceFilter filter, BindingResult result) throws EntityNotFoundException {
         filter.setFleet(id);

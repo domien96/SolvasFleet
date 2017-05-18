@@ -33,19 +33,15 @@ public class Application {
     }
 
     /**
-     * Automatically let Jackson convert CamelCase attributes to snake_case.
+     * We need a customized version of the object mapper.
      *
-     * @return The Jackson object mapper.
+     * @return The general object mapper for the application.
      */
     @Bean
     public ObjectMapper jacksonObjectMapper() {
-
         return new ObjectMapper()
                 .findAndRegisterModules()
                 .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-
-
-
     }
 
     @Bean

@@ -8,10 +8,28 @@ import java.util.Collection;
  * @author domien on 04/03/2017
  */
 public class Fleet extends Model {
+
+    /**
+     * The company who owns this fleet. (and thus all the vehicles of this fleet)
+     */
     private Company company;
+
+    /**
+     * The name of the fleet.
+     */
     private String name;
-    private int facturationPeriod; // In months
-    private int paymentPeriod; // In months
+
+    /**
+     * Period of facturation.
+     * In months
+     */
+    private int facturationPeriod;
+
+    /**
+     * Period of payment.
+     * In months
+     */
+    private int paymentPeriod;
 
     private Collection<FleetSubscription> subscriptions;
 

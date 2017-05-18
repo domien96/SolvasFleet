@@ -12,6 +12,8 @@ import solvas.persistence.api.dao.*;
 @Service
 public class HibernateDaoContext implements DaoContext {
 
+
+
     /**
      * Create DaoContext with Dao's
      * @param companyDao Dao for companies
@@ -28,6 +30,20 @@ public class HibernateDaoContext implements DaoContext {
      * @param invoiceDao Dao for invoices
      * @param taxDao Dao for taxes
      * @param invoiceItemDao Dao for invoice items
+     * @param companyDao
+     * @param fleetDao
+     * @param fleetSubscriptionDao
+     * @param roleDao
+     * @param userDao
+     * @param vehicleDao
+     * @param vehicleTypeDao
+     * @param contractDao
+     * @param insuranceTypeDao
+     * @param functionDao
+     * @param permissionDao
+     * @param invoiceDao
+     * @param taxDao
+     * @param revisionDao
      */
     @Autowired
     public HibernateDaoContext(CompanyDao companyDao, FleetDao fleetDao, FleetSubscriptionDao fleetSubscriptionDao,
@@ -35,7 +51,7 @@ public class HibernateDaoContext implements DaoContext {
                                VehicleTypeDao vehicleTypeDao, ContractDao contractDao,
                                InsuranceTypeDao insuranceTypeDao,InvoiceDao invoiceDao,
                                TaxDao taxDao, FunctionDao functionDao, PermissionDao permissionDao,
-                               InvoiceItemDao invoiceItemDao) {
+                               InvoiceItemDao invoiceItemDao, RevisionDao revisionDao) {
         this.companyDao = companyDao;
         this.fleetDao = fleetDao;
         this.fleetSubscriptionDao = fleetSubscriptionDao;
@@ -50,6 +66,7 @@ public class HibernateDaoContext implements DaoContext {
         this.invoiceDao=invoiceDao;
         this.taxDao=taxDao;
         this.invoiceItemDao = invoiceItemDao;
+        this.revisionDao = revisionDao;
     }
 
     private CompanyDao companyDao;
@@ -148,5 +165,11 @@ public class HibernateDaoContext implements DaoContext {
     @Override
     public InvoiceItemDao getInvoiceItemDao() {
         return invoiceItemDao;
+    }
+    private final RevisionDao revisionDao;
+
+    @Override
+    public RevisionDao getRevisionDao() {
+        return revisionDao;
     }
 }

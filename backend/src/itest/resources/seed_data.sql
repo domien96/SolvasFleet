@@ -40,8 +40,17 @@ INSERT INTO "fleet_subscriptions" (fleet_subscription_id,start_date,end_date,upd
 INSERT INTO "fleet_subscriptions" (fleet_subscription_id,start_date,end_date,updated_at,created_at,vehicle_id,fleet_id) VALUES (4,'2016-02-21','2015-11-16','2015-11-16 02:19:13','2016-05-31 19:12:09',3,2);
 
 
+INSERT INTO "revisions" (revision_id,entity_type,user_id,entity_id,logDate,method) VALUES (1,'VEHICLE',1,1,'2016-05-31 19:12:09',1);
+INSERT INTO "revisions" (revision_id,entity_type,user_id,entity_id,logDate,method) VALUES (2,'USER',1,1,'2016-05-31 19:12:09',1);
+
+
+
+
+
+
 SELECT setval('users_user_id_seq', (SELECT MAX(user_id) FROM users));
 SELECT setval('companies_company_id_seq', (SELECT MAX(company_id) FROM companies));
 SELECT setval('vehicles_vehicle_id_seq', (SELECT MAX(vehicle_id) FROM vehicles));
 SELECT setval('fleets_fleet_id_seq', (SELECT MAX(fleet_id) FROM fleets));
 SELECT setval('fleet_subscriptions_fleet_subscription_id_seq', (SELECT MAX(fleet_subscription_id) FROM fleet_subscriptions));
+SELECT setval('revisions_revision_id_seq', (SELECT MAX(revision_id) FROM revisions));
