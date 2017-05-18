@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import solvas.persistence.api.EntityNotFoundException;
@@ -37,8 +38,8 @@ public class CommissionRestController extends AbstractRestController<Commission,
         commissionService=service;
     }
 
-
     @RequestMapping(value = "/commissions/{id}", method = RequestMethod.PUT)
+    @PreAuthorize("hasPermission(#id, 'commission', 'EDIT')")
     public ResponseEntity<?> put(@PathVariable int id, @Valid @RequestBody ApiCommission input, BindingResult result) {
         return super.put(id, input,result);
     }
@@ -53,6 +54,7 @@ public class CommissionRestController extends AbstractRestController<Commission,
      * @throws EntityNotFoundException If the Commission was not found.
      */
     @RequestMapping(value = "/commissions/{id}", method = RequestMethod.DELETE)
+    @PreAuthorize("hasPermission(#id, 'commission', 'READ')")
     public ResponseEntity<?> deleteById(@PathVariable int id) throws EntityNotFoundException, UndeletableException {
         commissionService.destroy(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -66,6 +68,7 @@ public class CommissionRestController extends AbstractRestController<Commission,
      * @return Response with the saved model, or 400.
      */
     @RequestMapping(value = "/commissions/vehicle/{id}/type/{type}", method = RequestMethod.POST)
+    @PreAuthorize("hasPermission(#input, 'CREATE')")
     public ResponseEntity<?> postVehicleCommission(@Valid @RequestBody ApiCommission input
             ,@PathVariable int id, @PathVariable String type, BindingResult result) {
         input.setInsuranceType(type);
@@ -85,6 +88,7 @@ public class CommissionRestController extends AbstractRestController<Commission,
      * @return Response with the saved model, or 400.
      */
     @RequestMapping(value = "/commissions/fleet/{fleetId}/type/{fleetType}/type/{type}", method = RequestMethod.POST)
+    @PreAuthorize("hasPermission(#input, 'CREATE')")
     public ResponseEntity<?> postFleetAndTypeCommission(@Valid @RequestBody ApiCommission input
             ,@PathVariable int fleetId, @PathVariable String fleetType, @PathVariable String type, BindingResult result) {
         input.setInsuranceType(type);
@@ -104,6 +108,7 @@ public class CommissionRestController extends AbstractRestController<Commission,
      * @return Response with the saved model, or 400.
      */
     @RequestMapping(value = "/commissions/fleet/{fleetId}/type/{type}", method = RequestMethod.POST)
+    @PreAuthorize("hasPermission(#input, 'CREATE')")
     public ResponseEntity<?> postFleetCommission(@Valid @RequestBody ApiCommission input
             ,@PathVariable int fleetId ,@PathVariable String type , BindingResult result) {
         input.setVehicleType(null);
@@ -122,6 +127,7 @@ public class CommissionRestController extends AbstractRestController<Commission,
      * @return Response with the saved model, or 400.
      */
     @RequestMapping(value = "/commissions/company/{companyId}/type/{type}", method = RequestMethod.POST)
+    @PreAuthorize("hasPermission(#input, 'CREATE')")
     public ResponseEntity<?> postCompanyCommission(@Valid @RequestBody ApiCommission input
             ,@PathVariable int companyId,@PathVariable String type, BindingResult result) {
         input.setVehicleType(null);
@@ -144,6 +150,7 @@ public class CommissionRestController extends AbstractRestController<Commission,
      * @return ResponseEntity
      */
     @RequestMapping(value = "/commissions", method = RequestMethod.GET)
+    @PreAuthorize("hasPermission(0, 'commission', 'READ')")
     public ResponseEntity<?> listAll(Pageable pagination, CommissionFilter filter, BindingResult result) {
         return super.listAll(pagination, filter, result);
     }

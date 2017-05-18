@@ -30,4 +30,7 @@ public final class ApiPermissionStrings {
     public static final String READ_USERS = "read:users";
     public static final String CREATE_USERS = "create:users";
     public static final String WRITE_USERS = "write:users";
+
+    public static final String READ_COMMISSIONS = "read:commissions";
+    public static final String WRITE_COMMISSIONS = "write:commissions";
 }
