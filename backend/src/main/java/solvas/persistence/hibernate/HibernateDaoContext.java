@@ -12,6 +12,8 @@ import solvas.persistence.api.dao.*;
 @Service
 public class HibernateDaoContext implements DaoContext {
 
+
+
     /**
      * Create DaoContext with Dao's
      * @param companyDao
@@ -27,13 +29,14 @@ public class HibernateDaoContext implements DaoContext {
      * @param permissionDao
      * @param invoiceDao
      * @param taxDao
+     * @param revisionDao
      */
     @Autowired
     public HibernateDaoContext(CompanyDao companyDao, FleetDao fleetDao, FleetSubscriptionDao fleetSubscriptionDao,
                                RoleDao roleDao, UserDao userDao, VehicleDao vehicleDao,
                                VehicleTypeDao vehicleTypeDao, ContractDao contractDao,
                                InsuranceTypeDao insuranceTypeDao,InvoiceDao invoiceDao,
-                               TaxDao taxDao, FunctionDao functionDao, PermissionDao permissionDao) {
+                               TaxDao taxDao, FunctionDao functionDao, PermissionDao permissionDao, RevisionDao revisionDao) {
         this.companyDao = companyDao;
         this.fleetDao = fleetDao;
         this.fleetSubscriptionDao = fleetSubscriptionDao;
@@ -47,6 +50,7 @@ public class HibernateDaoContext implements DaoContext {
         this.permissionDao = permissionDao;
         this.invoiceDao=invoiceDao;
         this.taxDao=taxDao;
+        this.revisionDao = revisionDao;
     }
 
     private CompanyDao companyDao;
@@ -139,5 +143,12 @@ public class HibernateDaoContext implements DaoContext {
     @Override
     public TaxDao getTaxDao() {
         return taxDao;
+    }
+
+    private final RevisionDao revisionDao;
+
+    @Override
+    public RevisionDao getRevisionDao() {
+        return revisionDao;
     }
 }

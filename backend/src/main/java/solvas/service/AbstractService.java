@@ -70,6 +70,15 @@ public abstract class AbstractService<T extends Model,E extends ApiModel> {
     }
 
     /**
+     * Find all models.
+     *
+     * @return The models.
+     */
+    public List<E> findAll() {
+        return modelDao.findAll().stream().map(s -> mapper.convertToApiModel(s)).collect(Collectors.toList());
+    }
+
+    /**
      * @param spec the specifications/filters
      * @return the amount of models with specifications
      */
