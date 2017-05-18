@@ -152,7 +152,12 @@ public class InvoiceCorrector {
     }
 
     private BigDecimal getDayMultiplier(InvoiceItem invoiceItem, BigDecimal totalPeriod) {
-        long itemPeriod = ChronoUnit.DAYS.between(invoiceItem.getStartDate(), invoiceItem.getEndDate()) + 1;
+        long itemPeriod;
+        if (invoiceItem.getStartDate().equals(invoiceItem.getEndDate())) {
+            itemPeriod = 1;
+        } else {
+            itemPeriod = ChronoUnit.DAYS.between(invoiceItem.getStartDate(), invoiceItem.getEndDate());
+        }
         long totalPeriodInDays = ChronoUnit.DAYS.between(invoiceItem.getStartDate(),
                 invoiceItem.getStartDate().plusMonths(totalPeriod.longValue()));
 
