@@ -13,10 +13,8 @@ import solvas.service.invoices.InvoiceCorrector;
 import solvas.service.mappers.InvoiceMapper;
 import solvas.service.models.*;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -326,24 +324,6 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
                 .collect(Collectors.toSet());
         invoice.setItems(items);
         return invoice;
-    }
-
-    /**
-     * The number of days for the addition.
-     */
-    private long numberOfDaysAdded(Contract contract, Invoice invoice) {
-        long totalDays = ChronoUnit.DAYS.between(invoice.getStartDate(), invoice.getEndDate());
-        long skippedDays = ChronoUnit.DAYS.between(invoice.getStartDate(), contract.getStartDate());
-        return totalDays - skippedDays;
-    }
-
-    /**
-     * The number of days for the removal.
-     */
-    private long numberOfDaysRemoved(Contract contract, Invoice invoice) {
-        long totalDays = ChronoUnit.DAYS.between(invoice.getStartDate(), invoice.getEndDate());
-        long skippedDays = ChronoUnit.DAYS.between(invoice.getStartDate(), contract.getEndDate());
-        return totalDays - skippedDays;
     }
 
     /**
