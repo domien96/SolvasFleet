@@ -6,9 +6,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.api.models.ApiFunction;
 import solvas.rest.query.FunctionFilter;
 import solvas.service.AbstractService;
+import solvas.service.exceptions.UnarchivableException;
 import solvas.service.models.Function;
 
 import javax.validation.Valid;
@@ -69,7 +71,7 @@ public class FunctionRestController extends AbstractRestController<Function, Api
     @Override
     @RequestMapping(value = "/users/{userId}/functions/{id}", method = RequestMethod.DELETE)
     @PreAuthorize("hasPermission(#id, 'function', 'DELETE')")
-    public ResponseEntity<?> archiveById(@PathVariable int id) {
+    public ResponseEntity<?> archiveById(@PathVariable int id) throws EntityNotFoundException, UnarchivableException {
         return super.archiveById(id);
     }
 }
