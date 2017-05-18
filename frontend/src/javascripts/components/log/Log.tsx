@@ -29,7 +29,7 @@ class Log extends React.Component<{}, State> {
         after: '',
         before: '',
         method: '',
-        type: '',
+        entityType: '',
         user: ''
       },
       users: [],
@@ -50,6 +50,7 @@ class Log extends React.Component<{}, State> {
 
   fetchLog(query?: any, filter?: LogFilterData) {
     const queryFilter = filter;
+    console.log(filter);
     let newQuery: any;
     if (query) {
       newQuery = query;

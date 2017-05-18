@@ -22,7 +22,7 @@ class LogFilter extends React.Component<FilterProps, FilterState> {
   constructor() {
     super();
     this.state = {
-      filter: { after: '', before: '', method: '', type: '', user: '' },
+      filter: { after: '', before: '', method: '', entityType: '', user: '' },
       hidden: false,
       userData: [],
       typeDisplay: 'All types',
@@ -53,11 +53,11 @@ class LogFilter extends React.Component<FilterProps, FilterState> {
     const type = event;
     const newFilter = this.state.filter;
     if (type === 'allTypes') {
-      newFilter.type = '';
+      newFilter.entityType = '';
       const typeTranslation = T.translate('log.options.allTypes').toString();
       this.setState( {filter: newFilter, typeDisplay: typeTranslation} );
     } else {
-      newFilter.type = type;
+      newFilter.entityType = type;
       const typeTranslation = T.translate(`log.options.${type}`).toString();
       this.setState( { filter: newFilter, typeDisplay: typeTranslation } );
     }
@@ -88,14 +88,22 @@ class LogFilter extends React.Component<FilterProps, FilterState> {
 
   handleFilterStartDate(event: any) {
     const newFilter = this.state.filter;
-    newFilter.after = event;
+    if (event) {
+      newFilter.after = event.split('Z')[0];
+    } else {
+      newFilter.after = "";
+    }
     this.setState({ filter: newFilter });
     this.props.onFilter(newFilter);
   }
 
   handleFilterEndDate(event: any) {
     const newFilter = this.state.filter;
-    newFilter.before = event;
+    if (event) {
+      newFilter.before = event.split('Z')[0];
+    } else {
+      newFilter.before = "";
+    }
     this.setState({ filter: newFilter });
     this.props.onFilter(newFilter);
   }

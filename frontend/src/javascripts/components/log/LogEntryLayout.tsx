@@ -4,6 +4,7 @@ import Header from '../app/Header.tsx';
 import { th } from '../../utils/utils.ts';
 import Card from '../app/Card.tsx';
 import DetailTable from '../tables/DetailTable.tsx';
+import LogEntryTable from '../tables/LogEntryTable.tsx';
 
 interface Props {
   entry: LogEntryData;
@@ -109,6 +110,16 @@ const getInvoice = (entity: any) => {
   return data;
 };
 
+const getChangedValues = (oldEntity: any, newEntity: any) => {
+  const changed: number[] = [];
+  for (let i = 0; i < oldEntity.length; i++) {
+    if (oldEntity.label !== newEntity.label) {
+      changed.push(i);
+    }
+  }
+  return changed;
+}
+
 const Layout: React.StatelessComponent<Props> = props => {
 
   const { entry, oldEntry } = props;
@@ -137,35 +148,35 @@ const Layout: React.StatelessComponent<Props> = props => {
 
   if (newEntityType == "Company") {
     entityInfo = getCompany(entity);
-    if(oldEntry) oldEntityInfo = getCompany(oldEntity);
+    if (oldEntry) oldEntityInfo = getCompany(oldEntity);
   }
   if (newEntityType == "Function") {
     entityInfo = getFunction(entity);
-    if(oldEntry) oldEntityInfo = getFunction(oldEntity);
+    if (oldEntry) oldEntityInfo = getFunction(oldEntity);
   }
   if (newEntityType == "Vehicle") {
     entityInfo = getVehicle(entity);
-    if(oldEntry) oldEntityInfo = getVehicle(oldEntity);
+    if (oldEntry) oldEntityInfo = getVehicle(oldEntity);
   }
   if (newEntityType == "Role") {
     entityInfo = getRole(entity);
-    if(oldEntry) oldEntityInfo = getRole(oldEntity);
+    if (oldEntry) oldEntityInfo = getRole(oldEntity);
   }
   if (newEntityType == "User") {
     entityInfo = getUser(entity);
-    if(oldEntry) oldEntityInfo = getUser(oldEntity);
+    if (oldEntry) oldEntityInfo = getUser(oldEntity);
   }
   if (newEntityType == "Contract") {
     entityInfo = getContract(entity);
-    if(oldEntry) oldEntityInfo = getContract(oldEntity);
+    if (oldEntry) oldEntityInfo = getContract(oldEntity);
   }
   if (newEntityType == "Invoice") {
     entityInfo = getInvoice(entity);
-    if(oldEntry) oldEntityInfo = getInvoice(oldEntity);
+    if (oldEntry) oldEntityInfo = getInvoice(oldEntity);
   }
 
   let oldEntityDisplay = (<div></div>);
-  if(oldEntry) {
+  if (oldEntry) {
     oldEntityDisplay = (
       <div className='col-sm-6'>
         <Card>
@@ -173,7 +184,9 @@ const Layout: React.StatelessComponent<Props> = props => {
             <h3>Before {entry.method}</h3>
           </div>
           <div className='card-content'>
-            <DetailTable data={ oldEntityInfo }/>
+            <LogEntryTable 
+              data={ oldEntityInfo } 
+              changed={ getChangedValues(oldEntityInfo, entityInfo) } />
           </div>
         </Card>
       </div>

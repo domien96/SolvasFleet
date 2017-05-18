@@ -31,7 +31,7 @@ const InfoTable: React.StatelessComponent<Props> = props => {
 
   return (
     <div className='table-wrap'>
-      <table className='table table-striped table-hover'>
+      <table className='table table-striped table-hover table-responsive'>
         <thead className='thead-default'>
           <tr>{ tableHead }</tr>
         </thead>

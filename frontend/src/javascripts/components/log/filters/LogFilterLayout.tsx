@@ -42,13 +42,13 @@ const LogFilterLayout: React.StatelessComponent<Props> = props => {
 
   // Different choices for each type of log
   const typeAllTypes: Choice = createChoice(onFilterType, 'allTypes', 'log.options.types.allTypes');
-  const typeUser: Choice = createChoice(onFilterType, 'solvas.service.models.User', 'log.options.solvas.service.models.User');
-  const typeFunction: Choice = createChoice(onFilterType, 'solvas.service.models.Function', 'log.options.solvas.service.models.Function');
-  const typeCompany: Choice = createChoice(onFilterType, 'solvas.service.models.Company', 'log.options.solvas.service.models.Company');
-  const typeVehicle: Choice = createChoice(onFilterType, 'solvas.service.models.Vehicle', 'log.options.solvas.service.models.Vehicle');
-  const typeContract: Choice = createChoice(onFilterType, 'solvas.service.models.Contract', 'log.options.solvas.service.models.Contract');
-  const typeInvoice: Choice = createChoice(onFilterType, 'solvas.service.models.Invoice', 'log.options.solvas.service.models.Invoice');
-  const typeRole: Choice = createChoice(onFilterType, 'solvas.service.models.Role', 'log.options.solvas.service.models.Role');
+  const typeUser: Choice = createChoice(onFilterType, 'User', 'log.options.solvas.service.models.User');
+  const typeFunction: Choice = createChoice(onFilterType, 'Function', 'log.options.solvas.service.models.Function');
+  const typeCompany: Choice = createChoice(onFilterType, 'Company', 'log.options.solvas.service.models.Company');
+  const typeVehicle: Choice = createChoice(onFilterType, 'Vehicle', 'log.options.solvas.service.models.Vehicle');
+  const typeContract: Choice = createChoice(onFilterType, 'Contract', 'log.options.solvas.service.models.Contract');
+  const typeInvoice: Choice = createChoice(onFilterType, 'Invoice', 'log.options.solvas.service.models.Invoice');
+  const typeRole: Choice = createChoice(onFilterType, 'Role', 'log.options.solvas.service.models.Role');
 
   const types: Choice[] = [ typeAllTypes, typeUser, typeFunction, typeCompany, typeVehicle, typeContract, typeInvoice, typeRole ];
   const typeSelection: Selectionfield = { name: 'Entry type', title: typeDisplay, choices: types };
