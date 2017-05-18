@@ -54,11 +54,11 @@ class LogFilter extends React.Component<FilterProps, FilterState> {
     const newFilter = this.state.filter;
     if (type === 'allTypes') {
       newFilter.entityType = '';
-      const typeTranslation = T.translate('log.options.allTypes').toString();
+      const typeTranslation = T.translate('log.types.allTypes').toString();
       this.setState( {filter: newFilter, typeDisplay: typeTranslation} );
     } else {
       newFilter.entityType = type;
-      const typeTranslation = T.translate(`log.options.${type}`).toString();
+      const typeTranslation = T.translate(`log.types.${type}`).toString();
       this.setState( { filter: newFilter, typeDisplay: typeTranslation } );
     }
     this.props.onFilter(newFilter);
@@ -69,11 +69,11 @@ class LogFilter extends React.Component<FilterProps, FilterState> {
     const newFilter = this.state.filter;
     if (method === 'allMethods') {
       newFilter.method = '';
-      const typeTranslation = T.translate('log.options.allMethods').toString();
+      const typeTranslation = T.translate('log.methods.allMethods').toString();
       this.setState( {filter: newFilter, methodDisplay: typeTranslation} );
     } else {
       newFilter.method = method;
-      const typeTranslation = T.translate(`log.options.${method}`).toString();
+      const typeTranslation = T.translate(`log.methods.${method}`).toString();
       this.setState( { filter: newFilter, methodDisplay: typeTranslation } );
     }
     this.props.onFilter(newFilter);

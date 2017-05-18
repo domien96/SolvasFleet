@@ -41,25 +41,25 @@ const LogFilterLayout: React.StatelessComponent<Props> = props => {
   const { after, before, user } = filter;
 
   // Different choices for each type of log
-  const typeAllTypes: Choice = createChoice(onFilterType, 'allTypes', 'log.options.types.allTypes');
-  const typeUser: Choice = createChoice(onFilterType, 'User', 'log.options.solvas.service.models.User');
-  const typeFunction: Choice = createChoice(onFilterType, 'Function', 'log.options.solvas.service.models.Function');
-  const typeCompany: Choice = createChoice(onFilterType, 'Company', 'log.options.solvas.service.models.Company');
-  const typeVehicle: Choice = createChoice(onFilterType, 'Vehicle', 'log.options.solvas.service.models.Vehicle');
-  const typeContract: Choice = createChoice(onFilterType, 'Contract', 'log.options.solvas.service.models.Contract');
-  const typeInvoice: Choice = createChoice(onFilterType, 'Invoice', 'log.options.solvas.service.models.Invoice');
-  const typeRole: Choice = createChoice(onFilterType, 'Role', 'log.options.solvas.service.models.Role');
-  const typeFleet: Choice = createChoice(onFilterType, 'Fleet', 'log.options.solvas.service.models.Fleet');
+  const typeAllTypes: Choice = createChoice(onFilterType, 'allTypes', 'log.types.allTypes');
+  const typeUser: Choice = createChoice(onFilterType, 'User', 'log.types.User');
+  const typeFunction: Choice = createChoice(onFilterType, 'Function', 'log.types.Function');
+  const typeCompany: Choice = createChoice(onFilterType, 'Company', 'log.types.Company');
+  const typeVehicle: Choice = createChoice(onFilterType, 'Vehicle', 'log.types.Vehicle');
+  const typeContract: Choice = createChoice(onFilterType, 'Contract', 'log.types.Contract');
+  const typeInvoice: Choice = createChoice(onFilterType, 'Invoice', 'log.types.Invoice');
+  const typeRole: Choice = createChoice(onFilterType, 'Role', 'log.types.Role');
+  const typeFleet: Choice = createChoice(onFilterType, 'Fleet', 'log.types.Fleet');
 
   const types: Choice[] = [ typeAllTypes, typeUser, typeFunction, typeCompany, typeVehicle, typeContract, typeInvoice, typeRole, typeFleet ];
   const typeSelection: Selectionfield = { name: 'Entry type', title: typeDisplay, choices: types };
 
   // Different choices for each method 
-  const methodAllMethods: Choice = createChoice(onFilterMethod, 'allMethods', 'log.options.methods.allMethods');
-  const methodInsert: Choice = createChoice(onFilterMethod, 'insert', 'log.options.insert');
-  const methodUpdate: Choice = createChoice(onFilterMethod, 'update', 'log.options.update');
-  const methodArchive: Choice = createChoice(onFilterMethod, 'archive', 'log.options.archive');
-  const methodDelete: Choice = createChoice(onFilterMethod, 'delete', 'log.options.delete');
+  const methodAllMethods: Choice = createChoice(onFilterMethod, 'allMethods', 'log.methods.allMethods');
+  const methodInsert: Choice = createChoice(onFilterMethod, 'insert', 'log.methods.insert');
+  const methodUpdate: Choice = createChoice(onFilterMethod, 'update', 'log.methods.update');
+  const methodArchive: Choice = createChoice(onFilterMethod, 'archive', 'log.methods.archive');
+  const methodDelete: Choice = createChoice(onFilterMethod, 'delete', 'log.methods.delete');
 
   const methods: Choice[] = [ methodAllMethods, methodInsert, methodUpdate, methodArchive, methodDelete ];
   const methodSelection: Selectionfield = { name: 'Method', title: methodDisplay, choices: methods };
