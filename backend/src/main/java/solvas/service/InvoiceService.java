@@ -255,7 +255,7 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
             case BILLING:
                 return generateBillingInvoice(invoice);
             case CORRECTION:
-                return generateBillingInvoice(invoice);
+                return invoice;
             default:
                 throw new RuntimeException("Non-exhaustive enum switch!");
         }
