@@ -57,6 +57,7 @@ public class PaymentPdfView extends InvoicePdfView {
         table.addCell(getCell("Nummerplaat", Element.ALIGN_LEFT, font12b));
         table.addCell(getCell("Nettopremie", Element.ALIGN_LEFT, font12b));
         table.addCell(getCell("Taksen", Element.ALIGN_LEFT, font12b));
+        table.addCell(getCell("Aantal dagen actief", Element.ALIGN_LEFT, font12b));
         table.addCell(getCell("Totaal", Element.ALIGN_LEFT, font12b));
 
         NumberFormat formatter = NumberFormat.getPercentInstance();
@@ -68,6 +69,7 @@ public class PaymentPdfView extends InvoicePdfView {
             table.addCell(getCell(euroFormat.format(item.getContract().getPremium()), Element.ALIGN_RIGHT, font12));
 
             table.addCell(getCell(formatter.format(item.getTax()), Element.ALIGN_LEFT, font12b));
+            table.addCell(getCell(String.valueOf(item.getNumberOfDays()), Element.ALIGN_RIGHT, font12));
 
             table.addCell(getCell(euroFormat.format(item.getTotalAmount()), Element.ALIGN_LEFT, font12b));
         }
