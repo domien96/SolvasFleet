@@ -6,7 +6,9 @@ import java.util.Date;
 /**
  * Models overwritten taxes (Dutch: overschreven kosten)
  * Created by domien on 15/04/2017.
+ * @deprecated will be removed, which is why this model has not been documented.
  */
+@Deprecated
 public class OverwrittenTaxes extends Model {
 
     private BigDecimal forfaitair;
