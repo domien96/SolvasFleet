@@ -6,12 +6,17 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import solvas.rest.greencard.GreenCardViewResolver;
+import solvas.rest.greencard.pdf.GreenCardPdfView;
+import solvas.rest.invoices.InvoiceFileViewResolver;
 import solvas.service.models.Model;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.api.models.ApiModel;
@@ -30,54 +35,57 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 /**
  * Abstract class of the restcontrollers
+ *
  * @param <E> The ApiModel
  * @param <T> The Model
  */
 @RunWith(MockitoJUnitRunner.class)
-public abstract class AbstractRestControllerTest<T extends Model,E extends ApiModel> {
-     abstract AbstractRestController getController();
-     private E apiModel;
-     private Class<? extends E> clazz;
+public abstract class AbstractRestControllerTest<T extends Model, E extends ApiModel> {
+    abstract AbstractRestController getController();
+
+    private E apiModel;
+    private Class<? extends E> clazz;
 
     /**
      * Abstract test constructor
+     *
      * @param clazz the class we want to make random objects of.
      */
-    AbstractRestControllerTest(Class<?extends E> clazz)
-     {
-         this.clazz=clazz;
-     }
+    AbstractRestControllerTest(Class<? extends E> clazz) {
+        this.clazz = clazz;
+    }
 
     /**
      * Create a random model and its json representation
      */
-     @Before
-     public void config() throws JsonProcessingException {
-         apiModel=random(clazz);
-     }
+    @Before
+    public void config() throws JsonProcessingException {
+        apiModel = random(clazz);
+    }
 
     /**
      * Provides the Rest MVC mock
+     *
      * @return Rest MockMVC
      */
-    MockMvc getMockMvc()
-    {
-        return MockMvcBuilders.standaloneSetup(getController()).build();
+    MockMvc getMockMvc() {
+        return MockMvcBuilders
+                .standaloneSetup(getController())
+                .build();
     }
 
     /**
      * Provides a random test model
      */
-     E getTestModel()
-    {
+    E getTestModel() {
         return apiModel;
     }
 
     /**
      * Provides the json representation of the random test model
      */
-     String getTestJson() throws JsonProcessingException {
-        ObjectMapper mapper=new ObjectMapper();
+    String getTestJson() throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
         mapper.findAndRegisterModules();
         return mapper.writeValueAsString(getTestModel());
     }
@@ -85,7 +93,7 @@ public abstract class AbstractRestControllerTest<T extends Model,E extends ApiMo
     /**
      * Get the specific 'mocked' service
      */
-    protected abstract AbstractService<T,E> getService();
+    protected abstract AbstractService<T, E> getService();
 
     /**
      * Get the base url (eg /companies)
@@ -99,7 +107,8 @@ public abstract class AbstractRestControllerTest<T extends Model,E extends ApiMo
 
     /**
      * Match jsonmodel with apimodel (todo: simplify?)
-     * @param res the resultaction that mockMvc provides.
+     *
+     * @param res   the resultaction that mockMvc provides.
      * @param model the model we want to compare with the json result
      */
     public abstract void matchJsonModel(ResultActions res, E model) throws Exception;
@@ -124,11 +133,11 @@ public abstract class AbstractRestControllerTest<T extends Model,E extends ApiMo
     @Test
     public void getModelByIdNoError() throws Exception {
         when(getService().getById(anyInt())).thenReturn(getTestModel());
-        ResultActions res =getMockMvc().perform(get(getIdUrl()))
+        ResultActions res = getMockMvc().perform(get(getIdUrl()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(MockMvcResultHandlers.print());
-        matchJsonModel(res,getTestModel());
+        matchJsonModel(res, getTestModel());
     }
 
     /**
@@ -152,10 +161,10 @@ public abstract class AbstractRestControllerTest<T extends Model,E extends ApiMo
     @Test
     public void postModelNoError() throws Exception {
         when(getService().create(any())).thenReturn(getTestModel());
-        ResultActions resultActions=
+        ResultActions resultActions =
                 getMockMvc().perform(post(getBaseUrl()).contentType(MediaType.APPLICATION_JSON_UTF8).content(getTestJson()))
                         .andExpect(status().isOk());
-        matchJsonModel(resultActions,getTestModel());
+        matchJsonModel(resultActions, getTestModel());
     }
 
     /**
@@ -163,12 +172,12 @@ public abstract class AbstractRestControllerTest<T extends Model,E extends ApiMo
      */
     @Test
     public void putModelNoError() throws Exception {
-        when(getService().update(anyInt(),any())).thenReturn(getTestModel());
+        when(getService().update(anyInt(), any())).thenReturn(getTestModel());
         ResultActions resultActions =
                 getMockMvc().perform(put(getIdUrl()).contentType(MediaType.APPLICATION_JSON_UTF8).content(getTestJson()))
                         .andExpect(status().isOk())
                         .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
-        matchJsonModel(resultActions,getTestModel());
+        matchJsonModel(resultActions, getTestModel());
     }
 
     /**
@@ -176,7 +185,7 @@ public abstract class AbstractRestControllerTest<T extends Model,E extends ApiMo
      */
     @Test
     public void putModelNotFound() throws Exception {
-        when(getService().update(anyInt(),any())).thenThrow(new EntityNotFoundException());
+        when(getService().update(anyInt(), any())).thenThrow(new EntityNotFoundException());
         getMockMvc().perform(put(getIdUrl()).contentType(MediaType.APPLICATION_JSON_UTF8).content(getTestJson()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isNotFound());

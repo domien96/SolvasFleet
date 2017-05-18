@@ -1,11 +1,26 @@
 package solvas.rest;
 
 import org.joda.time.DateTime;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.validation.Validator;
+import org.springframework.web.servlet.ViewResolver;
+import solvas.persistence.api.DaoContext;
+import solvas.persistence.api.EntityNotFoundException;
+import solvas.persistence.api.dao.FleetSubscriptionDao;
+import solvas.persistence.api.dao.VehicleDao;
+import solvas.rest.greencard.GreenCardViewResolver;
+import solvas.rest.greencard.pdf.GreenCardPdfView;
+import solvas.service.mappers.exceptions.DependantEntityNotFound;
 import solvas.service.models.Vehicle;
 import solvas.rest.api.models.ApiVehicle;
 import solvas.rest.controller.AbstractRestController;
@@ -15,20 +30,31 @@ import solvas.service.VehicleService;
 
 import java.time.LocalDateTime;
 
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * Integration tests of the VehicleRestController
  * It checks HTTP responses and calls to the VehicleDao
  */
-public class VehicleRestControllerTest extends AbstractRestControllerTest<Vehicle,ApiVehicle>{
+public class VehicleRestControllerTest extends AbstractRestControllerTest<Vehicle,ApiVehicle> {
     @Mock
     private VehicleService vehicleService;
 
     @Mock
     private Validator validator;
 
+    @Mock
+    private DaoContext daoContext;
 
+    @Mock
+    private FleetSubscriptionDao fleetSubscriptionDao;
+
+    @Mock
+    private VehicleDao vehicleDao;
     /**
      * Constructor for specific VehicleController tests
      */
@@ -36,7 +62,21 @@ public class VehicleRestControllerTest extends AbstractRestControllerTest<Vehicl
         super(ApiVehicle.class);
     }
 
+    @Override
+    MockMvc getMockMvc() {
+        ViewResolver greenCardViewResolver = new GreenCardViewResolver(new GreenCardPdfView(daoContext));
+        return MockMvcBuilders
+                .standaloneSetup(getController())
+                .setViewResolvers(greenCardViewResolver)
+                .build();
+    }
 
+    @Before
+    public void setUp() throws DependantEntityNotFound, EntityNotFoundException {
+      //  super.setUp();
+        when(daoContext.getFleetSubscriptionDao()).thenReturn(fleetSubscriptionDao);
+        when(daoContext.getVehicleDao()).thenReturn(vehicleDao);
+    }
 
     /**
      * Match jsonmodel with ApiCompany
@@ -90,5 +130,12 @@ public class VehicleRestControllerTest extends AbstractRestControllerTest<Vehicl
     @Override
     public String getIdUrl() {
         return RestTestFixtures.VEHICLE_ID_URL;
+    }
+
+    @Test
+    public void greenCardDoesNotError() throws Exception {
+        when(getService().getById(anyInt())).thenReturn(getTestModel());
+        getMockMvc().perform(get(RestTestFixtures.VEHICLE_ID_URL+"/greencard.pdf"))
+                .andExpect(status().is2xxSuccessful());
     }
 }
