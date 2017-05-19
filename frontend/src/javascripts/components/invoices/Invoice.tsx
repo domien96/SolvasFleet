@@ -5,8 +5,8 @@ import InvoiceView from './InvoiceView.tsx';
 import { fetchInvoice, fetchInvoicePdf } from '../../actions/fleet_actions.ts';
 
 interface Props {
-  params: { fleetId: number, invoiceId: number };
-  fetchInvoices: () => void;
+  params : { companyId: number, fleetId: number, invoiceId: number };
+  fetchInvoices : () => void;
 }
 
 interface State {
@@ -22,19 +22,20 @@ class Invoice extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    this.fetchInvoice(this.props.params.fleetId, this.props.params.invoiceId);
+    this.fetchInvoice(this.props.params.companyId, this.props.params.fleetId, this.props.params.invoiceId);
   }
 
-  fetchInvoice(fleetId: number, invoiceId: number) {
-    fetchInvoice(fleetId, invoiceId, ((data) => {
-      this.setState({ invoice: data });
-    }), undefined, { type: 'billing' });
+
+  fetchInvoice(companyId: number, fleetId: number, invoiceId: number) {
+    fetchInvoice(companyId, fleetId, invoiceId, ((data: any) => {
+      this.setState({ invoice: data })
+    }), undefined, {type:'billing'});
   }
 
-  handleDownload() {
-    const { fleetId, invoiceId } = this.props.params;
-    fetchInvoicePdf(fleetId, invoiceId, ((data: any) => {
-      FileSaver.saveAs(data, `invoice${invoiceId}.${'pdf'}`);
+  handleDownload(){
+    const { companyId, fleetId, invoiceId } = this.props.params;
+    fetchInvoicePdf(companyId, fleetId, invoiceId, ((data: any) => {
+      FileSaver.saveAs(data, `invoice${invoiceId}.pdf`);
     }), undefined, { type: 'billing' });
   }
 
@@ -46,3 +47,4 @@ class Invoice extends React.Component<Props, State> {
 }
 
 export default Invoice;
+

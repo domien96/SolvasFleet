@@ -171,7 +171,6 @@ class Fleet extends React.Component<FleetProps, FleetState> {
   }
 
   render () {
-
     return (
       <div>
         <Header>
@@ -186,8 +185,7 @@ class Fleet extends React.Component<FleetProps, FleetState> {
             </button>
           </Confirm>
         </Header>
-        <InvoiceActions fleet={ this.props.params.id }/>
-
+        <InvoiceActions fleet={ this.props.params.id } companyId={ this.props.params.companyId }/>
         <div className='wrapper'>
           <div className='row'>
               <div className='col-md-12 col-lg-3'>
@@ -201,7 +199,6 @@ class Fleet extends React.Component<FleetProps, FleetState> {
                 fleet={ this.state.unsavedFleet } handleChange={ this.handleChange } onSubmit = { this.onSubmit }/>
             </div>
           </div>
-
         <div className='row'>
           <div className='col-md-12'>
             <Card>
