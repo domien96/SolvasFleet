@@ -6,9 +6,10 @@ import { hasError } from '../../../utils/utils.ts';
 import { redirect_to } from '../../../routes/router.tsx';
 import T from 'i18n-react';
 import FunctionForm from './form/FunctionForm.tsx';
+import Errors from '../../../modules/Errors.ts';
 
 interface Props {
-  params: { id: string };
+  params: { id: number };
 }
 
 interface State{
@@ -54,15 +55,11 @@ class CreateUserFunction extends React.Component<Props, State> {
     this.state.Sfunctions.map((Sfunction: SFunctionData) => {
       e.preventDefault();
       let newSfunction: SFunctionData = Sfunction;
-      newSfunction['user'] = parseInt(this.props.params.id, 10);
-      let setErrors = (e: Form.Error[]) => this.setState({ errors: e });
-      let success = () => redirect_to(`/users/${this.props.params.id}`);
-      let fail = (data: any) => {
-        setErrors(data.errors.map(function(e: any) {
-          return { field: e, error: 'null' };
-        }));
-      }
-      postFunction(parseInt(this.props.params.id, 10), newSfunction, success, fail);
+      newSfunction['user'] = this.props.params.id;
+      const setErrors = (e: Form.Error[]) => this.setState({ errors: e });
+      const success = () => redirect_to(`/users/${this.props.params.id}`);
+
+      postFunction(this.props.params.id, newSfunction, success, Errors.handle(setErrors));
     })
   }
 

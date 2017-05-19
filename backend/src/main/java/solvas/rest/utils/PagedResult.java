@@ -16,7 +16,6 @@ public class PagedResult<T> extends JsonListWrapper<T> {
 
     private static final String PAGE_LIMIT_KEY = "limit";
     private static final String PAGE_OFFSET_KEY = "offset";
-    private static final String PAGE_TOTAL_KEY = "total";
     private static final String PAGE_FIRST_KEY = "first";
     private static final String PAGE_LAST_KEY = "last";
     private static final String PAGE_PREVIOUS_KEY = "previous";

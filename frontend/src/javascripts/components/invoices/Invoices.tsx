@@ -5,7 +5,7 @@ import { redirect_to } from '../../routes/router.tsx';
 import InvoicesView from './InvoicesView.tsx';
 
 interface Props {
-  [ params: string ]: { [ fleetId: string ]: number };
+  [ params: string ]: { fleetId: number, companyId: number };
 }
 
 interface State {
@@ -20,25 +20,25 @@ class Invoices extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    if (this.props.params.fleetId) {
-      this.fetchInvoices(this.props.params.fleetId);
+    if(this.props.params.companyId && this.props.params.fleetId){
+      this.fetchInvoices(this.props.params.companyId, this.props.params.fleetId);
     }
   }
 
-  componentWillReceiveProps(nextProps: any) {
-    if (nextProps.params.id !== this.props.params.fleetId) {
-      this.fetchInvoices(nextProps.params.fleetIid);
+  componentWillReceiveProps(nextProps: any){
+    if (nextProps.params.id !== this.props.params.fleetId){
+      this.fetchInvoices(nextProps.params.companyId, nextProps.params.fleetIid);
     }
   }
 
-  fetchInvoices(fleetId: number) {
-    fetchInvoices(fleetId, ((data: Invoices.Data) => {
-      this.setState({ invoices: data.data });
+  fetchInvoices(companyId: number, fleetId: number) {
+    fetchInvoices(companyId, fleetId, ((data: Invoices.Data) => {
+      this.setState({ invoices: data.data })
     }));
   }
 
   handleClick(id: number) {
-    redirect_to(`fleets/${this.props.params.fleetId}/invoices/${id}`);
+    redirect_to(`clients/${this.props.params.companyId}/fleets/${this.props.params.fleetId}/invoices/${id}`);
   }
 
   render() {

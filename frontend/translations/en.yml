@@ -3,6 +3,7 @@ app:
   actions: Actions
   cancel: Cancel
   signOut: Sign out
+  signedInStatus: Signed in as
 
 login:
   submit: Login
@@ -22,13 +23,15 @@ company:
     country: Country
   addNew: Add New Company
   edit: Edit Company
-  types: Type 
+  types: Type
   type:
-    LeasingCompany: Leasing company 
-    InsuranceCompany: Insurance company 
+    LeasingCompany: Leasing company
+    InsuranceCompany: Insurance company
     Customer: Customer
 
 vehicle:
+  vehicle: Vehicle
+  id: Vehicle ID
   vehicles: Vehicles
   noVehicle: No vehicle selected
   licensePlate: License plate
@@ -78,6 +81,11 @@ fleet:
     perTrimester: Per Trimester
     perSemester: Per Semester
   addNew: Add a new fleet
+  settings: Fleet settings
+  addVehicle: Add a vehicle
+  actions: Fleet actions
+  addToFleet: Add to fleet
+  chooseVin: Choose VIN
 
 subfleet:
   id: ID
@@ -85,8 +93,11 @@ subfleet:
   size: Size
 
 function: 
+  function: Function
+  id: Function ID
   functions: Functions
   role: Role
+  user: User
   company: Company
   addNew: Add New Function
   createNew: Create a new function
@@ -94,22 +105,25 @@ function:
 permission:
   permissions: Permissions
   action: Action
-  resource: Resource 
+  resource: Resource
 
 role:
   roles: Roles
-  name: Name 
+  name: Name
   permissions: Permissions
-  addNew: Create New Role 
+  addNew: Create New Role
   edit: Edit Role
+
+auth:
+  permissionSettings: Permission Settings
 
 invoice:
   id: Invoice ID
-  fleet: Fleet ID 
+  fleet: Fleet ID
   paid: Paid
-  totalAmount: Total amount due 
-  type: Type 
-  startDate: Start date 
+  totalAmount: Total amount due
+  type: Type
+  startDate: Start date
   endDate: End date
   showCurrent: Show current invoice
   showAll: Show all invoices
@@ -132,6 +146,36 @@ contract:
     DriverInsurance: Driver insurance
     TravelInsurance: Travel insurance
 
+log:
+  log: Log    
+  entry: Log Entry
+  id: Entry ID 
+  user: By User 
+  method: Method
+  entityType: Type
+  entity: Entity ID
+  after: After
+  before: Before
+  logDate: Entry Date 
+  none:
+    title: Application Log
+  types:
+    allTypes: All types
+    Function: Function
+    Company: Company 
+    User: User 
+    Vehicle: Vehicle 
+    Contract: Contract 
+    Invoice: Invoice
+    Role: Role
+    Fleet: Fleet
+  methods:
+    allMethods: All methods 
+    insert: Insert 
+    update: Update 
+    archive: Archive 
+    delete: Delete
+
 form:
   create: Create
   update: Update
@@ -140,7 +184,7 @@ form:
     email: Email
     password: Password
 
-table: 
+table:
   actions: Actions
   none:
     information: In the left section you can see all the {subject}s registered in this application. By clicking on one, you can select it, whereby this section will be replaced by this {subject}'s information. You will also receive the possibility to edit or remove the {subject}.
@@ -153,6 +197,7 @@ errors:
   pageNotFound: For Some Reason The Page You Requested Could Not Be Found On Our Server
   MISSING: is empty, please enter a value
   WRONG_FORMAT: does not have the right format
+  NOT_UNIQUE: must be unique, but is already in the database
 
 csv:
   import:

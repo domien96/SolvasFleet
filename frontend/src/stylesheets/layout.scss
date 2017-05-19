@@ -1,11 +1,13 @@
 @import './variables.scss';
 
 .all-wrapper {
-  height: 100%
+  height: 100%;
+  height: 100vh;
 }
 
 .page-wrapper {
   background-color: $gray-lighterer;
+  min-height: 100%;
   min-height: 100vh;
   padding: $top-padding 15px 0;
 }
