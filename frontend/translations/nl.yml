@@ -144,7 +144,15 @@ errors:
   null: is niet ingevuld
   404: Er is iets verkeerd gelopen!
   pageNotFound: De opgevraagde pagina kan momenteel niet worden gevonden op onze server
-
+  MISSING: is leeg, vul aub een waarde in.
+  WRONG_FORMAT: heeft een incorrect formaat
+  NOT_UNIQUE: zou uniek moeten zijn, maar werd al gebruikt
+  TOO_SMALL: is te klein, vul aub een grotere waarde in
+  TOO_BIG: is te groot, vul aub een kleinere waarde in
+  INVALID: is ongeldig, vul aub een correcte waarde in
+  NOT_FOUND: werd niet gevonden
+  WRONG_TYPE: heeft het verkeerde type
+  
 csv:
   import:
     success: Uw csv bestand werd succesvol geïmporteerd.
