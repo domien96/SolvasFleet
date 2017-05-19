@@ -18,7 +18,8 @@ CREATE TABLE commissions (
   FOREIGN KEY (fleet_id) REFERENCES fleets(fleet_id),
   FOREIGN KEY (vehicle_id) REFERENCES vehicles(vehicle_id),
   FOREIGN KEY (insurance_type_id) REFERENCES insurance_types(insurance_type_id),
-  UNIQUE (company_id,vehicletype_id,fleet_id,vehicle_id,insurance_type_id)
+  UNIQUE (company_id,vehicletype_id,fleet_id,vehicle_id,insurance_type_id),
+  UNIQUE (vehicle_id), UNIQUE(fleet_id,vehicletype_id), UNIQUE(company_id,fleet_id,vehicletype_id)
 );
 
 

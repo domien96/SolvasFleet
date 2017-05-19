@@ -26,7 +26,7 @@ public class ApiCommission extends ApiModel {
         this.vehicleType = vehicleType;
     }
 
-    @Min(value = 0) // No negative commission
+    @Min(value = 0) // No negative commission, in percent
     private long value;
 
 
@@ -34,7 +34,6 @@ public class ApiCommission extends ApiModel {
         return company;
     }
 
-    @JsonIgnore
     public void setCompany(int company) {
         this.company = company;
     }
@@ -51,7 +50,6 @@ public class ApiCommission extends ApiModel {
         return fleet;
     }
 
-    @JsonIgnore
     public void setFleet(int fleet) {
         this.fleet = fleet;
     }
@@ -60,7 +58,6 @@ public class ApiCommission extends ApiModel {
         return vehicle;
     }
 
-    @JsonIgnore
     public void setVehicle(int vehicle) {
         this.vehicle = vehicle;
     }
@@ -69,7 +66,6 @@ public class ApiCommission extends ApiModel {
         return value;
     }
 
-    @JsonIgnore
     public void setValue(long value) {
         this.value = value;
     }

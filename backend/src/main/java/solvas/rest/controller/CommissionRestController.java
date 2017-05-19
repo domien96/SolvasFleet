@@ -69,10 +69,7 @@ public class CommissionRestController extends AbstractRestController<Commission,
     public ResponseEntity<?> postVehicleCommission(@Valid @RequestBody ApiCommission input
             ,@PathVariable int id, @PathVariable String type, BindingResult result) {
         input.setInsuranceType(type);
-        input.setVehicleType(null);
         input.setVehicle(id);
-        input.setCompany(0);
-        input.setFleet(0);
         return super.post(input, result);
     }
 
@@ -89,8 +86,6 @@ public class CommissionRestController extends AbstractRestController<Commission,
             ,@PathVariable int fleetId, @PathVariable String fleetType, @PathVariable String insuranceType, BindingResult result) {
         input.setInsuranceType(insuranceType);
         input.setVehicleType(fleetType);
-        input.setVehicle(0);
-        input.setCompany(0);
         input.setFleet(fleetId);
         return super.post(input, result);
     }
@@ -106,10 +101,7 @@ public class CommissionRestController extends AbstractRestController<Commission,
     @RequestMapping(value = "/commissions/fleet/{fleetId}/type/{insuranceType}", method = RequestMethod.POST)
     public ResponseEntity<?> postFleetCommission(@Valid @RequestBody ApiCommission input
             ,@PathVariable int fleetId ,@PathVariable String insuranceType , BindingResult result) {
-        input.setVehicleType(null);
         input.setInsuranceType(insuranceType);
-        input.setVehicle(0);
-        input.setCompany(0);
         input.setFleet(fleetId);
         return super.post(input, result);
     }
