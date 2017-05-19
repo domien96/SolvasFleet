@@ -1,7 +1,7 @@
 swagger: '2.0'
 info:
-  version: "2.2.1"
-  title: Solvas Fleet API - Milestone 2
+  version: "3.0.0"
+  title: Solvas Fleet API - Milestone 3
   description: |
     The API definitions for the first Milestone.
 
@@ -86,7 +86,7 @@ securityDefinitions:
       "archive:users": "Archive users."
       "write:users:roles": "Adjust the roles for users."
       "token:refresh": "Use refresh tokens. This scope should not be added to the access token, only the refresh token."
-
+      "read:revisions": "Access to the revisions log."
 
 security:
   - token: []
@@ -2161,7 +2161,124 @@ paths:
           $ref: '#/responses/Unauthorised'
         '404':
           $ref: '#/responses/NotFound'
-    
+  /audit:
+    get:
+      summary: Get all revisions
+      description: |
+        Get a list of revisions, eventually filtered by the query parameters. When combining parameters,
+        the conditions are joined by AND. This means the resulting objects must satisfy all filters.
+        All the string filter operations are case insensitive.
+      security:
+        - token: ['read:revisions']
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: user
+          type: integer
+          description: The ID of the user that made the change.
+        - in: query
+          name: entityType
+          type: string
+          description: The entity type of the revision.
+        - in: query
+          name: method
+          type: string
+          description: What kind of change the revision is for.
+        - in: query
+          name: before
+          type: string
+          format: 'date-time'
+          description: Filter on revisions before a given date.
+        - in: query
+          name: after
+          type: string
+          format: 'date-time'
+          description: Filter on revsions after a given date.
+        - in: query
+          type: integer
+          name: page
+          description: The page to query.
+          default: 0
+        - in: query
+          name: limit
+          type: integer
+          description: The number of elements in a page.
+        - in: query
+          name: sort
+          type: string
+          description: |
+            Sort parameter. Support for this parameter is optional. If supported, any field in the json reprensentation
+            may be used to sort, as follows: ?sort=field,order. For example: `?sort=name,asc`.
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            required: [data, total, offset, limit]
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/Revision'
+              total:
+                description: Total number of items.
+                example: 50
+                type: integer
+              offset:
+                description: |
+                  The number of items before this page (exclusive). This means
+                  that when offset = 20, this page will contains items 20 to
+                  20 + limit. For limit = 10, it will be 20 - 29 (including 29).
+                example: 20
+                type: integer
+              limit:
+                description: The maximum number of items on a page.
+                example: 10
+                type: integer
+              previous:
+                description: Link to the previous page, if applicable.
+                example: /audit&page=1
+                type: string
+              next:
+                description: Link to the next page, if applicable.
+                type: string
+                example: /audit&page=20
+              first:
+                description: Link to the first page, if applicable.
+                type: string
+                example: /audit&page=0
+              last:
+                description: Link to the last page, if applicable.
+                type: string
+                example: /audit&page=100
+        400:
+          $ref: '#/responses/WrongQuery'
+        401:
+          $ref: '#/responses/Unauthorised'
+  /audit/{id}:
+    parameters:
+     -  name: id
+        in: path
+        description: ID of the revision
+        required: true
+        type: integer
+    get:
+      summary: Get one revision
+      security:
+        - token: ['read:revisions']
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Revision'
+        401:
+          $ref: '#/responses/Unauthorised'
+        404:
+          $ref: '#/responses/NotFound'
+
       
 responses:
   Malformed:
@@ -2662,3 +2779,63 @@ definitions:
         type: array
         items:
           type: string
+  Revision:
+    description: A revision of some other model.
+    type: object
+    properties:
+      id:
+        readOnly: true
+        type: integer
+        description: The ID of the revision.
+      entity:
+        readOnly: true
+        type: integer
+        description: |
+          The ID of the entity for which this is a revision. This ID is obviously only unique in the scope of it's
+          type, as defined by `entityType`.
+      entityType:
+        readOnly: true
+        type: string
+        description: |
+          The type of the entity for which this is a log. This value can be one of the following:
+          - Company
+          - Contract
+          - Fleet
+          - Function
+          - InsuranceType
+          - Invoice
+          - Permission
+          - Role
+          - Tax
+          - User
+          - Vehicle
+          - VehicleType
+      logDate:
+        readOnly: true
+        description: |
+          The date the revision was made. This is also the date the action on the model happened.
+        type: string
+        format: date-time
+        example: 2016-08-29T09:12:33
+      user:
+        readOnly: true
+        type: integer
+        description: |
+          The ID of the user that made this change.
+      method:
+        readOnly: true
+        type: string
+        description: |
+          The type of change that triggered this revision. This value can be one of the following:
+          - insert (a new model was added)
+          - update (an existing model was changed)
+          - delete (a model was deleted)
+          - archive (a model was archived)
+      payload:
+        readOnly: true
+        type: string
+        format: json
+        description: |
+          This field contains a JSON representation of the model. The JSON representation has the same format as defined
+          by the API for the relevant model (as indicated by the field `entityType`. Depending on the `method`, this
+          may be the state of the model before or after the operation was executed.
