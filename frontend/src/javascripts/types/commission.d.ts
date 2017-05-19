@@ -17,10 +17,10 @@ interface CommissionData {
 
 
 interface CommissionGroupData {
-  burgerlijkeAansprakelijkheid: CommissionData;
+  civilLiability: CommissionData;
   omnium: CommissionData;
-  rechtsbijstand: CommissionData;
-  veiligheid: CommissionData;
-  reisbijstand: CommissionData;
+  driverInsurance: CommissionData;
+  travelInsurance: CommissionData;
+  legalAid: CommissionData;
   [key: string]: CommissionData;
 }

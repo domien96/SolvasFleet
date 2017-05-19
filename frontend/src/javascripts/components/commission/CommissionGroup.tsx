@@ -64,11 +64,11 @@ class CommissionGroupForm extends React.Component<Props, {}> {
 
         <Collapse in = { this.props.showForm }>
           <div className='fleets commission-wrapper'>
-                      <COM className='border-bottom' value ={ this.props.commission.burgerlijkeAansprakelijkheid.value } label='Burgerlijke aansprakelijkheid' onChange={ this.props.handleChange('burgerlijkeAansprakelijkheid') }/>
-                      <COM className='border-bottom' value ={ this.props.commission.burgerlijkeAansprakelijkheid.value } label='Omnium' onChange={ this.props.handleChange('burgerlijkeAansprakelijkheid') }/>
-                      <COM className='border-bottom' value ={ this.props.commission.burgerlijkeAansprakelijkheid.value } label='Rechtsbijstand' onChange={ this.props.handleChange('burgerlijkeAansprakelijkheid') }/>
-                      <COM className='border-bottom' value ={ this.props.commission.burgerlijkeAansprakelijkheid.value } label='Veiligheid' onChange={ this.props.handleChange('burgerlijkeAansprakelijkheid') }/>
-                      <COM value ={ this.props.commission.burgerlijkeAansprakelijkheid.value } label='Reisbijstand' onChange={ this.props.handleChange('burgerlijkeAansprakelijkheid') }/>
+            <COM className='border-bottom' value ={ this.props.commission.civilLiability.value } label='commission.civilLiability' onChange={ this.props.handleChange('civilLiability') }/>
+            <COM className='border-bottom' value ={ this.props.commission.omnium.value } label='commission.omnium' onChange={ this.props.handleChange('omnium') }/>
+            <COM className='border-bottom' value ={ this.props.commission.driverInsurance.value } label='commission.driverInsurance' onChange={ this.props.handleChange('driverInsurance') }/>
+            <COM className='border-bottom' value ={ this.props.commission.travelInsurance.value } label='commission.travelInsurance' onChange={ this.props.handleChange('travelInsurance') }/>
+            <COM value ={ this.props.commission.legalAid.value } label='commission.legalAid' onChange={ this.props.handleChange('legalAid') }/>
           </div>
         </Collapse>
       </div>

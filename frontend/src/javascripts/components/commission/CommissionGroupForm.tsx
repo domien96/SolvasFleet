@@ -10,6 +10,7 @@ import { callback } from '../../actions/fetch_json.ts';
 interface Props {
   returnTo?: string;
   fetchCommission: (vehicleType: string, insuranceType: string, success?: callback, fail?: callback) => void;
+  putCommission: (vehicleType: string, insuranceType: string, commission: CommissionData, success?: callback, fail?: callback) => void;
 }
 
 interface Commissions {
@@ -33,6 +34,7 @@ interface CommissionToggles {
 interface State {
   toggles: CommissionToggles;
   commissions: Commissions;
+  initialCommissions: Commissions;
 }
 
 class CommissionGroupForm extends React.Component<Props, State> {
@@ -40,7 +42,7 @@ class CommissionGroupForm extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     const emptycommission = { id: 0, fleet: 0, vehicle: 0, company: 0, insuranceType: "", vehicleType: "", value: 0 };
-    const emptyCommissionGroup = { burgerlijkeAansprakelijkheid: emptycommission, omnium: emptycommission, rechtsbijstand: emptycommission, veiligheid: emptycommission, reisbijstand: emptycommission };
+    const emptyCommissionGroup = { civilLiability: emptycommission, omnium: emptycommission, legalAid: emptycommission, driverInsurance: emptycommission, travelInsurance: emptycommission };
     this.state = {
       toggles: {
         showVan: false,
@@ -50,6 +52,13 @@ class CommissionGroupForm extends React.Component<Props, State> {
         showPersonalVehicle: false
       },
       commissions: {
+        personalVehicle: emptyCommissionGroup,
+        van: emptyCommissionGroup,
+        truck: emptyCommissionGroup,
+        truck12: emptyCommissionGroup,
+        semiHeavyTruck: emptyCommissionGroup
+      },
+      initialCommissions: {
         personalVehicle: emptyCommissionGroup,
         van: emptyCommissionGroup,
         truck: emptyCommissionGroup,
@@ -85,14 +94,41 @@ class CommissionGroupForm extends React.Component<Props, State> {
 
   setCommission(vehicleType: string, insuranceType: string, commission: CommissionData) {
     let state: State = { ...this.state };
+    state.initialCommissions[vehicleType][insuranceType] = commission;
     state.commissions[vehicleType][insuranceType] = commission;
     this.setState({ ...state });
   }
 
   fetchCommission(vehicleType: string, insuranceType: string) {
     this.props.fetchCommission(vehicleType, insuranceType, (data) => {
+      console.log(data.data[0].value)
       this.setCommission(vehicleType, insuranceType, data);
+      console.log(data);
     });
+  }
+
+  putCommissionIfChanged(vehicleType: string, insuranceType: string, success?: callback) {
+    if(this.state.initialCommissions[vehicleType][insuranceType] != this.state.commissions[vehicleType][insuranceType]) {
+      const success = (data: any) => redirect_to(this.props.returnTo);
+      this.props.putCommission(vehicleType, insuranceType, this.state.commissions[vehicleType][insuranceType].value, success);
+    }
+  }
+
+  putCommissions() {
+    this.putCommissionsOfAllInsuranceTypes('personalVehicle');
+    this.putCommissionsOfAllInsuranceTypes('truck');
+    this.putCommissionsOfAllInsuranceTypes('truck12');
+    this.putCommissionsOfAllInsuranceTypes('semiHeavyTruck');
+    const success = (data: any) => redirect_to(this.props.returnTo);
+    this.putCommissionsOfAllInsuranceTypes('van', success)
+  }
+
+  putCommissionsOfAllInsuranceTypes(vehicleType: string, success?: callback) {
+    this.putCommissionIfChanged(vehicleType, 'civilLiability');
+    this.putCommissionIfChanged(vehicleType, 'omnium');
+    this.putCommissionIfChanged(vehicleType, 'driverInsurance');
+    this.putCommissionIfChanged(vehicleType, 'travelInsurance');
+    this.putCommissionIfChanged(vehicleType, 'legalAid', success);
   }
 
   fetchCommissions() {
@@ -104,11 +140,11 @@ class CommissionGroupForm extends React.Component<Props, State> {
   }
 
   fetchCommissionsOfAllInsuranceTypes(vehicleType: string) {
-    this.fetchCommission(vehicleType, 'burgerlijkeAansprakelijkheid');
+    this.fetchCommission(vehicleType, 'civilLiability');
     this.fetchCommission(vehicleType, 'omnium');
-    this.fetchCommission(vehicleType, 'rechtsbijstand');
-    this.fetchCommission(vehicleType, 'veiligheid');
-    this.fetchCommission(vehicleType, 'reisbijstand');
+    this.fetchCommission(vehicleType, 'driverInsurance');
+    this.fetchCommission(vehicleType, 'travelInsurance');
+    this.fetchCommission(vehicleType, 'legalAid');
   }
 
   render() {

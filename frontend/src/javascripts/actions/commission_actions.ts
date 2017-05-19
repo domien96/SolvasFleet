@@ -16,7 +16,7 @@ export function fetchGlobalCommission(vehicleType: string, insuranceType: string
 }
 
 export function fetchCommissionOfClient(vehicleType: string, insuranceType: string, clientId: number, success?: callback, fail?: callback) {
-  GET( COMMISSION_URL, success, fail, getCommissionQuery(vehicleType, insuranceType, -1, -1, clientId) );
+  GET( COMMISSION_URL, success, fail, getCommissionQuery(vehicleType, insuranceType, -1, -1, -1) );
 }
 
 export function fetchCommissionOfFleet(vehicleType: string, insuranceType: string, fleetId: number, success?: callback, fail?: callback) {
