@@ -3,6 +3,7 @@ app:
   actions: Actions
   cancel: Cancel
   signOut: Sign out
+  signedInStatus: Signed in as
 
 login:
   submit: Login
@@ -29,6 +30,8 @@ company:
     Customer: Customer
 
 vehicle:
+  vehicle: Vehicle
+  id: Vehicle ID
   vehicles: Vehicles
   noVehicle: No vehicle selected
   licensePlate: License plate
@@ -85,8 +88,11 @@ subfleet:
   size: Size
 
 function: 
+  function: Function
+  id: Function ID
   functions: Functions
   role: Role
+  user: User
   company: Company
   addNew: Add New Function
   createNew: Create a new function
@@ -102,6 +108,9 @@ role:
   permissions: Permissions
   addNew: Create New Role 
   edit: Edit Role
+
+auth:
+  permissionSettings: Permission Settings
 
 invoice:
   id: Invoice ID
@@ -131,6 +140,36 @@ contract:
     LegalAid: Legal aid
     DriverInsurance: Driver insurance
     TravelInsurance: Travel insurance
+
+log:
+  log: Log    
+  entry: Log Entry
+  id: Entry ID 
+  user: By User 
+  method: Method
+  entityType: Type
+  entity: Entity ID
+  after: After
+  before: Before
+  logDate: Entry Date 
+  none:
+    title: Application Log
+  types:
+    allTypes: All types
+    Function: Function
+    Company: Company 
+    User: User 
+    Vehicle: Vehicle 
+    Contract: Contract 
+    Invoice: Invoice
+    Role: Role
+    Fleet: Fleet
+  methods:
+    allMethods: All methods 
+    insert: Insert 
+    update: Update 
+    archive: Archive 
+    delete: Delete
 
 form:
   create: Create

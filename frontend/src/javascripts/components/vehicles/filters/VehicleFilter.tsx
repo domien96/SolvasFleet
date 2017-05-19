@@ -41,7 +41,9 @@ class VehicleFilter extends React.Component<FilterProps, FilterState> {
   }
 
   componentDidMount() {
-    this.setTypeaheadOptions(this.props.vehicles);
+    if (this.props.vehicles) {
+      this.setTypeaheadOptions(this.props.vehicles);
+    }
   }
 
   componentWillReceiveProps(nextProps: any) {
@@ -140,7 +142,6 @@ class VehicleFilter extends React.Component<FilterProps, FilterState> {
 
   render() {
     const { filter, typeDisplay, licensePlateData, vinData } = this.state;
-
     if (this.state.hidden || this.props.vehicles === []) {
       return(
         <HiddenFilter onReset={ this.handleReset } onShow={ this.handleShow }/>
