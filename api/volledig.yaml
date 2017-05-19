@@ -122,6 +122,13 @@ paths:
           type: string
           description: Filter by postal code.
         - in: query
+          name: archived
+          type: boolean
+          default: false
+          description: |
+            Show archived entities or not. If false, no archived entity will be shown, if true only archived
+            entities will be shown.
+        - in: query
           name: page
           type: integer
           description: The page to query.
@@ -313,6 +320,13 @@ paths:
           type: integer
           description: Filter by vehicle.
         - in: query
+          name: archived
+          type: boolean
+          default: false
+          description: |
+            Show archived entities or not. If false, no archived entity will be shown, if true only archived
+            entities will be shown.
+        - in: query
           name: type
           type: string
           description: Filter by type of contract.
@@ -411,6 +425,13 @@ paths:
           type: integer
           description: Filter by insurance company.
         - in: query
+          name: archived
+          type: boolean
+          default: false
+          description: |
+            Show archived entities or not. If false, no archived entity will be shown, if true only archived
+            entities will be shown.
+        - in: query
           name: type
           type: string
           description: Filter by type of contract.
@@ -492,6 +513,13 @@ paths:
           description: |
             Sort parameter. Support for this parameter is optional. If supported, any field in the json reprensentation
             may be used to sort, as follows: ?sort=field,order. For example: `?sort=name,asc`.
+        - in: query
+          name: archived
+          type: boolean
+          default: false
+          description: |
+            Show archived entities or not. If false, no archived entity will be shown, if true only archived
+            entities will be shown.
       produces:
         - application/json
       summary: Get all invoices.
@@ -699,6 +727,13 @@ paths:
           type: string
           description: Filter by vehicle type.
         - in: query
+          name: archived
+          type: boolean
+          default: false
+          description: |
+            Show archived entities or not. If false, no archived entity will be shown, if true only archived
+            entities will be shown.
+        - in: query
           name: page
           type: integer
           description: The page to query.
@@ -876,8 +911,6 @@ paths:
           $ref: '#/responses/Unauthorised'
         '404':
           $ref: '#/responses/NotFound'
-
-
   /vehicles/types:
     get:
       security:
@@ -999,6 +1032,13 @@ paths:
           name: type
           type: string
           description: Filter by type of contract.
+        - in: query
+          name: archived
+          type: boolean
+          default: false
+          description: |
+            Show archived entities or not. If false, no archived entity will be shown, if true only archived
+            entities will be shown.
         - in: query
           name: page
           type: integer
@@ -1213,6 +1253,13 @@ paths:
       - application/json
       parameters:
         - in: query
+          name: archived
+          type: boolean
+          default: false
+          description: |
+            Show archived entities or not. If false, no archived entity will be shown, if true only archived
+            entities will be shown.
+        - in: query
           name: page
           type: integer
           description: The page to query.
@@ -1381,6 +1428,13 @@ paths:
           $ref: '#/responses/Conflict'
   /companies/{companyId}/fleets/{fleetId}/vehicles: 
     parameters:
+        - in: query
+          name: archived
+          type: boolean
+          default: false
+          description: |
+            Show archived entities or not. If false, no archived entity will be shown, if true only archived
+            entities will be shown.
         - in: path
           name: companyId
           description: ID of Company
@@ -1883,6 +1937,13 @@ paths:
           type: string
           description: Filter by last name.
         - in: query
+          name: archived
+          type: boolean
+          default: false
+          description: |
+            Show archived entities or not. If false, no archived entity will be shown, if true only archived
+            entities will be shown.
+        - in: query
           type: integer
           name: page
           description: The page to query.
@@ -2069,6 +2130,13 @@ paths:
           name: role
           description: Filter by role
           type: integer
+        - in: query
+          name: archived
+          type: boolean
+          default: false
+          description: |
+            Show archived entities or not. If false, no archived entity will be shown, if true only archived
+            entities will be shown.
         - in: query
           name: page
           type: integer
@@ -2376,6 +2444,10 @@ definitions:
       url:
         readOnly: true
         type: string
+      archived:
+        type: boolean
+        description: |
+          If the model is archived or not. By default archived models will not be shown.
   Address:
     type: object
     required: [country, city, street, houseNumber, postalCode]
@@ -2456,6 +2528,10 @@ definitions:
         type: string
         format: url
         example: /vehicles/1
+      archived:
+        type: boolean
+        description: |
+          If the model is archived or not. By default archived models will not be shown.
   Role:
     description: |
       A `Role` represents a collection of permissions that are granted together. A role is not attached to an user directly;
@@ -2527,6 +2603,10 @@ definitions:
       url:
         readOnly: true
         type: string
+      archived:
+        type: boolean
+        description: |
+          If the model is archived or not. By default archived models will not be shown.
   User:
     type: object
     required: [firstName, lastName, email, password]
@@ -2569,6 +2649,10 @@ definitions:
         readOnly: true
         type: string
         example: "/users/"
+      archived:
+        type: boolean
+        description: |
+          If the model is archived or not. By default archived models will not be shown.
   Fleet:
     type: object
     required: [company]
@@ -2604,6 +2688,10 @@ definitions:
         readOnly: true
         type: string
         example: "/company/5/fleet/7"
+      archived:
+        type: boolean
+        description: |
+          If the model is archived or not. By default archived models will not be shown.
   Invoice:
     type: object
     required: [fleet, paid, totalAmount, type, startDate, endDate]
@@ -2647,6 +2735,10 @@ definitions:
         type: string
         format: date-time
         example: 2016-08-29T09:12:33.001Z
+      archived:
+        type: boolean
+        description: |
+          If the model is archived or not. By default archived models will not be shown.
       url:
         readOnly: true
         type: string
@@ -2699,6 +2791,10 @@ definitions:
         type: string
         format: date-time
         example: 2016-08-29T09:12:33.001Z
+      archived:
+        type: boolean
+        description: |
+          If the model is archived or not. By default archived models will not be shown.
       url:
         readOnly: true
         type: string
