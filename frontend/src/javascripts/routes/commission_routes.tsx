@@ -7,5 +7,5 @@ import ClientCommissions from '../components/commissions/ClientCommissions.tsx';
 export default [
   { path: 'commissions', component: GlobalCommissions },
   { path: 'commissions/clients/:companyId', component: ClientCommissions },
-  { path: 'commissions/vehicles/:fleetId', component: FleetCommissions },
+  { path: 'commissions/clients/:companyId/fleets/:fleetId', component: FleetCommissions },
 ].map((props, i) => <Route key={ i} { ...props } />);

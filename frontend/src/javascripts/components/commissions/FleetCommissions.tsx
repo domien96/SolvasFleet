@@ -22,7 +22,7 @@ class FleetCommissions extends React.Component<{}, State> {
     return (
       <div>
         <Header>
-          <h2>{ T.translate('commissions.global') }</h2>
+          <h2>{ T.translate('commissions.fleet') }</h2>
         </Header>
         <CommissionGroupForm personalVehicle={ this.state.commissionGroup }/>
       </div>

@@ -26,7 +26,7 @@ class GlobalCommissions extends React.Component<Props, State> {
     return (
       <div>
         <Header>
-          <h2>{ T.translate('commissions.fleet') }</h2>
+          <h2>{ T.translate('commissions.global') }</h2>
         </Header>
         <CommissionGroupForm personalVehicle={ this.state.commissionGroup }/>
       </div>
