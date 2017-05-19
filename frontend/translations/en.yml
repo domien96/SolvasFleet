@@ -23,10 +23,10 @@ company:
     country: Country
   addNew: Add New Company
   edit: Edit Company
-  types: Type 
+  types: Type
   type:
-    LeasingCompany: Leasing company 
-    InsuranceCompany: Insurance company 
+    LeasingCompany: Leasing company
+    InsuranceCompany: Insurance company
     Customer: Customer
 
 vehicle:
@@ -81,6 +81,11 @@ fleet:
     perTrimester: Per Trimester
     perSemester: Per Semester
   addNew: Add a new fleet
+  settings: Fleet settings
+  addVehicle: Add a vehicle
+  actions: Fleet actions
+  addToFleet: Add to fleet
+  chooseVin: Choose VIN
 
 subfleet:
   id: ID
@@ -100,13 +105,13 @@ function:
 permission:
   permissions: Permissions
   action: Action
-  resource: Resource 
+  resource: Resource
 
 role:
   roles: Roles
-  name: Name 
+  name: Name
   permissions: Permissions
-  addNew: Create New Role 
+  addNew: Create New Role
   edit: Edit Role
 
 auth:
@@ -114,11 +119,11 @@ auth:
 
 invoice:
   id: Invoice ID
-  fleet: Fleet ID 
+  fleet: Fleet ID
   paid: Paid
-  totalAmount: Total amount due 
-  type: Type 
-  startDate: Start date 
+  totalAmount: Total amount due
+  type: Type
+  startDate: Start date
   endDate: End date
   showCurrent: Show current invoice
   showAll: Show all invoices
@@ -179,7 +184,7 @@ form:
     email: Email
     password: Password
 
-table: 
+table:
   actions: Actions
   none:
     information: In the left section you can see all the {subject}s registered in this application. By clicking on one, you can select it, whereby this section will be replaced by this {subject}'s information. You will also receive the possibility to edit or remove the {subject}.
