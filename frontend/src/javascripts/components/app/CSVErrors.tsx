@@ -26,7 +26,7 @@ const Errors: React.StatelessComponent<Props> = props => {
   const errors = props.errors.map((e: any, i: number) => {
     const er = e.errors.map((ee: any, ii: number) => {
       return (
-        <Error key={ ii} field={ ee.field } error={ ee.error } />
+        <Error key={ ii } field={ ee.field } error={ ee.error } />
       );
     });
 
