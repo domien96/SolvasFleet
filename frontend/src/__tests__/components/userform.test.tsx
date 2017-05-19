@@ -6,10 +6,10 @@ import DateForm from '../../javascripts/components/forms/DateForm.tsx';
 
 import Checkbox from '../../javascripts/components/user_form/form/Checkbox.tsx';
 
-var user = { id: "1", firstName: "Pol", lastName: "lebel", email: "aa", password: "nope" };
+const user = { id: '1', firstName: 'Pol', lastName: 'lebel', email: 'aa', password: 'nope' };
 
 test('Render userCheckbox correctly', () => {
-  const checkbox = shallow(<Checkbox label="aa"/>);
+  const checkbox = shallow(<Checkbox label='aa'/>);
   expect(checkbox.find('label').text()).toEqual(' aa');
 });
 
@@ -26,10 +26,10 @@ test('Render userform Info correctly', () => {
 import UserForm from '../../javascripts/components/user_form/UserForm.tsx';
 
 test('Render UserForm correctly', () => {
-  const form = mount(<UserForm user={ user } errors={ [{ field:"error" }] } hasError={ jest.fn() }/>);
+  const form = mount(<UserForm user={ user } errors={ [{ field:'error' }] } hasError={ jest.fn() }/>);
   expect(form.find('Actions').prop('submitLabel')).toEqual('form.update');
   expect(form.find('Actions').prop('cancelUrl')).toEqual('/users/1');
-  expect(form.find('Errors').prop('errors')).toEqual([{ field:"error" }]);
+  expect(form.find('Errors').prop('errors')).toEqual([{ field:'error' }]);
   expect(form.find('Info').prop('user')).toEqual(user);
 
   form.setProps({ user: {} });
@@ -48,7 +48,7 @@ function doChange(component: React.Component) {
 
 import AddUser from '../../javascripts/components/user_form/AddUser.tsx';
 test('Render AddUser correctly', () => {
-  const actions =require('../../javascripts/actions/user_actions.ts');
+  const actions = require('../../javascripts/actions/user_actions.ts');
 
   const form = mount(<AddUser />);
   doChange(form);
@@ -57,14 +57,13 @@ test('Render AddUser correctly', () => {
   expect(actions.postUser.mock.calls.length).toBe(1);
   expect(actions.postUser.mock.calls[0][0]).toEqual(user);
   expect(form.find('UserForm').prop('user')).toEqual(user);
-  expect(form.find('h2').text()).toEqual('user.addNew');
+  expect(form.find('h2').text()).toEqual('Add A New User');
 })
 
 import EditUser from '../../javascripts/components/user_form/EditUser.tsx';
 
-
 test('Render EditUser correctly', () => {
-  const actions =require('../../javascripts/actions/user_actions.ts');
+  const actions = require('../../javascripts/actions/user_actions.ts');
 
   const form = mount(<EditUser params={ { id: 2 } }/>);
   doChange(form);

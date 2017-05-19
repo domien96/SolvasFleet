@@ -7,35 +7,35 @@ import ClientForm from '../../javascripts/components/client_form/ClientForm.tsx'
 import FormField from '../../javascripts/components/forms/FormField.tsx';
 import FormChoice from '../../javascripts/components/forms/FormChoice.tsx';
 
-const address = { city: "c", country: "b", street: "s", postalCode: "9000", houseNumber: "30" };
-var company = { id: "10", name: "coca-cola", vatNumber: "AA", phoneNumber: "093919089", type: "InsuranceCompany", address: address };
+const address = { city: 'c', country: 'b', street: 's', postalCode: '9000', houseNumber: '30' };
+let company = { id: '10', name: 'coca-cola', vatNumber: 'AA', phoneNumber: '093919089', type: 'InsuranceCompany', address };
 
 describe('Info of clientform', () => {
   const hasError = jest.fn();
   const info = shallow(<Info company={ company } hasError={ hasError }/>);
 
   test('basic fields', () => {
-    expect(info.containsMatchingElement(<FormField value="coca-cola" placeholder="company.name"/>)).toBeTruthy();
-    expect(info.containsMatchingElement(<FormField value="AA" placeholder="company.vatNumber"/>)).toBeTruthy();
-    expect(info.containsMatchingElement(<FormField value="093919089" placeholder="company.phoneNumber"/>)).toBeTruthy();
-    expect(info.containsMatchingElement(<FormChoice value="InsuranceCompany" placeholder="company.types"/>)).toBeTruthy();
+    expect(info.containsMatchingElement(<FormField value='coca-cola' placeholder='company.name'/>)).toBeTruthy();
+    expect(info.containsMatchingElement(<FormField value='AA' placeholder='company.vatNumber'/>)).toBeTruthy();
+    expect(info.containsMatchingElement(<FormField value='093919089' placeholder='company.phoneNumber'/>)).toBeTruthy();
+    expect(info.containsMatchingElement(<FormChoice value='InsuranceCompany' placeholder='company.types'/>)).toBeTruthy();
   });
 
   test('addresses', () => {
-    expect(info.containsMatchingElement(<FormField value="c" placeholder="company.address.city"/>)).toBeTruthy();
-    expect(info.containsMatchingElement(<FormField value="b" placeholder="company.address.country"/>)).toBeTruthy();
-    expect(info.containsMatchingElement(<FormField value="s" placeholder="company.address.street"/>)).toBeTruthy();
-    expect(info.containsMatchingElement(<FormField value="9000" placeholder="company.address.postalCode"/>)).toBeTruthy();
-    expect(info.containsMatchingElement(<FormField value="30" placeholder="company.address.houseNumber"/>)).toBeTruthy();
+    expect(info.containsMatchingElement(<FormField value='c' placeholder='company.address.city'/>)).toBeTruthy();
+    expect(info.containsMatchingElement(<FormField value='b' placeholder='company.address.country'/>)).toBeTruthy();
+    expect(info.containsMatchingElement(<FormField value='s' placeholder='company.address.street'/>)).toBeTruthy();
+    expect(info.containsMatchingElement(<FormField value='9000' placeholder='company.address.postalCode'/>)).toBeTruthy();
+    expect(info.containsMatchingElement(<FormField value='30' placeholder='company.address.houseNumber'/>)).toBeTruthy();
   });
 
   test('correct choices for types', () => {
     expect(info.containsMatchingElement(
       <FormChoice choices =
       { [
-          { key: "Customer", label: "company.type.Customer" },
-          { key: "LeasingCompany", label: "company.type.LeasingCompany" },
-          { key: "InsuranceCompany", label: "company.type.InsuranceCompany" }
+          { key: 'Customer', label: 'company.type.Customer' },
+          { key: 'LeasingCompany', label: 'company.type.LeasingCompany' },
+          { key: 'InsuranceCompany', label: 'company.type.InsuranceCompany' }
         ] }/>)).toBeTruthy();
   });
 });
@@ -44,9 +44,9 @@ describe('Rendering clientform', () => {
   const clientForm = shallow(<ClientForm company={ company }/>);
 
   expect(clientForm.find('Actions').prop('submitLabel')).toEqual('form.update');
-  company.id = null;
   expect(clientForm.find('Actions').prop('cancelUrl')).toEqual('/clients/10');
-  clientForm.setProps({ company: company });
+  company.id = null;
+  clientForm.setProps({ company });
   expect(clientForm.find('Actions').prop('submitLabel')).toEqual('form.create');
   expect(clientForm.find('Actions').prop('cancelUrl')).toEqual('/clients/');
   expect(clientForm.find('Info').prop('company')).toEqual(company);
@@ -74,7 +74,7 @@ jest.mock('../../javascripts/actions/client_actions.ts');
 describe('Rendering the addclient component', () => {
   const post = require('../../javascripts/actions/client_actions.ts');
 
-  var add = mount(<AddClient/>);
+  const add = mount(<AddClient/>);
   dohandleChange(add);
 
   add.instance().onSubmit({ preventDefault: jest.fn() });
@@ -88,7 +88,7 @@ import EditClient from '../../javascripts/components/client_form/EditClient.tsx'
 describe('Rendering the editclient component', ()=>{
   const put =require('../../javascripts/actions/client_actions.ts');
 
-  var edit = mount(<EditClient params={ { id: "2" }}/>);
+  const edit = mount(<EditClient params={ { id: '2' }}/>);
   edit.setState({ company: { address: {} }});
   dohandleChange(edit);
 
