@@ -198,6 +198,11 @@ errors:
   MISSING: is empty, please enter a value
   WRONG_FORMAT: does not have the right format
   NOT_UNIQUE: must be unique, but is already in the database
+  TOO_SMALL: is too small, please enter a larger value 
+  TOO_BIG: is too big, please enter a smaller value 
+  INVALID: is invalid, please enter a correct value 
+  NOT_FOUND: has not been found
+  WRONG_TYPE: does not have the right type
 
 csv:
   import:
