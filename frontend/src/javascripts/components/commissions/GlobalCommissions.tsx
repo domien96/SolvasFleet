@@ -2,6 +2,8 @@ import React from 'react';
 import Header from '../app/Header.tsx';
 import CommissionGroupForm from '../commission/CommissionGroupForm.tsx';
 import T from 'i18n-react';
+import { fetchGlobalCommission } from '../../actions/commission_actions.ts';
+
 
 interface Props {
   [params: string]: { fleetId: number };
@@ -11,10 +13,16 @@ class GlobalCommissions extends React.Component<Props, {}> {
 
   constructor(props: Props) {
     super(props);
+    this.fetchCommission = this.fetchCommission.bind(this);
+    this.putCommission = this.putCommission.bind(this);
   }
 
-  getFleetCommissions() {
+  putCommission(vehicleType: string, insuranceType: string, commission: CommissionData, success?: callback, fail?: callback) {
     //TODO
+  }
+
+  fetchCommission(vehicleType: string, insuranceType: string, success?: callback, fail?: callback) {
+    fetchGlobalCommission(vehicleType, insuranceType, success, fail);
   }
 
   render() {
@@ -23,6 +31,7 @@ class GlobalCommissions extends React.Component<Props, {}> {
         <Header>
           <h2>{ T.translate('commissions.global') }</h2>
         </Header>
+        <CommissionGroupForm fetchCommission={ this.fetchCommission } putCommission={ this.putCommission } returnTo={ "/" }/>
       </div>
     );
   }
