@@ -396,7 +396,7 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
                 .map(contract -> invoiceCorrector.correctionItemsForContract(
                         contract,
                         lastDate,
-                        fleet.getFacturationPeriod()))
+                        fleet.getPaymentPeriod()))
                 .flatMap(Set::stream)
                 // Don't correct irregularities that have no billing invoice yet
                 .filter(item -> item.getStartDate().isBefore(lastDate))
