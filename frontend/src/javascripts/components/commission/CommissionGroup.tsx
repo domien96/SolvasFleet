@@ -12,6 +12,8 @@ interface Props {
   vehicleType: string;
   commission: CommissionGroupData;
   handleChange:  (s: string) => ((e: any) => void);
+  showForm: boolean;
+  toggleForm: void;
 }
 
 interface ComFormProps {
@@ -38,27 +40,17 @@ const COM: React.StatelessComponent<ComFormProps> = props => {
   );
 }
 
-interface State {
-  showForm: boolean;
-}
-
-class CommissionGroupForm extends React.Component<Props, State> {
+class CommissionGroupForm extends React.Component<Props, {}> {
 
   constructor(props: Props) {
     super(props);
-    this.state = { showForm: false };
-    this.toggleForm = this.toggleForm.bind(this);
-  }
-
-  toggleForm() {
-    this.setState({ showForm: !this.state.showForm });
   }
 
   render() {
     return (
       <div className='col-md-12'>
         <Card>
-          <div className='card-content fleets' onClick={this.toggleForm}>
+          <div className='card-content fleets' onClick={this.props.toggleForm}>
             <div className='fleet'>
               <h3>{ this.props.vehicleType }</h3>
               <div className='actions pull-right'>
@@ -70,7 +62,7 @@ class CommissionGroupForm extends React.Component<Props, State> {
           </div>
         </Card>
 
-        <Collapse in = { this.state.showForm }>
+        <Collapse in = { this.props.showForm }>
           <div className='fleets commission-wrapper'>
                       <COM className='border-bottom' value ={ this.props.commission.burgerlijkeAansprakelijkheid.value } label='Burgerlijke aansprakelijkheid' onChange={ this.props.handleChange('burgerlijkeAansprakelijkheid') }/>
                       <COM className='border-bottom' value ={ this.props.commission.burgerlijkeAansprakelijkheid.value } label='Omnium' onChange={ this.props.handleChange('burgerlijkeAansprakelijkheid') }/>
