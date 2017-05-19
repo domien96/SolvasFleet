@@ -97,7 +97,7 @@ class Client extends React.Component<Props, State> {
                         </button>
                       </Confirm>
                     </div>
-                    <LogLink id={ id } />
+                    <LogLink id={ id } type='Company' />
                   </div>
                 </div>
               </Card>

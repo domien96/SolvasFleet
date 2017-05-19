@@ -76,7 +76,7 @@ const VehicleView: React.StatelessComponent<Props> = props => {
         <div className='row actions'>
           <EditLink id={ id } />
           <DeleteLink handleDelete={ props.handleDelete } />
-          <LogLink id={ id } />
+          <LogLink id={ id } type='Vehicle' />
         </div>
       </div>
       <div className='card-content'>

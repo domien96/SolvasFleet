@@ -51,7 +51,7 @@ class Log extends React.Component<Props, State> {
   componentDidMount() {
     let newfilter = this.state.filter;
     if (this.props.location.query.entity) {
-      newfilter = { ...this.state.filter, entity: this.props.location.query.entity };
+      newfilter = { ...this.state.filter, entity: this.props.location.query.entity, entityType: this.props.location.query.entityType };
       this.setState({ filter: newfilter });
     }
     this.fetchLog(undefined, newfilter);
