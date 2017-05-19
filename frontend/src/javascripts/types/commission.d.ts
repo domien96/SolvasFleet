@@ -22,4 +22,5 @@ interface CommissionGroupData {
   rechtsbijstand: CommissionData;
   veiligheid: CommissionData;
   reisbijstand: CommissionData;
+  [key: string]: CommissionData;
 }

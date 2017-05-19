@@ -13,7 +13,7 @@ interface Props {
   commission: CommissionGroupData;
   handleChange:  (s: string) => ((e: any) => void);
   showForm: boolean;
-  toggleForm: void;
+  toggleForm: (e: any) => void;
 }
 
 interface ComFormProps {

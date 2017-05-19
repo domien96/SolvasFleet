@@ -7,15 +7,10 @@ interface Props {
   [params: string]: { fleetId: number };
 }
 
-interface State {
-  commissionGroup: CommissionGroupData;
-}
-
-class GlobalCommissions extends React.Component<Props, State> {
+class GlobalCommissions extends React.Component<Props, {}> {
 
   constructor(props: Props) {
     super(props);
-    this.state = { commissionGroup: { burgerlijkeAansprakelijkheid: { id: 1, value: 13.4, vehicleType: 'PersonalVehicle', insuranceType: 'Omnium'  }, omnium: {}, rechtsbijstand: {}, reisbijstand: {}, veiligheid: {} } };
   }
 
   getFleetCommissions() {
@@ -28,7 +23,6 @@ class GlobalCommissions extends React.Component<Props, State> {
         <Header>
           <h2>{ T.translate('commissions.global') }</h2>
         </Header>
-        <CommissionGroupForm personalVehicle={ this.state.commissionGroup }/>
       </div>
     );
   }
