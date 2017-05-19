@@ -36,10 +36,6 @@ class CommissionGroupForm extends React.Component<Props, {}> {
 
   render() {
   return (
-    <div>
-    <Header>
-      <h2>Update the global commission</h2>
-    </Header>
     <form method='post' onSubmit={ null } >
       <div className='wrapper'>
         <div className='row'>
@@ -57,7 +53,7 @@ class CommissionGroupForm extends React.Component<Props, {}> {
           </div>
         </div>
         </div>
-    </form></div>
+    </form>
   );}
 };
 

@@ -27,7 +27,7 @@ const COM: React.StatelessComponent<ComFormProps> = props => {
   const classes = classNames('form-group', 'col-md-12', 'commission-input', 'fleet', props.className);
 
   return (<div className={ classes }>
-    <div className='col-md-10'><label className='ver'>{label}</label></div><div className='col-md-2'>
+    <div className='col-md-9'><label className='ver'>{label}</label></div><div className='col-md-3'>
     <T.text
       tag='input'
       type='number'
