@@ -4,19 +4,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import solvas.persistence.api.Dao;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.Filter;
 import solvas.persistence.api.dao.CommissionDao;
 import solvas.rest.api.models.ApiCommission;
 import solvas.rest.query.CommissionFilter;
-import solvas.service.mappers.AbstractMapper;
 import solvas.service.mappers.CommissionMapper;
 import solvas.service.mappers.exceptions.DependantEntityNotFound;
 import solvas.service.models.Commission;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created by steve on 13/05/2017.
@@ -48,7 +43,7 @@ public class CommissionService extends AbstractService<Commission,ApiCommission>
      * @param filters
      * @return
      */
-    public Page<ApiCommission> findCascade(Pageable pagination, Filter<Commission> filters) {
+    public Page<ApiCommission> findBottomUp(Pageable pagination, Filter<Commission> filters) {
         CommissionFilter f = (CommissionFilter) filters;
 
         // 1st priority : vehicle specific
@@ -82,7 +77,7 @@ public class CommissionService extends AbstractService<Commission,ApiCommission>
 
     @Override
     public Page<ApiCommission> findAll(Pageable pagination, Filter<Commission> filters) {
-        return findCascade(pagination, filters);
+        return findBottomUp(pagination, filters);
     }
 
     @Override
@@ -91,7 +86,7 @@ public class CommissionService extends AbstractService<Commission,ApiCommission>
         // If not, then we create a new commission record. Else we just update the already existing one.
         // This way we don't change commission on a higher level.
 
-        Pageable pagination = new PageRequest(0, 10); // dummy pagination object so we can call findCascade
+        Pageable pagination = new PageRequest(0, 10); // dummy pagination object so we can call findBottomUp
         Page<ApiCommission> res = super.findAll(pagination,apiCommissionAsFilter(input));
         if(res.hasContent()) {
             assert(res.getContent().size() == 1); // unique set of parameters
