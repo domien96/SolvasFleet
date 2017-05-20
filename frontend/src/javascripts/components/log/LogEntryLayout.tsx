@@ -234,33 +234,18 @@ const Layout: React.StatelessComponent<Props> = props => {
   }
 
   if (entry.method === "archive") {
-    if (entity.archived) {
-      entityDisplay = (
-        <div className='col-sm-6'>
-          <Card>
-            <div className='card-title'>
-              <h3>Archived</h3>
-            </div>
-            <div className='card-content'>
-              <DetailTable data={ entityInfo } />
-            </div>
-          </Card>
-        </div>
-      );
-    } else {
-      entityDisplay = (
-        <div className='col-sm-6'>
-          <Card>
-            <div className='card-title'>
-              <h3>Restored</h3>
-            </div>
-            <div className='card-content'>
-              <DetailTable data={ entityInfo } />
-            </div>
-          </Card>
-        </div>
-      );
-    }
+    entityDisplay = (
+      <div className='col-sm-6'>
+        <Card>
+          <div className='card-title'>
+            <h3>Archived</h3>
+          </div>
+          <div className='card-content'>
+            <DetailTable data={ entityInfo } />
+          </div>
+        </Card>
+      </div>
+    );
   }
 
   return (
