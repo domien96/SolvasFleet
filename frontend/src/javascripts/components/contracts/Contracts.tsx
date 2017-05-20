@@ -2,6 +2,7 @@ import React from 'react';
 
 import { redirect_to } from '../../routes/router.tsx';
 import Listing from '../app/Listing.tsx';
+import Auth from '../../modules/Auth.ts';
 
 interface Props {
   fetchMethod: any; // succes, fail
@@ -67,7 +68,9 @@ class Contracts extends React.Component<Props, State> {
         fetchModels={ this.fetchContractsWithProps }
         response={ this.state.response }
         modelName='contract'
-        columns={['id', 'type', 'vehicle']} />
+        columns={ ['id', 'type', 'vehicle'] }
+        authorizeAdd={ Auth.canWriteContractsOfCompany(this.props.companyId) }
+       />
     );
   }
 }

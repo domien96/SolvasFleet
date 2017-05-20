@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router';
 
+import Auth from '../../modules/Auth.ts';
 import Card from '../app/Card.tsx';
+import DynamicGuiComponent from '../app/DynamicGuiComponent.tsx';
 import DetailTable from '../tables/DetailTable.tsx';
 import UserFunctions from './function/UserFunctions.tsx';
 import { th } from '../../utils/utils.ts';
@@ -53,8 +55,10 @@ const UserCard: React.StatelessComponent<Props> = props => {
       <div className='card-content user'>
         <h2>{ firstName } { lastName }</h2>
         <div className='row actions'>
-          <EditLink id={ id } />
-          <DeleteLink handleDelete={ props.handleDelete } />
+          <DynamicGuiComponent authorized={ Auth.canWriteUsers() }>
+            <EditLink id={ id } />
+            <DeleteLink handleDelete={ props.handleDelete } />
+          </DynamicGuiComponent>
           <LogLink id={ id } type='User' />
         </div>
       </div>

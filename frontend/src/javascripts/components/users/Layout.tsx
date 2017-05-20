@@ -24,7 +24,9 @@ const Layout: React.StatelessComponent<Props> = props => {
               fetchModels={ props.fetchUsers }
               modelName='user'
               columns={ ['id', 'firstName', 'lastName'] }
-              response={ props.response } />
+              response={ props.response }
+              authorizeAdd={ true }
+            />
           </div>
           <div className='col-xs-12 col-md-5'>
             { props.children }

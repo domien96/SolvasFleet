@@ -1,4 +1,5 @@
 import { auth_token } from '../actions/auth_actions.ts';
+import _ from 'lodash';
 
 export function parseClaims(token: string) {
   return (
@@ -102,6 +103,100 @@ class Auth {
 
   static isRefreshTokenExpired() {
     return Auth.isTokenExpired(Auth.getLocalRefreshToken());
+  }
+
+  static isAuthorizedGlobally(scope: string) {
+    const parsed = parseClaims(Auth.getLocalAccessToken());
+    const scopes = (_.union(parsed.scopes)).map((u: any) => u.scopes);
+    return _.intersection([scope], scopes[0]).length > 0;
+  }
+
+  static isAuthorizedForSomeCompany(scope: string) {
+    return Auth.isAuthorizedGlobally(scope);
+  }
+
+  static isAuthorizedForCompany(scope: string, company: number) {
+    const parsed = parseClaims(Auth.getLocalAccessToken());
+    const filtered = parsed.scopes.filter((s: any) => company == null || s.companyId === company); //company==null is wildcard
+    const scopes = (_.union(filtered.scopes)).map((u: any) => u.scopes);
+    return _.intersection([scope], scopes[0]).length > 0;
+  }
+
+  static canReadCompany(company: number) {
+    return Auth.isAuthorizedGlobally('read:companies') || Auth.isAuthorizedForCompany('read:company', company);
+  }
+
+  static canWriteCompany(company: number) {
+    return Auth.isAuthorizedGlobally('write:companies') || Auth.isAuthorizedForCompany('write:company', company);
+  }
+
+  static canReadFleetsOfCompany(company: number) {
+    return Auth.isAuthorizedGlobally('read:companies:fleets') || Auth.isAuthorizedForCompany('read:company:fleets', company);
+  }
+
+  static canWriteFleetsOfCompany(company: number) {
+    return Auth.isAuthorizedGlobally('write:companies:fleets') || Auth.isAuthorizedForCompany('write:company:fleets', company);
+  }
+
+  static canReadContractsOfCompany(company: number) {
+    return Auth.isAuthorizedGlobally('read:companies:contracts') || Auth.isAuthorizedForCompany('read:company:contracts', company);
+  }
+
+  static canWriteContractsOfCompany(company: number) {
+    return Auth.isAuthorizedGlobally('write:companies:contracts') || Auth.isAuthorizedForCompany('write:company:contracts', company);
+  }
+
+  static canReadRevisions() {
+    return Auth.isAuthorizedGlobally('read:revisions');
+  }
+
+  static canCreateVehicle() {
+    return Auth.isAuthorizedGlobally('write:companies:fleets') || Auth.isAuthorizedGlobally('write:company:fleets');
+  }
+
+  static canCreateUser() {
+    return Auth.isAuthorizedGlobally('create:users');
+  }
+
+  static canCreateClient() {
+    return Auth.isAuthorizedGlobally('create:companies');
+  }
+
+  static canReadFunctions() {
+    return Auth.isAuthorizedGlobally('read:users');
+  }
+
+  static canWriteFunctions() {
+    return Auth.isAuthorizedGlobally('write:users:roles');
+  }
+
+  static canReadUsers() {
+    return Auth.isAuthorizedGlobally('read:users');
+  }
+
+  static canWriteUsers() {
+    return Auth.isAuthorizedGlobally('write:users');
+  }
+
+  static canReadRoles() {
+    return Auth.isAuthorizedGlobally('read:auth:roles');
+  }
+  static canWriteRoles() {
+    return Auth.isAuthorizedGlobally('write:auth:roles');
+  }
+
+  static canClickUsersLink() {
+    return Auth.isAuthorizedGlobally('read:users') || Auth.isAuthorizedGlobally('write:users');
+  }
+
+  static canClickCompaniesLink() {
+    return Auth.isAuthorizedGlobally('read:companies') || Auth.isAuthorizedGlobally('write:companies')
+      || Auth.isAuthorizedGlobally('read:company') || Auth.isAuthorizedGlobally('write:company');
+  }
+
+  static canClickVehiclesLink() {
+    return Auth.isAuthorizedGlobally('read:companies:fleets') || Auth.isAuthorizedGlobally('write:companies:fleets')
+      || Auth.isAuthorizedGlobally('read:company:fleets') || Auth.isAuthorizedGlobally('write:company:fleets');
   }
 }
 

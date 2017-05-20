@@ -4,11 +4,15 @@ import classNames from 'classnames';
 import { slide as Menu } from 'react-burger-menu';
 import LanguageSwitcher from './LanguageSwitcher.tsx';
 import T from 'i18n-react';
+import _ from 'lodash';
+import { parseClaims } from '../../modules/Auth.ts';
+
 
 import Auth from '../../modules/Auth.ts';
 
 interface SProps {
   path: string;
+  authorized: boolean;
 }
 
 class SidebarLink extends React.Component<SProps, {}> {
@@ -19,13 +23,15 @@ class SidebarLink extends React.Component<SProps, {}> {
   render() {
     const classes = classNames({ active: this.context.location.pathname.includes(this.props.path) });
 
-    return (
+    const comp = (
       <li className={ classes } >
         <Link to={ this.props.path }>
           { this.props.children }
         </Link>
       </li>
     );
+
+    return this.props.authorized ? comp : null;
   }
 }
 
@@ -38,10 +44,10 @@ const Sidebar: React.StatelessComponent<{}> = () => {
         </Link>
       </div>
       <ul className='nav'>
-        <SidebarLink path='/users'>{ T.translate('user.users') }</SidebarLink>
-        <SidebarLink path='/clients'>{ T.translate('company.clients') }</SidebarLink>
-        <SidebarLink path='/vehicles'>{ T.translate('vehicle.vehicles') }</SidebarLink>
-        <SidebarLink path='/log'>{ T.translate('log.log') }</SidebarLink>
+        <SidebarLink path='/users' authorized={ Auth.canClickUsersLink() } >{ T.translate('user.users') }</SidebarLink>
+        <SidebarLink path='/clients' authorized={ Auth.canClickCompaniesLink() }>{ T.translate('company.clients') }</SidebarLink>
+        <SidebarLink path='/vehicles' authorized={ Auth.canClickVehiclesLink() }>{ T.translate('vehicle.vehicles') }</SidebarLink>
+        <SidebarLink path='/log' authorized={ Auth.canReadRevisions() }></SidebarLink>
         <SidebarLink path='/auth'>{ T.translate('auth.permissionSettings') }</SidebarLink>
       </ul>
       <ul className='nav session-actions'>

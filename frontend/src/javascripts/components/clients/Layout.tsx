@@ -24,7 +24,9 @@ const Layout: React.StatelessComponent<Props> = props => {
               addNewRoute='/clients/new'
               fetchModels={ props.fetchClients }
               modelName='company'
-              columns={ ['id', 'name', 'vatNumber'] } response={ props.response } />
+              columns={ ['id', 'name', 'vatNumber'] }
+              response={ props.response }
+              authorizeAdd={ true }/>
           </div>
         </div>
       </div>
