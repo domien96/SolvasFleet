@@ -1,21 +1,35 @@
 package solvas.rest;
 
-import org.junit.runner.RunWith;
+import org.junit.Test;
+import org.mockito.Matchers;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.test.web.servlet.ResultActions;
-import solvas.service.models.Role;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MvcResult;
 import solvas.rest.api.models.ApiRole;
 import solvas.rest.controller.AbstractRestController;
 import solvas.rest.controller.RoleRestController;
 import solvas.service.AbstractService;
 import solvas.service.RoleService;
+import solvas.service.exceptions.UndeletableException;
+import solvas.service.models.Role;
 
+import java.util.Arrays;
+import java.util.HashSet;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * Integration tests of the RoleRestController
- * It checks HTTP responses and calls to the RoleDao
+ * It checks HTTP responses
  */
 public class RoleRestControllerTest extends AbstractRestControllerTest<Role,ApiRole> {
 
@@ -30,20 +44,6 @@ public class RoleRestControllerTest extends AbstractRestControllerTest<Role,ApiR
     public RoleRestControllerTest() {
         super(ApiRole.class);
     }
-
-
-    /**
-     * Match jsonmodel with ApiCompany
-     * @param res the ResultAction that mockMvc provides.
-     * @param role the role we want to compare with the json result
-     */
-    public void matchJsonModel(ResultActions res,ApiRole role) throws Exception {
-        res.andExpect(jsonPath("id").value(role.getId()))
-                .andExpect(jsonPath("url").value(role.getUrl()))
-                .andExpect(jsonPath("permissions").value(role.getPermissions()))
-                .andExpect(jsonPath("user").value(role.getUser()));
-    }
-
 
     /**
      * @return the role rest controller
@@ -68,9 +68,27 @@ public class RoleRestControllerTest extends AbstractRestControllerTest<Role,ApiR
         return RestTestFixtures.ROLE_ID_URL;
     }
 
-    @Override
-    public ApiRole getTestModel()
-    {
-        return super.getTestModel();
+
+    /**
+     * Test: Conflict response when delete isn't possible (delete is only possible in the rolerestcontroller)
+     */
+    @Test
+    public void undeletableExceptionHandler() throws Exception {
+        doThrow(new UndeletableException()).when(getService()).destroy(anyInt());
+        getMockMvc().perform(delete(getIdUrl()).contentType(MediaType.APPLICATION_JSON_UTF8).content(getTestJson()))
+                .andExpect(status().isConflict());
+    }
+
+    /**
+     * Test: updating the permissions of a role
+     */
+    @Test
+    public void putPermissions() throws Exception {
+        when(roleService.update(anyInt(), Matchers.any())).thenReturn(getTestModel());
+        MvcResult result = getMockMvc()
+                .perform(put(RestTestFixtures.ROLE_PERMISSION_URL)
+                        .content("[\"a\",\"b\"]")
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)).andReturn();
+        assertThat(result.getResponse().getContentAsString(),is(getTestJson()));
     }
 }

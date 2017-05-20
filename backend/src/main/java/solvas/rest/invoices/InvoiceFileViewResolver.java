@@ -53,6 +53,8 @@ public class InvoiceFileViewResolver implements ViewResolver {
                 return BILLING_INVOICE_PDF_VIEW;
             case PAYMENT:
                 return PAYMENT_INVOICE_PDF_VIEW;
+            case CORRECTION:
+                return BILLING_INVOICE_PDF_VIEW; // similar pdf view
             default:
                 throw new RuntimeException("Non-exhaustive enum switch.");
         }

@@ -38,7 +38,6 @@ public class FleetSubscription extends Model {
      */
     private Set<Contract> contracts;
 
-
     public LocalDate getStartDate() {
         return startDate;
     }
@@ -73,8 +72,8 @@ public class FleetSubscription extends Model {
 
     public boolean isActive() {
         LocalDate now = LocalDate.now();
-        return startDate.isBefore(now) &&
-                endDate.isAfter(now);
+        return (startDate.isBefore(now) || startDate.isEqual(now)) &&
+                (endDate == null || endDate.isEqual(now) || endDate.isAfter(now));
     }
 
     public Fleet getFleet() {

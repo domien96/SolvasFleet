@@ -12,7 +12,11 @@ interface Props {
   fetchVehicles: (query: any) => void;
   errors: Form.Error[];
   handleChange: (e: any) => void;
+  tableData: any;
   csvsuccess: boolean;
+  getCompany: (id: number) => string;
+  init: boolean;
+  getFleet: (inputCompanies: CompanyData[], inputFleets: FleetData[], id: number, init?: boolean) => string;
 }
 
 const Layout: React.StatelessComponent<Props> = props => {
@@ -24,16 +28,21 @@ const Layout: React.StatelessComponent<Props> = props => {
       <div className='wrapper'>
         <div className='row'>
           <div className='col-xs-12 col-md-7'>
-            <VehicleFilter onFilter = { props.onFilter } vehicles={ props.response.data } />
+            <VehicleFilter 
+              onFilter = { props.onFilter } 
+              vehicles={ props.response.data }
+              getCompany={ props.getCompany }
+              getFleet={ props.getFleet } 
+              init={ props.init } />
             <VehicleListing
               onSelect={ props.onVehicleSelect }
               addNewRoute='/vehicles/new'
               fetchModels={ props.fetchVehicles }
               modelName='vehicle'
-              columns={ ['fleet', 'vin', 'licensePlate', 'type'] }
               response={ props.response }
               errors={ props.errors }
               handleChange={ props.handleChange }
+              tableData={ props.tableData }
               csvsuccess={ props.csvsuccess } />
           </div>
           <div className='col-xs-12 col-md-5'>

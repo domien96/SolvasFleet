@@ -9,7 +9,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import solvas.persistence.api.EntityNotFoundException;
-import solvas.persistence.api.dao.InvoiceDao;
 import solvas.rest.api.models.ApiInvoice;
 import solvas.rest.invoices.InvoiceFileViewResolver;
 import solvas.rest.invoices.pdf.InvoicePdfView;
@@ -17,6 +16,8 @@ import solvas.rest.query.InvoiceFilter;
 import solvas.service.InvoiceService;
 import solvas.service.models.Invoice;
 import solvas.service.models.InvoiceType;
+
+import java.util.HashMap;
 
 
 /**
@@ -26,28 +27,24 @@ import solvas.service.models.InvoiceType;
 public class InvoiceRestController extends AbstractRestController<Invoice, ApiInvoice> {
 
     private InvoiceService invoiceService;
-    private InvoiceDao invoiceDao;
 
     /**
      * Default constructor.
      *
-     * @param service service class for entities
-     * @param invoiceDao The dao for invoices.
+     * @param service    service class for entities
      */
     @Autowired
-    public InvoiceRestController(InvoiceService service, InvoiceDao invoiceDao) {
+    public InvoiceRestController(InvoiceService service) {
         super(service);
         invoiceService = service;
-        this.invoiceDao = invoiceDao;
     }
 
     /**
      * TODO: this is not part of the API yet.
-     *
+     * <p>
      * Generate a PDF version of the current invoice.
      *
      * @param id The ID of the fleet.
-     *
      * @return The response.
      */
     @RequestMapping(value = "/companies/{companyId}/fleets/{id}/invoices/current.pdf", method = RequestMethod.GET)
@@ -57,8 +54,24 @@ public class InvoiceRestController extends AbstractRestController<Invoice, ApiIn
     }
 
     /**
+     * Find all correction and put them in one invoice
+     * @param fleetId Id of fleet to correct for
+     * @return ResponseEntity
+     * @throws EntityNotFoundException An entity (probably the fleet) wasn't found
+     */
+    @RequestMapping(value = "/fleets/{fleetId}/invoices/correct", method = RequestMethod.POST)
+    @PreAuthorize("hasPermission(#fleetId, 'fleet', 'WRITE_INVOICES')")
+    public ResponseEntity<?> getCorrectionInvoiceByFleetId(@PathVariable int fleetId) throws EntityNotFoundException {
+        boolean corrected = invoiceService.generateCorrectionsFor(fleetId);
+        return new ResponseEntity<>(new HashMap<String, Object>() {{
+            put("corrections", corrected);
+        }}, HttpStatus.OK);
+    }
+
+    /**
      * Get the active invoice for a fleet.
-     * @param id The ID of the fleet
+     *
+     * @param id   The ID of the fleet
      * @param type The type of invoice.
      * @return The response.
      */
@@ -66,16 +79,16 @@ public class InvoiceRestController extends AbstractRestController<Invoice, ApiIn
     @PreAuthorize("hasPermission(#id, 'fleet', 'READ_INVOICES')")
     public ResponseEntity<?> getActiveByFleetId(@PathVariable int id, @RequestParam("type") String type) throws EntityNotFoundException {
         InvoiceType invtype = InvoiceType.fromString(type);
-        if(invtype == null) {
+        if (invtype == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(invoiceService.findActiveInvoiceByType(id,invtype), HttpStatus.OK);
+        return new ResponseEntity<>(invoiceService.findActiveInvoiceByType(id, invtype), HttpStatus.OK);
     }
 
     /**
      * Get invoice with id
      *
-     * @param id      The ID of the invoice.
+     * @param id The ID of the invoice.
      * @return The response.
      */
     @RequestMapping(value = "/companies/{companyId}/fleets/{fleetId}/invoices/{id}", method = RequestMethod.GET)
@@ -87,14 +100,14 @@ public class InvoiceRestController extends AbstractRestController<Invoice, ApiIn
     /**
      * Get invoice with id
      *
-     * @param fleetId   the id of the fleet
-     * @param id        The ID of the invoice.
+     * @param fleetId the id of the fleet
+     * @param id      The ID of the invoice.
      * @return The response.
      */
     @RequestMapping(value = "/companies/{companyId}/fleets/{fleetId}/invoices/{id}.pdf", method = RequestMethod.GET)
     @PreAuthorize("hasPermission(#id, 'invoice', 'READ')")
     public ModelAndView getByFleetAndInvoiceIdWithExtension(@PathVariable int fleetId, @PathVariable int id) throws EntityNotFoundException {
-        Invoice invoice = invoiceDao.find(id);
+        Invoice invoice = service.getModelById(id);
         return new ModelAndView(InvoiceFileViewResolver.getViewName(invoice), InvoicePdfView.MODEL_NAME, invoiceService.generateInvoiceForView(invoice));
     }
 
@@ -102,7 +115,7 @@ public class InvoiceRestController extends AbstractRestController<Invoice, ApiIn
     /**
      * Get all invoices for a fleet
      *
-     * @param id The ID of the fleet.
+     * @param id         The ID of the fleet.
      * @param pagination The pagination.
      * @param filter     The filters.
      * @param result     The validation results.

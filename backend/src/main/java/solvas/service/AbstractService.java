@@ -66,6 +66,16 @@ public abstract class AbstractService<T extends Model,E extends ApiModel> {
     }
 
     /**
+     * Returns the model with the given id.
+     * @param id the id of the model to find
+     * @return the model
+     * @throws EntityNotFoundException When no object with that id exists
+     */
+    public T getModelById(int id) throws EntityNotFoundException {
+        return modelDao.find(id);
+    }
+
+    /**
      * Finding all the models
      * @param pagination the pagination, provided by frontend
      * @param filters the filters, provided by frontend.

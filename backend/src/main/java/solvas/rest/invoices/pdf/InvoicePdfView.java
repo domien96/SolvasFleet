@@ -8,6 +8,7 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfWriter;
 import solvas.rest.api.models.ApiInvoice;
+import solvas.service.models.Invoice;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,9 +24,8 @@ import java.util.Map;
 /**
  * Abstract class for generating a PDF from an invoice.
  *
- * @param <M> The model of the invoice.
  */
-public abstract class InvoicePdfView<M> extends AbstractITextPdfView {
+public abstract class InvoicePdfView extends AbstractITextPdfView {
 
     /**
      * The name of this view.
@@ -44,7 +44,7 @@ public abstract class InvoicePdfView<M> extends AbstractITextPdfView {
 
     @Override
     protected void buildPdfDocument(Map<String, Object> model, Document document, PdfWriter writer, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        createPdf((M) model.get(MODEL_NAME), document);
+        createPdf((Invoice) model.get(MODEL_NAME), document);
     }
 
     private Method getGetterMethodByField(Field f) throws IntrospectionException {
@@ -72,7 +72,7 @@ public abstract class InvoicePdfView<M> extends AbstractITextPdfView {
         font14 = new Font(Font.FontFamily.HELVETICA, BIG_FONT_SIZE, Font.NORMAL);
     }
 
-    protected abstract void createPdf(M invoice, Document document) throws DocumentException, IOException;
+    protected abstract void createPdf(Invoice invoice, Document document) throws DocumentException, IOException;
 
     protected PdfPCell getCell(String value, int alignment, Font font) {
         PdfPCell cell = new PdfPCell();

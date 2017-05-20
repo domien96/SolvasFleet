@@ -10,6 +10,7 @@ import solvas.persistence.api.Dao;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.api.models.ApiModel;
 import solvas.service.AbstractService;
+import solvas.service.exceptions.UnarchivableException;
 import solvas.service.exceptions.UndeletableException;
 import solvas.service.mappers.AbstractMapper;
 import solvas.service.mappers.exceptions.DependantEntityNotFound;
@@ -78,7 +79,7 @@ public abstract class AbstractServiceTest<T extends Model,E extends ApiModel> {
     }
 
     @Test
-    public void archive() throws EntityNotFoundException {
+    public void archive() throws EntityNotFoundException, UnarchivableException {
         getService().archive(2);
 
         ArgumentCaptor<Integer> captor = ArgumentCaptor.forClass(Integer.class);

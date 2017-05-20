@@ -67,7 +67,7 @@ public class PermissionRestController extends AbstractRestController<Permission,
         try {
             permissionService.filterOnRole(permissionFilter, roleId);
         } catch (EntityNotFoundException e) {
-            notFound();
+            return notFound();
         }
         // If there are errors in the filtering, send bad request.
         return super.listAll(pagination, permissionFilter, filterResult);
