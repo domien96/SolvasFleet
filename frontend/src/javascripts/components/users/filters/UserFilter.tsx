@@ -1,39 +1,34 @@
 import React from 'react';
-import T from 'i18n-react';
-
 import UserFilterLayout from './UserFilterLayout.tsx';
 import HiddenFilter from '../../filters/HiddenFilter.tsx';
 
 interface FilterProps {
   users: UserData[];
   onFilter: (filter: UserFilterData) => void;
-  getUser: (users: UserData[], id: number, init?: boolean) => string;
 }
 
 interface FilterState {
   filter: UserFilterData;
   hidden: boolean;
-  userData: any;
-  typeDisplay: string;
-  methodDisplay: string;
+  firstNameData: string[];
+  lastNameData: string[];
+  emailData: string[];
 }
 
 class UserFilter extends React.Component<FilterProps, FilterState> {
   constructor() {
     super();
     this.state = {
-      filter: { after: '', before: '', method: '', entityType: '', user: '' },
+      filter: { firstName: '', lastName: '', email: '' },
       hidden: false,
-      userData: [],
-      typeDisplay: 'All types',
-      methodDisplay: 'All methods'
+      firstNameData: [],
+      lastNameData: [],
+      emailData: []
     };
 
-    this.handleFilterType = this.handleFilterType.bind(this);
-    this.handleFilterMethod = this.handleFilterMethod.bind(this);
-    this.handleFilterUser = this.handleFilterUser.bind(this);
-    this.handleFilterStartDate = this.handleFilterStartDate.bind(this);
-    this.handleFilterEndDate = this.handleFilterEndDate.bind(this);
+    this.handleFilterFirstName = this.handleFilterFirstName.bind(this);
+    this.handleFilterLastName = this.handleFilterLastName.bind(this);
+    this.handleFilterEmail = this.handleFilterEmail.bind(this);
     this.handleReset = this.handleReset.bind(this);
     this.handleHide = this.handleHide.bind(this);
     this.handleShow = this.handleShow.bind(this);
@@ -49,68 +44,30 @@ class UserFilter extends React.Component<FilterProps, FilterState> {
     }
   }
 
-  handleFilterType(event: string) {
-    const type = event;
+  handleFilterFirstName(selected: string[]) {
     const newFilter = this.state.filter;
-    if (type === 'allTypes') {
-      newFilter.entityType = '';
-      const typeTranslation = T.translate('user.types.allTypes').toString();
-      this.setState( {filter: newFilter, typeDisplay: typeTranslation} );
-    } else {
-      newFilter.entityType = type;
-      const typeTranslation = T.translate(`user.types.${type}`).toString();
-      this.setState( { filter: newFilter, typeDisplay: typeTranslation } );
-    }
-    this.props.onFilter(newFilter);
-  }
-
-  handleFilterMethod(event: string) {
-    const method = event;
-    const newFilter = this.state.filter;
-    if (method === 'allMethods') {
-      newFilter.method = '';
-      const typeTranslation = T.translate('user.methods.allMethods').toString();
-      this.setState( {filter: newFilter, methodDisplay: typeTranslation} );
-    } else {
-      newFilter.method = method;
-      const typeTranslation = T.translate(`user.methods.${method}`).toString();
-      this.setState( { filter: newFilter, methodDisplay: typeTranslation } );
-    }
-    this.props.onFilter(newFilter);
-  }
-
-  handleFilterUser(selected: string[]) {
-    const newFilter = this.state.filter;
-    newFilter.user = selected[0].split(':')[0];
+    newFilter.firstName = selected[0];
     this.setState({ filter: newFilter });
     this.props.onFilter( newFilter );
   }
 
-  handleFilterStartDate(event: any) {
+  handleFilterLastName(selected: string[]) {
     const newFilter = this.state.filter;
-    if (event) {
-      newFilter.after = event.split('Z')[0];
-    } else {
-      newFilter.after = "";
-    }
+    newFilter.lastName = selected[0];
     this.setState({ filter: newFilter });
-    this.props.onFilter(newFilter);
+    this.props.onFilter( newFilter );
   }
 
-  handleFilterEndDate(event: any) {
+  handleFilterEmail(selected: string[]) {
     const newFilter = this.state.filter;
-    if (event) {
-      newFilter.before = event.split('Z')[0];
-    } else {
-      newFilter.before = "";
-    }
+    newFilter.email = selected[0];
     this.setState({ filter: newFilter });
-    this.props.onFilter(newFilter);
+    this.props.onFilter( newFilter );
   }
 
   handleReset() {
-    const newFilter: UserFilterData = { after: '', before: '', method: '', type: '', user: '' };
-    this.setState({ filter: newFilter, typeDisplay: 'All types', methodDisplay: 'All methods' });
+    const newFilter: UserFilterData = { firstName: '', lastName: '', email: '' };
+    this.setState({ filter: newFilter });
     this.props.onFilter(newFilter);
   }
 
@@ -122,31 +79,26 @@ class UserFilter extends React.Component<FilterProps, FilterState> {
     this.setState({ hidden: false });
   }
 
-  containsUser(users: string[], id: number){
-    for (const user in users) {
-      if (parseInt(user.split(':')[0],10) === id) {
-        return true;
-      }
-    }
-    return false;
-  }
-
   setTypeaheadOptions(users: UserData[]) {
-    const newUserData: string[] = [];
-
+    const firstNameData: string[] = [];
+    const lastNameData: string[] = [];
+    const emailData: string[] = [];
     users.map((user: UserData) => {
-      if (user.user !== null && user.user !== undefined && user.user !== -1) {
-        if (!this.containsUser(newUserData, user.user)) {
-          newUserData.push(`${user.user}: ${this.props.getUser([], user.user, true)}`);
-        }
+      if (user.firstName !== null && user.firstName !== undefined && user.firstName !== '') {
+        firstNameData.push(user.firstName);
+      }
+      if (user.lastName !== null && user.lastName !== undefined && user.lastName !== '') {
+        lastNameData.push(user.lastName);
+      }
+      if (user.email !== null && user.email !== undefined && user.email !== '') {
+        emailData.push(user.email);
       }
     });
-
-    this.setState({ userData: newUserData });
+    this.setState({ firstNameData: firstNameData, lastNameData: lastNameData, emailData: emailData });
   }
 
   render() {
-    const { filter, typeDisplay, userData, methodDisplay } = this.state;
+    const { filter, firstNameData, lastNameData, emailData } = this.state;
 
     if (this.state.hidden || this.props.users === []) {
       return(
@@ -156,14 +108,12 @@ class UserFilter extends React.Component<FilterProps, FilterState> {
       return(
         <UserFilterLayout
           filter={ filter }
-          typeDisplay={ typeDisplay }
-          userData={ userData }
-          methodDisplay={ methodDisplay }
-          onFilterType={ this.handleFilterType }
-          onFilterMethod={ this.handleFilterMethod }
-          onFilterStartDate={ this.handleFilterStartDate }
-          onFilterEndDate={ this.handleFilterEndDate }
-          onFilterUser={ this.handleFilterUser }
+          firstNameData={ firstNameData }
+          lastNameData={ lastNameData }
+          emailData={ emailData }
+          onFilterFirstName={ this.handleFilterFirstName }
+          onFilterLastName={ this.handleFilterLastName }
+          onFilterEmail={ this.handleFilterEmail }
           onReset={ this.handleReset }
           onHide={ this.handleHide }
         />

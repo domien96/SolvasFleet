@@ -25,6 +25,7 @@ company:
   edit: Edit Company
   types: Type
   type:
+    allTypes: All types
     LeasingCompany: Leasing company
     InsuranceCompany: Insurance company
     Customer: Customer
