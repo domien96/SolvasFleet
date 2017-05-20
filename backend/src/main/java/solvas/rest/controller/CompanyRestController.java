@@ -29,7 +29,6 @@ import java.util.Collection;
 public class CompanyRestController extends AbstractRestController<Company,ApiCompany> {
 
     private final CompanyExtractor companyExtractor;
-    private final CompanyService companyService;
     /**
      * Rest controller for Company
      *
@@ -38,7 +37,6 @@ public class CompanyRestController extends AbstractRestController<Company,ApiCom
     @Autowired
     public CompanyRestController(CompanyService service, CompanyExtractor companyExtractor) {
         super(service);
-        this.companyService = service;
         this.companyExtractor = companyExtractor;
     }
 

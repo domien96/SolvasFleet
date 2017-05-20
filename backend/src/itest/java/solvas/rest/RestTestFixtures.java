@@ -3,7 +3,6 @@ package solvas.rest;
 /**
  * Class that contains the test fixtures for restcontrollers
  */
-
 public class RestTestFixtures {
     public final static String USER_ROOT_URL = "/users";
     public final static String USER_ID_URL = "/users/14";
@@ -35,11 +34,11 @@ public class RestTestFixtures {
     public final static String CONTRACT_BY_COMPANY_FLEET_VEHICLE = "/companies/1/fleets/1/vehicles/1/contracts";
     public final static String CONTRACT_BY_COMPANY_ID = "/companies/1/contracts";
 
-    public final static String INVOICE_ROOT_URL = "/fleets/1/invoices";
-    public final static String INVOICE_ID_URL = "/fleets/1/invoices/1";
-    public final static String INVOICE_CURRENT_URL = "/fleets/1/invoices/current";
+    public final static String INVOICE_ROOT_URL = "/companies/1/fleets/1/invoices";
+    public final static String INVOICE_ID_URL = "/companies/1/fleets/1/invoices/1";
+    public final static String INVOICE_CURRENT_URL = "/companies/1/fleets/1/invoices/current";
     public final static String INVOICE_PDF_URL = "/companies/1/fleets/1/invoices/1.pdf";
-    public final static String INVOICE_CURRENT_PDF = "/fleets/1/invoices/current.pdf";
+    public final static String INVOICE_CURRENT_PDF = "/companies/1/fleets/1/invoices/current.pdf";
 
     public final static String FUNCTION_ROOT_URL = "/users/1/functions";
     public final static String FUNCTION_ID_URL = "/users/1/functions/1";
