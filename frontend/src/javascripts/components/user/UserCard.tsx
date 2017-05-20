@@ -28,7 +28,7 @@ const DeleteLink = ({ handleDelete }: { handleDelete: () => void }) => {
   return (
     <div className='col-sm-4'>
       <Confirm
-        onConfirm={handleDelete}
+        onConfirm={ handleDelete }
         body="Are you sure you want to archive this?"
         confirmText="Confirm Archive"
         title="Archive user">
@@ -44,7 +44,7 @@ const UnarchiveLink = ({ handleUnarchive }: { handleUnarchive: () => void }) => 
   return (
     <div className='col-sm-4'>
       <Confirm
-        onConfirm={handleUnarchive}
+        onConfirm={ handleUnarchive }
         body="Are you sure you want to restore this?"
         confirmText="Confirm Unarchive"
         title="Unarchive user">
@@ -65,7 +65,6 @@ const UserCard: React.StatelessComponent<Props> = props => {
     th('user.email', email),
   ];
 
-  console.log(props.user)
   let deleteLink = <DeleteLink handleDelete={ props.handleDelete } />
   if (archived) {
     deleteLink = <UnarchiveLink handleUnarchive={ props.handleUnarchive } />
