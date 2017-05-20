@@ -14,6 +14,9 @@ interface Props {
   handleChange: (e: any) => void;
   tableData: any;
   csvsuccess: boolean;
+  getCompany: (id: number) => string;
+  init: boolean;
+  getFleet: (inputCompanies: CompanyData[], inputFleets: FleetData[], id: number, init?: boolean) => string;
 }
 
 const Layout: React.StatelessComponent<Props> = props => {
@@ -25,7 +28,12 @@ const Layout: React.StatelessComponent<Props> = props => {
       <div className='wrapper'>
         <div className='row'>
           <div className='col-xs-12 col-md-7'>
-            <VehicleFilter onFilter = { props.onFilter } vehicles={ props.response.data } />
+            <VehicleFilter 
+              onFilter = { props.onFilter } 
+              vehicles={ props.response.data }
+              getCompany={ props.getCompany }
+              getFleet={ props.getFleet } 
+              init={ props.init } />
             <VehicleListing
               onSelect={ props.onVehicleSelect }
               addNewRoute='/vehicles/new'

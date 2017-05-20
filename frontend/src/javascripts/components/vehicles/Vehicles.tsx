@@ -15,6 +15,7 @@ interface State {
     tableData: any;
     companies: CompanyData[];
     fleets: FleetData[];
+    init: boolean;
   }
 
 class Vehicles extends React.Component<{}, State> {
@@ -44,11 +45,14 @@ class Vehicles extends React.Component<{}, State> {
       csvsuccess: false,
       companies: [],
       fleets: [],
-      tableData: []
+      tableData: [],
+      init: false
    };
     this.handleFilter = this.handleFilter.bind(this);
     this.fetchVehicles = this.fetchVehicles.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.getFleet = this.getFleet.bind(this);
+    this.getCompany = this.getCompany.bind(this);
   }
 
   componentDidMount() {
@@ -95,13 +99,19 @@ class Vehicles extends React.Component<{}, State> {
 
   fetchFleets(companies: CompanyData[]){
     let allFleets: FleetData[] = []
+    let i = 0;
+    const l = companies.length;
     if (companies) {
       companies.map((company: CompanyData) => {
+        i = i + 1;
         fetchFleets(company.id, (data: any) => {
           let fleets: FleetData[] = data.data 
           fleets.map((fleet: FleetData) => {
             allFleets.push(fleet);
           })
+          if (i == l) {
+            this.setState({ init: true })
+          }
           this.setState({ fleets: allFleets });
           this.setTableData(this.state.response.data, companies, allFleets);
         });
@@ -138,9 +148,13 @@ class Vehicles extends React.Component<{}, State> {
     postVehiclesFile(file, success, setErrors);
   }
 
-  getFleet(inputCompanies: CompanyData[], inputFleets: FleetData[], fleetId: number){
+  getFleet(inputCompanies: CompanyData[], inputFleets: FleetData[], fleetId: number, init?: boolean) {
     let fleets: FleetData[] = inputFleets;
     let companies: CompanyData[] = inputCompanies;
+    if (init) {
+      fleets = this.state.fleets;
+      companies = this.state.companies;
+    }
     if (fleets.length > 0) {
       const fleetFiltered = fleets.find((f: FleetData) => {
         return f.id === fleetId;
@@ -184,6 +198,18 @@ class Vehicles extends React.Component<{}, State> {
     this.setState({ tableData: data });
   }
 
+  getCompany(id: number) {
+    if (this.state.companies) {
+      const companyFiltered = this.state.companies.find((c: CompanyData) => {
+        return c.id === id;
+      })
+      if (companyFiltered) {
+        return companyFiltered.name;
+      } 
+    }
+    return '';
+  }
+
   render() {
     const children = React.Children.map(this.props.children,
       (child: any) => React.cloneElement(child, {
@@ -194,11 +220,14 @@ class Vehicles extends React.Component<{}, State> {
       <Layout
         response={this.state.response}
         onVehicleSelect={ this.handleClick }
+        getFleet={ this.getFleet }
+        getCompany={ this.getCompany }
         onFilter={ this.handleFilter }
         fetchVehicles={ this.fetchVehicles }
         errors={ this.state.errors }
         handleChange={ this.handleChange }
-        tableData= { this.state.tableData }
+        tableData={ this.state.tableData }
+        init={ this.state.init }
         csvsuccess={ this.state.csvsuccess } >
         { children }
       </Layout>

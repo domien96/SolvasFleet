@@ -48,7 +48,7 @@ class EditVehicle extends React.Component<Props, State> {
     e.preventDefault();
     const setErrors = (es: Form.Error[]) => this.setState({ errors: es });
     const success = () => redirect_to(`/vehicles/${this.state.vehicle.id}`);
-    
+    console.log(this.state.vehicle);
     putVehicle(this.state.vehicle.id, this.changeDateFormat(this.state.vehicle), success, Errors.handle(setErrors));
   }
 
