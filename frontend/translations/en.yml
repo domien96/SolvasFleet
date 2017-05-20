@@ -77,6 +77,9 @@ fleet:
   id: ID
   name: Name
   size: Size
+  company: Company
+  facturationPeriod: Facturation Period 
+  paymentPeriod: Payment Period
   options:
     yearly: Yearly
     monthly: Monthly
