@@ -122,6 +122,10 @@ paths:
           type: string
           description: Filter by postal code.
         - in: query
+          name: vatNumber
+          type: string
+          description: Filter by VAT number.
+        - in: query
           name: archived
           type: boolean
           default: false
