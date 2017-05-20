@@ -26,3 +26,7 @@ export function fetchCommissionOfFleet(vehicleType: string, insuranceType: strin
 export function fetchCommissionOfVehicle(vehicleType: string, insuranceType: string, vehicleId: number, success?: callback, fail?: callback) {
   GET( COMMISSION_URL, success, fail, getCommissionQuery(vehicleType, insuranceType, vehicleId, -1, -1) );
 }
+
+export function putCommission(vehicleType: string, insuranceType: string, body: CommissionData, success?: callback, fail?: callback) {
+  PUT( COMMISSION_URL, body , success, fail );
+}

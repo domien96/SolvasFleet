@@ -81,12 +81,17 @@ class Client extends React.Component<Props, State> {
               <Card>
                 <div className='card-content'>
                   <div className='row actions'>
-                    <div className='col-sm-4'>
+                    <div className='col-sm-3'>
                       <Link to={ '/clients/' + id + '/edit' } className='btn btn-default form-control'>
                         <span className='glyphicon glyphicon-edit' /> Edit
                       </Link>
                     </div>
-                    <div className='col-sm-4'>
+                    <div className='col-sm-3'>
+                      <Link to={ `/commissions/clients/${id}` } className='btn btn-default form-control'>
+                        <span className='glyphicon glyphicon-edit' /> Commissions
+                      </Link>
+                    </div>
+                    <div className='col-sm-3'>
                       <Confirm
                         onConfirm={ this.deleteClient }
                         body="Are you sure you want to archive this?"

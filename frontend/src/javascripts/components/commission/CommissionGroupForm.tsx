@@ -5,6 +5,7 @@ import Actions from '../forms/Actions.tsx';
 import T from 'i18n-react';
 import CommissionGroup from './CommissionGroup.tsx';
 import { callback } from '../../actions/fetch_json.ts';
+import { redirect_to } from '../../routes/router.tsx';
 
 
 interface Props {
@@ -101,9 +102,9 @@ class CommissionGroupForm extends React.Component<Props, State> {
 
   fetchCommission(vehicleType: string, insuranceType: string) {
     this.props.fetchCommission(vehicleType, insuranceType, (data) => {
-      console.log(data.data[0].value)
-      this.setCommission(vehicleType, insuranceType, data);
-      console.log(data);
+
+      this.setCommission(vehicleType, insuranceType, data.data[0]);
+      console.log(this.state);
     });
   }
 
@@ -161,7 +162,7 @@ class CommissionGroupForm extends React.Component<Props, State> {
             </div>
             <div className='col-xs-12 col-md-5'>
               <div className='row'>
-                <Actions submitLabel={ 'Submit' } cancelUrl={ this.props.returnTo } model='commission' />
+                <Actions submitLabel={ 'Submit' } cancelUrl={ this.props.returnTo } model='commissions' />
               </div>
             </div>
           </div>
