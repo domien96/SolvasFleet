@@ -11,6 +11,7 @@ interface Props {
   onFilterFirstName: (selectedUsers: string[]) => void;
   onFilterLastName: (selectedUsers: string[]) => void;
   onFilterEmail: (selectedUsers: string[]) => void;
+  onFilterArchive: () => void;
   onReset: () => void;
   onHide: () => void;
 }
@@ -25,7 +26,7 @@ const UserFilterLayout: React.StatelessComponent<Props> = props => {
     onFilterLastName,
     onFilterEmail
   } = props;
-  const { firstName, lastName, email } = filter;
+  const { firstName, lastName, email, archived } = filter;
 
   // Different typeahead fields
   const firstNameInput: Typeaheadfield = {
@@ -55,7 +56,9 @@ const UserFilterLayout: React.StatelessComponent<Props> = props => {
     <UserFilterView
       typeaheadfields={ typeaheadfields }
       onReset={ props.onReset }
-      onHide={ props.onHide } />
+      onHide={ props.onHide }
+      toggleArchive={ props.onFilterArchive }
+      archived={ archived } />
   );
 };
 

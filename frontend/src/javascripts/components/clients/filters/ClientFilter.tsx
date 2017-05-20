@@ -25,7 +25,8 @@ class ClientFilter extends React.Component<FilterProps, FilterState> {
         nameContains: '', 
         vatNumber: '', 
         country: '', 
-        type: ''
+        type: '',
+        archived: 'false',
       },
       hidden: false,
       countryData: [],
@@ -38,6 +39,7 @@ class ClientFilter extends React.Component<FilterProps, FilterState> {
     this.handleFilterVat = this.handleFilterVat.bind(this);
     this.handleFilterName = this.handleFilterName.bind(this);
     this.handleFilterCountry = this.handleFilterCountry.bind(this);
+    this.handleFilterArchived = this.handleFilterArchived.bind(this);
     this.handleReset = this.handleReset.bind(this);
     this.handleHide = this.handleHide.bind(this);
     this.handleShow = this.handleShow.bind(this);
@@ -68,6 +70,17 @@ class ClientFilter extends React.Component<FilterProps, FilterState> {
     this.props.onFilter(newFilter);
   }
 
+  handleFilterArchived() {
+    const newFilter = this.state.filter;
+    if (this.state.filter.archived === 'true') {
+      newFilter.archived = 'false';
+    } else {
+      newFilter.archived = 'true';
+    }
+    this.setState({ filter: newFilter });
+    this.props.onFilter( newFilter );
+  }
+
   handleFilterVat(selected: string[]) {
     const newFilter = this.state.filter;
     newFilter.vatNumber = selected[0];
@@ -94,7 +107,8 @@ class ClientFilter extends React.Component<FilterProps, FilterState> {
       name: '', 
       vatNumber: '', 
       country: '', 
-      type: '' 
+      type: '',
+      archived: 'false'
     };
     const typeTranslation = T.translate('company.type.allTypes').toString();
     this.setState({ filter: newFilter, typeDisplay: typeTranslation });
@@ -152,6 +166,7 @@ class ClientFilter extends React.Component<FilterProps, FilterState> {
           onFilterVat={ this.handleFilterVat }
           onFilterName={ this.handleFilterName }
           onFilterCountry={ this.handleFilterCountry }
+          onFilterArchive={ this.handleFilterArchived }
           onReset={ this.handleReset }
           onHide={ this.handleHide }
         />

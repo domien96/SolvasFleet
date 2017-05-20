@@ -19,7 +19,7 @@ class UserFilter extends React.Component<FilterProps, FilterState> {
   constructor() {
     super();
     this.state = {
-      filter: { firstName: '', lastName: '', email: '' },
+      filter: { firstName: '', lastName: '', email: '', archived: 'false' },
       hidden: false,
       firstNameData: [],
       lastNameData: [],
@@ -29,6 +29,7 @@ class UserFilter extends React.Component<FilterProps, FilterState> {
     this.handleFilterFirstName = this.handleFilterFirstName.bind(this);
     this.handleFilterLastName = this.handleFilterLastName.bind(this);
     this.handleFilterEmail = this.handleFilterEmail.bind(this);
+    this.handleFilterArchived = this.handleFilterArchived.bind(this);
     this.handleReset = this.handleReset.bind(this);
     this.handleHide = this.handleHide.bind(this);
     this.handleShow = this.handleShow.bind(this);
@@ -42,6 +43,17 @@ class UserFilter extends React.Component<FilterProps, FilterState> {
     if (this.props.users !== nextProps.users) {
       this.setTypeaheadOptions(nextProps.users);
     }
+  }
+
+  handleFilterArchived() {
+    const newFilter = this.state.filter;
+    if (this.state.filter.archived === 'true') {
+      newFilter.archived = 'false';
+    } else {
+      newFilter.archived = 'true';
+    }
+    this.setState({ filter: newFilter });
+    this.props.onFilter( newFilter );
   }
 
   handleFilterFirstName(selected: string[]) {
@@ -66,7 +78,7 @@ class UserFilter extends React.Component<FilterProps, FilterState> {
   }
 
   handleReset() {
-    const newFilter: UserFilterData = { firstName: '', lastName: '', email: '' };
+    const newFilter: UserFilterData = { firstName: '', lastName: '', email: '', archived: 'false' };
     this.setState({ filter: newFilter });
     this.props.onFilter(newFilter);
   }
@@ -114,6 +126,7 @@ class UserFilter extends React.Component<FilterProps, FilterState> {
           onFilterFirstName={ this.handleFilterFirstName }
           onFilterLastName={ this.handleFilterLastName }
           onFilterEmail={ this.handleFilterEmail }
+          onFilterArchive={ this.handleFilterArchived }
           onReset={ this.handleReset }
           onHide={ this.handleHide }
         />

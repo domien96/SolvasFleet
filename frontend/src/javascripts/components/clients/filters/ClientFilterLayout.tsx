@@ -13,6 +13,7 @@ interface Props {
   onFilterVat: (selected: string[]) => void;
   onFilterName: (selected: string[]) => void;  
   onFilterCountry: (selected: string[]) => void;
+  onFilterArchive: () => void;
   onReset: () => void;
   onHide: () => void;
 }
@@ -38,7 +39,7 @@ const ClientFilterLayout: React.StatelessComponent<Props> = props => {
     onFilterName,
     onFilterCountry
   } = props;
-  const { vatNumber, name, country } = filter;
+  const { vatNumber, name, country, archived } = filter;
 
   // Different choices for each type of log
   const typeAllTypes: Choice = createChoice(onFilterType, 'allTypes', 'company.type.allTypes');
@@ -83,7 +84,9 @@ const ClientFilterLayout: React.StatelessComponent<Props> = props => {
       typeaheadfields={ typeaheadfields }
       datefields={ datefields }
       onReset={ props.onReset }
-      onHide={ props.onHide } />
+      onHide={ props.onHide } 
+      toggleArchive={ props.onFilterArchive }
+      archived={ archived } />
   );
 };
 

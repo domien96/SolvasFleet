@@ -22,7 +22,7 @@ class LogFilter extends React.Component<FilterProps, FilterState> {
   constructor() {
     super();
     this.state = {
-      filter: { after: '', before: '', method: '', entityType: '', user: '' },
+      filter: { after: '', before: '', method: '', entityType: '', user: '', archived: '' },
       hidden: false,
       userData: [],
       typeDisplay: 'All types',
@@ -63,6 +63,17 @@ class LogFilter extends React.Component<FilterProps, FilterState> {
     }
     this.props.onFilter(newFilter);
   }
+
+  handleFilterArchived() {
+    const newFilter = this.state.filter;
+    if (this.state.filter.archived === 'true') {
+      newFilter.archived = 'false';
+    } else {
+      newFilter.archived = 'true';
+    }
+    this.setState({ filter: newFilter });
+    this.props.onFilter( newFilter );
+  }  
 
   handleFilterMethod(event: string) {
     const method = event;

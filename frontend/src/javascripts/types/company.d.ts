@@ -27,4 +27,5 @@ interface CompanyFilterData {
   [vatNumber: string]: string;
   [country: string]: string;
   [type: string]: string;
+  [archived: string]: string;
 }

@@ -18,6 +18,7 @@ interface Props {
   onFilterYear: (year: string | number) => void;
   onReset: () => void;
   onHide: () => void;
+  onFilterArchive: () => void;
 }
 
 const VehicleFilterLayout: React.StatelessComponent<Props> = props => {
@@ -35,7 +36,7 @@ const VehicleFilterLayout: React.StatelessComponent<Props> = props => {
     fleetData,
     leasingCompanyData
   } = props;
-  const { fleet, leasingCompany, licensePlate, vin, year } = filter;
+  const { fleet, leasingCompany, licensePlate, vin, year, archived } = filter;
 
   // Different choices for each type of vehicle
   const typeAllVehicles: Choice = {
@@ -119,7 +120,9 @@ const VehicleFilterLayout: React.StatelessComponent<Props> = props => {
       typeaheadfields={ typeaheadfields }
       datefields={ datefields }
       onReset={ props.onReset }
-      onHide={ props.onHide } />
+      onHide={ props.onHide } 
+      toggleArchive={ props.onFilterArchive }
+      archived={ archived } />
   );
 };
 

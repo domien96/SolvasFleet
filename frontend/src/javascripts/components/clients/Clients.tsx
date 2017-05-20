@@ -29,7 +29,8 @@ class Clients extends React.Component<{}, State> {
         nameContains: '',
         vatNumber: '',
         country: '',
-        type: ''
+        type: '',
+        archived: 'false',
       } 
     };
     this.fetchClients = this.fetchClients.bind(this);

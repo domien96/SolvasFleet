@@ -30,6 +30,7 @@ class Vehicles extends React.Component<{}, State> {
         type: '',
         vin: '',
         year: '',
+        archived: 'false',
       }, response: {
         data: [],
         first: '',
