@@ -66,7 +66,6 @@ class Users extends React.Component<{}, State> {
   }
 
   handleFilter(newFilter: UserFilterData) {
-    console.log(newFilter)
     this.setState({ filter: newFilter });
     this.fetchUsers(undefined, newFilter);
   }
