@@ -36,13 +36,13 @@ class Fleets extends React.Component<Props, State> {
   }
 
   onClick() {
-    this.setState({ formVisible: true });
+    this.setState({ formVisible: !this.state.formVisible })
   }
 
   onSubmit(e: any) {
     e.preventDefault();
     const setErrors = (es: Form.Error[]) => this.setState({ errors: es });
-    const success = (data: any) => redirect_to(`/fleets/${data.id}`);
+    const success = (data : any) => redirect_to(`/clients/${this.props.company}/fleets/${data.id}`);
 
     postFleet(this.props.company, this.state.fleet, success, Errors.handle(setErrors));
 }
@@ -57,6 +57,7 @@ class Fleets extends React.Component<Props, State> {
         formIsVisible={ this.state.formVisible }
         onClick={ this.onClick }
         fleet={ this.state.fleet }
+        companyId={ this.props.company }
       />
     );
   }
