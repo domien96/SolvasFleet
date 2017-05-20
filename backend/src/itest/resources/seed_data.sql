@@ -63,5 +63,5 @@ INSERT INTO functions (user_id, role_id, start_date) VALUES (1,1,now());
 INSERT INTO contracts (fleet_subscription_id, startDate,endDate,franchise,premium,company_id,insurance_type_id) VALUES (1,'2014-02-21','2015-11-16',100,100,1,1);
 
 INSERT INTO invoices (invoice_id, paid,fleet_id,start_date,end_date,type) VALUES (1, FALSE,1,'2014-02-21','2015-11-16',1);
-INSERT INTO invoice_items (invoice_item_id,type, amount, invoice_id,contract_id, start_date,end_date, tax) VALUES(1, 1, 100, 1, 1, '2014-02-21','2015-11-16',5);
+INSERT INTO invoice_items (invoice_item_id,type, amount, invoice_id,contract_id, start_date,end_date, tax) VALUES(1, 'PAYMENT', 100, 1, 1, '2014-02-21','2015-11-16',5);
 SELECT setval('revisions_revision_id_seq', (SELECT MAX(revision_id) FROM revisions));
