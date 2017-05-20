@@ -21,8 +21,8 @@
        <many-to-one name="fleet" column="fleet_id"
                     class="solvas.service.models.Fleet" not-null="true"/>
 
-      <set name="contracts" table="contracts" lazy="true">
-         <key column="contract_id" />
+      <set name="contracts" table="contracts" lazy="false">
+         <key column="fleet_subscription_id" />
          <one-to-many class="solvas.service.models.Contract"/>
       </set>
 

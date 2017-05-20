@@ -6,7 +6,6 @@ namespace Fleet {
 interface FleetData {
   id?: number;
   name?: string;
-  size?: number;
   company?: number;
   facturationPeriod?: number;
   paymentPeriod?: number;

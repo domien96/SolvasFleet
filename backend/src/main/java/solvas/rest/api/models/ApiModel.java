@@ -19,13 +19,11 @@ public abstract class ApiModel extends Model {
         this.url = url;
     }
 
-    @JsonIgnore
     @Override
     public boolean isArchived() {
         return super.isArchived();
     }
 
-    @JsonIgnore
     @Override
     public void setArchived(boolean archived) {
         super.setArchived(archived);

@@ -15,6 +15,7 @@ public class FleetPermissionEvaluator extends AbstractPermissionEvaluator<Fleet>
         registerPermissionDecider("READ_INVOICES", this::canReadInvoices);
         registerPermissionDecider("READ_VEHICLES", this::canReadVehicles);
         registerPermissionDecider("MANAGE_VEHICLES", this::canManageVehicles);
+        registerPermissionDecider("WRITE_INVOICES", this::canWriteInvoices);
     }
 
     /**
@@ -22,6 +23,18 @@ public class FleetPermissionEvaluator extends AbstractPermissionEvaluator<Fleet>
      */
     public FleetPermissionEvaluator(Dao<Fleet> dao) {
         super(dao);
+    }
+
+    /**
+     * Check if a user can create invoices for a fleet
+     *
+     * @param authentication The authentication.
+     * @param model The model.
+     *
+     * @return True if the user has permission.
+     */
+    public boolean canWriteInvoices(Authentication authentication, Fleet model) {
+        return hasScope(authentication, WRITE_COMPANY_INVOICES, getCompanyId(model), WRITE_COMPANIES_INVOICES);
     }
 
     @Override
