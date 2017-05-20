@@ -21,14 +21,10 @@ public interface FleetSubscriptionDaoCustom {
     Optional<FleetSubscription> activeForVehicle(Vehicle vehicle);
 
     /**
-     * Get the active subscription for a period with a start date and end date.
+     * Get the active subscription for a period [start, end[.
      *
-     * An active subscription is defined as a subscription for which the start date lies before or on given date,
-     * and there is no end date or the end date is on or after the given date.
-     *
-     * This means: active => startDate <= date1 && (endDate == null || endDate >= date2)
-     *
-     * In this method, date1 = start and date2 = end.
+     * A subscription is considered active if {@link FleetSubscription#isActive()} would return true if it was called
+     * on any moment of the [start, end[ interval.
      *
      * @param vehicle The vehicle.
      * @param start The start date. Inclusive.
