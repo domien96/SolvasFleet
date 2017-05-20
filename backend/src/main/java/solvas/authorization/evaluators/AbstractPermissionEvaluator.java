@@ -137,11 +137,11 @@ public abstract class AbstractPermissionEvaluator<M extends Model> implements Pe
      *
      * @return True if the user has a scope.
      */
-    protected boolean hasScope(Authentication authentication, String scope) {
+    protected static boolean hasScope(Authentication authentication, String scope) {
         return hasScope(getAuthorities(authentication), scope);
     }
 
-    private boolean hasScope(Stream<Authority> authorities, String scope) {
+    public static boolean hasScope(Stream<Authority> authorities, String scope) {
         return authorities.map(Authority::getScopes)
                 .flatMap(Collection::stream)
                 .anyMatch(scope::equals);
@@ -156,13 +156,13 @@ public abstract class AbstractPermissionEvaluator<M extends Model> implements Pe
      *
      * @return True if the user has the scope.
      */
-    protected boolean hasScope(Authentication authentication, String scope, Integer forCompanies) {
+    protected static boolean hasScope(Authentication authentication, String scope, Integer forCompanies) {
         return hasScope(
                 getAuthorities(authentication).filter(authority -> forCompanies.equals(authority.getCompanyId())),
                 scope);
     }
 
-    private Stream<Authority> getAuthorities(Authentication authentication) {
+    private static Stream<Authority> getAuthorities(Authentication authentication) {
         return authentication.getAuthorities().stream()
                 .filter(Authority.class::isInstance)
                 .map(Authority.class::cast);

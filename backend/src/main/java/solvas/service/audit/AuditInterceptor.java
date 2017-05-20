@@ -130,7 +130,12 @@ public class AuditInterceptor extends EmptyInterceptor {
 
             String[] className = EntityType.fromClass(about.getClass()).split("\\.");
             revision.setEntityType(className[className.length-1]);
-            revision.setPayload(objectMapper.writeValueAsString(mapperContext.getMapperForClass(about.getClass()).convertToApiModel((Model) about)));
+
+            if (revision.getMethod().equals(MethodType.DELETE)){
+                revision.setPayload("");
+            } else {
+                revision.setPayload(objectMapper.writeValueAsString(mapperContext.getMapperForClass(about.getClass()).convertToApiModel((Model) about)));
+            }
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e); // Can we even catch an exception at this point
         }

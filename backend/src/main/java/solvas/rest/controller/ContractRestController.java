@@ -45,6 +45,7 @@ public class ContractRestController extends AbstractRestController<Contract,ApiC
      * @return ResponseEntity
      */
     @RequestMapping(value = "/contracts", method = RequestMethod.GET)
+    @PreAuthorize("hasPermission(0, 'contract', 'READ')")
     public ResponseEntity<?> listAll(Pageable pagination, ContractFilter filter, BindingResult result) {
         return super.listAll(pagination, filter, result);
     }
@@ -52,6 +53,7 @@ public class ContractRestController extends AbstractRestController<Contract,ApiC
 
     @Override
     @RequestMapping(value = "/contracts/{id}", method = RequestMethod.GET)
+    @PreAuthorize("hasPermission(#id, 'contract', 'READ')")
     public ResponseEntity<?> getById(@PathVariable int id) {
         return super.getById(id);
     }
@@ -98,6 +100,7 @@ public class ContractRestController extends AbstractRestController<Contract,ApiC
     // TODO: authorize
     @Override
     @RequestMapping(value = "/contracts", method = RequestMethod.POST)
+    @PreAuthorize("hasPermission(0, 'contract', 'CREATE')")
     public ResponseEntity<?> post(@Valid @RequestBody ApiContract input, BindingResult result) {
         return super.post(input, result);
     }
