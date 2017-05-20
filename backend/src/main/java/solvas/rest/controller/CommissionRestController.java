@@ -18,7 +18,13 @@ import javax.validation.Valid;
 
 /**
  * Rest controller for Commission
+ * No POST request are allowed.
+ * If you want to add a commission, you use the PUT method. This is because an endpoint user does not have to know
+ * whether a commission already exists for the specific parameters or not. The endpoint user may assume that for each
+ * set of parameters a commission exists.
  * Visit @ /commissions
+ * @author sjabasti
+ * @author domien
  */
 @RestController
 public class CommissionRestController extends AbstractRestController<Commission,ApiCommission> {
@@ -35,12 +41,6 @@ public class CommissionRestController extends AbstractRestController<Commission,
     public CommissionRestController(CommissionService service) {
         super(service);
         commissionService=service;
-    }
-
-
-    @RequestMapping(value = "/commissions/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> put(@PathVariable int id, @Valid @RequestBody ApiCommission input, BindingResult result) {
-        return super.put(id, input,result);
     }
 
     /**
@@ -65,12 +65,12 @@ public class CommissionRestController extends AbstractRestController<Commission,
      * @param result  The binding to use to validate
      * @return Response with the saved model, or 400.
      */
-    @RequestMapping(value = "/commissions/vehicle/{id}/type/{type}", method = RequestMethod.POST)
+    @RequestMapping(value = "/commissions/vehicle/{id}/type/{type}", method = RequestMethod.PUT)
     public ResponseEntity<?> postVehicleCommission(@Valid @RequestBody ApiCommission input
             ,@PathVariable int id, @PathVariable String type, BindingResult result) {
         input.setInsuranceType(type);
         input.setVehicle(id);
-        return super.post(input, result);
+        return super.put(input.getId(),input, result);
     }
 
     /**
@@ -81,13 +81,13 @@ public class CommissionRestController extends AbstractRestController<Commission,
      * @param result  The binding to use to validate
      * @return Response with the saved model, or 400.
      */
-    @RequestMapping(value = "/commissions/fleet/{fleetId}/type/{fleetType}/type/{insuranceType}", method = RequestMethod.POST)
+    @RequestMapping(value = "/commissions/fleet/{fleetId}/type/{fleetType}/type/{insuranceType}", method = RequestMethod.PUT)
     public ResponseEntity<?> postFleetAndTypeCommission(@Valid @RequestBody ApiCommission input
             ,@PathVariable int fleetId, @PathVariable String fleetType, @PathVariable String insuranceType, BindingResult result) {
         input.setInsuranceType(insuranceType);
         input.setVehicleType(fleetType);
         input.setFleet(fleetId);
-        return super.post(input, result);
+        return super.put(input.getId(),input, result);
     }
 
 
@@ -98,12 +98,12 @@ public class CommissionRestController extends AbstractRestController<Commission,
      * @param result  The binding to use to validate
      * @return Response with the saved model, or 400.
      */
-    @RequestMapping(value = "/commissions/fleet/{fleetId}/type/{insuranceType}", method = RequestMethod.POST)
+    @RequestMapping(value = "/commissions/fleet/{fleetId}/type/{insuranceType}", method = RequestMethod.PUT)
     public ResponseEntity<?> postFleetCommission(@Valid @RequestBody ApiCommission input
             ,@PathVariable int fleetId ,@PathVariable String insuranceType , BindingResult result) {
         input.setInsuranceType(insuranceType);
         input.setFleet(fleetId);
-        return super.post(input, result);
+        return super.put(input.getId(),input, result);
     }
 
     /**
@@ -113,7 +113,7 @@ public class CommissionRestController extends AbstractRestController<Commission,
      * @param result  The binding to use to validate
      * @return Response with the saved model, or 400.
      */
-    @RequestMapping(value = "/commissions/company/{companyId}/type/{insuranceType}", method = RequestMethod.POST)
+    @RequestMapping(value = "/commissions/company/{companyId}/type/{insuranceType}", method = RequestMethod.PUT)
     public ResponseEntity<?> postCompanyCommission(@Valid @RequestBody ApiCommission input
             ,@PathVariable int companyId,@PathVariable String insuranceType, BindingResult result) {
         input.setVehicleType(null);
@@ -121,7 +121,7 @@ public class CommissionRestController extends AbstractRestController<Commission,
         input.setCompany(companyId);
         input.setInsuranceType(insuranceType);
         input.setFleet(0);
-        return super.post(input, result);
+        return super.put(input.getId(),input, result);
     }
 
 
