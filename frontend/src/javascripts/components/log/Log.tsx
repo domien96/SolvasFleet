@@ -45,7 +45,6 @@ class Log extends React.Component<Props, State> {
     this.fetchUsers = this.fetchUsers.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleFilter = this.handleFilter.bind(this);
-    this.getUser = this.getUser.bind(this);
   }
 
   componentDidMount() {
