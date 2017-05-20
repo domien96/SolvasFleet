@@ -53,7 +53,7 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
      * @param validator The validator, used for validating the csv import
      */
     @Autowired
-    public VehicleRestController(VehicleService service,  @Qualifier("mvcValidator") Validator validator) {
+    public VehicleRestController(VehicleService service,  Validator validator) {
         super(service);
         this.validator = validator;
     }

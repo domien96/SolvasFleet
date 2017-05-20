@@ -12,7 +12,6 @@ import org.springframework.jdbc.datasource.init.DatabasePopulator;
 import org.springframework.jdbc.datasource.init.DatabasePopulatorUtils;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
-import solvas.service.audit.AuditInterceptor;
 
 import javax.sql.DataSource;
 import java.io.IOException;
@@ -63,11 +62,11 @@ public class TestConfig {
 
 
     /**
-     * Test config cannot find javax.validation.Validator bean, so we create a new factory
+     * Test config cannot find org.springframework.validation.Validator bean, so we create a new factory
      * @return new Validator
      */
     @Bean
-    public javax.validation.Validator localValidatorFactoryBean() {
+    public org.springframework.validation.Validator validator() {
         return new LocalValidatorFactoryBean();
     }
 

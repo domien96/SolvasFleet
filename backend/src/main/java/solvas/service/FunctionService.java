@@ -2,9 +2,9 @@ package solvas.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import solvas.persistence.api.Dao;
+import solvas.persistence.api.dao.FunctionDao;
 import solvas.rest.api.models.ApiFunction;
-import solvas.service.mappers.AbstractMapper;
+import solvas.service.mappers.FunctionMapper;
 import solvas.service.models.Function;
 
 /**
@@ -19,8 +19,8 @@ public class FunctionService extends AbstractService<Function, ApiFunction> {
      */
     @Autowired
     public FunctionService(
-            Dao<Function> modelDao,
-            AbstractMapper<Function, ApiFunction> mapper) {
+            FunctionDao modelDao,
+            FunctionMapper mapper) {
         super(modelDao, mapper);
     }
 }
