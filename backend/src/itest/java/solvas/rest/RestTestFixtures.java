@@ -31,8 +31,8 @@ public class RestTestFixtures {
     public final static String ROLE_ID_URL = "/auth/roles/1";
     public final static String COMPANY_ROOT_URL = "/companies";
     public final static String COMPANY_ID_URL = "/companies/1";
-    public final static String INVOICE_ROOT_URL = "/fleets/1/invoices";
-    public final static String INVOICE_ID_URL = "/fleets/1/invoices/1";
+    public final static String INVOICE_ROOT_URL = "/companies/1/fleets/1/invoices";
+    public final static String INVOICE_ID_URL = "/companies/1/fleets/1/invoices/1";
     public final static String TAX_BASE_URL = "/vehicles/types/PersonalVehicle/taxes/LegalAid";
     public final static String CONTRACT_ROOT_URL = "/contracts";
     public final static String CONTRACT_ID_URL = "/contracts/1";
