@@ -1,6 +1,7 @@
 package solvas.rest.query;
 
 import solvas.service.models.Contract;
+import solvas.service.models.Fleet;
 import solvas.service.models.FleetSubscription;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -18,17 +19,18 @@ import java.util.Collection;
  * @author Steven
  */
 public class ContractFilter extends ArchiveFilter<Contract> {
-    private int company = -1;
+    private int insuranceCompany = -1;
     private int vehicle=-1;
     private int fleet=-1;
+    private int clientCompany=-1;
 
     @Override
     public Collection<Predicate> asPredicates(CriteriaBuilder builder, Root<Contract> root) {
         Collection<Predicate> predicates = super.asPredicates(builder,root);
-        if (company >= 0) {
-            predicates.add(builder.equal(root.get("company"), company));
+        if (insuranceCompany >= 0) {
+            predicates.add(builder.equal(root.get("company"), insuranceCompany));
         }
-        if (vehicle >=0 ||fleet >=0){
+        if (vehicle >=0 ||fleet >=0 || clientCompany > 0){
             Join<Contract, FleetSubscription> subscriptionJoin = root.join("fleetSubscription");
             LocalDate now = LocalDate.now();
             // The start must be before today
@@ -58,14 +60,27 @@ public class ContractFilter extends ArchiveFilter<Contract> {
                         )
                 );
             }
+            if (clientCompany >= 0){
+                Join<Contract, Fleet> fleetJoin = subscriptionJoin.join("fleet");
+                predicates.add(
+                        builder.equal(fleetJoin.get("company"), clientCompany)
+                );
+
+
+
+            }
+
+
         }
 
         return predicates;
     }
 
-    public void setCompany(int company) {
-        this.company = company;
+    public void setInsuranceCompany(int insuranceCompany) {
+        this.insuranceCompany = insuranceCompany;
     }
+
+    public void setClientCompany(int clientCompany) {this.clientCompany = clientCompany;}
 
     public void setFleet(int fleet) {
         this.fleet = fleet;
