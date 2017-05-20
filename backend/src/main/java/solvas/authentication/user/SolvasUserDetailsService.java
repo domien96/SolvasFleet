@@ -42,10 +42,22 @@ public class SolvasUserDetailsService implements UserDetailsService {
         }
     }
 
+    /**
+     * Find UserDetails based on id
+     * @param id String representation of the id to search for
+     * @return UserDetails found
+     * @throws UsernameNotFoundException User not found
+     */
     public UserDetails loadUserById(String id) throws UsernameNotFoundException {
         return loadUserById(Integer.valueOf(id));
     }
 
+    /**
+     * Find UserDetails based on id
+     * @param id Id to search for
+     * @return UserDetails found
+     * @throws UsernameNotFoundException User not found
+     */
     public UserDetails loadUserById(int id) throws UsernameNotFoundException {
         try {
             return loadUserByModel(userDao.findUnarchivedById(id));
