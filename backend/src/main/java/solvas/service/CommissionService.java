@@ -39,9 +39,10 @@ public class CommissionService extends AbstractService<Commission,ApiCommission>
      *
      * This process will continue until a record is found. If there is no commission found at the top level then nothing
      * will be returned.
-     * @param pagination
-     * @param filters
-     * @return
+     * @param pagination pagination information
+     * @param filters the parameters to filter on
+     * @return The commission corresponding to the given set of parameters. The page should normally contain
+     *         at most 1 object.
      */
     public Page<ApiCommission> findBottomUp(Pageable pagination, Filter<Commission> filters) {
         CommissionFilter f = (CommissionFilter) filters;
