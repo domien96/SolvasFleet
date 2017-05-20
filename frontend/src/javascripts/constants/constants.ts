@@ -15,14 +15,13 @@ export function CLIENT_URL(id: number) { return `${CLIENTS_URL}/${id}`; }
 
 export const VEHICLES_URL                = `${BASE_API_URL}/vehicles`;
 export function VEHICLE_URL(id: number) { return `${VEHICLES_URL}/${id}`; }
-
-export function VEHICLE_GREENCARD_PDF_URL(id : number) {
-	return `${VEHICLES_URL}/${id}/greencard.pdf`;
+export function VEHICLE_GREENCARD_PDF_URL(id : number) { 
+	return `${VEHICLES_URL}/${id}/greencard.pdf`; 
 }
 export const VEHICLES_UPLOAD            = `${VEHICLES_URL}/upload`;
 
 export function FLEETS_URL(id: number) { return `${BASE_API_URL}/companies/${id}/fleets`; }
-export function FLEET_URL(id: number) { return `${FLEETS_URL}/${id}`; }
+export function FLEET_URL(id: number, companyId: number) { return `${BASE_API_URL}/companies/${companyId}/fleets/${id}`; }
 
 export const AUTH_LOGIN_URL = `${BASE_API_URL}/auth/login`;
 export const AUTH_TOKEN_URL = `${BASE_API_URL}/auth/token`;
@@ -55,5 +54,9 @@ export function CONTRACT_URL(id: number) { return `${CONTRACTS_URL}/${id}`; }
 export function CONTRACTS_COMPANY_URL(id: number) { return `${CLIENTS_URL}/${id}/contracts`; }
 
 export const TYPES_URL                = `${BASE_API_URL}/contracts/types`;
+
+export const AUDIT_URL                = `${BASE_API_URL}/audit`;
+export function AUDIT_ENTRY_URL(id: number) { return `${AUDIT_URL}/${id}`; }
+
 
 export const COMMISSION_URL = `${BASE_API_URL}/commissions`;

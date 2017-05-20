@@ -9,6 +9,7 @@ import solvas.persistence.api.dao.InvoiceDao;
 import solvas.rest.api.models.ApiInvoice;
 import solvas.service.AbstractService;
 import solvas.service.InvoiceService;
+import solvas.service.invoices.InvoiceCorrector;
 import solvas.service.mappers.AbstractMapper;
 import solvas.service.mappers.InvoiceMapper;
 import solvas.service.mappers.exceptions.DependantEntityNotFound;
@@ -22,6 +23,8 @@ public class InvoiceServiceTest extends AbstractServiceTest<Invoice,ApiInvoice> 
     private DaoContext daoContextMock;
     @Mock
     private InvoiceDao invoiceDao;
+    @Mock
+    private InvoiceCorrector invoiceCorrector;
 
     @Mock
     private InvoiceMapper invoiceMapper;
@@ -39,7 +42,7 @@ public class InvoiceServiceTest extends AbstractServiceTest<Invoice,ApiInvoice> 
 
     @Override
     protected AbstractService<Invoice, ApiInvoice> getService() {
-        return new InvoiceService(daoContextMock, invoiceMapper);
+        return new InvoiceService(daoContextMock, invoiceMapper, invoiceCorrector);
     }
 
     @Override

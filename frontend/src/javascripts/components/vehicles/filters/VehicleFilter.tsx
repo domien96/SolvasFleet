@@ -7,6 +7,9 @@ import HiddenFilter from '../../filters/HiddenFilter.tsx';
 interface FilterProps {
   vehicles: VehicleData[];
   onFilter: (filter: VehicleFilterData) => void;
+  getFleet: (inputCompanies: CompanyData[], inputFleets: FleetData[], id: number, init?: boolean) => string;
+  getCompany: (id: number) => string;
+  init: boolean;
 }
 
 interface FilterState {
@@ -15,15 +18,19 @@ interface FilterState {
   hidden: boolean;
   licensePlateData: string[];
   vinData: string[];
+  fleetData: string[];
+  leasingCompanyData: string[];
 }
 
 class VehicleFilter extends React.Component<FilterProps, FilterState> {
   constructor() {
     super();
     this.state = {
-      filter: { fleet: '', type: '', leasingCompany: '', licensePlate: '', vin: '', year: '' },
+      filter: { fleet: '', type: '', leasingCompany: '', licensePlate: '', vin: '', year: '', archived: 'false' },
       hidden: false,
       licensePlateData: [],
+      leasingCompanyData: [],
+      fleetData: [],
       typeDisplay: 'All vehicles',
       vinData: [],
     };
@@ -34,6 +41,7 @@ class VehicleFilter extends React.Component<FilterProps, FilterState> {
     this.handleFilterLicensePlate = this.handleFilterLicensePlate.bind(this);
     this.handleFilterVin = this.handleFilterVin.bind(this);
     this.handleFilterYear = this.handleFilterYear.bind(this);
+    this.handleFilterArchived = this.handleFilterArchived.bind(this);
     this.handleReset = this.handleReset.bind(this);
     this.handleHide = this.handleHide.bind(this);
     this.handleShow = this.handleShow.bind(this);
@@ -41,21 +49,30 @@ class VehicleFilter extends React.Component<FilterProps, FilterState> {
   }
 
   componentDidMount() {
-    this.setTypeaheadOptions(this.props.vehicles);
+    if (this.props.vehicles) {
+      this.setTypeaheadOptions(this.props.vehicles);
+    }
   }
 
   componentWillReceiveProps(nextProps: any) {
     if (this.props.vehicles !== nextProps.vehicles) {
       this.setTypeaheadOptions(nextProps.vehicles);
     }
+    if (this.props.init) {
+      this.setTypeaheadOptions(nextProps.vehicles);
+    }
   }
 
-  handleFilterFleet(event: any) {
+  handleFilterArchived() {
     const newFilter = this.state.filter;
-    newFilter.fleet = event.target.value;
+    if (this.state.filter.archived === 'true') {
+      newFilter.archived = 'false';
+    } else {
+      newFilter.archived = 'true';
+    }
     this.setState({ filter: newFilter });
-    this.props.onFilter(newFilter);
-  }
+    this.props.onFilter( newFilter );
+  }  
 
   handleFilterType(event: string) {
     const type = event;
@@ -72,9 +89,24 @@ class VehicleFilter extends React.Component<FilterProps, FilterState> {
     this.props.onFilter(newFilter);
   }
 
-  handleFilterLeasingCompany(event: any) {
+  handleFilterLeasingCompany(selected: string[]) {
     const newFilter = this.state.filter;
-    newFilter.leasingCompany = event.target.value;
+    if (selected[0]) {
+      newFilter.leasingCompany = selected[0].split(':')[0];
+    } else {
+      newFilter.leasingCompany = '';
+    }
+    this.setState({ filter: newFilter });
+    this.props.onFilter(newFilter);
+  }
+
+    handleFilterFleet(selected: string[]) {
+    const newFilter = this.state.filter;
+    if (selected[0]) {
+      newFilter.fleet = selected[0].split(':')[0];
+    } else {
+      newFilter.fleet = '';
+    }
     this.setState({ filter: newFilter });
     this.props.onFilter(newFilter);
   }
@@ -108,6 +140,7 @@ class VehicleFilter extends React.Component<FilterProps, FilterState> {
       type: '',
       vin: '',
       year: '',
+      archived: 'false',
     };
     this.setState({ filter: newFilter, typeDisplay: 'All vehicles' });
     this.props.onFilter(newFilter);
@@ -124,23 +157,42 @@ class VehicleFilter extends React.Component<FilterProps, FilterState> {
   setTypeaheadOptions(vehicles: VehicleData[]) {
     const newLicensePlateData: string[] = [];
     const newVinData: string[] = [];
+    const newFleetData: string[] = [];
+    const newLeasingCompanyData: string[] = [];
+    const fleetIds: number[] = [];
+    const companyIds: number[] = [];
 
-    vehicles.map((vehicle) => {
+    vehicles.map((vehicle: VehicleData) => {
       if (vehicle.licensePlate !== null && vehicle.licensePlate !== undefined && vehicle.licensePlate !== '') {
         newLicensePlateData.push(vehicle.licensePlate);
       }
-
       if (vehicle.vin !== null && vehicle.vin !== undefined && vehicle.vin !== '') {
         newVinData.push(vehicle.vin);
       }
+      if (vehicle.fleet !== null && vehicle.fleet !== undefined && vehicle.fleet !== 0) {
+        if (!fleetIds.includes(vehicle.fleet)) {
+          fleetIds.push(vehicle.fleet);
+          newFleetData.push(`${vehicle.fleet}: ${this.props.getFleet([], [], vehicle.fleet, true)}`);
+        }
+      }
+      if (vehicle.leasingCompany !== null && vehicle.leasingCompany !== undefined && vehicle.leasingCompany !== 0) {
+       if (!companyIds.includes(vehicle.leasingCompany)) {
+          companyIds.push(vehicle.leasingCompany);
+          newLeasingCompanyData.push(`${vehicle.leasingCompany}: ${this.props.getCompany(vehicle.leasingCompany)}`);
+        }
+      }
     });
 
-    this.setState({ licensePlateData: newLicensePlateData, vinData: newVinData });
+    this.setState({ 
+      licensePlateData: newLicensePlateData, 
+      vinData: newVinData,
+      fleetData: newFleetData,
+      leasingCompanyData: newLeasingCompanyData 
+    });
   }
 
   render() {
-    const { filter, typeDisplay, licensePlateData, vinData } = this.state;
-
+    const { filter, typeDisplay, licensePlateData, vinData, leasingCompanyData, fleetData } = this.state;
     if (this.state.hidden || this.props.vehicles === []) {
       return(
         <HiddenFilter onReset={ this.handleReset } onShow={ this.handleShow }/>
@@ -152,6 +204,9 @@ class VehicleFilter extends React.Component<FilterProps, FilterState> {
           typeDisplay={ typeDisplay }
           licensePlateData={ licensePlateData }
           vinData={ vinData }
+          fleetData={ fleetData }
+          leasingCompanyData={ leasingCompanyData }
+          onFilterArchive={ this.handleFilterArchived }
           onFilterType={ this.handleFilterType }
           onFilterFleet={ this.handleFilterFleet }
           onFilterLeasingCompany={ this.handleFilterLeasingCompany }

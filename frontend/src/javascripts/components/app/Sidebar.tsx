@@ -38,15 +38,16 @@ const Sidebar: React.StatelessComponent<{}> = () => {
         </Link>
       </div>
       <ul className='nav'>
-        <SidebarLink path='/users'>Users</SidebarLink>
-        <SidebarLink path='/clients'>Clients</SidebarLink>
-        <SidebarLink path='/vehicles'>Vehicles</SidebarLink>
-        <SidebarLink path='/auth'>Permission Settings</SidebarLink>
+        <SidebarLink path='/users'>{ T.translate('user.users') }</SidebarLink>
+        <SidebarLink path='/clients'>{ T.translate('company.clients') }</SidebarLink>
+        <SidebarLink path='/vehicles'>{ T.translate('vehicle.vehicles') }</SidebarLink>
+        <SidebarLink path='/log'>{ T.translate('log.log') }</SidebarLink>
+        <SidebarLink path='/auth'>{ T.translate('auth.permissionSettings') }</SidebarLink>
         <SidebarLink path='/commissions'>Commissions</SidebarLink>
       </ul>
       <ul className='nav session-actions'>
         <li className='plain'>
-          Signed in as <p>{ Auth.getLocalSub() }</p>
+          { T.translate('app.signedInStatus') } <p>{ Auth.getLocalSub() }</p>
         </li>
         <li>
           <Link to='/sign_out'>

@@ -6,6 +6,7 @@ import DetailTable from '../tables/DetailTable.tsx';
 import UserFunctions from './function/UserFunctions.tsx';
 import { th } from '../../utils/utils.ts';
 import Confirm from 'react-confirm-bootstrap';
+import LogLink from '../app/LogLink.tsx';
 
 interface Props {
   user: UserData;
@@ -14,7 +15,7 @@ interface Props {
 
 const EditLink = ({ id }: { id: number }) => {
   return (
-    <div className='col-sm-6'>
+    <div className='col-sm-4'>
       <Link to={ `/users/${id}/edit` } className='btn btn-default form-control'>
         <span className='glyphicon glyphicon-edit' /> Edit
       </Link>
@@ -24,7 +25,7 @@ const EditLink = ({ id }: { id: number }) => {
 
 const DeleteLink = ({ handleDelete }: { handleDelete: () => void }) => {
   return (
-    <div className='col-sm-6'>
+    <div className='col-sm-4'>
       <Confirm
         onConfirm={handleDelete}
         body="Are you sure you want to archive this?"
@@ -54,6 +55,7 @@ const UserCard: React.StatelessComponent<Props> = props => {
         <div className='row actions'>
           <EditLink id={ id } />
           <DeleteLink handleDelete={ props.handleDelete } />
+          <LogLink id={ id } type='User' />
         </div>
       </div>
       <div className='card-content'>

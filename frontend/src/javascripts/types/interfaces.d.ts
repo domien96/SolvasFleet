@@ -16,6 +16,7 @@
 /// <reference path="contract.d.ts"/>
 /// <reference path="listing.d.ts"/>
 /// <reference path="pagination.d.ts"/>
+/// <reference path="log.d.ts"/>
 /// <reference path="commission.d.ts"/>
 
 declare module 'react-burger-menu';

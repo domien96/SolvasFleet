@@ -18,6 +18,7 @@ import solvas.service.models.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -53,6 +54,10 @@ public class AuditInterceptor extends EmptyInterceptor {
             return false;
         }
 
+        if (entity instanceof InvoiceItem) {
+            return false;
+        }
+
         //make revision
         Revision revision = new Revision();
         revision.setMethod(MethodType.UPDATE);
@@ -67,6 +72,10 @@ public class AuditInterceptor extends EmptyInterceptor {
     public boolean onSave(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
         // Make sure there is no infinite loop
         if (entity instanceof Revision) {
+            return false;
+        }
+
+        if (entity instanceof InvoiceItem) {
             return false;
         }
 
@@ -92,6 +101,9 @@ public class AuditInterceptor extends EmptyInterceptor {
         if (entity instanceof Revision) {
             return;
         }
+        if (entity instanceof InvoiceItem) {
+            return;
+        }
 
         // Make revision
         Revision revision = new Revision();
@@ -114,6 +126,10 @@ public class AuditInterceptor extends EmptyInterceptor {
             revision.setMethod(MethodType.UPDATE); // Fleet subscriptions are updates to the vehicle
         }
         try {
+            // Set type of entity
+
+            String[] className = EntityType.fromClass(about.getClass()).split("\\.");
+            revision.setEntityType(className[className.length-1]);
             revision.setPayload(objectMapper.writeValueAsString(mapperContext.getMapperForClass(about.getClass()).convertToApiModel((Model) about)));
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e); // Can we even catch an exception at this point
@@ -132,8 +148,6 @@ public class AuditInterceptor extends EmptyInterceptor {
             // No dao operations can be made before flush
             // Set logged in user
             value.setUser(getAuthenticatedUser());
-            // Set type of entity
-            value.setEntityType(EntityType.fromClass(key.getClass()));
             // Set current time
             value.setLogDate(transactionDateTime);
 
