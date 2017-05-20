@@ -12,6 +12,8 @@ import solvas.service.AbstractService;
 import solvas.service.PermissionService;
 import solvas.service.models.Permission;
 
+import java.util.List;
+
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.doThrow;
@@ -50,7 +52,7 @@ public class PermissionRestControllerTest extends AbstractBasicRestControllerTes
      */
     @Test
     public void listAll() throws Exception {
-        when(getService().findAll(any(),any())).thenReturn(new PageImpl(getTestModelList()));
+        when(getService().findAll()).thenReturn((List<ApiPermission>) getTestModelList());
         getMockMvc().perform(get(RestTestFixtures.PERMISSION_ROOT_URL))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("data", Matchers.hasToString(getObjectMapper().writeValueAsString(getTestModelList()))));
