@@ -44,6 +44,14 @@ class CommissionGroupForm extends React.Component<Props, State> {
     super(props);
     const emptycommission = { id: 0, fleet: 0, vehicle: 0, company: 0, insuranceType: "", vehicleType: "", value: 0 };
     const emptyCommissionGroup = { civilLiability: emptycommission, omnium: emptycommission, legalAid: emptycommission, driverInsurance: emptycommission, travelInsurance: emptycommission };
+    const commissions = {
+      personalVehicle: emptyCommissionGroup,
+      van: emptyCommissionGroup,
+      truck: emptyCommissionGroup,
+      truck12: emptyCommissionGroup,
+      semiHeavyTruck: emptyCommissionGroup
+    };
+
 
     this.state = {
       toggles: {
@@ -53,20 +61,8 @@ class CommissionGroupForm extends React.Component<Props, State> {
         showTruck12: false,
         showPersonalVehicle: false
       },
-      commissions: {
-        personalVehicle: emptyCommissionGroup,
-        van: emptyCommissionGroup,
-        truck: emptyCommissionGroup,
-        truck12: emptyCommissionGroup,
-        semiHeavyTruck: emptyCommissionGroup
-      },
-      initialCommissions: {
-        personalVehicle: { ...emptyCommissionGroup },
-        van: { ...emptyCommissionGroup },
-        truck: { ...emptyCommissionGroup },
-        truck12: { ...emptyCommissionGroup },
-        semiHeavyTruck: { ...emptyCommissionGroup }
-      }
+      commissions: commissions;
+      initialCommissions: {...commissions};
     }
 
     this.handleChange = this.handleChange.bind(this);
@@ -98,7 +94,7 @@ class CommissionGroupForm extends React.Component<Props, State> {
 
   setCommission(vehicleType: string, insuranceType: string, commission: CommissionData) {
     let state: State = { ...this.state };
-    commission.vehicleType = 'PersonalVehicle';
+    commission.vehicleType = vehicleType.charAt(0).toUpperCase() + vehicleType.slice(1); //Vuil idd
     state.initialCommissions[vehicleType][insuranceType] = commission;
     state.commissions[vehicleType][insuranceType] = commission;
     this.setState({ ...state });
@@ -106,10 +102,7 @@ class CommissionGroupForm extends React.Component<Props, State> {
 
   fetchCommission(vehicleType: string, insuranceType: string) {
     this.props.fetchCommission(vehicleType, insuranceType, (data) => {
-      console.log(vehicleType+' '+insuranceType);
-
       this.setCommission(vehicleType, insuranceType, data.data[0]);
-      console.log(this.state);
     });
   }
 
@@ -169,10 +162,10 @@ class CommissionGroupForm extends React.Component<Props, State> {
           <div className='row'>
             <div className='col-xs-12 col-md-6'>
               <CommissionGroup toggleForm={ this.toggleCommission('showPersonalVehicle') } showForm={ this.state.toggles.showPersonalVehicle } commission={ this.state.commissions.personalVehicle } handleChange={ this.handleChange('personalVehicle') } vehicleType='PersonalVehicle'/>
-              <CommissionGroup toggleForm={ this.toggleCommission('showTruck') } showForm={ this.state.toggles.showTruck } commission={ this.state.commissions.truck } handleChange={ this.handleChange('personalVehicle') } vehicleType='Truck'/>
-              <CommissionGroup toggleForm={ this.toggleCommission('showTruck12') } showForm={ this.state.toggles.showTruck12 } commission={ this.state.commissions.truck12 } handleChange={ this.handleChange('personalVehicle') } vehicleType='Truck+12'/>
-              <CommissionGroup toggleForm={ this.toggleCommission('showSemiHeavyTruck') } showForm={ this.state.toggles.showSemiHeavyTruck } commission={ this.state.commissions.semiHeavyTruck } handleChange={ this.handleChange('personalVehicle') } vehicleType='SemiHeavyTruck'/>
-              <CommissionGroup toggleForm={ this.toggleCommission('showVan') } showForm={ this.state.toggles.showVan } commission={ this.state.commissions.van } handleChange={ this.handleChange('personalVehicle') } vehicleType='Van'/>
+              <CommissionGroup toggleForm={ this.toggleCommission('showTruck') } showForm={ this.state.toggles.showTruck } commission={ this.state.commissions.truck } handleChange={ this.handleChange('truck') } vehicleType='Truck'/>
+              <CommissionGroup toggleForm={ this.toggleCommission('showTruck12') } showForm={ this.state.toggles.showTruck12 } commission={ this.state.commissions.truck12 } handleChange={ this.handleChange('truck12') } vehicleType='Truck+12'/>
+              <CommissionGroup toggleForm={ this.toggleCommission('showSemiHeavyTruck') } showForm={ this.state.toggles.showSemiHeavyTruck } commission={ this.state.commissions.semiHeavyTruck } handleChange={ this.handleChange('semiHeavyTruck') } vehicleType='SemiHeavyTruck'/>
+              <CommissionGroup toggleForm={ this.toggleCommission('showVan') } showForm={ this.state.toggles.showVan } commission={ this.state.commissions.van } handleChange={ this.handleChange('van') } vehicleType='Van'/>
             </div>
             <div className='col-xs-12 col-md-5'>
               <div className='row'>
