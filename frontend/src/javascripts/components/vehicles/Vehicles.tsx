@@ -178,6 +178,20 @@ class Vehicles extends React.Component<{}, State> {
     }
   }
 
+  getCompanyId(inputFleets: FleetData[], fleetId: number) {
+    let fleets: FleetData[] = inputFleets;
+    
+    if (fleets.length > 0) {
+      const fleetFiltered = fleets.find((f: FleetData) => {
+        return f.id === fleetId;
+      });
+      if (fleetFiltered) {
+        return fleetFiltered.company;
+      }
+    }
+    return -1;
+  }
+
   setTableData(vehicles: VehicleData[], companies: CompanyData[], fleets: FleetData[]) {
     const data = vehicles.map((vehicle: VehicleData) => {
       return {
@@ -191,7 +205,9 @@ class Vehicles extends React.Component<{}, State> {
         year: vehicle.year,
         leasingCompany: vehicle.leasingCompany,
         value: vehicle.value,
-        fleet: this.getFleet(companies, fleets, vehicle.fleet)
+        fleet: this.getFleet(companies, fleets, vehicle.fleet),
+        companyId: this.getCompanyId(fleets, vehicle.fleet),
+        fleetId: vehicle.fleet
       }
     });
 

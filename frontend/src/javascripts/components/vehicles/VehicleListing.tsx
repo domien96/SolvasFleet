@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import { th } from '../../utils/utils.ts';
 import Card from '../app/Card.tsx';
 import Pagination from '../pagination/Pagination.tsx';
-import InfoTable from '../tables/InfoTable.tsx';
+import VehicleInfoTable from './VehicleInfoTable.tsx';
 import T from 'i18n-react';
 import Errors from '../app/CSVErrors.tsx';
 
@@ -66,7 +66,7 @@ const VehicleListing: React.StatelessComponent<Props>  = props =>  {
               <span className='glyphicon glyphicon-plus' aria-hidden='true'></span>
               { T.translate(props.modelName + '.addNew') }
             </Link>
-            <InfoTable head={ tablehead } data={ props.tableData } onClick={ props.onSelect } />
+            <VehicleInfoTable head={ tablehead } data={ props.tableData } onClick={ props.onSelect } />
             <Pagination onClick={ props.fetchModels } response={ props.response }/>
           </div>
         </Card>
