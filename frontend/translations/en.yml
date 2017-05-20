@@ -45,6 +45,7 @@ vehicle:
   leasingCompany: Leasing company ID
   value: Estimated value
   fleet: Fleet ID
+  companyAndFleet: "Company: Fleet"
   options:
     allVehicles: All vehicles
     PersonalVehicle: Personal vehicle

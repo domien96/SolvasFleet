@@ -33,18 +33,21 @@ interface Props {
   onSelect: any;
   addNewRoute: string;
   fetchModels: any;
-  modelName: string;
-  columns: string[];
   response: ListResponse;
   errors: Form.Error[];
+  modelName: string;
   handleChange: (e: any) => void;
+  tableData: any;
   csvsuccess: boolean;
 }
 
 const VehicleListing: React.StatelessComponent<Props>  = props =>  {
-  const tablehead = props.columns.map(c => {
-    return th(c, `${props.modelName}.${c}`);
-  });
+  const tablehead = [
+    th('fleet', 'vehicle.companyAndFleet'),
+    th('vin', 'vehicle.vin'),
+    th('licensePlate', 'vehicle.licensePlate'),
+    th('type', 'vehicle.type')
+  ];
 
   return (
     <div className='row'>
@@ -63,7 +66,7 @@ const VehicleListing: React.StatelessComponent<Props>  = props =>  {
               <span className='glyphicon glyphicon-plus' aria-hidden='true'></span>
               { T.translate(props.modelName + '.addNew') }
             </Link>
-            <InfoTable head={ tablehead } data={ props.response.data } onClick={ props.onSelect } />
+            <InfoTable head={ tablehead } data={ props.tableData } onClick={ props.onSelect } />
             <Pagination onClick={ props.fetchModels } response={ props.response }/>
           </div>
         </Card>

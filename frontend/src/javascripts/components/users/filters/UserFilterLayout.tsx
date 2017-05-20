@@ -1,7 +1,7 @@
 import React from 'react';
 
 import T from 'i18n-react';
-import Filter from '../../filters/Filter.tsx';
+import UserFilterView from './UserFilterView.tsx';
 
 interface Props {
   filter: UserFilterData;
@@ -49,17 +49,11 @@ const UserFilterLayout: React.StatelessComponent<Props> = props => {
     selected: [ email ],
   };
 
-  const selections: Selectionfield[] = [];
-  const inputfields: Inputfield[] = [];
   const typeaheadfields: Typeaheadfield[] = [ firstNameInput, lastNameInput, emailInput ];
-  const datefields: Datefield[] = [];
 
   return(
-    <Filter
-      selections={ selections }
-      inputfields={ inputfields }
+    <UserFilterView
       typeaheadfields={ typeaheadfields }
-      datefields={ datefields }
       onReset={ props.onReset }
       onHide={ props.onHide } />
   );
