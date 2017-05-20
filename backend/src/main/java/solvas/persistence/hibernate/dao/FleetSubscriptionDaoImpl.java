@@ -44,7 +44,7 @@ public class FleetSubscriptionDaoImpl implements FleetSubscriptionDaoCustom {
     public Optional<FleetSubscription> activeForVehicleBetween(Vehicle vehicle, LocalDateTime start, LocalDateTime end) {
 
         TypedQuery<FleetSubscription> query = entityManager.createQuery(
-                "select s from FleetSubscription s where s.vehicle = ?1 and s.startDate <= ?2 and (s.endDate is null or s.endDate >= ?3) and s.archived = false",
+                "select s from FleetSubscription s where s.vehicle = ?1 and s.startDate <= ?2 and (s.endDate is null or s.endDate > ?3) and s.archived = false",
                 FleetSubscription.class)
                 .setParameter(1, vehicle)
                 .setParameter(2, start)
