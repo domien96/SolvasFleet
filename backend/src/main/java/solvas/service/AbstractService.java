@@ -12,6 +12,7 @@ import solvas.service.exceptions.UnarchivableException;
 import solvas.service.exceptions.UndeletableException;
 import solvas.service.mappers.AbstractMapper;
 import solvas.service.mappers.exceptions.DependantEntityNotFound;
+import solvas.service.models.Invoice;
 import solvas.service.models.Model;
 
 import java.util.List;
@@ -49,6 +50,16 @@ public abstract class AbstractService<T extends Model,E extends ApiModel> {
     public E getById(int id) throws EntityNotFoundException {
         T model = modelDao.find(id);
         return mapper.convertToApiModel(model);
+    }
+
+    /**
+     * Returns the model with the given id.
+     * @param id the id of the model to find
+     * @return the model
+     * @throws EntityNotFoundException When no object with that id exists
+     */
+    public T getModelById(int id) throws EntityNotFoundException {
+        return modelDao.find(id);
     }
 
     /**

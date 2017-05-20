@@ -9,7 +9,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import solvas.persistence.api.EntityNotFoundException;
-import solvas.persistence.api.dao.InvoiceDao;
 import solvas.rest.api.models.ApiInvoice;
 import solvas.rest.invoices.InvoiceFileViewResolver;
 import solvas.rest.invoices.pdf.InvoicePdfView;
@@ -28,19 +27,16 @@ import java.util.HashMap;
 public class InvoiceRestController extends AbstractRestController<Invoice, ApiInvoice> {
 
     private InvoiceService invoiceService;
-    private InvoiceDao invoiceDao;
 
     /**
      * Default constructor.
      *
      * @param service    service class for entities
-     * @param invoiceDao The dao for invoices.
      */
     @Autowired
-    public InvoiceRestController(InvoiceService service, InvoiceDao invoiceDao) {
+    public InvoiceRestController(InvoiceService service) {
         super(service);
         invoiceService = service;
-        this.invoiceDao = invoiceDao;
     }
 
     /**
@@ -111,7 +107,7 @@ public class InvoiceRestController extends AbstractRestController<Invoice, ApiIn
     @RequestMapping(value = "/companies/{companyId}/fleets/{fleetId}/invoices/{id}.pdf", method = RequestMethod.GET)
     @PreAuthorize("hasPermission(#id, 'invoice', 'READ')")
     public ModelAndView getByFleetAndInvoiceIdWithExtension(@PathVariable int fleetId, @PathVariable int id) throws EntityNotFoundException {
-        Invoice invoice = invoiceDao.find(id);
+        Invoice invoice = service.getModelById(id);
         return new ModelAndView(InvoiceFileViewResolver.getViewName(invoice), InvoicePdfView.MODEL_NAME, invoiceService.generateInvoiceForView(invoice));
     }
 

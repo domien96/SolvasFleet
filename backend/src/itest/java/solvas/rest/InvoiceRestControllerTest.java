@@ -41,7 +41,7 @@ public class InvoiceRestControllerTest extends AbstractBasicRestControllerTest<I
 
 
     AbstractRestController getController() {
-        return new InvoiceRestController(service,dao);
+        return new InvoiceRestController(service);
     }
 
     @Override

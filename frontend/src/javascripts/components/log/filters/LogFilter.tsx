@@ -22,7 +22,7 @@ class LogFilter extends React.Component<FilterProps, FilterState> {
   constructor() {
     super();
     this.state = {
-      filter: { after: '', before: '', method: '', entityType: '', user: '' },
+      filter: { after: '', before: '', method: '', entityType: '', user: '', archived: '' },
       hidden: false,
       userData: [],
       typeDisplay: 'All types',
@@ -63,6 +63,17 @@ class LogFilter extends React.Component<FilterProps, FilterState> {
     }
     this.props.onFilter(newFilter);
   }
+
+  handleFilterArchived() {
+    const newFilter = this.state.filter;
+    if (this.state.filter.archived === 'true') {
+      newFilter.archived = 'false';
+    } else {
+      newFilter.archived = 'true';
+    }
+    this.setState({ filter: newFilter });
+    this.props.onFilter( newFilter );
+  }  
 
   handleFilterMethod(event: string) {
     const method = event;
@@ -122,21 +133,14 @@ class LogFilter extends React.Component<FilterProps, FilterState> {
     this.setState({ hidden: false });
   }
 
-  containsUser(users: string[], id: number){
-    for (const user in users) {
-      if (parseInt(user.split(':')[0],10) === id) {
-        return true;
-      }
-    }
-    return false;
-  }
-
   setTypeaheadOptions(logs: LogEntryData[]) {
     const newUserData: string[] = [];
+    const userIds: number[] = [];
 
     logs.map((log: LogEntryData) => {
       if (log.user !== null && log.user !== undefined && log.user !== -1) {
-        if (!this.containsUser(newUserData, log.user)) {
+        if (!userIds.includes(log.user)) {
+          userIds.push(log.user);
           newUserData.push(`${log.user}: ${this.props.getUser([], log.user, true)}`);
         }
       }

@@ -37,6 +37,8 @@ interface Props {
   datefields: Datefield[];
   onReset: () => void;
   onHide: () => void;
+  toggleArchive?: () => void;
+  archived?: string;
 }
 
 const Filter: React.StatelessComponent<Props> = props => {
@@ -100,6 +102,18 @@ const Filter: React.StatelessComponent<Props> = props => {
     );
   });
 
+  let archive = <div></div>;
+  if (props.archived) {
+    archive = (
+      <div className="checkbox">
+      <label className="label-input"> 
+        <input type='checkbox' checked={ (props.archived == 'true') } onChange={ props.toggleArchive } name="Show Archived" />
+        Show Archived
+      </label>
+      </div>
+    );
+  }
+
   return(
     <div>
     <Card>
@@ -121,6 +135,9 @@ const Filter: React.StatelessComponent<Props> = props => {
           <div>
             { inputfields }
           </div>
+          <div>
+            { archive }
+          </div>
         </div>
         <div className='col-sm-6'>
           <div>
@@ -130,6 +147,7 @@ const Filter: React.StatelessComponent<Props> = props => {
             { typeaheadfields }
           </div>
         </div>
+
         <div className="clearfix" />
       </div>
     </Card>

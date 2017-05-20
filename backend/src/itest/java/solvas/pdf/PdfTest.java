@@ -53,7 +53,7 @@ public class PdfTest {
         ViewResolver invoicePdfViewResolver = new InvoiceFileViewResolver(new PaymentPdfView(), new BillingPdfView());
         return MockMvcBuilders
                 .standaloneSetup(new VehicleRestController(vehicleService, null),
-                        new InvoiceRestController(invoiceService, null))
+                        new InvoiceRestController(invoiceService))
                 .setViewResolvers(greenCardViewResolver, invoicePdfViewResolver)
                 .build();
     }
