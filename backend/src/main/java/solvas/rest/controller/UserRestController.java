@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import solvas.persistence.api.EntityNotFoundException;
+import solvas.service.exceptions.UnarchivableException;
 import solvas.service.models.User;
 import solvas.rest.api.models.ApiUser;
 import solvas.rest.query.UserFilter;
@@ -63,7 +65,7 @@ public class UserRestController extends AbstractRestController<User,ApiUser> {
     @Override
     @RequestMapping(value = "/users/{userId}", method = RequestMethod.DELETE)
     @PreAuthorize("hasPermission(#userId, 'user', 'DELETE')")
-    public ResponseEntity<?> archiveById(@PathVariable int userId) {
+    public ResponseEntity<?> archiveById(@PathVariable int userId) throws EntityNotFoundException, UnarchivableException {
         return super.archiveById(userId);
     }
 

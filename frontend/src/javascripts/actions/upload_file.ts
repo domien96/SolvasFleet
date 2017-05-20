@@ -23,7 +23,7 @@ function request(
     let fd = new FormData();
     fd.append('file', body);
     params.body = fd;
-    
+
     fetch(url, params).then((r) => {
       r.json().then((data) => {
         if (r.ok) {

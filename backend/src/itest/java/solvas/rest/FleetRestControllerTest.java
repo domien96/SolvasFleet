@@ -1,17 +1,12 @@
 package solvas.rest;
 
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.test.web.servlet.ResultActions;
-import solvas.service.models.Fleet;
 import solvas.rest.api.models.ApiFleet;
 import solvas.rest.controller.AbstractRestController;
 import solvas.rest.controller.FleetRestController;
 import solvas.service.AbstractService;
 import solvas.service.FleetService;
-
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import solvas.service.models.Fleet;
 
 /**
  * Integration tests of fleetrestcontroller
@@ -45,19 +40,5 @@ public class FleetRestControllerTest extends AbstractRestControllerTest<Fleet,Ap
     @Override
     public String getIdUrl() {
         return RestTestFixtures.FLEET_ID_URL;
-    }
-
-
-    /**
-     * Match jsonmodel with ApiCompany
-     * @param res the ResultAction that mockMvc provides.
-     * @param model the fleet we want to compare with the json result
-     */
-    @Override
-    public void matchJsonModel(ResultActions res, ApiFleet model) throws Exception {
-        res.andExpect(jsonPath("id").value(model.getId()))
-                .andExpect(jsonPath("company").value(model.getCompany()))
-                .andExpect(jsonPath("name").value(model.getName()));
-
     }
 }

@@ -6,11 +6,16 @@ import java.util.Set;
 
 /**
  * Models a role
- * Users can have different roles, and each role comes with it's own permissions
+ * Users can have different roles, and each role comes with its own permissions
  * @author steve on 04/03/2017.
  */
 public class Role extends Model {
-    private String function; // change to ?
+
+    /**
+     * The name of the role.
+     * The variable name "function" has nothing to do with the class function. It's just a name.
+     */
+    private String function;
 
     /**
      * The set of permissions which belong to this role.

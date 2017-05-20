@@ -5,8 +5,9 @@ package solvas.service.models;
  * Created by domien on 15/04/2017.
  */
 public enum InvoiceType {
-    BILLING("billing")
-    ,PAYMENT("payment");
+    BILLING("billing"),
+    PAYMENT("payment"),
+    CORRECTION("correction");
 
     private String text;
 

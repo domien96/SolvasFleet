@@ -3,6 +3,8 @@ package solvas.rest.api.models.errors;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import solvas.rest.utils.validators.UniqueVatNumber;
+import solvas.rest.utils.validators.UniqueVin;
+import solvas.service.models.validators.AfterLocalDateTime;
 import solvas.service.models.validators.Password;
 import solvas.service.models.validators.PhoneNumber;
 import solvas.service.models.validators.Vin;
@@ -40,8 +42,9 @@ public enum ErrorType {
         annotationToApi.put(Vin.class.getSimpleName(), WRONG_FORMAT);
         annotationToApi.put(Min.class.getSimpleName(), TOO_SMALL);
         annotationToApi.put(Max.class.getSimpleName(), TOO_BIG);
-      //  annotationToApi.put(AfterLocalDateTime.class.getSimpleName(), TOO_SMALL);
+        annotationToApi.put(AfterLocalDateTime.class.getSimpleName(), TOO_SMALL);
         annotationToApi.put(UniqueVatNumber.class.getSimpleName(), NOT_UNIQUE);
+        annotationToApi.put(UniqueVin.class.getSimpleName(), NOT_UNIQUE);
     }
 
     /**
