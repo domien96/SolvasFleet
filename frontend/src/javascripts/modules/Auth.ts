@@ -107,19 +107,15 @@ class Auth {
 
   static isAuthorizedGlobally(scope: string) {
     const parsed = parseClaims(Auth.getLocalAccessToken());
-    const scopes = (_.union(parsed.scopes)).map((u: any) => u.scopes);
-    return _.intersection([scope], scopes[0]).length > 0;
-  }
-
-  static isAuthorizedForSomeCompany(scope: string) {
-    return Auth.isAuthorizedGlobally(scope);
+    const scopes = (_.flatten((parsed.scopes).map((u: any) => u.scopes)));
+    return _.intersection([scope], scopes).length > 0;
   }
 
   static isAuthorizedForCompany(scope: string, company: number) {
     const parsed = parseClaims(Auth.getLocalAccessToken());
     const filtered = parsed.scopes.filter((s: any) => company == null || s.companyId === company); //company==null is wildcard
-    const scopes = (_.union(filtered.scopes)).map((u: any) => u.scopes);
-    return _.intersection([scope], scopes[0]).length > 0;
+    const scopes = (_.flatten(filtered.scopes)).map((u: any) => u.scopes);
+    return _.intersection([scope], scopes).length > 0;
   }
 
   static canReadCompany(company: number) {

@@ -11,6 +11,7 @@ import Contracts from '../contracts/Contracts.tsx'
 import { callback } from '../../actions/fetch_json.ts';
 import T from 'i18n-react';
 import DynamicGuiComponent from '../app/DynamicGuiComponent.tsx';
+import Auth from '../../modules/Auth.ts';
 
 interface Props {
   params: { id: number };
