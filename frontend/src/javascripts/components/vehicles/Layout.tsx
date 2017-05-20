@@ -12,6 +12,7 @@ interface Props {
   fetchVehicles: (query: any) => void;
   errors: Form.Error[];
   handleChange: (e: any) => void;
+  csvsuccess: boolean;
 }
 
 const Layout: React.StatelessComponent<Props> = props => {
@@ -32,7 +33,8 @@ const Layout: React.StatelessComponent<Props> = props => {
               columns={ ['fleet', 'vin', 'licensePlate', 'type'] }
               response={ props.response }
               errors={ props.errors }
-              handleChange={ props.handleChange } />
+              handleChange={ props.handleChange }
+              csvsuccess={ props.csvsuccess } />
           </div>
           <div className='col-xs-12 col-md-5'>
             { props.children }
