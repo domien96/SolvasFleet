@@ -7,7 +7,7 @@ import java.math.BigDecimal;
  * @author Sjabasti
  */
 public class Tax extends Model {
-
+    // todo when tax branch has been merged
     private BigDecimal tax;
     private VehicleType vehicleType;
     private InsuranceType insuranceType;

@@ -3,12 +3,14 @@ package solvas.rest.api.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
+import solvas.rest.utils.validators.UniqueEmail;
 import solvas.service.models.validators.Password;
 
 /**
  * User in the API layer
  */
 @Password
+@UniqueEmail
 public class ApiUser extends ApiModel {
 
     @Email

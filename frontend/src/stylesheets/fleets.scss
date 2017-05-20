@@ -10,7 +10,6 @@ $fleet-height: 60px;
     width: 100%;
     color: $body-color;
     height: $fleet-height;
-    border-bottom: 1px solid $gray-lighter;
     padding-left: 30px;
 
     h3 {
@@ -20,8 +19,15 @@ $fleet-height: 60px;
     .actions {
       padding-right: 20px;
       font-size: 120;
-      color: $gray-lighter;
     }
+
+    .grey-icon {
+      color: $gray-lighter
+    }
+  }
+
+  .has-border {
+    border-bottom: 1px solid $gray-lighter;
   }
 
   .fleet {
@@ -35,7 +41,6 @@ $fleet-height: 60px;
     &:last-child {
       border-bottom: 0;
     }
-
   }
 
   .fleet-form {
@@ -73,5 +78,48 @@ $fleet-height: 60px;
         outline: none;
       }
     }
+
+    .form-actions {
+      display:table-row-group;
+    }
+  }
+}
+
+.invoice-actions {
+  margin-top: 30px;
+}
+
+.fleet-archive {
+  display: inline;
+  height: 60px;
+}
+
+.fleet-addvehicle {
+  height: 150px;
+
+  button {
+    margin-top: 20px;
+  }
+}
+
+.fleet-actions {
+  h3 {
+    display: inline-block;
+  }
+}
+
+.fleet-action-card {
+  h3 {
+    display: inline-block;
+  }
+
+  &:hover {
+    background: lighten(#000, 98.5%);
+    cursor: pointer;
+  }
+
+  .actions {
+    padding-right: 20px;
+    font-size: 120;
   }
 }

@@ -17,6 +17,7 @@ import solvas.rest.api.models.errors.ErrorType;
 import solvas.rest.utils.JsonListWrapper;
 import solvas.rest.utils.PagedResult;
 import solvas.service.AbstractService;
+import solvas.service.exceptions.UnarchivableException;
 import solvas.service.exceptions.UndeletableException;
 import solvas.service.mappers.exceptions.DependantEntityNotFound;
 import solvas.service.models.Model;
@@ -144,6 +145,18 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
     }
 
     /**
+     * Handle the exception when a model could not be archived.
+     *
+     * @param e The exception.
+     *
+     * @return The response.
+     */
+    @ExceptionHandler(UnarchivableException.class)
+    public ResponseEntity<?> handleUnarchivableException(UnarchivableException e) {
+        return new ResponseEntity<>(HttpStatus.CONFLICT);
+    }
+
+    /**
      * Handle cases where there are JSON syntax errors.
      *
      * @param ex The exception.
@@ -184,15 +197,12 @@ public abstract class AbstractRestController<T extends Model, E extends ApiModel
      * Archives a model in the db
      *
      * @param id id of the model
+     *
      * @return ResponseEntity
      */
-    protected ResponseEntity<?> archiveById(int id) {
-        try {
-            service.archive(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (EntityNotFoundException e) {
-            return notFound();
-        }
+    protected ResponseEntity<?> archiveById(int id) throws UnarchivableException, EntityNotFoundException {
+        service.archive(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     /**

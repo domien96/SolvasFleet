@@ -37,7 +37,7 @@ public class SolvasUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         try {
-            return loadUserByModel(userDao.findByEmail(username));
+            return loadUserByModel(userDao.findUnarchivedByEmail(username));
         } catch (EntityNotFoundException e) {
             throw new UsernameNotFoundException(e.getMessage(), e);
         }
