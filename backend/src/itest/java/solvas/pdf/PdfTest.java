@@ -40,6 +40,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         Application.class,
         TestConfig.class,
 })
+/**
+ * Test if the generation of pdf works
+ */
 public class PdfTest {
     @Autowired
     private VehicleService vehicleService;
@@ -58,6 +61,10 @@ public class PdfTest {
                 .build();
     }
 
+    /**
+     * Can we generate greencards?
+     * @throws Exception Thrown if test fails
+     */
     @Test
     public void greenCardDoesNotError() throws Exception {
         getMockMvc().perform(get(RestTestFixtures.VEHICLE_GREENCARD_URL))
@@ -65,8 +72,12 @@ public class PdfTest {
                 .andExpect(status().is2xxSuccessful());
     }
 
+    /**
+     * Can we payment greencards?
+     * @throws Exception Thrown if test fails
+     */
     @Test
-    public void invoicePdfDoesNotError() throws Exception {
+    public void paymentPdfDoesNotError() throws Exception {
         getMockMvc().perform(get(RestTestFixtures.INVOICE_PDF_URL))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().is2xxSuccessful());

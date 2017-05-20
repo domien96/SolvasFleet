@@ -15,7 +15,7 @@ public class TaxAuthorizationTest extends AbstractAuthorizationTest {
 
     @Override
     public String getIdUrl() {
-        return "";
+        return RestTestFixtures.TAX_BASE_URL;
     }
 
     @Override
