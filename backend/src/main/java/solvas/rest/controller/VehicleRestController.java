@@ -45,7 +45,6 @@ import java.util.Map;
 public class VehicleRestController extends AbstractRestController<Vehicle,ApiVehicle> {
 
     private final Validator validator;
-
     /**
      * Rest controller for Vehicle
      *
@@ -53,7 +52,7 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
      * @param validator The validator, used for validating the csv import
      */
     @Autowired
-    public VehicleRestController(VehicleService service,  Validator validator) {
+    public VehicleRestController(VehicleService service, @Qualifier("mvcValidator")  Validator validator) {
         super(service);
         this.validator = validator;
     }

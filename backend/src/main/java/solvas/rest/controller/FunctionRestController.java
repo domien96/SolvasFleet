@@ -29,7 +29,7 @@ public class FunctionRestController extends AbstractRestController<Function, Api
      * @param service service class for entities
      */
     @Autowired
-    protected FunctionRestController(FunctionService service, Validator validator) {
+    protected FunctionRestController(FunctionService service) {
         super(service);
     }
 
