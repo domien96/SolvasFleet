@@ -3,6 +3,7 @@ import React from 'react';
 namespace NestedCheckbox {
   export interface Props {
     values: Node[];
+    cb: (nodes?: Node[]) => void;
   }
   export interface Node {
     group: string;
@@ -30,8 +31,10 @@ class NestedCheckbox extends React.Component<NestedCheckbox.Props, NestedCheckbo
   }
 
   componentWillReceiveProps({ values }: NestedCheckbox.Props) {
-    const s = values.map((p) => ({ ...p, checked: false }));
-    this.setState({ values: s });
+    if(this.props.values !== values) {
+      const s = values.map((p) => ({ ...p, checked: false }));
+      this.setState({ values: s });
+    }
   }
 
   filterGroup(group: string): boolean[] {
@@ -54,6 +57,7 @@ class NestedCheckbox extends React.Component<NestedCheckbox.Props, NestedCheckbo
       return n;
     });
     this.setState({ values });
+    this.props.cb(values);
   }
 
   isChecked(group: string): boolean {
@@ -74,6 +78,7 @@ class NestedCheckbox extends React.Component<NestedCheckbox.Props, NestedCheckbo
       return n;
     });
     this.setState({ values });
+    this.props.cb(values);
   }
 
   getChildContext() {

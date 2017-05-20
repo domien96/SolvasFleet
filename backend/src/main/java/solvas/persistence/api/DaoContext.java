@@ -69,13 +69,13 @@ public interface DaoContext {
     ContractDao getContractDao();
 
     /**
-     * Get FunctionDao for this content
+     * Get FunctionDao for this context
      * @return A FunctionDao
      */
     FunctionDao getFunctionDao();
 
     /**
-     * Get PermissionDao for this content
+     * Get PermissionDao for this context
      * @return A PermissionDao
      */
     PermissionDao getPermissionDao();
@@ -87,10 +87,26 @@ public interface DaoContext {
     InvoiceDao getInvoiceDao();
 
     /**
-     * Get TaxDao for this content
-     * @return A InvoiceDao
+     * Get TaxDao for this context
+     * @return A TaxDao
      */
     TaxDao getTaxDao();
 
+    /**
+     * Get InvoiceItemDao for this content
+     * @return An InvoiceItemDao
+     */
+    InvoiceItemDao getInvoiceItemDao();
 
+    /**
+     * Get RevisionDao for this context
+     * @return A RevisionDao
+     */
+    RevisionDao getRevisionDao();
+
+     /**
+     * Get CommissionDao for this context
+     * @return A CommissionDao
+     */
+    CommissionDao getCommissionDao();
 }

@@ -4,20 +4,34 @@ package solvas.service.models;
 import java.util.Set;
 
 /**
- * Models a Company
+ * Models a Company.
  *
  * @author david
  * @author steven
  */
 public class Company extends Model {
+    /**
+     * Name of the Company
+     */
     private String name;
-    private String vatNumber; //https://en.wikipedia.org/wiki/VAT_identification_number
+
+    /**
+     * Unique identification of a company.
+     * More information : https://en.wikipedia.org/wiki/VAT_identification_number
+     */
+    private String vatNumber;
+
     private String phoneNumber;
     private String addressCountry;
     private String addressCity;
     private String addressStreet;
     private String addressHouseNumber;
     private String addressPostalCode;
+
+    /**
+     * Type of the company.
+     * @see CompanyType
+     */
     private CompanyType type;
 
     /**

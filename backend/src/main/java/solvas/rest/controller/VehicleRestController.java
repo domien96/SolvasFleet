@@ -3,7 +3,7 @@ package solvas.rest.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.opencsv.CSVReader;
 import com.opencsv.bean.CsvToBean;
-import com.opencsv.bean.HeaderColumnNameTranslateMappingStrategy;
+import com.opencsv.bean.HeaderColumnNameMappingStrategy;
 import com.opencsv.bean.MappingStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,20 +15,18 @@ import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import solvas.persistence.api.EntityNotFoundException;
-import solvas.persistence.api.dao.VehicleDao;
-import solvas.rest.greencard.GreenCardViewResolver;
-import solvas.rest.greencard.pdf.GreenCardPdfView;
-import solvas.rest.utils.JsonListWrapper;
-import solvas.service.models.Vehicle;
-import org.springframework.web.multipart.MultipartFile;
 import solvas.rest.api.models.ApiVehicle;
 import solvas.rest.api.models.errors.ApiError;
+import solvas.rest.api.models.errors.ErrorType;
+import solvas.rest.greencard.GreenCardViewResolver;
+import solvas.rest.greencard.pdf.GreenCardPdfView;
 import solvas.rest.query.VehicleFilter;
 import solvas.rest.utils.JsonListWrapper;
-import solvas.rest.utils.MyCsvToBean;
 import solvas.service.VehicleService;
+import solvas.service.exceptions.UnarchivableException;
 import solvas.service.models.Vehicle;
 
 import javax.validation.Valid;
@@ -47,7 +45,6 @@ import java.util.Map;
 public class VehicleRestController extends AbstractRestController<Vehicle,ApiVehicle> {
 
     private final Validator validator;
-
     /**
      * Rest controller for Vehicle
      *
@@ -55,7 +52,7 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
      * @param validator The validator, used for validating the csv import
      */
     @Autowired
-    public VehicleRestController(VehicleService service,  @Qualifier("mvcValidator") Validator validator) {
+    public VehicleRestController(VehicleService service, @Qualifier("mvcValidator")  Validator validator) {
         super(service);
         this.validator = validator;
     }
@@ -153,13 +150,22 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
         try {
             csvReader = new CSVReader(new InputStreamReader(file.getInputStream()));
         } catch (IOException e) {
-            e.printStackTrace(); //todo map to correct error code
-            throw new RuntimeException();
+            // This is an unexpected error on the server, so 500 is appropriate.
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        CsvToBean<ApiVehicle> csv = new MyCsvToBean<>();
-        //Set column mapping strategy
-        List<ApiVehicle> list = csv.parse(setColumnMapping(), csvReader);
-        //todo parse exception correct afhandelen
+        CsvToBean<ApiVehicle> csv = new CsvToBean<>();
+
+        List<ApiVehicle> list;
+        try {
+            //Set column mapping strategy
+            list = csv.parse(setColumnMapping(), csvReader);
+        } catch (RuntimeException e) {
+            // Something went wrong while parsing the CSV file. This is probably a date in the wrong format.
+            return new ResponseEntity<>(
+                    new ApiError(ErrorType.WRONG_FORMAT, "csv", "The CSV file is not formatted correctly. " +
+                            "Error message: " + e.getMessage()),
+                    HttpStatus.BAD_REQUEST);
+        }
 
         // Maps the row to a potential list of errors.
         Map<Integer, List<ApiError>> bundledErrors = new HashMap<>();
@@ -184,30 +190,17 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
         }
     }
 
-    private MappingStrategy<ApiVehicle> setColumnMapping()
-    {
+    private MappingStrategy<ApiVehicle> setColumnMapping() {
         // Order does not matter for this strategy, but requires a header line with the column names.
-        HeaderColumnNameTranslateMappingStrategy<ApiVehicle> strategy = new HeaderColumnNameTranslateMappingStrategy<>();
+        HeaderColumnNameMappingStrategy<ApiVehicle> strategy = new HeaderColumnNameMappingStrategy<>();
         strategy.setType(ApiVehicle.class);
-        Map<String,String> columnMappings = new HashMap<>();
-        columnMappings.put("licensePlate", "licensePlate");
-        columnMappings.put("leasingCompany", "leasingCompany");
-        columnMappings.put("fleet", "fleet");
-        columnMappings.put("mileage", "mileage");
-        columnMappings.put("type", "type");
-        columnMappings.put("value", "value");
-        columnMappings.put("year", "year");
-        columnMappings.put("vin", "vin");
-        columnMappings.put("model","model");
-        columnMappings.put("brand","brand");
-        strategy.setColumnMapping(columnMappings);
         return strategy;
     }
 
     @Override
     @RequestMapping(value = "/vehicles/{vehicleId}", method = RequestMethod.DELETE)
     @PreAuthorize("hasPermission(#vehicleId, 'vehicle', 'DELETE')")
-    public ResponseEntity<?> archiveById(@PathVariable int vehicleId) {
+    public ResponseEntity<?> archiveById(@PathVariable int vehicleId) throws EntityNotFoundException, UnarchivableException {
         return super.archiveById(vehicleId);
     }
 

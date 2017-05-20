@@ -1,21 +1,29 @@
 package solvas.rest;
 
-import org.joda.time.DateTime;
-import org.junit.runner.RunWith;
+import org.hamcrest.Matchers;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.http.MediaType;
 import org.springframework.validation.Validator;
-import solvas.service.models.Vehicle;
+import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.api.models.ApiVehicle;
 import solvas.rest.controller.AbstractRestController;
 import solvas.rest.controller.VehicleRestController;
 import solvas.service.AbstractService;
 import solvas.service.VehicleService;
+import solvas.service.models.Vehicle;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * Integration tests of the VehicleRestController
@@ -28,6 +36,10 @@ public class VehicleRestControllerTest extends AbstractRestControllerTest<Vehicl
     @Mock
     private Validator validator;
 
+    private final static int VEHICLE_VALUE = 1500;
+    private final static int VEHICLE_MILEAGE = 10000;
+    private final static int VEHICLE_YEAR = 1990;
+
 
     /**
      * Constructor for specific VehicleController tests
@@ -36,26 +48,12 @@ public class VehicleRestControllerTest extends AbstractRestControllerTest<Vehicl
         super(ApiVehicle.class);
     }
 
-
-
     /**
-     * Match jsonmodel with ApiCompany
-     * @param res the ResultAction that mockMvc provides.
-     * @param vehicle the vehicle we want to compare with the json result
+     * Setup to make sure the vehicleservice returns some types
      */
-    public void matchJsonModel(ResultActions res, ApiVehicle vehicle) throws Exception {
-
-        res.andExpect(jsonPath("id").value(vehicle.getId()))
-                .andExpect(jsonPath("url").value(vehicle.getUrl()))
-                .andExpect(jsonPath("licensePlate").value(vehicle.getLicensePlate()))
-                .andExpect(jsonPath("value").value(vehicle.getValue()))
-                .andExpect(jsonPath("mileage").value(vehicle.getMileage()))
-                .andExpect(jsonPath("model").value(vehicle.getModel()))
-                .andExpect(jsonPath("brand").value(vehicle.getBrand()))
-                .andExpect(jsonPath("leasingCompany").value(vehicle.getLeasingCompany()))
-                .andExpect(jsonPath("type").value(vehicle.getType()))
-                .andExpect(jsonPath("year").value(vehicle.getYear()));
-
+    @Before
+    public void setUp(){
+        when(vehicleService.findAllVehicleTypes()).thenReturn(Arrays.asList("a","b"));
     }
 
     /**
@@ -70,9 +68,9 @@ public class VehicleRestControllerTest extends AbstractRestControllerTest<Vehicl
     ApiVehicle getTestModel()
     {
         ApiVehicle vehicle = super.getTestModel();
-        vehicle.setValue(1500);
-        vehicle.setYear(LocalDateTime.of(1990,1,1,0,0));
-        vehicle.setMileage(10000);
+        vehicle.setValue(VEHICLE_VALUE);
+        vehicle.setYear(LocalDateTime.of(VEHICLE_YEAR,1,1,0,0));
+        vehicle.setMileage(VEHICLE_MILEAGE);
         vehicle.setVin("5NPEB4AC8EH893920");
         return vehicle;
     }
@@ -90,5 +88,72 @@ public class VehicleRestControllerTest extends AbstractRestControllerTest<Vehicl
     @Override
     public String getIdUrl() {
         return RestTestFixtures.VEHICLE_ID_URL;
+    }
+
+    /**
+     * Test listing all vehicletypes
+     */
+    @Test
+    public void listAllTypes() throws Exception {
+        List<String> types = Arrays.asList("a","b");
+        when(vehicleService.findAllVehicleTypes()).thenReturn(types);
+        getMockMvc().perform(get(RestTestFixtures.VEHICLE_TYPES_URL))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("data", Matchers.hasToString(getObjectMapper().writeValueAsString(types))));
+    }
+
+    /**
+     * Test listing all the vehicles of a certain fleet
+     */
+    @Test
+    public void listAllVehiclesAtFleet() throws Exception {
+        when(vehicleService.findAll(any(),any())).thenReturn(new PageImpl(getTestModelList()));
+        getMockMvc().perform(get(RestTestFixtures.VEHICLE_AT_FLEET_ROOT_URL))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("data",Matchers.hasToString(getObjectMapper().writeValueAsString(getTestModelList()))));
+    }
+
+    /**
+     * Test receiving a vehicle of a fleet
+     */
+    @Test
+    public void getVehicleAtFleet() throws Exception {
+        when(vehicleService.getById(anyInt())).thenReturn(getTestModel());
+        getMockMvc().perform(get(RestTestFixtures.VEHICLE_AT_FLEET_ID_URL))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().json(getTestJson()));
+    }
+
+    /**
+     * Test: getting NotFound when EntitityNotFoundException has been thrown
+     */
+    @Test
+    public void getVehicleAtFleetNotFound() throws Exception {
+        when(vehicleService.getById(anyInt())).thenThrow(new EntityNotFoundException());
+        getMockMvc().perform(get(RestTestFixtures.VEHICLE_AT_FLEET_ID_URL))
+                .andExpect(status().isNotFound());
+    }
+
+    /**
+     * Test: getting the pdf greencard (can't check content)
+     */
+    @Test
+    public void getGreenCard() throws Exception {
+        when(vehicleService.getById(anyInt())).thenReturn(getTestModel());
+        getMockMvc().perform(get(RestTestFixtures.VEHICLE_GREENCARD_URL))
+                .andExpect(status().isOk());
+    }
+
+    /**
+     * Test: result when entity is missing for the greencard
+     */
+    @Test
+    public void getGreenCardNotFound() throws Exception {
+        when(vehicleService.getById(anyInt())).thenThrow(new EntityNotFoundException());
+        getMockMvc().perform(get(RestTestFixtures.VEHICLE_GREENCARD_URL))
+                .andExpect(status().isNotFound());
     }
 }

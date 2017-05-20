@@ -5,14 +5,17 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.*;
+import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.api.models.ApiFunction;
 import solvas.rest.query.FunctionFilter;
 import solvas.service.AbstractService;
+import solvas.service.FunctionService;
+import solvas.service.exceptions.UnarchivableException;
 import solvas.service.models.Function;
 
 import javax.validation.Valid;
-import javax.validation.Validator;
 
 /**
  * Rest controller for functions
@@ -26,7 +29,7 @@ public class FunctionRestController extends AbstractRestController<Function, Api
      * @param service service class for entities
      */
     @Autowired
-    protected FunctionRestController(AbstractService<Function, ApiFunction> service, Validator validator) {
+    protected FunctionRestController(FunctionService service) {
         super(service);
     }
 
@@ -69,7 +72,7 @@ public class FunctionRestController extends AbstractRestController<Function, Api
     @Override
     @RequestMapping(value = "/users/{userId}/functions/{id}", method = RequestMethod.DELETE)
     @PreAuthorize("hasPermission(#id, 'function', 'DELETE')")
-    public ResponseEntity<?> archiveById(@PathVariable int id) {
+    public ResponseEntity<?> archiveById(@PathVariable int id) throws EntityNotFoundException, UnarchivableException {
         return super.archiveById(id);
     }
 }
