@@ -6,6 +6,8 @@ import { fetchFleets } from '../../actions/fleet_actions.ts';
 import { redirect_to } from '../../routes/router.tsx';
 import T from 'i18n-react';
 
+import { createQuery } from '../../utils/utils.ts';
+
 interface State {
     filter: VehicleFilterData;
     response: ListResponse;
@@ -62,28 +64,7 @@ class Vehicles extends React.Component<{}, State> {
   }
 
   fetchVehicles(query?: any, filter?: VehicleFilterData) {
-    const queryFilter = filter;
-    let newQuery: any;
-    if (query) {
-      newQuery = query;
-      if (filter) {
-        for (const key in queryFilter) {
-          if (queryFilter[key] === null || queryFilter[key] === undefined || queryFilter[key] === '') {
-            delete queryFilter[key];
-          }
-        }
-        for (const key in queryFilter) {
-          newQuery[key] = queryFilter[key];
-        }
-      }
-    } else {
-      for (const key in queryFilter) {
-        if (queryFilter[key] === null || queryFilter[key] === undefined || queryFilter[key] === '') {
-          delete queryFilter[key];
-        }
-      }
-      newQuery = queryFilter;
-    }
+    let newQuery = createQuery(query, filter);
 
     fetchVehicles((data) => {
       this.setState({ response: data })
@@ -106,7 +87,7 @@ class Vehicles extends React.Component<{}, State> {
       companies.map((company: CompanyData) => {
         i = i + 1;
         fetchFleets(company.id, (data: any) => {
-          let fleets: FleetData[] = data.data 
+          let fleets: FleetData[] = data.data
           fleets.map((fleet: FleetData) => {
             allFleets.push(fleet);
           })
@@ -181,7 +162,7 @@ class Vehicles extends React.Component<{}, State> {
 
   getCompanyId(inputFleets: FleetData[], fleetId: number) {
     let fleets: FleetData[] = inputFleets;
-    
+
     if (fleets.length > 0) {
       const fleetFiltered = fleets.find((f: FleetData) => {
         return f.id === fleetId;
@@ -222,7 +203,7 @@ class Vehicles extends React.Component<{}, State> {
       })
       if (companyFiltered) {
         return companyFiltered.name;
-      } 
+      }
     }
     return '';
   }

@@ -21,10 +21,10 @@ class ClientFilter extends React.Component<FilterProps, FilterState> {
   constructor() {
     super();
     this.state = {
-      filter: { 
-        nameContains: '', 
-        vatNumber: '', 
-        country: '', 
+      filter: {
+        nameContains: '',
+        vatNumber: '',
+        country: '',
         type: '',
         archived: 'false',
       },
@@ -103,10 +103,10 @@ class ClientFilter extends React.Component<FilterProps, FilterState> {
   }
 
   handleReset() {
-    const newFilter: CompanyFilterData = { 
-      name: '', 
-      vatNumber: '', 
-      country: '', 
+    const newFilter: CompanyFilterData = {
+      name: '',
+      vatNumber: '',
+      country: '',
       type: '',
       archived: 'false'
     };
@@ -140,10 +140,10 @@ class ClientFilter extends React.Component<FilterProps, FilterState> {
       }
     });
 
-    this.setState({ 
-      vatData: newVatData, 
-      nameData: newNameData, 
-      countryData: newCountryData 
+    this.setState({
+      vatData: newVatData,
+      nameData: newNameData,
+      countryData: newCountryData
     });
   }
 

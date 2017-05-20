@@ -3,6 +3,8 @@ import Layout from './Layout.tsx';
 import { fetchUsers } from '../../actions/user_actions.ts';
 import { redirect_to } from '../../routes/router.tsx';
 
+import { createQuery } from '../../utils/utils.ts';
+
 interface State {
   response: ListResponse;
   filter: UserFilterData;
@@ -36,29 +38,7 @@ class Users extends React.Component<{}, State> {
   }
 
   fetchUsers(query?: any, filter?: UserFilterData) {
-    const queryFilter = filter;
-    let newQuery: any;
-    if (query) {
-      newQuery = query;
-      if (filter) {
-        for (const key in queryFilter) {
-          if (queryFilter[key] === null || queryFilter[key] === undefined || queryFilter[key] === '') {
-            delete queryFilter[key];
-          }
-        }
-        for (const key in queryFilter) {
-          newQuery[key] = queryFilter[key];
-        }
-      }
-    } else {
-      for (const key in queryFilter) {
-        if (queryFilter[key] === null || queryFilter[key] === undefined || queryFilter[key] === '') {
-          delete queryFilter[key];
-        }
-      }
-      newQuery = queryFilter;
-    }
-
+    let newQuery = createQuery(query, filter);
     fetchUsers((data: any) => this.setState({ response: data }), undefined, newQuery);
   }
 
@@ -77,10 +57,10 @@ class Users extends React.Component<{}, State> {
     }));
 
     return (
-      <Layout 
-        response={this.state.response} 
-        onUserSelect={ this.handleClick } 
-        fetchUsers={ this.fetchUsers } 
+      <Layout
+        response={this.state.response}
+        onUserSelect={ this.handleClick }
+        fetchUsers={ this.fetchUsers }
         onFilter={ this.handleFilter } >
         { children }
       </Layout>

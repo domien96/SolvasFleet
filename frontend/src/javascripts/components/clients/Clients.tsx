@@ -4,6 +4,7 @@ import Layout from './Layout.tsx';
 
 import { fetchClients } from '../../actions/client_actions.ts';
 import { redirect_to } from '../../routes/router.tsx';
+import { createQuery } from '../../utils/utils.ts';
 
 interface State {
   response: ListResponse;
@@ -14,16 +15,16 @@ class Clients extends React.Component<{}, State> {
 
   constructor(props: {}) {
     super(props);
-    this.state = { 
-      response: { 
-        total: 0, 
-        first: '', 
-        last: '', 
-        limit: 0, 
-        offset: 0, 
-        previous: '', 
-        next: '', 
-        data: [] 
+    this.state = {
+      response: {
+        total: 0,
+        first: '',
+        last: '',
+        limit: 0,
+        offset: 0,
+        previous: '',
+        next: '',
+        data: []
       },
       filter: {
         nameContains: '',
@@ -31,7 +32,7 @@ class Clients extends React.Component<{}, State> {
         country: '',
         type: '',
         archived: 'false',
-      } 
+      }
     };
     this.fetchClients = this.fetchClients.bind(this);
     this.handleFilter = this.handleFilter.bind(this);
@@ -42,28 +43,7 @@ class Clients extends React.Component<{}, State> {
   }
 
   fetchClients(query?: any, filter?: CompanyFilterData) {
-    const queryFilter = filter;
-    let newQuery: any;
-    if (query) {
-      newQuery = query;
-      if (filter) {
-        for (const key in queryFilter) {
-          if (queryFilter[key] === null || queryFilter[key] === undefined || queryFilter[key] === '') {
-            delete queryFilter[key];
-          }
-        }
-        for (const key in queryFilter) {
-          newQuery[key] = queryFilter[key];
-        }
-      }
-    } else {
-      for (const key in queryFilter) {
-        if (queryFilter[key] === null || queryFilter[key] === undefined || queryFilter[key] === '') {
-          delete queryFilter[key];
-        }
-      }
-      newQuery = queryFilter;
-    }
+    let newQuery = createQuery(query, filter);
     fetchClients((data: any) => {
       this.setState({ response: data });
     }, undefined, newQuery);
@@ -80,9 +60,9 @@ class Clients extends React.Component<{}, State> {
 
   render() {
     return (
-      <Layout 
-        response={ this.state.response } 
-        onClientSelect={ this.handleClick } 
+      <Layout
+        response={ this.state.response }
+        onClientSelect={ this.handleClick }
         fetchClients={ this.fetchClients }
         onFilter={ this.handleFilter } />
     );
