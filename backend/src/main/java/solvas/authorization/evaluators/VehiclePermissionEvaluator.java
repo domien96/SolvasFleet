@@ -31,11 +31,8 @@ public class VehiclePermissionEvaluator extends AbstractPermissionEvaluator<Vehi
     private boolean canDownloadGreencard(Authentication authentication, Vehicle vehicle) {
         Optional<Fleet> fleetOpt = vehicle.getFleetSubscriptions().stream().filter(FleetSubscription::isActive)
                 .map(FleetSubscription::getFleet).findFirst();
-        PermissionEvaluator companyPermissionEvaluator = PermissionEvaluatorContext.getInstance().getEvaluator(
-                PermissionEvaluatorContext.COMPANY_RESOURCE_TYPE
-        );
-        return fleetOpt.isPresent() && companyPermissionEvaluator.hasPermission(authentication,fleetOpt.get().getCompany().getId(),"READ")
-                ;
+        return fleetOpt.isPresent() &&
+                hasScope(authentication, READ_COMPANY_GREENCARD, fleetOpt.get().getCompany().getId());
     }
 
     /**
