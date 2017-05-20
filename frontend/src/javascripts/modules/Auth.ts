@@ -74,8 +74,8 @@ class Auth {
             data.accessToken.token,
             data.accessToken.claims.sub
           );
+          resolve(Auth.getLocalAccessToken());
         });
-        resolve(Auth.getLocalAccessToken());
       } else {
         resolve(Auth.getLocalAccessToken());
       }
