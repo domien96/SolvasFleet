@@ -92,13 +92,15 @@ public interface DaoContext {
      */
     TaxDao getTaxDao();
 
+    /**
+     * Get InvoiceItemDao for this content
+     * @return An InvoiceItemDao
+     */
+    InvoiceItemDao getInvoiceItemDao();
 
     /**
      * Get RevisionDao for this context
      * @return A RevisionDao
      */
     RevisionDao getRevisionDao();
-
-
-
 }
