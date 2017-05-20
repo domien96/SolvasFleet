@@ -8,14 +8,17 @@ interface Props {
   typeDisplay: string;
   licensePlateData: string[];
   vinData: string[];
+  fleetData: string[];
+  leasingCompanyData: string[];
   onFilterType: (type: string) => void;
-  onFilterFleet: (fleet: any) => void;
-  onFilterLeasingCompany: (company: string | number) => void;
+  onFilterFleet: (selected: string[]) => void;
+  onFilterLeasingCompany: (selected: string[]) => void;
   onFilterLicensePlate: (selectedLicenses: string[]) => void;
   onFilterVin: (selectedVins: string[]) => void;
   onFilterYear: (year: string | number) => void;
   onReset: () => void;
   onHide: () => void;
+  onFilterArchive: () => void;
 }
 
 const VehicleFilterLayout: React.StatelessComponent<Props> = props => {
@@ -30,8 +33,10 @@ const VehicleFilterLayout: React.StatelessComponent<Props> = props => {
     onFilterLicensePlate,
     onFilterVin,
     onFilterYear,
+    fleetData,
+    leasingCompanyData
   } = props;
-  const { fleet, leasingCompany, licensePlate, vin, year } = filter;
+  const { fleet, leasingCompany, licensePlate, vin, year, archived } = filter;
 
   // Different choices for each type of vehicle
   const typeAllVehicles: Choice = {
@@ -70,18 +75,6 @@ const VehicleFilterLayout: React.StatelessComponent<Props> = props => {
   const typeSelection: Selectionfield = { name: 'Vehicle type', title: typeDisplay, choices: types };
 
   // Different input fields for properties of a vehicle
-  const fleetInput: Inputfield = {
-    callback: onFilterFleet,
-    name: T.translate('vehicle.fleet'),
-    type: 'number',
-    value: fleet,
-  };
-  const leasingCompanyInput: Inputfield = {
-    callback: onFilterLeasingCompany,
-    name: T.translate('vehicle.leasingCompany'),
-    type: 'number',
-    value: leasingCompany,
-  };
   const yearInput: Inputfield = {
     callback: onFilterYear,
     name: T.translate('vehicle.year'),
@@ -102,10 +95,22 @@ const VehicleFilterLayout: React.StatelessComponent<Props> = props => {
     name: T.translate('vehicle.vin'),
     selected: [ vin ],
   };
+  const leasingCompanyInput: Typeaheadfield = {
+    callback: onFilterLeasingCompany,
+    data: leasingCompanyData,
+    name: T.translate('vehicle.leasingCompany'),
+    selected: [ leasingCompany ],
+  }
+  const fleetInput: Typeaheadfield = {
+    callback: onFilterFleet,
+    data: fleetData,
+    name: T.translate('vehicle.fleet'),
+    selected: [ fleet ],
+  }
 
   const selections: Selectionfield[] = [ typeSelection ];
-  const inputfields: Inputfield[] = [ fleetInput, leasingCompanyInput, yearInput ];
-  const typeaheadfields: Typeaheadfield[] = [ licensePlateInput, vinInput ];
+  const inputfields: Inputfield[] = [ yearInput ];
+  const typeaheadfields: Typeaheadfield[] = [ vinInput, licensePlateInput, fleetInput, leasingCompanyInput ];
   const datefields: Datefield[] = [];
 
   return(
@@ -115,7 +120,9 @@ const VehicleFilterLayout: React.StatelessComponent<Props> = props => {
       typeaheadfields={ typeaheadfields }
       datefields={ datefields }
       onReset={ props.onReset }
-      onHide={ props.onHide } />
+      onHide={ props.onHide } 
+      toggleArchive={ props.onFilterArchive }
+      archived={ archived } />
   );
 };
 
