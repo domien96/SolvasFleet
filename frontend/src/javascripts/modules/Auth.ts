@@ -181,18 +181,12 @@ class Auth {
     return Auth.isAuthorizedGlobally('write:auth:roles');
   }
 
-  static canClickUsersLink() {
-    return Auth.isAuthorizedGlobally('read:users') || Auth.isAuthorizedGlobally('write:users');
-  }
-
   static canClickCompaniesLink() {
-    return Auth.isAuthorizedGlobally('read:companies') || Auth.isAuthorizedGlobally('write:companies')
-      || Auth.isAuthorizedGlobally('read:company') || Auth.isAuthorizedGlobally('write:company');
+    return Auth.isAuthorizedGlobally('read:companies')  || Auth.isAuthorizedGlobally('read:company')
   }
 
   static canClickVehiclesLink() {
-    return Auth.isAuthorizedGlobally('read:companies:fleets') || Auth.isAuthorizedGlobally('write:companies:fleets')
-      || Auth.isAuthorizedGlobally('read:company:fleets') || Auth.isAuthorizedGlobally('write:company:fleets');
+    return Auth.isAuthorizedGlobally('read:companies:fleets') || Auth.isAuthorizedGlobally('reat:company:fleets')
   }
 }
 

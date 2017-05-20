@@ -12,7 +12,7 @@ import Auth from '../../modules/Auth.ts';
 
 interface SProps {
   path: string;
-  authorized: () => boolean;
+  authorized: boolean;
 }
 
 class SidebarLink extends React.Component<SProps, {}> {
@@ -31,7 +31,7 @@ class SidebarLink extends React.Component<SProps, {}> {
       </li>
     );
 
-    return this.props.authorized() ? comp : null;
+    return this.props.authorized ? comp : null;
   }
 }
 
@@ -45,11 +45,11 @@ const Sidebar: React.StatelessComponent<{}> = () => {
         </Link>
       </div>
       <ul className='nav'>
-        <SidebarLink path='/users' authorized={ Auth.canClickUsersLink } >{ T.translate('user.users') }</SidebarLink>
-        <SidebarLink path='/clients' authorized={ Auth.canClickCompaniesLink }>{ T.translate('company.clients') }</SidebarLink>
-        <SidebarLink path='/vehicles' authorized={ Auth.canClickVehiclesLink }>{ T.translate('vehicle.vehicles') }</SidebarLink>
-        <SidebarLink path='/log' authorized={ Auth.canReadRevisions }>{ T.translate('log.log') }</SidebarLink>
-        <SidebarLink path='/auth' authorized={ Auth.canReadRoles }>{ T.translate('auth.permissionSettings') }</SidebarLink>
+        <SidebarLink path='/users' authorized={ Auth.canReadUsers() } >{ T.translate('user.users') }</SidebarLink>
+        <SidebarLink path='/clients' authorized={ Auth.canClickCompaniesLink() }>{ T.translate('company.clients') }</SidebarLink>
+        <SidebarLink path='/vehicles' authorized={ Auth.canClickVehiclesLink() }>{ T.translate('vehicle.vehicles') }</SidebarLink>
+        <SidebarLink path='/log' authorized={ Auth.canReadRevisions() }>{ T.translate('log.log') }</SidebarLink>
+        <SidebarLink path='/auth' authorized={ Auth.canReadRoles() }>{ T.translate('auth.permissionSettings') }</SidebarLink>
       </ul>
       <ul className='nav session-actions'>
         <li className='plain'>
