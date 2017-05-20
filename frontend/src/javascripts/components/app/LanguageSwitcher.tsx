@@ -6,18 +6,21 @@ import { changeLanguage } from '../../actions/action_creators.ts';
 import { State as AppState } from '../../reducers/app.ts';
 import { languages } from '../../i18n.ts';
 
+interface PassedProps {
+  updateLanguage: () => void;
+}
+
 interface Props {
   lang: string;
   change: (lang: string) => void;
-  updateLanguage: () => void;
 }
 
 interface State {
   visible: boolean;
 }
 
-class LanguageSwitcher extends React.Component<Props, State> {
-  constructor(props: Props) {
+class LanguageSwitcher extends React.Component<Props & PassedProps, State> {
+  constructor(props: Props & PassedProps) {
     super(props);
     this.state = { visible: false };
     this.toggleVisible = this.toggleVisible.bind(this);
@@ -73,4 +76,4 @@ const mapDispatchToProps = (dispatch: any) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(LanguageSwitcher);
+export default connect<{}, {}, PassedProps>(mapStateToProps, mapDispatchToProps)(LanguageSwitcher);
