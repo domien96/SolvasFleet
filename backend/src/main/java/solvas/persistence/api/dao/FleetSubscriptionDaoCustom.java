@@ -3,7 +3,7 @@ package solvas.persistence.api.dao;
 import solvas.service.models.FleetSubscription;
 import solvas.service.models.Vehicle;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 /**
@@ -36,5 +36,5 @@ public interface FleetSubscriptionDaoCustom {
      *
      * @return The optional fleet subscription.
      */
-    Optional<FleetSubscription> activeForVehicleBetween(Vehicle vehicle, LocalDate start, LocalDate end);
+    Optional<FleetSubscription> activeForVehicleBetween(Vehicle vehicle, LocalDateTime start, LocalDateTime end);
 }

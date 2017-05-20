@@ -2,8 +2,7 @@ package solvas.service.models;
 
 
 
-import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 /**
@@ -15,12 +14,12 @@ public class FleetSubscription extends Model {
     /**
      * Date when the vehicle has been part of the fleet.
      */
-    private LocalDate startDate;
+    private LocalDateTime startDate;
 
     /**
      * The vehicle belongs to the fleet until this date.
      */
-    private LocalDate endDate;
+    private LocalDateTime endDate;
 
     /**
      * The vehicle which is linked with the fleet.
@@ -39,19 +38,19 @@ public class FleetSubscription extends Model {
     private Set<Contract> contracts;
 
 
-    public LocalDate getStartDate() {
+    public LocalDateTime getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDate startDate) {
+    public void setStartDate(LocalDateTime startDate) {
         this.startDate = startDate;
     }
 
-    public LocalDate getEndDate() {
+    public LocalDateTime getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDate endDate) {
+    public void setEndDate(LocalDateTime endDate) {
         this.endDate = endDate;
     }
 
@@ -72,7 +71,7 @@ public class FleetSubscription extends Model {
     }
 
     public boolean isActive() {
-        LocalDate now = LocalDate.now();
+        LocalDateTime now = LocalDateTime.now();
         return startDate.isBefore(now) &&
                 endDate.isAfter(now);
     }

@@ -10,6 +10,7 @@ import solvas.service.models.Vehicle;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 /**
@@ -35,12 +36,12 @@ public class FleetSubscriptionDaoImpl implements FleetSubscriptionDaoCustom {
 
     @Override
     public Optional<FleetSubscription> activeForVehicle(Vehicle vehicle) {
-        LocalDate now = LocalDate.now();
+        LocalDateTime now = LocalDateTime.now();
         return activeForVehicleBetween(vehicle, now, now);
     }
 
     @Override
-    public Optional<FleetSubscription> activeForVehicleBetween(Vehicle vehicle, LocalDate start, LocalDate end) {
+    public Optional<FleetSubscription> activeForVehicleBetween(Vehicle vehicle, LocalDateTime start, LocalDateTime end) {
 
         TypedQuery<FleetSubscription> query = entityManager.createQuery(
                 "select s from FleetSubscription s where s.vehicle = ?1 and s.startDate <= ?2 and (s.endDate is null or s.endDate >= ?3) and s.archived = false",
