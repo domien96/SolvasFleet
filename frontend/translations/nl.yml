@@ -22,9 +22,9 @@ company:
     country: Land
   addNew: Voeg nieuw bedrijf toe
   edit: Wijzig bedrijf
-  types: Type 
+  types: Type
   type:
-    LeasingCompany: Leasingmaatschappij 
+    LeasingCompany: Leasingmaatschappij
     InsuranceCompany: Verzekeringsbedrijf
     Customer: Klant
 
@@ -74,13 +74,14 @@ fleet:
     perTrimester: Per Trimester
     perSemester: Per Semester
   addNew: Voeg een nieuwe vloot toe
+  settings: Vlootinstellingen
 
 subfleet:
   id: ID
   name: Naam
   size: Grootte
 
-function: 
+function:
   functions: Functies
   role: Rol
   company: Bedrijf
@@ -90,22 +91,22 @@ function:
 permission:
   permissions: Permissies
   action: Actie
-  resource: Bron 
+  resource: Bron
 
 role:
   roles: Rollen
-  name: Naam 
+  name: Naam
   permissions: Permissies
-  addNew: Maak nieuwe rol aan 
+  addNew: Maak nieuwe rol aan
   edit: Wijzig rol
 
 invoice:
   id: Factuur ID
-  fleet: Vloot ID 
+  fleet: Vloot ID
   paid: Betaald
-  totalAmount: Totaal verschuldigd bedrag 
-  type: Type 
-  startDate: Start datum 
+  totalAmount: Totaal verschuldigd bedrag
+  type: Type
+  startDate: Start datum
   endDate: Eind datum
   showCurrent: Toon huidige factuur
   showAll: Toon alle facturen
@@ -117,7 +118,7 @@ contract:
   premium: Premie
   type: Type van contract
   vehicle: Voertuig ID
-  startDate: Start datum 
+  startDate: Start datum
   endDate: Eind datum
   addNew: Maak nieuw contract
   edit: Wijzig contract
@@ -136,10 +137,22 @@ form:
     email: Email
     password: Wachtwoord
 
-table: 
+table:
   actions: Actions
 
 errors:
   null: is niet ingevuld
   404: Er is iets verkeerd gelopen!
   pageNotFound: De opgevraagde pagina kan momenteel niet worden gevonden op onze server
+  MISSING: is leeg, vul aub een waarde in.
+  WRONG_FORMAT: heeft een incorrect formaat
+  NOT_UNIQUE: zou uniek moeten zijn, maar werd al gebruikt
+  TOO_SMALL: is te klein, vul aub een grotere waarde in
+  TOO_BIG: is te groot, vul aub een kleinere waarde in
+  INVALID: is ongeldig, vul aub een correcte waarde in
+  NOT_FOUND: werd niet gevonden
+  WRONG_TYPE: heeft het verkeerde type
+  
+csv:
+  import:
+    success: Uw csv bestand werd succesvol geïmporteerd.

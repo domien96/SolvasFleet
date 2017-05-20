@@ -36,7 +36,7 @@ class Fleets extends React.Component<Props, State> {
   }
 
   onClick() {
-    this.setState({ formVisible: true });
+    this.setState({ formVisible: !this.state.formVisible })
   }
 
   onSubmit(e: any) {
