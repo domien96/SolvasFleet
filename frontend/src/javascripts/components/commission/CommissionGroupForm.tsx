@@ -44,6 +44,7 @@ class CommissionGroupForm extends React.Component<Props, State> {
     super(props);
     const emptycommission = { id: 0, fleet: 0, vehicle: 0, company: 0, insuranceType: "", vehicleType: "", value: 0 };
     const emptyCommissionGroup = { civilLiability: emptycommission, omnium: emptycommission, legalAid: emptycommission, driverInsurance: emptycommission, travelInsurance: emptycommission };
+
     this.state = {
       toggles: {
         showVan: false,
@@ -60,16 +61,18 @@ class CommissionGroupForm extends React.Component<Props, State> {
         semiHeavyTruck: emptyCommissionGroup
       },
       initialCommissions: {
-        personalVehicle: emptyCommissionGroup,
-        van: emptyCommissionGroup,
-        truck: emptyCommissionGroup,
-        truck12: emptyCommissionGroup,
-        semiHeavyTruck: emptyCommissionGroup
+        personalVehicle: { ...emptyCommissionGroup },
+        van: { ...emptyCommissionGroup },
+        truck: { ...emptyCommissionGroup },
+        truck12: { ...emptyCommissionGroup },
+        semiHeavyTruck: { ...emptyCommissionGroup }
       }
     }
 
     this.handleChange = this.handleChange.bind(this);
     this.toggleCommission = this.toggleCommission.bind(this);
+    this.putCommissions = this.putCommissions.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
     this.fetchCommissions();
   }
 
@@ -77,7 +80,7 @@ class CommissionGroupForm extends React.Component<Props, State> {
     return (s: string) => {
       return (e: any) => {
         const com = this.state.commissions[vehicleType];
-        com[s].value = e.target.value;
+        com[s].value = Number(e.target.value);
         const newstate = this.state;
         newstate.commissions[vehicleType] = com;
         this.setState({ ...newstate  });
@@ -95,6 +98,7 @@ class CommissionGroupForm extends React.Component<Props, State> {
 
   setCommission(vehicleType: string, insuranceType: string, commission: CommissionData) {
     let state: State = { ...this.state };
+    commission.vehicleType = 'PersonalVehicle';
     state.initialCommissions[vehicleType][insuranceType] = commission;
     state.commissions[vehicleType][insuranceType] = commission;
     this.setState({ ...state });
@@ -102,6 +106,7 @@ class CommissionGroupForm extends React.Component<Props, State> {
 
   fetchCommission(vehicleType: string, insuranceType: string) {
     this.props.fetchCommission(vehicleType, insuranceType, (data) => {
+      console.log(vehicleType+' '+insuranceType);
 
       this.setCommission(vehicleType, insuranceType, data.data[0]);
       console.log(this.state);
@@ -109,9 +114,13 @@ class CommissionGroupForm extends React.Component<Props, State> {
   }
 
   putCommissionIfChanged(vehicleType: string, insuranceType: string, success?: callback) {
-    if(this.state.initialCommissions[vehicleType][insuranceType] != this.state.commissions[vehicleType][insuranceType]) {
+    console.log(this.state.commissions[vehicleType][insuranceType]);
+    console.log(this.state.initialCommissions[vehicleType][insuranceType]);
+    if(this.state.initialCommissions[vehicleType][insuranceType].value !== this.state.commissions[vehicleType][insuranceType].value) {
       const success = (data: any) => redirect_to(this.props.returnTo);
-      this.props.putCommission(vehicleType, insuranceType, this.state.commissions[vehicleType][insuranceType].value, success);
+      console.log("this.state.commission[vehicleType][insuranceType]");
+
+      this.props.putCommission(vehicleType, insuranceType, this.state.commissions[vehicleType][insuranceType], success);
     }
   }
 
@@ -148,9 +157,14 @@ class CommissionGroupForm extends React.Component<Props, State> {
     this.fetchCommission(vehicleType, 'legalAid');
   }
 
+  onSubmit(e: any): void {
+    e.preventDefault();
+    this.putCommissions();
+  }
+
   render() {
     return (
-      <form method='post' onSubmit={ null } >
+      <form method='put' onSubmit={ this.onSubmit } >
         <div className='wrapper'>
           <div className='row'>
             <div className='col-xs-12 col-md-6'>
