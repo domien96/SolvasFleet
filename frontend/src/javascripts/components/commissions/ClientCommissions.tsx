@@ -31,7 +31,7 @@ class ClientCommissions extends React.Component<Props, {}> {
         <Header>
           <h2>{ T.translate('commissions.client') }</h2>
         </Header>
-        <CommissionGroupForm fetchCommission={ this.fetchCommission } putCommission={ this.putCommission } returnTo={ "/" }/>
+        <CommissionGroupForm fetchCommission={ this.fetchCommission } putCommission={ this.putCommission } returnTo={ "/" } companyId={ Number(this.props.params.companyId) } fleetId={ 0 }/>
       </div>
     );
   }

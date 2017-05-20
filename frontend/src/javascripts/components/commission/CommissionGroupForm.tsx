@@ -9,6 +9,8 @@ import { redirect_to } from '../../routes/router.tsx';
 
 
 interface Props {
+  companyId: number;
+  fleetId: number;
   returnTo?: string;
   fetchCommission: (vehicleType: string, insuranceType: string, success?: callback, fail?: callback) => void;
   putCommission: (vehicleType: string, insuranceType: string, commission: CommissionData, success?: callback, fail?: callback) => void;
@@ -47,8 +49,8 @@ class CommissionGroupForm extends React.Component<Props, State> {
     const commissions = {
       personalVehicle: emptyCommissionGroup,
       van: emptyCommissionGroup,
-      truck: emptyCommissionGroup,
-      truck12: emptyCommissionGroup,
+      truck: emptyCommissionGroup ,
+      truck12: emptyCommissionGroup ,
       semiHeavyTruck: emptyCommissionGroup
     };
 
@@ -61,8 +63,20 @@ class CommissionGroupForm extends React.Component<Props, State> {
         showTruck12: false,
         showPersonalVehicle: false
       },
-      commissions: commissions;
-      initialCommissions: {...commissions};
+      commissions: {
+        personalVehicle: emptyCommissionGroup,
+        van: emptyCommissionGroup,
+        truck: emptyCommissionGroup ,
+        truck12: emptyCommissionGroup ,
+        semiHeavyTruck: emptyCommissionGroup
+      },
+      initialCommissions: {
+        personalVehicle: JSON.parse(JSON.stringify(emptyCommissionGroup)),
+        van: emptyCommissionGroup,
+        truck: emptyCommissionGroup ,
+        truck12: emptyCommissionGroup ,
+        semiHeavyTruck: emptyCommissionGroup
+      }
     }
 
     this.handleChange = this.handleChange.bind(this);
@@ -79,7 +93,7 @@ class CommissionGroupForm extends React.Component<Props, State> {
         com[s].value = Number(e.target.value);
         const newstate = this.state;
         newstate.commissions[vehicleType] = com;
-        this.setState({ ...newstate  });
+        this.setState({ commissions: newstate.commissions  });
       }
     }
   }
@@ -95,6 +109,8 @@ class CommissionGroupForm extends React.Component<Props, State> {
   setCommission(vehicleType: string, insuranceType: string, commission: CommissionData) {
     let state: State = { ...this.state };
     commission.vehicleType = vehicleType.charAt(0).toUpperCase() + vehicleType.slice(1); //Vuil idd
+    commission.fleet = this.props.fleetId;
+    commission.company = this.props.companyId;
     state.initialCommissions[vehicleType][insuranceType] = commission;
     state.commissions[vehicleType][insuranceType] = commission;
     this.setState({ ...state });
@@ -158,6 +174,7 @@ class CommissionGroupForm extends React.Component<Props, State> {
   render() {
     return (
       <form method='put' onSubmit={ this.onSubmit } >
+      dadaz
         <div className='wrapper'>
           <div className='row'>
             <div className='col-xs-12 col-md-6'>
