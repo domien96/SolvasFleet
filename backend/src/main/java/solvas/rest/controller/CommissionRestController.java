@@ -54,76 +54,17 @@ public class CommissionRestController extends AbstractRestController<Commission,
      */
     @RequestMapping(value = "/commissions/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteById(@PathVariable int id) throws EntityNotFoundException, UndeletableException {
-        commissionService.destroy(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        //commissionService.destroy(id);
+        //return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        // Maybe this will be required later.
+        return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
     }
 
-    /**
-     * A Vehicle has the highest priority
-     * @param input value to be inserted
-     * @param id id of the vehicle
-     * @param result  The binding to use to validate
-     * @return Response with the saved model, or 400.
-     */
-    @RequestMapping(value = "/commissions/vehicle/{id}/type/{type}", method = RequestMethod.PUT)
-    public ResponseEntity<?> postVehicleCommission(@Valid @RequestBody ApiCommission input
-            ,@PathVariable int id, @PathVariable String type, BindingResult result) {
-        input.setInsuranceType(type);
-        input.setVehicle(id);
+
+    @RequestMapping(value = "/commissions", method = RequestMethod.PUT)
+    public ResponseEntity<?> changeVehicleCommission(@Valid @RequestBody ApiCommission input, BindingResult result) {
         return super.put(input.getId(),input, result);
     }
-
-    /**
-     * A Subfleet(fleet and vehicle type) has the second highest priority
-     * @param input value to be inserted
-     * @param fleetId id of the fleet
-     * @param insuranceType vehicle type
-     * @param result  The binding to use to validate
-     * @return Response with the saved model, or 400.
-     */
-    @RequestMapping(value = "/commissions/fleet/{fleetId}/type/{fleetType}/type/{insuranceType}", method = RequestMethod.PUT)
-    public ResponseEntity<?> postFleetAndTypeCommission(@Valid @RequestBody ApiCommission input
-            ,@PathVariable int fleetId, @PathVariable String fleetType, @PathVariable String insuranceType, BindingResult result) {
-        input.setInsuranceType(insuranceType);
-        input.setVehicleType(fleetType);
-        input.setFleet(fleetId);
-        return super.put(input.getId(),input, result);
-    }
-
-
-    /**
-     * A fleet has the third highest priority
-     * @param input value to be inserted
-     * @param fleetId id of the fleet
-     * @param result  The binding to use to validate
-     * @return Response with the saved model, or 400.
-     */
-    @RequestMapping(value = "/commissions/fleet/{fleetId}/type/{insuranceType}", method = RequestMethod.PUT)
-    public ResponseEntity<?> postFleetCommission(@Valid @RequestBody ApiCommission input
-            ,@PathVariable int fleetId ,@PathVariable String insuranceType , BindingResult result) {
-        input.setInsuranceType(insuranceType);
-        input.setFleet(fleetId);
-        return super.put(input.getId(),input, result);
-    }
-
-    /**
-     * A company has the forth highest priority
-     * @param input value to be inserted
-     * @param companyId id of the company
-     * @param result  The binding to use to validate
-     * @return Response with the saved model, or 400.
-     */
-    @RequestMapping(value = "/commissions/company/{companyId}/type/{insuranceType}", method = RequestMethod.PUT)
-    public ResponseEntity<?> postCompanyCommission(@Valid @RequestBody ApiCommission input
-            ,@PathVariable int companyId,@PathVariable String insuranceType, BindingResult result) {
-        input.setVehicleType(null);
-        input.setVehicle(0);
-        input.setCompany(companyId);
-        input.setInsuranceType(insuranceType);
-        input.setFleet(0);
-        return super.put(input.getId(),input, result);
-    }
-
 
     /**
      * Query all models, accounting for pagination settings and respect the filters. The return value of this

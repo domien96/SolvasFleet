@@ -94,6 +94,8 @@ public class CommissionService extends AbstractService<Commission,ApiCommission>
         Pageable pagination = new PageRequest(0, 10); // dummy pagination object so we can call findCascade
         Page<ApiCommission> res = super.findAll(pagination,apiCommissionAsFilter(input));
         if(res.hasContent()) {
+            assert(res.getContent().size() == 1); // unique set of parameters
+            id = res.getContent().get(0).getId();
             input.setId(id);
             return super.update(id,input);
         } else {
