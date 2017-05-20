@@ -44,6 +44,7 @@ public class HibernateDaoContext implements DaoContext {
      * @param invoiceDao
      * @param taxDao
      * @param revisionDao
+     * @param commissionDao
      */
     @Autowired
     public HibernateDaoContext(CompanyDao companyDao, FleetDao fleetDao, FleetSubscriptionDao fleetSubscriptionDao,
@@ -51,7 +52,7 @@ public class HibernateDaoContext implements DaoContext {
                                VehicleTypeDao vehicleTypeDao, ContractDao contractDao,
                                InsuranceTypeDao insuranceTypeDao,InvoiceDao invoiceDao,
                                TaxDao taxDao, FunctionDao functionDao, PermissionDao permissionDao,
-                               InvoiceItemDao invoiceItemDao, RevisionDao revisionDao) {
+                               InvoiceItemDao invoiceItemDao, RevisionDao revisionDao, CommissionDao commissionDao) {
         this.companyDao = companyDao;
         this.fleetDao = fleetDao;
         this.fleetSubscriptionDao = fleetSubscriptionDao;
@@ -67,6 +68,7 @@ public class HibernateDaoContext implements DaoContext {
         this.taxDao=taxDao;
         this.invoiceItemDao = invoiceItemDao;
         this.revisionDao = revisionDao;
+        this.commissionDao=commissionDao;
     }
 
     private CompanyDao companyDao;
@@ -118,14 +120,12 @@ public class HibernateDaoContext implements DaoContext {
         return vehicleTypeDao;
     }
 
+    private InsuranceTypeDao insuranceTypeDao;
+
     @Override
     public InsuranceTypeDao getInsuranceTypeDao() {
         return insuranceTypeDao;
     }
-
-
-
-    private InsuranceTypeDao insuranceTypeDao;
 
     private ContractDao contractDao;
 
@@ -162,14 +162,23 @@ public class HibernateDaoContext implements DaoContext {
     }
 
     private InvoiceItemDao invoiceItemDao;
+
     @Override
     public InvoiceItemDao getInvoiceItemDao() {
         return invoiceItemDao;
     }
+
     private final RevisionDao revisionDao;
 
     @Override
     public RevisionDao getRevisionDao() {
         return revisionDao;
+    }
+
+    private CommissionDao commissionDao;
+
+    @Override
+    public CommissionDao getCommissionDao() {
+        return commissionDao;
     }
 }
