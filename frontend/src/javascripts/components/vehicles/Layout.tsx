@@ -4,6 +4,8 @@ import Header from '../app/Header.tsx';
 import VehicleFilter from './filters/VehicleFilter.tsx';
 import VehicleListing from './VehicleListing.tsx';
 import T from 'i18n-react';
+import Auth from '../../modules/Auth.ts';
+import DynamicGuiComponent from '../app/DynamicGuiComponent.tsx';
 
 interface Props {
   response: ListResponse;
@@ -23,6 +25,7 @@ const Layout: React.StatelessComponent<Props> = props => {
       </Header>
       <div className='wrapper'>
         <div className='row'>
+          <DynamicGuiComponent authorized={ Auth.canReadFleetsOfCompany(0) }>
           <div className='col-xs-12 col-md-7'>
             <VehicleFilter onFilter = { props.onFilter } vehicles={ props.response.data } />
             <VehicleListing
@@ -36,6 +39,7 @@ const Layout: React.StatelessComponent<Props> = props => {
               handleChange={ props.handleChange }
               csvsuccess={ props.csvsuccess } />
           </div>
+          </DynamicGuiComponent>
           <div className='col-xs-12 col-md-5'>
             { props.children }
           </div>

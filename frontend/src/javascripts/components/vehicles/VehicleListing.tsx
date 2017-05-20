@@ -51,7 +51,7 @@ const VehicleListing: React.StatelessComponent<Props>  = props =>  {
   return (
     <div className='row'>
       <div className='col-xs-12'>
-        <DynamicGuiComponent authorized={ true }>
+        <DynamicGuiComponent authorized={ Auth.canCreateVehicle() }>
           <Card>
             <VehicleUpload
               errors={ props.errors }

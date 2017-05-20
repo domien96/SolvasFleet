@@ -113,6 +113,7 @@ class Auth {
 
   static isAuthorizedForCompany(scope: string, company: number) {
     const parsed = parseClaims(Auth.getLocalAccessToken());
+    console.log(parsed.scopes);
     const filtered = parsed.scopes.filter((s: any) => company == null || s.companyId === company); //company==null is wildcard
     const scopes = (_.flatten(filtered.scopes)).map((u: any) => u.scopes);
     return _.intersection([scope], scopes).length > 0;
