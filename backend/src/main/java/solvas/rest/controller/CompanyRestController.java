@@ -9,10 +9,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import solvas.authorization.CompanyExtractor;
+import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.api.models.ApiCompany;
 import solvas.rest.query.CompanyInListFilter;
 import solvas.rest.utils.PagedResult;
 import solvas.service.CompanyService;
+import solvas.service.exceptions.UnarchivableException;
 import solvas.service.models.Company;
 
 import javax.validation.Valid;
@@ -87,7 +89,7 @@ public class CompanyRestController extends AbstractRestController<Company,ApiCom
     @Override
     @RequestMapping(value = "/companies/{id}", method = RequestMethod.DELETE)
     @PreAuthorize("hasPermission(#id, 'company', 'DELETE')")
-    public ResponseEntity<?> archiveById(@PathVariable int id) {
+    public ResponseEntity<?> archiveById(@PathVariable int id) throws EntityNotFoundException, UnarchivableException {
         return super.archiveById(id);
     }
 

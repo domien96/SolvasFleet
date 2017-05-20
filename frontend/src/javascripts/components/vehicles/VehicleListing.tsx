@@ -5,31 +5,27 @@ import Card from '../app/Card.tsx';
 import Pagination from '../pagination/Pagination.tsx';
 import InfoTable from '../tables/InfoTable.tsx';
 import T from 'i18n-react';
-import Errors from '../app/Errors.tsx'
+import Errors from '../app/CSVErrors.tsx';
 
 interface UProps {
   errors: Form.Error[];
   handleChange: (e: any) => void;
   addNewRoute: string;
   modelName: string;
+  csvsuccess: boolean;
 }
 
-const VehicleUpload: React.StatelessComponent<UProps>  = props =>  {
+const VehicleUpload: React.StatelessComponent<UProps> = props =>  {
   return (
-    <form method='post' encType='multipart/form-data'>
-      <div className='wrapper'>
+    <div className='card-content'>
+      { props.csvsuccess && <span className='alert alert-success csv-import'>{ <T.text text='csv.import.success' /> }</span> }
+      <form method='post' encType='multipart/form-data'>
         <Errors errors={ props.errors } />
-          <div className='pull-right'>
-            <span className='glyphicon glyphicon-upload' aria-hidden='true'></span>
-            Upload Vehicles (CSV)
-            <input onChange={ props.handleChange } type='file' name='File Upload' id='csvFileUpload' accept='.csv' className='btn btn-default' />
-            <Link to={props.addNewRoute} className='btn btn-default lab-margin pull-right'>
-              <span className='glyphicon glyphicon-plus' aria-hidden='true'></span>
-              { T.translate(props.modelName + '.addNew') }
-            </Link>
-          </div>
-      </div>
-    </form>
+        <span className='glyphicon glyphicon-upload' aria-hidden='true'></span>
+        Upload Vehicles (CSV)
+        <input onChange={ props.handleChange } type='file' name='File Upload' id='csvFileUpload' accept='.csv' className='btn btn-default' />
+      </form>
+    </div>
   );
 };
 
@@ -42,6 +38,7 @@ interface Props {
   response: ListResponse;
   errors: Form.Error[];
   handleChange: (e: any) => void;
+  csvsuccess: boolean;
 }
 
 const VehicleListing: React.StatelessComponent<Props>  = props =>  {
@@ -53,12 +50,19 @@ const VehicleListing: React.StatelessComponent<Props>  = props =>  {
     <div className='row'>
       <div className='col-xs-12'>
         <Card>
+          <VehicleUpload
+            errors={ props.errors }
+            handleChange={ props.handleChange }
+            modelName={ props.modelName }
+            addNewRoute={ props.addNewRoute }
+            csvsuccess={ props.csvsuccess } />
+        </Card>
+        <Card>
           <div className='card-content'>
-            <VehicleUpload 
-              errors={ props.errors } 
-              handleChange={ props.handleChange } 
-              modelName={ props.modelName }
-              addNewRoute={ props.addNewRoute } />
+            <Link to={props.addNewRoute} className='btn btn-default lab-margin pull-right'>
+              <span className='glyphicon glyphicon-plus' aria-hidden='true'></span>
+              { T.translate(props.modelName + '.addNew') }
+            </Link>
             <InfoTable head={ tablehead } data={ props.response.data } onClick={ props.onSelect } />
             <Pagination onClick={ props.fetchModels } response={ props.response }/>
           </div>

@@ -169,15 +169,16 @@ public class GreenCardPdfView extends AbstractITextPdfView {
     private void make8(PdfPTable card) {
         PdfPTable c = new PdfPTable(1);
         c.addCell(new PdfPCellBuilder(new Paragraph("8. Dekkingsgebied\n", NORMAL_B))
-                .setBorder(Rectangle.NO_BORDER).build());
+                .setFixedHeight(Utilities.millimetersToPoints(10)).setBorder(Rectangle.NO_BORDER).build());
         PdfPTable countries = new PdfPTable(18);
+        countries.getDefaultCell().setBorder(Rectangle.NO_BORDER);
         countries.setWidthPercentage(100);
         for(String code : "BE,BG,CZ,DK,DE,EE,IE,EL,ES,FR,HR,IT,CY,LV,LT,LU,HU,MT,NL,AT,PL,PT,RO,SI,SK,FI,SE,UK,IS,NO,LI".split(",")) {
-            countries.addCell(new PdfPCellBuilder(new Paragraph(code, LARGE_B)).setBorder(Rectangle.NO_BORDER)
-                    .setFixedHeight(Utilities.millimetersToPoints(10)).build());
+            countries.addCell(new PdfPCellBuilder(new Paragraph(code, LARGE_B)).setBorder(Rectangle.BOX)
+                    .setHorizontalAlignment(Element.ALIGN_CENTER).setFixedHeight(Utilities.millimetersToPoints(6)).build());
         }
-        c.addCell(new PdfPCellBuilder().addElement(countries).setFixedHeight(Utilities.millimetersToPoints(10))
-                .setVerticalAlignment(Element.ALIGN_MIDDLE).build());
+        countries.completeRow();
+        c.addCell(new PdfPCellBuilder().addElement(countries).setBorder(Rectangle.NO_BORDER).setVerticalAlignment(Element.ALIGN_MIDDLE).build());
         c.setWidthPercentage(100);
         card.addCell(new PdfPCellBuilder().setColSpan(4).setFixedHeight(Utilities.millimetersToPoints(35))
                 .addElement(c).build()); // table wrapped in cell to be able to set some layout constraints.

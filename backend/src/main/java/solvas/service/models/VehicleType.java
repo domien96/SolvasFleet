@@ -6,6 +6,10 @@ package solvas.service.models;
  * @author domien on 4/03/2017.
  */
 public class VehicleType extends Model {
+
+    /**
+     * Canonical name of this vehicle type.
+     */
     private String name;
 
     public String getName() {

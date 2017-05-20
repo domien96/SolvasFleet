@@ -1,6 +1,7 @@
 package solvas.persistence.api.dao;
 
 import org.flywaydb.core.Flyway;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -11,6 +12,8 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.datasource.init.DatabasePopulator;
 import org.springframework.jdbc.datasource.init.DatabasePopulatorUtils;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
+import org.springframework.validation.Validator;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import javax.sql.DataSource;
 import java.io.IOException;
@@ -25,6 +28,7 @@ import java.util.Properties;
 @Configuration
 @ComponentScan("solvas.rest.utils.validators") //otherwise validator error
 @ComponentScan("solvas.persistence.hibernate") //otherwise validator error
+@ComponentScan("solvas") // search entire solvas for beans
 @SpringBootApplication
 public class TestConfig {
 
@@ -57,6 +61,23 @@ public class TestConfig {
 
         return dataSource;
     }
+
+
+    /**
+     * Test config cannot find org.springframework.validation.Validator bean, so we create a new factory
+     * @return new Validator
+     */
+    @Bean
+    public org.springframework.validation.Validator validator() {
+        return new LocalValidatorFactoryBean();
+    }
+
+    @Qualifier("mvcValidator")
+    @Bean
+    public Validator mvcValidator() {
+        return new LocalValidatorFactoryBean();
+    }
+
 
 
 }

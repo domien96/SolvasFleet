@@ -1,8 +1,12 @@
 package solvas.rest.api.models;
 
+import com.opencsv.bean.CsvBindByName;
+import com.opencsv.bean.CsvCustomBindByName;
 import org.hibernate.validator.constraints.NotBlank;
-import org.joda.time.DateTime;
+import solvas.rest.csv.LocalDateTimeBeanField;
+import solvas.rest.utils.validators.UniqueVin;
 import solvas.service.models.validators.AfterLocalDateTime;
+import solvas.service.models.validators.IsValidVehicleType;
 import solvas.service.models.validators.Vin;
 
 import javax.validation.constraints.Min;
@@ -12,35 +16,47 @@ import java.time.LocalDateTime;
 /**
  * Vehicle in the API layer
  */
+@UniqueVin
 public class ApiVehicle extends ApiModel {
 
+    @CsvBindByName(required = true)
     private String licensePlate;
 
     @Vin
     @NotNull
+    @CsvBindByName(required = true)
     private String vin;
 
     @NotBlank
+    @CsvBindByName(required = true)
     private String model;
 
     @NotBlank
+    @IsValidVehicleType
+    @CsvBindByName(required = true)
     private String type;
 
     @Min(value = 0)
+    @CsvBindByName(required = true)
     private int mileage;
 
     @NotNull
     @AfterLocalDateTime(year = 1981,month = 1,dayOfMonth = 1,hour = 0,minute = 0)
+    @CsvCustomBindByName(converter = LocalDateTimeBeanField.class)
     private LocalDateTime year;
 
+    @CsvBindByName
     private int leasingCompany;
 
     @Min(value = 0)
+    @CsvBindByName
     private int value;
 
+    @CsvBindByName
     private int fleet = -1; //Use -1 as default value because 0 is removing it.
 
     @NotBlank
+    @CsvBindByName(required = true)
     private String brand;
 
     public String getLicensePlate() {

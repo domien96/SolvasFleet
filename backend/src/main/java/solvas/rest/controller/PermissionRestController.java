@@ -1,25 +1,20 @@
 package solvas.rest.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.api.models.ApiPermission;
-import solvas.rest.api.models.ApiRole;
 import solvas.rest.query.PermissionFilter;
 import solvas.rest.utils.JsonListWrapper;
-import solvas.rest.utils.PagedResult;
-import solvas.service.AbstractService;
 import solvas.service.PermissionService;
 import solvas.service.models.Permission;
-import solvas.service.models.Role;
-
-import java.util.Collection;
 
 /**
  * Rest controller for permissions
@@ -44,15 +39,12 @@ public class PermissionRestController extends AbstractRestController<Permission,
      * Query all models, accounting for pagination settings and respect the filters. The return value of this
      * method will contain an object, according to the API spec.
      *
-     * @param pagination The pagination information.
-     * @param filter     The filters.
-     * @param result     The validation results of the filterResult
-     * @return ResponseEntity
+     * @return The result.
      */
     @RequestMapping(value = "/auth/permissions", method = RequestMethod.GET)
     @PreAuthorize("hasPermission(0, 'permission', 'READ')")
-    public ResponseEntity<?> listAll(Pageable pagination, PermissionFilter filter, BindingResult result) {
-        return super.listAll(pagination, filter, result);
+    public JsonListWrapper<?> listAll() {
+        return JsonListWrapper.withTotal(service.findAll());
     }
 
     /**
@@ -75,7 +67,7 @@ public class PermissionRestController extends AbstractRestController<Permission,
         try {
             permissionService.filterOnRole(permissionFilter, roleId);
         } catch (EntityNotFoundException e) {
-            notFound();
+            return notFound();
         }
         // If there are errors in the filtering, send bad request.
         return super.listAll(pagination, permissionFilter, filterResult);

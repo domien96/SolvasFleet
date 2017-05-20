@@ -1,109 +1,38 @@
 package solvas.rest;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Before;
-import org.junit.Ignore;
+import org.hamcrest.Matchers;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.beans.TypeMismatchException;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import solvas.Application;
-import solvas.authentication.WebSecurityConfig;
-import solvas.authentication.jwt.JwtSettings;
-import solvas.authorization.MethodSecurityConfig;
-import solvas.persistence.api.dao.TestConfig;
-import solvas.persistence.hibernate.HibernateConfig;
-import solvas.rest.greencard.GreenCardViewResolver;
-import solvas.rest.greencard.pdf.GreenCardPdfView;
-import solvas.rest.invoices.InvoiceFileViewResolver;
-import solvas.service.models.Model;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.api.models.ApiModel;
-import solvas.rest.controller.AbstractRestController;
-import solvas.service.AbstractService;
+import solvas.service.mappers.exceptions.DependantEntityNotFound;
+import solvas.service.models.Model;
 
-import static io.github.benas.randombeans.api.EnhancedRandom.random;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
- * Abstract class of the restcontrollers
- *
+ * Abstract class of the restcontrollerstest, including several tests
  * @param <E> The ApiModel
  * @param <T> The Model
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-public abstract class AbstractRestControllerTest<T extends Model, E extends ApiModel> {
-    abstract AbstractRestController getController();
+public abstract class AbstractRestControllerTest<T extends Model,E extends ApiModel> extends AbstractBasicRestControllerTest<T,E> {
 
-    private E apiModel;
-    private Class<? extends E> clazz;
 
     /**
      * Abstract test constructor
      *
      * @param clazz the class we want to make random objects of.
      */
-    AbstractRestControllerTest(Class<? extends E> clazz) {
-        this.clazz = clazz;
+    public AbstractRestControllerTest(Class<? extends E> clazz) {
+        super(clazz);
     }
-
-    /**
-     * Create a random model and its json representation
-     */
-    @Before
-    public void config() throws JsonProcessingException {
-        apiModel = random(clazz);
-    }
-
-    /**
-     * Provides the Rest MVC mock
-     *
-     * @return Rest MockMVC
-     */
-    MockMvc getMockMvc() {
-        return MockMvcBuilders
-                .standaloneSetup(getController())
-                .build();
-    }
-
-    /**
-     * Provides a random test model
-     */
-    E getTestModel() {
-        return apiModel;
-    }
-
-    /**
-     * Provides the json representation of the random test model
-     */
-    String getTestJson() throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.findAndRegisterModules();
-        return mapper.writeValueAsString(getTestModel());
-    }
-
-    /**
-     * Get the specific 'mocked' service
-     */
-    protected abstract AbstractService<T, E> getService();
 
     /**
      * Get the base url (eg /companies)
@@ -116,28 +45,6 @@ public abstract class AbstractRestControllerTest<T extends Model, E extends ApiM
     public abstract String getIdUrl();
 
     /**
-     * Match jsonmodel with apimodel (todo: simplify?)
-     *
-     * @param res   the resultaction that mockMvc provides.
-     * @param model the model we want to compare with the json result
-     */
-    public abstract void matchJsonModel(ResultActions res, E model) throws Exception;
-
-
-
-
-
-
-
-
-
-
-
-
-    /*Tests*/
-
-
-    /**
      * Test: the response of a get request for a model that exists on the db
      */
     @Test
@@ -145,9 +52,8 @@ public abstract class AbstractRestControllerTest<T extends Model, E extends ApiM
         when(getService().getById(anyInt())).thenReturn(getTestModel());
         ResultActions res = getMockMvc().perform(get(getIdUrl()))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andDo(MockMvcResultHandlers.print());
-        matchJsonModel(res, getTestModel());
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
+        matchJsonModel(res,getTestModel());
     }
 
     /**
@@ -160,21 +66,53 @@ public abstract class AbstractRestControllerTest<T extends Model, E extends ApiM
                 .andExpect(status().isNotFound());
     }
 
-    @Ignore //TODO
     @Test
     public void getModels() throws Exception {
+        when(getService().findAll(any(),any())).thenReturn(new PageImpl(getTestModelList()));
+        getMockMvc()
+                .perform(get(getBaseUrl()))
+                .andExpect(jsonPath("data", Matchers.hasToString(getObjectMapper().writeValueAsString(getTestModelList()))));
     }
 
     /**
      * Test: the response of a post request for a new model that doesn't exist on the db
-     */
+         */
     @Test
     public void postModelNoError() throws Exception {
         when(getService().create(any())).thenReturn(getTestModel());
-        ResultActions resultActions =
-                getMockMvc().perform(post(getBaseUrl()).contentType(MediaType.APPLICATION_JSON_UTF8).content(getTestJson()))
+        ResultActions resultActions = getMockMvc()
+                        .perform(post(getBaseUrl())
+                                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                                .content(getTestJson()))
                         .andExpect(status().isOk());
-        matchJsonModel(resultActions, getTestModel());
+
+        matchJsonModel(resultActions,getTestModel());
+    }
+
+    /**
+     * Test: postrequets returns isConflict when DependantEntityNotFoundException has been thrown
+     */
+    @Test
+    public void postModelConflict() throws Exception {
+        when(getService().create(any())).thenThrow(new DependantEntityNotFound("",null));
+        getMockMvc()
+                .perform(post(getBaseUrl())
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .content(getTestJson()))
+                .andExpect(status().isConflict());
+    }
+
+    /**
+     * Test: postrequest returns isNotFound when EntityNotFoundException has been thrown
+     */
+    @Test
+    public void postModelNotFound() throws Exception {
+        when(getService().create(any())).thenThrow(new EntityNotFoundException());
+        getMockMvc()
+                .perform(post(getBaseUrl())
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .content(getTestJson()))
+                .andExpect(status().isNotFound());
     }
 
     /**
@@ -184,7 +122,10 @@ public abstract class AbstractRestControllerTest<T extends Model, E extends ApiM
     public void putModelNoError() throws Exception {
         when(getService().update(anyInt(), any())).thenReturn(getTestModel());
         ResultActions resultActions =
-                getMockMvc().perform(put(getIdUrl()).contentType(MediaType.APPLICATION_JSON_UTF8).content(getTestJson()))
+                getMockMvc()
+                        .perform(put(getIdUrl())
+                                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                                .content(getTestJson()))
                         .andExpect(status().isOk())
                         .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
         matchJsonModel(resultActions, getTestModel());
@@ -195,10 +136,25 @@ public abstract class AbstractRestControllerTest<T extends Model, E extends ApiM
      */
     @Test
     public void putModelNotFound() throws Exception {
-        when(getService().update(anyInt(), any())).thenThrow(new EntityNotFoundException());
-        getMockMvc().perform(put(getIdUrl()).contentType(MediaType.APPLICATION_JSON_UTF8).content(getTestJson()))
-                .andDo(MockMvcResultHandlers.print())
+        when(getService().update(anyInt(),any())).thenThrow(new EntityNotFoundException());
+        getMockMvc()
+                .perform(put(getIdUrl())
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .content(getTestJson()))
                 .andExpect(status().isNotFound());
+    }
+
+    /**
+     * Test: putrequest returns isConflict when DependantEntityNotFoundException has been thrown
+     */
+    @Test
+    public void putModelConflict() throws Exception {
+        when(getService().update(anyInt(),any())).thenThrow(new DependantEntityNotFound("",null));
+        getMockMvc()
+                .perform(put(getIdUrl())
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .content(getTestJson()))
+                .andExpect(status().isConflict());
     }
 
     /**
@@ -206,7 +162,10 @@ public abstract class AbstractRestControllerTest<T extends Model, E extends ApiM
      */
     @Test
     public void archiveModelNoError() throws Exception {
-        getMockMvc().perform(delete(getIdUrl()).contentType(MediaType.APPLICATION_JSON_UTF8).content(getTestJson()))
+        getMockMvc()
+                .perform(delete(getIdUrl())
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .content(getTestJson()))
                 .andExpect(status().isNoContent());
     }
 
@@ -216,9 +175,23 @@ public abstract class AbstractRestControllerTest<T extends Model, E extends ApiM
     @Test
     public void archiveModelNotFound() throws Exception {
         doThrow(new EntityNotFoundException()).when(getService()).archive(anyInt());
-        getMockMvc().perform(delete(getIdUrl()).contentType(MediaType.APPLICATION_JSON_UTF8).content(getTestJson()))
+        doThrow(new EntityNotFoundException()).when(getService()).destroy(anyInt());
+        getMockMvc()
+                .perform(delete(getIdUrl())
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .content(getTestJson()))
                 .andExpect(status().isNotFound());
     }
 
-
+    /**
+     * Test: should return isBadRequest when there has been a typemismatchexception
+     */
+    @Test
+    public void typeMisMatchExceptionHandler() throws Exception {
+        // random typemismatch arguments
+        when(getService().getById(anyInt())).thenThrow(new TypeMismatchException(mock(Matchers.class),null));
+        getMockMvc()
+                .perform(get(getIdUrl()))
+                .andExpect(status().isBadRequest());
+    }
 }

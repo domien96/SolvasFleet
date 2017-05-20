@@ -20,6 +20,7 @@ public class CompanyFilter extends ArchiveFilter<Company> {
     private String nameContains;
     private String postalCode;
     private String type;
+    private String vatNumber;
 
     @Override
     public Collection<Predicate> asPredicates(CriteriaBuilder builder, Root<Company> root) {
@@ -60,6 +61,13 @@ public class CompanyFilter extends ArchiveFilter<Company> {
             ));
         }
 
+        if (vatNumber != null) {
+            predicates.add(builder.equal(
+                    builder.lower(root.get("vatNumber")),
+                    vatNumber.toLowerCase()
+            ));
+        }
+
         return predicates;
     }
 
@@ -81,5 +89,9 @@ public class CompanyFilter extends ArchiveFilter<Company> {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public void setVatNumber(String vatNumber) {
+        this.vatNumber = vatNumber;
     }
 }

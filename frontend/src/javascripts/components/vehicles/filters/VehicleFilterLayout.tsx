@@ -106,12 +106,14 @@ const VehicleFilterLayout: React.StatelessComponent<Props> = props => {
   const selections: Selectionfield[] = [ typeSelection ];
   const inputfields: Inputfield[] = [ fleetInput, leasingCompanyInput, yearInput ];
   const typeaheadfields: Typeaheadfield[] = [ licensePlateInput, vinInput ];
+  const datefields: Datefield[] = [];
 
   return(
     <Filter
       selections={ selections }
       inputfields={ inputfields }
       typeaheadfields={ typeaheadfields }
+      datefields={ datefields }
       onReset={ props.onReset }
       onHide={ props.onHide } />
   );
