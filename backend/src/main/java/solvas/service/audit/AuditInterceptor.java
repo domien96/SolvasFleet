@@ -54,6 +54,10 @@ public class AuditInterceptor extends EmptyInterceptor {
             return false;
         }
 
+        if (entity instanceof InvoiceItem) {
+            return false;
+        }
+
         //make revision
         Revision revision = new Revision();
         revision.setMethod(MethodType.UPDATE);
@@ -68,6 +72,10 @@ public class AuditInterceptor extends EmptyInterceptor {
     public boolean onSave(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
         // Make sure there is no infinite loop
         if (entity instanceof Revision) {
+            return false;
+        }
+
+        if (entity instanceof InvoiceItem) {
             return false;
         }
 
@@ -91,6 +99,9 @@ public class AuditInterceptor extends EmptyInterceptor {
     public void onDelete(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
         // Make sure there is no infinite loop
         if (entity instanceof Revision) {
+            return;
+        }
+        if (entity instanceof InvoiceItem) {
             return;
         }
 

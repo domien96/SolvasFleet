@@ -16,6 +16,20 @@ public class HibernateDaoContext implements DaoContext {
 
     /**
      * Create DaoContext with Dao's
+     * @param companyDao Dao for companies
+     * @param fleetDao Dao for fleets
+     * @param fleetSubscriptionDao Dao for fleet subscriptions
+     * @param roleDao Dao for roles
+     * @param userDao Dao for users
+     * @param vehicleDao Dao for vehicles
+     * @param vehicleTypeDao Dao for vehicle types
+     * @param contractDao Dao for contracts
+     * @param insuranceTypeDao Dao for insurance types
+     * @param functionDao Dao for functions
+     * @param permissionDao Dao for permissions
+     * @param invoiceDao Dao for invoices
+     * @param taxDao Dao for taxes
+     * @param invoiceItemDao Dao for invoice items
      * @param companyDao
      * @param fleetDao
      * @param fleetSubscriptionDao
@@ -36,7 +50,8 @@ public class HibernateDaoContext implements DaoContext {
                                RoleDao roleDao, UserDao userDao, VehicleDao vehicleDao,
                                VehicleTypeDao vehicleTypeDao, ContractDao contractDao,
                                InsuranceTypeDao insuranceTypeDao,InvoiceDao invoiceDao,
-                               TaxDao taxDao, FunctionDao functionDao, PermissionDao permissionDao, RevisionDao revisionDao) {
+                               TaxDao taxDao, FunctionDao functionDao, PermissionDao permissionDao,
+                               InvoiceItemDao invoiceItemDao, RevisionDao revisionDao) {
         this.companyDao = companyDao;
         this.fleetDao = fleetDao;
         this.fleetSubscriptionDao = fleetSubscriptionDao;
@@ -50,6 +65,7 @@ public class HibernateDaoContext implements DaoContext {
         this.permissionDao = permissionDao;
         this.invoiceDao=invoiceDao;
         this.taxDao=taxDao;
+        this.invoiceItemDao = invoiceItemDao;
         this.revisionDao = revisionDao;
     }
 
@@ -145,6 +161,11 @@ public class HibernateDaoContext implements DaoContext {
         return taxDao;
     }
 
+    private InvoiceItemDao invoiceItemDao;
+    @Override
+    public InvoiceItemDao getInvoiceItemDao() {
+        return invoiceItemDao;
+    }
     private final RevisionDao revisionDao;
 
     @Override
