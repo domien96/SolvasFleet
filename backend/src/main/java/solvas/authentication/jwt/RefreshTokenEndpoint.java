@@ -61,15 +61,11 @@ public class RefreshTokenEndpoint {
     @RequestMapping(value="/auth/token", method=RequestMethod.POST, produces={ MediaType.APPLICATION_JSON_VALUE })
     public @ResponseBody TokenResponse refreshToken(HttpServletRequest request) throws InvalidJwt {
         String tokenPayload = tokenExtractor.extract(request.getHeader(WebSecurityConfig.JWT_TOKEN_HEADER_PARAM));
-        System.out.println(tokenPayload);
         RawAccessJwtToken rawToken = new RawAccessJwtToken(tokenPayload);
-        System.out.println(rawToken.getToken());
         RefreshToken oldRefreshToken = RefreshToken.create(rawToken, jwtSettings.getTokenSigningKey());
 
         String subject = oldRefreshToken.getSubject();
-        System.out.println(subject);
         UserDetails user = userService.loadUserById(subject);
-        System.out.println(user);
 
         return accessAndRefreshTokenBuilder.build(user);
     }
