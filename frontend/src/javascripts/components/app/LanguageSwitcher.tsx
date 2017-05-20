@@ -9,6 +9,7 @@ import { languages } from '../../i18n.ts';
 interface Props {
   lang: string;
   change: (lang: string) => void;
+  updateLanguage: () => void;
 }
 
 interface State {
@@ -30,6 +31,7 @@ class LanguageSwitcher extends React.Component<Props, State> {
     return () => {
       this.setState({ visible: false });
       this.props.change(lang);
+      this.props.updateLanguage();
     };
   }
 
