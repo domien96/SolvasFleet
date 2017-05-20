@@ -111,7 +111,7 @@ public class InvoiceRestControllerTest extends AbstractBasicRestControllerTest<I
      */
     @Test
     public void getCurrentPdfByFleetId() throws Exception {
-        //when(service.findCurrentInvoice(anyInt())).thenReturn(random(BillingInvoice.class)); TODO look into this
+        when(service.findCurrentInvoice(anyInt())).thenReturn(random(Invoice.class));
         getMockMvc()
                 .perform(get(RestTestFixtures.INVOICE_CURRENT_PDF))
                 .andExpect(status().isOk());
