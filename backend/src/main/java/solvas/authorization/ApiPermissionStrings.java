@@ -35,4 +35,5 @@ public final class ApiPermissionStrings {
 
     // Permissions for the third milestone
     public static final String READ_REVISIONS = "read:revisions";
+    public static final String WRITE_TAXES = "write:taxes";
 }
