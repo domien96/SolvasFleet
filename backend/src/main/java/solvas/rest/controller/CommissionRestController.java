@@ -60,9 +60,14 @@ public class CommissionRestController extends AbstractRestController<Commission,
         return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
     }
 
-
+    /**
+     * Change the commission corresponding with a given set of parameters.
+     * @param input the parameters embedded in an apiCommission object
+     * @param result The validation results of the filterResult
+     * @return ResponseEntity
+     */
     @RequestMapping(value = "/commissions", method = RequestMethod.PUT)
-    public ResponseEntity<?> changeVehicleCommission(@Valid @RequestBody ApiCommission input, BindingResult result) {
+    public ResponseEntity<?> changeCommission(@Valid @RequestBody ApiCommission input, BindingResult result) {
         return super.put(input.getId(),input, result);
     }
 

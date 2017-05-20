@@ -8,6 +8,8 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 /**
+ * Validates that if a field is filled in, that every higher level field is also filled in.
+ * This makes it impossible for the fleet field to be filled in, but not the company.
  * Created by domien on 20/05/2017.
  */
 public class CommissionFieldsFilledInOrderValidator extends DaoContextAwareConstraintValidator
