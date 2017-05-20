@@ -1,5 +1,6 @@
 package solvas.pdf;
 
+import com.itextpdf.text.DocumentException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +17,17 @@ import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.dao.TestConfig;
 import solvas.persistence.hibernate.HibernateConfig;
 import solvas.rest.RestTestFixtures;
+import solvas.rest.controller.InvoiceRestController;
 import solvas.rest.controller.VehicleRestController;
 import solvas.rest.greencard.GreenCardViewResolver;
 import solvas.rest.greencard.pdf.GreenCardPdfView;
+import solvas.rest.invoices.InvoiceFileViewResolver;
+import solvas.rest.invoices.pdf.BillingPdfView;
+import solvas.rest.invoices.pdf.PaymentPdfView;
+import solvas.service.InvoiceService;
 import solvas.service.VehicleService;
+
+import java.io.IOException;
 
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.when;
@@ -37,26 +45,29 @@ public class PdfTest {
     private VehicleService vehicleService;
     @Autowired
     private DaoContext daoContext;
+    @Autowired
+    private InvoiceService invoiceService;
 
-    private MockMvc getMockMvc() {
+    private MockMvc getMockMvc() throws IOException, DocumentException {
         ViewResolver greenCardViewResolver = new GreenCardViewResolver(new GreenCardPdfView(daoContext));
+        ViewResolver invoicePdfViewResolver = new InvoiceFileViewResolver(new PaymentPdfView(), new BillingPdfView());
         return MockMvcBuilders
                 .standaloneSetup(new VehicleRestController(vehicleService, null),
-                        new VehicleRestController(vehicleService, null))
-                .setViewResolvers(greenCardViewResolver)
+                        new InvoiceRestController(invoiceService, null))
+                .setViewResolvers(greenCardViewResolver, invoicePdfViewResolver)
                 .build();
     }
 
     @Test
     public void greenCardDoesNotError() throws Exception {
-        getMockMvc().perform(get(RestTestFixtures.VEHICLE_ID_URL+"/greencard.pdf"))
+        getMockMvc().perform(get(RestTestFixtures.VEHICLE_GREENCARD_URL))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().is2xxSuccessful());
     }
 
     @Test
     public void invoicePdfDoesNotError() throws Exception {
-        getMockMvc().perform(get(RestTestFixtures.INVOICE_ID_URL))
+        getMockMvc().perform(get(RestTestFixtures.INVOICE_PDF_URL))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().is2xxSuccessful());
     }
