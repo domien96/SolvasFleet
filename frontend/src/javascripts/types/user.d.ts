@@ -9,6 +9,7 @@ interface UserData {
   lastName?: string;
   email?: string;
   password?: string;
+  archived?: boolean;
 }
 
 interface UserFilterData {
