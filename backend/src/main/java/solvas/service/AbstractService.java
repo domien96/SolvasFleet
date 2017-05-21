@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 
 /**
  * Abstract Service class
+ *
  * @param <T> The class of the Model
  * @param <E> The class of the ApiModel
  */
