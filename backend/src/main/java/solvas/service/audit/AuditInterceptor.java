@@ -128,7 +128,7 @@ public class AuditInterceptor extends EmptyInterceptor {
         try {
             // Set type of entity
             String[] className = EntityType.fromClass(about.getClass()).split("\\.");
-            revision.setEntityType(className[className.length-1]);
+            revision.setEntityType(className[className.length-1].split("_")[0]);
             if (revision.getMethod().equals(MethodType.DELETE)){
                 revision.setPayload("");
             } else {
