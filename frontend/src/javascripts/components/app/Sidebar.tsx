@@ -4,8 +4,6 @@ import classNames from 'classnames';
 import { slide as Menu } from 'react-burger-menu';
 import { fetchUser } from '../../actions/user_actions.ts';
 import T from 'i18n-react';
-
-import LanguageSwitcher from './LanguageSwitcher.tsx';
 import DynamicGuiComponent from '../app/DynamicGuiComponent.tsx';
 
 import Auth from '../../modules/Auth.ts';
@@ -22,7 +20,7 @@ class SidebarLink extends React.Component<SProps, {}> {
 
   render() {
     const classes = classNames({
-      active: this.context.location.pathname.includes(this.props.path)
+      active: this.context.location.pathname.startsWith(this.props.path)
     });
 
     return (
