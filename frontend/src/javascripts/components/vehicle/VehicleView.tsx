@@ -36,7 +36,7 @@ const DeleteLink = ({ handleDelete }: { handleDelete: () => void }) => {
 
 const UnarchiveLink = ({ handleUnarchive }: { handleUnarchive: () => void }) => {
   return (
-    <div className='col-sm-4'>
+    <div className='col-sm-3'>
       <Confirm
         onConfirm={ handleUnarchive }
         body="Are you sure you want to restore this?"

@@ -73,7 +73,7 @@ class Sidebar extends React.Component<Props, State> {
           <SidebarLink path='/vehicles'>{ T.translate('vehicle.vehicles') }</SidebarLink>
           <SidebarLink path='/log'>{ T.translate('log.log') }</SidebarLink>
           <SidebarLink path='/auth'>{ T.translate('auth.permissionSettings') }</SidebarLink>
-          <SidebarLink path='/commissions'>{ T.translate('commissions.commissions') }</SidebarLink>
+          <SidebarLink path='/commissions'>{ T.translate('commission.commissions') }</SidebarLink>
         </ul>
         <ul className='nav session-actions'>
           <li className='plain'>
