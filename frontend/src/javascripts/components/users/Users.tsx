@@ -27,7 +27,8 @@ class Users extends React.Component<{}, State> {
       firstName: '',
       lastName: '',
       email: '',
-      archived: 'false'
+      archived: 'false',
+      sort: 'id',
     }};
     this.fetchUsers = this.fetchUsers.bind(this);
     this.handleFilter = this.handleFilter.bind(this);

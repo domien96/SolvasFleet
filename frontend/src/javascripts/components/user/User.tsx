@@ -24,7 +24,9 @@ class User extends React.Component<Props, State> {
 
   fetchUser(id: number) {
     fetchUser(id, ((data) => {
-      this.setState({ user: data });
+      if(data) {
+        this.setState({ user: data });
+      }
     }));
   }
 

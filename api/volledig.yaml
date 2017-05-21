@@ -694,6 +694,26 @@ paths:
           $ref: '#/responses/Unauthorised'
         '404':
           $ref: '#/responses/NotFound'
+  /fleets/{fleet_id}/invoices/correct:
+    parameters:
+      - in: path
+        name: fleet_id
+        description: ID of the fleet
+        required: true
+        type: integer
+    get:
+      summary: Get and generate correction invoices
+      security:
+        - token: ['read:company']
+      produces:
+        - application/pdf
+      responses:
+        200:
+          description: OK
+        '401':
+          $ref: '#/responses/Unauthorised'
+        '404':
+          $ref: '#/responses/NotFound'
   /vehicles:
     get:
       security:

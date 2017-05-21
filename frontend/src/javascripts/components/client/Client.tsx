@@ -14,7 +14,7 @@ import { fetchClient, deleteClient, putClient } from '../../actions/client_actio
 import { redirect_to } from '../../routes/router.tsx';
 import Confirm from 'react-confirm-bootstrap';
 import { th } from '../../utils/utils.ts';
-import { fetchContractsForCompany } from '../../actions/contract_actions.ts';
+import { fetchContractsForCompany, fetchContracts } from '../../actions/contract_actions.ts';
 
 interface Props {
   [ params: string ]: { [ id: string ]: number };
@@ -57,7 +57,11 @@ class Client extends React.Component<Props, State> {
   }
 
   fetchContracts(params: ContractParams, success?: callback, fail?: callback) {
-    fetchContractsForCompany(params.companyId, success, fail);
+    if (this.state.company.type === "InsuranceCompany") {
+      fetchContracts(success, fail, { InsuranceCompany: params.companyId });
+    } else {
+      fetchContractsForCompany(params.companyId, success, fail);
+    }
   }
 
   render() {

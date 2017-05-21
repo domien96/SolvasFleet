@@ -126,6 +126,7 @@ auth:
   permissionSettings: Permission Settings
 
 invoice:
+  invoices: Invoices
   id: Invoice ID
   fleet: Fleet ID
   paid: Paid

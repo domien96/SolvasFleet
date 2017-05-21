@@ -9,7 +9,7 @@ public class ContractFilterTest extends AbstractFilterTest<Contract> {
 
     @Override
     ArchiveFilter<Contract> getFilterWithCorrectParameters() {
-        filter.setCompany(1);
+        filter.setInsuranceCompany(1);
         filter.setFleet(1);
         filter.setVehicle(1);
         return filter;
