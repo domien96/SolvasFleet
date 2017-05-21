@@ -54,7 +54,6 @@ public class CompanyAuthorizationTest extends AbstractAuthorizationTest {
      */
     @Override
     public void userCanReadModels() throws Exception {
-        System.out.println(companyDao.count());
         getMockMvc().perform(auth(get(getUrl()),adminToken))
                 .andExpect(jsonPath("data", hasSize((int) companyDao.count())));
     }
