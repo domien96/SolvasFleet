@@ -1,5 +1,13 @@
 package solvas.service.models;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import solvas.persistence.api.DaoContext;
+import solvas.rest.api.models.ApiCommission;
+import solvas.rest.query.CommissionFilter;
+import solvas.service.CommissionService;
+
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -10,6 +18,12 @@ import java.util.Set;
  * @author Sjabasti.
  */
 public class Contract extends Model {
+
+    /**
+     * Used to get the commission.
+     */
+    @Autowired
+    private CommissionService commissionService;
 
     /**
      * The vehicle linked with this fleet subscription is insuranced with this contract.
@@ -85,10 +99,31 @@ public class Contract extends Model {
         this.franchise = franchise;
     }
 
-    public int getPremium() {
-        return premium;
+    /**
+     * The netto premium. Which is the premium (= riskpremium) + the commission.
+     * @return the netto premium
+     */
+    public long getPremium() {
+        // with commission
+        Vehicle vehicle = fleetSubscription.getVehicle();
+        CommissionFilter filter = new CommissionFilter();
+        filter.setInsuranceType(insuranceType.getName());
+        filter.setVehicle(vehicle.getId());
+        filter.setVehicleType(vehicle.getType().getName());
+        filter.setFleet(fleetSubscription.getFleet().getId());
+        filter.setCompany(company.getId());
+        Page<ApiCommission> result = commissionService.findAll(new PageRequest(0,10),filter); //dummy page request
+        if(!result.hasContent()) {
+            return premium;
+        } else {
+            return premium + result.getContent().get(0).getValue();
+        }
     }
 
+    /**
+     * Sets the risk premium.
+     * @param premium the risk premium
+     */
     public void setPremium(int premium) {
         this.premium = premium;
     }
