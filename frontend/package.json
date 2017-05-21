@@ -53,6 +53,7 @@
   },
   "devDependencies": {
     "@types/file-saver": "0.0.0",
+    "@types/lodash": "^4.14.64",
     "@types/react": "^15.0.13",
     "@types/react-dom": "^0.14.23",
     "css-loader": "^0.26.2",
