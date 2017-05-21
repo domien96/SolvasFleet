@@ -4,8 +4,8 @@ import org.springframework.security.core.Authentication;
 import solvas.persistence.api.Dao;
 import solvas.service.models.Invoice;
 
-import static solvas.authorization.ApiPermissionStrings.READ_COMPANIES;
-import static solvas.authorization.ApiPermissionStrings.READ_COMPANY;
+import static solvas.authorization.ApiPermissionStrings.*;
+import static solvas.authorization.ApiPermissionStrings.WRITE_COMPANIES_INVOICES;
 
 /**
  * Evaluate permissions related to invoices.
@@ -31,7 +31,11 @@ public class InvoicePermissionEvaluator extends AbstractPermissionEvaluator<Invo
 
     @Override
     public boolean canEdit(Authentication authentication, Invoice model) {
-        return false;
+        return hasScope(authentication, WRITE_COMPANY_INVOICES, getCompanyId(model), WRITE_COMPANIES_INVOICES);
+    }
+
+    private int getCompanyId(Invoice invoice) {
+        return invoice.getFleet().getCompany().getId();
     }
 
     @Override

@@ -40,6 +40,7 @@ export function FUNCTION_URL(userId: number, functionId: number) {
 export const ACTION_LANG = 'CHANGE_LANG';
 
 export function INVOICES_URL(companyId: number, fleetId: number) {
+<<<<<<< HEAD
   return `${BASE_API_URL}/companies/${companyId}/fleets/${fleetId}/invoices`;
 }
 export function INVOICE_URL(companyId: number, fleetId: number, invoiceId: number) {
@@ -62,3 +63,5 @@ export const TYPES_URL                = `${BASE_API_URL}/contracts/types`;
 export const AUDIT_URL                = `${BASE_API_URL}/audit`;
 export function AUDIT_ENTRY_URL(id: number) { return `${AUDIT_URL}/${id}`; }
 
+
+export const COMMISSION_URL = `${BASE_API_URL}/commissions`;

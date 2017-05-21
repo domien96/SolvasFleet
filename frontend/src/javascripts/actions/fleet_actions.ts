@@ -44,3 +44,7 @@ export function fetchInvoicePdf(companyId: number, fleetId: number, invoiceId: n
 export function correctInvoice(fleetId: number, success?: callback, fail?: callback) {
   POST( CORRECT_INVOICE_URL(fleetId), undefined, success, fail );
 }
+
+export function putInvoice(companyId: number, fleetId: number, invoiceId: number, body: any, success?: callback, fail?: callback) {
+  PUT( INVOICE_URL(companyId, fleetId, invoiceId), body, success, fail );
+}

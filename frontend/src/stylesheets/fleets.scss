@@ -92,6 +92,10 @@ $fleet-height: 60px;
 .fleet-archive {
   display: inline;
   height: 60px;
+  span {
+    position: absolute;
+    vertical-align: middle;
+  }
 }
 
 .fleet-addvehicle {

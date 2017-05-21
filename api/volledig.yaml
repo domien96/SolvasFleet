@@ -87,6 +87,8 @@ securityDefinitions:
       "write:users:roles": "Adjust the roles for users."
       "token:refresh": "Use refresh tokens. This scope should not be added to the access token, only the refresh token."
       "read:revisions": "Access to the revisions log."
+      "write:company:invoices": "Edit invoices for a company."
+      "write:companies:invoices": "Edit invoices for all companies."
 
 security:
   - token: []
@@ -608,6 +610,27 @@ paths:
           $ref: '#/responses/Unauthorised'
         '404':
           $ref: '#/responses/NotFound'
+    put:
+      summary: Mark invoice as paid or not.
+      description: |
+        Mark an invoice as paid or not paid. Only the paid field will be considered, all others will be ignored.
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      security:
+        - token: ['write:company:invoices']
+      parameters:
+        - in: body
+          name: invoice
+          description: The invoice to mark as payed or not.
+          schema:
+            $ref: '#/definitions/Invoice'
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Invoice'
   '/companies/{company_id}/fleets/{fleet_id}/invoices/{invoice_id}{extention}':
     parameters:
         - in: path
@@ -2393,6 +2416,72 @@ paths:
           $ref: '#/responses/Unauthorised'
         404:
           $ref: '#/responses/NotFound'
+  /commissions:
+    get:
+      summary: Get all commissions
+      description: |
+        Get a list of commissions, eventually filtered by the query parameters. When combining parameters,
+        the conditions are joined by AND. This means the resulting objects must satisfy all filters.
+        All the string filter operations are case insensitive.
+      parameters:
+        - in: query
+          name: company
+          type: integer
+          description: Filter by company ID.
+        - in: query
+          name: insuranceType
+          type: string
+          description: Filter by insurance type.
+        - in: query
+          name: fleet
+          type: integer
+          description: Filter by fleet ID.
+        - in: query
+          name: vehicle
+          type: integer
+          description: Filter by vehicle ID.
+        - in: query
+          name: vehicleType
+          type: string
+          description: Filter by vehicle type.
+        - in: query
+          type: integer
+          name: page
+          description: The page to query.
+          default: 0
+        - in: query
+          name: limit
+          type: integer
+          description: The number of elements in a page.
+        - in: query
+          name: sort
+          type: string
+          description: |
+            Sort parameter. Support for this parameter is optional. If supported, any field in the json reprensentation
+            may be used to sort, as follows: ?sort=field,order. For example: `?sort=name,asc`.
+      responses:
+    put:
+      summary: Save a commission
+      parameters:
+        - in: body
+          name: commission
+          description: The commission to save.
+          schema:
+            $ref: '#/definitions/Commission'
+      responses:
+        200:
+          description: OK
+            schema:
+              $ref: '#/definitions/Commission'
+        '400':
+          $ref: '#/responses/Malformed'
+        '401':
+          $ref: '#/responses/Unauthorised'
+        '422':
+          $ref: '#/responses/WrongContent'
+        '415':
+          $ref: '#/responses/WrongType'
+
 
       
 responses:
@@ -2982,3 +3071,27 @@ definitions:
           This field contains a JSON representation of the model. The JSON representation has the same format as defined
           by the API for the relevant model (as indicated by the field `entityType`. Depending on the `method`, this
           may be the state of the model before or after the operation was executed.
+  Commission:
+    description: A commission.
+    type: object
+    properties:
+      id:
+        readOnly: true
+        type: integer
+        description: The ID of the revision.
+      company:
+        type: integer
+        description: The ID of the company for which this commission is applicable.
+      insuranceType:
+        type: string
+        description: The insurance type for which this commission is applicable.
+      fleet:
+        type: integer
+        description: The ID of the fleet for which this commission is applicable.
+      vehicle:
+        type: integer
+        description: The ID of the vehicle for which this commission is applicable.
+      vehicleType:
+        type: string
+        description: The vehicle type for which this commission is applicable.
+
