@@ -95,6 +95,7 @@ public class CommissionService extends AbstractService<Commission,ApiCommission>
             input.setId(id);
             return super.update(id,input);
         } else {
+            input.setId(0); // makes sure a new record is actually created
             return super.create(input);
         }
     }
