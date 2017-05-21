@@ -2,11 +2,13 @@ import React from 'react';
 import T from 'i18n-react';
 import Header from '../app/Header.tsx';
 import Listing from '../app/Listing.tsx';
+import UserFilter from './filters/UserFilter.tsx'
 
 interface Props {
   response: ListResponse;
   onUserSelect: (id: number) => void;
   fetchUsers: (query?: any) => void;
+  onFilter: (filter: UserFilterData) => void;
 }
 
 const Layout: React.StatelessComponent<Props> = props => {
@@ -18,6 +20,7 @@ const Layout: React.StatelessComponent<Props> = props => {
       <div className='wrapper'>
         <div className='row'>
           <div className='col-xs-12 col-md-7'>
+            <UserFilter users={ props.response.data } onFilter={ props.onFilter } />
             <Listing
               onSelect={ props.onUserSelect }
               addNewRoute='/users/new'

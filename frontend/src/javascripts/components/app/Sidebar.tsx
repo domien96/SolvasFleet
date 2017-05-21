@@ -35,8 +35,11 @@ class SidebarLink extends React.Component<SProps, {}> {
   }
 }
 
-const Sidebar: React.StatelessComponent<{}> = () => {
+interface Props {
+  updateLanguage: () => void;
+}
 
+const Sidebar: React.StatelessComponent<Props> = props => {
   const info = (
     <div>
       <div id='logo'>
@@ -61,7 +64,7 @@ const Sidebar: React.StatelessComponent<{}> = () => {
           </Link>
         </li>
       </ul>
-      <LanguageSwitcher />
+      <LanguageSwitcher updateLanguage={ props.updateLanguage } />
     </div>
   );
 

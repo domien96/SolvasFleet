@@ -81,6 +81,18 @@ const getUser = (entity: any) => {
   return data;
 };
 
+const getFleet = (entity: any) => {
+  const fleet: FleetData = entity;
+  const data = [
+    th('fleet.id', fleet.id),
+    th('fleet.name', fleet.name),
+    th('fleet.company', fleet.company),
+    th('fleet.paymentPeriod', `${fleet.paymentPeriod} month(s)`),
+    th('fleet.facturationPeriod', `${fleet.facturationPeriod} month(s)`)
+  ];
+  return data;
+};
+
 const getContract = (entity: any) => {
   const contract: ContractData = entity;
   const data = [
@@ -123,15 +135,12 @@ const getChangedValues = (oldEntity: any, newEntity: any) => {
 const Layout: React.StatelessComponent<Props> = props => {
 
   const { entry, oldEntry } = props;
-
-  const entityTypeSplit = entry.entityType.split('.');
-  const newEntityType = entityTypeSplit[entityTypeSplit.length - 1];
   const logDateSplit = entry.logDate.split('T');
   const newLogDate = `${logDateSplit[0]} ${logDateSplit[1]}`;
 
   const entryInfo = [
     th('log.logDate', newLogDate),
-    th('log.entityType', newEntityType),
+    th('log.entityType', entry.entityType),
     th('log.method', entry.method),
     th('log.user', props.getUser(entry.user)),
     th('log.entity', entry.entity)
@@ -146,33 +155,37 @@ const Layout: React.StatelessComponent<Props> = props => {
     oldEntity = JSON.parse(oldEntry.payload);
   }
 
-  if (newEntityType == "Company") {
+  if (entry.entityType == "Company") {
     entityInfo = getCompany(entity);
     if (oldEntry) oldEntityInfo = getCompany(oldEntity);
   }
-  if (newEntityType == "Function") {
+  if (entry.entityType == "Function") {
     entityInfo = getFunction(entity);
     if (oldEntry) oldEntityInfo = getFunction(oldEntity);
   }
-  if (newEntityType == "Vehicle") {
+  if (entry.entityType == "Vehicle") {
     entityInfo = getVehicle(entity);
     if (oldEntry) oldEntityInfo = getVehicle(oldEntity);
   }
-  if (newEntityType == "Role") {
+  if (entry.entityType == "Role") {
     entityInfo = getRole(entity);
     if (oldEntry) oldEntityInfo = getRole(oldEntity);
   }
-  if (newEntityType == "User") {
+  if (entry.entityType == "User") {
     entityInfo = getUser(entity);
     if (oldEntry) oldEntityInfo = getUser(oldEntity);
   }
-  if (newEntityType == "Contract") {
+  if (entry.entityType == "Contract") {
     entityInfo = getContract(entity);
     if (oldEntry) oldEntityInfo = getContract(oldEntity);
   }
-  if (newEntityType == "Invoice") {
+  if (entry.entityType == "Invoice") {
     entityInfo = getInvoice(entity);
     if (oldEntry) oldEntityInfo = getInvoice(oldEntity);
+  }
+  if (entry.entityType == "Fleet") {
+    entityInfo = getFleet(entity);
+    if (oldEntry) oldEntityInfo = getFleet(oldEntity);
   }
 
   let entityDisplay = null;

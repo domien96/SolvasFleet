@@ -30,3 +30,27 @@ export function group_by(xs: any[], key: string) {
     return rv;
   }, {});
 }
+
+export function createQuery(query: any, filter: any) {
+  if (query) {
+    let newQuery = query;
+    if (filter) {
+      for (const key in filter) {
+        if (filter[key] === null || filter[key] === undefined || filter[key] === '') {
+          delete filter[key];
+        }
+      }
+      for (const key in filter) {
+        newQuery[key] = filter[key];
+      }
+    }
+    return newQuery;
+  } else {
+    for (const key in filter) {
+      if (filter[key] === null || filter[key] === undefined || filter[key] === '') {
+        delete filter[key];
+      }
+    }
+    return filter;
+  }
+}

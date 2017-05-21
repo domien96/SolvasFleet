@@ -85,11 +85,13 @@ class Vehicle extends React.Component<Props, State> {
     if (this.state.companies) {
       this.state.companies.map((company: CompanyData) => {
         fetchFleets(company.id, (data: any) => {
-          let fleets: FleetData[] = data.data
-          fleets.map((fleet: FleetData) => {
-            allFleets.push(fleet);
-          })
-          this.setState({ fleets: allFleets });
+          if (data) {
+            let fleets: FleetData[] = data.data 
+            fleets.map((fleet: FleetData) => {
+              allFleets.push(fleet);
+            })
+            this.setState({ fleets: allFleets });
+          }
         });
       })
     }

@@ -3,6 +3,7 @@ package solvas.authentication.jwt;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.test.context.TestPropertySource;
 import solvas.authentication.jwt.token.JwtToken;
 
 /**
@@ -10,7 +11,7 @@ import solvas.authentication.jwt.token.JwtToken;
  */
 @Configuration
 @ConfigurationProperties(prefix = "security.jwt")
-@PropertySource(value = {"security.properties"})
+@PropertySource("classpath:security.properties")
 public class JwtSettings {
     private Integer tokenExpirationTime;
 

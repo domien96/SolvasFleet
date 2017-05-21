@@ -54,9 +54,18 @@ public class AuditInterceptor extends EmptyInterceptor {
             return false;
         }
 
+        if (entity instanceof InvoiceItem) {
+            return false;
+        }
+
         //make revision
         Revision revision = new Revision();
-        revision.setMethod(MethodType.UPDATE);
+
+        if (((Model) entity).isArchived()){
+            revision.setMethod(MethodType.ARCHIVE);
+        } else {
+            revision.setMethod(MethodType.UPDATE);
+        }
 
 
         // Connect revision with a entity
@@ -71,13 +80,13 @@ public class AuditInterceptor extends EmptyInterceptor {
             return false;
         }
 
+        if (entity instanceof InvoiceItem) {
+            return false;
+        }
+
         // Make revision
         Revision revision = new Revision();
-        if (((Model) entity).isArchived()){
-            revision.setMethod(MethodType.ARCHIVE);
-        } else {
-            revision.setMethod(MethodType.INSERT);
-        }
+        revision.setMethod(MethodType.INSERT);
 
 
 
@@ -91,6 +100,9 @@ public class AuditInterceptor extends EmptyInterceptor {
     public void onDelete(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
         // Make sure there is no infinite loop
         if (entity instanceof Revision) {
+            return;
+        }
+        if (entity instanceof InvoiceItem) {
             return;
         }
 
@@ -119,7 +131,12 @@ public class AuditInterceptor extends EmptyInterceptor {
 
             String[] className = EntityType.fromClass(about.getClass()).split("\\.");
             revision.setEntityType(className[className.length-1]);
-            revision.setPayload(objectMapper.writeValueAsString(mapperContext.getMapperForClass(about.getClass()).convertToApiModel((Model) about)));
+
+            if (revision.getMethod().equals(MethodType.DELETE)){
+                revision.setPayload("");
+            } else {
+                revision.setPayload(objectMapper.writeValueAsString(mapperContext.getMapperForClass(about.getClass()).convertToApiModel((Model) about)));
+            }
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e); // Can we even catch an exception at this point
         }

@@ -58,6 +58,7 @@ public class PermissionEvaluatorContext {
         evaluators.put(INVOICE_RESOURCE_TYPE, new InvoicePermissionEvaluator(daoContext.getInvoiceDao()));
         evaluators.put(CONTRACT_RESOURCE_TYPE, new ContractPermissionEvaluator(daoContext.getContractDao()));
         evaluators.put(REVISION_RESOURCE_TYPE, new RevisionPermissionEvaluator(daoContext.getRevisionDao()));
+        permissionEvaluatorContext = this;
     }
 
     /**
@@ -86,5 +87,11 @@ public class PermissionEvaluatorContext {
         }
 
         return evaluators.get(resourceType);
+    }
+
+    private static PermissionEvaluatorContext permissionEvaluatorContext;
+
+    public static PermissionEvaluatorContext getInstance() {
+        return permissionEvaluatorContext;
     }
 }

@@ -61,7 +61,9 @@ class Log extends React.Component<Props, State> {
 
   fetchUsers() {
     fetchUsers((data: any) => {
-      this.setState({ users: data.data })
+      if (data) {
+        this.setState({ users: data.data });
+      }
     });
   }
 

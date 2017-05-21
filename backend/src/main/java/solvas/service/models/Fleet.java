@@ -1,5 +1,7 @@
 package solvas.service.models;
 
+import java.util.Collection;
+
 /**
  * Models a fleet
  * A fleet is a group of vehicles.
@@ -28,6 +30,8 @@ public class Fleet extends Model {
      * In months
      */
     private int paymentPeriod;
+
+    private Collection<FleetSubscription> subscriptions;
 
 
     public Company getCompany() {
@@ -60,5 +64,13 @@ public class Fleet extends Model {
 
     public void setPaymentPeriod(int paymentPeriod) {
         this.paymentPeriod = paymentPeriod;
+    }
+
+    public Collection<FleetSubscription> getSubscriptions() {
+        return subscriptions;
+    }
+
+    public void setSubscriptions(Collection<FleetSubscription> subscriptions) {
+        this.subscriptions = subscriptions;
     }
 }

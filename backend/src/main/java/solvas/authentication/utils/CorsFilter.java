@@ -31,9 +31,11 @@ public class CorsFilter extends OncePerRequestFilter {
         if (matcher.matches(request)) {
             response.setHeader("Access-Control-Allow-Origin", "*");//* or origin as u prefer
             response.setHeader("Access-Control-Allow-Credentials", "true");
-            response.setHeader("Access-Control-Allow-Headers",
-                request.getHeader("Access-Control-Request-Headers")
-            );
+            if(request.getHeader("Access-Control-Request-Headers") != null) {
+                response.setHeader("Access-Control-Allow-Headers",
+                        request.getHeader("Access-Control-Request-Headers")
+                );
+            }
 
             if(HttpMethod.OPTIONS.matches(request.getMethod())) {
                 response.getWriter().print("OK");
