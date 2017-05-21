@@ -52,20 +52,20 @@ public class CommissionService extends AbstractService<Commission,ApiCommission>
         if(result.hasContent())
             return result.map(s -> mapper.convertToApiModel(s));
 
-        // 2nd priority : vehicle type specific
-        f.setVehicle(-1);
-        result = modelDao.findAll(filters,pagination);
-        if(result.hasContent())
-            return result.map(s -> mapper.convertToApiModel(s));
-
         // 3rd priority : fleet specific
         f.setVehicleType(null);
         result = modelDao.findAll(filters,pagination);
         if(result.hasContent())
             return result.map(s -> mapper.convertToApiModel(s));
 
-        // 4th priority : company specific
+        // 3rd priority : company specific
         f.setFleet(-1);
+        result = modelDao.findAll(filters,pagination);
+        if(result.hasContent())
+            return result.map(s -> mapper.convertToApiModel(s));
+
+        // 4th priority : vehicle type specific
+        f.setVehicle(-1);
         result = modelDao.findAll(filters,pagination);
         if(result.hasContent())
             return result.map(s -> mapper.convertToApiModel(s));

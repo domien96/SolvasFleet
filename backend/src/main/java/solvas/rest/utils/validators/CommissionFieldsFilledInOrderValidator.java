@@ -32,7 +32,7 @@ public class CommissionFieldsFilledInOrderValidator extends DaoContextAwareConst
     public boolean isValid(ApiCommission value, ConstraintValidatorContext context) {
         // we make an exception for vehicle id.
         // we start validating from vehicle type.
-        return validateFromVehicleType(value,false);
+        return validateFromFleet(value,false);
     }
 
     /**
@@ -44,16 +44,16 @@ public class CommissionFieldsFilledInOrderValidator extends DaoContextAwareConst
      *                       If it is not true, it does not matter if the vehicle type is filled in or not.
      * @return is the commission is valid, for the level of the vehicle type field at least.
      */
-    private boolean validateFromVehicleType(ApiCommission value, boolean mustBeFilledIn) {
-        return !(mustBeFilledIn && value.getVehicleType()==null) && validateFromFleet(value, value.getVehicleType() != null);
-    }
-
     private boolean validateFromFleet(ApiCommission value, boolean mustBeFilledIn) {
         return !(mustBeFilledIn && value.getFleet()<=0) && validateFromCompany(value, value.getFleet() > 0);
     }
 
     private boolean validateFromCompany(ApiCommission value, boolean mustBeFilledIn) {
-        return !(mustBeFilledIn && value.getCompany()<=0) && validateFromInsuranceType(value, value.getCompany() > 0);
+        return !(mustBeFilledIn && value.getCompany()<=0) && validateFromVehicleType(value, value.getCompany() > 0);
+    }
+
+    private boolean validateFromVehicleType(ApiCommission value, boolean mustBeFilledIn) {
+        return !(mustBeFilledIn && value.getVehicleType()==null) && validateFromInsuranceType(value, value.getVehicleType() != null);
     }
 
     private boolean validateFromInsuranceType(ApiCommission value, boolean mustBeFilledIn) {

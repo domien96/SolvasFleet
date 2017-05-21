@@ -15,6 +15,7 @@ import java.util.HashSet;
  * Filters for a {@link Commission}.
  *
  * @author sjabasti
+ * @author domien
  */
 public class CommissionFilter implements Filter<Commission> {
 
@@ -49,18 +50,6 @@ public class CommissionFilter implements Filter<Commission> {
             ));
         }
 
-        if (vehicleType != null) {
-            Join<Commission,VehicleType> joinVehicleType = root.join("vehicleType");
-            predicates.add(builder.equal(
-                    builder.lower(joinVehicleType.get("name")),
-                    vehicleType.toLowerCase()
-            ));
-        } else { // to avoid multiple results when we fill in the fleet field (a fleet can be linked to multiple vehicletypes)
-            predicates.add(builder.isNull(
-                    root.get("vehicleType")
-            ));
-        }
-
         if (fleet > 0) {
             predicates.add(builder.equal(
                     root.get("fleet"),
@@ -80,6 +69,19 @@ public class CommissionFilter implements Filter<Commission> {
             ));
 
         }
+
+        if (vehicleType != null) {
+            Join<Commission,VehicleType> joinVehicleType = root.join("vehicleType");
+            predicates.add(builder.equal(
+                    builder.lower(joinVehicleType.get("name")),
+                    vehicleType.toLowerCase()
+            ));
+        } else { // to avoid multiple results when we fill in the fleet field (a fleet can be linked to multiple vehicletypes)
+            predicates.add(builder.isNull(
+                    root.get("vehicleType")
+            ));
+        }
+
         return predicates;
     }
 
