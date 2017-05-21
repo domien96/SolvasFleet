@@ -64,11 +64,11 @@ class CommissionGroupForm extends React.Component<Props, {}> {
 
         <Collapse in = { this.props.showForm }>
           <div className='fleets commission-wrapper'>
-            <COM className='border-bottom' value ={ this.props.commission.civilLiability.value } label='commission.civilLiability' onChange={ this.props.handleChange('CivilLiability') }/>
-            <COM className='border-bottom' value ={ this.props.commission.omnium.value } label='commission.omnium' onChange={ this.props.handleChange('Omnium') }/>
-            <COM className='border-bottom' value ={ this.props.commission.driverInsurance.value } label='commission.driverInsurance' onChange={ this.props.handleChange('DriverInsurance') }/>
-            <COM className='border-bottom' value ={ this.props.commission.travelInsurance.value } label='commission.travelInsurance' onChange={ this.props.handleChange('TravelInsurance') }/>
-            <COM value ={ this.props.commission.legalAid.value } label='commission.legalAid' onChange={ this.props.handleChange('LegalAid') }/>
+            <COM className='border-bottom' value ={ this.props.commission.CivilLiability.value } label='commission.civilLiability' onChange={ this.props.handleChange('CivilLiability') }/>
+            <COM className='border-bottom' value ={ this.props.commission.Omnium.value } label='commission.omnium' onChange={ this.props.handleChange('Omnium') }/>
+            <COM className='border-bottom' value ={ this.props.commission.DriverInsurance.value } label='commission.driverInsurance' onChange={ this.props.handleChange('DriverInsurance') }/>
+            <COM className='border-bottom' value ={ this.props.commission.TravelInsurance.value } label='commission.travelInsurance' onChange={ this.props.handleChange('TravelInsurance') }/>
+            <COM value ={ this.props.commission.LegalAid.value } label='commission.legalAid' onChange={ this.props.handleChange('LegalAid') }/>
           </div>
         </Collapse>
       </div>
