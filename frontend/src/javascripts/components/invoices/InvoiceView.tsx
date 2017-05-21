@@ -8,7 +8,26 @@ import { th } from '../../utils/utils.ts';
 interface Props {
   invoice: InvoiceData;
   onDownload: () => void;
+  onTogglePaid: () => void;
 }
+
+const TogglePaid = ({ onToggle, paid }: { onToggle: () => void, paid: boolean }) => {
+
+  let toggle = (
+      <button onClick={ onToggle } className='btn btn-default form-control'>
+        <span className='glyphicon glyphicon-ok' /> Set Invoice Paid
+      </button>
+    );
+  if (paid) {
+    toggle = (
+     <button onClick={ onToggle } className='btn btn-default form-control'>
+        <span className='glyphicon glyphicon-remove' /> Set Invoice Not Paid
+      </button>
+    );
+  } 
+
+  return toggle;
+};
 
 const InvoiceView: React.StatelessComponent<Props> = props => {
   const { id, fleet, paid, totalAmount, type, startDate, endDate } = props.invoice;
@@ -29,6 +48,9 @@ const InvoiceView: React.StatelessComponent<Props> = props => {
         <div className='row actions'>
           <div className='col-sm-6'>
             <DownloadButton onDownload={ props.onDownload } label='Download PDF'/>
+          </div>
+          <div className='col-sm-6'>
+            <TogglePaid onToggle={ props.onTogglePaid } paid={ paid } />
           </div>
         </div>
       </div>
