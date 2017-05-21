@@ -47,13 +47,12 @@ class CommissionGroupForm extends React.Component<Props, State> {
     const emptycommission = { id: 0, fleet: 0, vehicle: 0, company: 0, insuranceType: "", vehicleType: "", value: 0 };
     const emptyCommissionGroup = { civilLiability: emptycommission, omnium: emptycommission, legalAid: emptycommission, driverInsurance: emptycommission, travelInsurance: emptycommission };
     const commissions = {
-      personalVehicle: emptyCommissionGroup,
-      van: emptyCommissionGroup,
-      truck: emptyCommissionGroup ,
-      truck12: emptyCommissionGroup ,
-      semiHeavyTruck: emptyCommissionGroup
+      personalVehicle: { ...emptyCommissionGroup },
+      van: JSON.parse(JSON.stringify(emptyCommissionGroup)) ,
+      truck: JSON.parse(JSON.stringify(emptyCommissionGroup)),
+      truck12: JSON.parse(JSON.stringify(emptyCommissionGroup)),
+      semiHeavyTruck: JSON.parse(JSON.stringify(emptyCommissionGroup))
     };
-
 
     this.state = {
       toggles: {
@@ -63,20 +62,8 @@ class CommissionGroupForm extends React.Component<Props, State> {
         showTruck12: false,
         showPersonalVehicle: false
       },
-      commissions: {
-        personalVehicle: emptyCommissionGroup,
-        van: emptyCommissionGroup,
-        truck: emptyCommissionGroup ,
-        truck12: emptyCommissionGroup ,
-        semiHeavyTruck: emptyCommissionGroup
-      },
-      initialCommissions: {
-        personalVehicle: JSON.parse(JSON.stringify(emptyCommissionGroup)),
-        van: emptyCommissionGroup,
-        truck: emptyCommissionGroup ,
-        truck12: emptyCommissionGroup ,
-        semiHeavyTruck: emptyCommissionGroup
-      }
+      commissions: commissions,
+      initialCommissions: JSON.parse(JSON.stringify(commissions));
     }
 
     this.handleChange = this.handleChange.bind(this);
@@ -112,7 +99,7 @@ class CommissionGroupForm extends React.Component<Props, State> {
     commission.fleet = this.props.fleetId;
     commission.company = this.props.companyId;
     state.initialCommissions[vehicleType][insuranceType] = commission;
-    state.commissions[vehicleType][insuranceType] = commission;
+    state.commissions[vehicleType][insuranceType] = { ...commission };
     this.setState({ ...state });
   }
 

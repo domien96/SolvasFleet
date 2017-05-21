@@ -35,7 +35,7 @@ class FleetCommissions extends React.Component<Props, {}> {
         <Header>
           <h2>{ T.translate('commissions.fleet') }</h2>
         </Header>
-        <CommissionGroupForm fetchCommission={ this.fetchCommission } putCommission={ this.putCommission } returnTo={ "/" }/>
+        <CommissionGroupForm fetchCommission={ this.fetchCommission } putCommission={ this.putCommission } returnTo={ "/" } companyId={ Number(this.props.params.companyId) } fleetId={ Number(this.props.params.fleetId) }/>
       </div>
     );
   }
