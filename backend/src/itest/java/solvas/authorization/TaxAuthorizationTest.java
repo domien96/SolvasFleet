@@ -28,6 +28,11 @@ public class TaxAuthorizationTest extends AbstractAuthorizationTest {
         return tax;
     }
 
+    // Everyone can read taxes.
+    @Override
+    public void userCantReadModel() {
+
+    }
     /**
      * The following functions aren't tested because they can't happen
      */
