@@ -76,12 +76,12 @@ class Sidebar extends React.Component<Props, State> {
           </Link>
         </div>
         <ul className='nav'>
-          <SidebarLink path='/users'>{ T.translate('user.users') }</SidebarLink>
-          <SidebarLink path='/clients'>{ T.translate('company.clients') }</SidebarLink>
-          <SidebarLink path='/vehicles'>{ T.translate('vehicle.vehicles') }</SidebarLink>
-          <SidebarLink path='/log'>{ T.translate('log.log') }</SidebarLink>
+          <SidebarLink path='/users' authorized={ Auth.canReadUsers() }>{ T.translate('user.users') }</SidebarLink>
+          <SidebarLink path='/clients' authorized={ Auth.canReadCompany(-1) }>{ T.translate('company.clients') }</SidebarLink>
+          <SidebarLink path='/vehicles' authorized= {  Auth.canReadCompany(-1)}>{ T.translate('vehicle.vehicles') }</SidebarLink>
+          <SidebarLink path='/log' authorized={ Auth.canReadRevisions() }>{ T.translate('log.log') }</SidebarLink>
           <SidebarLink path='/auth'>{ T.translate('auth.permissionSettings') }</SidebarLink>
-          <SidebarLink path='/commissions'>{ T.translate('commissions.commissions') }</SidebarLink>
+          <SidebarLink path='/commissions' authorized={Auth.canWriteFleetsOfCompany(-1)}>{ T.translate('commissions.commissions') }</SidebarLink>
         </ul>
         <ul className='nav session-actions'>
           <li className='plain'>

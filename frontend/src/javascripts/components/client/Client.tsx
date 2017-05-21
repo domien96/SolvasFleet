@@ -138,6 +138,13 @@ class Client extends React.Component<Props, State> {
                         </Confirm>
                       </div>
                       <LogLink id={ id } type='Company' />
+                      <DynamicGuiComponent authorized={ Auth.canWriteFleetsOfCompany(-1) }>
+                      <div className='col-sm-3'>
+                         <Link to={ `/commissions/clients/${this.props.params.id}` } className='btn btn-info form-control'>
+                           <span className='glyphicon glyphicon-euro' /> Commissions
+                         </Link>
+                       </div>
+                      </DynamicGuiComponent>
                     </div>
                   </div>
                 </Card>
