@@ -21,30 +21,10 @@ interface Props {
   vehicle: VehicleData;
 }
 
-interface State {
-  premium: number;
-}
-
-class VehicleRow extends React.Component<Props, State> {
+class VehicleRow extends React.Component<Props, {}> {
 
   constructor(props: Props) {
     super(props);
-    this.state = { premium: 0 };
-  }
-
-  componentDidMount() {
-    this.fetchPremiumsOfVehicle();
-  }
-
-  fetchPremiumsOfVehicle() {
-    fetchContracts(
-      data => {
-        let premium: number = 0;
-        for(let i = 0; i < data.data.length; i++) {
-          premium += data.data[i].premium;
-        }
-        this.setState({ premium: premium });
-      }, undefined, { vehicle: this.props.vehicle.id });
   }
 
   static contextTypes = {
@@ -68,7 +48,6 @@ class VehicleRow extends React.Component<Props, State> {
         <VehicleLink id={ id } span='Chassis Nummer' value={ vin } />
         <VehicleLink id={ id } span='Model' value={ `${brand} ${model}` } />
         <VehicleLink id={ id } span='Mileage' value={ mileage } />
-        <VehicleLink id={ id } span='Premium' value={ this.state.premium }/>
       </div>
     );
   }

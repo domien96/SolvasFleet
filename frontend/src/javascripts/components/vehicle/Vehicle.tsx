@@ -86,7 +86,7 @@ class Vehicle extends React.Component<Props, State> {
       this.state.companies.map((company: CompanyData) => {
         fetchFleets(company.id, (data: any) => {
           if (data) {
-            let fleets: FleetData[] = data.data 
+            let fleets: FleetData[] = data.data
             fleets.map((fleet: FleetData) => {
               allFleets.push(fleet);
             })
