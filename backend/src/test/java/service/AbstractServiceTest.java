@@ -64,6 +64,12 @@ public abstract class AbstractServiceTest<T extends Model, E extends ApiModel> {
 
     protected abstract AbstractMapper<T, E> getMapperMock();
 
+    /**
+     * Set up mocking and stuff. Override this to set up your own.
+     *
+     * @throws DependantEntityNotFound should not happen
+     * @throws EntityNotFoundException should not happen
+     */
     @Before
     public void setUp() throws DependantEntityNotFound, EntityNotFoundException {
         when(getMapperMock().convertToApiModel(any())).thenReturn(getTestApiModel());
