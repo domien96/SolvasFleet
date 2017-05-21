@@ -33,7 +33,7 @@ public class UserService extends AbstractService<User,ApiUser> {
     @Override
     public void archive(int id) throws EntityNotFoundException, UnarchivableException {
 
-        User user = context.getUserDao().findByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        User user = context.getUserDao().find(Integer.valueOf(SecurityContextHolder.getContext().getAuthentication().getName()));
 
         // You cannot delete yourself.
         if (user.getId() == id) {

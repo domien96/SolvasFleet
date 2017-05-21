@@ -27,6 +27,7 @@ public class MapperContext {
     private UserMapper userMapper;
     private VehicleMapper vehicleMapper;
     private VehicleTypeMapper vehicleTypeMapper;
+    private CommissionMapper commissionMapper;
     private HashMap<Class,AbstractMapper> mapperForClass = new HashMap<>();
 
 
@@ -44,13 +45,14 @@ public class MapperContext {
      * @param userMapper
      * @param vehicleMapper
      * @param vehicleTypeMapper
+     * @param commissionMapper
      */
     @Autowired
     public MapperContext(CompanyMapper companyMapper, ContractMapper contractMapper, FleetMapper fleetMapper,
                          FunctionMapper functionMapper, InsuranceTypeMapper insuranceTypeMapper,
                          InvoiceMapper invoiceMapper, PermissionMapper permissionMapper, RoleMapper roleMapper,
                          TaxMapper taxMapper, UserMapper userMapper, VehicleMapper vehicleMapper,
-                         VehicleTypeMapper vehicleTypeMapper) {
+                         VehicleTypeMapper vehicleTypeMapper,CommissionMapper commissionMapper) {
         this.companyMapper = companyMapper;
         this.contractMapper = contractMapper;
         this.fleetMapper = fleetMapper;
@@ -63,6 +65,7 @@ public class MapperContext {
         this.userMapper = userMapper;
         this.vehicleMapper = vehicleMapper;
         this.vehicleTypeMapper = vehicleTypeMapper;
+        this.commissionMapper=commissionMapper;
         fillMapperForClass();
     }
 
@@ -83,6 +86,7 @@ public class MapperContext {
         mapperForClass.put(Vehicle.class,vehicleMapper);
         mapperForClass.put(FleetSubscription.class,vehicleMapper);
         mapperForClass.put(VehicleType.class,vehicleTypeMapper);
+        mapperForClass.put(Commission.class,commissionMapper);
     }
 
     /**
@@ -190,5 +194,11 @@ public class MapperContext {
         return vehicleTypeMapper;
     }
 
-
+    /**
+     * Get CommissionMapper for this context
+     * @return A CommissionMapper
+     */
+    public CommissionMapper getCommissionMapper() {
+        return commissionMapper;
+    }
 }

@@ -8,12 +8,23 @@ interface Props {
   firstNameData: string[];
   lastNameData: string[];
   emailData: string[];
+  sortDisplay: string;
   onFilterFirstName: (selectedUsers: string[]) => void;
   onFilterLastName: (selectedUsers: string[]) => void;
   onFilterEmail: (selectedUsers: string[]) => void;
   onFilterArchive: () => void;
+  onSort: (event: string) => void;
   onReset: () => void;
   onHide: () => void;
+}
+
+const createChoice = (callback: any, eventKey: string, name: string) => {
+  const newChoice: Choice = {
+    callback: callback,
+    eventKey: eventKey,
+    name: T.translate(name)
+  };
+  return newChoice;
 }
 
 const UserFilterLayout: React.StatelessComponent<Props> = props => {
@@ -24,9 +35,20 @@ const UserFilterLayout: React.StatelessComponent<Props> = props => {
     emailData,
     onFilterFirstName,
     onFilterLastName,
-    onFilterEmail
+    onFilterEmail,
+    onSort,
+    sortDisplay
   } = props;
   const { firstName, lastName, email, archived } = filter;
+
+  // Different choices for each method 
+  const sortId: Choice = createChoice(onSort, 'id', 'user.id');
+  const sortFirstName: Choice = createChoice(onSort, 'firstName', 'user.firstName');
+  const sortLastName: Choice = createChoice(onSort, 'lastName', 'user.lastName');
+  const sortEmail: Choice = createChoice(onSort, 'email', 'user.email');
+
+  const sortChoices: Choice[] = [ sortId, sortFirstName, sortLastName, sortEmail ];
+  const sortSelection: Selectionfield = { name: 'Sort', title: sortDisplay, choices: sortChoices };
 
   // Different typeahead fields
   const firstNameInput: Typeaheadfield = {
@@ -51,10 +73,13 @@ const UserFilterLayout: React.StatelessComponent<Props> = props => {
   };
 
   const typeaheadfields: Typeaheadfield[] = [ firstNameInput, lastNameInput, emailInput ];
+  const selections: Selectionfield[] = [ sortSelection ];
+
 
   return(
     <UserFilterView
       typeaheadfields={ typeaheadfields }
+      selections={ selections }
       onReset={ props.onReset }
       onHide={ props.onHide }
       toggleArchive={ props.onFilterArchive }

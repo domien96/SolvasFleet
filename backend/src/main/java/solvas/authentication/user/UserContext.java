@@ -10,17 +10,18 @@ import java.util.Collection;
  * Details of a user to store in JWT
  */
 public class UserContext implements UserDetails {
-    private final String username;
+    private final int username;
     private String password = null;
     private final Collection<? extends GrantedAuthority> authorities;
 
     /**
      * Create instance
-     * @param user User this context belongs to
+     *
+     * @param user        User this context belongs to
      * @param authorities Authorities of the user
      */
     public UserContext(User user, Collection<? extends GrantedAuthority> authorities) {
-        this.username = user.getEmail();
+        this.username = user.getId();
         this.password = user.getPassword();
         this.authorities = authorities;
     }
@@ -29,13 +30,25 @@ public class UserContext implements UserDetails {
      * This method is used when creating the context from a JWT
      * Otherwise we would need a DB request to get the password which we won't use
      *
-     * @param username Username of the user
+     * @param id          Id of the user
      * @param authorities Authorities of the user
      */
-    public UserContext(String username,  Collection<? extends GrantedAuthority> authorities) {
-        this.username = username;
+    public UserContext(int id, Collection<? extends GrantedAuthority> authorities) {
+        this.username = id;
         this.authorities = authorities;
     }
+
+    /**
+     * This method is used when creating the context from a JWT
+     * Otherwise we would need a DB request to get the password which we won't use
+     *
+     * @param id          Id of the user
+     * @param authorities Authorities of the user
+     */
+    public UserContext(String id, Collection<? extends GrantedAuthority> authorities) {
+        this(Integer.valueOf(id), authorities);
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
@@ -48,7 +61,7 @@ public class UserContext implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return username + "";
     }
 
     @Override

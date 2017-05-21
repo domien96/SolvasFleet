@@ -40,7 +40,7 @@ public class AuditInterceptor extends EmptyInterceptor {
      */
     private User getAuthenticatedUser() {
         try {
-            return daoContext.getUserDao().findByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+            return daoContext.getUserDao().find(Integer.valueOf(SecurityContextHolder.getContext().getAuthentication().getName()));
         } catch (EntityNotFoundException e) {
             throw new RuntimeException(e);
         }
