@@ -53,7 +53,9 @@ class Sidebar extends React.Component<Props, State> {
 
   fetchUserEmail(id: number) {
     fetchUser(id, ((data: any) => {
-      this.setState({ email: data.email });
+      if (data) {
+        this.setState({ email: data.email });
+      }
     }));
   }
 
