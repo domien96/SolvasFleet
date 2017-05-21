@@ -4,12 +4,8 @@ import solvas.service.models.Contract;
 import solvas.service.models.Fleet;
 import solvas.service.models.FleetSubscription;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-import javax.persistence.criteria.Expression;
-import java.time.LocalDate;
+import javax.persistence.criteria.*;
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 /**
@@ -30,13 +26,17 @@ public class ContractFilter extends ArchiveFilter<Contract> {
         if (insuranceCompany >= 0) {
             predicates.add(builder.equal(root.get("company"), insuranceCompany));
         }
+
         if (vehicle >=0 ||fleet >=0 || clientCompany > 0){
+            // This is partially the same logic as in FleetSubscriptionDaoImpl. Maybe we should find a way
+            // to deduplicate and group this logic together somewhere.
+
             Join<Contract, FleetSubscription> subscriptionJoin = root.join("fleetSubscription");
-            LocalDate now = LocalDate.now();
+            LocalDateTime now = LocalDateTime.now();
             // The start must be before today
             Predicate start = builder.lessThanOrEqualTo(subscriptionJoin.get("startDate"), now);
             // The end is not set or after today
-            Expression<LocalDate> endDate = subscriptionJoin.get("endDate");
+            Expression<LocalDateTime> endDate = subscriptionJoin.get("endDate");
             Predicate end = builder.or(
                     builder.isNull(endDate),
                     builder.greaterThan(endDate, now)
