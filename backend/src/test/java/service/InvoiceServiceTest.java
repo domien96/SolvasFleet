@@ -8,6 +8,7 @@ import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.dao.ContractDao;
 import solvas.persistence.api.dao.InvoiceDao;
+import solvas.persistence.api.dao.TaxDao;
 import solvas.rest.api.models.ApiInvoice;
 import solvas.service.AbstractService;
 import solvas.service.InvoiceService;
@@ -36,12 +37,13 @@ public class InvoiceServiceTest extends AbstractServiceTest<Invoice,ApiInvoice> 
     private DaoContext daoContextMock;
     @Mock
     private InvoiceDao invoiceDao;
-    @Mock
     private InvoiceCorrector invoiceCorrector;
 
     @Mock
     private InvoiceMapper invoiceMapper;
 
+    @Mock
+    private TaxDao taxDao;
     @Mock
     private ContractDao contractDao;
 
@@ -50,6 +52,9 @@ public class InvoiceServiceTest extends AbstractServiceTest<Invoice,ApiInvoice> 
         super.setUp();
         when(daoContextMock.getInvoiceDao()).thenReturn(invoiceDao);
         when(daoContextMock.getContractDao()).thenReturn(contractDao);
+        when(daoContextMock.getTaxDao()).thenReturn(taxDao);
+
+        invoiceCorrector = new InvoiceCorrector(daoContextMock);
     }
 
     public InvoiceServiceTest() {
@@ -81,22 +86,53 @@ public class InvoiceServiceTest extends AbstractServiceTest<Invoice,ApiInvoice> 
         fleet.setSubscriptions(new HashSet<FleetSubscription>() {{
             FleetSubscription sub = new FleetSubscription();
             sub.setContracts( new HashSet<Contract>() {{
-                add(new Contract());
+                Contract c = new Contract();
+                c.setStartDate(LocalDateTime.now().minusMonths(8));
+                c.setEndDate(LocalDateTime.now());
+                FleetSubscription sub = new FleetSubscription();
+                sub.setVehicle(new Vehicle());
+                c.setFleetSubscription(sub);
+                c.setInvoiceItems(new HashSet<InvoiceItem>() {{
+                    InvoiceItem i = new InvoiceItem();
+                    i.setStartDate(LocalDate.now().minusMonths(10));
+                    i.setEndDate(LocalDate.now().minusMonths(5));
+                    i.setType(InvoiceItemType.PAYMENT);
+
+                    InvoiceItem i2 = new InvoiceItem();
+                    i2.setStartDate(LocalDate.now().minusMonths(10));
+                    i2.setEndDate(LocalDate.now().minusMonths(7));
+                    i2.setType(InvoiceItemType.REPAYMENT);
+
+                    InvoiceItem i3 = new InvoiceItem();
+                    i3.setStartDate(LocalDate.now().minusMonths(11));
+                    i3.setEndDate(LocalDate.now().minusMonths(10));
+                    i3.setType(InvoiceItemType.PAYMENT);
+
+                    add(i);
+                    add(i2);
+                    add(i3);
+                }});
+                add(c);
             }});
             add(sub);
         }});
+        fleet.setPaymentPeriod(1);
+        fleet.setFacturationPeriod(1);
 
         InvoiceItem i = new InvoiceItem();
         i.setEndDate(LocalDate.now());
         i.setStartDate(LocalDate.now().minusDays(5));
-        when(invoiceCorrector.correctionItemsForContract(any(), any(), anyInt())).thenReturn(new HashSet<InvoiceItem>() {{
+       /* when(invoiceCorrector.correctionItemsForContract(any(), any(), anyInt())).thenReturn(new HashSet<InvoiceItem>() {{
             add(i);
-        }});
+        }});*/
+        when(taxDao.findDistinctByVehicleTypeAndInsuranceType(any(), any())).thenReturn(new Tax());
+
 
         getService().generateCorrectionsFor(fleet);
         verify(getDaoMock()).save(captor.capture());
 
-        assertThat(captor.getValue().getItems().iterator().next(),is(i));
+        // 2 payments, one repayment
+        assertThat(captor.getValue().getItems().size(),is(3));
     }
 
     @Test

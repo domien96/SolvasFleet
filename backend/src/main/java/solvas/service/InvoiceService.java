@@ -384,7 +384,8 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
         Set<InvoiceItem> corrections = fleet.getSubscriptions().stream()
                 .map(FleetSubscription::getContracts)
                 .flatMap(Set::stream)
-                .map(contract -> invoiceCorrector.correctionItemsForContract(
+                .map(contract ->
+                        invoiceCorrector.correctionItemsForContract(
                         contract,
                         lastDate,
                         fleet.getPaymentPeriod()))
