@@ -128,6 +128,7 @@ class ClientFilter extends React.Component<FilterProps, FilterState> {
     const newNameData: string[] = [];
     const newCountryData: string[] = [];
 
+
     companies.map((company: CompanyData) => {
       if (company.vatNumber !== null && company.vatNumber !== undefined && company.vatNumber !== '') {
         newVatData.push(company.vatNumber);
@@ -136,7 +137,9 @@ class ClientFilter extends React.Component<FilterProps, FilterState> {
         newNameData.push(company.name);
       }
       if (company.address.country !== null && company.address.country !== undefined && company.address.country !== '') {
-        newCountryData.push(company.address.country);
+        if (!newCountryData.includes(company.address.country)) {
+          newCountryData.push(company.address.country);
+        }
       }
     });
 
