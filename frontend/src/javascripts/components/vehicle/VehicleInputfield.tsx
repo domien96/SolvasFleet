@@ -37,7 +37,7 @@ class VehicleInputfield extends React.Component<Props, State> {
     if (selectedVehicles) {
       if (selectedVehicles[0]) {
         this.props.callback({ target: { value: parseInt(selectedVehicles[0].split(':')[0], 10) } });
-      } 
+      }
     }
   }
 

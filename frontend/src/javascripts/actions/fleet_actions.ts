@@ -40,3 +40,6 @@ export function fetchInvoicePdf(companyId: number, fleetId: number, invoiceId: n
   GETPDF( INVOICE_PDF_URL(companyId, fleetId, invoiceId), success, fail, query );
 }
 
+export function putInvoice(companyId: number, fleetId: number, invoiceId: number, body: any, success?: callback, fail?: callback) {
+  PUT( INVOICE_URL(companyId, fleetId, invoiceId), body, success, fail );
+}
