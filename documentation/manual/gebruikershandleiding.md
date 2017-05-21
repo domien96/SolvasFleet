@@ -7,7 +7,7 @@
 
 ![gebruikers oplijsten](images/user_list.png)
 
-In dit scherm worden alle gebruikers opgelijst. Bij het klikken op een gebruiker wordt meer informatie over de gebruiker weergegeven naast de tabel. Ook worden de verschillende functies van de gebruiker weergegeven. Door op 'Add new function' te klikken kunnen er functies toegevoegd worden. Door in de tabel op de rode 'Delete' knop te drukken worden de permissies gelinkt met die functie afgenomen van de gebruiker. Het is ook mogelijk om de gegevens van de gebruiker te wijzigen, via de 'Edit' knop, of de gebruiker te verwijderen uit de webapplicatie, via de 'Delete' knop. Het is mogelijk om een nieuwe gebruiker toe te voegen door rechtsboven in de tabel van gebruikers op 'Add new user' te klikken.
+In dit scherm worden alle gebruikers opgelijst. Er kan op deze lijst gefilterd worden op voornaam, achternaam of email door de velden van de filter, bovenaan de lijst, in te vullen. Hier vindt u ook de mogelijkheid om de gebruikers te sorteren volgens id, voornaam, achternaam of email-adres en kunt u kiezen om de gearchiveerde gebruikers weer te geven door de checkbox aan te vinken. Bij het klikken op een gebruiker wordt meer informatie over de gebruiker weergegeven naast de tabel. Ook worden de verschillende functies van de gebruiker weergegeven. Door op 'Add new function' te klikken kunnen er functies toegevoegd worden. Door in de tabel op de rode 'Archive' knop te drukken worden de permissies gelinkt met die functie afgenomen van de gebruiker. Het is ook mogelijk om de gegevens van de gebruiker te wijzigen, via de 'Edit' knop, de gebruiker te verwijderen uit de webapplicatie, via de 'Archive' knop of de geschiedenis van een bepaalde gebruiker te bekijken via de 'Log' knop. Het is mogelijk om een nieuwe gebruiker toe te voegen door rechtsboven in de tabel van gebruikers op 'Add new user' te klikken.
 
 ### Gebruiker toevoegen
 
@@ -45,7 +45,7 @@ In dit scherm worden alle klanten opgelijst. Bij het klikken op een klant wordt 
 
 ![klant weergeven](images/view_client.png)
 
-Deze pagina toont alle gegevens van de geselecteerde klant. Hier vindt u ook de opties om de gegevens van de klant te wijzigen, via de 'Edit' knop. Ook is het hier mogelijk om de klant te verwijderen, dit gebeurt via de 'Delete' knop. Op de pagina van de klant worden ook de vloten van de klant opgelijst. Bij het klikken op een vloot, worden de voertuigen van deze vloot weergegeven per type.
+Deze pagina toont alle gegevens van de geselecteerde klant. Hier vindt u ook de opties om de gegevens van de klant te wijzigen, via de 'Edit' knop. Ook is het hier mogelijk om de klant te verwijderen, dit gebeurt via de 'Archive' knop. Op de pagina van de klant worden ook de vloten van de klant opgelijst. Bij het klikken op een vloot, worden de voertuigen van deze vloot weergegeven per type.
 
 ### Klant toevoegen
 
@@ -74,7 +74,7 @@ Om een vloot toe te voegen klikt u op 'Add a new fleet', bovenaan de tabel van v
 
 ![voertuigen oplijsten](images/list_vehicles.png)
 
-Deze pagina toont een lijst van alle voertuigen, en tot welke vloot ze behoren. Door op een voertuig te klikken wordt er naast de tabel meer informatie over het voertuig gegeven. Ook worden alle contracten van het voertuig weergegeven in een tabel. Het is mogelijk om contracten toe te voegen of te raadplegen. Het is mogelijk om de voertuigen te filteren op hun type en op de vloot waarbij ze behoren. In dit scherm is het ook mogelijk de gegevens van het voertuig te wijzigen, door op 'Edit' te klikken. Het is eveneens mogelijk het voertuig te verwijderen door op de 'Delete' knop te drukken. Om een nieuwe voertuig toe te voegen, drukt u op de knop 'Add new vehicle', rechtsboven de tabel met voertuigen.
+Deze pagina toont een lijst van alle voertuigen, en tot welke vloot ze behoren. Door op een voertuig te klikken wordt er naast de tabel meer informatie over het voertuig gegeven. Ook worden alle contracten van het voertuig weergegeven in een tabel. Het is mogelijk om contracten toe te voegen of te raadplegen. Het is mogelijk om de voertuigen te filteren op hun type en op de vloot waarbij ze behoren. In dit scherm is het ook mogelijk de gegevens van het voertuig te wijzigen, door op 'Edit' te klikken. Het is eveneens mogelijk het voertuig te verwijderen door op de 'Archive' knop te drukken. Om een nieuwe voertuig toe te voegen, drukt u op de knop 'Add new vehicle', rechtsboven de tabel met voertuigen.
 
 ### Voertuig toevoegen
 
