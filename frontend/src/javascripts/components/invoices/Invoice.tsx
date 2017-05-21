@@ -17,14 +17,13 @@ class Invoice extends React.Component<Props, State> {
 
   constructor() {
     super();
-    this.state = { invoice: {} };
+    this.state = { invoice: { paid: false, totalAmount: 0 } };
     this.handleDownload = this.handleDownload.bind(this);
   }
 
   componentDidMount() {
     this.fetchInvoice(this.props.params.companyId, this.props.params.fleetId, this.props.params.invoiceId);
   }
-
 
   fetchInvoice(companyId: number, fleetId: number, invoiceId: number) {
     fetchInvoice(companyId, fleetId, invoiceId, ((data: any) => {

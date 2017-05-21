@@ -41,7 +41,7 @@ public class AuditInterceptor extends EmptyInterceptor {
      */
     private User getAuthenticatedUser() {
         try {
-            return daoContext.getUserDao().findByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+            return daoContext.getUserDao().find(Integer.valueOf(SecurityContextHolder.getContext().getAuthentication().getName()));
         } catch (EntityNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -60,7 +60,12 @@ public class AuditInterceptor extends EmptyInterceptor {
 
         //make revision
         Revision revision = new Revision();
-        revision.setMethod(MethodType.UPDATE);
+
+        if (((Model) entity).isArchived()){
+            revision.setMethod(MethodType.ARCHIVE);
+        } else {
+            revision.setMethod(MethodType.UPDATE);
+        }
 
 
         // Connect revision with a entity
@@ -81,11 +86,7 @@ public class AuditInterceptor extends EmptyInterceptor {
 
         // Make revision
         Revision revision = new Revision();
-        if (((Model) entity).isArchived()){
-            revision.setMethod(MethodType.ARCHIVE);
-        } else {
-            revision.setMethod(MethodType.INSERT);
-        }
+        revision.setMethod(MethodType.INSERT);
 
 
 

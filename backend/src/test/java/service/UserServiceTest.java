@@ -31,6 +31,7 @@ import java.util.Collection;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -112,14 +113,14 @@ public class UserServiceTest extends AbstractServiceTest<User,ApiUser> {
 
             @Override
             public String getName() {
-                return null;
+                return ""+anyInt();
             }
         });
 
 
         PowerMockito.when(SecurityContextHolder.getContext()).thenReturn(securityContext);
 
-        when(userDao.findByEmail(any())).thenReturn(new User());
+        when(userDao.find(anyInt())).thenReturn(new User());
         getService().archive(2);
 
         ArgumentCaptor<Integer> captor = ArgumentCaptor.forClass(Integer.class);

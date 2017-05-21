@@ -117,7 +117,7 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
      * @return ResponseEntity
      */
     @RequestMapping(value = "/vehicles/{vehicleId}/greencard.pdf", method = RequestMethod.GET)
-    @PreAuthorize("hasPermission(#vehicleId, 'vehicle', 'READ')")
+    @PreAuthorize("hasPermission(#vehicleId, 'vehicle', 'DOWNLOAD_GREENCARD')")
     public ModelAndView getByFleetAndInvoiceIdWithExtension(@PathVariable int vehicleId) throws EntityNotFoundException {
         ApiVehicle v = service.getById(vehicleId);
         return new ModelAndView(GreenCardViewResolver.GREEN_CARD_PDF_VIEW, GreenCardPdfView.class.getCanonicalName(), v);
