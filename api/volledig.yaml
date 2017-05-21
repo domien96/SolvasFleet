@@ -87,6 +87,8 @@ securityDefinitions:
       "write:users:roles": "Adjust the roles for users."
       "token:refresh": "Use refresh tokens. This scope should not be added to the access token, only the refresh token."
       "read:revisions": "Access to the revisions log."
+      "write:company:invoices": "Edit invoices for a company."
+      "write:companies:invoices": "Edit invoices for all companies."
 
 security:
   - token: []
@@ -608,6 +610,27 @@ paths:
           $ref: '#/responses/Unauthorised'
         '404':
           $ref: '#/responses/NotFound'
+    put:
+      summary: Mark invoice as paid or not.
+      description: |
+        Mark an invoice as paid or not paid. Only the paid field will be considered, all others will be ignored.
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      security:
+        - token: ['write:company:invoices']
+      parameters:
+        - in: body
+          name: invoice
+          description: The invoice to mark as payed or not.
+          schema:
+            $ref: '#/definitions/Invoice'
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Invoice'
   '/companies/{company_id}/fleets/{fleet_id}/invoices/{invoice_id}{extention}':
     parameters:
         - in: path
