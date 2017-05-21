@@ -197,7 +197,8 @@ class Fleet extends React.Component<FleetProps, FleetState> {
                   <FleetVehicleAdd fleet={ this.props.params.id } refresh={ this.refresh }/>
                 </div>
                 <div className='col-md-12 col-lg-4'>
-                  <FleetActions isDisabled={ this.state.checkedVehicles.length == 0 } callToArchive={ this.archiveCheckedVehicles }/>
+                  <FleetActions isDisabled={ this.state.checkedVehicles.length == 0 } callToArchive={ this.archiveCheckedVehicles } companyId={this.props.params.companyId}
+                    fleetId={this.state.fleet.id}/>
                 </div>
               <div className='col-md-12 col-lg-5'>
                 <FleetSettings onSettingsClick={ this.toggleShowSettings } showSettings={ this.state.showSettings }
