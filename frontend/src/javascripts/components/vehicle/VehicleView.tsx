@@ -34,16 +34,33 @@ const DeleteLink = ({ handleDelete }: { handleDelete: () => void }) => {
   );
 };
 
+const UnarchiveLink = ({ handleUnarchive }: { handleUnarchive: () => void }) => {
+  return (
+    <div className='col-sm-4'>
+      <Confirm
+        onConfirm={ handleUnarchive }
+        body="Are you sure you want to restore this?"
+        confirmText="Confirm Unarchive"
+        title="Unarchive vehicle">
+        <button className='btn btn-success form-control'>
+          <span className='glyphicon glyphicon-share-alt' /> Unarchive
+        </button>
+      </Confirm>
+    </div>
+  );
+};
+
 interface Props {
   handleDelete: () => void;
   vehicle: VehicleData
   onDownloadGreencard: () => void;
   onGetFleetName: (id: number) => string;
   onGetCompanyName: (id: number) => any;
+  handleUnarchive: () => void;
 }
 
 const VehicleView: React.StatelessComponent<Props> = props => {
-  const { id, licensePlate, vin, brand, model, type, mileage, year, leasingCompany, value, fleet } = props.vehicle;
+  const { id, licensePlate, vin, brand, model, type, mileage, year, leasingCompany, value, fleet, archived } = props.vehicle;
 
   let fleetName : number | string = fleet;
   if (fleet) {
@@ -68,6 +85,11 @@ const VehicleView: React.StatelessComponent<Props> = props => {
     th('vehicle.leasingCompany', companyName)
   ];
 
+  let deleteLink = <DeleteLink handleDelete={ props.handleDelete } />
+  if (archived) {
+    deleteLink = <UnarchiveLink handleUnarchive={ props.handleUnarchive } />
+  }
+
   return (
   <Card>
     <div>
@@ -75,7 +97,7 @@ const VehicleView: React.StatelessComponent<Props> = props => {
         <h2>{ vin } </h2>
         <div className='row actions'>
           <EditLink id={ id } />
-          <DeleteLink handleDelete={ props.handleDelete } />
+          { deleteLink }
           <LogLink id={ id } type='Vehicle' />
           <div className='col-sm-3'>
             <Link to={ `/commissions/clients/4/fleets/${fleet}/vehicles/${id}/${type}` } className='btn btn-info form-control'>

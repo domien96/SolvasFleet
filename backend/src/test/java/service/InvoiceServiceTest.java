@@ -17,7 +17,10 @@ import solvas.service.models.Invoice;
 
 import static org.mockito.Mockito.when;
 
-public class InvoiceServiceTest extends AbstractServiceTest<Invoice,ApiInvoice> {
+/**
+ * Test the invoice service.
+ */
+public class InvoiceServiceTest extends AbstractServiceTest<Invoice, ApiInvoice> {
 
     @Mock
     private DaoContext daoContextMock;
@@ -29,16 +32,19 @@ public class InvoiceServiceTest extends AbstractServiceTest<Invoice,ApiInvoice> 
     @Mock
     private InvoiceMapper invoiceMapper;
 
-    @Before
-    public void setUp() throws DependantEntityNotFound, EntityNotFoundException {
-        super.setUp();
-        when(daoContextMock.getInvoiceDao()).thenReturn(invoiceDao);
-    }
-
+    /**
+     * Construct the test.
+     */
     public InvoiceServiceTest() {
         super(Invoice.class, ApiInvoice.class);
     }
 
+    @Before
+    @Override
+    public void setUp() throws DependantEntityNotFound, EntityNotFoundException {
+        super.setUp();
+        when(daoContextMock.getInvoiceDao()).thenReturn(invoiceDao);
+    }
 
     @Override
     protected AbstractService<Invoice, ApiInvoice> getService() {
@@ -46,7 +52,7 @@ public class InvoiceServiceTest extends AbstractServiceTest<Invoice,ApiInvoice> 
     }
 
     @Override
-    protected Dao getDaoMock() {
+    protected Dao<Invoice> getDaoMock() {
         return invoiceDao;
     }
 

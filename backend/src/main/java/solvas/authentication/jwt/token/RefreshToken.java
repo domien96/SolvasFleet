@@ -28,6 +28,7 @@ public class RefreshToken implements JwtToken {
     public static RefreshToken create(RawAccessJwtToken token, String signingKey) throws InvalidJwt {
         Jws<Claims> claims = token.parseClaims(signingKey);
 
+
         List<?> scopes = claims.getBody().get("scopes", List.class);
         if (scopes == null || scopes.isEmpty() 
                 || scopes.stream().noneMatch(scope -> Scopes.REFRESH_TOKEN.authority().equals(scope))) {

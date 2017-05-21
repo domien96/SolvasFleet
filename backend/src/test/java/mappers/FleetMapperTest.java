@@ -1,22 +1,21 @@
 package mappers;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.dao.CompanyDao;
 import solvas.persistence.api.dao.FleetDao;
+import solvas.rest.api.models.ApiFleet;
+import solvas.service.mappers.FleetMapper;
 import solvas.service.mappers.exceptions.DependantEntityNotFound;
 import solvas.service.models.Company;
 import solvas.service.models.Fleet;
-import solvas.persistence.api.DaoContext;
-import solvas.service.mappers.FleetMapper;
-import solvas.rest.api.models.ApiFleet;
 
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -44,12 +43,11 @@ public class FleetMapperTest {
      * Setting up the tests of FleetMapper
      */
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
         when(daoContext.getFleetDao()).thenReturn(fleetDaoMock);
         when(daoContext.getCompanyDao()).thenReturn(companyDaoMock);
-        mapper=new FleetMapper(daoContext);
+        mapper = new FleetMapper(daoContext);
         MockHttpServletRequest request = new MockHttpServletRequest();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
     }
@@ -58,22 +56,20 @@ public class FleetMapperTest {
      * Test the conversion Fleet->ApiFleet
      */
     @Test
-    public void convertToApiFleet()
-    {
+    public void convertToApiFleet() {
         Fleet fleet = random(Fleet.class);
         ApiFleet converted = mapper.convertToApiModel(fleet);
-        assertThat(converted.getId(),is(fleet.getId()));
-        assertThat(converted.getUrl(),is("http://localhost/fleets/"+fleet.getId()));
-        assertThat(converted.getName(),is(fleet.getName()));
-        assertThat(converted.getCompany(),is(fleet.getCompany().getId()));
-        assertThat(converted.getUpdatedAt(),is(fleet.getUpdatedAt()));
-        assertThat(converted.getCreatedAt(),is(fleet.getCreatedAt()));
+        assertThat(converted.getId(), is(fleet.getId()));
+        assertThat(converted.getUrl(), is("http://localhost/fleets/" + fleet.getId()));
+        assertThat(converted.getName(), is(fleet.getName()));
+        assertThat(converted.getCompany(), is(fleet.getCompany().getId()));
+        assertThat(converted.getUpdatedAt(), is(fleet.getUpdatedAt()));
+        assertThat(converted.getCreatedAt(), is(fleet.getCreatedAt()));
     }
 
     /**
      * Test the conversion ApiFleet->Fleet
      */
-    @Ignore
     @Test
     public void convertToFleet() throws DependantEntityNotFound, EntityNotFoundException {
         ApiFleet apiFleet = random(ApiFleet.class);
@@ -85,11 +81,8 @@ public class FleetMapperTest {
         when(companyDaoMock.find(anyInt())).thenReturn(randomCompany);
 
         Fleet converted = mapper.convertToModel(apiFleet);
-        assertThat(converted.getId(),is(apiFleet.getId()));
-        assertThat(converted.getName(),is(apiFleet.getName()));
-        assertThat(converted.getCompany().getId(),is(apiFleet.getCompany()));
-        assertThat(converted.getUpdatedAt(),is(apiFleet.getUpdatedAt()));
-        assertThat(converted.getCreatedAt(),is(apiFleet.getCreatedAt()));
+        assertThat(converted.getId(), is(apiFleet.getId()));
+        assertThat(converted.getName(), is(apiFleet.getName()));
+        assertThat(converted.getCompany().getId(), is(apiFleet.getCompany()));
     }
-
 }

@@ -2,6 +2,7 @@ package solvas.rest.api.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.NotBlank;
+import solvas.rest.utils.validators.CommissionFieldsFilledInOrder;
 import solvas.service.models.InsuranceType;
 
 import javax.validation.constraints.Min;
@@ -10,6 +11,7 @@ import javax.validation.constraints.Min;
 /**
  * Commission in the API layer
  */
+@CommissionFieldsFilledInOrder
 public class ApiCommission extends ApiModel {
     private int company;
 
