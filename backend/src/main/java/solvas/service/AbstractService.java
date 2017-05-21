@@ -4,9 +4,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
-import solvas.persistence.api.DaoContext;
-import solvas.service.models.Model;
 import solvas.persistence.api.Dao;
+import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.Filter;
 import solvas.rest.api.models.ApiModel;
@@ -14,6 +13,7 @@ import solvas.service.exceptions.UnarchivableException;
 import solvas.service.exceptions.UndeletableException;
 import solvas.service.mappers.AbstractMapper;
 import solvas.service.mappers.exceptions.DependantEntityNotFound;
+import solvas.service.models.Model;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,32 +26,31 @@ import java.util.stream.Collectors;
 @Transactional
 public abstract class AbstractService<T extends Model,E extends ApiModel> {
 
-
     protected Dao<T> modelDao;
     protected AbstractMapper<T,E> mapper;
     protected DaoContext context=null;
 
     /**
-     * Contruct an abstractservice
-     * @param modelDao the DAO of the model
-     * @param mapper the mapper between the apimodel and the model
+     * Construct a service.
+     *
+     * @param modelDao The DAO of the model.
+     * @param mapper   The mapper between the api model and the model.
      */
-    public AbstractService(Dao<T> modelDao,AbstractMapper<T,E> mapper)
-    {
-        this.modelDao=modelDao;
-        this.mapper=mapper;
+    public AbstractService(Dao<T> modelDao, AbstractMapper<T, E> mapper) {
+        this.modelDao = modelDao;
+        this.mapper = mapper;
     }
 
     /**
-     * Contruct an abstractservice
-     * @param modelDao the DAO of the model
-     * @param mapper the mapper between the apimodel and the model
+     * Construct a service.
+     *
+     * @param modelDao The DAO of the model.
+     * @param mapper   The mapper between the api model and the model.
+     * @param context  The DAO context.
      */
-    public AbstractService(Dao<T> modelDao,DaoContext context,AbstractMapper<T,E> mapper)
-    {
-        this.modelDao=modelDao;
-        this.mapper=mapper;
-        this.context=context;
+    public AbstractService(Dao<T> modelDao, DaoContext context, AbstractMapper<T, E> mapper) {
+        this(modelDao, mapper);
+        this.context = context;
     }
 
     /**
