@@ -45,11 +45,11 @@ public class CommissionFieldsFilledInOrderValidator extends DaoContextAwareConst
      * @return is the commission is valid, for the level of the vehicle type field at least.
      */
     private boolean validateFromVehicleType(ApiCommission value, boolean mustBeFilledIn) {
-        return !(mustBeFilledIn && value.getVehicleType()==null) && validateFromVehicle(value, value.getVehicleType() != null);
+        return !(mustBeFilledIn && value.getVehicleType()==null) && validateFromFleet(value, value.getVehicleType() != null);
     }
 
-    private boolean validateFromVehicle(ApiCommission value, boolean mustBeFilledIn) {
-        return !(mustBeFilledIn && value.getVehicle()<=0) && validateFromCompany(value, value.getVehicle() > 0);
+    private boolean validateFromFleet(ApiCommission value, boolean mustBeFilledIn) {
+        return !(mustBeFilledIn && value.getFleet()<=0) && validateFromCompany(value, value.getFleet() > 0);
     }
 
     private boolean validateFromCompany(ApiCommission value, boolean mustBeFilledIn) {
