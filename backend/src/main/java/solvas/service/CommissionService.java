@@ -14,12 +14,13 @@ import solvas.service.mappers.exceptions.DependantEntityNotFound;
 import solvas.service.models.Commission;
 
 /**
- * Created by steve on 13/05/2017.
+ * Service class for commission. It contains the priority logic.
+ * @author Domien
  */
 @Service
 public class CommissionService extends AbstractService<Commission,ApiCommission> {
     /**
-     * Contruct an abstractservice
+     * Construct an abstractservice
      *
      * @param modelDao the DAO of the model
      * @param mapper   the mapper between the apimodel and the model
@@ -29,11 +30,11 @@ public class CommissionService extends AbstractService<Commission,ApiCommission>
     }
 
     /**
-     * Finds the comission which suits best to the given filter parameters.
-     * This means that if no comission is found for the given parameters, then a comission for a more general
+     * Finds the commission which suits best to the given filter parameters.
+     * This means that if no commission is found for the given parameters, then a commission for a more general
      * set of parameters will be used (a higher level commission).
      *
-     * For example suppose we want to find the comission for a specific insurance type, vehicle type, a fleet and a company.
+     * For example suppose we want to find the commission for a specific insurance type, vehicle type, a fleet and a company.
      * If no record is found, then this method will look for a commission for any vehicle type but still for the given
      * insurance type, fleet and company.
      *
@@ -83,7 +84,7 @@ public class CommissionService extends AbstractService<Commission,ApiCommission>
 
     @Override
     public ApiCommission update(int id,ApiCommission input) throws DependantEntityNotFound, EntityNotFoundException {
-        // Check wheter a commission exclusively exists for the given filter parameters
+        // Check whether a commission exclusively exists for the given filter parameters
         // If not, then we create a new commission record. Else we just update the already existing one.
         // This way we don't change commission on a higher level.
 
