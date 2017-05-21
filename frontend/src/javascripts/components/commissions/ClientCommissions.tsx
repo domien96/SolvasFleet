@@ -19,7 +19,7 @@ class ClientCommissions extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      client: { address: {}, name: "" },
+      client: { address: {} },
     };
     this.fetchCommission = this.fetchCommission.bind(this);
     this.putCommission = this.putCommission.bind(this);

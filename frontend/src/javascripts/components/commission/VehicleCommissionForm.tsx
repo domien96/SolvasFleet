@@ -124,7 +124,7 @@ class CommissionGroupForm extends React.Component<Props, State> {
                 showForm={ this.state.showForm }
                 commission={ this.state.commissions }
                 handleChange={ this.handleChange }
-                vehicleType='OOO'/>
+                vehicleType={ this.props.vehicleType }/>
             </div>
             <div className='col-xs-12 col-md-5'>
               <div className='row'>
