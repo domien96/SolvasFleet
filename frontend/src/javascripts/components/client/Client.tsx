@@ -127,15 +127,7 @@ class Client extends React.Component<Props, State> {
                       </Link>
                     </div>
                     <div className='col-sm-3'>
-                      <Confirm
-                        onConfirm={ this.deleteClient }
-                        body="Are you sure you want to archive this?"
-                        confirmText="Confirm Archive"
-                        title="Archive client">
-                        <button className='btn btn-danger form-control'>
-                          <span className='glyphicon glyphicon-remove' /> Archive
-                        </button>
-                      </Confirm>
+                      { deleteLink }
                     </div>
                     <LogLink id={ id } type='Company' />
                   </div>
