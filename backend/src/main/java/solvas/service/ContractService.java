@@ -51,9 +51,8 @@ public class ContractService extends AbstractService<Contract,ApiContract> {
     public void archive(int id) throws EntityNotFoundException, UnarchivableException {
         Contract contract = context.getContractDao().find(id);
         // set endDate of contract
-        contract.setEndDate(LocalDateTime.now()); // TODO ask patrick if this is the right way
+        contract.setEndDate(LocalDateTime.now());
         modelDao.save(contract);
-        super.archive(id);
     }
 
 }

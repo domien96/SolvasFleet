@@ -53,7 +53,7 @@ public class VehicleMapper extends AbstractMapper<Vehicle, ApiVehicle> {
         // Create a link between everything.
         if (api.getFleet() > -1) {
 
-            LocalDateTime now = LocalDateTime.now();
+            LocalDateTime now = LocalDateTime.now().toLocalDate().atStartOfDay();
 
             //This will save the vehicle twice. If we want to avoid this, we have to set all relations in memory and perform
             //  cascade saving of these relation, which performs worse that saving twice

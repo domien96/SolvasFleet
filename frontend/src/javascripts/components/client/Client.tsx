@@ -146,6 +146,10 @@ class Client extends React.Component<Props, State> {
                        </div>
                       </DynamicGuiComponent>
                     </div>
+                    <div className='col-sm-3'>
+                      { deleteLink }
+                    </div>
+                    <LogLink id={ id } type='Company' />
                   </div>
                 </Card>
               </DynamicGuiComponent>
