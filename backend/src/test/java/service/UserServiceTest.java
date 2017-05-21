@@ -50,6 +50,7 @@ public class UserServiceTest extends AbstractServiceTest<User,ApiUser> {
     private UserMapper userMapper;
 
     @Before
+    @Override
     public void setUp() throws DependantEntityNotFound, EntityNotFoundException {
         super.setUp();
         when(daoContextMock.getUserDao()).thenReturn(userDao);

@@ -26,53 +26,50 @@ import static org.mockito.Mockito.when;
 
 
 @RunWith(MockitoJUnitRunner.class)
-public abstract class AbstractServiceTest<T extends Model,E extends ApiModel> {
+public abstract class AbstractServiceTest<T extends Model, E extends ApiModel> {
 
+    protected ArgumentCaptor<? extends T> captor;
     private Class<? extends T> clazz1;
     private E apiModel;
     private T model;
-    private Class<? extends E> clazz2;
-    public AbstractServiceTest(Class<? extends T> clazz1,Class<? extends E> clazz2)
-    {
-        this.clazz1=clazz1;
-        this.clazz2=clazz2;
-        apiModel=random(clazz2);
-        model=random(clazz1);
+
+    public AbstractServiceTest(Class<? extends T> clazz1, Class<? extends E> clazz2) {
+        this.clazz1 = clazz1;
+        apiModel = random(clazz2);
+        model = random(clazz1);
     }
 
-    public T getTestModel()
-    {
+    public T getTestModel() {
         return model;
     }
-    public E getTestApiModel()
-    {
+
+    public E getTestApiModel() {
         return apiModel;
     }
 
-    protected ArgumentCaptor<? extends T> captor;
-    protected abstract AbstractService<T,E> getService();
+    protected abstract AbstractService<T, E> getService();
+
     protected abstract Dao getDaoMock();
-    protected abstract AbstractMapper<T,E> getMapperMock();
+
+    protected abstract AbstractMapper<T, E> getMapperMock();
 
     @Before
     public void setUp() throws DependantEntityNotFound, EntityNotFoundException {
         when(getMapperMock().convertToApiModel(any())).thenReturn(getTestApiModel());
         when(getMapperMock().convertToModel(any())).thenReturn(getTestModel());
         captor = ArgumentCaptor.forClass(clazz1);
-
     }
-
 
     @Test
     public void getById() throws EntityNotFoundException {
-        assertThat(getService().getById(4),is(getTestApiModel()));
+        assertThat(getService().getById(4), is(getTestApiModel()));
     }
 
     @Test
     public void create() throws DependantEntityNotFound, EntityNotFoundException {
         getService().create(getTestApiModel());
         verify(getDaoMock()).save(captor.capture());
-        assertThat(captor.getValue(),is(getTestModel()));
+        assertThat(captor.getValue(), is(getTestModel()));
     }
 
     @Test
@@ -81,7 +78,7 @@ public abstract class AbstractServiceTest<T extends Model,E extends ApiModel> {
 
         ArgumentCaptor<Integer> captor = ArgumentCaptor.forClass(Integer.class);
         verify(getDaoMock()).archive(captor.capture());
-        assertThat(captor.getValue(),is(2));
+        assertThat(captor.getValue(), is(2));
     }
 
     @Test
@@ -89,22 +86,22 @@ public abstract class AbstractServiceTest<T extends Model,E extends ApiModel> {
         when(getDaoMock().find(anyInt())).thenReturn(getTestModel());
         getService().destroy(3);
         verify(getDaoMock()).destroy(captor.capture());
-        assertThat(captor.getValue(),is(getTestModel()));
+        assertThat(captor.getValue(), is(getTestModel()));
     }
 
     @Test
     public void update() throws DependantEntityNotFound, EntityNotFoundException {
-        when(getDaoMock().save(getTestModel())).thenReturn( getTestModel());
-        getService().update(5,getTestApiModel());
+        when(getDaoMock().save(getTestModel())).thenReturn(getTestModel());
+        getService().update(5, getTestApiModel());
         verify(getDaoMock()).save(captor.capture());
-        assertThat(captor.getValue(),is(getTestModel()));
+        assertThat(captor.getValue(), is(getTestModel()));
     }
 
     @Test
     public void count() {
-        long count=4;
+        long count = 4;
         when(getDaoMock().count(any(Specification.class))).thenReturn(count);
-            assertThat(getService().count(null),is(count));
+        assertThat(getService().count(null), is(count));
 
     }
 }
