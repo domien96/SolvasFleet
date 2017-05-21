@@ -18,7 +18,7 @@ class SidebarLink extends React.Component<SProps, {}> {
   };
 
   render() {
-    const classes = classNames({ active: this.context.location.pathname.includes(this.props.path) });
+    const classes = classNames({ active: this.context.location.pathname.startsWith(this.props.path) });
 
     return (
       <li className={ classes } >
@@ -73,6 +73,7 @@ class Sidebar extends React.Component<Props, State> {
           <SidebarLink path='/vehicles'>{ T.translate('vehicle.vehicles') }</SidebarLink>
           <SidebarLink path='/log'>{ T.translate('log.log') }</SidebarLink>
           <SidebarLink path='/auth'>{ T.translate('auth.permissionSettings') }</SidebarLink>
+          <SidebarLink path='/commissions'>{ T.translate('commissions.commissions') }</SidebarLink>
         </ul>
         <ul className='nav session-actions'>
           <li className='plain'>

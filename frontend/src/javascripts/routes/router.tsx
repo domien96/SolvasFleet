@@ -13,6 +13,7 @@ import fleet_routes from './fleet_routes.tsx';
 import auth_routes from './auth_routes.tsx';
 import contract_routes from './contract_routes.tsx';
 import log_routes from './log_routes.tsx';
+import commission_routes from './commission_routes.tsx';
 
 import NoMatch from '../components/NoMatch.tsx';
 import App from '../components/app/App.tsx';
@@ -53,6 +54,7 @@ const SolvasRouter: React.StatelessComponent<{}> = () => {
             { auth_routes }
             { contract_routes }
             { log_routes }
+            { commission_routes }
 
           </Route>
         </Route>

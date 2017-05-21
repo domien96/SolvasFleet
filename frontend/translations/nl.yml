@@ -152,7 +152,20 @@ errors:
   INVALID: is ongeldig, vul aub een correcte waarde in
   NOT_FOUND: werd niet gevonden
   WRONG_TYPE: heeft het verkeerde type
-  
+
 csv:
   import:
     success: Uw csv bestand werd succesvol geïmporteerd.
+
+
+commission:
+  global: Globale commissies
+  civilLiability: Burgerlijke aansprakelijkheid
+  omnium: Omnium
+  driverInsurance: Bestuurdersverzekering
+  travelInsurance: Reisverzekering
+  legalAid: Legale hulp
+  client: Commissies van
+  vehicle: Commissies van
+  fleet: Commissies van
+  comissions: Commissies

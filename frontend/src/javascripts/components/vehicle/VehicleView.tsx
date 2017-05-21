@@ -10,7 +10,7 @@ import LogLink from '../app/LogLink.tsx';
 
 const EditLink = ({ id }: { id: number }) => {
   return (
-    <div className='col-sm-4'>
+    <div className='col-sm-3'>
       <Link to={ '/vehicles/' + id + '/edit' } className='btn btn-default form-control'>
         <span className='glyphicon glyphicon-edit' /> Edit
       </Link>
@@ -20,7 +20,7 @@ const EditLink = ({ id }: { id: number }) => {
 
 const DeleteLink = ({ handleDelete }: { handleDelete: () => void }) => {
   return (
-    <div className='col-sm-4'>
+    <div className='col-sm-3'>
       <Confirm
         onConfirm={handleDelete}
         body="Are you sure you want to archive this?"
@@ -99,6 +99,11 @@ const VehicleView: React.StatelessComponent<Props> = props => {
           <EditLink id={ id } />
           { deleteLink }
           <LogLink id={ id } type='Vehicle' />
+          <div className='col-sm-3'>
+            <Link to={ `/commissions/clients/4/fleets/${fleet}/vehicles/${id}/${type}` } className='btn btn-info form-control'>
+              <span className='glyphicon glyphicon-euro' /> Commissions
+            </Link>
+          </div>
         </div>
       </div>
       <div className='card-content'>
