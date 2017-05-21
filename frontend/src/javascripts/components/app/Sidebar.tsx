@@ -47,7 +47,7 @@ const Sidebar: React.StatelessComponent<Props> = props => {
         <SidebarLink path='/vehicles'>{ T.translate('vehicle.vehicles') }</SidebarLink>
         <SidebarLink path='/log'>{ T.translate('log.log') }</SidebarLink>
         <SidebarLink path='/auth'>{ T.translate('auth.permissionSettings') }</SidebarLink>
-        <SidebarLink path='/commissions'>Commissions</SidebarLink>
+        <SidebarLink path='/commissions'>{ T.translate('commissions.commissions') }</SidebarLink>
       </ul>
       <ul className='nav session-actions'>
         <li className='plain'>
