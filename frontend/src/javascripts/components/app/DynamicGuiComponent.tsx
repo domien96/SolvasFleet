@@ -9,11 +9,7 @@ const DynamicGuiComponent: React.StatelessComponent<Props> = props => {
     return null;
   }
 
-  return (
-    <div>
-      props.children;
-    </div>
-  );
+  return React.Children.only(props.children);
 }
 
 export default DynamicGuiComponent;
