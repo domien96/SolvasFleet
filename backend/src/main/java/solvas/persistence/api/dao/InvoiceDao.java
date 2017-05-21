@@ -38,4 +38,5 @@ public interface InvoiceDao extends Dao<Invoice> {
      * @return The collection of invoices.
      */
     Collection<Invoice> findByTypeAndStartDateGreaterThanEqualAndEndDateLessThanEqual(InvoiceType type, LocalDateTime startDate, LocalDateTime endDate);
+
 }
