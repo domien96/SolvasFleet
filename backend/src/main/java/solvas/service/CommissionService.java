@@ -53,7 +53,7 @@ public class CommissionService extends AbstractService<Commission,ApiCommission>
             return result.map(s -> mapper.convertToApiModel(s));
 
         // 3rd priority : fleet specific
-        f.setVehicleType(null);
+        f.setVehicle(-1);
         result = modelDao.findAll(filters,pagination);
         if(result.hasContent())
             return result.map(s -> mapper.convertToApiModel(s));
@@ -65,13 +65,13 @@ public class CommissionService extends AbstractService<Commission,ApiCommission>
             return result.map(s -> mapper.convertToApiModel(s));
 
         // 4th priority : vehicle type specific
-        f.setVehicle(-1);
+        f.setCompany(-1);
         result = modelDao.findAll(filters,pagination);
         if(result.hasContent())
             return result.map(s -> mapper.convertToApiModel(s));
 
         // last priority : insurance type specific
-        f.setCompany(-1);
+        f.setVehicleType(null);
         result = modelDao.findAll(filters,pagination);
         return result.map(s -> mapper.convertToApiModel(s));
     }
