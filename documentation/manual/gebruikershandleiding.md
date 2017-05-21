@@ -89,19 +89,30 @@ In de tabel wordt het bedrijf en de vloot waartoe het voertuig behoort, het Vehi
 
 Om een nieuwe voertuig toe te voegen, drukt u op de knop `Add new vehicle`, rechtsboven de tabel met voertuigen. Het is ook mogelijk om nieuwe voertuigen toe te voegen door middel van een csv-file. Dit doet u door op `Choose File` te klikken boven de tabel. De eerste rij van de file moet de namen van de velden bevatten: vin, licensePlate, type, brand, model, fleet, mileage, value, year. De volgorde maakt hierin niets uit en enkel vin, brand, model en year zijn vereiste velden. Indien u een fout maakt wordt er een error getoond met wat de fout was en op welke rij deze voorkwam. Dit voor elke gemaakte fout. 
 
-Door op een voertuig te klikken wordt er naast de tabel meer informatie over het voertuig gegeven. Ook worden alle contracten van het voertuig weergegeven in een tabel. Het is mogelijk om contracten toe te voegen of te raadplegen. In dit scherm is het ook mogelijk de gegevens van het voertuig te wijzigen, door op `Edit` te klikken. Het is eveneens mogelijk het voertuig te verwijderen door op de `Archive` knop te drukken. Of ze weer actief te plaatsen als ze al gearchiveerd waren door op `Unarchive` te klikken.
+Door op een voertuig te klikken wordt er naast de tabel meer informatie over het voertuig gegeven. Ook worden alle contracten van het voertuig weergegeven in een tabel. Het is mogelijk om contracten toe te voegen of te raadplegen. In dit scherm is het ook mogelijk de gegevens van het voertuig te wijzigen, door op `Edit` te klikken. Het is eveneens mogelijk het voertuig te verwijderen door op de `Archive` knop te drukken. Of ze weer actief te plaatsen als ze al gearchiveerd waren door op `Unarchive` te klikken. 
 
 ### Voertuig toevoegen
 
 ![voertuig toevoegen](images/add_vehicle.png)
 
-Bij het klikken op `Add new vehicle` verschijnt dit formulier. Om een nieuw voertuig toe te voegen vult u de gegevens van het voertuig in, alsook de vloot waartoe het voertuig behoort, indien het tot een vloot behoort. De knop `Create vehicle` vervolledigt het toevoegproces. Na het toevoegen van een voertuig wordt u teruggestuurd naar de lijst van voertuigen, waar het nieuwe voertuig nu ook aan toegevoegd is.
+Bij het klikken op `Add new vehicle` verschijnt dit formulier. Om een nieuw voertuig toe te voegen vult u de gegevens van het voertuig in, alsook de vloot waartoe het voertuig behoort, indien het tot een vloot behoort. De knop `Create vehicle` vervolledigt het toevoegproces. Na het toevoegen van een voertuig wordt u teruggestuurd naar de lijst van voertuigen, waar het nieuwe voertuig nu ook aan toegevoegd is. Let bij het toevoegen van een voertuig dan het Vehicle Identification Number zeker het goede formaat heeft (voorbeeld vin: 1HGCM563X6A052210).
 
 ### Voertuig wijzigen
 
 ![voertuig wijzigen](images/update_vehicle.png)
 
 Bij het klikken op `Edit` verschijnt dit formulier. De gekende gegevens van het voertuig zijn reeds ingevuld. Het is mogelijk deze gegevens te veranderen of nieuwe gegevens toe te voegen. De knop `Update voertuig` vervolledigt het proces. Na het updaten van een voertuig wordt u teruggestuurd naar de lijst van voertuigen, waar u de wijzigingen kunt waarnemen.
+
+## Contracten
+
+### Contracten oplijsten
+
+Contracten worden opgelijst bij de voertuigen en bij eenderzijds het bedrijf dat het voertuig in zijn vloor heeft en anderzijds het leasing bedrijf die het voertuig bezit. Een nieuw contract toevoegen kan door op `Add new contract` te drukken bovenaan de lijst.
+
+### Contract toevoegen
+
+Bij het klikken op `Add new contract` verschijnt dit formulier. Om een nieuw contract toe te voegen vult u de gegevens van het contract in. De knop `Create vehicle` vervolledigt het toevoegproces. Na het toevoegen van een contract wordt u doorgestuurd naar een lijst van contracten, waar het nieuwe contract nu ook aan toegevoegd is. Let bij het toevoegen van een contract dat de start datum na vandaag ligt.
+
 
 ## Permissies en rollen 
 
