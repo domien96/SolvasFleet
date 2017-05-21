@@ -10,12 +10,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import solvas.authorization.CompanyExtractor;
 import solvas.persistence.api.EntityNotFoundException;
-import solvas.service.exceptions.UnarchivableException;
-import solvas.service.models.Company;
 import solvas.rest.api.models.ApiCompany;
 import solvas.rest.query.CompanyInListFilter;
 import solvas.rest.utils.PagedResult;
 import solvas.service.CompanyService;
+import solvas.service.exceptions.UnarchivableException;
+import solvas.service.models.Company;
 
 import javax.validation.Valid;
 import java.util.Collection;
@@ -29,7 +29,6 @@ import java.util.Collection;
 public class CompanyRestController extends AbstractRestController<Company,ApiCompany> {
 
     private final CompanyExtractor companyExtractor;
-    private final CompanyService companyService;
     /**
      * Rest controller for Company
      *
@@ -38,7 +37,6 @@ public class CompanyRestController extends AbstractRestController<Company,ApiCom
     @Autowired
     public CompanyRestController(CompanyService service, CompanyExtractor companyExtractor) {
         super(service);
-        this.companyService = service;
         this.companyExtractor = companyExtractor;
     }
 

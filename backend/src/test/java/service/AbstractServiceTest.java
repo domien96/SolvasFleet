@@ -151,6 +151,5 @@ public abstract class AbstractServiceTest<T extends Model, E extends ApiModel> {
         long count = 4;
         when(getDaoMock().count(any(Specification.class))).thenReturn(count);
         assertThat(getService().count(null), is(count));
-
     }
 }

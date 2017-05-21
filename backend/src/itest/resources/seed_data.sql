@@ -53,6 +53,7 @@ SELECT setval('companies_company_id_seq', (SELECT MAX(company_id) FROM companies
 SELECT setval('vehicles_vehicle_id_seq', (SELECT MAX(vehicle_id) FROM vehicles));
 SELECT setval('fleets_fleet_id_seq', (SELECT MAX(fleet_id) FROM fleets));
 SELECT setval('fleet_subscriptions_fleet_subscription_id_seq', (SELECT MAX(fleet_subscription_id) FROM fleet_subscriptions));
+
 SELECT setval('revisions_revision_id_seq', (SELECT MAX(revision_id) FROM revisions));
 
 INSERT INTO roles (role_id, function) VALUES (1, 'administrator'), (2,'test');
@@ -62,5 +63,12 @@ INSERT INTO functions (user_id, role_id, start_date) VALUES (1,1,now());
 
 INSERT INTO contracts (fleet_subscription_id, startDate,endDate,franchise,premium,company_id,insurance_type_id) VALUES (1,'2014-02-21','2015-11-16',100,100,1,1);
 
-INSERT INTO invoices (paid,fleet_id,start_date,end_date,type) VALUES (FALSE,1,'2014-02-21','2015-11-16',1);
- -- amount 3112.321,
+INSERT INTO invoices (invoice_id, paid,fleet_id,start_date,end_date,type) VALUES (1, FALSE,1,'2014-02-21','2014-03-16',1);
+INSERT INTO invoice_items (invoice_item_id,type, amount, invoice_id,contract_id, start_date,end_date, tax) VALUES(1, 'PAYMENT', 100, 1, 1, '2014-02-21','2015-11-16',5);
+
+
+INSERT INTO invoices (invoice_id, paid,fleet_id,start_date,end_date,type) VALUES (2, FALSE,1,'2014-03-16','2014-04-16',2);
+INSERT INTO invoice_items (invoice_item_id,type, amount, invoice_id,contract_id, start_date,end_date, tax) VALUES(2, 'PAYMENT', 100, 2, 1, '2014-02-21','2015-11-16',5);
+
+SELECT setval('revisions_revision_id_seq', (SELECT MAX(revision_id) FROM revisions));
+
