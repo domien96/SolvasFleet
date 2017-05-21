@@ -16,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextImpl;
 import solvas.persistence.api.Dao;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
+import solvas.persistence.api.dao.FunctionDao;
 import solvas.persistence.api.dao.UserDao;
 import solvas.rest.api.models.ApiUser;
 import solvas.service.AbstractService;
@@ -42,6 +43,8 @@ public class UserServiceTest extends AbstractServiceTest<User,ApiUser> {
     private DaoContext daoContextMock;
     @Mock
     private UserDao userDao;
+    @Mock
+    private FunctionDao functionDao;
 
     @Mock
     private UserMapper userMapper;
@@ -50,6 +53,7 @@ public class UserServiceTest extends AbstractServiceTest<User,ApiUser> {
     public void setUp() throws DependantEntityNotFound, EntityNotFoundException {
         super.setUp();
         when(daoContextMock.getUserDao()).thenReturn(userDao);
+        when(daoContextMock.getFunctionDao()).thenReturn(functionDao);
     }
 
     public UserServiceTest() {

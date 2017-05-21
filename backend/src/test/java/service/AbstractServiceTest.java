@@ -16,14 +16,11 @@ import solvas.service.mappers.AbstractMapper;
 import solvas.service.mappers.exceptions.DependantEntityNotFound;
 import solvas.service.models.Model;
 
-import java.util.List;
-
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -110,10 +107,4 @@ public abstract class AbstractServiceTest<T extends Model,E extends ApiModel> {
             assertThat(getService().count(null),is(count));
 
     }
-
-
-
-
-
-
 }

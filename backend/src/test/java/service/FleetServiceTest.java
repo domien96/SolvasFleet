@@ -6,6 +6,7 @@ import solvas.persistence.api.Dao;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.dao.FleetDao;
+import solvas.persistence.api.dao.FleetSubscriptionDao;
 import solvas.rest.api.models.ApiFleet;
 import solvas.service.AbstractService;
 import solvas.service.FleetService;
@@ -22,6 +23,8 @@ public class FleetServiceTest extends AbstractServiceTest<Fleet,ApiFleet>{
     private DaoContext daoContextMock;
     @Mock
     private FleetDao fleetDao;
+    @Mock
+    private FleetSubscriptionDao fleetSubscriptionDao;
 
     @Mock
     private FleetMapper fleetMapper;
@@ -30,6 +33,8 @@ public class FleetServiceTest extends AbstractServiceTest<Fleet,ApiFleet>{
     public void setUp() throws DependantEntityNotFound, EntityNotFoundException {
         super.setUp();
         when(daoContextMock.getFleetDao()).thenReturn(fleetDao);
+        when(daoContextMock.getFleetSubscriptionDao()).thenReturn(fleetSubscriptionDao);
+
     }
 
     public FleetServiceTest() {

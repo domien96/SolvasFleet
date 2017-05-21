@@ -1,12 +1,14 @@
 package service;
 
 import org.junit.Before;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import solvas.persistence.api.Dao;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.dao.CompanyDao;
+import solvas.persistence.api.dao.ContractDao;
+import solvas.persistence.api.dao.FleetDao;
+import solvas.persistence.api.dao.FunctionDao;
 import solvas.rest.api.models.ApiCompany;
 import solvas.service.AbstractService;
 import solvas.service.CompanyService;
@@ -23,6 +25,12 @@ public class CompanyServiceTest extends AbstractServiceTest<Company,ApiCompany> 
     private DaoContext daoContextMock;
     @Mock
     private CompanyDao companyDao;
+    @Mock
+    private ContractDao contractDao;
+    @Mock
+    private FleetDao fleetDao;
+    @Mock
+    private FunctionDao functionDao;
 
     @Mock
     private CompanyMapper companyMapper;
@@ -31,6 +39,9 @@ public class CompanyServiceTest extends AbstractServiceTest<Company,ApiCompany> 
     public void setUp() throws DependantEntityNotFound, EntityNotFoundException {
         super.setUp();
         when(daoContextMock.getCompanyDao()).thenReturn(companyDao);
+        when(daoContextMock.getContractDao()).thenReturn(contractDao);
+        when(daoContextMock.getFleetDao()).thenReturn(fleetDao);
+        when(daoContextMock.getFunctionDao()).thenReturn(functionDao);
     }
 
     public CompanyServiceTest() {
