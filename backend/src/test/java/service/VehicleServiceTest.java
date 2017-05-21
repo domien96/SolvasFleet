@@ -23,7 +23,7 @@ import static org.mockito.Mockito.when;
 /**
  * Test the vehicle service.
  */
-public class VehicleServiceTest extends AbstractServiceTest<Vehicle,ApiVehicle>{
+public class VehicleServiceTest extends AbstractServiceTest<Vehicle, ApiVehicle> {
 
     @Mock
     private DaoContext daoContextMock;
@@ -35,6 +35,13 @@ public class VehicleServiceTest extends AbstractServiceTest<Vehicle,ApiVehicle>{
     @Mock
     private VehicleMapper vehicleMapper;
 
+    /**
+     * Construct the test.
+     */
+    public VehicleServiceTest() {
+        super(Vehicle.class, ApiVehicle.class);
+    }
+
     @Before
     public void setUp() throws DependantEntityNotFound, EntityNotFoundException {
         super.setUp();
@@ -43,17 +50,9 @@ public class VehicleServiceTest extends AbstractServiceTest<Vehicle,ApiVehicle>{
         when(fleetSubscriptionDao.findByVehicleAndEndDateIsNull(any(Vehicle.class))).thenReturn(Optional.empty());
     }
 
-    /**
-     * Construct the test.
-     */
-    public VehicleServiceTest() {
-        super(Vehicle.class, ApiVehicle.class);
-    }
-
-
     @Override
-    protected AbstractService<Vehicle,ApiVehicle> getService() {
-        return new VehicleService(daoContextMock,vehicleMapper);
+    protected AbstractService<Vehicle, ApiVehicle> getService() {
+        return new VehicleService(daoContextMock, vehicleMapper);
     }
 
     @Override
@@ -62,7 +61,7 @@ public class VehicleServiceTest extends AbstractServiceTest<Vehicle,ApiVehicle>{
     }
 
     @Override
-    protected AbstractMapper<Vehicle,ApiVehicle> getMapperMock() {
+    protected AbstractMapper<Vehicle, ApiVehicle> getMapperMock() {
         return vehicleMapper;
     }
 }

@@ -20,7 +20,7 @@ import static org.mockito.Mockito.when;
 /**
  * Test the invoice service.
  */
-public class InvoiceServiceTest extends AbstractServiceTest<Invoice,ApiInvoice> {
+public class InvoiceServiceTest extends AbstractServiceTest<Invoice, ApiInvoice> {
 
     @Mock
     private DaoContext daoContextMock;
@@ -32,12 +32,6 @@ public class InvoiceServiceTest extends AbstractServiceTest<Invoice,ApiInvoice> 
     @Mock
     private InvoiceMapper invoiceMapper;
 
-    @Before
-    public void setUp() throws DependantEntityNotFound, EntityNotFoundException {
-        super.setUp();
-        when(daoContextMock.getInvoiceDao()).thenReturn(invoiceDao);
-    }
-
     /**
      * Construct the test.
      */
@@ -45,6 +39,11 @@ public class InvoiceServiceTest extends AbstractServiceTest<Invoice,ApiInvoice> 
         super(Invoice.class, ApiInvoice.class);
     }
 
+    @Before
+    public void setUp() throws DependantEntityNotFound, EntityNotFoundException {
+        super.setUp();
+        when(daoContextMock.getInvoiceDao()).thenReturn(invoiceDao);
+    }
 
     @Override
     protected AbstractService<Invoice, ApiInvoice> getService() {

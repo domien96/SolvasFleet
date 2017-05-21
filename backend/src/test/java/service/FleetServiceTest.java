@@ -20,7 +20,7 @@ import static org.mockito.Mockito.when;
 /**
  * Test the fleet service.
  */
-public class FleetServiceTest extends AbstractServiceTest<Fleet,ApiFleet>{
+public class FleetServiceTest extends AbstractServiceTest<Fleet, ApiFleet> {
 
     @Mock
     private DaoContext daoContextMock;
@@ -32,14 +32,6 @@ public class FleetServiceTest extends AbstractServiceTest<Fleet,ApiFleet>{
     @Mock
     private FleetMapper fleetMapper;
 
-    @Before
-    public void setUp() throws DependantEntityNotFound, EntityNotFoundException {
-        super.setUp();
-        when(daoContextMock.getFleetDao()).thenReturn(fleetDao);
-        when(daoContextMock.getFleetSubscriptionDao()).thenReturn(fleetSubscriptionDao);
-
-    }
-
     /**
      * Construct the test.
      */
@@ -47,6 +39,12 @@ public class FleetServiceTest extends AbstractServiceTest<Fleet,ApiFleet>{
         super(Fleet.class, ApiFleet.class);
     }
 
+    @Before
+    public void setUp() throws DependantEntityNotFound, EntityNotFoundException {
+        super.setUp();
+        when(daoContextMock.getFleetDao()).thenReturn(fleetDao);
+        when(daoContextMock.getFleetSubscriptionDao()).thenReturn(fleetSubscriptionDao);
+    }
 
     @Override
     protected AbstractService<Fleet, ApiFleet> getService() {

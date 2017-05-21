@@ -21,7 +21,7 @@ import static org.mockito.Mockito.when;
 /**
  * Test the contract service.
  */
-public class ContractServiceTest extends AbstractServiceTest<Contract,ApiContract>{
+public class ContractServiceTest extends AbstractServiceTest<Contract, ApiContract> {
 
     @Mock
     private DaoContext daoContextMock;
@@ -31,17 +31,17 @@ public class ContractServiceTest extends AbstractServiceTest<Contract,ApiContrac
     @Mock
     private ContractMapper contractMapper;
 
-    @Before
-    public void setUp() throws DependantEntityNotFound, EntityNotFoundException {
-        super.setUp();
-        when(daoContextMock.getContractDao()).thenReturn(contractDao);
-    }
-
     /**
      * Construct the test.
      */
     public ContractServiceTest() {
         super(Contract.class, ApiContract.class);
+    }
+
+    @Before
+    public void setUp() throws DependantEntityNotFound, EntityNotFoundException {
+        super.setUp();
+        when(daoContextMock.getContractDao()).thenReturn(contractDao);
     }
 
     @Override

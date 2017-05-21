@@ -39,8 +39,8 @@ import static org.mockito.Mockito.when;
  * Test the user service.
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest( SecurityContextHolder.class )
-public class UserServiceTest extends AbstractServiceTest<User,ApiUser> {
+@PrepareForTest(SecurityContextHolder.class)
+public class UserServiceTest extends AbstractServiceTest<User, ApiUser> {
 
     @Mock
     private DaoContext daoContextMock;
@@ -52,14 +52,6 @@ public class UserServiceTest extends AbstractServiceTest<User,ApiUser> {
     @Mock
     private UserMapper userMapper;
 
-    @Before
-    @Override
-    public void setUp() throws DependantEntityNotFound, EntityNotFoundException {
-        super.setUp();
-        when(daoContextMock.getUserDao()).thenReturn(userDao);
-        when(daoContextMock.getFunctionDao()).thenReturn(functionDao);
-    }
-
     /**
      * Construct the test.
      */
@@ -67,6 +59,13 @@ public class UserServiceTest extends AbstractServiceTest<User,ApiUser> {
         super(User.class, ApiUser.class);
     }
 
+    @Before
+    @Override
+    public void setUp() throws DependantEntityNotFound, EntityNotFoundException {
+        super.setUp();
+        when(daoContextMock.getUserDao()).thenReturn(userDao);
+        when(daoContextMock.getFunctionDao()).thenReturn(functionDao);
+    }
 
     @Override
     protected AbstractService<User, ApiUser> getService() {
@@ -90,7 +89,7 @@ public class UserServiceTest extends AbstractServiceTest<User,ApiUser> {
         PowerMockito.mockStatic(SecurityContextHolder.class);
 
         SecurityContext securityContext = new SecurityContextImpl();
-        securityContext.setAuthentication( new Authentication() {
+        securityContext.setAuthentication(new Authentication() {
             @Override
             public Collection<? extends GrantedAuthority> getAuthorities() {
                 return null;
@@ -135,6 +134,6 @@ public class UserServiceTest extends AbstractServiceTest<User,ApiUser> {
 
         ArgumentCaptor<Integer> captor = ArgumentCaptor.forClass(Integer.class);
         verify(getDaoMock()).archive(captor.capture());
-        assertThat(captor.getValue(),is(2));
+        assertThat(captor.getValue(), is(2));
     }
 }

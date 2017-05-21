@@ -22,7 +22,7 @@ import static org.mockito.Mockito.when;
 /**
  * Test the company service.
  */
-public class CompanyServiceTest extends AbstractServiceTest<Company,ApiCompany> {
+public class CompanyServiceTest extends AbstractServiceTest<Company, ApiCompany> {
 
     @Mock
     private DaoContext daoContextMock;
@@ -38,6 +38,13 @@ public class CompanyServiceTest extends AbstractServiceTest<Company,ApiCompany> 
     @Mock
     private CompanyMapper companyMapper;
 
+    /**
+     * Construct the test.
+     */
+    public CompanyServiceTest() {
+        super(Company.class, ApiCompany.class);
+    }
+
     @Before
     public void setUp() throws DependantEntityNotFound, EntityNotFoundException {
         super.setUp();
@@ -47,17 +54,9 @@ public class CompanyServiceTest extends AbstractServiceTest<Company,ApiCompany> 
         when(daoContextMock.getFunctionDao()).thenReturn(functionDao);
     }
 
-    /**
-     * Construct the test.
-     */
-    public CompanyServiceTest() {
-        super(Company.class, ApiCompany.class);
-    }
-
-
     @Override
     protected AbstractService<Company, ApiCompany> getService() {
-        return new CompanyService(daoContextMock,companyMapper);
+        return new CompanyService(daoContextMock, companyMapper);
     }
 
     @Override
