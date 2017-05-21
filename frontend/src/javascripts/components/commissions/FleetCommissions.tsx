@@ -20,11 +20,8 @@ class FleetCommissions extends React.Component<Props, {}> {
     this.putCommission = this.putCommission.bind(this);
   }
 
-  fetchF
-
-
-  putCommission(vehicleType: string, insuranceType: string, commission: CommissionData, success?: callback, fail?: callback) {
-    putCommission(vehicleType, insuranceType, commission, success, fail);
+  putCommission(commission: CommissionData, success?: callback, fail?: callback) {
+    putCommission(commission, success, fail);
   }
 
   fetchCommission(vehicleType: string, insuranceType: string, success?: callback, fail?: callback) {
@@ -37,7 +34,12 @@ class FleetCommissions extends React.Component<Props, {}> {
         <Header>
           <h2>{ T.translate('commissions.fleet') }</h2>
         </Header>
-        <CommissionGroupForm fetchCommission={ this.fetchCommission } putCommission={ this.putCommission } returnTo={ "/" } companyId={ Number(this.props.params.companyId) } fleetId={ Number(this.props.params.fleetId) }/>
+        <CommissionGroupForm
+          fetchCommission={ this.fetchCommission }
+          putCommission={ this.putCommission }
+          returnTo={ `/clients/${this.props.params.companyId}/fleets/${this.props.params.fleetId}` }
+          companyId={ Number(this.props.params.companyId) }
+          fleetId={ Number(this.props.params.fleetId) }/>
       </div>
     );
   }

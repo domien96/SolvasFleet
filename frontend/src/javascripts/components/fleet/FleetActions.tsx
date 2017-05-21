@@ -23,7 +23,7 @@ const FleetActions: React.StatelessComponent<Props> = props => {
         <div className='actions pull-right'>
 
             <Link to={ `/commissions/clients/${props.companyId}/fleets/${props.fleetId}` } className='btn btn-default '>
-              <span className='glyphicon glyphicon-edit' /> Commissions
+              <span className='glyphicon glyphicon-euro' /> Commissions
             </Link>
           <Confirm
             onConfirm={ props.callToArchive }

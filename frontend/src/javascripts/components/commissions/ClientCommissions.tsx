@@ -17,8 +17,8 @@ class ClientCommissions extends React.Component<Props, {}> {
     this.putCommission = this.putCommission.bind(this);
   }
 
-  putCommission(vehicleType: string, insuranceType: string, commission: CommissionData, success?: callback, fail?: callback) {
-    putCommission(vehicleType, insuranceType, commission, success, fail);
+  putCommission(commission: CommissionData, success?: callback, fail?: callback) {
+    putCommission(commission, success, fail);
   }
 
   fetchCommission(vehicleType: string, insuranceType: string, success?: callback, fail?: callback) {
@@ -31,7 +31,13 @@ class ClientCommissions extends React.Component<Props, {}> {
         <Header>
           <h2>{ T.translate('commissions.client') }</h2>
         </Header>
-        <CommissionGroupForm fetchCommission={ this.fetchCommission } putCommission={ this.putCommission } returnTo={ "/" } companyId={ Number(this.props.params.companyId) } fleetId={ 0 }/>
+        <CommissionGroupForm
+          fetchCommission={ this.fetchCommission }
+          putCommission={ this.putCommission }
+          returnTo={ `/clients/${this.props.params.companyId}` }
+          companyId={ Number(this.props.params.companyId) }
+          fleetId={ 0 }
+          />
       </div>
     );
   }

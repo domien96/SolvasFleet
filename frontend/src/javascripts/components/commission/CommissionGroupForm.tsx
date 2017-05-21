@@ -1,8 +1,6 @@
 import React from 'react';
 
-import Header from '../app/Header.tsx';
 import Actions from '../forms/Actions.tsx';
-import T from 'i18n-react';
 import CommissionGroup from './CommissionGroup.tsx';
 import { callback } from '../../actions/fetch_json.ts';
 import { redirect_to } from '../../routes/router.tsx';
@@ -122,15 +120,16 @@ class CommissionGroupForm extends React.Component<Props, State> {
     const updatedCommissionGroups = vehicleTypes.map((d) => this.state.commissions[d]);
     const initialCommissions = _.flatten(initialCommissionGroups.map( group => insuranceTypes.map((i) => group[i])));
     const updatedCommissions = _.flatten(updatedCommissionGroups.map( group => insuranceTypes.map((i) => group[i])));
-    const diff = _.differenceWith(updatedCommissions, initialCommissions, (a,b)=>{ return a.value === b.value && a.insuranceType === b.insuranceType && a.vehicleType === b.vehicleType });
+    const diff = _.differenceWith(updatedCommissions, initialCommissions, (a: CommissionData, b: CommissionData) =>
+      ( a.value === b.value && a.insuranceType === b.insuranceType && a.vehicleType === b.vehicleType ));
     return diff;
   }
 
   putCommissions() {
     const diff = this.getChanges();
     if(diff.length !== 0) {
-      let success = (data: any) => {
-        for(let i=0;i<(diff.length-1);i++) {
+      let success = () => {
+        for(let i=0; i < (diff.length-1); i++) {
           this.props.putCommission(diff[i]);
         }
         redirect_to(this.props.returnTo);
