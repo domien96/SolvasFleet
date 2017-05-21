@@ -84,6 +84,7 @@ public class MapperContext {
         mapperForClass.put(Tax.class,taxMapper);
         mapperForClass.put(User.class,userMapper);
         mapperForClass.put(Vehicle.class,vehicleMapper);
+        mapperForClass.put(FleetSubscription.class,vehicleMapper);
         mapperForClass.put(VehicleType.class,vehicleTypeMapper);
         mapperForClass.put(Commission.class,commissionMapper);
     }

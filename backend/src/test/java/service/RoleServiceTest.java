@@ -17,7 +17,10 @@ import solvas.service.models.Role;
 
 import static org.mockito.Mockito.when;
 
-public class RoleServiceTest extends AbstractServiceTest<Role,ApiRole> {
+/**
+ * Test the role service.
+ */
+public class RoleServiceTest extends AbstractServiceTest<Role, ApiRole> {
 
     @Mock
     private DaoContext daoContextMock;
@@ -30,18 +33,20 @@ public class RoleServiceTest extends AbstractServiceTest<Role,ApiRole> {
     @Mock
     private RoleMapper roleMapper;
 
-    @Before
-    public void setUp() throws DependantEntityNotFound, EntityNotFoundException {
-        super.setUp();
-        when(daoContextMock.getRoleDao()).thenReturn(roleDao);
-        when(daoContextMock.getFunctionDao()).thenReturn(functionDao);
-
-    }
-
+    /**
+     * Construct the test.
+     */
     public RoleServiceTest() {
         super(Role.class, ApiRole.class);
     }
 
+    @Before
+    @Override
+    public void setUp() throws DependantEntityNotFound, EntityNotFoundException {
+        super.setUp();
+        when(daoContextMock.getRoleDao()).thenReturn(roleDao);
+        when(daoContextMock.getFunctionDao()).thenReturn(functionDao);
+    }
 
     @Override
     protected AbstractService<Role, ApiRole> getService() {
@@ -49,7 +54,7 @@ public class RoleServiceTest extends AbstractServiceTest<Role,ApiRole> {
     }
 
     @Override
-    protected Dao getDaoMock() {
+    protected Dao<Role> getDaoMock() {
         return roleDao;
     }
 

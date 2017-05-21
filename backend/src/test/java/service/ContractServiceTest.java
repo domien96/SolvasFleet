@@ -6,20 +6,22 @@ import solvas.persistence.api.Dao;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.dao.ContractDao;
-import solvas.rest.api.models.ApiCompany;
 import solvas.rest.api.models.ApiContract;
 import solvas.service.AbstractService;
-import solvas.service.CompanyService;
 import solvas.service.ContractService;
+import solvas.service.exceptions.UnarchivableException;
 import solvas.service.mappers.AbstractMapper;
 import solvas.service.mappers.ContractMapper;
 import solvas.service.mappers.exceptions.DependantEntityNotFound;
-import solvas.service.models.Company;
 import solvas.service.models.Contract;
 
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.when;
 
-public class ContractServiceTest extends AbstractServiceTest<Contract,ApiContract>{
+/**
+ * Test the contract service.
+ */
+public class ContractServiceTest extends AbstractServiceTest<Contract, ApiContract> {
 
     @Mock
     private DaoContext daoContextMock;
@@ -29,16 +31,19 @@ public class ContractServiceTest extends AbstractServiceTest<Contract,ApiContrac
     @Mock
     private ContractMapper contractMapper;
 
-    @Before
-    public void setUp() throws DependantEntityNotFound, EntityNotFoundException {
-        super.setUp();
-        when(daoContextMock.getContractDao()).thenReturn(contractDao);
-    }
-
+    /**
+     * Construct the test.
+     */
     public ContractServiceTest() {
         super(Contract.class, ApiContract.class);
     }
 
+    @Before
+    @Override
+    public void setUp() throws DependantEntityNotFound, EntityNotFoundException {
+        super.setUp();
+        when(daoContextMock.getContractDao()).thenReturn(contractDao);
+    }
 
     @Override
     protected AbstractService<Contract, ApiContract> getService() {
@@ -46,12 +51,18 @@ public class ContractServiceTest extends AbstractServiceTest<Contract,ApiContrac
     }
 
     @Override
-    protected Dao getDaoMock() {
+    protected Dao<Contract> getDaoMock() {
         return contractDao;
     }
 
     @Override
     protected AbstractMapper<Contract, ApiContract> getMapperMock() {
         return contractMapper;
+    }
+
+    @Override
+    public void archive() throws EntityNotFoundException, UnarchivableException {
+        when(getDaoMock().find(anyInt())).thenReturn(getTestModel());
+        super.archive();
     }
 }
