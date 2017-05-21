@@ -111,7 +111,13 @@ Contracten worden opgelijst bij de voertuigen en bij eenderzijds het bedrijf dat
 
 ### Contract toevoegen
 
-Bij het klikken op `Add new contract` verschijnt dit formulier. Om een nieuw contract toe te voegen vult u de gegevens van het contract in. De knop `Create vehicle` vervolledigt het toevoegproces. Na het toevoegen van een contract wordt u doorgestuurd naar een lijst van contracten, waar het nieuwe contract nu ook aan toegevoegd is. Let bij het toevoegen van een contract dat de start datum na vandaag ligt.
+Bij het klikken op `Add new contract` verschijnt dit formulier. Om een nieuw contract toe te voegen vult u de gegevens van het contract in. De knop `Create vehicle` vervolledigt het toevoegproces. Na het toevoegen van een contract wordt u doorgestuurd naar een lijst van contracten, waar het nieuwe contract nu ook aan toegevoegd is.
+
+## Logboek
+
+### Gebeurtenissen oplijsten
+
+Hier worden alle gebeurtenissen op de app gelogd. Het is mogelijk te filteren op datum, methode, type en welke gebruiker de wijziging gedaan heeft. Indien je op een gebeurtenis klikt krijg je te zien welke wijziging er effectief doorgevoerd is. Bij een update wordt er in het geel aangeduid welk veld er gewijzigd is.
 
 
 ## Permissies en rollen 
@@ -122,12 +128,14 @@ Bij het klikken op `Add new contract` verschijnt dit formulier. Om een nieuw con
 
 Bij het klikken op `Permission Settings` in de navigatiebalk, krijgt u een lijst te zien van de verschillende rollen. Door op een rol te klikken kan u zien welke permissies aangevinkt zijn en ze eventueel wijzigen. Het is ook mogelijk een nieuwe rol toe te voegen door op `Add new role` te klikken.
 
-
 ### Rollen oplijsten
 
 ![rol toevoegen](images/add_role.png)
 
 Bij het klikken op `Add new role` wordt u doorgestuurd naar een formulier waar u de naam van de nieuwe rol invult en de juiste permissies aanvinkt.
 
+## De taal wijzigen
+
+Linksonderaan op de actiebalk kan je kiezen welke taal je wenst te gebruiken. Op dit ogenblik is er keuze tussen Engels en Nederlands. 
 
 
