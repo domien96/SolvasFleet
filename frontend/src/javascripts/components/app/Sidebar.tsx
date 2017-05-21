@@ -2,11 +2,10 @@ import React from 'react';
 import { Link } from 'react-router';
 import classNames from 'classnames';
 import { slide as Menu } from 'react-burger-menu';
-import LanguageSwitcher from './LanguageSwitcher.tsx';
 import T from 'i18n-react';
-import _ from 'lodash';
-import { parseClaims } from '../../modules/Auth.ts';
 
+import LanguageSwitcher from './LanguageSwitcher.tsx';
+import DynamicGuiComponent from '../app/DynamicGuiComponent.tsx';
 
 import Auth from '../../modules/Auth.ts';
 
@@ -21,17 +20,19 @@ class SidebarLink extends React.Component<SProps, {}> {
   };
 
   render() {
-    const classes = classNames({ active: this.context.location.pathname.includes(this.props.path) });
+    const classes = classNames({
+      active: this.context.location.pathname.includes(this.props.path)
+    });
 
-    const comp = (
-      <li className={ classes } >
-        <Link to={ this.props.path }>
-          { this.props.children }
-        </Link>
-      </li>
+    return (
+      <DynamicGuiComponent authorized={ this.props.authorized }>
+        <li className={ classes } >
+          <Link to={ this.props.path }>
+            { this.props.children }
+          </Link>
+        </li>
+      </DynamicGuiComponent>
     );
-
-    return this.props.authorized ? comp : null;
   }
 }
 

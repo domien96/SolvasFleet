@@ -107,10 +107,10 @@ class Vehicle extends React.Component<Props, State> {
 
   handleGetFleetName(id: number) {
     if (this.state.fleets.length > 0 && id) {
-      const fleet = this.state.fleets.filter((f: FleetData) => {
+      const fleet = this.state.fleets.find((f: FleetData) => {
         return (id === f.id);
       });
-      return fleet[0].name;
+      return fleet.name;
     }
     return id.toString();
   }

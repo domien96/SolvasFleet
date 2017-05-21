@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router';
-import { fetchContracts } from '../../actions/contract_actions.ts';
 
 interface LProps {
   id: number | string;
