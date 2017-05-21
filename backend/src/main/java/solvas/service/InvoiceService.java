@@ -88,15 +88,6 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
     }
 
     /**
-     * Finds all types of insurance in the database
-     *
-     * @return types of insurance
-     */
-    public Collection<String> findAllInsuranceTypes() {
-        return context.getInsuranceTypeDao().findAll().stream().map(InsuranceType::getName).collect(Collectors.toSet());
-    }
-
-    /**
      * Find the current invoice for a fleet and a type.
      *
      * @param fleetId The ID of the fleet.
@@ -393,7 +384,8 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
         Set<InvoiceItem> corrections = fleet.getSubscriptions().stream()
                 .map(FleetSubscription::getContracts)
                 .flatMap(Set::stream)
-                .map(contract -> invoiceCorrector.correctionItemsForContract(
+                .map(contract ->
+                        invoiceCorrector.correctionItemsForContract(
                         contract,
                         lastDate,
                         fleet.getPaymentPeriod()))

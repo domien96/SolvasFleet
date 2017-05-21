@@ -50,7 +50,7 @@ public abstract class AbstractRestControllerTest<T extends Model,E extends ApiMo
     @Test
     public void getModelByIdNoError() throws Exception {
         when(getService().getById(anyInt())).thenReturn(getTestModel());
-        ResultActions res =getMockMvc().perform(get(getIdUrl()))
+        ResultActions res = getMockMvc().perform(get(getIdUrl()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
         matchJsonModel(res,getTestModel());
@@ -120,7 +120,7 @@ public abstract class AbstractRestControllerTest<T extends Model,E extends ApiMo
      */
     @Test
     public void putModelNoError() throws Exception {
-        when(getService().update(anyInt(),any())).thenReturn(getTestModel());
+        when(getService().update(anyInt(), any())).thenReturn(getTestModel());
         ResultActions resultActions =
                 getMockMvc()
                         .perform(put(getIdUrl())
@@ -128,7 +128,7 @@ public abstract class AbstractRestControllerTest<T extends Model,E extends ApiMo
                                 .content(getTestJson()))
                         .andExpect(status().isOk())
                         .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
-        matchJsonModel(resultActions,getTestModel());
+        matchJsonModel(resultActions, getTestModel());
     }
 
     /**

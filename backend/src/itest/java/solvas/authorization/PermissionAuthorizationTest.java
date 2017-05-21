@@ -36,6 +36,12 @@ public class PermissionAuthorizationTest extends AbstractAuthorizationTest {
     public void userCantPostModel() {}
 
     @Override
+    public void userCanPutModel() {}
+
+    @Override
+    public void userCantPutModel() {}
+
+    @Override
     public void userCanDeleteModel() {}
 
     @Override

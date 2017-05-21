@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.ViewResolver;
 import solvas.rest.greencard.pdf.GreenCardPdfView;
-import solvas.service.models.Vehicle;
 
 import java.util.HashMap;
 import java.util.Locale;

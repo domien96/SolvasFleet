@@ -1,10 +1,7 @@
 package solvas.rest;
 
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.test.web.servlet.ResultActions;
 import solvas.authorization.CompanyExtractor;
-import solvas.service.models.Company;
 import solvas.rest.api.models.ApiCompany;
 import solvas.rest.controller.AbstractRestController;
 import solvas.rest.controller.CompanyRestController;

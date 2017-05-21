@@ -16,7 +16,7 @@ public class CompanyPermissionEvaluator extends AbstractPermissionEvaluator<Comp
 
     {
         registerPermissionDecider("MANAGE_FLEETS", this::canManageFleets);
-        registerPermissionDecider("LIST_FLEETS", this::canListFLeets);
+        registerPermissionDecider("LIST_FLEETS", this::canListFleets);
     }
 
     /**
@@ -53,7 +53,7 @@ public class CompanyPermissionEvaluator extends AbstractPermissionEvaluator<Comp
      *
      * @return True if the user can.
      */
-    public boolean canListFLeets(Authentication authentication, Company model) {
+    public boolean canListFleets(Authentication authentication, Company model) {
         return hasScope(authentication, READ_COMPANY_FLEETS, model.getId(), READ_COMPANIES_FLEETS);
     }
 

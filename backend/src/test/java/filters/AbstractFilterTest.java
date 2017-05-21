@@ -17,6 +17,7 @@ import javax.persistence.criteria.Root;
 import java.util.Collection;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -41,7 +42,7 @@ public abstract class AbstractFilterTest<T extends Model> {
     public void setUp()
     {
         when(rootMock.join(Matchers.anyString())).thenReturn(join);
-        when(criteriaBuilderMock.equal(Matchers.any(),Matchers.any())).thenReturn(predicate);
+        when(criteriaBuilderMock.equal(any(),any())).thenReturn(predicate);
         when(join.join(Matchers.anyString())).thenReturn(join);
     }
 
@@ -58,11 +59,19 @@ public abstract class AbstractFilterTest<T extends Model> {
     {
 
         Collection<Predicate> predicates=getFilterWithBadParameters().asPredicates(criteriaBuilderMock,rootMock);
-        assertEquals("Amount of predicates",1,predicates.size());
+        assertEquals("Amount of predicates",emptyFilterParameterSize(),predicates.size());
     }
 
     abstract Filter<T> getFilterWithCorrectParameters();
     abstract Filter<T> getFilterWithBadParameters();
 
     abstract int parameterSize();
+
+    /**
+     *
+     * @return Expected amount of predicates on an empty filter
+     */
+    protected int emptyFilterParameterSize() {
+        return 1;
+    }
 }
