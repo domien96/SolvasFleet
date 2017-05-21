@@ -30,7 +30,7 @@ class GlobalCommissions extends React.Component<Props, {}> {
     return (
       <div>
         <Header>
-          <h2>{ T.translate('commissions.vehicle') }</h2>
+          <h2>{ T.translate('commission.vehicle') }</h2>
         </Header>
         <VehicleCommissionForm fetchCommission={ this.fetchCommission }
           putCommission={ this.putCommission }

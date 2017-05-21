@@ -21,8 +21,7 @@ const FleetActions: React.StatelessComponent<Props> = props => {
 
         <h3><label>{ T.translate('fleet.actions') }</label></h3>
         <div className='actions pull-right'>
-
-            <Link to={ `/commissions/clients/${props.companyId}/fleets/${props.fleetId}` } className='btn btn-default '>
+            <Link to={ `/commissions/clients/${props.companyId}/fleets/${props.fleetId}` } className='btn btn-info '>
               <span className='glyphicon glyphicon-euro' /> Commissions
             </Link>
           <Confirm

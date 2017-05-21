@@ -165,5 +165,6 @@ commission:
   driverInsurance: Bestuurdersverzekering
   travelInsurance: Reisverzekering
   legalAid: Legale hulp
-  client: Commissies van een klant
-  vehicle: Commissies van een voertuig
+  client: Commissies van
+  vehicle: Commissies van
+  fleet: Commissies van

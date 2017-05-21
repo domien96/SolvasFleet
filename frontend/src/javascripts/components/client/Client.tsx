@@ -87,7 +87,7 @@ class Client extends React.Component<Props, State> {
                       </Link>
                     </div>
                     <div className='col-sm-3'>
-                      <Link to={ `/commissions/clients/${id}` } className='btn btn-default form-control'>
+                      <Link to={ `/commissions/clients/${id}` } className='btn btn-info form-control'>
                         <span className='glyphicon glyphicon-euro' /> Commissions
                       </Link>
                     </div>

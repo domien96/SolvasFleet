@@ -220,5 +220,6 @@ commission:
   driverInsurance: Driver Insurance
   travelInsurance: Travel Insurance
   legalAid: Legal Aid
-  client: Commissions of Client
-  vehicle: Commissions of Vehicle
+  client: Commissions of
+  vehicle: Commissions of
+  fleet: Commissions of

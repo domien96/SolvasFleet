@@ -3,6 +3,8 @@ import Header from '../app/Header.tsx';
 import CommissionGroupForm from '../commission/CommissionGroupForm.tsx';
 import T from 'i18n-react';
 import { fetchCommissionOfFleet, putCommission } from '../../actions/commission_actions.ts';
+import { fetchClient } from '../../actions/client_actions.ts';
+import { fetchFleet } from '../../actions/'
 import { callback } from '../../actions/fetch_json.ts';
 
 interface State {
@@ -32,7 +34,7 @@ class FleetCommissions extends React.Component<Props, {}> {
     return (
       <div>
         <Header>
-          <h2>{ T.translate('commissions.fleet') }</h2>
+          <h2>{ T.translate('commission.fleet') }</h2>
         </Header>
         <CommissionGroupForm
           fetchCommission={ this.fetchCommission }
