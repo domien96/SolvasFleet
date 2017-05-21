@@ -5,7 +5,7 @@ import { slide as Menu } from 'react-burger-menu';
 import { fetchUser } from '../../actions/user_actions.ts';
 import T from 'i18n-react';
 import DynamicGuiComponent from '../app/DynamicGuiComponent.tsx';
-
+import LanguageSwitcher from './LanguageSwitcher.tsx';
 import Auth from '../../modules/Auth.ts';
 
 interface SProps {
