@@ -18,7 +18,6 @@ import solvas.service.models.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -32,7 +31,7 @@ public class AuditInterceptor extends EmptyInterceptor {
 
     private DaoContext daoContext;
     private MapperContext mapperContext;
-    private HashMap<Object, Revision> transactionRevisions = new HashMap<>();
+    private ThreadLocal<HashMap<Object, Revision>> transactionRevisions = ThreadLocal.withInitial(HashMap::new);
     private ObjectMapper objectMapper;
 
     /**
@@ -41,7 +40,7 @@ public class AuditInterceptor extends EmptyInterceptor {
      */
     private User getAuthenticatedUser() {
         try {
-            return daoContext.getUserDao().findByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+            return daoContext.getUserDao().find(Integer.valueOf(SecurityContextHolder.getContext().getAuthentication().getName()));
         } catch (EntityNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -60,11 +59,16 @@ public class AuditInterceptor extends EmptyInterceptor {
 
         //make revision
         Revision revision = new Revision();
-        revision.setMethod(MethodType.UPDATE);
+
+        if (((Model) entity).isArchived()){
+            revision.setMethod(MethodType.ARCHIVE);
+        } else {
+            revision.setMethod(MethodType.UPDATE);
+        }
 
 
         // Connect revision with a entity
-        transactionRevisions.put(entity, revision);
+        transactionRevisions.get().put(entity, revision);
         return false; // We do not make changes
     }
 
@@ -81,16 +85,12 @@ public class AuditInterceptor extends EmptyInterceptor {
 
         // Make revision
         Revision revision = new Revision();
-        if (((Model) entity).isArchived()){
-            revision.setMethod(MethodType.ARCHIVE);
-        } else {
-            revision.setMethod(MethodType.INSERT);
-        }
+        revision.setMethod(MethodType.INSERT);
 
 
 
         // Connect revision with a entity
-        transactionRevisions.put(entity, revision);
+        transactionRevisions.get().put(entity, revision);
         return false; // We do not make changes
     }
 
@@ -110,7 +110,7 @@ public class AuditInterceptor extends EmptyInterceptor {
         revision.setMethod(MethodType.DELETE);
 
         // Connect revision with a entity
-        transactionRevisions.put(entity, revision);
+        transactionRevisions.get().put(entity, revision);
     }
 
     /**
@@ -127,14 +127,12 @@ public class AuditInterceptor extends EmptyInterceptor {
         }
         try {
             // Set type of entity
-
             String[] className = EntityType.fromClass(about.getClass()).split("\\.");
             revision.setEntityType(className[className.length-1]);
-
             if (revision.getMethod().equals(MethodType.DELETE)){
                 revision.setPayload("");
             } else {
-                revision.setPayload(objectMapper.writeValueAsString(mapperContext.getMapperForClass(about.getClass()).convertToApiModel((Model) about)));
+                revision.setPayload(objectMapper.writeValueAsString(mapperContext.getMapperForClass(entity.getClass()).convertToApiModel((Model) about)));
             }
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e); // Can we even catch an exception at this point
@@ -149,7 +147,7 @@ public class AuditInterceptor extends EmptyInterceptor {
 
         final LocalDateTime transactionDateTime = LocalDateTime.now();
 
-        transactionRevisions.forEach((key, value) -> {
+        transactionRevisions.get().forEach((key, value) -> {
             // No dao operations can be made before flush
             // Set logged in user
             value.setUser(getAuthenticatedUser());
@@ -184,7 +182,8 @@ public class AuditInterceptor extends EmptyInterceptor {
 
     @Override
     public void afterTransactionCompletion(Transaction tx) {
-        transactionRevisions.clear(); // Clean used map, as the same interceptor is used while running spring
+        transactionRevisions.get().clear(); // Clean used map, as the same interceptor is used while running spring
+        transactionRevisions.remove();
     }
 
 

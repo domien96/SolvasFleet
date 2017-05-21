@@ -10,7 +10,6 @@ import solvas.persistence.api.dao.ContractDao;
 import solvas.persistence.api.dao.InvoiceDao;
 import solvas.persistence.api.dao.TaxDao;
 import solvas.rest.api.models.ApiInvoice;
-import solvas.service.AbstractService;
 import solvas.service.InvoiceService;
 import solvas.service.invoices.InvoiceCorrector;
 import solvas.service.mappers.AbstractMapper;
@@ -26,12 +25,14 @@ import java.util.Optional;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
 
-public class InvoiceServiceTest extends AbstractServiceTest<Invoice,ApiInvoice> {
+/**
+ * Test the invoice service.
+ */
+public class InvoiceServiceTest extends AbstractServiceTest<Invoice, ApiInvoice> {
 
     @Mock
     private DaoContext daoContextMock;
@@ -46,8 +47,15 @@ public class InvoiceServiceTest extends AbstractServiceTest<Invoice,ApiInvoice> 
     private TaxDao taxDao;
     @Mock
     private ContractDao contractDao;
+    /**
+     * Construct the test.
+     */
+    public InvoiceServiceTest() {
+        super(Invoice.class, ApiInvoice.class);
+    }
 
     @Before
+    @Override
     public void setUp() throws DependantEntityNotFound, EntityNotFoundException {
         super.setUp();
         when(daoContextMock.getInvoiceDao()).thenReturn(invoiceDao);
@@ -57,18 +65,13 @@ public class InvoiceServiceTest extends AbstractServiceTest<Invoice,ApiInvoice> 
         invoiceCorrector = new InvoiceCorrector(daoContextMock);
     }
 
-    public InvoiceServiceTest() {
-        super(Invoice.class, ApiInvoice.class);
-    }
-
-
     @Override
     protected InvoiceService getService() {
         return new InvoiceService(daoContextMock, invoiceMapper, invoiceCorrector);
     }
 
     @Override
-    protected Dao getDaoMock() {
+    protected Dao<Invoice> getDaoMock() {
         return invoiceDao;
     }
 

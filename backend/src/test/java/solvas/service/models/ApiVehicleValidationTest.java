@@ -2,7 +2,6 @@ package solvas.service.models;
 
 import org.hibernate.validator.HibernateValidator;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -22,9 +21,11 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 /**
@@ -89,7 +90,6 @@ public class ApiVehicleValidationTest extends ValidationTest {
      * Test that the vin number is being validated.
      */
     @Test
-    @Ignore
     public void testVin() {
         String vinField = "vin";
         ApiVehicle vehicle = random(ApiVehicle.class, vinField);
@@ -103,18 +103,26 @@ public class ApiVehicleValidationTest extends ValidationTest {
         emulateVinConstraint(vehicle.getVin(), false);
         Set<ConstraintViolation<ApiVehicle>> v = validator.validate(vehicle);
         assertEquals(2, v.size());
-        assertEquals("vin", v.iterator().next().getPropertyPath().iterator().next().getName());
-
+        Set<String> exceptions = v.stream()
+                .map(violation -> violation.getPropertyPath().iterator().next().getName())
+                .collect(Collectors.toSet());
+        assertTrue(exceptions.contains(vinField));
 
         vehicle.setVin("");
         v = validator.validate(vehicle);
         assertEquals(2, v.size());
-        assertEquals(vinField, v.iterator().next().getPropertyPath().iterator().next().getName());
+        exceptions = v.stream()
+                .map(violation -> violation.getPropertyPath().iterator().next().getName())
+                .collect(Collectors.toSet());
+        assertTrue(exceptions.contains(vinField));
 
         vehicle.setVin(null);
         v = validator.validate(vehicle);
         assertEquals(2, v.size());
-        assertEquals(vinField, v.iterator().next().getPropertyPath().iterator().next().getName());
+        exceptions = v.stream()
+                .map(violation -> violation.getPropertyPath().iterator().next().getName())
+                .collect(Collectors.toSet());
+        assertTrue(exceptions.contains(vinField));
     }
 
     /**

@@ -1,6 +1,7 @@
 import React from 'react';
 import UserFilterLayout from './UserFilterLayout.tsx';
 import HiddenFilter from '../../filters/HiddenFilter.tsx';
+import T from 'i18n-react';
 
 interface FilterProps {
   users: UserData[];
@@ -13,23 +14,26 @@ interface FilterState {
   firstNameData: string[];
   lastNameData: string[];
   emailData: string[];
+  sortDisplay: string;
 }
 
 class UserFilter extends React.Component<FilterProps, FilterState> {
   constructor() {
     super();
     this.state = {
-      filter: { firstName: '', lastName: '', email: '', archived: 'false' },
+      filter: { firstName: '', lastName: '', email: '', archived: 'false', sort: 'id' },
       hidden: false,
       firstNameData: [],
       lastNameData: [],
-      emailData: []
+      emailData: [],
+      sortDisplay: 'Sort'
     };
 
     this.handleFilterFirstName = this.handleFilterFirstName.bind(this);
     this.handleFilterLastName = this.handleFilterLastName.bind(this);
     this.handleFilterEmail = this.handleFilterEmail.bind(this);
     this.handleFilterArchived = this.handleFilterArchived.bind(this);
+    this.handleSort = this.handleSort.bind(this);
     this.handleReset = this.handleReset.bind(this);
     this.handleHide = this.handleHide.bind(this);
     this.handleShow = this.handleShow.bind(this);
@@ -56,6 +60,14 @@ class UserFilter extends React.Component<FilterProps, FilterState> {
     this.props.onFilter( newFilter );
   }
 
+  handleSort(event: string) {
+    const newFilter = this.state.filter;
+    newFilter.sort = event;
+    const sortTranslation = T.translate(`user.${event}`).toString();
+    this.setState( { filter: newFilter, sortDisplay: sortTranslation } );
+    this.props.onFilter(newFilter);
+  }
+
   handleFilterFirstName(selected: string[]) {
     const newFilter = this.state.filter;
     newFilter.firstName = selected[0];
@@ -78,8 +90,9 @@ class UserFilter extends React.Component<FilterProps, FilterState> {
   }
 
   handleReset() {
-    const newFilter: UserFilterData = { firstName: '', lastName: '', email: '', archived: 'false' };
-    this.setState({ filter: newFilter });
+    const newFilter: UserFilterData = { firstName: '', lastName: '', email: '', archived: 'false', sort: 'id' };
+    const sortTranslation = T.translate('user.id').toString();
+    this.setState({ filter: newFilter, sortDisplay: sortTranslation });
     this.props.onFilter(newFilter);
   }
 
@@ -110,7 +123,7 @@ class UserFilter extends React.Component<FilterProps, FilterState> {
   }
 
   render() {
-    const { filter, firstNameData, lastNameData, emailData } = this.state;
+    const { filter, firstNameData, lastNameData, emailData, sortDisplay } = this.state;
 
     if (this.state.hidden || this.props.users === []) {
       return(
@@ -123,10 +136,12 @@ class UserFilter extends React.Component<FilterProps, FilterState> {
           firstNameData={ firstNameData }
           lastNameData={ lastNameData }
           emailData={ emailData }
+          sortDisplay={ sortDisplay }
           onFilterFirstName={ this.handleFilterFirstName }
           onFilterLastName={ this.handleFilterLastName }
           onFilterEmail={ this.handleFilterEmail }
           onFilterArchive={ this.handleFilterArchived }
+          onSort={ this.handleSort }
           onReset={ this.handleReset }
           onHide={ this.handleHide }
         />
