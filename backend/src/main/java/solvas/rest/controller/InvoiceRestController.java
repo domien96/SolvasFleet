@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -95,6 +96,15 @@ public class InvoiceRestController extends AbstractRestController<Invoice, ApiIn
     @PreAuthorize("hasPermission(#id, 'invoice', 'READ')")
     public ResponseEntity<?> getByFleetAndInvoiceId(@PathVariable int id) {
         return super.getById(id);
+    }
+
+    @RequestMapping(value = "/companies/{companyId}/fleets/{fleetId}/invoices/{id}", method = RequestMethod.PUT)
+    @PreAuthorize("hasPermission(#id, 'invoice', 'EDIT')")
+    public ResponseEntity<?> markInvoiceAsPayed(@PathVariable int id, @RequestBody ApiInvoice input) throws EntityNotFoundException {
+        // We only allow the paid field to be updated.
+        ApiInvoice current = invoiceService.getById(id);
+        current.setPaid(input.isPaid());
+        return super.put(id, current, new BeanPropertyBindingResult(current, current.getClass().getSimpleName()));
     }
 
     /**
