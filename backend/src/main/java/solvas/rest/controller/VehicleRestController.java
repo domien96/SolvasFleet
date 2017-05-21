@@ -26,6 +26,7 @@ import solvas.rest.greencard.pdf.GreenCardPdfView;
 import solvas.rest.query.VehicleFilter;
 import solvas.rest.utils.JsonListWrapper;
 import solvas.service.VehicleService;
+import solvas.service.exceptions.UnarchivableException;
 import solvas.service.models.Vehicle;
 
 import javax.validation.Valid;
@@ -44,7 +45,6 @@ import java.util.Map;
 public class VehicleRestController extends AbstractRestController<Vehicle,ApiVehicle> {
 
     private final Validator validator;
-
     /**
      * Rest controller for Vehicle
      *
@@ -52,7 +52,7 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
      * @param validator The validator, used for validating the csv import
      */
     @Autowired
-    public VehicleRestController(VehicleService service,  @Qualifier("mvcValidator") Validator validator) {
+    public VehicleRestController(VehicleService service, @Qualifier("mvcValidator")  Validator validator) {
         super(service);
         this.validator = validator;
     }
@@ -117,7 +117,7 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
      * @return ResponseEntity
      */
     @RequestMapping(value = "/vehicles/{vehicleId}/greencard.pdf", method = RequestMethod.GET)
-    @PreAuthorize("hasPermission(#vehicleId, 'vehicle', 'READ')")
+    @PreAuthorize("hasPermission(#vehicleId, 'vehicle', 'DOWNLOAD_GREENCARD')")
     public ModelAndView getByFleetAndInvoiceIdWithExtension(@PathVariable int vehicleId) throws EntityNotFoundException {
         ApiVehicle v = service.getById(vehicleId);
         return new ModelAndView(GreenCardViewResolver.GREEN_CARD_PDF_VIEW, GreenCardPdfView.class.getCanonicalName(), v);
@@ -200,7 +200,7 @@ public class VehicleRestController extends AbstractRestController<Vehicle,ApiVeh
     @Override
     @RequestMapping(value = "/vehicles/{vehicleId}", method = RequestMethod.DELETE)
     @PreAuthorize("hasPermission(#vehicleId, 'vehicle', 'DELETE')")
-    public ResponseEntity<?> archiveById(@PathVariable int vehicleId) {
+    public ResponseEntity<?> archiveById(@PathVariable int vehicleId) throws EntityNotFoundException, UnarchivableException {
         return super.archiveById(vehicleId);
     }
 

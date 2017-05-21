@@ -16,7 +16,7 @@ export function auth_login(email: string, password: string, success?: callback, 
 }
 
 export function auth_token(success?: callback, fail?: callback) {
-  AUTH ( AUTH_TOKEN_URL, Auth.getRefreshToken(), success, fail );
+  AUTH ( AUTH_TOKEN_URL, undefined, Auth.getRefreshToken(), success, fail );
 }
 
 // Roles & permissions

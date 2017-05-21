@@ -25,6 +25,8 @@ public class PermissionEvaluatorContext {
     public final static String PERMISSION_RESOURCE_TYPE = "permission";
     public final static String INVOICE_RESOURCE_TYPE = "invoice";
     public final static String CONTRACT_RESOURCE_TYPE = "contract";
+    public final static String REVISION_RESOURCE_TYPE = "revision";
+    public final static String TAX_RESOURCE_TYPE = "tax";
 
     private final Map<Class<? extends ApiModel>, String> resourceNames =
             new HashMap<Class<? extends ApiModel>, String>() {{
@@ -37,6 +39,8 @@ public class PermissionEvaluatorContext {
                 put(ApiPermission.class, PERMISSION_RESOURCE_TYPE);
                 put(ApiInvoice.class, INVOICE_RESOURCE_TYPE);
                 put(ApiContract.class, CONTRACT_RESOURCE_TYPE);
+                put(ApiRevision.class, REVISION_RESOURCE_TYPE);
+                put(ApiTax.class, TAX_RESOURCE_TYPE);
             }};
 
     private Map<String, PermissionEvaluator> evaluators = new HashMap<>();
@@ -55,6 +59,9 @@ public class PermissionEvaluatorContext {
         evaluators.put(PERMISSION_RESOURCE_TYPE, new PermissionPermissionEvaluator(daoContext.getPermissionDao()));
         evaluators.put(INVOICE_RESOURCE_TYPE, new InvoicePermissionEvaluator(daoContext.getInvoiceDao()));
         evaluators.put(CONTRACT_RESOURCE_TYPE, new ContractPermissionEvaluator(daoContext.getContractDao()));
+        evaluators.put(REVISION_RESOURCE_TYPE, new RevisionPermissionEvaluator(daoContext.getRevisionDao()));
+        evaluators.put(TAX_RESOURCE_TYPE, new TaxPermissionEvaluator(daoContext.getTaxDao()));
+        permissionEvaluatorContext = this;
     }
 
     /**
@@ -83,5 +90,11 @@ public class PermissionEvaluatorContext {
         }
 
         return evaluators.get(resourceType);
+    }
+
+    private static PermissionEvaluatorContext permissionEvaluatorContext;
+
+    public static PermissionEvaluatorContext getInstance() {
+        return permissionEvaluatorContext;
     }
 }

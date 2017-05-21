@@ -41,7 +41,10 @@ class FleetInputfield extends React.Component<Props, State> {
 
   handleChange(selectedFleets: string[]) {
     if(selectedFleets){
-      let e = { target: { value: parseInt(selectedFleets[0].split(':')[0], 10) } };
+      let e = { target: { value: 0 } };
+      if(selectedFleets[0]) {
+        e = { target: { value: parseInt(selectedFleets[0].split(':')[0], 10) } };
+      } 
       this.props.callback(e);
     }
   }

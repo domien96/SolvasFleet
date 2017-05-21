@@ -34,10 +34,18 @@ INSERT INTO "fleets" (fleet_id,company_id,name,updated_at,created_at,facturation
 INSERT INTO "fleets" (fleet_id,company_id,name,updated_at,created_at,facturation_period,payment_period) VALUES (3,2,'Vracht ','2015-12-17 04:32:24','2016-07-11 20:26:16',1,1);
 
 
-INSERT INTO "fleet_subscriptions" (fleet_subscription_id,start_date,end_date,updated_at,created_at,vehicle_id,fleet_id) VALUES (1,'2018-03-07','2016-06-03','2015-09-20 07:18:04','2017-08-22 17:31:22',1,1);
+INSERT INTO "fleet_subscriptions" (fleet_subscription_id,start_date,end_date,updated_at,created_at,vehicle_id,fleet_id) VALUES (1,'2013-06-03','2018-03-07','2017-09-20 07:18:04','2017-08-22 17:31:22',1,1);
 INSERT INTO "fleet_subscriptions" (fleet_subscription_id,start_date,end_date,updated_at,created_at,vehicle_id,fleet_id) VALUES (2,'2016-08-22','2018-03-06','2015-09-30 14:49:46','2016-09-07 07:55:42',2,2);
-INSERT INTO "fleet_subscriptions" (fleet_subscription_id,start_date,end_date,updated_at,created_at,vehicle_id,fleet_id) VALUES (3,'2018-02-21','2017-11-16','2015-11-16 02:19:13','2016-05-31 19:12:09',3,3);
-INSERT INTO "fleet_subscriptions" (fleet_subscription_id,start_date,end_date,updated_at,created_at,vehicle_id,fleet_id) VALUES (4,'2016-02-21','2015-11-16','2015-11-16 02:19:13','2016-05-31 19:12:09',3,2);
+INSERT INTO "fleet_subscriptions" (fleet_subscription_id,start_date,end_date,updated_at,created_at,vehicle_id,fleet_id) VALUES (3,'2017-11-16','2018-02-21','2015-11-16 02:19:13','2016-05-31 19:12:09',3,3);
+INSERT INTO "fleet_subscriptions" (fleet_subscription_id,start_date,end_date,updated_at,created_at,vehicle_id,fleet_id) VALUES (4,'2015-11-16','2016-02-21','2015-11-16 02:19:13','2016-05-31 19:12:09',3,2);
+
+
+INSERT INTO "revisions" (revision_id,entity_type,user_id,entity_id,logDate,method) VALUES (1,'VEHICLE',1,1,'2016-05-31 19:12:09',1);
+INSERT INTO "revisions" (revision_id,entity_type,user_id,entity_id,logDate,method) VALUES (2,'USER',1,1,'2016-05-31 19:12:09',1);
+
+
+
+
 
 
 SELECT setval('users_user_id_seq', (SELECT MAX(user_id) FROM users));
@@ -45,3 +53,14 @@ SELECT setval('companies_company_id_seq', (SELECT MAX(company_id) FROM companies
 SELECT setval('vehicles_vehicle_id_seq', (SELECT MAX(vehicle_id) FROM vehicles));
 SELECT setval('fleets_fleet_id_seq', (SELECT MAX(fleet_id) FROM fleets));
 SELECT setval('fleet_subscriptions_fleet_subscription_id_seq', (SELECT MAX(fleet_subscription_id) FROM fleet_subscriptions));
+SELECT setval('revisions_revision_id_seq', (SELECT MAX(revision_id) FROM revisions));
+
+INSERT INTO roles (role_id, function) VALUES (1, 'administrator'), (2,'test');
+INSERT INTO role_permissions (role_id, permission_id) SELECT role_id, permission_id FROM roles FULL JOIN permissions ON 1=1 WHERE function = 'administrator';
+
+INSERT INTO functions (user_id, role_id, start_date) VALUES (1,1,now());
+
+INSERT INTO contracts (fleet_subscription_id, startDate,endDate,franchise,premium,company_id,insurance_type_id) VALUES (1,'2014-02-21','2015-11-16',100,100,1,1);
+
+INSERT INTO invoices (paid,fleet_id,start_date,end_date,type) VALUES (FALSE,1,'2014-02-21','2015-11-16',1);
+ -- amount 3112.321,

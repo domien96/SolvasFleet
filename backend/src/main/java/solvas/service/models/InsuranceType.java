@@ -6,6 +6,10 @@ package solvas.service.models;
  * @author Sjabasti
  */
 public class InsuranceType extends Model {
+
+    /**
+     * Name of the insurance type
+     */
     private String name;
 
     public InsuranceType() {

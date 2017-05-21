@@ -26,7 +26,6 @@ public class SolvasUserDetailsService implements UserDetailsService {
     private final UserDao userDao;
 
     /**
-     *
      * @param userDao Dao used to find users
      */
     @Autowired
@@ -37,7 +36,31 @@ public class SolvasUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         try {
-            return loadUserByModel(userDao.findByEmail(username));
+            return loadUserByModel(userDao.findUnarchivedByEmail(username));
+        } catch (EntityNotFoundException e) {
+            throw new UsernameNotFoundException(e.getMessage(), e);
+        }
+    }
+
+    /**
+     * Find UserDetails based on id
+     * @param id String representation of the id to search for
+     * @return UserDetails found
+     * @throws UsernameNotFoundException User not found
+     */
+    public UserDetails loadUserById(String id) throws UsernameNotFoundException {
+        return loadUserById(Integer.valueOf(id));
+    }
+
+    /**
+     * Find UserDetails based on id
+     * @param id Id to search for
+     * @return UserDetails found
+     * @throws UsernameNotFoundException User not found
+     */
+    public UserDetails loadUserById(int id) throws UsernameNotFoundException {
+        try {
+            return loadUserByModel(userDao.findUnarchivedById(id));
         } catch (EntityNotFoundException e) {
             throw new UsernameNotFoundException(e.getMessage(), e);
         }
@@ -50,8 +73,10 @@ public class SolvasUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByModel(User user) {
         // Get permissions for each company
         Map<Company, Collection<Permission>> permissionsMap = new HashMap<>();
-        user.getFunctions().forEach(assignedRole -> {
-            if(permissionsMap.containsKey(assignedRole.getCompany())) {
+        user.getFunctions().stream()
+                .filter(f -> ! f.isArchived())
+                .forEach(assignedRole -> {
+            if (permissionsMap.containsKey(assignedRole.getCompany())) {
                 permissionsMap.get(assignedRole.getCompany())
                         .addAll(assignedRole.getRole().getPermissions());
             } else {

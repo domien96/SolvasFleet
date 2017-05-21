@@ -12,6 +12,11 @@
          <generator class="identity"/>
       </id>
 
+      <set name="subscriptions" table="fleet_subscriptions">
+         <key column="fleet_id" />
+         <one-to-many class="solvas.service.models.FleetSubscription"/>
+      </set>
+
       <property name="facturationPeriod" column="facturation_period" type="int" not-null="true"/>
       <property name="paymentPeriod" column="payment_period" type="int" not-null="true"/>
 

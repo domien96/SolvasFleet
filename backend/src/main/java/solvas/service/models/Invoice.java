@@ -4,19 +4,40 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Set;
 
 /**
- * Models an invoice
+ * Models an invoice of a fleet for a specific period.
  * Created by domien on 15/04/2017.
  */
 public class Invoice extends Model {
 
-    private BigDecimal amount; // in cents
+    /**
+     * The start date of the period this invoice is for.
+     */
     private LocalDateTime startDate;
-    private LocalDateTime endDate;
-    private InvoiceType type;
-    private boolean paid;
 
+    /**
+     * The end date of the period this invoice is for.
+     */
+    private LocalDateTime endDate;
+
+    /**
+     * The type of the invoice.
+     * @see InvoiceType
+     */
+    private InvoiceType type;
+
+    /**
+     * Holds track whether the invoice is already paid or not.
+     * Payment of invoices is done outside the whole application.
+     */
+    private boolean paid;
+    private Set<InvoiceItem> items;
+
+    /**
+     * The fleet this invoice is made for.
+     */
     private Fleet fleet;
 
     public Invoice() {
@@ -30,12 +51,23 @@ public class Invoice extends Model {
         this.fleet = fleet;
     }
 
-    public BigDecimal getAmount() {
-        return amount;
+    /**
+     * Get sum of amount of all associated items
+     * @return The amount
+     */
+    public BigDecimal getTotalAmount() {
+        return items.stream()
+                .map(InvoiceItem::getTotalAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
+    /**
+     * @return Net amount of all associated items (before taxes)
+     */
+    public BigDecimal getNetAmount() {
+        return items.stream()
+                .map(InvoiceItem::getNetAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     public LocalDateTime getStartDate() {
@@ -68,5 +100,13 @@ public class Invoice extends Model {
 
     public void setPaid(boolean paid) {
         this.paid = paid;
+    }
+
+    public Set<InvoiceItem> getItems() {
+        return items;
+    }
+
+    public void setItems(Set<InvoiceItem> items) {
+        this.items = items;
     }
 }

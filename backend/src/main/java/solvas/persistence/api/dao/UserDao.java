@@ -25,6 +25,14 @@ public interface UserDao extends Dao<User> {
     Optional<User> getByEmail(String email);
 
     /**
+     * Find a single unarchived user by his/her email.
+     *
+     * @param email The email to search for
+     * @return The associated user entity
+     */
+    Optional<User> getByEmailAndArchivedFalse(String email);
+
+    /**
      * Find a single user by his/her email
      *
      * @param email The email to search for
@@ -35,6 +43,42 @@ public interface UserDao extends Dao<User> {
         return getByEmail(email)
                 .orElseThrow(
                         () -> new EntityNotFoundException(String.format("Could not find user with email %s.", email))
+                );
+    }
+
+    /**
+     * Find a single user by his/her email
+     *
+     * @param email The email to search for
+     * @return The associated user entity
+     * @throws EntityNotFoundException User not found
+     */
+    default User findUnarchivedByEmail(String email) throws EntityNotFoundException {
+        return getByEmailAndArchivedFalse(email)
+                .orElseThrow(
+                        () -> new EntityNotFoundException(String.format("Could not find user with email %s.", email))
+                );
+    }
+
+    /**
+     * Find a single unarchived user by his/her email.
+     *
+     * @param id The id to search for
+     * @return The associated user entity
+     */
+    Optional<User> getByIdAndArchivedFalse(int id);
+
+    /**
+     * Find a single user by his/her email
+     *
+     * @param id The id to search for
+     * @return The associated user entity
+     * @throws EntityNotFoundException User not found
+     */
+    default User findUnarchivedById(int id) throws EntityNotFoundException {
+        return getByIdAndArchivedFalse(id)
+                .orElseThrow(
+                        () -> new EntityNotFoundException(String.format("Could not find user with id %d.", id))
                 );
     }
 }

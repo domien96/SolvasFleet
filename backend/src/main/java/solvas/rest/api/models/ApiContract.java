@@ -2,7 +2,6 @@ package solvas.rest.api.models;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -19,7 +18,7 @@ public class ApiContract extends ApiModel{
     //required
     private LocalDateTime startDate;
 
-    //optional
+    @Min(value = 0)
     private int franchise;
 
     @Min(value = 1)

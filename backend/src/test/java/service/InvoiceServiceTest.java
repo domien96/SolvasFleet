@@ -9,6 +9,7 @@ import solvas.persistence.api.dao.InvoiceDao;
 import solvas.rest.api.models.ApiInvoice;
 import solvas.service.AbstractService;
 import solvas.service.InvoiceService;
+import solvas.service.invoices.InvoiceCorrector;
 import solvas.service.mappers.AbstractMapper;
 import solvas.service.mappers.InvoiceMapper;
 import solvas.service.mappers.exceptions.DependantEntityNotFound;
@@ -16,34 +17,42 @@ import solvas.service.models.Invoice;
 
 import static org.mockito.Mockito.when;
 
-public class InvoiceServiceTest extends AbstractServiceTest<Invoice,ApiInvoice> {
+/**
+ * Test the invoice service.
+ */
+public class InvoiceServiceTest extends AbstractServiceTest<Invoice, ApiInvoice> {
 
     @Mock
     private DaoContext daoContextMock;
     @Mock
     private InvoiceDao invoiceDao;
+    @Mock
+    private InvoiceCorrector invoiceCorrector;
 
     @Mock
     private InvoiceMapper invoiceMapper;
 
+    /**
+     * Construct the test.
+     */
+    public InvoiceServiceTest() {
+        super(Invoice.class, ApiInvoice.class);
+    }
+
     @Before
+    @Override
     public void setUp() throws DependantEntityNotFound, EntityNotFoundException {
         super.setUp();
         when(daoContextMock.getInvoiceDao()).thenReturn(invoiceDao);
     }
 
-    public InvoiceServiceTest() {
-        super(Invoice.class, ApiInvoice.class);
-    }
-
-
     @Override
     protected AbstractService<Invoice, ApiInvoice> getService() {
-        return new InvoiceService(daoContextMock, invoiceMapper);
+        return new InvoiceService(daoContextMock, invoiceMapper, invoiceCorrector);
     }
 
     @Override
-    protected Dao getDaoMock() {
+    protected Dao<Invoice> getDaoMock() {
         return invoiceDao;
     }
 

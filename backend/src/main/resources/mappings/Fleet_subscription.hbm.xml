@@ -12,8 +12,8 @@
          <generator class="identity"/>
       </id>
 
-       <property name="endDate" column="end_date" type="java.time.LocalDate"/>
-      <property name="startDate" column="start_date" type="java.time.LocalDate" not-null="true"/>
+       <property name="endDate" column="end_date" type="java.time.LocalDateTime"/>
+      <property name="startDate" column="start_date" type="java.time.LocalDateTime" not-null="true"/>
       <property name="archived" column="archived" type="boolean" not-null="true"/>
 
        <many-to-one name="vehicle" column="vehicle_id"
@@ -21,8 +21,8 @@
        <many-to-one name="fleet" column="fleet_id"
                     class="solvas.service.models.Fleet" not-null="true"/>
 
-      <set name="contracts" table="contracts" lazy="true">
-         <key column="contract_id" />
+      <set name="contracts" table="contracts" lazy="false">
+         <key column="fleet_subscription_id" />
          <one-to-many class="solvas.service.models.Contract"/>
       </set>
 

@@ -8,6 +8,11 @@ interface Props {
 }
 
 class App extends React.Component<Props, {}> {
+  constructor() {
+    super();
+    this.updateLanguage = this.updateLanguage.bind(this);
+  }
+
   static childContextTypes = {
     location: React.PropTypes.object,
   };
@@ -18,11 +23,15 @@ class App extends React.Component<Props, {}> {
     };
   }
 
+  updateLanguage() {
+    this.forceUpdate();
+  }
+
   render() {
     return (
       <div className='all-wrapper'>
         <div className='sidebar-wrapper'>
-          <Sidebar />
+          <Sidebar updateLanguage={ this.updateLanguage } />
           <main className='page-wrapper'>
             { this.props.children || <Home /> }
           </main>
