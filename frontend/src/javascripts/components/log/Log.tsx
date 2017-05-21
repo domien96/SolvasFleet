@@ -35,7 +35,7 @@ class Log extends React.Component<Props, State> {
         method: '',
         entityType: '',
         entity: '',
-        user: ''
+        user: '',
       },
       users: [],
       tableData: []
@@ -45,7 +45,6 @@ class Log extends React.Component<Props, State> {
     this.fetchUsers = this.fetchUsers.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleFilter = this.handleFilter.bind(this);
-    this.getUser = this.getUser.bind(this);
   }
 
   componentDidMount() {
@@ -142,7 +141,7 @@ class Log extends React.Component<Props, State> {
       }
     });
 
-    this.setState({ tableData: data });
+    this.setState({ tableData: data.reverse() });
   }
 
   render() {

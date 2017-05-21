@@ -3,8 +3,11 @@ import Layout from './Layout.tsx';
 import { fetchUsers } from '../../actions/user_actions.ts';
 import { redirect_to } from '../../routes/router.tsx';
 
+import { createQuery } from '../../utils/utils.ts';
+
 interface State {
   response: ListResponse;
+  filter: UserFilterData;
 }
 
 class Users extends React.Component<{}, State> {
@@ -19,20 +22,34 @@ class Users extends React.Component<{}, State> {
       offset: 0,
       previous: null,
       total: 0,
-    } };
+    },
+    filter: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      archived: 'false',
+      sort: 'id',
+    }};
     this.fetchUsers = this.fetchUsers.bind(this);
+    this.handleFilter = this.handleFilter.bind(this);
   }
 
   componentDidMount() {
-    this.fetchUsers();
+    this.fetchUsers(undefined, this.state.filter);
   }
 
-  fetchUsers(query?: any) {
-    fetchUsers((data: any) => this.setState({ response: data }), undefined, query);
+  fetchUsers(query?: any, filter?: UserFilterData) {
+    let newQuery = createQuery(query, filter);
+    fetchUsers((data: any) => this.setState({ response: data }), undefined, newQuery);
   }
 
   handleClick(id: number) {
     redirect_to(`/users/${id}`);
+  }
+
+  handleFilter(newFilter: UserFilterData) {
+    this.setState({ filter: newFilter });
+    this.fetchUsers(undefined, newFilter);
   }
 
   render() {
@@ -41,7 +58,11 @@ class Users extends React.Component<{}, State> {
     }));
 
     return (
-      <Layout response={this.state.response} onUserSelect={ this.handleClick } fetchUsers={this.fetchUsers} >
+      <Layout
+        response={this.state.response}
+        onUserSelect={ this.handleClick }
+        fetchUsers={ this.fetchUsers }
+        onFilter={ this.handleFilter } >
         { children }
       </Layout>
     );

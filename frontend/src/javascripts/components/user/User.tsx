@@ -1,7 +1,7 @@
 import React from 'react';
 
 import UserCard from './UserCard.tsx';
-import { fetchUser, deleteUser } from '../../actions/user_actions.ts';
+import { fetchUser, deleteUser, putUser } from '../../actions/user_actions.ts';
 import { redirect_to } from '../../routes/router.tsx';
 
 interface Props {
@@ -19,11 +19,14 @@ class User extends React.Component<Props, State> {
     super();
     this.state = { user: {} };
     this.deleteUser = this.deleteUser.bind(this);
+    this.unarchiveUser = this.unarchiveUser.bind(this);
   }
 
   fetchUser(id: number) {
     fetchUser(id, ((data) => {
-      this.setState({ user: data });
+      if(data) {
+        this.setState({ user: data });
+      }
     }));
   }
 
@@ -43,9 +46,15 @@ class User extends React.Component<Props, State> {
     redirect_to('/users');
   }
 
+  unarchiveUser() {
+    const success = () => redirect_to(`/users/${this.state.user.id}`);
+    this.state.user['archived'] = false;
+    putUser(this.state.user.id, this.state.user, success);
+  }
+
   render() {
     return (
-      <UserCard user={ this.state.user } handleDelete={ this.deleteUser } />
+      <UserCard user={ this.state.user } handleDelete={ this.deleteUser } handleUnarchive={ this.unarchiveUser } />
     );
   }
 }

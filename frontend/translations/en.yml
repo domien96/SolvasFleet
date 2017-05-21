@@ -15,6 +15,7 @@ company:
   name: Name
   vatNumber: VAT number
   phoneNumber: Phone number
+  archived: Archived
   address:
     street: Street
     houseNumber: House number
@@ -25,6 +26,7 @@ company:
   edit: Edit Company
   types: Type
   type:
+    allTypes: All types
     LeasingCompany: Leasing company
     InsuranceCompany: Insurance company
     Customer: Customer
@@ -34,6 +36,7 @@ vehicle:
   id: Vehicle ID
   vehicles: Vehicles
   noVehicle: No vehicle selected
+  archived: Archived
   licensePlate: License plate
   vin: Vehicle Identification Number
   brand: Brand
@@ -44,6 +47,7 @@ vehicle:
   leasingCompany: Leasing company ID
   value: Estimated value
   fleet: Fleet ID
+  companyAndFleet: "Company: Fleet"
   options:
     allVehicles: All vehicles
     PersonalVehicle: Personal vehicle
@@ -63,6 +67,7 @@ user:
   email: Email
   password: Password
   address: Address
+  archived: Archived
   firstName: First name
   lastName: Last name
   addNew: Add New User
@@ -75,6 +80,9 @@ fleet:
   id: ID
   name: Name
   size: Size
+  company: Company
+  facturationPeriod: Facturation Period
+  paymentPeriod: Payment Period
   options:
     yearly: Yearly
     monthly: Monthly
@@ -92,7 +100,7 @@ subfleet:
   name: Name
   size: Size
 
-function: 
+function:
   function: Function
   id: Function ID
   functions: Functions
@@ -118,6 +126,7 @@ auth:
   permissionSettings: Permission Settings
 
 invoice:
+  invoices: Invoices
   id: Invoice ID
   fleet: Fleet ID
   paid: Paid
@@ -127,6 +136,7 @@ invoice:
   endDate: End date
   showCurrent: Show current invoice
   showAll: Show all invoices
+  correct: Correct invoice
 
 contract:
   id: Contract ID
@@ -147,33 +157,33 @@ contract:
     TravelInsurance: Travel insurance
 
 log:
-  log: Log    
+  log: Log
   entry: Log Entry
-  id: Entry ID 
-  user: By User 
+  id: Entry ID
+  user: By User
   method: Method
   entityType: Type
   entity: Entity ID
   after: After
   before: Before
-  logDate: Entry Date 
+  logDate: Entry Date
   none:
     title: Application Log
   types:
     allTypes: All types
     Function: Function
-    Company: Company 
-    User: User 
-    Vehicle: Vehicle 
-    Contract: Contract 
+    Company: Company
+    User: User
+    Vehicle: Vehicle
+    Contract: Contract
     Invoice: Invoice
     Role: Role
     Fleet: Fleet
   methods:
-    allMethods: All methods 
-    insert: Insert 
-    update: Update 
-    archive: Archive 
+    allMethods: All methods
+    insert: Insert
+    update: Update
+    archive: Archive
     delete: Delete
 
 form:
@@ -198,12 +208,27 @@ errors:
   MISSING: is empty, please enter a value
   WRONG_FORMAT: does not have the right format
   NOT_UNIQUE: must be unique, but is already in the database
-  TOO_SMALL: is too small, please enter a larger value 
-  TOO_BIG: is too big, please enter a smaller value 
-  INVALID: is invalid, please enter a correct value 
+  TOO_SMALL: is too small, please enter a larger value
+  TOO_BIG: is too big, please enter a smaller value
+  INVALID: is invalid, please enter a correct value
   NOT_FOUND: has not been found
   WRONG_TYPE: does not have the right type
 
 csv:
   import:
     success: Your csv file has successfully been imported.
+
+commission:
+  commissions: Commissions
+  global: Global commissions
+  civilLiability: Civil Liability
+  omnium: Omnium
+  driverInsurance: Driver Insurance
+  travelInsurance: Travel Insurance
+  legalAid: Legal Aid
+  client: Commissions of
+  vehicle: Commissions of
+  fleet: Commissions of
+
+comissions:
+  commissions: Commissions

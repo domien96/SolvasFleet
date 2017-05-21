@@ -88,15 +88,6 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
     }
 
     /**
-     * Finds all types of insurance in the database
-     *
-     * @return types of insurance
-     */
-    public Collection<String> findAllInsuranceTypes() {
-        return context.getInsuranceTypeDao().findAll().stream().map(InsuranceType::getName).collect(Collectors.toSet());
-    }
-
-    /**
      * Find the current invoice for a fleet and a type.
      *
      * @param fleetId The ID of the fleet.
@@ -393,7 +384,8 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
         Set<InvoiceItem> corrections = fleet.getSubscriptions().stream()
                 .map(FleetSubscription::getContracts)
                 .flatMap(Set::stream)
-                .map(contract -> invoiceCorrector.correctionItemsForContract(
+                .map(contract ->
+                        invoiceCorrector.correctionItemsForContract(
                         contract,
                         lastDate,
                         fleet.getPaymentPeriod()))
@@ -424,5 +416,20 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
         modelDao.save(invoice);
 
         return true;
+    }
+
+    /**
+     * Change the payed status of an invoice.
+     *
+     * @param id The id.
+     * @param payed Payed or not.
+     * @return The invoice.
+     * @throws EntityNotFoundException If the invoice does'nt exist.
+     */
+    public ApiInvoice setPayed(int id, boolean payed) throws EntityNotFoundException {
+        Invoice current = getModelById(id);
+        current.setPaid(payed);
+        modelDao.save(current);
+        return mapper.convertToApiModel(current);
     }
 }

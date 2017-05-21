@@ -3,12 +3,15 @@ package solvas.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import solvas.persistence.api.DaoContext;
+import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.dao.InsuranceTypeDao;
 import solvas.rest.api.models.ApiContract;
+import solvas.service.exceptions.UnarchivableException;
 import solvas.service.mappers.ContractMapper;
 import solvas.service.models.Contract;
 import solvas.service.models.InsuranceType;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -30,7 +33,7 @@ public class ContractService extends AbstractService<Contract,ApiContract> {
      */
     @Autowired
     public ContractService(DaoContext context, ContractMapper mapper) {
-        super(context.getContractDao(), mapper);
+        super(context.getContractDao(),context, mapper);
         insuranceTypeDao= context.getInsuranceTypeDao();
     }
 
@@ -43,4 +46,13 @@ public class ContractService extends AbstractService<Contract,ApiContract> {
         return insuranceTypeDao.findAll().stream().map(InsuranceType::getName).collect(Collectors.toSet());
 
     }
+
+    @Override
+    public void archive(int id) throws EntityNotFoundException, UnarchivableException {
+        Contract contract = context.getContractDao().find(id);
+        // set endDate of contract
+        contract.setEndDate(LocalDateTime.now());
+        modelDao.save(contract);
+    }
+
 }

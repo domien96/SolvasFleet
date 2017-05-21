@@ -1,9 +1,12 @@
 package solvas.rest.query;
 
-import solvas.service.models.*;
+import solvas.service.models.Fleet;
+import solvas.service.models.FleetSubscription;
+import solvas.service.models.Vehicle;
+import solvas.service.models.VehicleType;
 
 import javax.persistence.criteria.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 /**
@@ -50,11 +53,13 @@ public class VehicleFilter extends ArchiveFilter<Vehicle> {
             Join<Vehicle, FleetSubscription> subscriptionJoin = root.join("fleetSubscriptions");
             Join<FleetSubscription, Fleet> fleetJoin = subscriptionJoin.join("fleet");
 
-            LocalDate now = LocalDate.now();
+            LocalDateTime now = LocalDateTime.now();
+            // This is partially the same logic as in FleetSubscriptionDaoImpl. Maybe we should find a way
+            // to deduplicate and group this logic together somewhere.
             // The start must be before today
             Predicate start = builder.lessThanOrEqualTo(subscriptionJoin.get("startDate"), now);
             // The end is not set or after today
-            Expression<LocalDate> endDate = subscriptionJoin.get("endDate");
+            Expression<LocalDateTime> endDate = subscriptionJoin.get("endDate");
             Predicate end = builder.or(
                     builder.isNull(endDate),
                     builder.greaterThan(endDate, now)

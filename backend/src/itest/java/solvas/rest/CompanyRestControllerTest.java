@@ -1,6 +1,7 @@
 package solvas.rest;
 
 import org.mockito.Mock;
+import solvas.authorization.CompanyExtractor;
 import solvas.rest.api.models.ApiCompany;
 import solvas.rest.controller.AbstractRestController;
 import solvas.rest.controller.CompanyRestController;
@@ -17,6 +18,8 @@ public class CompanyRestControllerTest extends AbstractRestControllerTest<Compan
 
     @Mock
     private CompanyService service;
+    @Mock
+    private CompanyExtractor companyExtractor;
 
 
     /**
@@ -31,7 +34,7 @@ public class CompanyRestControllerTest extends AbstractRestControllerTest<Compan
      */
     @Override
     AbstractRestController getController() {
-        return new CompanyRestController(service);
+        return new CompanyRestController(service, companyExtractor);
     }
 
     @Override

@@ -41,7 +41,7 @@ public class InvoiceRestControllerTest extends AbstractBasicRestControllerTest<I
 
 
     AbstractRestController getController() {
-        return new InvoiceRestController(service,dao);
+        return new InvoiceRestController(service);
     }
 
     @Override
@@ -125,28 +125,6 @@ public class InvoiceRestControllerTest extends AbstractBasicRestControllerTest<I
         when(service.findCurrentInvoice(anyInt())).thenThrow(new EntityNotFoundException());
         getMockMvc()
                 .perform(get(RestTestFixtures.INVOICE_CURRENT_PDF))
-                .andExpect(status().isNotFound());
-    }
-
-    /**
-     * Test: Obtaining the pdf of an invoice with specified id (can't test content)
-     */
-    @Test
-    public void getInvoiceByIdPdf() throws Exception {
-        when(dao.find(anyInt())).thenReturn(random(Invoice.class));
-        getMockMvc()
-                .perform(get(RestTestFixtures.INVOICE_PDF_URL))
-                .andExpect(status().isOk());
-    }
-
-    /**
-     * Test: NotFound response when entity doesn't exist
-     */
-    @Test
-    public void getInvoiceByIdPdfNotFound() throws Exception {
-        when(dao.find(anyInt())).thenThrow(new EntityNotFoundException());
-        getMockMvc()
-                .perform(get(RestTestFixtures.INVOICE_PDF_URL))
                 .andExpect(status().isNotFound());
     }
 }

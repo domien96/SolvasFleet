@@ -1,21 +1,18 @@
 package solvas.service.mappers;
 
 
-import org.joda.time.DateTime;
 import org.springframework.stereotype.Component;
-import solvas.service.models.Fleet;
-import solvas.service.models.FleetSubscription;
-import solvas.service.models.Vehicle;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
+import solvas.rest.api.models.ApiVehicle;
 import solvas.rest.utils.SimpleUrlBuilder;
 import solvas.service.mappers.exceptions.DependantEntityNotFound;
 import solvas.service.mappers.exceptions.FieldNotFoundException;
-import solvas.rest.api.models.ApiVehicle;
+import solvas.service.models.Fleet;
+import solvas.service.models.FleetSubscription;
+import solvas.service.models.Vehicle;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.Optional;
 
 /**
@@ -56,7 +53,7 @@ public class VehicleMapper extends AbstractMapper<Vehicle, ApiVehicle> {
         // Create a link between everything.
         if (api.getFleet() > -1) {
 
-            LocalDate now = LocalDate.now();
+            LocalDateTime now = LocalDateTime.now().toLocalDate().atStartOfDay();
 
             //This will save the vehicle twice. If we want to avoid this, we have to set all relations in memory and perform
             //  cascade saving of these relation, which performs worse that saving twice
@@ -97,7 +94,7 @@ public class VehicleMapper extends AbstractMapper<Vehicle, ApiVehicle> {
      * @param vehicle      The Vehicle to subscribe
      * @param date         The time subscription ends
      */
-    private void createSubscription(ApiVehicle api, FleetSubscription subscription, Vehicle vehicle, LocalDate date) throws DependantEntityNotFound {
+    private void createSubscription(ApiVehicle api, FleetSubscription subscription, Vehicle vehicle, LocalDateTime date) throws DependantEntityNotFound {
         try {
             Fleet fleet = daoContext.getFleetDao().find(api.getFleet());
             // This is a new subscription.
@@ -150,7 +147,7 @@ public class VehicleMapper extends AbstractMapper<Vehicle, ApiVehicle> {
      * @param fleet   The fleet.
      * @param now     The current date.
      */
-    private void linkFleet(Vehicle vehicle, Fleet fleet, LocalDate now) throws EntityNotFoundException {
+    private void linkFleet(Vehicle vehicle, Fleet fleet, LocalDateTime now) throws EntityNotFoundException {
         Optional<FleetSubscription> fs = daoContext.getFleetSubscriptionDao().activeForVehicle(vehicle);
         if(fs.isPresent()) {
             if (fs.get().getFleet().equals(fleet)) {

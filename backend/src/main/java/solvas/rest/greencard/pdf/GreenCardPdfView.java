@@ -7,6 +7,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.draw.VerticalPositionMark;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.dao.FleetSubscriptionDao;
 import solvas.persistence.api.dao.VehicleDao;
 import solvas.rest.api.models.ApiVehicle;
@@ -28,13 +29,17 @@ import java.util.Optional;
 @Component
 public class GreenCardPdfView extends AbstractITextPdfView {
 
-    @Autowired
-    private FleetSubscriptionDao fleetSubscriptionDao;
+    private final FleetSubscriptionDao fleetSubscriptionDao;
 
-    @Autowired
-    private VehicleDao vehicleDao;
+    private final VehicleDao vehicleDao;
 
     private Vehicle vehicle;
+
+    @Autowired
+    public GreenCardPdfView(DaoContext daoContext) {
+        this.fleetSubscriptionDao = daoContext.getFleetSubscriptionDao();
+        this.vehicleDao = daoContext.getVehicleDao();
+    }
 
     @Override
     protected void buildPdfDocument(Map<String, Object> model, Document document, PdfWriter writer, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -126,8 +131,8 @@ public class GreenCardPdfView extends AbstractITextPdfView {
         Optional<FleetSubscription> fsOpt = fleetSubscriptionDao.activeForVehicle(vehicle);
         if (fsOpt.isPresent()) {
             FleetSubscription fs = fsOpt.get();
-            LocalDate start = fs.getStartDate(),
-                    end = fs.getEndDate();
+            LocalDate start = fs.getStartDate().toLocalDate();
+            LocalDate end = fs.getEndDate().toLocalDate();
             if(start!= null) {
                 res[0] = String.valueOf(start.getDayOfMonth());
                 res[1] = String.valueOf(start.getMonth().getValue());

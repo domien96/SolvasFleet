@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router';
 
+import DynamicGuiComponent from '../app/DynamicGuiComponent.tsx';
+import Auth from '../../modules/Auth.ts';
 import Card from '../app/Card.tsx';
 import DetailTable from '../tables/DetailTable.tsx';
 import DownloadButton from '../buttons/DownloadButton.tsx';
@@ -10,7 +12,7 @@ import LogLink from '../app/LogLink.tsx';
 
 const EditLink = ({ id }: { id: number }) => {
   return (
-    <div className='col-sm-4'>
+    <div className='col-sm-3'>
       <Link to={ '/vehicles/' + id + '/edit' } className='btn btn-default form-control'>
         <span className='glyphicon glyphicon-edit' /> Edit
       </Link>
@@ -20,7 +22,7 @@ const EditLink = ({ id }: { id: number }) => {
 
 const DeleteLink = ({ handleDelete }: { handleDelete: () => void }) => {
   return (
-    <div className='col-sm-4'>
+    <div className='col-sm-3'>
       <Confirm
         onConfirm={handleDelete}
         body="Are you sure you want to archive this?"
@@ -34,16 +36,34 @@ const DeleteLink = ({ handleDelete }: { handleDelete: () => void }) => {
   );
 };
 
+const UnarchiveLink = ({ handleUnarchive }: { handleUnarchive: () => void }) => {
+  return (
+    <div className='col-sm-3'>
+      <Confirm
+        onConfirm={ handleUnarchive }
+        body="Are you sure you want to restore this?"
+        confirmText="Confirm Unarchive"
+        title="Unarchive vehicle">
+        <button className='btn btn-success form-control'>
+          <span className='glyphicon glyphicon-share-alt' /> Unarchive
+        </button>
+      </Confirm>
+    </div>
+  );
+};
+
 interface Props {
   handleDelete: () => void;
   vehicle: VehicleData
   onDownloadGreencard: () => void;
   onGetFleetName: (id: number) => string;
   onGetCompanyName: (id: number) => any;
+  companyOfFleet: number;
+  handleUnarchive: () => void;
 }
 
 const VehicleView: React.StatelessComponent<Props> = props => {
-  const { id, licensePlate, vin, brand, model, type, mileage, year, leasingCompany, value, fleet } = props.vehicle;
+  const { id, licensePlate, vin, brand, model, type, mileage, year, leasingCompany, value, fleet, archived } = props.vehicle;
 
   let fleetName : number | string = fleet;
   if (fleet) {
@@ -68,25 +88,43 @@ const VehicleView: React.StatelessComponent<Props> = props => {
     th('vehicle.leasingCompany', companyName)
   ];
 
+  let deleteLink = <DeleteLink handleDelete={ props.handleDelete } />
+  if (archived) {
+    deleteLink = <UnarchiveLink handleUnarchive={ props.handleUnarchive } />
+  }
+
   return (
   <Card>
     <div>
       <div className='card-content user'>
         <h2>{ vin } </h2>
         <div className='row actions'>
-          <EditLink id={ id } />
-          <DeleteLink handleDelete={ props.handleDelete } />
-          <LogLink id={ id } type='Vehicle' />
+          <DynamicGuiComponent authorized={ Auth.canWriteFleetsOfCompany(props.companyOfFleet) }>
+            <EditLink id={ id } />
+            <DeleteLink handleDelete={ props.handleDelete } />
+          </DynamicGuiComponent>
+          <DynamicGuiComponent authorized={true}>
+            <LogLink id={ id } type='Vehicle' />
+          </DynamicGuiComponent>
+          <DynamicGuiComponent authorized={ Auth.canWriteFleetsOfCompany(-1) }>
+            <div className='col-sm-3'>
+               <Link to={ `/commissions/clients/4/fleets/${fleet}/vehicles/${id}/${type}` } className='btn btn-info form-control'>
+                 <span className='glyphicon glyphicon-euro' /> Commissions
+               </Link>
+             </div>
+          </DynamicGuiComponent>
+         </div>
         </div>
-      </div>
       <div className='card-content'>
         <DetailTable data={ data }/>
       </div>
-      <div className='card-content'>
-        <div className='row actions'>
-          <DownloadButton onDownload={ props.onDownloadGreencard } label='Download Greencard'/>
+      <DynamicGuiComponent authorized={ Auth.canClickGreenCardLink() }>
+        <div className='card-content'>
+          <div className='row actions'>
+            <DownloadButton onDownload={ props.onDownloadGreencard } label='Download Greencard'/>
+          </div>
         </div>
-      </div>
+      </DynamicGuiComponent>
     </div>
   </Card>
   );

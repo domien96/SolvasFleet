@@ -7,7 +7,7 @@ import SubfleetRow from './SubfleetRow.tsx';
 import InvoiceActions from './InvoiceActions.tsx';
 import T from 'i18n-react';
 
-import { fetchVehicles, deleteVehicle } from '../../actions/vehicle_actions.ts';
+import { fetchVehiclesByFleet, deleteVehicle } from '../../actions/vehicle_actions.ts';
 import { fetchFleet, putFleet} from '../../actions/fleet_actions.ts';
 import { group_by } from '../../utils/utils.ts';
 import Confirm from 'react-confirm-bootstrap';
@@ -16,6 +16,8 @@ import FleetSettings from './FleetSettings.tsx';
 import { deleteFleet } from '../../actions/fleet_actions.ts';
 import FleetVehicleAdd from './FleetVehicleAdd.tsx';
 import { redirect_to } from '../../routes/router.tsx';
+import Auth from '../../modules/Auth.ts';
+import DynamicGuiComponent from '../app/DynamicGuiComponent.tsx';
 
 interface VehiclesProps {
   vehicles: VehicleData[];
@@ -144,10 +146,10 @@ class Fleet extends React.Component<FleetProps, FleetState> {
       this.setState({ fleet: data, unsavedFleet: clone })
     });
 
-    fetchVehicles((data) => {
+    fetchVehiclesByFleet(this.props.params.id, this.props.params.companyId, (data) => {
         const nodes = data.data.map((d: VehicleData) => ({ id: d.id, group: d.type }));
         this.setState({ checkedVehicles: [], vehicles: data.data, nodes });
-      }, undefined, { fleet: this.props.params.id.toString() });
+      });
   }
 
   /* Callback function to obtain checked vehicles */
@@ -175,30 +177,34 @@ class Fleet extends React.Component<FleetProps, FleetState> {
       <div>
         <Header>
           <h2 className='fleet-archive'>{ this.state.fleet.name }</h2>
-          <Confirm
-            onConfirm={ this.archiveFleet }
-            body="Are you sure you want to archive this?"
-            confirmText="Confirm Archive"
-            title="Archive fleet">
-            <button className='btn btn-lg btn-danger pull-right'>
-              <span className='glyphicon glyphicon-remove' /> Archive fleet
-            </button>
-          </Confirm>
+          <DynamicGuiComponent authorized={ Auth.canWriteFleetsOfCompany(this.props.params.companyId) }>
+            <Confirm
+              onConfirm={ this.archiveFleet }
+              body="Are you sure you want to archive this?"
+              confirmText="Confirm Archive"
+              title="Archive fleet">
+              <button className='btn btn-lg btn-danger pull-right'>
+                <span className='glyphicon glyphicon-remove' /> Archive fleet
+              </button>
+            </Confirm>
+          </DynamicGuiComponent>
         </Header>
         <InvoiceActions fleet={ this.props.params.id } companyId={ this.props.params.companyId }/>
         <div className='wrapper'>
-          <div className='row'>
-              <div className='col-md-12 col-lg-3'>
-                <FleetVehicleAdd fleet={ this.props.params.id } refresh={ this.refresh }/>
+          <DynamicGuiComponent authorized={ Auth.canWriteFleetsOfCompany(this.props.params.companyId) }>
+            <div className='row'>
+                <div className='col-md-12 col-lg-3'>
+                  <FleetVehicleAdd fleet={ this.props.params.id } refresh={ this.refresh }/>
+                </div>
+                <div className='col-md-12 col-lg-4'>
+                  <FleetActions isDisabled={ this.state.checkedVehicles.length == 0 } callToArchive={ this.archiveCheckedVehicles }/>
+                </div>
+              <div className='col-md-12 col-lg-5'>
+                <FleetSettings onSettingsClick={ this.toggleShowSettings } showSettings={ this.state.showSettings }
+                  fleet={ this.state.unsavedFleet } handleChange={ this.handleChange } onSubmit = { this.onSubmit }/>
               </div>
-              <div className='col-md-12 col-lg-4'>
-                <FleetActions isDisabled={ this.state.checkedVehicles.length == 0 } callToArchive={ this.archiveCheckedVehicles }/>
-              </div>
-            <div className='col-md-12 col-lg-5'>
-              <FleetSettings onSettingsClick={ this.toggleShowSettings } showSettings={ this.state.showSettings }
-                fleet={ this.state.unsavedFleet } handleChange={ this.handleChange } onSubmit = { this.onSubmit }/>
             </div>
-          </div>
+          </DynamicGuiComponent>
         <div className='row'>
           <div className='col-md-12'>
             <Card>

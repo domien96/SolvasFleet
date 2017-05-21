@@ -10,12 +10,13 @@ interface Props {
 
 interface State {
   invoices: InvoiceData[];
+  tableData: any;
 }
 
 class Invoices extends React.Component<Props, State> {
   constructor(props: {}) {
     super(props);
-    this.state = { invoices: [] };
+    this.state = { invoices: [], tableData: [] };
     this.handleClick = this.handleClick.bind(this);
   }
 
@@ -33,12 +34,44 @@ class Invoices extends React.Component<Props, State> {
 
   fetchInvoices(companyId: number, fleetId: number) {
     fetchInvoices(companyId, fleetId, ((data: Invoices.Data) => {
+      this.setTableData(data.data);
       this.setState({ invoices: data.data })
     }));
   }
 
   handleClick(id: number) {
     redirect_to(`clients/${this.props.params.companyId}/fleets/${this.props.params.fleetId}/invoices/${id}`);
+  }
+
+  setTableData(invoices: InvoiceData[]) {
+    const data = invoices.map((invoice: InvoiceData) => {
+      const { id, paid, startDate, endDate } = invoice;
+      let newStartDate = startDate
+      let newEndDate = endDate
+      if(startDate) {
+        newStartDate = startDate.split('T')[0];
+        newEndDate = endDate.split('T')[0];
+      }
+      let newPaid = 'Not Paid';
+      if(paid !== undefined) {
+        newPaid = paid.toString();
+      }
+      if(newPaid) {
+        if(newPaid === 'true') {
+          newPaid = 'Paid';
+        } else {
+          newPaid = 'Not Paid';
+        }
+      }
+      return {
+        id: id,
+        startDate: newStartDate,
+        endDate: newEndDate,
+        paid: newPaid
+      }
+    });
+
+    this.setState({ tableData: data });
   }
 
   render() {
@@ -49,7 +82,7 @@ class Invoices extends React.Component<Props, State> {
     );
 
     return (
-      <InvoicesView invoices={ this.state.invoices } onInvoiceSelect={ this.handleClick } >
+      <InvoicesView invoices={ this.state.invoices } onInvoiceSelect={ this.handleClick } tableData={ this.state.tableData } >
         { children }
       </InvoicesView>
     );

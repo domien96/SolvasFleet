@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 import solvas.persistence.api.Dao;
+import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.Filter;
 import solvas.rest.api.models.ApiModel;
@@ -19,25 +20,38 @@ import java.util.stream.Collectors;
 
 /**
  * Abstract Service class
+ *
  * @param <T> The class of the Model
  * @param <E> The class of the ApiModel
  */
 @Transactional
 public abstract class AbstractService<T extends Model,E extends ApiModel> {
 
-
     protected Dao<T> modelDao;
     protected AbstractMapper<T,E> mapper;
+    protected DaoContext context=null;
 
     /**
-     * Contruct an abstractservice
-     * @param modelDao the DAO of the model
-     * @param mapper the mapper between the apimodel and the model
+     * Construct a service.
+     *
+     * @param modelDao The DAO of the model.
+     * @param mapper   The mapper between the api model and the model.
      */
-    public AbstractService(Dao<T> modelDao,AbstractMapper<T,E> mapper)
-    {
-        this.modelDao=modelDao;
-        this.mapper=mapper;
+    public AbstractService(Dao<T> modelDao, AbstractMapper<T, E> mapper) {
+        this.modelDao = modelDao;
+        this.mapper = mapper;
+    }
+
+    /**
+     * Construct a service.
+     *
+     * @param modelDao The DAO of the model.
+     * @param mapper   The mapper between the api model and the model.
+     * @param context  The DAO context.
+     */
+    public AbstractService(Dao<T> modelDao, DaoContext context, AbstractMapper<T, E> mapper) {
+        this(modelDao, mapper);
+        this.context = context;
     }
 
     /**
@@ -49,6 +63,16 @@ public abstract class AbstractService<T extends Model,E extends ApiModel> {
     public E getById(int id) throws EntityNotFoundException {
         T model = modelDao.find(id);
         return mapper.convertToApiModel(model);
+    }
+
+    /**
+     * Returns the model with the given id.
+     * @param id the id of the model to find
+     * @return the model
+     * @throws EntityNotFoundException When no object with that id exists
+     */
+    public T getModelById(int id) throws EntityNotFoundException {
+        return modelDao.find(id);
     }
 
     /**

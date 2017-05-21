@@ -18,23 +18,31 @@ public class ContractPermissionEvaluator extends AbstractPermissionEvaluator<Con
         super(dao);
     }
 
+    private int getCompanyId(Contract model) {
+        if(model != null && model.getCompany()!= null) {
+            return model.getCompany().getId();
+        } else {
+            return 0;
+        }
+    }
     @Override
     public boolean canRead(Authentication authentication, Contract model) {
-        return hasScope(authentication, READ_COMPANY_CONTRACTS, model.getCompany().getId(), READ_COMPANIES_CONTRACTS);
+        int companyId = getCompanyId(model);
+        return hasScope(authentication, READ_COMPANY_CONTRACTS, companyId, READ_COMPANIES_CONTRACTS);
     }
 
     @Override
     public boolean canCreate(Authentication authentication, Contract model) {
-        return hasScope(authentication, WRITE_COMPANY_CONTRACTS, model.getCompany().getId(), WRITE_COMPANIES_CONTRACTS);
+        return hasScope(authentication, WRITE_COMPANY_CONTRACTS, getCompanyId(model), WRITE_COMPANIES_CONTRACTS);
     }
 
     @Override
     public boolean canEdit(Authentication authentication, Contract model) {
-        return hasScope(authentication, WRITE_COMPANY_CONTRACTS, model.getCompany().getId(), WRITE_COMPANIES_CONTRACTS);
+        return canCreate(authentication, model);
     }
 
     @Override
     public boolean canDelete(Authentication authentication, Contract model) {
-        return hasScope(authentication, WRITE_COMPANY_CONTRACTS, model.getCompany().getId(), WRITE_COMPANIES_CONTRACTS);
+        return canEdit(authentication, model);
     }
 }

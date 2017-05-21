@@ -9,6 +9,7 @@ interface CompanyData {
   vatNumber?: string;
   phoneNumber?: string;
   type?: string;
+  archived?: boolean;
   [address: string ]: { [ city: string ]: string ,
                         [ country: string ]: string,
                         [ street: string ]: string,
@@ -22,3 +23,10 @@ interface OptionData {
   label : string;
 }
 
+interface CompanyFilterData {
+  [name: string]: string;
+  [vatNumber: string]: string;
+  [country: string]: string;
+  [type: string]: string;
+  [archived: string]: string;
+}

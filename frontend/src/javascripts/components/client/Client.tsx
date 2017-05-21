@@ -10,11 +10,13 @@ import LogLink from '../app/LogLink.tsx';
 
 import { fetchFleets } from '../../actions/fleet_actions.ts';
 import { callback } from '../../actions/fetch_json.ts';
-import { fetchClient, deleteClient } from '../../actions/client_actions.ts';
+import { fetchClient, deleteClient, putClient } from '../../actions/client_actions.ts';
 import { redirect_to } from '../../routes/router.tsx';
 import Confirm from 'react-confirm-bootstrap';
 import { th } from '../../utils/utils.ts';
-import { fetchContractsForCompany } from '../../actions/contract_actions.ts';
+import { fetchContractsForCompany, fetchContracts } from '../../actions/contract_actions.ts';
+import DynamicGuiComponent from '../app/DynamicGuiComponent.tsx';
+import Auth from '../../modules/Auth.ts';
 
 interface Props {
   [ params: string ]: { [ id: string ]: number };
@@ -32,6 +34,7 @@ class Client extends React.Component<Props, State> {
     this.state = { company: { address: {} }, fleets: [] };
     this.state.company.type = 'Customer';
     this.deleteClient = this.deleteClient.bind(this);
+    this.unarchiveClient = this.unarchiveClient.bind(this);
     this.fetchContracts = this.fetchContracts.bind(this);
   }
 
@@ -40,23 +43,34 @@ class Client extends React.Component<Props, State> {
       this.setState({ company: data });
     });
 
-    fetchFleets(this.props.params.id, (data: any) => {
-      this.setState({ fleets: data.data });
-    });
+    if(Auth.canReadFleetsOfCompany(this.props.params.id)) {
+      fetchFleets(this.props.params.id, (data: any) => {
+        this.setState({ fleets: data.data });
+      });
+    }
   }
 
-  public deleteClient() {
+  deleteClient() {
     deleteClient(this.props.params.id, () => redirect_to('/clients'));
   }
 
+  unarchiveClient() {
+    const success = () => redirect_to(`/clients/${this.state.company.id}`);
+    this.state.company['archived'] = false;
+    putClient(this.state.company.id, this.state.company, success);
+  }
+
   fetchContracts(params: ContractParams, success?: callback, fail?: callback) {
-    fetchContractsForCompany(params.companyId, success, fail);
+    if (this.state.company.type === "InsuranceCompany") {
+      fetchContracts(success, fail, { InsuranceCompany: params.companyId });
+    } else {
+      fetchContractsForCompany(params.companyId, success, fail);
+    }
   }
 
   render() {
-    const { name, vatNumber, phoneNumber, address, type } = this.state.company;
+    const { name, vatNumber, phoneNumber, address, type, archived } = this.state.company;
     const { street, houseNumber, city, postalCode, country } = address;
-
     const id = this.props.params.id;
 
     const data = [
@@ -70,6 +84,31 @@ class Client extends React.Component<Props, State> {
       th('company.address.country', country),
     ];
 
+  let deleteLink = (
+    <Confirm
+      onConfirm={ this.deleteClient }
+      body="Are you sure you want to archive this?"
+      confirmText="Confirm Archive"
+      title="Archive client">
+      <button className='btn btn-danger form-control'>
+        <span className='glyphicon glyphicon-remove' /> Archive
+      </button>
+    </Confirm>
+    );
+  if (archived) {
+    deleteLink = (
+      <Confirm
+        onConfirm={ this.unarchiveClient }
+        body="Are you sure you want to restore this?"
+        confirmText="Confirm Unarchive"
+        title="Unarchive company">
+        <button className='btn btn-success form-control'>
+          <span className='glyphicon glyphicon-share-alt' /> Unarchive
+        </button>
+      </Confirm>
+    );
+  }
+
     return (
       <div>
         <Header>
@@ -78,29 +117,42 @@ class Client extends React.Component<Props, State> {
         <div className='wrapper'>
           <div className='row'>
             <div className='col-xs-12 col-md-6'>
-              <Card>
-                <div className='card-content'>
-                  <div className='row actions'>
-                    <div className='col-sm-4'>
-                      <Link to={ '/clients/' + id + '/edit' } className='btn btn-default form-control'>
-                        <span className='glyphicon glyphicon-edit' /> Edit
-                      </Link>
+              <DynamicGuiComponent authorized={ Auth.canWriteCompany(this.props.params.id) }>
+                <Card>
+                  <div className='card-content'>
+                    <div className='row actions'>
+                      <div className='col-sm-4'>
+                        <Link to={ '/clients/' + id + '/edit' } className='btn btn-default form-control'>
+                          <span className='glyphicon glyphicon-edit' /> Edit
+                        </Link>
+                      </div>
+                      <div className='col-sm-4'>
+                        <Confirm
+                          onConfirm={ this.deleteClient }
+                          body="Are you sure you want to archive this?"
+                          confirmText="Confirm Archive"
+                          title="Archive client">
+                          <button className='btn btn-danger form-control'>
+                            <span className='glyphicon glyphicon-remove' /> Archive
+                          </button>
+                        </Confirm>
+                      </div>
+                      <LogLink id={ id } type='Company' />
+                      <DynamicGuiComponent authorized={ Auth.canWriteFleetsOfCompany(-1) }>
+                      <div className='col-sm-3'>
+                         <Link to={ `/commissions/clients/${this.props.params.id}` } className='btn btn-info form-control'>
+                           <span className='glyphicon glyphicon-euro' /> Commissions
+                         </Link>
+                       </div>
+                      </DynamicGuiComponent>
                     </div>
-                    <div className='col-sm-4'>
-                      <Confirm
-                        onConfirm={ this.deleteClient }
-                        body="Are you sure you want to archive this?"
-                        confirmText="Confirm Archive"
-                        title="Archive client">
-                        <button className='btn btn-danger form-control'>
-                          <span className='glyphicon glyphicon-remove' /> Archive
-                        </button>
-                      </Confirm>
+                    <div className='col-sm-3'>
+                      { deleteLink }
                     </div>
                     <LogLink id={ id } type='Company' />
                   </div>
-                </div>
-              </Card>
+                </Card>
+              </DynamicGuiComponent>
               <Card>
                 <div className='card-content'>
                   <DetailTable data={ data }/>
@@ -108,13 +160,17 @@ class Client extends React.Component<Props, State> {
               </Card>
             </div>
             <div className='col-xs-12 col-md-6'>
-              <Fleets fleets={ this.state.fleets } company={ this.props.params.id } />
-              <Contracts
-                companyId={ this.props.params.id }
-                vehicleId={ null }
-                fleetId={ null }
-                fetchMethod={this.fetchContracts} />
-              </div>
+              <DynamicGuiComponent authorized={ Auth.canReadFleetsOfCompany(this.props.params.id) }>
+                <Fleets fleets={ this.state.fleets } company={ this.props.params.id } />
+              </DynamicGuiComponent>
+              <DynamicGuiComponent authorized={ Auth.canReadContractsOfCompany(this.props.params.id) }>
+                <Contracts
+                  companyId={ this.props.params.id }
+                  vehicleId={ null }
+                  fleetId={ null }
+                  fetchMethod={this.fetchContracts} />
+              </DynamicGuiComponent>
+            </div>
           </div>
         </div>
       </div>

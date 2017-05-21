@@ -6,6 +6,8 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.validation.Validator;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.rest.api.models.ApiVehicle;
@@ -15,8 +17,10 @@ import solvas.service.AbstractService;
 import solvas.service.VehicleService;
 import solvas.service.models.Vehicle;
 
+import java.io.FileInputStream;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import static org.mockito.Matchers.any;
@@ -25,16 +29,18 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+
 /**
  * Integration tests of the VehicleRestController
  * It checks HTTP responses and calls to the VehicleDao
  */
-public class VehicleRestControllerTest extends AbstractRestControllerTest<Vehicle,ApiVehicle>{
+public class VehicleRestControllerTest extends AbstractRestControllerTest<Vehicle,ApiVehicle> {
     @Mock
     private VehicleService vehicleService;
 
     @Mock
     private Validator validator;
+
 
     private final static int VEHICLE_VALUE = 1500;
     private final static int VEHICLE_MILEAGE = 10000;
@@ -47,6 +53,7 @@ public class VehicleRestControllerTest extends AbstractRestControllerTest<Vehicl
     public VehicleRestControllerTest() {
         super(ApiVehicle.class);
     }
+
 
     /**
      * Setup to make sure the vehicleservice returns some types
@@ -155,5 +162,19 @@ public class VehicleRestControllerTest extends AbstractRestControllerTest<Vehicl
         when(vehicleService.getById(anyInt())).thenThrow(new EntityNotFoundException());
         getMockMvc().perform(get(RestTestFixtures.VEHICLE_GREENCARD_URL))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void uploadCorrectCSV() throws Exception {
+        FileInputStream fis = new FileInputStream("src/itest/java/solvas/rest/vehicles_correct.csv");
+        MockMultipartFile multipartFile = new MockMultipartFile("file", fis);
+
+        HashMap<String, String> contentTypeParams = new HashMap<String, String>();
+        MediaType mediaType = new MediaType("multipart", "form-data", contentTypeParams);
+
+        getMockMvc().perform(MockMvcRequestBuilders.fileUpload(RestTestFixtures.VEHICLE_UPLOAD_URL)
+                .file("file", multipartFile.getBytes())
+                .param("path", "dummy")) // just a dummy param to be able to call andExpect
+                .andExpect(status().isNoContent());
     }
 }
