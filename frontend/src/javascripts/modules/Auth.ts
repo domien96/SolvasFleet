@@ -186,7 +186,11 @@ class Auth {
   }
 
   static canClickVehiclesLink() {
-    return Auth.isAuthorizedGlobally('read:companies:fleets') || Auth.isAuthorizedGlobally('reat:company:fleets')
+    return Auth.isAuthorizedGlobally('read:companies:fleets') || Auth.isAuthorizedGlobally('read:company:fleets')
+  }
+
+  static canClickGreenCardLink() {
+    return Auth.isAuthorizedGlobally('read:company:greencard') || Auth.isAuthorizedGlobally('read:companies:greencard')
   }
 }
 

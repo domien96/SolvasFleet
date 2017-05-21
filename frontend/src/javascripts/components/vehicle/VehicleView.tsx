@@ -89,11 +89,13 @@ const VehicleView: React.StatelessComponent<Props> = props => {
       <div className='card-content'>
         <DetailTable data={ data }/>
       </div>
-      <div className='card-content'>
-        <div className='row actions'>
-          <DownloadButton onDownload={ props.onDownloadGreencard } label='Download Greencard'/>
+      <DynamicGuiComponent authorized={ Auth.canClickGreenCardLink() }>
+        <div className='card-content'>
+          <div className='row actions'>
+            <DownloadButton onDownload={ props.onDownloadGreencard } label='Download Greencard'/>
+          </div>
         </div>
-      </div>
+      </DynamicGuiComponent>
     </div>
   </Card>
   );
