@@ -136,7 +136,7 @@ invoice:
   endDate: End date
   showCurrent: Show current invoice
   showAll: Show all invoices
-  correct: Correct invoice
+  correct: Correct invoices
 
 contract:
   id: Contract ID

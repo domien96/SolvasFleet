@@ -1,10 +1,12 @@
 ROUTINE 0
-Nodige data: login en pass
+Nodige data: login en pass in db
 
 1 Inloggen met verkeerd passwoord
 2 Inloggen met juist passwoord
 Login : patrick@solvas.be
 passwoord: vakoverschrijdendproject
+3 Vertalingen tonen in engels, nederlands en swahili
+4 Doe demo voort in engelse versie (veiligst)
 
 ROUTINE 1
 Nodige data: foutieve en correcte csv bestanden
@@ -14,6 +16,7 @@ een foute csv uploaden
 een goede csv uploaden, vermeld dat de kolommen in willekuerige volgorde mag staan (in tegenstelling tot sommige andere groepen)
 vehicle linken aan die fleet
 commissies bekijken en instellen.
+instellingen van de vloot bekijken.
 contract aanmaken voor die nieuwe vehicle & vloot
 factuur genereren current, show all nog niets
 
