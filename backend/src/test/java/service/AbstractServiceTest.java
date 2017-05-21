@@ -33,10 +33,16 @@ public abstract class AbstractServiceTest<T extends Model, E extends ApiModel> {
     private E apiModel;
     private T model;
 
-    public AbstractServiceTest(Class<? extends T> clazz1, Class<? extends E> clazz2) {
-        this.clazz1 = clazz1;
-        apiModel = random(clazz2);
-        model = random(clazz1);
+    /**
+     * Construct a service test.
+     *
+     * @param modelClass The class of the model.
+     * @param apiModelClass The class of the API model.
+     */
+    public AbstractServiceTest(Class<? extends T> modelClass, Class<? extends E> apiModelClass) {
+        this.clazz1 = modelClass;
+        apiModel = random(apiModelClass);
+        model = random(modelClass);
     }
 
     public T getTestModel() {
@@ -49,7 +55,7 @@ public abstract class AbstractServiceTest<T extends Model, E extends ApiModel> {
 
     protected abstract AbstractService<T, E> getService();
 
-    protected abstract Dao getDaoMock();
+    protected abstract Dao<T> getDaoMock();
 
     protected abstract AbstractMapper<T, E> getMapperMock();
 
@@ -60,11 +66,22 @@ public abstract class AbstractServiceTest<T extends Model, E extends ApiModel> {
         captor = ArgumentCaptor.forClass(clazz1);
     }
 
+    /**
+     * Test get by ID.
+     *
+     * @throws EntityNotFoundException should not happen
+     */
     @Test
     public void getById() throws EntityNotFoundException {
         assertThat(getService().getById(4), is(getTestApiModel()));
     }
 
+    /**
+     * Test creation.
+     *
+     * @throws DependantEntityNotFound should not happen
+     * @throws EntityNotFoundException should not happen
+     */
     @Test
     public void create() throws DependantEntityNotFound, EntityNotFoundException {
         getService().create(getTestApiModel());
@@ -72,6 +89,12 @@ public abstract class AbstractServiceTest<T extends Model, E extends ApiModel> {
         assertThat(captor.getValue(), is(getTestModel()));
     }
 
+    /**
+     * Test archiving.
+     *
+     * @throws EntityNotFoundException should not happen
+     * @throws UnarchivableException should not happen
+     */
     @Test
     public void archive() throws EntityNotFoundException, UnarchivableException {
         getService().archive(2);
@@ -81,6 +104,12 @@ public abstract class AbstractServiceTest<T extends Model, E extends ApiModel> {
         assertThat(captor.getValue(), is(2));
     }
 
+    /**
+     * Test destroying.
+     *
+     * @throws EntityNotFoundException should not happen
+     * @throws UndeletableException should not happen
+     */
     @Test
     public void destroy() throws EntityNotFoundException, UndeletableException {
         when(getDaoMock().find(anyInt())).thenReturn(getTestModel());
@@ -89,6 +118,12 @@ public abstract class AbstractServiceTest<T extends Model, E extends ApiModel> {
         assertThat(captor.getValue(), is(getTestModel()));
     }
 
+    /**
+     * Test updating.
+     *
+     * @throws DependantEntityNotFound should not happen
+     * @throws EntityNotFoundException should not happen
+     */
     @Test
     public void update() throws DependantEntityNotFound, EntityNotFoundException {
         when(getDaoMock().save(getTestModel())).thenReturn(getTestModel());
@@ -97,6 +132,9 @@ public abstract class AbstractServiceTest<T extends Model, E extends ApiModel> {
         assertThat(captor.getValue(), is(getTestModel()));
     }
 
+    /**
+     * Test counting.
+     */
     @Test
     public void count() {
         long count = 4;
