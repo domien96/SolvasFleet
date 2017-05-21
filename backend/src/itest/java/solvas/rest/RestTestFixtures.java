@@ -10,6 +10,7 @@ public class RestTestFixtures {
     final static String VEHICLE_AT_FLEET_ID_URL = "/companies/1/fleets/1/vehicles/1";
     final static String VEHICLE_TYPES_URL = "/vehicles/types";
     final static String VEHICLE_GREENCARD_URL = "/vehicles/1/greencard.pdf";
+    final static String VEHICLE_UPLOAD_URL = "/vehicles/upload";
 
     final static String ROLE_PERMISSION_URL = "/auth/roles/1/permissions";
     final static String CONTRACT_TYPES = "/contracts/types";
