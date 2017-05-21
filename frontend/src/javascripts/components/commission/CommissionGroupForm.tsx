@@ -48,10 +48,10 @@ class CommissionGroupForm extends React.Component<Props, State> {
     const emptyCommissionGroup = { civilLiability: emptycommission, omnium: emptycommission, legalAid: emptycommission, driverInsurance: emptycommission, travelInsurance: emptycommission };
     const commissions = {
       personalVehicle: { ...emptyCommissionGroup },
-      van: JSON.parse(JSON.stringify(emptyCommissionGroup)) ,
-      truck: JSON.parse(JSON.stringify(emptyCommissionGroup)),
-      truck12: JSON.parse(JSON.stringify(emptyCommissionGroup)),
-      semiHeavyTruck: JSON.parse(JSON.stringify(emptyCommissionGroup))
+      van: emptyCommissionGroup,
+      truck: emptyCommissionGroup,
+      truck12: emptyCommissionGroup,
+      semiHeavyTruck: emptyCommissionGroup
     };
 
     this.state = {
@@ -98,6 +98,7 @@ class CommissionGroupForm extends React.Component<Props, State> {
     commission.vehicleType = vehicleType.charAt(0).toUpperCase() + vehicleType.slice(1); //Vuil idd
     commission.fleet = this.props.fleetId;
     commission.company = this.props.companyId;
+    commission.id = 0;
     state.initialCommissions[vehicleType][insuranceType] = commission;
     state.commissions[vehicleType][insuranceType] = { ...commission };
     this.setState({ ...state });
