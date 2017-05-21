@@ -78,7 +78,7 @@ class Sidebar extends React.Component<Props, State> {
           <SidebarLink path='/clients' authorized={ Auth.canReadCompany(-1) }>{ T.translate('company.clients') }</SidebarLink>
           <SidebarLink path='/vehicles' authorized= {  Auth.canReadCompany(-1)}>{ T.translate('vehicle.vehicles') }</SidebarLink>
           <SidebarLink path='/log' authorized={ Auth.canReadRevisions() }>{ T.translate('log.log') }</SidebarLink>
-          <SidebarLink path='/auth' authorized={ true }>{ T.translate('auth.permissionSettings') }</SidebarLink>
+          <SidebarLink path='/auth' authorized={ Auth.canReadRoles() }>{ T.translate('auth.permissionSettings') }</SidebarLink>
           <SidebarLink path='/commissions' authorized={Auth.canWriteFleetsOfCompany(-1)}>{ T.translate('commissions.commissions') }</SidebarLink>
         </ul>
         <ul className='nav session-actions'>
