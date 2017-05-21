@@ -35,7 +35,7 @@ public class UserPermissionEvaluator extends AbstractPermissionEvaluator<User> {
     public boolean canRead(Authentication authentication, User model) {
         return hasScope(authentication, READ_USERS) || (
                 model != null &&
-                model.getEmail().equals(authentication.getName())
+                (Integer.valueOf(authentication.getName())).equals(model.getId())
         );
     }
 
