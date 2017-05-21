@@ -71,7 +71,7 @@ public class ContractRestController extends AbstractRestController<Contract,ApiC
     @RequestMapping(value = "/companies/{id}/contracts", method = RequestMethod.GET)
     @PreAuthorize("hasPermission(#id, 'company', 'READ')")
     public ResponseEntity<?> getByCompanyId(@PathVariable int id,Pageable pagination, ContractFilter filter, BindingResult result) {
-        filter.setCompany(id);
+        filter.setClientCompany(id);
         return super.listAll(pagination,filter,result);
     }
 
@@ -91,7 +91,7 @@ public class ContractRestController extends AbstractRestController<Contract,ApiC
             "}/contracts", method = RequestMethod.GET)
     @PreAuthorize("hasPermission(#vehicleId, 'vehicle', 'READ') && hasPermission(#companyId, 'company', 'READ') && hasPermission(#fleetId, 'fleet', 'READ')")
     public ResponseEntity<?> getByCompanyFleetVehicleId(@PathVariable int companyId,@PathVariable int fleetId,@PathVariable int vehicleId,Pageable pagination, ContractFilter filter, BindingResult result) {
-        filter.setCompany(companyId);
+        filter.setClientCompany(companyId);
         filter.setFleet(fleetId);
         filter.setVehicle(vehicleId);
         return super.listAll(pagination,filter,result);
