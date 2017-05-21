@@ -49,7 +49,7 @@ public class RoleServiceTest extends AbstractServiceTest<Role,ApiRole> {
     }
 
     @Override
-    protected Dao getDaoMock() {
+    protected Dao<Role> getDaoMock() {
         return roleDao;
     }
 

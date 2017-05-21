@@ -55,7 +55,7 @@ public class CompanyServiceTest extends AbstractServiceTest<Company,ApiCompany> 
     }
 
     @Override
-    protected Dao getDaoMock() {
+    protected Dao<Company> getDaoMock() {
         return companyDao;
     }
 

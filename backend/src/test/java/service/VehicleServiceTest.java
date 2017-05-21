@@ -51,7 +51,7 @@ public class VehicleServiceTest extends AbstractServiceTest<Vehicle,ApiVehicle>{
     }
 
     @Override
-    protected Dao getDaoMock() {
+    protected Dao<Vehicle> getDaoMock() {
         return vehicleDao;
     }
 

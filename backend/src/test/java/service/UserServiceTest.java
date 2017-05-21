@@ -68,7 +68,7 @@ public class UserServiceTest extends AbstractServiceTest<User,ApiUser> {
     }
 
     @Override
-    protected Dao getDaoMock() {
+    protected Dao<User> getDaoMock() {
         return userDao;
     }
 

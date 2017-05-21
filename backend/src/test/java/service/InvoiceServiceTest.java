@@ -46,7 +46,7 @@ public class InvoiceServiceTest extends AbstractServiceTest<Invoice,ApiInvoice> 
     }
 
     @Override
-    protected Dao getDaoMock() {
+    protected Dao<Invoice> getDaoMock() {
         return invoiceDao;
     }
 

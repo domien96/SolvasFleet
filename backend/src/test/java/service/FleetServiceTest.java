@@ -48,7 +48,7 @@ public class FleetServiceTest extends AbstractServiceTest<Fleet,ApiFleet>{
     }
 
     @Override
-    protected Dao getDaoMock() {
+    protected Dao<Fleet> getDaoMock() {
         return fleetDao;
     }
 

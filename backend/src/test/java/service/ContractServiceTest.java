@@ -45,7 +45,7 @@ public class ContractServiceTest extends AbstractServiceTest<Contract,ApiContrac
     }
 
     @Override
-    protected Dao getDaoMock() {
+    protected Dao<Contract> getDaoMock() {
         return contractDao;
     }
 
