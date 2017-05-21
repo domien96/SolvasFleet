@@ -2,6 +2,7 @@ package solvas.rest.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import solvas.persistence.api.EntityNotFoundException;
@@ -40,6 +41,7 @@ public class TaxRestController extends AbstractRestController<Tax,ApiTax>{
      *
      * @throws EntityNotFoundException If one of the types was not found.
      */
+    @PreAuthorize("hasPermission(0, 'tax', 'READ')")
     @RequestMapping(value = "/vehicles/types/{vehicleType}/taxes/{contractType}", method = RequestMethod.GET)
     public ResponseEntity<?> getTax(@PathVariable String vehicleType, @PathVariable String contractType) throws EntityNotFoundException {
         return new ResponseEntity<>(taxService.findFor(vehicleType, contractType), HttpStatus.OK);
@@ -54,6 +56,7 @@ public class TaxRestController extends AbstractRestController<Tax,ApiTax>{
      *
      * @return The contract types.
      */
+    @PreAuthorize("hasPermission(0, 'tax', 'EDIT')")
     @RequestMapping(value = "/vehicles/types/{vehicleType}/taxes/{contractType}", method = RequestMethod.PUT)
     public ResponseEntity<?> putTax(@PathVariable String vehicleType, @PathVariable String contractType,
                                     @Valid @RequestBody ApiTax input, BindingResult result) {
@@ -61,5 +64,4 @@ public class TaxRestController extends AbstractRestController<Tax,ApiTax>{
         input.setContractType(contractType);
         return super.put(0,input,result);
     }
-
 }

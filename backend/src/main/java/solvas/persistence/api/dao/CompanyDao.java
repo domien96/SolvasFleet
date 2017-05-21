@@ -1,6 +1,9 @@
 package solvas.persistence.api.dao;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
+import solvas.persistence.api.Filter;
 import solvas.service.models.Company;
 import solvas.persistence.api.Dao;
 

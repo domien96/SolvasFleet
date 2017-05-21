@@ -58,7 +58,7 @@ dependencies {
     compile 'org.springframework.security:spring-security-web:4.2.2.RELEASE'
     compile 'org.springframework.security:spring-security-jwt'
     compile 'org.springframework.security:spring-security-cas'
-
+    compile 'org.springframework.security:spring-security-test'
 
     compile 'org.jasig.cas.client:cas-client-core'
     compile 'org.jasig.cas.client:cas-client-support-saml:3.4.1'
@@ -67,7 +67,6 @@ dependencies {
     compile 'org.apache.commons:commons-lang3:3.3.2'
     compile 'io.jsonwebtoken:jjwt:0.7.0'
     compile 'com.itextpdf:itextg:5.5.9'
-    compile group: 'org.springframework', name: 'spring-test', version: '4.3.7.RELEASE'
 
     compile 'com.opencsv:opencsv:3.9'
 
@@ -106,6 +105,7 @@ jacocoTestReport {
         csv.enabled false
         html.destination "${buildDir}/jacocoHtml"
     }
+    executionData test, itest
 }
 
 task jacocoReport(type: JacocoReport){

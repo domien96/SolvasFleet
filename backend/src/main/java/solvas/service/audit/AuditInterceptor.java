@@ -60,7 +60,12 @@ public class AuditInterceptor extends EmptyInterceptor {
 
         //make revision
         Revision revision = new Revision();
-        revision.setMethod(MethodType.UPDATE);
+
+        if (((Model) entity).isArchived()){
+            revision.setMethod(MethodType.ARCHIVE);
+        } else {
+            revision.setMethod(MethodType.UPDATE);
+        }
 
 
         // Connect revision with a entity
@@ -81,11 +86,7 @@ public class AuditInterceptor extends EmptyInterceptor {
 
         // Make revision
         Revision revision = new Revision();
-        if (((Model) entity).isArchived()){
-            revision.setMethod(MethodType.ARCHIVE);
-        } else {
-            revision.setMethod(MethodType.INSERT);
-        }
+        revision.setMethod(MethodType.INSERT);
 
 
 
@@ -130,7 +131,12 @@ public class AuditInterceptor extends EmptyInterceptor {
 
             String[] className = EntityType.fromClass(about.getClass()).split("\\.");
             revision.setEntityType(className[className.length-1]);
-            revision.setPayload(objectMapper.writeValueAsString(mapperContext.getMapperForClass(about.getClass()).convertToApiModel((Model) about)));
+
+            if (revision.getMethod().equals(MethodType.DELETE)){
+                revision.setPayload("");
+            } else {
+                revision.setPayload(objectMapper.writeValueAsString(mapperContext.getMapperForClass(about.getClass()).convertToApiModel((Model) about)));
+            }
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e); // Can we even catch an exception at this point
         }

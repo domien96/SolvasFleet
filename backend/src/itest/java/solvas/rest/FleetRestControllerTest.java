@@ -8,6 +8,7 @@ import solvas.service.AbstractService;
 import solvas.service.FleetService;
 import solvas.service.models.Fleet;
 
+
 /**
  * Integration tests of fleetrestcontroller
  */
