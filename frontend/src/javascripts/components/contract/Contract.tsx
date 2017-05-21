@@ -26,13 +26,17 @@ class Contract extends React.Component<Props, State> {
 
   fetchContract(contractId: number) {
     fetchContract(contractId, ((data) => {
-      this.setState({ contract: data });
+      if(data) {
+        this.setState({ contract: data });
+      }
     }));
   }
 
   fetchClients() {
     fetchClients((data: any) => {
-      this.setState({ companies: data.data })
+      if(data) {
+        this.setState({ companies: data.data })
+      }
     }, undefined, 'type: InsuranceCompany');
   }
 
