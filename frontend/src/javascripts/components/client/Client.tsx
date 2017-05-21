@@ -10,7 +10,7 @@ import LogLink from '../app/LogLink.tsx';
 
 import { fetchFleets } from '../../actions/fleet_actions.ts';
 import { callback } from '../../actions/fetch_json.ts';
-import { fetchClient, deleteClient } from '../../actions/client_actions.ts';
+import { fetchClient, deleteClient, putClient } from '../../actions/client_actions.ts';
 import { redirect_to } from '../../routes/router.tsx';
 import Confirm from 'react-confirm-bootstrap';
 import { th } from '../../utils/utils.ts';
@@ -32,6 +32,7 @@ class Client extends React.Component<Props, State> {
     this.state = { company: { address: {} }, fleets: [] };
     this.state.company.type = 'Customer';
     this.deleteClient = this.deleteClient.bind(this);
+    this.unarchiveClient = this.unarchiveClient.bind(this);
     this.fetchContracts = this.fetchContracts.bind(this);
   }
 
@@ -45,8 +46,14 @@ class Client extends React.Component<Props, State> {
     });
   }
 
-  public deleteClient() {
+  deleteClient() {
     deleteClient(this.props.params.id, () => redirect_to('/clients'));
+  }
+
+  unarchiveClient() {
+    const success = () => redirect_to(`/clients/${this.state.company.id}`);
+    this.state.company['archived'] = false;
+    putClient(this.state.company.id, this.state.company, success);
   }
 
   fetchContracts(params: ContractParams, success?: callback, fail?: callback) {
@@ -58,9 +65,8 @@ class Client extends React.Component<Props, State> {
   }
 
   render() {
-    const { name, vatNumber, phoneNumber, address, type } = this.state.company;
+    const { name, vatNumber, phoneNumber, address, type, archived } = this.state.company;
     const { street, houseNumber, city, postalCode, country } = address;
-
     const id = this.props.params.id;
 
     const data = [
@@ -73,6 +79,31 @@ class Client extends React.Component<Props, State> {
       th('company.address.city', city),
       th('company.address.country', country),
     ];
+
+  let deleteLink = (
+    <Confirm
+      onConfirm={ this.deleteClient }
+      body="Are you sure you want to archive this?"
+      confirmText="Confirm Archive"
+      title="Archive client">
+      <button className='btn btn-danger form-control'>
+        <span className='glyphicon glyphicon-remove' /> Archive
+      </button>
+    </Confirm>
+    );
+  if (archived) {
+    deleteLink = (
+      <Confirm
+        onConfirm={ this.unarchiveClient }
+        body="Are you sure you want to restore this?"
+        confirmText="Confirm Unarchive"
+        title="Unarchive company">
+        <button className='btn btn-success form-control'>
+          <span className='glyphicon glyphicon-share-alt' /> Unarchive
+        </button>
+      </Confirm>
+    );
+  }
 
     return (
       <div>
@@ -91,15 +122,7 @@ class Client extends React.Component<Props, State> {
                       </Link>
                     </div>
                     <div className='col-sm-4'>
-                      <Confirm
-                        onConfirm={ this.deleteClient }
-                        body="Are you sure you want to archive this?"
-                        confirmText="Confirm Archive"
-                        title="Archive client">
-                        <button className='btn btn-danger form-control'>
-                          <span className='glyphicon glyphicon-remove' /> Archive
-                        </button>
-                      </Confirm>
+                      { deleteLink }
                     </div>
                     <LogLink id={ id } type='Company' />
                   </div>
@@ -117,7 +140,7 @@ class Client extends React.Component<Props, State> {
                 companyId={ this.props.params.id }
                 vehicleId={ null }
                 fleetId={ null }
-                fetchMethod={this.fetchContracts} />
+                fetchMethod={ this.fetchContracts } />
               </div>
           </div>
         </div>

@@ -17,7 +17,7 @@ class Invoice extends React.Component<Props, State> {
 
   constructor() {
     super();
-    this.state = { invoice: {} };
+    this.state = { invoice: { paid: false, totalAmount: 0 } };
     this.handleDownload = this.handleDownload.bind(this);
     this.handleTogglePaid = this.handleTogglePaid.bind(this);
   }

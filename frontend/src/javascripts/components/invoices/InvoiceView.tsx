@@ -32,14 +32,20 @@ const TogglePaid = ({ onToggle, paid }: { onToggle: () => void, paid: boolean })
 const InvoiceView: React.StatelessComponent<Props> = props => {
   const { id, fleet, paid, totalAmount, type, startDate, endDate } = props.invoice;
 
+  let newStartDate = startDate
+  let newEndDate = endDate
+  if(startDate) {
+    newStartDate = startDate.split('T')[0];
+    newEndDate = endDate.split('T')[0];
+  }
   const data = [
     th('invoice.id', id),
     th('invoice.fleet', fleet),
-    th('invoice.paid', paid),
-    th('invoice.totalAmount', totalAmount),
+    th('invoice.paid', paid.toString()),
+    th('invoice.totalAmount', totalAmount.toString()),
     th('invoice.type', type),
-    th('invoice.startDate', startDate),
-    th('invoice.endDate', endDate),
+    th('invoice.startDate', newStartDate),
+    th('invoice.endDate', newEndDate),
   ];
 
   return (

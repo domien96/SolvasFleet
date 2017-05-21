@@ -15,6 +15,7 @@ company:
   name: Name
   vatNumber: VAT number
   phoneNumber: Phone number
+  archived: Archived
   address:
     street: Street
     houseNumber: House number
@@ -35,6 +36,7 @@ vehicle:
   id: Vehicle ID
   vehicles: Vehicles
   noVehicle: No vehicle selected
+  archived: Archived
   licensePlate: License plate
   vin: Vehicle Identification Number
   brand: Brand
@@ -65,6 +67,7 @@ user:
   email: Email
   password: Password
   address: Address
+  archived: Archived
   firstName: First name
   lastName: Last name
   addNew: Add New User
@@ -123,6 +126,7 @@ auth:
   permissionSettings: Permission Settings
 
 invoice:
+  invoices: Invoices
   id: Invoice ID
   fleet: Fleet ID
   paid: Paid

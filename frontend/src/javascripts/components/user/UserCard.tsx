@@ -11,6 +11,7 @@ import LogLink from '../app/LogLink.tsx';
 interface Props {
   user: UserData;
   handleDelete: () => void;
+  handleUnarchive: () => void;
 }
 
 const EditLink = ({ id }: { id: number }) => {
@@ -27,7 +28,7 @@ const DeleteLink = ({ handleDelete }: { handleDelete: () => void }) => {
   return (
     <div className='col-sm-4'>
       <Confirm
-        onConfirm={handleDelete}
+        onConfirm={ handleDelete }
         body="Are you sure you want to archive this?"
         confirmText="Confirm Archive"
         title="Archive user">
@@ -39,8 +40,24 @@ const DeleteLink = ({ handleDelete }: { handleDelete: () => void }) => {
   );
 };
 
+const UnarchiveLink = ({ handleUnarchive }: { handleUnarchive: () => void }) => {
+  return (
+    <div className='col-sm-4'>
+      <Confirm
+        onConfirm={ handleUnarchive }
+        body="Are you sure you want to restore this?"
+        confirmText="Confirm Unarchive"
+        title="Unarchive user">
+        <button className='btn btn-success form-control'>
+          <span className='glyphicon glyphicon-share-alt' /> Unarchive
+        </button>
+      </Confirm>
+    </div>
+  );
+};
+
 const UserCard: React.StatelessComponent<Props> = props => {
-  const { id, firstName, lastName, email } = props.user;
+  const { id, firstName, lastName, email, archived } = props.user;
 
   const data = [
     th('user.firstName', firstName),
@@ -48,13 +65,18 @@ const UserCard: React.StatelessComponent<Props> = props => {
     th('user.email', email),
   ];
 
+  let deleteLink = <DeleteLink handleDelete={ props.handleDelete } />
+  if (archived) {
+    deleteLink = <UnarchiveLink handleUnarchive={ props.handleUnarchive } />
+  }
+
   return (
     <Card>
       <div className='card-content user'>
         <h2>{ firstName } { lastName }</h2>
         <div className='row actions'>
           <EditLink id={ id } />
-          <DeleteLink handleDelete={ props.handleDelete } />
+          { deleteLink }
           <LogLink id={ id } type='User' />
         </div>
       </div>

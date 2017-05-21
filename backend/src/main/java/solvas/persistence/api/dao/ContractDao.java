@@ -2,6 +2,7 @@ package solvas.persistence.api.dao;
 
 import org.springframework.stereotype.Repository;
 import solvas.persistence.api.Dao;
+import solvas.service.models.Company;
 import solvas.service.models.Contract;
 import solvas.service.models.Fleet;
 import solvas.service.models.FleetSubscription;
@@ -17,6 +18,24 @@ import java.util.Optional;
  */
 @Repository
 public interface ContractDao extends Dao<Contract> {
+
+    /**
+     * Find all contracts with given company
+     *
+     * @param company the company of which the contracts are needed
+     * @return Contracts with given company
+     */
+    Collection<Contract> findByCompany(Company company);
+
+
+    /**
+     * Find all contracts with given fleetSubscription
+     *
+     * @param fleetSubscription the fleetSubscription of which the contracts are needed
+     * @return Contracts with given fleetSubscription
+     */
+    Collection<Contract> findByFleetSubscription(FleetSubscription fleetSubscription);
+
 
     /**
      * Find all contracts for a subscription which overlaps with the period start-end
@@ -115,4 +134,5 @@ public interface ContractDao extends Dao<Contract> {
      * @return The contract.
      */
     Optional<Contract> findFirstByFleetSubscriptionFleetOrderByStartDateAsc(Fleet fleet);
+
 }
