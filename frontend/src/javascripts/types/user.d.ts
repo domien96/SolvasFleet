@@ -16,4 +16,5 @@ interface UserFilterData {
   [firstName: string]: string;
   [email: string]: string;
   [archived: string]: string;
+  [sort: string]: string;
 }

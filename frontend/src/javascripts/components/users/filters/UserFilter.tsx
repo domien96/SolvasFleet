@@ -19,7 +19,7 @@ class UserFilter extends React.Component<FilterProps, FilterState> {
   constructor() {
     super();
     this.state = {
-      filter: { firstName: '', lastName: '', email: '', archived: 'false' },
+      filter: { firstName: '', lastName: '', email: '', archived: 'false', sort: 'id' },
       hidden: false,
       firstNameData: [],
       lastNameData: [],
@@ -30,6 +30,7 @@ class UserFilter extends React.Component<FilterProps, FilterState> {
     this.handleFilterLastName = this.handleFilterLastName.bind(this);
     this.handleFilterEmail = this.handleFilterEmail.bind(this);
     this.handleFilterArchived = this.handleFilterArchived.bind(this);
+    this.handleSort = this.handleSort.bind(this);
     this.handleReset = this.handleReset.bind(this);
     this.handleHide = this.handleHide.bind(this);
     this.handleShow = this.handleShow.bind(this);
@@ -54,6 +55,13 @@ class UserFilter extends React.Component<FilterProps, FilterState> {
     }
     this.setState({ filter: newFilter });
     this.props.onFilter( newFilter );
+  }
+
+  handleSort(event: string) {
+    const newFilter = this.state.filter;
+    newFilter.sort = event;
+    this.setState( { filter: newFilter } );
+    this.props.onFilter(newFilter);
   }
 
   handleFilterFirstName(selected: string[]) {
@@ -127,6 +135,7 @@ class UserFilter extends React.Component<FilterProps, FilterState> {
           onFilterLastName={ this.handleFilterLastName }
           onFilterEmail={ this.handleFilterEmail }
           onFilterArchive={ this.handleFilterArchived }
+          onSort={ this.handleSort }
           onReset={ this.handleReset }
           onHide={ this.handleHide }
         />
