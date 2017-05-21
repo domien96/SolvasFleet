@@ -18,8 +18,8 @@ class GlobalCommissions extends React.Component<Props, {}> {
   }
 
 
-  putCommission(vehicleType: string, insuranceType: string, commission: CommissionData, success?: callback, fail?: callback) {
-    putCommission(vehicleType, insuranceType, commission, success, fail);
+  putCommission(commission: CommissionData, success?: callback, fail?: callback) {
+    putCommission(commission, success, fail);
   }
 
   fetchCommission(vehicleType: string, insuranceType: string, success?: callback, fail?: callback) {
@@ -32,7 +32,7 @@ class GlobalCommissions extends React.Component<Props, {}> {
         <Header>
           <h2>{ T.translate('commissions.global') }</h2>
         </Header>
-        <CommissionGroupForm fetchCommission={ this.fetchCommission } putCommission={ this.putCommission } returnTo={ "/" }/>
+        <CommissionGroupForm fetchCommission={ this.fetchCommission } putCommission={ this.putCommission } returnTo={ "/" } companyId={ 0 } fleetId={ 0 }/>
       </div>
     );
   }

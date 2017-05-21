@@ -17,10 +17,10 @@ interface CommissionData {
 
 
 interface CommissionGroupData {
-  civilLiability: CommissionData;
-  omnium: CommissionData;
-  driverInsurance: CommissionData;
-  travelInsurance: CommissionData;
-  legalAid: CommissionData;
+  CivilLiability: CommissionData;
+  Omnium: CommissionData;
+  DriverInsurance: CommissionData;
+  TravelInsurance: CommissionData;
+  LegalAid: CommissionData;
   [key: string]: CommissionData;
 }

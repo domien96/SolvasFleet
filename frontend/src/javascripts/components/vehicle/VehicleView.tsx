@@ -77,6 +77,9 @@ const VehicleView: React.StatelessComponent<Props> = props => {
           <EditLink id={ id } />
           <DeleteLink handleDelete={ props.handleDelete } />
           <LogLink id={ id } type='Vehicle' />
+          <Link to={ `/commissions/clients/4/fleets/${fleet}/vehicles/${id}/${type}` } className='btn btn-default form-control'>
+            <span className='glyphicon glyphicon-edit' /> Edit
+          </Link>
         </div>
       </div>
       <div className='card-content'>
