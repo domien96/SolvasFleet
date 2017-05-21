@@ -27,10 +27,10 @@ const COM: React.StatelessComponent<ComFormProps> = props => {
 
   return (
     <div className={ classes }>
-      <div className='col-md-9'><label className='commission-label'>{label}</label></div>
-      <div className='col-md-3'>
+      <div className='col-md-8'><label className='commission-label'>{label}</label></div>
+      <div className='col-md-4'>
         <div className="form-group">
-          <div className="input-group">
+          <div className="input-group commission-percentage">
             <T.text
               tag='input'
               type='number'
