@@ -33,7 +33,9 @@ Voorbereiding data: todo -> testdata samenstellen voor een oudere vloot met enke
 6 open een invoice en download de pdf
 7 open de pdf en zeg dat de commissie verborgen zit in de nettopremie kolom
 8 Leg de rest van de pdf uit.
-9 voeg 
+9 Voeg een nieuw contract toe met startdatum 1feb en einddatum 1 mei.
+10 Ga naar vloot en klik op corrigeren.
+11 toon de correctiefactuur bij show all invoices 
 
 
 ROUTINE 3 LOGBOEK
