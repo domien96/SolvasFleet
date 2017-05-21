@@ -98,6 +98,19 @@ public class InvoiceRestController extends AbstractRestController<Invoice, ApiIn
     }
 
     /**
+     * Mark an invoice as paid or not.
+     * @param id ID of the invoice.
+     * @param input The invoice.
+     * @return The response.
+     * @throws EntityNotFoundException If the invoice doesn't exist.
+     */
+    @RequestMapping(value = "/companies/{companyId}/fleets/{fleetId}/invoices/{id}", method = RequestMethod.PUT)
+    @PreAuthorize("hasPermission(#id, 'invoice', 'EDIT')")
+    public ResponseEntity<?> markInvoiceAsPayed(@PathVariable int id, @RequestBody ApiInvoice input) throws EntityNotFoundException {
+        return new ResponseEntity<>(invoiceService.setPayed(id, input.isPaid()), HttpStatus.OK);
+    }
+
+    /**
      * Get invoice with id
      *
      * @param fleetId the id of the fleet
