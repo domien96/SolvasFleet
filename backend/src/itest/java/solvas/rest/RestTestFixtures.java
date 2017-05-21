@@ -38,6 +38,7 @@ public class RestTestFixtures {
     public final static String INVOICE_ID_URL = "/companies/1/fleets/1/invoices/1";
     public final static String INVOICE_CURRENT_URL = "/companies/1/fleets/1/invoices/current";
     public final static String INVOICE_PDF_URL = "/companies/1/fleets/1/invoices/1.pdf";
+    public final static String BILLING_INVOICE_PDF_URL = "/companies/1/fleets/1/invoices/2.pdf";
     public final static String INVOICE_CURRENT_PDF = "/companies/1/fleets/1/invoices/current.pdf";
 
     public final static String FUNCTION_ROOT_URL = "/users/1/functions";

@@ -8,6 +8,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -27,7 +28,7 @@ public class CommissionFilter implements Filter<Commission> {
 
     @Override
     public Collection<Predicate> asPredicates(CriteriaBuilder builder, Root<Commission> root) {
-        Collection<Predicate> predicates= new HashSet<>();
+        Collection<Predicate> predicates= new ArrayList<>();
 
         if (insuranceType != null) {
             Join<Commission,InsuranceType> join = root.join("insuranceType");
@@ -42,7 +43,7 @@ public class CommissionFilter implements Filter<Commission> {
                     root.get("vehicle"),
                     vehicle
             ));
-            return predicates;
+            //return predicates;
         } else { // to avoid multiple results
             predicates.add(builder.isNull(
                     root.get("vehicle")
@@ -66,7 +67,7 @@ public class CommissionFilter implements Filter<Commission> {
                     root.get("fleet"),
                     fleet
             ));
-            return predicates;
+            //return predicates;
         } else { // to avoid multiple results when we fill in the company field (a company can be linked to multiple fleets)
             predicates.add(builder.isNull(
                     root.get("fleet")

@@ -73,12 +73,23 @@ public class PdfTest {
     }
 
     /**
-     * Can we payment greencards?
+     * Can we generate payment pdf?
      * @throws Exception Thrown if test fails
      */
     @Test
     public void paymentPdfDoesNotError() throws Exception {
         getMockMvc().perform(get(RestTestFixtures.INVOICE_PDF_URL))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().is2xxSuccessful());
+    }
+
+    /**
+     * Can we generate billing pdf?
+     * @throws Exception Thrown if test fails
+     */
+    @Test
+    public void billingPdfDoesNotError() throws Exception {
+        getMockMvc().perform(get(RestTestFixtures.BILLING_INVOICE_PDF_URL))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().is2xxSuccessful());
     }

@@ -10,6 +10,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -29,7 +30,7 @@ public class AuditFilter implements Filter<Revision> {
 
     @Override
     public Collection<Predicate> asPredicates(CriteriaBuilder builder, Root<Revision> root) {
-        Collection<Predicate> predicates =  new HashSet<>();
+        Collection<Predicate> predicates =  new ArrayList<>();
         if (user >= 0) {
             predicates.add(builder.equal(root.get("user"), user));
         }
