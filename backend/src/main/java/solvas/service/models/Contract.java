@@ -1,5 +1,15 @@
 package solvas.service.models;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Component;
+import solvas.persistence.api.DaoContext;
+import solvas.rest.api.models.ApiCommission;
+import solvas.rest.controller.CommissionRestController;
+import solvas.rest.query.CommissionFilter;
+import solvas.service.CommissionService;
+
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -9,6 +19,7 @@ import java.util.Set;
  * A contract links a {@link Vehicle} with the insurance company.
  * @author Sjabasti.
  */
+@Component
 public class Contract extends Model {
 
     /**
@@ -85,10 +96,40 @@ public class Contract extends Model {
         this.franchise = franchise;
     }
 
+    /**
+     * The netto premium. Which is the premium (= riskpremium) + the commission.
+     * @return the netto premium
+     */
+    public long getNettoPremium() {
+        // with commission
+        Vehicle vehicle = fleetSubscription.getVehicle();
+        CommissionFilter filter = new CommissionFilter();
+        filter.setInsuranceType(insuranceType.getName());
+        filter.setVehicle(vehicle.getId());
+        filter.setVehicleType(vehicle.getType().getName());
+        filter.setFleet(fleetSubscription.getFleet().getId());
+        filter.setCompany(company.getId());
+        // Make this code better
+        Page<ApiCommission> result = CommissionRestController.commissionService.findAll(new PageRequest(0,10),filter); //dummy page request
+        if(!result.hasContent()) {
+            return premium;
+        } else {
+            return premium + premium * result.getContent().get(0).getValue()/100;
+        }
+    }
+
+    /**
+     * Get the risk premium
+     * @return the risk premium
+     */
     public int getPremium() {
         return premium;
     }
 
+    /**
+     * Sets the risk premium.
+     * @param premium the risk premium
+     */
     public void setPremium(int premium) {
         this.premium = premium;
     }
