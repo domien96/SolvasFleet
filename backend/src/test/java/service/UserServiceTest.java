@@ -28,6 +28,7 @@ import solvas.service.mappers.exceptions.DependantEntityNotFound;
 import solvas.service.models.User;
 
 import java.util.Collection;
+import java.util.Collections;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -92,7 +93,7 @@ public class UserServiceTest extends AbstractServiceTest<User, ApiUser> {
         securityContext.setAuthentication(new Authentication() {
             @Override
             public Collection<? extends GrantedAuthority> getAuthorities() {
-                return null;
+                return Collections.emptyList();
             }
 
             @Override
@@ -125,7 +126,6 @@ public class UserServiceTest extends AbstractServiceTest<User, ApiUser> {
                 return null;
             }
         });
-
 
         PowerMockito.when(SecurityContextHolder.getContext()).thenReturn(securityContext);
 
