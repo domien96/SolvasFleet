@@ -1,9 +1,11 @@
 import React from 'react';
 import Card from '../../app/Card.tsx';
 import { Typeahead } from 'react-bootstrap-typeahead';
+import { ButtonGroup, DropdownButton, MenuItem } from 'react-bootstrap';
 
 interface Props {
   typeaheadfields: Typeaheadfield[];
+  selections: Selectionfield[];
   onReset: () => void;
   onHide: () => void;
   toggleArchive: () => void;
@@ -18,6 +20,31 @@ const UserFilterView: React.StatelessComponent<Props> = props => {
       <div key={ i }>
         <label>{ name }</label>
         <Typeahead onChange={ callback } options={ data } selected={ selected }/>
+      </div>
+    );
+  });
+
+  const dropdowns = props.selections.map((selection: Selectionfield) => {
+    const choices = selection.choices.map((choice: Choice) => {
+      return(
+        <MenuItem key={ choice.eventKey } eventKey={ choice.eventKey } onSelect={ choice.callback }>
+          { choice.name }
+        </MenuItem>
+      );
+    });
+
+    return(
+      <div key={ selection.name }>
+        <label>{ selection.name }</label>
+        <ButtonGroup justified>
+          <DropdownButton
+            id={ selection.title }
+            key={ selection.title }
+            className='btn btn-default'
+            title={ selection.title }>
+            { choices }
+          </DropdownButton>
+        </ButtonGroup>
       </div>
     );
   });
@@ -47,6 +74,9 @@ const UserFilterView: React.StatelessComponent<Props> = props => {
         <div className='col-sm-6'>
           <div>
             { typeaheadfields }
+          </div>
+          <div>
+            { dropdowns }
           </div>
           <div>
             { archive }

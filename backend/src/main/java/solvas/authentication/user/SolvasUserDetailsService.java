@@ -73,7 +73,9 @@ public class SolvasUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByModel(User user) {
         // Get permissions for each company
         Map<Company, Collection<Permission>> permissionsMap = new HashMap<>();
-        user.getFunctions().forEach(assignedRole -> {
+        user.getFunctions().stream()
+                .filter(f -> ! f.isArchived())
+                .forEach(assignedRole -> {
             if (permissionsMap.containsKey(assignedRole.getCompany())) {
                 permissionsMap.get(assignedRole.getCompany())
                         .addAll(assignedRole.getRole().getPermissions());
