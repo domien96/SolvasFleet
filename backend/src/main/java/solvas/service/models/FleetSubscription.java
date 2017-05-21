@@ -2,8 +2,7 @@ package solvas.service.models;
 
 
 
-import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 /**
@@ -15,12 +14,12 @@ public class FleetSubscription extends Model {
     /**
      * Date when the vehicle has been part of the fleet.
      */
-    private LocalDate startDate;
+    private LocalDateTime startDate;
 
     /**
      * The vehicle belongs to the fleet until this date.
      */
-    private LocalDate endDate;
+    private LocalDateTime endDate;
 
     /**
      * The vehicle which is linked with the fleet.
@@ -38,19 +37,19 @@ public class FleetSubscription extends Model {
      */
     private Set<Contract> contracts;
 
-    public LocalDate getStartDate() {
+    public LocalDateTime getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDate startDate) {
+    public void setStartDate(LocalDateTime startDate) {
         this.startDate = startDate;
     }
 
-    public LocalDate getEndDate() {
+    public LocalDateTime getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDate endDate) {
+    public void setEndDate(LocalDateTime endDate) {
         this.endDate = endDate;
     }
 
@@ -70,10 +69,26 @@ public class FleetSubscription extends Model {
         this.contracts = contracts;
     }
 
+    /**
+     * Check if a subscription is active.
+     *
+     * An active subscription is defined as a subscription for which the start date lies before or on given date,
+     * and there is no end date or the end date is after the given date.
+     *
+     * This means: active => startDate <= date1 && (endDate == null || endDate > date2)
+     * Meaning this method returns subscriptions in the interval [date1, date2[
+     *
+     * In this method, date1 = start and date2 = end.
+     *
+     * We define the end date as exclusive, to prevent two subscriptions to be active in the same moment.
+     * Consider two subscriptions, one that ends on moment A and another that begins on moment A. If the end date
+     * is not exclusive, this means both subscriptions will be active on moment A, which is of course not what we want.
+     *
+     * @return True if the subscription is currently active, false otherwise.
+     */
     public boolean isActive() {
-        LocalDate now = LocalDate.now();
-        return (startDate.isBefore(now) || startDate.isEqual(now)) &&
-                (endDate == null || endDate.isEqual(now) || endDate.isAfter(now));
+        LocalDateTime now = LocalDateTime.now();
+        return (startDate.isBefore(now) || startDate.isEqual(now)) && (endDate == null || endDate.isAfter(now));
     }
 
     public Fleet getFleet() {
