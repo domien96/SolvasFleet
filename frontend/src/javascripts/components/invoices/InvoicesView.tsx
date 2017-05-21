@@ -8,6 +8,7 @@ import T from 'i18n-react';
 
 interface Props {
   invoices: InvoiceData[];
+  tableData: any;
   onInvoiceSelect: (id: number) => void;
 }
 
@@ -20,7 +21,7 @@ const Overview: React.StatelessComponent<Props> = props => {
   ];
 
   return (
-    <InfoTable head={ tableHead } data={ props.invoices } onClick={ props.onInvoiceSelect } />
+    <InfoTable head={ tableHead } data={ props.tableData } onClick={ props.onInvoiceSelect } />
   );
 };
 
@@ -28,7 +29,7 @@ const MainCard: React.StatelessComponent<Props> = props => {
   return (
     <Card>
       <div className='card-content'>
-        <Overview invoices={ props.invoices } onInvoiceSelect={ props.onInvoiceSelect } />
+        <Overview invoices={ props.invoices } onInvoiceSelect={ props.onInvoiceSelect } tableData={ props.tableData } />
       </div>
     </Card>
   );
@@ -43,7 +44,7 @@ const InvoicesView: React.StatelessComponent<Props> = props => {
       <div className='wrapper'>
         <div className='row'>
           <div className='col-xs-12'>
-            <MainCard invoices={ props.invoices } onInvoiceSelect={ props.onInvoiceSelect } />
+            <MainCard invoices={ props.invoices } onInvoiceSelect={ props.onInvoiceSelect } tableData={ props.tableData } />
           </div>
         </div>
       </div>
