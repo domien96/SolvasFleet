@@ -121,35 +121,21 @@ class Client extends React.Component<Props, State> {
                 <Card>
                   <div className='card-content'>
                     <div className='row actions'>
-                      <div className='col-sm-4'>
+                      <div className='col-sm-3'>
                         <Link to={ '/clients/' + id + '/edit' } className='btn btn-default form-control'>
                           <span className='glyphicon glyphicon-edit' /> Edit
                         </Link>
                       </div>
-                      <div className='col-sm-4'>
-                        <Confirm
-                          onConfirm={ this.deleteClient }
-                          body="Are you sure you want to archive this?"
-                          confirmText="Confirm Archive"
-                          title="Archive client">
-                          <button className='btn btn-danger form-control'>
-                            <span className='glyphicon glyphicon-remove' /> Archive
-                          </button>
-                        </Confirm>
-                      </div>
-                      <LogLink id={ id } type='Company' />
-                      <DynamicGuiComponent authorized={ Auth.canWriteFleetsOfCompany(-1) }>
                       <div className='col-sm-3'>
                          <Link to={ `/commissions/clients/${this.props.params.id}` } className='btn btn-info form-control'>
                            <span className='glyphicon glyphicon-euro' /> Commissions
                          </Link>
                        </div>
-                      </DynamicGuiComponent>
-                    </div>
                     <div className='col-sm-3'>
                       { deleteLink }
                     </div>
                     <LogLink id={ id } type='Company' />
+                  </div>
                   </div>
                 </Card>
               </DynamicGuiComponent>

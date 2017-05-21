@@ -2,11 +2,8 @@ import React from 'react';
 import { Link } from 'react-router';
 import classNames from 'classnames';
 import { slide as Menu } from 'react-burger-menu';
-import LanguageSwitcher from './LanguageSwitcher.tsx';
 import { fetchUser } from '../../actions/user_actions.ts';
 import T from 'i18n-react';
-
-import LanguageSwitcher from './LanguageSwitcher.tsx';
 import DynamicGuiComponent from '../app/DynamicGuiComponent.tsx';
 
 import Auth from '../../modules/Auth.ts';
@@ -23,7 +20,7 @@ class SidebarLink extends React.Component<SProps, {}> {
 
   render() {
     const classes = classNames({
-      active: this.context.location.pathname.includes(this.props.path)
+      active: this.context.location.pathname.startsWith(this.props.path)
     });
 
     return (
@@ -80,7 +77,7 @@ class Sidebar extends React.Component<Props, State> {
           <SidebarLink path='/clients' authorized={ Auth.canReadCompany(-1) }>{ T.translate('company.clients') }</SidebarLink>
           <SidebarLink path='/vehicles' authorized= {  Auth.canReadCompany(-1)}>{ T.translate('vehicle.vehicles') }</SidebarLink>
           <SidebarLink path='/log' authorized={ Auth.canReadRevisions() }>{ T.translate('log.log') }</SidebarLink>
-          <SidebarLink path='/auth'>{ T.translate('auth.permissionSettings') }</SidebarLink>
+          <SidebarLink path='/auth' authorized={ Auth.canReadRoles() }>{ T.translate('auth.permissionSettings') }</SidebarLink>
           <SidebarLink path='/commissions' authorized={Auth.canWriteFleetsOfCompany(-1)}>{ T.translate('commissions.commissions') }</SidebarLink>
         </ul>
         <ul className='nav session-actions'>

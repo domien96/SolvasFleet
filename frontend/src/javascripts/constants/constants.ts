@@ -41,7 +41,6 @@ export function FUNCTION_URL(userId: number, functionId: number) {
 export const ACTION_LANG = 'CHANGE_LANG';
 
 export function INVOICES_URL(companyId: number, fleetId: number) {
-<<<<<<< HEAD
   return `${BASE_API_URL}/companies/${companyId}/fleets/${fleetId}/invoices`;
 }
 export function INVOICE_URL(companyId: number, fleetId: number, invoiceId: number) {
