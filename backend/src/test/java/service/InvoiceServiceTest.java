@@ -139,12 +139,18 @@ public class InvoiceServiceTest extends AbstractServiceTest<Invoice,ApiInvoice> 
     public void generateMissingInvoices() {
         Invoice lastInvoice = new Invoice();
         lastInvoice.setEndDate(LocalDateTime.now().minusMonths(5));
+        when(taxDao.findDistinctByVehicleTypeAndInsuranceType(any(), any())).thenReturn(new Tax());
         when(invoiceDao.findFirstByTypeAndFleetOrderByStartDateDesc(any(), any())).thenReturn(Optional.of(lastInvoice));
         when(contractDao.findByFleetSubscriptionFleetAndStartDateBeforeAndEndDateAfter(any(), any(), any()))
                 .thenReturn(new HashSet<Contract>() {{
                     Contract c = new Contract();
                     c.setEndDate(LocalDateTime.now());
                     c.setStartDate(LocalDateTime.now().minusMonths(3));
+
+                    FleetSubscription sub = new FleetSubscription();
+                    sub.setVehicle(new Vehicle());
+                    c.setFleetSubscription(sub);
+                    add(c);
                 }});
 
         Fleet fleet = new Fleet();
