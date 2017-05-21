@@ -109,11 +109,12 @@ public class Contract extends Model {
         filter.setVehicleType(vehicle.getType().getName());
         filter.setFleet(fleetSubscription.getFleet().getId());
         filter.setCompany(company.getId());
+        // Make this code better
         Page<ApiCommission> result = CommissionRestController.commissionService.findAll(new PageRequest(0,10),filter); //dummy page request
         if(!result.hasContent()) {
             return premium;
         } else {
-            return premium + premium * result.getContent().get(0).getValue();
+            return premium + premium * result.getContent().get(0).getValue()/100;
         }
     }
 
