@@ -6,6 +6,7 @@ import {
   INVOICES_URL,
   INVOICE_PDF_URL,
   INVOICE_URL,
+  CORRECT_INVOICE_URL,
 } from '../constants/constants.ts';
 
 export function fetchFleet(id: number, companyId: number, success?: callback, fail?: callback) {
@@ -40,3 +41,6 @@ export function fetchInvoicePdf(companyId: number, fleetId: number, invoiceId: n
   GETPDF( INVOICE_PDF_URL(companyId, fleetId, invoiceId), success, fail, query );
 }
 
+export function correctInvoice(fleetId: number, success?: callback, fail?: callback) {
+  POST( CORRECT_INVOICE_URL(fleetId), undefined, success, fail );
+}

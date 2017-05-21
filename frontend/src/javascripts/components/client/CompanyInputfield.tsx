@@ -30,8 +30,19 @@ class CompanyInputfield extends React.Component<Props, State> {
     this.fetchClients(this.props.query);
   }
 
+  isEqual(a: any, b: any) {
+    if (a === b) { return true; }
+    if (a.length != b.length) { return false; }
+    for (let i = 0; i < a.length; i++) {
+      if (a[i] != b[i]) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   componentWillReceiveProps(nextProps: any) {
-    if (nextProps.value !== this.props.value) {
+    if (!this.isEqual(nextProps.value, this.props.value)) {
       this.fetchClients(nextProps.query);
     }
   }
