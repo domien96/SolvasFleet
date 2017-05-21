@@ -17,6 +17,9 @@ import solvas.service.models.Fleet;
 
 import static org.mockito.Mockito.when;
 
+/**
+ * Test the fleet service.
+ */
 public class FleetServiceTest extends AbstractServiceTest<Fleet,ApiFleet>{
 
     @Mock
@@ -37,6 +40,9 @@ public class FleetServiceTest extends AbstractServiceTest<Fleet,ApiFleet>{
 
     }
 
+    /**
+     * Construct the test.
+     */
     public FleetServiceTest() {
         super(Fleet.class, ApiFleet.class);
     }

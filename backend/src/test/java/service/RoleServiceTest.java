@@ -17,6 +17,9 @@ import solvas.service.models.Role;
 
 import static org.mockito.Mockito.when;
 
+/**
+ * Test the role service.
+ */
 public class RoleServiceTest extends AbstractServiceTest<Role,ApiRole> {
 
     @Mock
@@ -38,6 +41,9 @@ public class RoleServiceTest extends AbstractServiceTest<Role,ApiRole> {
 
     }
 
+    /**
+     * Construct the test.
+     */
     public RoleServiceTest() {
         super(Role.class, ApiRole.class);
     }

@@ -17,6 +17,9 @@ import solvas.service.models.Invoice;
 
 import static org.mockito.Mockito.when;
 
+/**
+ * Test the invoice service.
+ */
 public class InvoiceServiceTest extends AbstractServiceTest<Invoice,ApiInvoice> {
 
     @Mock
@@ -35,6 +38,9 @@ public class InvoiceServiceTest extends AbstractServiceTest<Invoice,ApiInvoice> 
         when(daoContextMock.getInvoiceDao()).thenReturn(invoiceDao);
     }
 
+    /**
+     * Construct the test.
+     */
     public InvoiceServiceTest() {
         super(Invoice.class, ApiInvoice.class);
     }

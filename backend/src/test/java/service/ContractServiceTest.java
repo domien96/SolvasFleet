@@ -18,6 +18,9 @@ import solvas.service.models.Contract;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.when;
 
+/**
+ * Test the contract service.
+ */
 public class ContractServiceTest extends AbstractServiceTest<Contract,ApiContract>{
 
     @Mock
@@ -34,10 +37,12 @@ public class ContractServiceTest extends AbstractServiceTest<Contract,ApiContrac
         when(daoContextMock.getContractDao()).thenReturn(contractDao);
     }
 
+    /**
+     * Construct the test.
+     */
     public ContractServiceTest() {
         super(Contract.class, ApiContract.class);
     }
-
 
     @Override
     protected AbstractService<Contract, ApiContract> getService() {

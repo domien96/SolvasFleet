@@ -19,6 +19,9 @@ import solvas.service.models.Company;
 
 import static org.mockito.Mockito.when;
 
+/**
+ * Test the company service.
+ */
 public class CompanyServiceTest extends AbstractServiceTest<Company,ApiCompany> {
 
     @Mock
@@ -44,6 +47,9 @@ public class CompanyServiceTest extends AbstractServiceTest<Company,ApiCompany> 
         when(daoContextMock.getFunctionDao()).thenReturn(functionDao);
     }
 
+    /**
+     * Construct the test.
+     */
     public CompanyServiceTest() {
         super(Company.class, ApiCompany.class);
     }

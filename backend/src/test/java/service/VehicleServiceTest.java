@@ -20,6 +20,9 @@ import java.util.Optional;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
+/**
+ * Test the vehicle service.
+ */
 public class VehicleServiceTest extends AbstractServiceTest<Vehicle,ApiVehicle>{
 
     @Mock
@@ -40,6 +43,9 @@ public class VehicleServiceTest extends AbstractServiceTest<Vehicle,ApiVehicle>{
         when(fleetSubscriptionDao.findByVehicleAndEndDateIsNull(any(Vehicle.class))).thenReturn(Optional.empty());
     }
 
+    /**
+     * Construct the test.
+     */
     public VehicleServiceTest() {
         super(Vehicle.class, ApiVehicle.class);
     }

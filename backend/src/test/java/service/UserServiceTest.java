@@ -35,6 +35,9 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+/**
+ * Test the user service.
+ */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest( SecurityContextHolder.class )
 public class UserServiceTest extends AbstractServiceTest<User,ApiUser> {
@@ -57,6 +60,9 @@ public class UserServiceTest extends AbstractServiceTest<User,ApiUser> {
         when(daoContextMock.getFunctionDao()).thenReturn(functionDao);
     }
 
+    /**
+     * Construct the test.
+     */
     public UserServiceTest() {
         super(User.class, ApiUser.class);
     }
