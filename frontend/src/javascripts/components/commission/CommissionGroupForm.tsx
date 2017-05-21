@@ -48,10 +48,10 @@ class CommissionGroupForm extends React.Component<Props, State> {
     const emptyCommissionGroup = { civilLiability: emptycommission, omnium: emptycommission, legalAid: emptycommission, driverInsurance: emptycommission, travelInsurance: emptycommission };
     const commissions = {
       personalVehicle: { ...emptyCommissionGroup },
-      van: emptyCommissionGroup,
-      truck: emptyCommissionGroup,
-      truck12: emptyCommissionGroup,
-      semiHeavyTruck: emptyCommissionGroup
+      van: { ...emptyCommissionGroup },
+      truck: {...emptyCommissionGroup},
+      truck12: {...emptyCommissionGroup},
+      semiHeavyTruck: {...emptyCommissionGroup}
     };
 
     this.state = {
@@ -98,14 +98,13 @@ class CommissionGroupForm extends React.Component<Props, State> {
     commission.vehicleType = vehicleType.charAt(0).toUpperCase() + vehicleType.slice(1); //Vuil idd
     commission.fleet = this.props.fleetId;
     commission.company = this.props.companyId;
-    commission.id = 0;
     state.initialCommissions[vehicleType][insuranceType] = commission;
     state.commissions[vehicleType][insuranceType] = { ...commission };
     this.setState({ ...state });
   }
 
   fetchCommission(vehicleType: string, insuranceType: string) {
-    this.props.fetchCommission(vehicleType, insuranceType, (data) => {
+    this.props.fetchCommission(vehicleType.charAt(0).toUpperCase() + vehicleType.slice(1), insuranceType.charAt(0).toUpperCase()+insuranceType.slice(1), (data) => {
       this.setCommission(vehicleType, insuranceType, data.data[0]);
     });
   }
@@ -117,7 +116,7 @@ class CommissionGroupForm extends React.Component<Props, State> {
       const success = (data: any) => redirect_to(this.props.returnTo);
       console.log("this.state.commission[vehicleType][insuranceType]");
 
-      this.props.putCommission(vehicleType, insuranceType, this.state.commissions[vehicleType][insuranceType], success);
+      this.props.putCommission(vehicleType, insuranceType, this.state.commissions[vehicleType][insuranceType]);
     }
   }
 
