@@ -41,6 +41,7 @@ public class RoleServiceTest extends AbstractServiceTest<Role, ApiRole> {
     }
 
     @Before
+    @Override
     public void setUp() throws DependantEntityNotFound, EntityNotFoundException {
         super.setUp();
         when(daoContextMock.getRoleDao()).thenReturn(roleDao);

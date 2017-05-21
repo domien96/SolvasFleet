@@ -39,6 +39,7 @@ public class ContractServiceTest extends AbstractServiceTest<Contract, ApiContra
     }
 
     @Before
+    @Override
     public void setUp() throws DependantEntityNotFound, EntityNotFoundException {
         super.setUp();
         when(daoContextMock.getContractDao()).thenReturn(contractDao);

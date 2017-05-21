@@ -46,6 +46,7 @@ public class CompanyServiceTest extends AbstractServiceTest<Company, ApiCompany>
     }
 
     @Before
+    @Override
     public void setUp() throws DependantEntityNotFound, EntityNotFoundException {
         super.setUp();
         when(daoContextMock.getCompanyDao()).thenReturn(companyDao);

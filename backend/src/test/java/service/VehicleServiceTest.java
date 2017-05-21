@@ -43,6 +43,7 @@ public class VehicleServiceTest extends AbstractServiceTest<Vehicle, ApiVehicle>
     }
 
     @Before
+    @Override
     public void setUp() throws DependantEntityNotFound, EntityNotFoundException {
         super.setUp();
         when(daoContextMock.getVehicleDao()).thenReturn(vehicleDao);

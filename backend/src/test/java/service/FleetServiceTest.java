@@ -40,6 +40,7 @@ public class FleetServiceTest extends AbstractServiceTest<Fleet, ApiFleet> {
     }
 
     @Before
+    @Override
     public void setUp() throws DependantEntityNotFound, EntityNotFoundException {
         super.setUp();
         when(daoContextMock.getFleetDao()).thenReturn(fleetDao);

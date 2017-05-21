@@ -40,6 +40,7 @@ public class InvoiceServiceTest extends AbstractServiceTest<Invoice, ApiInvoice>
     }
 
     @Before
+    @Override
     public void setUp() throws DependantEntityNotFound, EntityNotFoundException {
         super.setUp();
         when(daoContextMock.getInvoiceDao()).thenReturn(invoiceDao);
