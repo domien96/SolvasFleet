@@ -56,7 +56,7 @@ public class VehicleService extends AbstractService<Vehicle,ApiVehicle>{
         final LocalDateTime endDate = LocalDateTime.now();
 
         if (fleetSubscription.isPresent()){
-            fleetSubscription.get().setEndDate(endDate.toLocalDate());
+            fleetSubscription.get().setEndDate(endDate);
             context.getFleetSubscriptionDao().save(fleetSubscription.get());
             //Archive active contracts
             Collection<Contract> contracts
