@@ -145,7 +145,7 @@ public class InvoiceCorrector {
 
         // TODO: commission
         BigDecimal commissionPercentage = BigDecimal.ONE; //.add(BigDecimal.valueOf(commission));
-        BigDecimal premium = BigDecimal.valueOf(contract.getPremium());
+        BigDecimal premium = BigDecimal.valueOf(contract.getNettoPremium());
         BigDecimal total = premium.multiply(commissionPercentage)
                 .multiply(dayMultiplier);
         if (negate) {

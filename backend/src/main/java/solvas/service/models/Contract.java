@@ -3,8 +3,10 @@ package solvas.service.models;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Component;
 import solvas.persistence.api.DaoContext;
 import solvas.rest.api.models.ApiCommission;
+import solvas.rest.controller.CommissionRestController;
 import solvas.rest.query.CommissionFilter;
 import solvas.service.CommissionService;
 
@@ -17,13 +19,8 @@ import java.util.Set;
  * A contract links a {@link Vehicle} with the insurance company.
  * @author Sjabasti.
  */
+@Component
 public class Contract extends Model {
-
-    /**
-     * Used to get the commission.
-     */
-    @Autowired
-    private CommissionService commissionService;
 
     /**
      * The vehicle linked with this fleet subscription is insuranced with this contract.
@@ -103,7 +100,7 @@ public class Contract extends Model {
      * The netto premium. Which is the premium (= riskpremium) + the commission.
      * @return the netto premium
      */
-    public long getPremium() {
+    public long getNettoPremium() {
         // with commission
         Vehicle vehicle = fleetSubscription.getVehicle();
         CommissionFilter filter = new CommissionFilter();
@@ -112,12 +109,20 @@ public class Contract extends Model {
         filter.setVehicleType(vehicle.getType().getName());
         filter.setFleet(fleetSubscription.getFleet().getId());
         filter.setCompany(company.getId());
-        Page<ApiCommission> result = commissionService.findAll(new PageRequest(0,10),filter); //dummy page request
+        Page<ApiCommission> result = CommissionRestController.commissionService.findAll(new PageRequest(0,10),filter); //dummy page request
         if(!result.hasContent()) {
             return premium;
         } else {
-            return premium + result.getContent().get(0).getValue();
+            return premium + premium * result.getContent().get(0).getValue();
         }
+    }
+
+    /**
+     * Get the risk premium
+     * @return the risk premium
+     */
+    public int getPremium() {
+        return premium;
     }
 
     /**

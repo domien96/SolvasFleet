@@ -69,7 +69,7 @@ public class BillingPdfView extends InvoicePdfView {
 
         for(InvoiceItem item: invoice.getItems()) {
             table.addCell(item.getContract().getFleetSubscription().getVehicle().getLicensePlate() + " #" + item.getContract().getId());
-            table.addCell(getCell(euroFormat.format(item.getContract().getPremium()), Element.ALIGN_RIGHT, font12));
+            table.addCell(getCell(euroFormat.format(item.getContract().getNettoPremium()), Element.ALIGN_RIGHT, font12));
             table.addCell(getCell(formatter.format(item.getTax()), Element.ALIGN_LEFT, font12));
             table.addCell(getCell(item.getType().toString(), Element.ALIGN_LEFT, font12));
             table.addCell(getCell(String.valueOf(item.getNumberOfDays()), Element.ALIGN_RIGHT, font12));

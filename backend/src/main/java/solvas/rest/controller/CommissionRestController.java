@@ -29,8 +29,8 @@ import javax.validation.Valid;
 @RestController
 public class CommissionRestController extends AbstractRestController<Commission,ApiCommission> {
 
-
-    private CommissionService commissionService;
+    // make private later, see {@link Contract::getPremium}
+    public static CommissionService commissionService;
 
     /**
      * Rest controller for Commission
