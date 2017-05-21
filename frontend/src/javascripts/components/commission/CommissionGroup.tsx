@@ -27,7 +27,7 @@ const COM: React.StatelessComponent<ComFormProps> = props => {
 
   return (
     <div className={ classes }>
-      <div className='col-md-9'><label className='ver'>{label}</label></div>
+      <div className='col-md-9'><label className='commission-label'>{label}</label></div>
       <div className='col-md-3'>
         <div className="form-group">
           <div className="input-group">
