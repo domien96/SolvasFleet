@@ -24,7 +24,12 @@ import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-
+/**
+ * Abstract class for service tests.
+ *
+ * @param <T> The model.
+ * @param <E> The api model.
+ */
 @RunWith(MockitoJUnitRunner.class)
 public abstract class AbstractServiceTest<T extends Model, E extends ApiModel> {
 
