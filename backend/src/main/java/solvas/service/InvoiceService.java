@@ -16,9 +16,11 @@ import solvas.service.models.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Service class for invoices
@@ -194,7 +196,8 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
         invoice.setUpdatedAt(now);
 
         // This will generate the total and put it in the invoice.
-        return generateBillingInvoice(invoice);
+        generateBillingInvoice(invoice);
+        return invoice;
     }
 
     /**
@@ -238,16 +241,8 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
      * @return The extended invoice.
      */
     public Invoice generateInvoiceForView(Invoice invoice) {
-        switch (invoice.getType()) {
-            case PAYMENT:
-                return generatePaymentInvoice(invoice);
-            case BILLING:
-                return generateBillingInvoice(invoice);
-            case CORRECTION:
-                return invoice;
-            default:
-                throw new RuntimeException("Non-exhaustive enum switch!");
-        }
+        // We don't need to do anything, since the invoice items are now saved in the database.
+        return invoice;
     }
 
     /**
@@ -255,10 +250,8 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
      * to make PDF's.
      *
      * @param invoice The invoice to generate for.
-     *
-     * @return The invoice with lot's of data.
      */
-    private Invoice generatePaymentInvoice(Invoice invoice) {
+    private void generatePaymentInvoice(Invoice invoice) {
 
         // We need all active contracts on the start date. This includes contracts that start or end on this day,
         // since contract payments start per running day.
@@ -272,7 +265,6 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
                 .map(contract -> buildInvoiceItem(contract, invoice))
                 .collect(Collectors.toSet());
         invoice.setItems(items);
-        return invoice;
     }
 
     private InvoiceItem buildInvoiceItem(Contract contract, Invoice invoice) {
@@ -295,10 +287,8 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
      * to make PDF's.
      *
      * @param invoice The invoice.
-     *
-     * @return The invoice with lots of data.
      */
-    private Invoice generateBillingInvoice(Invoice invoice) {
+    private void generateBillingInvoice(Invoice invoice) {
 
         // Unlike the payment invoices, for the billing invoices we need all contracts that have been active
         // (no matter how short) in the periode of the invoice.
@@ -310,11 +300,21 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
         Collection<Contract> started = context.getContractDao()
                 .findByFleetSubscriptionFleetAndStartDateAfterAndStartDateLessThanEqual(invoice.getFleet(), startLimit.plusDays(1), endLimit);
 
-        Set<InvoiceItem> items = started.stream()
+        // We also need contracts that were added after the payment invoice was made, but on the start date.
+        // These are not included because the query above only looks for invoices after the startdate.
+        Collection<Contract> added = context.getInvoiceDao()
+                .findFirstByTypeAndFleetOrderByStartDateDesc(InvoiceType.PAYMENT, invoice.getFleet()) // This is an optional
+                .map(payment -> context.getContractDao()
+                        .findByFleetSubscriptionFleetAndCreatedAtAfterAndStartDateBetween(
+                                invoice.getFleet(), payment.getCreatedAt(), startLimit, startLimit.plusDays(1)
+                        )
+                )
+                .orElse(Collections.emptyList());
+
+        Set<InvoiceItem> items = Stream.concat(started.stream(), added.stream())
                 .map(contract -> buildInvoiceItem(contract, invoice))
                 .collect(Collectors.toSet());
         invoice.setItems(items);
-        return invoice;
     }
 
     /**
