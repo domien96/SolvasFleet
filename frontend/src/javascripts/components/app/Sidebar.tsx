@@ -6,10 +6,14 @@ import LanguageSwitcher from './LanguageSwitcher.tsx';
 import { fetchUser } from '../../actions/user_actions.ts';
 import T from 'i18n-react';
 
+import LanguageSwitcher from './LanguageSwitcher.tsx';
+import DynamicGuiComponent from '../app/DynamicGuiComponent.tsx';
+
 import Auth from '../../modules/Auth.ts';
 
 interface SProps {
   path: string;
+  authorized: boolean;
 }
 
 class SidebarLink extends React.Component<SProps, {}> {
@@ -18,14 +22,18 @@ class SidebarLink extends React.Component<SProps, {}> {
   };
 
   render() {
-    const classes = classNames({ active: this.context.location.pathname.startsWith(this.props.path) });
+    const classes = classNames({
+      active: this.context.location.pathname.includes(this.props.path)
+    });
 
     return (
-      <li className={ classes } >
-        <Link to={ this.props.path }>
-          { this.props.children }
-        </Link>
-      </li>
+      <DynamicGuiComponent authorized={ this.props.authorized }>
+        <li className={ classes } >
+          <Link to={ this.props.path }>
+            { this.props.children }
+          </Link>
+        </li>
+      </DynamicGuiComponent>
     );
   }
 }
@@ -68,12 +76,12 @@ class Sidebar extends React.Component<Props, State> {
           </Link>
         </div>
         <ul className='nav'>
-          <SidebarLink path='/users'>{ T.translate('user.users') }</SidebarLink>
-          <SidebarLink path='/clients'>{ T.translate('company.clients') }</SidebarLink>
-          <SidebarLink path='/vehicles'>{ T.translate('vehicle.vehicles') }</SidebarLink>
-          <SidebarLink path='/log'>{ T.translate('log.log') }</SidebarLink>
+          <SidebarLink path='/users' authorized={ Auth.canReadUsers() }>{ T.translate('user.users') }</SidebarLink>
+          <SidebarLink path='/clients' authorized={ Auth.canReadCompany(-1) }>{ T.translate('company.clients') }</SidebarLink>
+          <SidebarLink path='/vehicles' authorized= {  Auth.canReadCompany(-1)}>{ T.translate('vehicle.vehicles') }</SidebarLink>
+          <SidebarLink path='/log' authorized={ Auth.canReadRevisions() }>{ T.translate('log.log') }</SidebarLink>
           <SidebarLink path='/auth'>{ T.translate('auth.permissionSettings') }</SidebarLink>
-          <SidebarLink path='/commissions'>{ T.translate('commission.commissions') }</SidebarLink>
+          <SidebarLink path='/commissions' authorized={Auth.canWriteFleetsOfCompany(-1)}>{ T.translate('commissions.commissions') }</SidebarLink>
         </ul>
         <ul className='nav session-actions'>
           <li className='plain'>

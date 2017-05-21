@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router';
 
+import DynamicGuiComponent from '../app/DynamicGuiComponent.tsx';
+import Auth from '../../modules/Auth.ts';
 import Card from '../app/Card.tsx';
 import DetailTable from '../tables/DetailTable.tsx';
 import DownloadButton from '../buttons/DownloadButton.tsx';
@@ -56,6 +58,7 @@ interface Props {
   onDownloadGreencard: () => void;
   onGetFleetName: (id: number) => string;
   onGetCompanyName: (id: number) => any;
+  companyOfFleet: number;
   handleUnarchive: () => void;
 }
 
@@ -96,24 +99,32 @@ const VehicleView: React.StatelessComponent<Props> = props => {
       <div className='card-content user'>
         <h2>{ vin } </h2>
         <div className='row actions'>
-          <EditLink id={ id } />
-          { deleteLink }
-          <LogLink id={ id } type='Vehicle' />
-          <div className='col-sm-3'>
-            <Link to={ `/commissions/clients/4/fleets/${fleet}/vehicles/${id}/${type}` } className='btn btn-info form-control'>
-              <span className='glyphicon glyphicon-euro' /> Commissions
-            </Link>
-          </div>
+          <DynamicGuiComponent authorized={ Auth.canWriteFleetsOfCompany(props.companyOfFleet) }>
+            <EditLink id={ id } />
+            <DeleteLink handleDelete={ props.handleDelete } />
+          </DynamicGuiComponent>
+          <DynamicGuiComponent authorized={true}>
+            <LogLink id={ id } type='Vehicle' />
+          </DynamicGuiComponent>
+          <DynamicGuiComponent authorized={ Auth.canWriteFleetsOfCompany(-1) }>
+            <div className='col-sm-3'>
+               <Link to={ `/commissions/clients/4/fleets/${fleet}/vehicles/${id}/${type}` } className='btn btn-info form-control'>
+                 <span className='glyphicon glyphicon-euro' /> Commissions
+               </Link>
+             </div>
+          </DynamicGuiComponent>
+         </div>
         </div>
-      </div>
       <div className='card-content'>
         <DetailTable data={ data }/>
       </div>
-      <div className='card-content'>
-        <div className='row actions'>
-          <DownloadButton onDownload={ props.onDownloadGreencard } label='Download Greencard'/>
+      <DynamicGuiComponent authorized={ Auth.canClickGreenCardLink() }>
+        <div className='card-content'>
+          <div className='row actions'>
+            <DownloadButton onDownload={ props.onDownloadGreencard } label='Download Greencard'/>
+          </div>
         </div>
-      </div>
+      </DynamicGuiComponent>
     </div>
   </Card>
   );

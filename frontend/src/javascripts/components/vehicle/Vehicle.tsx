@@ -10,6 +10,8 @@ import VehicleView from './VehicleView.tsx'
 import Contracts from '../contracts/Contracts.tsx'
 import { callback } from '../../actions/fetch_json.ts';
 import T from 'i18n-react';
+import DynamicGuiComponent from '../app/DynamicGuiComponent.tsx';
+import Auth from '../../modules/Auth.ts';
 
 interface Props {
   params: { id: number };
@@ -18,6 +20,7 @@ interface Props {
 
 interface State {
   vehicle: VehicleData;
+  companyOfFleet: number;
   companies: CompanyData[];
   fleets: FleetData[];
 }
@@ -26,10 +29,11 @@ class Vehicle extends React.Component<Props, State> {
 
   constructor() {
     super();
-    this.state = { 
+    this.state = {
       vehicle: { type: 'PersonalVehicle' },
       companies: [],
-      fleets: []
+      fleets: [],
+      companyOfFleet: 0
     };
     this.deleteVehicle = this.deleteVehicle.bind(this);
     this.unarchiveVehicle = this.unarchiveVehicle.bind(this);
@@ -50,11 +54,13 @@ class Vehicle extends React.Component<Props, State> {
   componentDidMount() {
     this.fetchVehicle(this.props.params.id);
     this.fetchClients();
+    this.setState({ companyOfFleet: this.getCompanyOfFleetId() });
   }
 
   componentWillReceiveProps(nextProps: Props) {
     if (nextProps.params.id !== this.props.params.id) {
       this.fetchVehicle(nextProps.params.id);
+      this.setState({ companyOfFleet: this.getCompanyOfFleetId() });
     }
   }
 
@@ -106,7 +112,7 @@ class Vehicle extends React.Component<Props, State> {
       this.state.companies.map((company: CompanyData) => {
         fetchFleets(company.id, (data: any) => {
           if (data) {
-            let fleets: FleetData[] = data.data 
+            let fleets: FleetData[] = data.data
             fleets.map((fleet: FleetData) => {
               allFleets.push(fleet);
             })
@@ -116,7 +122,7 @@ class Vehicle extends React.Component<Props, State> {
       })
     }
   }
-  
+
   handleDownloadGreencard() {
     const { id } = this.props.params;
     let fail = (data: any) => console.log(data);
@@ -127,10 +133,10 @@ class Vehicle extends React.Component<Props, State> {
 
   handleGetFleetName(id: number) {
     if (this.state.fleets.length > 0 && id) {
-      const fleet = this.state.fleets.filter((f: FleetData) => {
+      const fleet = this.state.fleets.find((f: FleetData) => {
         return (id === f.id);
       });
-      return fleet[0].name;
+      return fleet.name;
     }
     return id.toString();
   }
@@ -150,21 +156,35 @@ class Vehicle extends React.Component<Props, State> {
     }
   }
 
+  getCompanyOfFleetId() {
+    if (this.state.fleets.length > 0) {
+      const fleet = this.state.fleets.filter((f: FleetData) => {
+        return (this.state.vehicle.id === f.id);
+      });
+      return fleet[0].company;
+    }
+    return 0;
+  }
+
   render() {
     return(
       <div>
-        <VehicleView 
-          vehicle={ this.state.vehicle } 
+        <VehicleView
+          vehicle={ this.state.vehicle }
           handleDelete={ this.deleteVehicle }
           handleUnarchive={ this.unarchiveVehicle }
           onDownloadGreencard={ this.handleDownloadGreencard }
           onGetCompanyName={ this.handleGetCompanyName }
-          onGetFleetName={ this.handleGetFleetName } />
-        <Contracts
-          vehicleId={ this.props.params.id }
-          companyId={ null }
-          fleetId={ null }
-          fetchMethod={ this.fetchContracts } />
+          onGetFleetName={ this.handleGetFleetName }
+          companyOfFleet={  this.state.companyOfFleet }
+          />
+        <DynamicGuiComponent authorized={ Auth.canReadContractsOfCompany(this.state.companyOfFleet) }>
+          <Contracts
+            vehicleId={ this.props.params.id }
+            companyId={ null }
+            fleetId={ null }
+            fetchMethod={ this.fetchContracts } />
+        </DynamicGuiComponent>
       </div>
     );
   }

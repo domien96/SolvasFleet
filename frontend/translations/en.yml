@@ -229,4 +229,6 @@ commission:
   client: Commissions of
   vehicle: Commissions of
   fleet: Commissions of
-  comissions: Commissions
+
+comissions:
+  commissions: Commissions

@@ -22,6 +22,7 @@ export const VEHICLES_UPLOAD            = `${VEHICLES_URL}/upload`;
 
 export function FLEETS_URL(id: number) { return `${BASE_API_URL}/companies/${id}/fleets`; }
 export function FLEET_URL(id: number, companyId: number) { return `${BASE_API_URL}/companies/${companyId}/fleets/${id}`; }
+export function VEHICLES_BY_FLEET_URL(id: number, companyId: number) { return `${BASE_API_URL}/companies/${companyId}/fleets/${id}/vehicles`; }
 
 export const AUTH_LOGIN_URL = `${BASE_API_URL}/auth/login`;
 export const AUTH_TOKEN_URL = `${BASE_API_URL}/auth/token`;

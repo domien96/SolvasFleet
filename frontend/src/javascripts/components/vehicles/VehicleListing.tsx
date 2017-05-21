@@ -6,6 +6,8 @@ import Pagination from '../pagination/Pagination.tsx';
 import VehicleInfoTable from './VehicleInfoTable.tsx';
 import T from 'i18n-react';
 import Errors from '../app/CSVErrors.tsx';
+import DynamicGuiComponent from '../app/DynamicGuiComponent.tsx';
+import Auth from '../../modules/Auth.ts';
 
 interface UProps {
   errors: Form.Error[];
@@ -52,20 +54,24 @@ const VehicleListing: React.StatelessComponent<Props>  = props =>  {
   return (
     <div className='row'>
       <div className='col-xs-12'>
-        <Card>
-          <VehicleUpload
-            errors={ props.errors }
-            handleChange={ props.handleChange }
-            modelName={ props.modelName }
-            addNewRoute={ props.addNewRoute }
-            csvsuccess={ props.csvsuccess } />
-        </Card>
+        <DynamicGuiComponent authorized={ Auth.canCreateVehicle() }>
+          <Card>
+            <VehicleUpload
+              errors={ props.errors }
+              handleChange={ props.handleChange }
+              modelName={ props.modelName }
+              addNewRoute={ props.addNewRoute }
+              csvsuccess={ props.csvsuccess } />
+          </Card>
+        </DynamicGuiComponent>
         <Card>
           <div className='card-content'>
-            <Link to={props.addNewRoute} className='btn btn-default lab-margin pull-right'>
-              <span className='glyphicon glyphicon-plus' aria-hidden='true'></span>
-              { T.translate(props.modelName + '.addNew') }
-            </Link>
+            <DynamicGuiComponent authorized={ Auth.canCreateVehicle() }>
+              <Link to={props.addNewRoute} className='btn btn-default lab-margin pull-right'>
+                <span className='glyphicon glyphicon-plus' aria-hidden='true'></span>
+                { T.translate(props.modelName + '.addNew') }
+              </Link>
+            </DynamicGuiComponent>
             <VehicleInfoTable head={ tablehead } data={ props.tableData } onClick={ props.onSelect } />
             <Pagination onClick={ props.fetchModels } response={ props.response }/>
           </div>
