@@ -24,8 +24,8 @@ ROUTINE 2
 Nu met geprepaarde data de corrections en oude invoices tonen
 Voorbereiding data: todo -> testdata samenstellen voor een oudere vloot met enkele vehicles
 
-1 toon de vloot
-2 toon dat de startdatum van de vloot al van enkele maanden geleden is
+1 toon de eerste vloot van de eerste company (naam "Heftrucks")
+SKIP DEZE STAP (2 toon dat de startdatum van de vloot al van enkele maanden geleden is) 
 3 toon de vehicles van die vloot (samen met die uitschuifvensters)
 4 toon van de eerste vehicle in die lijst zijn contract (klik op de vehicle link om naar zijn overview te gaan)
 	en vertel dat de vehicle al een tijdje een contract heeft
