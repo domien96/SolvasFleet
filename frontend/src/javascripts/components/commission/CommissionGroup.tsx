@@ -1,8 +1,6 @@
 import React from 'react';
 
-import Actions from '../forms/Actions.tsx';
 import T from 'i18n-react';
-import FormField from '../forms/FormField.tsx';
 import Card from '../app/Header.tsx';
 import { Collapse }  from 'react-bootstrap';
 import classNames from 'classnames';

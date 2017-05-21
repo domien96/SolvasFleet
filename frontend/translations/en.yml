@@ -213,7 +213,7 @@ csv:
   import:
     success: Your csv file has successfully been imported.
 
-commissions:
+commission:
   global: Global commissions
   civilLiability: Civil Liability
   omnium: Omnium

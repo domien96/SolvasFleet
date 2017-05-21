@@ -1,5 +1,5 @@
 import { COMMISSION_URL } from '../constants/constants.ts';
-import { callback, DELETE, GET, POST, PUT } from './fetch_json.ts';
+import { callback, GET, PUT } from './fetch_json.ts';
 
 function getCommissionQuery(vehicleType: string, insuranceType: string, vehicleId: number, fleetId: number, clientId: number) {
   return {
@@ -16,11 +16,11 @@ export function fetchGlobalCommission(vehicleType: string, insuranceType: string
 }
 
 export function fetchCommissionOfClient(vehicleType: string, insuranceType: string, clientId: number, success?: callback, fail?: callback) {
-  GET( COMMISSION_URL, success, fail, getCommissionQuery(vehicleType, insuranceType, -1, -1, -1) );
+  GET( COMMISSION_URL, success, fail, getCommissionQuery(vehicleType, insuranceType, -1, -1, clientId) );
 }
 
-export function fetchCommissionOfFleet(vehicleType: string, insuranceType: string, fleetId: number, success?: callback, fail?: callback) {
-  GET( COMMISSION_URL, success, fail, getCommissionQuery(vehicleType, insuranceType, -1, fleetId, -1) );
+export function fetchCommissionOfFleet(vehicleType: string, insuranceType: string, fleetId: number, clientId: number, success?: callback, fail?: callback) {
+  GET( COMMISSION_URL, success, fail, getCommissionQuery(vehicleType, insuranceType, -1, fleetId, clientId) );
 }
 
 export function fetchCommissionOfVehicle(vehicleType: string, insuranceType: string, vehicleId: number, companyId: number, fleetId: number, success?: callback, fail?: callback) {

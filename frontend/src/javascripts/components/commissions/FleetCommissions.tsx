@@ -9,7 +9,7 @@ interface State {
 }
 
 interface Props {
-  [params: string]: { companyId: number, fleetId: number };
+  [params: string]: { fleetId: number, companyId: number };
 }
 
 class FleetCommissions extends React.Component<Props, {}> {
@@ -20,13 +20,15 @@ class FleetCommissions extends React.Component<Props, {}> {
     this.putCommission = this.putCommission.bind(this);
   }
 
+  fetchF
+
 
   putCommission(vehicleType: string, insuranceType: string, commission: CommissionData, success?: callback, fail?: callback) {
     putCommission(vehicleType, insuranceType, commission, success, fail);
   }
 
   fetchCommission(vehicleType: string, insuranceType: string, success?: callback, fail?: callback) {
-    fetchCommissionOfFleet(vehicleType, insuranceType, this.props.params.fleetId, success, fail);
+    fetchCommissionOfFleet(vehicleType, insuranceType, this.props.params.fleetId, this.props.params.companyId, success, fail);
   }
 
   render() {

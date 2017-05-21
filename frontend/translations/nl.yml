@@ -158,7 +158,7 @@ csv:
     success: Uw csv bestand werd succesvol geïmporteerd.
 
 
-commissions:
+commission:
   global: Globale commissies
   civilLiability: Burgerlijke aansprakelijkheid
   omnium: Omnium

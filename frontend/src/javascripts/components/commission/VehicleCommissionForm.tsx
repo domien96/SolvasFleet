@@ -58,7 +58,7 @@ class CommissionGroupForm extends React.Component<Props, State> {
       }
   }
 
-  toggleCommission(vehicleType: string) {
+  toggleCommission() {
     return () => {
       this.setState({ showForm: !this.state.showForm });
     }
@@ -85,14 +85,14 @@ class CommissionGroupForm extends React.Component<Props, State> {
     const insuranceTypes = ['CivilLiability','Omnium', 'DriverInsurance', 'TravelInsurance', 'LegalAid']
     const initial = insuranceTypes.map((d) => this.state.initialCommissions[d]);
     const changed = insuranceTypes.map((d) => this.state.commissions[d]);
-    console.log(changed);
-    return _.differenceWith(changed, initial, (a,b)=>{return a.value === b.value && a.insuranceType === b.insuranceType && a.vehicleType === b.vehicleType });
+    return _.differenceWith(changed, initial, (a: CommissionData, b: CommissionData) =>
+      ( a.value === b.value && a.insuranceType === b.insuranceType && a.vehicleType === b.vehicleType ));
   }
 
   putCommissions() {
     const diff = this.getChanges();
-    let success = (data: any) => {
-      for(let i=0;i<(diff.length-1);i++) {
+    let success = () => {
+      for(let i=0; i < (diff.length-1); i++) {
         this.props.putCommission(diff[i]);
       }
       redirect_to(this.props.returnTo);
@@ -120,7 +120,7 @@ class CommissionGroupForm extends React.Component<Props, State> {
           <div className='row'>
             <div className='col-xs-12 col-md-6'>
               <CommissionGroup
-                toggleForm={ this.toggleCommission() }
+                toggleForm={ this.toggleCommission }
                 showForm={ this.state.showForm }
                 commission={ this.state.commissions }
                 handleChange={ this.handleChange }
