@@ -12,7 +12,7 @@ import LogLink from '../app/LogLink.tsx';
 
 const EditLink = ({ id }: { id: number }) => {
   return (
-    <div className='col-sm-4'>
+    <div className='col-sm-3'>
       <Link to={ '/vehicles/' + id + '/edit' } className='btn btn-default form-control'>
         <span className='glyphicon glyphicon-edit' /> Edit
       </Link>
@@ -22,7 +22,7 @@ const EditLink = ({ id }: { id: number }) => {
 
 const DeleteLink = ({ handleDelete }: { handleDelete: () => void }) => {
   return (
-    <div className='col-sm-4'>
+    <div className='col-sm-3'>
       <Confirm
         onConfirm={handleDelete}
         body="Are you sure you want to archive this?"
@@ -36,6 +36,22 @@ const DeleteLink = ({ handleDelete }: { handleDelete: () => void }) => {
   );
 };
 
+const UnarchiveLink = ({ handleUnarchive }: { handleUnarchive: () => void }) => {
+  return (
+    <div className='col-sm-4'>
+      <Confirm
+        onConfirm={ handleUnarchive }
+        body="Are you sure you want to restore this?"
+        confirmText="Confirm Unarchive"
+        title="Unarchive vehicle">
+        <button className='btn btn-success form-control'>
+          <span className='glyphicon glyphicon-share-alt' /> Unarchive
+        </button>
+      </Confirm>
+    </div>
+  );
+};
+
 interface Props {
   handleDelete: () => void;
   vehicle: VehicleData
@@ -43,10 +59,11 @@ interface Props {
   onGetFleetName: (id: number) => string;
   onGetCompanyName: (id: number) => any;
   companyOfFleet: number;
+  handleUnarchive: () => void;
 }
 
 const VehicleView: React.StatelessComponent<Props> = props => {
-  const { id, licensePlate, vin, brand, model, type, mileage, year, leasingCompany, value, fleet } = props.vehicle;
+  const { id, licensePlate, vin, brand, model, type, mileage, year, leasingCompany, value, fleet, archived } = props.vehicle;
 
   let fleetName : number | string = fleet;
   if (fleet) {
@@ -70,6 +87,11 @@ const VehicleView: React.StatelessComponent<Props> = props => {
     th('vehicle.value', value),
     th('vehicle.leasingCompany', companyName)
   ];
+
+  let deleteLink = <DeleteLink handleDelete={ props.handleDelete } />
+  if (archived) {
+    deleteLink = <UnarchiveLink handleUnarchive={ props.handleUnarchive } />
+  }
 
   return (
   <Card>

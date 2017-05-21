@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { fetchVehicle, deleteVehicle, fetchGreencardPdf } from '../../actions/vehicle_actions.ts';
+import { fetchVehicle, deleteVehicle, fetchGreencardPdf, putVehicle } from '../../actions/vehicle_actions.ts';
 import { redirect_to } from'../../routes/router.tsx';
 import { fetchContracts} from '../../actions/contract_actions.ts';
 import { fetchClients } from '../../actions/client_actions.ts';
@@ -36,6 +36,7 @@ class Vehicle extends React.Component<Props, State> {
       companyOfFleet: 0
     };
     this.deleteVehicle = this.deleteVehicle.bind(this);
+    this.unarchiveVehicle = this.unarchiveVehicle.bind(this);
     this.fetchContracts = this.fetchContracts.bind(this);
     this.handleDownloadGreencard = this.handleDownloadGreencard.bind(this);
     this.handleGetFleetName = this.handleGetFleetName.bind(this);
@@ -67,6 +68,31 @@ class Vehicle extends React.Component<Props, State> {
     const reloadVehicles = this.props.fetchVehicles;
     deleteVehicle(this.props.params.id, reloadVehicles);
     redirect_to('/vehicles');
+  }
+
+  unarchiveVehicle() {
+    const success = () => redirect_to(`/vehicles/${this.state.vehicle.id}`);
+    this.state.vehicle['archived'] = false;
+    console.log(this.state);
+    putVehicle(this.state.vehicle.id, this.changeDateFormat(this.state.vehicle), success);
+  }
+
+  changeDateFormat(oldVehicle : VehicleData) {
+    const { id, licensePlate, vin, brand, model, type, mileage, year, leasingCompany, value, fleet } = oldVehicle;
+    let vehicle = {
+      id: id,
+      licensePlate: licensePlate,
+      vin: vin,
+      brand: brand,
+      model: model,
+      type: type,
+      mileage: mileage,
+      year: new Date(year),
+      leasingCompany: leasingCompany,
+      value: value,
+      fleet: fleet
+    };
+    return vehicle;
   }
 
   fetchContracts(params: ContractParams, success?: callback, fail?: callback) {
@@ -146,6 +172,7 @@ class Vehicle extends React.Component<Props, State> {
         <VehicleView
           vehicle={ this.state.vehicle }
           handleDelete={ this.deleteVehicle }
+          handleUnarchive={ this.unarchiveVehicle }
           onDownloadGreencard={ this.handleDownloadGreencard }
           onGetCompanyName={ this.handleGetCompanyName }
           onGetFleetName={ this.handleGetFleetName }

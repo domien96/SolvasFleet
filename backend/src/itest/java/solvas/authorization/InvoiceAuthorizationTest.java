@@ -39,13 +39,6 @@ public class InvoiceAuthorizationTest extends AbstractAuthorizationTest {
     /**
      * Invoices can only be created/updated in the backend
      */
-
-    @Override
-    public void userCanPutModel() {}
-
-    @Override
-    public void userCantPutModel() {}
-
     @Override
     public void userCanPostModel() {}
 

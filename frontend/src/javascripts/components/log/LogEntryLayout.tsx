@@ -233,6 +233,21 @@ const Layout: React.StatelessComponent<Props> = props => {
     );
   }
 
+  if (entry.method === "archive") {
+    entityDisplay = (
+      <div className='col-sm-6'>
+        <Card>
+          <div className='card-title'>
+            <h3>Archived</h3>
+          </div>
+          <div className='card-content'>
+            <DetailTable data={ entityInfo } />
+          </div>
+        </Card>
+      </div>
+    );
+  }
+
   return (
     <div>
       <Header>

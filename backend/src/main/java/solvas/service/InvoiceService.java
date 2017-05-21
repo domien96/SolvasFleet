@@ -425,4 +425,19 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
 
         return true;
     }
+
+    /**
+     * Change the payed status of an invoice.
+     *
+     * @param id The id.
+     * @param payed Payed or not.
+     * @return The invoice.
+     * @throws EntityNotFoundException If the invoice does'nt exist.
+     */
+    public ApiInvoice setPayed(int id, boolean payed) throws EntityNotFoundException {
+        Invoice current = getModelById(id);
+        current.setPaid(payed);
+        modelDao.save(current);
+        return mapper.convertToApiModel(current);
+    }
 }

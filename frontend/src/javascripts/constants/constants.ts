@@ -58,3 +58,6 @@ export const TYPES_URL                = `${BASE_API_URL}/contracts/types`;
 
 export const AUDIT_URL                = `${BASE_API_URL}/audit`;
 export function AUDIT_ENTRY_URL(id: number) { return `${AUDIT_URL}/${id}`; }
+
+
+export const COMMISSION_URL = `${BASE_API_URL}/commissions`;

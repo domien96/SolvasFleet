@@ -17,6 +17,7 @@ interface VehicleData {
   leasingCompany?: number;
   value?: number;
   fleet?: number;
+  archived?: boolean;
   [key: string]: string;
 }
 

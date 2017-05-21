@@ -9,6 +9,7 @@ interface CompanyData {
   vatNumber?: string;
   phoneNumber?: string;
   type?: string;
+  archived?: boolean;
   [address: string ]: { [ city: string ]: string ,
                         [ country: string ]: string,
                         [ street: string ]: string,

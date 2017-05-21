@@ -29,7 +29,7 @@ import solvas.authentication.jwt.token.RefreshToken;
 public class RefreshTokenEndpoint {
     private final AccessAndRefreshTokenResponseBuilder accessAndRefreshTokenBuilder;
     private final JwtSettings jwtSettings;
-    private final UserDetailsService userService;
+    private final SolvasUserDetailsService userService;
     private final TokenExtractor tokenExtractor;
 
     /**
@@ -43,7 +43,7 @@ public class RefreshTokenEndpoint {
     public RefreshTokenEndpoint(
             AccessAndRefreshTokenResponseBuilder accessAndRefreshTokenBuilder,
             JwtSettings jwtSettings,
-            UserDetailsService userService,
+            SolvasUserDetailsService userService,
             TokenExtractor tokenExtractor) {
         this.accessAndRefreshTokenBuilder = accessAndRefreshTokenBuilder;
         this.jwtSettings = jwtSettings;
@@ -61,12 +61,11 @@ public class RefreshTokenEndpoint {
     @RequestMapping(value="/auth/token", method=RequestMethod.POST, produces={ MediaType.APPLICATION_JSON_VALUE })
     public @ResponseBody TokenResponse refreshToken(HttpServletRequest request) throws InvalidJwt {
         String tokenPayload = tokenExtractor.extract(request.getHeader(WebSecurityConfig.JWT_TOKEN_HEADER_PARAM));
-        
         RawAccessJwtToken rawToken = new RawAccessJwtToken(tokenPayload);
         RefreshToken oldRefreshToken = RefreshToken.create(rawToken, jwtSettings.getTokenSigningKey());
 
         String subject = oldRefreshToken.getSubject();
-        UserDetails user = userService.loadUserByUsername(subject);
+        UserDetails user = userService.loadUserById(subject);
 
         return accessAndRefreshTokenBuilder.build(user);
     }
