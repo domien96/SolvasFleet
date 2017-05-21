@@ -53,6 +53,7 @@ class Vehicles extends React.Component<{}, State> {
     this.handleFilter = this.handleFilter.bind(this);
     this.fetchVehicles = this.fetchVehicles.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.getFleet = this.getFleet.bind(this);
     this.getCompany = this.getCompany.bind(this);
   }
@@ -111,6 +112,10 @@ class Vehicles extends React.Component<{}, State> {
 
   handleChange(e: any) {
     const file = e.target.files[0];
+    this.setState({ file });
+  }
+
+  handleSubmit() {
     const setErrors = (es: any) => {
       const errors = es.errors.map((row: any) => {
         return Object.keys(row).map(index => {
@@ -126,7 +131,7 @@ class Vehicles extends React.Component<{}, State> {
       this.fetchVehicles(this.state.filter)
       this.setState({ csvsuccess: true });
     };
-    postVehiclesFile(file, success, setErrors);
+    postVehiclesFile(this.state.file, success, setErrors);
   }
 
   getFleet(inputCompanies: CompanyData[], inputFleets: FleetData[], fleetId: number, init?: boolean) {
@@ -223,6 +228,7 @@ class Vehicles extends React.Component<{}, State> {
         fetchVehicles={ this.fetchVehicles }
         errors={ this.state.errors }
         handleChange={ this.handleChange }
+        handleSubmit={ this.handleSubmit }
         tableData={ this.state.tableData }
         init={ this.state.init }
         csvsuccess={ this.state.csvsuccess } >

@@ -12,6 +12,7 @@ import Auth from '../../modules/Auth.ts';
 interface UProps {
   errors: Form.Error[];
   handleChange: (e: any) => void;
+  handleSubmit: () => void;
   addNewRoute: string;
   modelName: string;
   csvsuccess: boolean;
@@ -26,6 +27,9 @@ const VehicleUpload: React.StatelessComponent<UProps> = props =>  {
         <span className='glyphicon glyphicon-upload' aria-hidden='true'></span>
         Upload Vehicles (CSV)
         <input onChange={ props.handleChange } type='file' name='File Upload' id='csvFileUpload' accept='.csv' className='btn btn-default' />
+        <span className='btn btn-default' onClick={ props.handleSubmit }>
+          Import
+        </span>
       </form>
     </div>
   );
@@ -39,6 +43,7 @@ interface Props {
   errors: Form.Error[];
   modelName: string;
   handleChange: (e: any) => void;
+  handleSubmit: () => void;
   tableData: any;
   csvsuccess: boolean;
 }
@@ -59,6 +64,7 @@ const VehicleListing: React.StatelessComponent<Props>  = props =>  {
             <VehicleUpload
               errors={ props.errors }
               handleChange={ props.handleChange }
+              handleSubmit={ props.handleSubmit }
               modelName={ props.modelName }
               addNewRoute={ props.addNewRoute }
               csvsuccess={ props.csvsuccess } />
