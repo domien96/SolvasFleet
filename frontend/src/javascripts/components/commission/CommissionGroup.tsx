@@ -5,7 +5,6 @@ import Card from '../app/Header.tsx';
 import { Collapse }  from 'react-bootstrap';
 import classNames from 'classnames';
 
-
 interface Props {
   vehicleType: string;
   commission: CommissionGroupData;
@@ -26,15 +25,24 @@ const COM: React.StatelessComponent<ComFormProps> = props => {
   const label = T.translate(props.label);
   const classes = classNames('form-group', 'col-md-12', 'commission-input', 'fleet', props.className);
 
-  return (<div className={ classes }>
-    <div className='col-md-9'><label className='ver'>{label}</label></div><div className='col-md-3'>
-    <T.text
-      tag='input'
-      type='number'
-      placeholder={ label }
-      className='form-control'
-      onChange= { props.onChange }
-      value={ props.value || '' }/></div></div>
+  return (
+    <div className={ classes }>
+      <div className='col-md-9'><label className='ver'>{label}</label></div>
+      <div className='col-md-3'>
+        <div className="form-group">
+          <div className="input-group">
+            <T.text
+              tag='input'
+              type='number'
+              placeholder={ label }
+              className='form-control'
+              onChange= { props.onChange }
+              value={ props.value || '' }/>
+            <span className="input-group-addon">%</span>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 

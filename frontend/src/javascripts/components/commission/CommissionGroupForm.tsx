@@ -92,6 +92,13 @@ class CommissionGroupForm extends React.Component<Props, State> {
   toggleCommission(vehicleType: string) {
     return () => {
       const obj: State = { ...this.state };
+      obj.toggles = {
+        showVan: false,
+        showTruck: false,
+        showSemiHeavyTruck: false,
+        showTruck12: false,
+        showPersonalVehicle: false
+      };
       obj.toggles[vehicleType] = !this.state.toggles[vehicleType];
       this.setState({ ...obj });
     }

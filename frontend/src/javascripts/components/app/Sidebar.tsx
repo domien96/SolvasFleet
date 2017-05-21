@@ -17,7 +17,7 @@ class SidebarLink extends React.Component<SProps, {}> {
   };
 
   render() {
-    const classes = classNames({ active: this.context.location.pathname.includes(this.props.path) });
+    const classes = classNames({ active: this.context.location.pathname.startsWith(this.props.path) });
 
     return (
       <li className={ classes } >
