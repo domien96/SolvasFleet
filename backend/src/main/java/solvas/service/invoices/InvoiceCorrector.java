@@ -54,12 +54,12 @@ public class InvoiceCorrector {
                         Collectors.mapping(t -> new Period(t.getStartDate(), t.getEndDate()), Collectors.toList())
                 ));
 
-        // Sort to be sure
-        List<Period> paidPeriods = groupedItems.getOrDefault(InvoiceItemType.PAYMENT, new ArrayList<>());
-        paidPeriods.sort(Comparator.comparing(Period::getStartDate).thenComparing(Period::getEndDate));
+        Collection<Period> paidPeriods = groupedItems.getOrDefault(InvoiceItemType.PAYMENT, new ArrayList<>());
+        Collection<Period> repaidPeriods = groupedItems.getOrDefault(InvoiceItemType.REPAYMENT, new ArrayList<>());
 
+        List<Period> positivePeriods = merge(paidPeriods, repaidPeriods);
         Period periodToPay = new Period(contract.getStartDate().toLocalDate(), contract.getEndDate().toLocalDate());
-        Pair<List<Period>, List<Period>> corrections = calculateCorrections(paidPeriods, periodToPay);
+        Pair<List<Period>, List<Period>> corrections = calculateCorrections(positivePeriods, periodToPay);
 
         Set<InvoiceItem> items = limitPeriods(corrections.getFirst().stream(), correctBefore)
                 .map(period -> {
@@ -178,6 +178,94 @@ public class InvoiceCorrector {
 
         return new BigDecimal(itemPeriod)
                 .divide(new BigDecimal(totalPeriodInDays), PERCENTAGE_SCALE, BigDecimal.ROUND_HALF_UP);
+    }
+
+    private List<Period> merge(Collection<Period> paidPeriods,
+                               Collection<Period> repaidPeriods) {
+        // Using tree guarantees log(n) sorted insertion and log(n) popping of first element
+        // Possible optimization would be a structure that can add to the front in constant time
+        // However, this wouldn't change the complexity in big O-notation, and #lazy
+        TreeSet<Period> payments = new TreeSet<>(
+                Comparator.comparing(Period::getStartDate)
+                        .thenComparing(Period::getEndDate)
+        );
+        payments.addAll(paidPeriods);
+        TreeSet<Period> repayments = new TreeSet<>(
+                Comparator.comparing(Period::getStartDate)
+                        .thenComparing(Period::getEndDate)
+        );
+        repayments.addAll(repaidPeriods);
+
+        List<Period> periods = new ArrayList<>();
+        while (repayments.size() > 0) {
+            if (payments.size() == 0) {
+                throw new InvalidInvoiceItems(TOO_MANY_REPAYMENT_MESSAGE);
+            }
+
+            Period payment = payments.pollFirst();
+            Period repayment = repayments.pollFirst();
+            if (repayment.getStartDate().isBefore(payment.getStartDate())) {
+                throw new InvalidInvoiceItems(TOO_MANY_REPAYMENT_MESSAGE);
+            }
+
+
+            if (repayment.getStartDate().equals(payment.getEndDate())) {
+                if (repayment.getEndDate().equals(payment.getEndDate())) {
+                    continue; // Both cancel each other out, discard them
+                }
+                if (repayment.getEndDate().isAfter(payment.getEndDate())) {
+                    // repayment cancels out a part of the payment, split up and readd to repayments
+                    repayments.add(new Period(payment.getEndDate().plusDays(1), repayment.getEndDate()));
+                } else {
+                    // payment cancels out a part of the repayment, split up and readd to payments
+                    payments.add(new Period(repayment.getEndDate().plusDays(1), payment.getEndDate()));
+                }
+            } else {
+                // First part of payment won't be cancelled out, so we are add it to the result collection
+                if (payment.getEndDate().isBefore(repayment.getStartDate())) {
+                    periods.add(payment);
+                    repayments.add(repayment);
+                } else {
+                    // Split in the part that won't be cancelled out and the part that will be cancelled out on the next iteration
+                    periods.add(new Period(payment.getStartDate(), repayment.getStartDate().minusDays(1)));
+                    payments.add(new Period(repayment.getStartDate(), payment.getEndDate()));
+                    repayments.add(repayment);
+                }
+            }
+
+        }
+
+        periods.addAll(payments);
+        periods.sort(Comparator.comparing(Period::getStartDate)
+                .thenComparing(Period::getEndDate));
+        // Merge together consecutive periods
+        List<Period> mergedPeriods = new ArrayList<>();
+
+        Period last = null;
+        for (Period period : periods) {
+            if (last == null) { // Only on first iteration
+                last = period;
+                continue;
+            }
+
+            if (last.getEndDate().plusDays(1).equals(period.getStartDate())) {
+                // Consecutive periods, merge together
+                last = new Period(last.getStartDate(), period.getEndDate());
+            } else if (last.getEndDate().plusDays(1).isAfter(period.getStartDate())) {
+                // At least one day contains 2 or more more payments than repayments.
+                throw new InvalidInvoiceItems("Contains day with too many payments");
+            } else {
+                // non consecutive periods, add last to result and start anew with the rest of the periods
+                mergedPeriods.add(last);
+                last = period;
+            }
+        }
+
+        if (last != null) {
+            mergedPeriods.add(last); // Add last calculated period
+        }
+
+        return mergedPeriods;
     }
 
     private Pair<List<Period>, List<Period>> calculateCorrections(List<Period> paidPeriods, Period periodToPay) {
