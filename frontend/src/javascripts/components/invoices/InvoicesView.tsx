@@ -1,39 +1,15 @@
 import React from 'react';
 
 import Header from '../app/Header.tsx';
-import Card from '../app/Card.tsx';
-import { th } from '../../utils/utils.ts';
-import InfoTable from '../tables/InfoTable.tsx';
 import T from 'i18n-react';
+import InvoicesListing from './InvoicesListing.tsx';
 
 interface Props {
-  invoices: InvoiceData[];
+  response: ListResponse;
   tableData: any;
   onInvoiceSelect: (id: number) => void;
+  handleFetchInvoices: (query?: any) => void;
 }
-
-const Overview: React.StatelessComponent<Props> = props => {
-  const tableHead = [
-    th('id', 'invoice.id'),
-    th('startDate', 'invoice.startDate'),
-    th('endDate', 'invoice.endDate'),
-    th('paid', 'invoice.paid'),
-  ];
-
-  return (
-    <InfoTable head={ tableHead } data={ props.tableData } onClick={ props.onInvoiceSelect } />
-  );
-};
-
-const MainCard: React.StatelessComponent<Props> = props => {
-  return (
-    <Card>
-      <div className='card-content'>
-        <Overview invoices={ props.invoices } onInvoiceSelect={ props.onInvoiceSelect } tableData={ props.tableData } />
-      </div>
-    </Card>
-  );
-};
 
 const InvoicesView: React.StatelessComponent<Props> = props => {
   return (
@@ -44,7 +20,13 @@ const InvoicesView: React.StatelessComponent<Props> = props => {
       <div className='wrapper'>
         <div className='row'>
           <div className='col-xs-12'>
-            <MainCard invoices={ props.invoices } onInvoiceSelect={ props.onInvoiceSelect } tableData={ props.tableData } />
+            <InvoicesListing
+              onSelect={ props.onInvoiceSelect }
+              fetchModels={ props.handleFetchInvoices }
+              modelName='invoice'
+              columns={ ['id', 'startDate', 'endDate', 'paid'] }
+              response={ props.response } 
+              tableData={ props.tableData } />
           </div>
         </div>
       </div>
