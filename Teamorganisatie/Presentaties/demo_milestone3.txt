@@ -1,65 +1,76 @@
-ROUTINE 0
-Nodige data: login en pass in db
 
-1 Inloggen met ongeldig email adres (geen @)
-2 Inloggen met verkeerd passwoord
-3 Inloggen met juist passwoord
-Login : patrick@solvas.be
-passwoord: vakoverschrijdendproject
-3 Vertalingen tonen in engels, nederlands en swahili
-4 Doe demo voort in engelse versie (veiligst)
-
-ROUTINE 1
-Nodige data: foutieve en correcte csv bestanden
-
-1 company, fleet, vehicle aanmaken
-een foute csv uploaden
-een goede csv uploaden, vermeld dat de kolommen in willekuerige volgorde mag staan (in tegenstelling tot sommige andere groepen)
-vehicle linken aan die fleet
-commissies bekijken en instellen.
-instellingen van de vloot bekijken.
-contract aanmaken voor die nieuwe vehicle & vloot
-factuur genereren current, show all nog niets
-
-ROUTINE 2
-Nu met geprepaarde data de corrections en oude invoices tonen
-Voorbereiding data: todo -> testdata samenstellen voor een oudere vloot met enkele vehicles
-
-1 toon de eerste vloot van de eerste company (naam "Heftrucks")
-SKIP DEZE STAP (2 toon dat de startdatum van de vloot al van enkele maanden geleden is) 
-3 toon de vehicles van die vloot (samen met die uitschuifvensters)
-4 toon van de eerste vehicle in die lijst zijn contract (klik op de vehicle link om naar zijn overview te gaan)
-	en vertel dat de vehicle al een tijdje een contract heeft
-5 keer terug naar de vloot en toon alle invoices
-6 open een invoice en download de pdf
-7 open de pdf en zeg dat de commissie verborgen zit in de nettopremie kolom
-8 Leg de rest van de pdf uit.
-9 Voeg een nieuw contract toe met startdatum 1feb en einddatum 1 mei.
-10 Ga naar vloot en klik op corrigeren.
-11 toon de correctiefactuur bij show all invoices 
+TRUNCATE TABLE "fleet_subscriptions" CASCADE;
+TRUNCATE TABLE "fleets" CASCADE;
+TRUNCATE TABLE "vehicles" CASCADE;
+TRUNCATE TABLE "roles" CASCADE;
+TRUNCATE TABLE "companies" CASCADE;
+TRUNCATE TABLE "users" CASCADE;
+TRUNCATE TABLE "invoices" CASCADE;
+TRUNCATE TABLE "invoice_items" CASCADE;
+truncate table "revisions" CASCADE;
+truncate table "contracts" CASCADE ;
 
 
-ROUTINE 3 LOGBOEK
-Nodige voorbereiding: enkele users en vehicles aangepast zodat er toch ongeveer 10 logs zijn.
-1 toon het logboek, hier zie je alles
-2 toon dat je kan sorteren op tijdstip
-3 Gebruik de filters voor een bepaalde gebruiker zijn logs te zien
+insert into users (first_name, last_name, email, password) VALUES ('Nils', 'Mak', 'nils.mak@gmail.com', 'pass');
+INSERT INTO "users" (first_name,last_name,email,password,updated_at,created_at) VALUES ('Sierra','Cooper','metus.vitae.velit@facilisismagnatellus.net','WBL90DHP2RU','2017-02-28 12:15:29','2018-01-27 01:41:55');
+INSERT INTO "users" (first_name,last_name,email,password,updated_at,created_at) VALUES ('Lamar','Yang','eleifend.Cras@tellusimperdiet.edu','GTZ20SSS5HV','2017-01-25 22:22:47','2017-04-30 09:44:22');
+INSERT INTO "users" (first_name,last_name,email,password,updated_at,created_at) VALUES ('Hanna','Sims','ac.mattis.semper@semegetmassa.org','HPQ85RQA5VS','2016-11-20 23:35:34','2018-01-01 07:59:24');
 
-ROUTINE 4 Roles
+--INSERT INTO "vehicle_types" (vehicletype_id,name) VALUES (1,'Persoonswagen'),(2,'Trekker'),(3,'Aanhangwagen'),(4,'Camionet'),(5,'Moto');
 
-1 Maak een role met
-read:companies
-read:companies:contracts
-read:companies:fleets
-read:companies:greencard
-read:company
-read:company:contracts
-read:company:fleets
-read:company:greencard
-read:revisions
 
-2 Ken die toe aan een nieuwe user
-3 Log er op in en toon de dynamische gui
-4 Log uit en log weer in op je admin account
-5 Delete de nieuwe user
-6 Probeer jezelf te deleten als user en toon dat dit niet kan omdat je nog ingelogd bent
+INSERT INTO "companies" (name,vat,phone,address_city,address_country,address_house_number,address_postalCode,address_street,updated_at,created_at,company_type) VALUES ('Volutpat Company','Q57E87DW34DR','08 90 21 34 65','Lanco','Saudi Arabia',159,'573460','Ap #373-5592 Duis St.','2016-01-12 23:46:04','2016-06-09 07:57:09',0);
+INSERT INTO "companies" (name,vat,phone,address_city,address_country,address_house_number,address_postalCode,address_street,updated_at,created_at,company_type) VALUES ('Faucibus Ut Industries','W64Y14BO63MG','07 40 61 67 21','King Township','Thailand',100,'1088','P.O. Box 123, 6958 Est, Road','2015-12-04 17:05:48','2016-04-29 13:50:10',1);
+INSERT INTO "companies" (name,vat,phone,address_city,address_country,address_house_number,address_postalCode,address_street,updated_at,created_at,company_type) VALUES ('Vulputate Ullamcorper Industries','L98V91FE17LD','06 82 21 42 43','Juazeiro do Norte','Switzerland',156,'74554','718-5787 Turpis. Rd.','2016-01-27 05:29:40','2017-03-25 22:37:33',2);
+
+
+--INSERT INTO "roles" (role_id,function,company_id,created_at,updated_at) VALUES (1,'BasicUSer',1,3,'2015-09-07 17:13:12','2018-01-18 10:46:24');
+--INSERT INTO "roles" (role_id,function,company_id,created_at,updated_at) VALUES (2,'Supervisor',3,2,'2015-07-11 05:23:39','2016-06-16 08:06:19');
+--INSERT INTO "roles" (role_id,function,company_id,created_at,updated_at) VALUES (3,'BasicUSer',2,1,'2016-01-28 00:00:40','2016-08-03 00:35:28');
+
+
+INSERT INTO "vehicles" (license_plate,chassis_number,model,kilometer_count,year,leasing_company_id,value,brand,vehicletype_id,updated_at,created_at) VALUES ('1-IKR-795','I85K66OH72VD','RLH28YTM7GU',278625,2004,1,51418,'Audi',1,'2015-12-13 05:09:40','2017-09-27 10:32:59');
+INSERT INTO "vehicles" (license_plate,chassis_number,model,kilometer_count,year,leasing_company_id,value,brand,vehicletype_id,updated_at,created_at) VALUES ('1-AOP-124','L96U37PM44XQ','TXV75WNS1ZV',219284,2005,2,55618,'Audi',2,'2016-01-16 04:39:19','2017-06-26 22:33:40');
+INSERT INTO "vehicles" (license_plate,chassis_number,model,kilometer_count,year,leasing_company_id,value,brand,vehicletype_id,updated_at,created_at) VALUES ('1-KZK-146','S72T19ZF92TW','ZPP76APY9TS',384999,2009,3,26004,'Skoda',3,'2015-10-30 00:23:20','2016-08-17 00:13:29');
+INSERT INTO "vehicles" (license_plate,chassis_number,model,kilometer_count,year,leasing_company_id,value,brand,vehicletype_id,updated_at,created_at) VALUES ('1-AXA-146','1FTZR45E99PA53535','A4',384999,2009,3,26004,'Skoda',3,'2015-10-30 00:23:20','2016-08-17 00:13:29');
+INSERT INTO "vehicles" (license_plate,chassis_number,model,kilometer_count,year,leasing_company_id,value,brand,vehicletype_id,updated_at,created_at) VALUES ('1-ING-148','1J4FJ28SXNL202014','911',384999,2009,3,26004,'Honda',3,'2015-10-30 00:23:20','2016-08-17 00:13:29');
+
+
+INSERT INTO "fleets" (company_id,name,updated_at,created_at,facturation_period,payment_period) VALUES (1,' Heftrucks ','2015-10-11 05:48:39','2010-11-01 01:22:30',1,1);
+INSERT INTO "fleets" (company_id,name,updated_at,created_at,facturation_period,payment_period) VALUES (1,' Vrachtwagens','2015-09-27 01:31:01','2010-06-17 08:10:44',1,1);
+INSERT INTO "fleets" (company_id,name,updated_at,created_at,facturation_period,payment_period) VALUES (2,'Vracht ','2015-12-17 04:32:24','2010-07-11 20:26:16',1,1);
+
+
+INSERT INTO "fleet_subscriptions" (start_date,end_date,updated_at,created_at,vehicle_id,fleet_id) VALUES ('2013-06-03','2018-03-07','2017-09-20 07:18:04','2017-08-22 17:31:22',1,1);
+INSERT INTO "fleet_subscriptions" (start_date,end_date,updated_at,created_at,vehicle_id,fleet_id) VALUES ('2016-08-22','2018-03-06','2015-09-30 14:49:46','2016-09-07 07:55:42',2,2);
+INSERT INTO "fleet_subscriptions" (start_date,end_date,updated_at,created_at,vehicle_id,fleet_id) VALUES ('2017-11-16','2018-02-21','2015-11-16 02:19:13','2016-05-31 19:12:09',3,3);
+
+
+INSERT INTO "revisions" (entity_type,entity_id,logDate,method) VALUES ('VEHICLE',1,1,'2016-05-31 19:12:09',1);
+INSERT INTO "revisions" (entity_type,entity_id,logDate,method) VALUES ('USER',1,1,'2016-05-31 19:12:09',1);
+
+SELECT setval('users_user_id_seq', (SELECT MAX(user_id) FROM users));
+SELECT setval('companies_company_id_seq', (SELECT MAX(company_id) FROM companies));
+SELECT setval('vehicles_vehicle_id_seq', (SELECT MAX(vehicle_id) FROM vehicles));
+SELECT setval('fleets_fleet_id_seq', (SELECT MAX(fleet_id) FROM fleets));
+SELECT setval('fleet_subscriptions_fleet_subscription_id_seq', (SELECT MAX(fleet_subscription_id) FROM fleet_subscriptions));
+
+SELECT setval('revisions_revision_id_seq', (SELECT MAX(revision_id) FROM revisions));
+
+INSERT INTO roles ( function) VALUES ( 'administrator'), ('test');
+INSERT INTO role_permissions (role_id, permission_id) SELECT role_id, permission_id FROM roles FULL JOIN permissions ON 1=1 WHERE function = 'administrator';
+
+INSERT INTO functions ( user_id, role_id, start_date) VALUES (1,1,now());
+
+INSERT INTO contracts (fleet_subscription_id, startDate,endDate,franchise,premium,company_id,insurance_type_id) VALUES (1,'2014-02-21','2015-11-16',100,100,1,1);
+INSERT INTO invoices ( paid,fleet_id,start_date,end_date,type) VALUES ( FALSE,1,'2014-02-21','2014-03-16',1);
+INSERT INTO invoice_items (type, amount, invoice_id,contract_id, start_date,end_date, tax) VALUES('PAYMENT', 100, 1, 1, '2014-02-21','2014-03-16',5);
+
+
+INSERT INTO invoices (paid,fleet_id,start_date,end_date,type) VALUES ( FALSE,1,'2014-03-17','2015-11-16',2);
+INSERT INTO invoice_items (type, amount, invoice_id,contract_id, start_date,end_date, tax) VALUES('PAYMENT', 100, 2, 1, '2014-03-17','2015-11-16',5);
+SELECT setval('revisions_revision_id_seq', (SELECT MAX(revision_id) FROM revisions));
+
+SELECT setval('contracts_contract_id_seq', (SELECT MAX(contract_id) FROM contracts));
+SELECT setval('invoices_invoice_id_seq', (SELECT MAX(invoice_id) FROM invoices));
+SELECT setval('invoice_items_invoice_item_id_seq', (SELECT MAX(invoice_item_id) FROM invoice_items));
