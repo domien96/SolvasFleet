@@ -191,7 +191,7 @@ public class GreenCardPdfView extends AbstractITextPdfView {
                 .setColSpan(4).setMinimumHeight(Utilities.millimetersToPoints(35)).build());
     }
 
-    private void make10(PdfPTable card) {
+    private void make10(PdfPTable card) { // TODO getInsuranceCompany instead of leasing
         String value = vehicle.getLeasingCompany() != null ? buildAddressParagraph(vehicle.getLeasingCompany()) :
                 "Niet verbonden met een verzekeringsmaatschappij";
         card.addCell(new PdfPCellBuilder(simpleFieldAndValue("10. Deze kaart is afgegeven door:\n",
