@@ -26,6 +26,7 @@ import solvas.rest.invoices.pdf.BillingPdfView;
 import solvas.rest.invoices.pdf.PaymentPdfView;
 import solvas.service.InvoiceService;
 import solvas.service.VehicleService;
+import solvas.service.invoices.InvoiceCorrector;
 
 import java.io.IOException;
 
@@ -50,10 +51,12 @@ public class PdfTest {
     private DaoContext daoContext;
     @Autowired
     private InvoiceService invoiceService;
+    @Autowired
+    private InvoiceCorrector invoiceCorrector;
 
     private MockMvc getMockMvc() throws IOException, DocumentException {
         ViewResolver greenCardViewResolver = new GreenCardViewResolver(new GreenCardPdfView(daoContext));
-        ViewResolver invoicePdfViewResolver = new InvoiceFileViewResolver(new PaymentPdfView(), new BillingPdfView());
+        ViewResolver invoicePdfViewResolver = new InvoiceFileViewResolver(new PaymentPdfView(invoiceCorrector), new BillingPdfView(invoiceCorrector));
         return MockMvcBuilders
                 .standaloneSetup(new VehicleRestController(vehicleService, null),
                         new InvoiceRestController(invoiceService))

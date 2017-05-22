@@ -97,28 +97,6 @@ public class Contract extends Model {
     }
 
     /**
-     * The netto premium. Which is the premium (= riskpremium) + the commission.
-     * @return the netto premium
-     */
-    public long getNettoPremium() {
-        // with commission
-        Vehicle vehicle = fleetSubscription.getVehicle();
-        CommissionFilter filter = new CommissionFilter();
-        filter.setInsuranceType(insuranceType.getName());
-        filter.setVehicle(vehicle.getId());
-        filter.setVehicleType(vehicle.getType().getName());
-        filter.setFleet(fleetSubscription.getFleet().getId());
-        filter.setCompany(company.getId());
-        // Make this code better
-        Page<ApiCommission> result = CommissionRestController.commissionService.findAll(new PageRequest(0,10),filter); //dummy page request
-        if(!result.hasContent()) {
-            return premium;
-        } else {
-            return premium + premium * result.getContent().get(0).getValue()/100;
-        }
-    }
-
-    /**
      * Get the risk premium
      * @return the risk premium
      */
