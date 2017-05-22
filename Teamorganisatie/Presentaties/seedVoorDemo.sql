@@ -63,12 +63,6 @@ INSERT INTO role_permissions (role_id, permission_id) SELECT role_id, permission
 INSERT INTO functions ( user_id, role_id, start_date) VALUES (1,2,now());
 
 INSERT INTO contracts (fleet_subscription_id, startDate,endDate,franchise,premium,company_id,insurance_type_id) VALUES (1,'2014-02-21','2015-11-16',100,100,1,1);
-INSERT INTO invoices ( paid,fleet_id,start_date,end_date,type) VALUES ( FALSE,1,'2014-02-21','2014-03-16',1);
-INSERT INTO invoice_items (type, amount, invoice_id,contract_id, start_date,end_date, tax) VALUES('PAYMENT', 100, 1, 1, '2014-02-21','2014-03-16',5);
-
-
-INSERT INTO invoices (paid,fleet_id,start_date,end_date,type) VALUES ( FALSE,1,'2014-03-17','2015-11-16',2);
-INSERT INTO invoice_items (type, amount, invoice_id,contract_id, start_date,end_date, tax) VALUES('PAYMENT', 100, 2, 1, '2014-03-17','2015-11-16',5);
 SELECT setval('revisions_revision_id_seq', (SELECT MAX(revision_id) FROM revisions));
 
 SELECT setval('contracts_contract_id_seq', (SELECT MAX(contract_id) FROM contracts));
