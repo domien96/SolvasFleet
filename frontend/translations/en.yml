@@ -220,6 +220,13 @@ csv:
 
 commission:
   commissions: Commissions
+  id: Commission ID
+  vehicleID: Vehicle ID
+  companyID: Company ID
+  fleetID: Fleet ID
+  insuranceType: Insurance Type
+  vehicleType: Vehicle Type 
+  value: Value
   global: Global commissions
   civilLiability: Civil Liability
   omnium: Omnium

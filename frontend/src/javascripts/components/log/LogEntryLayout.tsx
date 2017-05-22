@@ -40,6 +40,20 @@ const getFunction = (entity: any) => {
   return data;
 };
 
+const getCommission = (entity: any) => {
+  const commission: CommissionData = entity;
+  const data = [
+    th('commission.id', commission.id),
+    th('commission.fleetID', commission.fleet),
+    th('commission.vehicleID', commission.vehicle),
+    th('commission.companyID', commission.company),
+    th('commission.insuranceType', commission.insuranceType),
+    th('commission.vehicleType', commission.vehicleType),
+    th('commission.value', commission.value)
+  ];
+  return data;
+};
+
 const getVehicle = (entity: any) => {
   const vehicle: VehicleData = entity;
   const data = [
@@ -186,6 +200,10 @@ const Layout: React.StatelessComponent<Props> = props => {
   if (entry.entityType == "Fleet") {
     entityInfo = getFleet(entity);
     if (oldEntry) oldEntityInfo = getFleet(oldEntity);
+  }
+  if (entry.entityType == "Commission") {
+    entityInfo = getCommission(entity);
+    if (oldEntry) oldEntityInfo = getCommission(oldEntity);
   }
 
   let entityDisplay = null;
