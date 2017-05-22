@@ -325,13 +325,7 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
         Stream<InvoiceItem> addedItems = Stream.concat(started.stream(), added.stream())
                 .map(contract -> buildInvoiceItem(contract, invoice));
 
-        // We also need to repay the client for invoices that were stopped before the end of the period.
-        Collection<Contract> ended = context.getContractDao().findFleetAndStartDateBeforeAndEndDateBetween(invoice.getFleet(), startLimit, endLimit);
-
-        Stream<InvoiceItem> endedItems = ended.stream()
-                .map(contract -> buildRepaymentItem(contract, invoice));
-
-        invoice.setItems(Stream.concat(addedItems, endedItems).collect(Collectors.toSet()));
+        invoice.setItems(addedItems.collect(Collectors.toSet()));
     }
 
     /**
