@@ -77,7 +77,7 @@ public class BillingPdfView extends InvoicePdfView {
         }
 
         PdfPCell cell = getCell("Netto totaal", Element.ALIGN_LEFT, font12);
-        cell.setColspan(3);
+        cell.setColspan(2);
         table.addCell(cell);
         table.addCell(getCell(euroFormat.format(invoice.getNetAmount()), Element.ALIGN_LEFT, font12b));
 

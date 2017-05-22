@@ -75,12 +75,12 @@ public class PaymentPdfView extends InvoicePdfView {
         }
 
         PdfPCell cell = getCell("Netto totaal:", Element.ALIGN_LEFT, font12);
-        cell.setColspan(3);
+        cell.setColspan(2);
         table.addCell(cell);
         table.addCell(getCell(euroFormat.format(invoice.getNetAmount()), Element.ALIGN_LEFT, font12b));
 
         cell = getCell("Totaal:", Element.ALIGN_LEFT, font12);
-        cell.setColspan(3);
+        cell.setColspan(1);
         table.addCell(cell);
 
         table.addCell(getCell(euroFormat.format(invoice.getTotalAmount()), Element.ALIGN_LEFT, font12b));
