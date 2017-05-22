@@ -131,14 +131,14 @@ public class GreenCardPdfView extends AbstractITextPdfView {
         Optional<FleetSubscription> fsOpt = fleetSubscriptionDao.activeForVehicle(vehicle);
         if (fsOpt.isPresent()) {
             FleetSubscription fs = fsOpt.get();
-            LocalDate start = fs.getStartDate().toLocalDate();
-            LocalDate end = fs.getEndDate().toLocalDate();
-            if(start!= null) {
+            if(fs.getStartDate() != null) {
+                LocalDate start = fs.getStartDate().toLocalDate();
                 res[0] = String.valueOf(start.getDayOfMonth());
                 res[1] = String.valueOf(start.getMonth().getValue());
                 res[2] = String.valueOf(start.getYear());
             }
-            if(end!= null) {
+            if(fs.getEndDate() != null) {
+                LocalDate end = fs.getEndDate().toLocalDate();
                 res[3] = String.valueOf(end.getDayOfMonth());
                 res[4] = String.valueOf(end.getMonth().getValue());
                 res[5] = String.valueOf(end.getYear());
