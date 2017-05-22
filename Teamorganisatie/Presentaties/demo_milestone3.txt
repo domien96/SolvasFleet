@@ -34,8 +34,8 @@ SKIP DEZE STAP (2 toon dat de startdatum van de vloot al van enkele maanden gele
 6 open een invoice en download de pdf
 7 open de pdf en zeg dat de commissie verborgen zit in de nettopremie kolom
 8 Leg de rest van de pdf uit.
-9 Voeg een nieuw contract toe met startdatum 1feb en einddatum 1 mei.
-10 Ga naar vloot en klik op corrigeren.
+9 Voeg een nieuw contract toe met startdatum 1feb en einddatum 22 mei.
+10 Ga naar vloot en klik op corrigeren. Als er niets gecorrigeerd is, dan edit je de startdatum naar 1 jan. en try again
 11 toon de correctiefactuur bij show all invoices 
 
 
