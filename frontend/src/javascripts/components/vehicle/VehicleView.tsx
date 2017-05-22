@@ -63,7 +63,7 @@ interface Props {
 }
 
 const VehicleView: React.StatelessComponent<Props> = props => {
-  const { id, licensePlate, vin, brand, model, type, mileage, year, leasingCompany, value, fleet, archived } = props.vehicle;
+  const { id, licensePlate, vin, brand, model, type, mileage, year, leasingCompany, value, fleet, archived, companyOfFleet } = props.vehicle;
 
   let fleetName : number | string = fleet;
   if (fleet) {
@@ -108,7 +108,7 @@ const VehicleView: React.StatelessComponent<Props> = props => {
           </DynamicGuiComponent>
           <DynamicGuiComponent authorized={ Auth.canWriteFleetsOfCompany(-1) }>
             <div className='col-sm-3'>
-               <Link to={ `/commissions/clients/4/fleets/${fleet}/vehicles/${id}/${type}` } className='btn btn-info form-control'>
+               <Link to={ `/commissions/clients/${props.companyOfFleet}/fleets/${fleet}/vehicles/${id}/${type}` } className='btn btn-info form-control'>
                  <span className='glyphicon glyphicon-euro' /> Commissions
                </Link>
              </div>

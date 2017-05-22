@@ -159,7 +159,7 @@ class Vehicle extends React.Component<Props, State> {
   getCompanyOfFleetId() {
     if (this.state.fleets.length > 0) {
       const fleet = this.state.fleets.filter((f: FleetData) => {
-        return (this.state.vehicle.id === f.id);
+        return (this.props.params.id === f.id);
       });
       return fleet[0].company;
     }
