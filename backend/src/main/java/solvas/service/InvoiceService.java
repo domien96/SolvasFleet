@@ -282,6 +282,17 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
         return item;
     }
 
+    private InvoiceItem buildRepaymentItem(Contract contract, Invoice invoice) {
+        InvoiceItem item = new InvoiceItem();
+        item.setInvoice(invoice);
+        item.setContract(contract);
+        item.setStartDate(contract.getEndDate().toLocalDate());
+        item.setEndDate(invoice.getEndDate().toLocalDate());
+        item.setType(InvoiceItemType.REPAYMENT);
+        invoiceCorrector.setTotalAndTax(item, invoice.getFleet().getPaymentPeriod(), true);
+        return item;
+    }
+
     /**
      * Generate a billing invoice. This contains much more data than a regular {@link Invoice}, so it is useful
      * to make PDF's.
@@ -291,7 +302,7 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
     private void generateBillingInvoice(Invoice invoice) {
 
         // Unlike the payment invoices, for the billing invoices we need all contracts that have been active
-        // (no matter how short) in the periode of the invoice.
+        // (no matter how short) in the period of the invoice.
         LocalDateTime startLimit = invoice.getStartDate().toLocalDate().atStartOfDay();
         LocalDateTime endLimit = invoice.getEndDate().plusDays(1).toLocalDate().atStartOfDay();
 
@@ -311,10 +322,16 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
                 )
                 .orElse(Collections.emptyList());
 
-        Set<InvoiceItem> items = Stream.concat(started.stream(), added.stream())
-                .map(contract -> buildInvoiceItem(contract, invoice))
-                .collect(Collectors.toSet());
-        invoice.setItems(items);
+        Stream<InvoiceItem> addedItems = Stream.concat(started.stream(), added.stream())
+                .map(contract -> buildInvoiceItem(contract, invoice));
+
+        // We also need to repay the client for invoices that were stopped before the end of the period.
+        Collection<Contract> ended = context.getContractDao().findFleetAndStartDateBeforeAndEndDateBetween(invoice.getFleet(), startLimit, endLimit);
+
+        Stream<InvoiceItem> endedItems = ended.stream()
+                .map(contract -> buildRepaymentItem(contract, invoice));
+
+        invoice.setItems(Stream.concat(addedItems, endedItems).collect(Collectors.toSet()));
     }
 
     /**
