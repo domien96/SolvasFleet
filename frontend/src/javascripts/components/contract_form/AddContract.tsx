@@ -20,7 +20,11 @@ class AddContract extends React.Component<{}, State> {
   constructor() {
     super();
     this.state = {
-      contract: { type: 'Omnium' },
+      contract: { 
+        type: 'Omnium',
+        startDate: (new Date()).toISOString(),
+        endDate: (new Date()).toISOString(),
+      },
       errors: [],
       types: [],
     };
@@ -32,7 +36,7 @@ class AddContract extends React.Component<{}, State> {
     fetchTypes((data: any) => this.setState({ types: data.data }));
   }
 
-  public handleChange(field: Contract.Field, e: any, type: string): any {
+  handleChange(field: Contract.Field, e: any, type: string): any {
     const contract: ContractData = this.state.contract;
     if (type === 'date') {
       contract[field] = e;
@@ -42,7 +46,7 @@ class AddContract extends React.Component<{}, State> {
     this.setState({ contract });
   }
 
-  public onSubmit(e: any): void {
+  onSubmit(e: any): void {
     e.preventDefault();
     const setErrors = (es: Form.Error[]) => this.setState({ errors: es });
     const success = (data: any) => redirect_to(`/contracts/${data.id}`);
