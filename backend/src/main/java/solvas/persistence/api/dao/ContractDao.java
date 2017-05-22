@@ -27,7 +27,6 @@ public interface ContractDao extends Dao<Contract> {
      */
     Collection<Contract> findByCompany(Company company);
 
-
     /**
      * Find all contracts with given fleetSubscription
      *
@@ -35,28 +34,6 @@ public interface ContractDao extends Dao<Contract> {
      * @return Contracts with given fleetSubscription
      */
     Collection<Contract> findByFleetSubscription(FleetSubscription fleetSubscription);
-
-
-    /**
-     * Find all contracts for a subscription which overlaps with the period start-end
-     * @param fleetSubscription
-     * @param start
-     * @param end
-     * @return
-     */
-    Collection<Contract> findAllByFleetSubscriptionAndEndDateGreaterThanEqualAndStartDateLessThanEqual(FleetSubscription fleetSubscription, LocalDateTime start, LocalDateTime end);
-
-    /**
-     * Convenient short named alias for findAllByFleetSubscriptionAndEndDateGreaterThanEqualAndStartDateLessThanEqual
-     * @param fleetSubscription
-     * @param start
-     * @param end
-     * @return
-     */
-    default Collection<Contract> findByFleetSubscriptionAndOverlaps(FleetSubscription fleetSubscription, LocalDateTime start, LocalDateTime end) {
-        return findAllByFleetSubscriptionAndEndDateGreaterThanEqualAndStartDateLessThanEqual(fleetSubscription, start, end);
-    }
-
 
     /**
      * Get all contracts for a fleet where the start date is before a given date and the end date is after a given date.
@@ -82,35 +59,6 @@ public interface ContractDao extends Dao<Contract> {
      */
     Collection<Contract> findByFleetSubscriptionFleetAndStartDateBeforeAndEndDateAfter(Fleet fleet, LocalDateTime startDate, LocalDateTime endDate);
 
-
-    /**
-     * See {@link #findFleetAndStartDateBeforeAndEndDateBetween(Fleet, LocalDateTime, LocalDateTime)}.
-     *
-     * @param fleet The fleet.
-     * @param startDate The start date.
-     * @param startDate2 The start date again.
-     * @param endDate The end date.
-     *
-     * @return The result.
-     */
-    Collection<Contract> findByFleetSubscriptionFleetAndStartDateBeforeAndEndDateBetween(Fleet fleet, LocalDateTime startDate, LocalDateTime startDate2, LocalDateTime endDate);
-
-    /**
-     * This method is very similar to {@link #findByFleetSubscriptionFleetAndStartDateBeforeAndEndDateAfter(Fleet, LocalDateTime, LocalDateTime)},
-     * but this method searches for contracts whose end date is before the given end date.
-     *
-     * In other words, this returns contracts that were active on the start date, but ended before the end date.
-     *
-     * @param fleet The fleet for which contracts are sought.
-     * @param startDate The datetime before which the contract must have started.
-     * @param endDate The datetime before which the contract must have ended.
-     *
-     * @return The contracts, or an empty collection if no contracts were found.
-     */
-    default Collection<Contract> findFleetAndStartDateBeforeAndEndDateBetween(Fleet fleet, LocalDateTime startDate, LocalDateTime endDate) {
-        return findByFleetSubscriptionFleetAndStartDateBeforeAndEndDateBetween(fleet, startDate, startDate, endDate);
-    }
-
     /**
      * This method is very similar to {@link #findByFleetSubscriptionFleetAndStartDateBeforeAndEndDateAfter(Fleet, LocalDateTime, LocalDateTime)},
      * but this method searches for contracts whose start date is after the given start date.
@@ -125,6 +73,17 @@ public interface ContractDao extends Dao<Contract> {
      * @return The contracts, or an empty collection if no contracts were found.
      */
     Collection<Contract> findByFleetSubscriptionFleetAndStartDateAfterAndStartDateLessThanEqual(Fleet fleet, LocalDateTime startDate, LocalDateTime endDate);
+
+    /**
+     * Find contracts that were created after a certain day, for a fleet and for which the start date is a certain date.
+     *
+     * @param fleet The fleet.
+     * @param createdAt The date after which the contract must be created.
+     * @param startDateBegin The start date of the contract.
+     *
+     * @return The contracts.
+     */
+    Collection<Contract> findByFleetSubscriptionFleetAndCreatedAtAfterAndStartDateBetween(Fleet fleet, LocalDateTime createdAt, LocalDateTime startDateBegin, LocalDateTime startDateEnd);
 
     /**
      * Find the oldest contract for a fleet.

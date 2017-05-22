@@ -129,7 +129,7 @@ class Vehicles extends React.Component<{}, State> {
     }
     const success = () => {
       this.fetchVehicles(this.state.filter)
-      this.setState({ csvsuccess: true });
+      this.setState({ csvsuccess: true, errors: [] });
     };
     postVehiclesFile(this.state.file, success, setErrors);
   }

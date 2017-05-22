@@ -220,6 +220,13 @@ csv:
 
 commission:
   comissions: Commissies
+  id: Commissies ID
+  vehicleID: Voertuig ID
+  companyID: Bedrijf ID
+  fleetID: Vloot ID
+  insuranceType: Verzekering Type
+  vehicleType: Voertuig Type 
+  value: Waarde
   global: Globale commissies
   civilLiability: Burgerlijke aansprakelijkheid
   omnium: Omnium
