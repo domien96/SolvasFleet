@@ -63,7 +63,7 @@ interface Props {
 }
 
 const VehicleView: React.StatelessComponent<Props> = props => {
-  const { id, licensePlate, vin, brand, model, type, mileage, year, leasingCompany, value, fleet, archived, companyOfFleet } = props.vehicle;
+  const { id, licensePlate, vin, brand, model, type, mileage, year, leasingCompany, value, fleet, archived } = props.vehicle;
 
   let fleetName : number | string = fleet;
   if (fleet) {
