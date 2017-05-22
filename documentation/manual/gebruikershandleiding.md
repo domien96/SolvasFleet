@@ -19,7 +19,7 @@ Bij het klikken op `Add new user` verschijnt dit formulier. Om een nieuwe gebrui
 
 ### Gebruiker wijzigen
 
-![gebruiker wijzigen](images/edit_user.png)
+![gebruiker wijzigen](images/edit_ueser.png)
 
 Bij het klikken op `Edit` verschijnt dit formulier. De gekende gegevens van de gebruiker zijn reeds ingevuld. Het is mogelijk deze gegevens te veranderen of nieuwe gegevens toe te voegen. De knop `Update user` vervolledigt het proces. Na het updaten van een gebruiker wordt u teruggestuurd naar de lijst van gebruikers, waar u de wijzigingen kunt waarnemen.
 
@@ -29,17 +29,11 @@ Bij het klikken op `Edit` verschijnt dit formulier. De gekende gegevens van de g
 
 Bij het klikken op `Add new function` verschijnt dit formulier. Om een nieuwe functie toe te voegen vult u de rol in en voor welke bedrijven deze gebruiker de rol kan uitoefenen, indien u `All companies` selecteert, kan de gebruiker de rol uitoefenen op alle huidige en toekomstige bedrijven. Door op `Add function` te drukken wordt de functie opgeslagen.
 
-### Functies van een gebruiker wijzigen
-
-![functie wijzigen](images/edit_function.png)
-
-Bij het klikken op een functie in de tabel van functies verschijnt dit formulier. Om een functie aan te passen verandert u de rol of de bedrijven en klikt op `Update function`.
-
 ## Klanten
 
 ### Klanten oplijsten
 
-![klanten oplijsten](images/list_clients.png)
+![klanten oplijsten](images/list_companies.png)
 
 In dit scherm worden alle klanten opgelijst. Het is mogelijk om deze lijst te filteren op naam, VAT-nummer, land of type van bedrijf. Dit doet u door de velden in de filter in te vullen bovenaan de tabel. Hier is het ook mogelijk om de gearchiveerde bedrijven te tonen. Bij het klikken op een klant wordt meer informatie over deze klant weergegeven. Door het klikken op `Add new company`, rechtsboven in de tabel, kan er een nieuwe klant toegevoegd worden.
 
@@ -138,4 +132,8 @@ Bij het klikken op `Add new role` wordt u doorgestuurd naar een formulier waar u
 
 Linksonderaan op de actiebalk kan je kiezen welke taal je wenst te gebruiken. Op dit ogenblik is er keuze tussen Engels en Nederlands. 
 
+### Commisssions
 
+![commissions](images/commissions.png)
+
+Commissions aanpassen kan global, per bedrijf, per vloot of ver voertuig
