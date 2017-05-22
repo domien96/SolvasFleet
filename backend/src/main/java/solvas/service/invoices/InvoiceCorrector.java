@@ -209,7 +209,7 @@ public class InvoiceCorrector {
             }
 
 
-            if (repayment.getStartDate().equals(payment.getEndDate())) {
+            if (repayment.getStartDate().equals(payment.getStartDate())) {
                 if (repayment.getEndDate().equals(payment.getEndDate())) {
                     continue; // Both cancel each other out, discard them
                 }

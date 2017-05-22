@@ -282,17 +282,6 @@ public class InvoiceService extends AbstractService<Invoice, ApiInvoice> {
         return item;
     }
 
-    private InvoiceItem buildRepaymentItem(Contract contract, Invoice invoice) {
-        InvoiceItem item = new InvoiceItem();
-        item.setInvoice(invoice);
-        item.setContract(contract);
-        item.setStartDate(contract.getEndDate().toLocalDate());
-        item.setEndDate(invoice.getEndDate().toLocalDate());
-        item.setType(InvoiceItemType.REPAYMENT);
-        invoiceCorrector.setTotalAndTax(item, invoice.getFleet().getPaymentPeriod(), true);
-        return item;
-    }
-
     /**
      * Generate a billing invoice. This contains much more data than a regular {@link Invoice}, so it is useful
      * to make PDF's.
