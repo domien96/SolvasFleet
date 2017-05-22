@@ -64,7 +64,7 @@ class ClientFilter extends React.Component<FilterProps, FilterState> {
       this.setState( {filter: newFilter, typeDisplay: typeTranslation} );
     } else {
       newFilter.type = type;
-      const typeTranslation = T.translate(`company.types.${type}`).toString();
+      const typeTranslation = T.translate(`company.type.${type}`).toString();
       this.setState( { filter: newFilter, typeDisplay: typeTranslation } );
     }
     this.props.onFilter(newFilter);

@@ -32,6 +32,7 @@ class Clients extends React.Component<{}, State> {
         country: '',
         type: '',
         archived: 'false',
+        sort: 'id',
       }
     };
     this.fetchClients = this.fetchClients.bind(this);
