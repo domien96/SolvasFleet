@@ -1,13 +1,16 @@
 package solvas.service.invoices;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Component;
 import solvas.persistence.api.DaoContext;
-import solvas.service.models.Contract;
-import solvas.service.models.InvoiceItem;
-import solvas.service.models.InvoiceItemType;
-import solvas.service.models.Tax;
+import solvas.rest.api.models.ApiCommission;
+import solvas.rest.controller.CommissionRestController;
+import solvas.rest.query.CommissionFilter;
+import solvas.service.CommissionService;
+import solvas.service.models.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -26,14 +29,17 @@ public class InvoiceCorrector {
     private static final String TOO_MANY_REPAYMENT_MESSAGE = "Day with more repayments than payments";
     private final DaoContext daoContext;
 
+    private final CommissionService commissionService;
+
     /**
      * Create instance
      *
      * @param daoContext DaoContext
      */
     @Autowired
-    public InvoiceCorrector(DaoContext daoContext) {
+    public InvoiceCorrector(DaoContext daoContext, CommissionService commissionService) {
         this.daoContext = daoContext;
+        this.commissionService = commissionService;
     }
 
     /**
@@ -145,7 +151,7 @@ public class InvoiceCorrector {
 
         // TODO: commission
         BigDecimal commissionPercentage = BigDecimal.ONE; //.add(BigDecimal.valueOf(commission));
-        BigDecimal premium = BigDecimal.valueOf(contract.getNettoPremium());
+        BigDecimal premium = BigDecimal.valueOf(getNettoPremium(contract));
         BigDecimal total = premium.multiply(commissionPercentage)
                 .multiply(dayMultiplier);
         if (negate) {
@@ -158,6 +164,28 @@ public class InvoiceCorrector {
         return total;
     }
 
+    /**
+     * The netto premium. Which is the premium (= riskpremium) + the commission.
+     * @return the netto premium
+     */
+    public long getNettoPremium(Contract contract) {
+        // Hacks, todo: fix
+        // with commission
+        Vehicle vehicle = contract.getFleetSubscription().getVehicle();
+        CommissionFilter filter = new CommissionFilter();
+        filter.setInsuranceType(contract.getInsuranceType().getName());
+        filter.setVehicle(vehicle.getId());
+        filter.setVehicleType(vehicle.getType().getName());
+        filter.setFleet(contract.getFleetSubscription().getFleet().getId());
+        filter.setCompany(contract.getCompany().getId());
+        // Make this code better
+        Page<ApiCommission> result = commissionService.findAll(new PageRequest(0,10),filter); //dummy page request
+        if(!result.hasContent()) {
+            return contract.getPremium();
+        } else {
+            return contract.getPremium() + contract.getPremium() * result.getContent().get(0).getValue()/100;
+        }
+    }
     /**
      * Get the multiplier for the amount, based on the period.
      *
