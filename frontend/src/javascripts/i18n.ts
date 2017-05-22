@@ -4,6 +4,7 @@ import { Store } from 'react-redux';
 export const languages = {
   en: require('../../translations/en.yml'),
   nl: require('../../translations/nl.yml'),
+  sw: require('../../translations/sw.yml'),
 };
 
 T.setTexts(languages.en);
