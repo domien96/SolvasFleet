@@ -3,6 +3,7 @@ app:
   actions: Acties
   cancel: Annuleer
   signOut: Log uit
+  signedInStatus: Ingelogd als
 
 login:
   submit: Log in
@@ -14,6 +15,7 @@ company:
   name: Naam
   vatNumber: VAT nummer
   phoneNumber: Telefoonnummer
+  archived: Gearchiveerd
   address:
     street: Straat
     houseNumber: Huisnummer
@@ -24,13 +26,17 @@ company:
   edit: Wijzig bedrijf
   types: Type
   type:
+    allTypes: Alle types
     LeasingCompany: Leasingmaatschappij
     InsuranceCompany: Verzekeringsbedrijf
     Customer: Klant
 
 vehicle:
+  vehicle: Voertuig
+  id: Voertuig ID
   vehicles: Voertuigen
   noVehicle: Geen voertuig geselecteerd
+  archived: Gearchiveerd
   licensePlate: Nummerplaat
   vin: Voertuigidentificatienummer
   brand: Merk
@@ -41,6 +47,7 @@ vehicle:
   leasingCompany: ID Leasingmaatschappij
   value: Geschatte waarde
   fleet: ID Vloot
+  companyAndFleet: "Bedrijf: Vloot"
   options:
     allVehicles: Alle voertuigen
     PersonalVehicle: Personenwagen
@@ -49,7 +56,9 @@ vehicle:
     SemiHeavyTruck: Semi heavy truck
     Truck: Vrachtwagen
   addNew: Voeg nieuw voertuig toe
-  edit: Wijzig voertuig
+  edit: Wijzig voertuigVehicle
+  none:
+    title: Voertuigoverzicht
 
 user:
   users: Gebruikers
@@ -58,16 +67,22 @@ user:
   email: Email
   password: Wachtwoord
   address: Adres
+  archived: Gearchiveerd
   firstName: Voornaam
   lastName: Achternaam
   addNew: Voeg nieuwe gebruiker toe
   edit: Wijzig gebruiker
+  none:
+    title: Gebruikersoverzicht
 
 fleet:
   fleets: Vloten
   id: ID
   name: Naam
   size: Grootte
+  company: Bedrijf
+  facturationPeriod: Facturatieperiode
+  paymentPeriod: Afrekeningsperiode 
   options:
     yearly: Jaarlijks
     monthly: Maandelijks
@@ -75,6 +90,10 @@ fleet:
     perSemester: Per Semester
   addNew: Voeg een nieuwe vloot toe
   settings: Vlootinstellingen
+  addVehicle: Voertuig toevoegen
+  actions: Vloot acties
+  addToFleet: Toevoegen aan vloot
+  chooseVin: VIN kiezen
 
 subfleet:
   id: ID
@@ -82,8 +101,11 @@ subfleet:
   size: Grootte
 
 function:
+  function: Functie
+  id: Functie ID
   functions: Functies
   role: Rol
+  user: Gebruiker
   company: Bedrijf
   addNew: Voeg nieuwe functie toe
   createNew: Maak nieuwe functie aan
@@ -100,7 +122,11 @@ role:
   addNew: Maak nieuwe rol aan
   edit: Wijzig rol
 
+auth:
+  permissionSettings: Permissies instellen
+
 invoice:
+  invoices: Facturen
   id: Factuur ID
   fleet: Vloot ID
   paid: Betaald
@@ -110,6 +136,7 @@ invoice:
   endDate: Eind datum
   showCurrent: Toon huidige factuur
   showAll: Toon alle facturen
+  correct: Facturen corrigeren
 
 contract:
   id: Contract ID
@@ -128,17 +155,51 @@ contract:
     LegalAid: Legale hulp
     DriverInsurance: Bestuurdersverzekering
     TravelInsurance: Reisverzekering
+    
+log:
+  log: Log
+  entry: Log Entry
+  id: Entry ID
+  user: Door gebruiker
+  method: Methode
+  entityType: Type
+  entity: Entiteit ID
+  after: Na
+  before: Voor
+  logDate: Entry Datum
+  none:
+    title: Applicatie Log
+  types:
+    allTypes: Alle types
+    Function: Functie
+    Company: Bedrijf
+    User: Gebruiker
+    Vehicle: Voertuig
+    Contract: Contract
+    Invoice: factuur
+    Role: Rol
+    Fleet: Vloot
+  methods:
+    allMethods: Alle methoden
+    insert: Insert
+    update: Update
+    archive: Archive
+    delete: Delete
 
 form:
-  create: Create
-  update: Update
-  submit: Submit
+  create: Aanmaken
+  update: Updaten
+  submit: Bevestigen
   placeholders:
     email: Email
     password: Wachtwoord
 
 table:
-  actions: Actions
+  actions: Acties
+  none:
+    information: In de sectie links ziet u alle {subject}en geregistreerd in deze applicatie. U kunt ze selecteren door er op te klikken, waarna deze sectie zal vervangen worden door de informatie over dit {subject}. u krijgt tevens te mogelijkheid om dit {subject} te bewerken of te archiveren.
+  users:
+    extra_information: U kunt ook de permissies van deze gebruiker veranderen.
 
 errors:
   null: is niet ingevuld
@@ -157,8 +218,15 @@ csv:
   import:
     success: Uw csv bestand werd succesvol geïmporteerd.
 
-
 commission:
+  comissions: Commissies
+  id: Commissies ID
+  vehicleID: Voertuig ID
+  companyID: Bedrijf ID
+  fleetID: Vloot ID
+  insuranceType: Verzekering Type
+  vehicleType: Voertuig Type 
+  value: Waarde
   global: Globale commissies
   civilLiability: Burgerlijke aansprakelijkheid
   omnium: Omnium
@@ -168,7 +236,6 @@ commission:
   client: Commissies van
   vehicle: Commissies van
   fleet: Commissies van
-  comissions: Commissies
 
 commissions:
   commissions: Commissies

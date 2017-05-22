@@ -8,7 +8,7 @@ interface Props {
   data: Table.Head.Data[];
 }
 
-const DetailClickTable: React.StatelessComponent<Props> = props => {
+const DetailContractTable: React.StatelessComponent<Props> = props => {
   const tableRows = props.data.map((c: Table.Head.Data, i: number) => (
     <tr key={ i } className='table-row-left'>
       <td className='first-column'>{ T.translate(c.key) }</td>
@@ -41,4 +41,4 @@ const DetailClickTable: React.StatelessComponent<Props> = props => {
   );
 };
 
-export default DetailClickTable;
+export default DetailContractTable;

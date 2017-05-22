@@ -2,10 +2,8 @@ import React from 'react';
 import Card from '../app/Card.tsx';
 import Confirm from 'react-confirm-bootstrap';
 import T from 'i18n-react';
-import DynamicGuiComponent from '../app/DynamicGuiComponent.tsx';
-import Auth from '../../modules/Auth.ts';
 import classNames from 'classnames';
-import { Link } from 'react-router';
+
 
 interface Props {
   callToArchive: (e: any) => void;
@@ -33,11 +31,6 @@ const FleetActions: React.StatelessComponent<Props> = props => {
               <span className='glyphicon glyphicon-plus' /> Archive vehicle(s)
             </button>
           </Confirm>
-          <DynamicGuiComponent authorized={ Auth.canWriteFleetsOfCompany(-1) }>
-            <Link to={ `/commissions/clients/${props.companyId}/fleets/${props.fleetId}` } className='btn btn-info '>
-              <span className='glyphicon glyphicon-euro' /> Commissions
-            </Link>
-          </DynamicGuiComponent>
         </div>
       </div>
     </Card>

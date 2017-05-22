@@ -46,28 +46,28 @@ const VehicleFilterLayout: React.StatelessComponent<Props> = props => {
   };
   const typePersonalCar: Choice = {
     callback: onFilterType,
-    eventKey: 'personalCar',
-    name: T.translate('vehicle.options.personalCar'),
+    eventKey: 'PersonalVehicle',
+    name: T.translate('vehicle.options.PersonalVehicle'),
   };
   const typeVan: Choice = {
     callback: onFilterType,
-    eventKey: 'van',
-    name: T.translate('vehicle.options.van'),
+    eventKey: 'Van',
+    name: T.translate('vehicle.options.Van'),
   };
   const typeSemiTrailer: Choice = {
     callback: onFilterType,
-    eventKey: 'semiTrailer',
-    name: T.translate('vehicle.options.semiTrailer'),
+    eventKey: 'SemiHeavyTruck',
+    name: T.translate('vehicle.options.SemiHeavyTruck'),
   };
   const typeTrailer: Choice = {
     callback: onFilterType,
-    eventKey: 'trailer',
-    name: T.translate('vehicle.options.trailer'),
+    eventKey: 'Truck+12',
+    name: T.translate('vehicle.options.Truck+12'),
   };
   const typeTruck: Choice = {
     callback: onFilterType,
-    eventKey: 'truck',
-    name: T.translate('vehicle.options.truck'),
+    eventKey: 'Truck',
+    name: T.translate('vehicle.options.Truck'),
   };
 
   const types: Choice[] = [ typeAllVehicles, typePersonalCar, typeVan, typeSemiTrailer, typeTrailer, typeTruck ];

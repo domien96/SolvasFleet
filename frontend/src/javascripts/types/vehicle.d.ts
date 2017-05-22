@@ -29,4 +29,5 @@ interface VehicleFilterData {
   [vin: string]: string;
   [year: string]: string;
   [archived: string]: string;
+  [sort: string]: string;
 }

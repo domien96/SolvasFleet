@@ -2,6 +2,9 @@ import React from 'react';
 import Card from '../app/Card.tsx';
 import T from 'i18n-react';
 import FleetForm from '../fleets/FleetForm.tsx';
+import DynamicGuiComponent from '../app/DynamicGuiComponent.tsx';
+import Auth from '../../modules/Auth.ts';
+import { Link } from 'react-router';
 import { Collapse } from 'react-bootstrap';
 
 interface Props {
@@ -28,11 +31,17 @@ const FleetSettings: React.StatelessComponent<Props> = props => {
 
       <Collapse in={ props.showSettings }>
         <Card>
-          <div className='card-content fleets'>
+          <div className='card-content fleets fleetsettings'>
             <div>
               <FleetForm handleChange={ props.handleChange } onSubmit={ props.onSubmit } fleet={ props.fleet } icon='glyphicon-floppy-disk'/>
             </div>
+            <DynamicGuiComponent authorized={ Auth.canWriteFleetsOfCompany(-1) }>
+              <Link to={ `/commissions/clients/${props.fleet.company}/fleets/${props.fleet.id}` } className='btn pull-right btn-info '>
+                <span className='glyphicon glyphicon-euro' /> Commissions
+              </Link>
+            </DynamicGuiComponent>
           </div>
+
         </Card>
       </Collapse>
     </div>

@@ -14,6 +14,7 @@ interface Props {
   fetchVehicles: (query: any) => void;
   errors: Form.Error[];
   handleChange: (e: any) => void;
+  handleSubmit: () => void;
   tableData: any;
   csvsuccess: boolean;
   getCompany: (id: number) => string;
@@ -31,11 +32,11 @@ const Layout: React.StatelessComponent<Props> = props => {
         <div className='row'>
           <DynamicGuiComponent authorized={ Auth.canReadFleetsOfCompany(0) }>
           <div className='col-xs-12 col-md-7'>
-            <VehicleFilter 
-              onFilter = { props.onFilter } 
+            <VehicleFilter
+              onFilter = { props.onFilter }
               vehicles={ props.response.data }
               getCompany={ props.getCompany }
-              getFleet={ props.getFleet } 
+              getFleet={ props.getFleet }
               init={ props.init } />
             <VehicleListing
               onSelect={ props.onVehicleSelect }
@@ -45,6 +46,7 @@ const Layout: React.StatelessComponent<Props> = props => {
               response={ props.response }
               errors={ props.errors }
               handleChange={ props.handleChange }
+              handleSubmit={ props.handleSubmit }
               tableData={ props.tableData }
               csvsuccess={ props.csvsuccess } />
           </div>

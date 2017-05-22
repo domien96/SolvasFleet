@@ -1,0 +1,65 @@
+ROUTINE 0
+Nodige data: login en pass in db
+
+1 Inloggen met ongeldig email adres (geen @)
+2 Inloggen met verkeerd passwoord
+3 Inloggen met juist passwoord
+Login : patrick@solvas.be
+passwoord: vakoverschrijdendproject
+3 Vertalingen tonen in engels, nederlands en swahili
+4 Doe demo voort in engelse versie (veiligst)
+
+ROUTINE 1
+Nodige data: foutieve en correcte csv bestanden
+
+1 company, fleet, vehicle aanmaken
+een foute csv uploaden
+een goede csv uploaden, vermeld dat de kolommen in willekuerige volgorde mag staan (in tegenstelling tot sommige andere groepen)
+vehicle linken aan die fleet
+commissies bekijken en instellen.
+instellingen van de vloot bekijken.
+contract aanmaken voor die nieuwe vehicle & vloot
+factuur genereren current, show all nog niets
+
+ROUTINE 2
+Nu met geprepaarde data de corrections en oude invoices tonen
+Voorbereiding data: todo -> testdata samenstellen voor een oudere vloot met enkele vehicles
+
+1 toon de eerste vloot van de eerste company (naam "Heftrucks")
+SKIP DEZE STAP (2 toon dat de startdatum van de vloot al van enkele maanden geleden is) 
+3 toon de vehicles van die vloot (samen met die uitschuifvensters)
+4 toon van de eerste vehicle in die lijst zijn contract (klik op de vehicle link om naar zijn overview te gaan)
+	en vertel dat de vehicle al een tijdje een contract heeft
+5 keer terug naar de vloot en toon alle invoices
+6 open een invoice en download de pdf
+7 open de pdf en zeg dat de commissie verborgen zit in de nettopremie kolom
+8 Leg de rest van de pdf uit.
+9 Voeg een nieuw contract toe met startdatum 1feb en einddatum 22 mei.
+10 Ga naar vloot en klik op corrigeren. Als er niets gecorrigeerd is, dan edit je de startdatum naar 1 jan. en try again
+11 toon de correctiefactuur bij show all invoices 
+
+
+ROUTINE 3 LOGBOEK
+Nodige voorbereiding: enkele users en vehicles aangepast zodat er toch ongeveer 10 logs zijn.
+1 toon het logboek, hier zie je alles
+2 toon dat je kan sorteren op tijdstip
+3 Gebruik de filters voor een bepaalde gebruiker zijn logs te zien
+
+ROUTINE 4 Roles
+
+1 Maak een role met
+read:companies
+read:companies:contracts
+read:companies:fleets
+read:companies:greencard
+read:company
+read:company:contracts
+read:company:fleets
+read:company:greencard
+read:revisions
+
+2 Ken die toe aan een nieuwe user
+3 Log er op in en toon de dynamische gui
+4 Log uit en log weer in op je admin account
+5 Delete de nieuwe user
+6 Probeer jezelf te deleten als user en toon dat dit niet kan omdat je nog ingelogd bent

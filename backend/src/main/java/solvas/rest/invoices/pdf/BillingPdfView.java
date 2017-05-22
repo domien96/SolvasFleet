@@ -3,7 +3,9 @@ package solvas.rest.invoices.pdf;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import solvas.service.invoices.InvoiceCorrector;
 import solvas.service.models.Invoice;
 import solvas.service.models.InvoiceItem;
 
@@ -17,8 +19,11 @@ import java.util.Locale;
  */
 @Component
 public class BillingPdfView extends InvoicePdfView {
+    private final InvoiceCorrector invoiceCorrector;
 
-    public BillingPdfView() throws DocumentException, IOException {
+    @Autowired
+    public BillingPdfView(InvoiceCorrector invoiceCorrector) throws DocumentException, IOException {
+        this.invoiceCorrector = invoiceCorrector;
     }
 
     @Override
@@ -69,7 +74,7 @@ public class BillingPdfView extends InvoicePdfView {
 
         for(InvoiceItem item: invoice.getItems()) {
             table.addCell(item.getContract().getFleetSubscription().getVehicle().getLicensePlate() + " #" + item.getContract().getId());
-            table.addCell(getCell(euroFormat.format(item.getContract().getPremium()), Element.ALIGN_RIGHT, font12));
+            table.addCell(getCell(euroFormat.format(invoiceCorrector.getNettoPremium(item.getContract())), Element.ALIGN_RIGHT, font12));
             table.addCell(getCell(formatter.format(item.getTax()), Element.ALIGN_LEFT, font12));
             table.addCell(getCell(item.getType().toString(), Element.ALIGN_LEFT, font12));
             table.addCell(getCell(String.valueOf(item.getNumberOfDays()), Element.ALIGN_RIGHT, font12));
@@ -77,7 +82,7 @@ public class BillingPdfView extends InvoicePdfView {
         }
 
         PdfPCell cell = getCell("Netto totaal", Element.ALIGN_LEFT, font12);
-        cell.setColspan(3);
+        cell.setColspan(2);
         table.addCell(cell);
         table.addCell(getCell(euroFormat.format(invoice.getNetAmount()), Element.ALIGN_LEFT, font12b));
 

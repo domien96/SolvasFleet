@@ -29,9 +29,6 @@ import javax.validation.Valid;
 @RestController
 public class CommissionRestController extends AbstractRestController<Commission,ApiCommission> {
 
-
-    private CommissionService commissionService;
-
     /**
      * Rest controller for Commission
      *
@@ -40,7 +37,6 @@ public class CommissionRestController extends AbstractRestController<Commission,
     @Autowired
     public CommissionRestController(CommissionService service) {
         super(service);
-        commissionService=service;
     }
 
     /**

@@ -29,4 +29,5 @@ interface CompanyFilterData {
   [country: string]: string;
   [type: string]: string;
   [archived: string]: string;
+  [sort: string]: string;
 }
