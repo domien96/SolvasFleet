@@ -9,15 +9,28 @@ interface Props {
 }
 
 interface State {
-  invoices: InvoiceData[];
+  response: ListResponse;
   tableData: any;
 }
 
 class Invoices extends React.Component<Props, State> {
   constructor(props: {}) {
     super(props);
-    this.state = { invoices: [], tableData: [] };
+    this.state = { 
+      response: {
+      data: [],
+      first: null,
+      last: null,
+      limit: 0,
+      next: null,
+      offset: 0,
+      previous: null,
+      total: 0,
+      },
+      tableData: []
+    };
     this.handleClick = this.handleClick.bind(this);
+    this.handleFetchInvoices = this.handleFetchInvoices.bind(this);
   }
 
   componentDidMount() {
@@ -32,11 +45,15 @@ class Invoices extends React.Component<Props, State> {
     }
   }
 
-  fetchInvoices(companyId: number, fleetId: number) {
-    fetchInvoices(companyId, fleetId, ((data: Invoices.Data) => {
+  fetchInvoices(companyId: number, fleetId: number, query?: any) {
+    fetchInvoices(companyId, fleetId, ((data: any) => {
       this.setTableData(data.data);
-      this.setState({ invoices: data.data })
-    }));
+      this.setState({ response: data })
+    }), undefined, query);
+  }
+
+  handleFetchInvoices(query?: any) {
+    this.fetchInvoices(this.props.params.companyId, this.props.params.fleetId, query);
   }
 
   handleClick(id: number) {
@@ -82,7 +99,11 @@ class Invoices extends React.Component<Props, State> {
     );
 
     return (
-      <InvoicesView invoices={ this.state.invoices } onInvoiceSelect={ this.handleClick } tableData={ this.state.tableData } >
+      <InvoicesView 
+        response={ this.state.response } 
+        onInvoiceSelect={ this.handleClick } 
+        tableData={ this.state.tableData } 
+        handleFetchInvoices={ this.handleFetchInvoices }>
         { children }
       </InvoicesView>
     );
