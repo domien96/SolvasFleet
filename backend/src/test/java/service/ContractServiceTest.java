@@ -1,6 +1,7 @@
 package service;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.mockito.Mock;
 import solvas.persistence.api.Dao;
 import solvas.persistence.api.DaoContext;
@@ -60,7 +61,9 @@ public class ContractServiceTest extends AbstractServiceTest<Contract, ApiContra
         return contractMapper;
     }
 
+    // Contracts don't get archived, they get their end dates altered
     @Override
+    @Ignore
     public void archive() throws EntityNotFoundException, UnarchivableException {
         when(getDaoMock().find(anyInt())).thenReturn(getTestModel());
         super.archive();
