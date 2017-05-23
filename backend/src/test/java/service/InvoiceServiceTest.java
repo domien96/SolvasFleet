@@ -3,13 +3,17 @@ package service;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import solvas.persistence.api.Dao;
 import solvas.persistence.api.DaoContext;
 import solvas.persistence.api.EntityNotFoundException;
 import solvas.persistence.api.dao.ContractDao;
 import solvas.persistence.api.dao.InvoiceDao;
 import solvas.persistence.api.dao.TaxDao;
+import solvas.rest.api.models.ApiCommission;
 import solvas.rest.api.models.ApiInvoice;
+import solvas.service.CommissionService;
 import solvas.service.InvoiceService;
 import solvas.service.invoices.InvoiceCorrector;
 import solvas.service.mappers.AbstractMapper;
@@ -19,6 +23,7 @@ import solvas.service.models.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Optional;
 
@@ -47,6 +52,8 @@ public class InvoiceServiceTest extends AbstractServiceTest<Invoice, ApiInvoice>
     private TaxDao taxDao;
     @Mock
     private ContractDao contractDao;
+    @Mock
+    private CommissionService commissionService;
     /**
      * Construct the test.
      */
@@ -62,7 +69,7 @@ public class InvoiceServiceTest extends AbstractServiceTest<Invoice, ApiInvoice>
         when(daoContextMock.getContractDao()).thenReturn(contractDao);
         when(daoContextMock.getTaxDao()).thenReturn(taxDao);
 
-        invoiceCorrector = new InvoiceCorrector(daoContextMock);
+        invoiceCorrector = new InvoiceCorrector(daoContextMock, commissionService);
     }
 
     @Override
@@ -84,12 +91,25 @@ public class InvoiceServiceTest extends AbstractServiceTest<Invoice, ApiInvoice>
     public void canGenerateCorrections() throws EntityNotFoundException {
         Invoice lastInvoice = new Invoice();
         lastInvoice.setEndDate(LocalDateTime.now());
+        when(commissionService.findAll(any(), any())).thenReturn(
+                new PageImpl<>(new ArrayList<ApiCommission>() {{
+                    ApiCommission commission = new ApiCommission();
+                    commission.setValue(5);
+                    add(commission);
+                }})
+        );
         when(invoiceDao.findFirstByTypeAndFleetOrderByStartDateDesc(any(), any())).thenReturn(Optional.of(lastInvoice));
         Fleet fleet = new Fleet();
         fleet.setSubscriptions(new HashSet<FleetSubscription>() {{
             FleetSubscription sub = new FleetSubscription();
             sub.setContracts( new HashSet<Contract>() {{
                 Contract c = new Contract();
+                c.setCompany(new Company());
+
+                InsuranceType insuranceType = new InsuranceType();
+                insuranceType.setName("LegalAid");
+
+
                 c.setStartDate(LocalDateTime.now().minusMonths(8));
                 c.setEndDate(LocalDateTime.now());
                 FleetSubscription sub = new FleetSubscription();
@@ -115,6 +135,15 @@ public class InvoiceServiceTest extends AbstractServiceTest<Invoice, ApiInvoice>
                     add(i2);
                     add(i3);
                 }});
+
+                Vehicle v = new Vehicle();
+                VehicleType vehicleType = new VehicleType();
+                vehicleType.setName("Van");
+                v.setType(vehicleType);
+                sub.setVehicle(v);
+                sub.setFleet(fleet);
+                c.setFleetSubscription(sub);
+                c.setInsuranceType(insuranceType);
                 add(c);
             }});
             add(sub);
@@ -140,8 +169,18 @@ public class InvoiceServiceTest extends AbstractServiceTest<Invoice, ApiInvoice>
 
     @Test
     public void generateMissingInvoices() {
+        Fleet fleet = new Fleet();
+        fleet.setPaymentPeriod(1);
+        fleet.setFacturationPeriod(1);
         Invoice lastInvoice = new Invoice();
         lastInvoice.setEndDate(LocalDateTime.now().minusMonths(5));
+        when(commissionService.findAll(any(), any())).thenReturn(
+                new PageImpl<>(new ArrayList<ApiCommission>() {{
+                    ApiCommission commission = new ApiCommission();
+                    commission.setValue(5);
+                    add(commission);
+                }})
+        );
         when(taxDao.findDistinctByVehicleTypeAndInsuranceType(any(), any())).thenReturn(new Tax());
         when(invoiceDao.findFirstByTypeAndFleetOrderByStartDateDesc(any(), any())).thenReturn(Optional.of(lastInvoice));
         when(contractDao.findByFleetSubscriptionFleetAndStartDateBeforeAndEndDateAfter(any(), any(), any()))
@@ -149,16 +188,24 @@ public class InvoiceServiceTest extends AbstractServiceTest<Invoice, ApiInvoice>
                     Contract c = new Contract();
                     c.setEndDate(LocalDateTime.now());
                     c.setStartDate(LocalDateTime.now().minusMonths(3));
+                    c.setCompany(new Company());
+
+                    InsuranceType insuranceType = new InsuranceType();
+                    insuranceType.setName("LegalAid");
 
                     FleetSubscription sub = new FleetSubscription();
-                    sub.setVehicle(new Vehicle());
+                    Vehicle v = new Vehicle();
+                    VehicleType vehicleType = new VehicleType();
+                    vehicleType.setName("Van");
+                    v.setType(vehicleType);
+                    sub.setVehicle(v);
+                    sub.setFleet(fleet);
                     c.setFleetSubscription(sub);
+                    c.setInsuranceType(insuranceType);
                     add(c);
                 }});
 
-        Fleet fleet = new Fleet();
-        fleet.setPaymentPeriod(1);
-        fleet.setFacturationPeriod(1);
+
         getService().findCurrentInvoice(fleet);
         // 5 payments, 4 billing
         verify(getDaoMock(), times(9)).save(captor.capture());
