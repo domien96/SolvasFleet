@@ -37,4 +37,5 @@ public final class ApiPermissionStrings {
     public static final String READ_REVISIONS = "read:revisions";
     public static final String WRITE_TAXES = "write:taxes";
     public static final String READ_COMPANY_GREENCARD = "read:company:greencard";
+    public static final String READ_COMPANIES_GREENCARD = "read:companies:greencard";
 }

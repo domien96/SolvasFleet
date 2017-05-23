@@ -32,7 +32,7 @@ public class VehiclePermissionEvaluator extends AbstractPermissionEvaluator<Vehi
         Optional<Fleet> fleetOpt = vehicle.getFleetSubscriptions().stream().filter(FleetSubscription::isActive)
                 .map(FleetSubscription::getFleet).findFirst();
         return fleetOpt.isPresent() &&
-                hasScope(authentication, READ_COMPANY_GREENCARD, fleetOpt.get().getCompany().getId());
+                hasScope(authentication, READ_COMPANY_GREENCARD, fleetOpt.get().getCompany().getId(), READ_COMPANIES_GREENCARD);
     }
 
     /**
