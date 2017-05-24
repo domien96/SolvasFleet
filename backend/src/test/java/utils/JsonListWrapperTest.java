@@ -14,6 +14,15 @@ import static org.junit.Assert.assertEquals;
  */
 public class JsonListWrapperTest {
 
+    @Test
+    public void defaultConstructor() {
+        Collection<Object> collection = randomCollectionOf(100,Object.class);
+        JsonListWrapper<Object> obj1 = new JsonListWrapper<>();
+        obj1.put("key", collection);
+        JsonListWrapper<Object> obj2 = new JsonListWrapper<>(collection, "key");
+        assertEquals(obj1, obj2);
+    }
+
     /**
      * Testing the default nokey constructor, this wraps the list under key: 'data'
      */
